@@ -23,6 +23,7 @@ INDEX = ROOT / "index.html"
 
 REQUIRED_SECTIONS = ["summary", "box", "setup", "turn", "end", "faq", "glossary"]
 SHELF_STYLE_BITS = ["#5f3c1f", "position:fixed", "z-index:50", "body{padding-bottom:72px}"]
+TOTOP_BITS = [".to-top{position:fixed", "bottom:calc(64px", '.querySelector(".to-top")']
 ALLOWED_EXTERNAL_LOAD = ("https://fonts.googleapis.com", "https://fonts.gstatic.com")
 FILE_RE = re.compile(r"^[0-9a-z]+(_[0-9a-z]+)*\.html$")
 
@@ -173,6 +174,14 @@ def check_manual(path: Path):
     for bit in SHELF_STYLE_BITS:
         if bit not in text:
             errs.append(f"CSS ของ .shelf-home ไม่ครบ ขาด {bit} (คัดลอก snippet จาก template)")
+
+    # ปุ่ม to-top (กลับบนสุด)
+    top = [a for h, a in p.hrefs if "to-top" in (a.get("class") or "").split()]
+    if len(top) != 1:
+        errs.append(f"ต้องมีปุ่ม a.to-top 1 ปุ่ม (เจอ {len(top)}) คัดลอก snippet <!-- to-top จาก template")
+    for bit in TOTOP_BITS:
+        if bit not in text:
+            errs.append(f"snippet ปุ่ม .to-top ไม่ครบ ขาด {bit} (คัดลอกจาก template)")
 
     # กฎ CSS
     if '<p class="prose"' in text and "p.prose{display:block}" not in text:
