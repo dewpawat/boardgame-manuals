@@ -138,6 +138,8 @@ python tools/check_manual.py --all
   ช่วงเลขพยาน 2–10 กับเวลาเล่น 10–20 นาที ยังไม่ยืนยันจากกล่องจริง
 - **Cat in the Box:** กล่องเป็นฉบับภาษาอังกฤษของ Hobby Japan เล่น 2–5 คน 30 นาที
   คู่มือในกล่องชื่อ "Experiment Manual" ไม่ใช่ต้นฉบับญี่ปุ่น 3–4 คน ต้องมีกติกา 2 คนและ 5 คนเสมอ
+- **Flip 7:** กล่องเป็นฉบับไทยของ Tower Tactic Games ("FLIP 7 การ์ดไม่ซ้ำ ทำให้ได้") ชื่อไทยที่ใช้คือ "พลิก 7" 3–18 คน
+  หาคู่มือไทย PDF ไม่ได้ คู่มืออิงคู่มือ EN ของ The Op (Ruleset 3.1) + FAQ ทางการ ชื่อไทยของการ์ดแอ็กชันแปลเอง
 
 ## รายชื่อคู่มือ
 
@@ -154,6 +156,7 @@ python tools/check_manual.py --all
 | `coyote.html` | Coyote |
 | `cryptid.html` | Cryptid |
 | `exploding_kittens.html` | Exploding Kittens |
+| `flip_7.html` | Flip 7 |
 | `forest_shuffle.html` | Forest Shuffle |
 | `happy_little_dinosaurs.html` | Happy Little Dinosaurs |
 | `hues_and_cues.html` | Hues and Cues |

@@ -1,0 +1,800 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><!-- web-icons: favicon + ไอคอนหน้าจอโฮม (มาตรฐานทุกหน้า) --><link rel="icon" href="../icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="../icons/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../icons/apple-touch-icon.png"><meta name="theme-color" content="#5f3c1f"></head><body>
+<title>Flip 7 ฉบับไทย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Flip 7: แถบ hero สีเขียวน้ำทะเลเข้ม + การ์ดตัวเลขหลากสี · สีเน้นแดงส้ม/เหลืองทอง */
+:root{
+  --bg:#eef3f1;
+  --surface:#fdfefd;
+  --surface-2:#dfe9e6;
+  --fg:#16262a;
+  --muted:#556a6c;
+  --line:#c5d6d2;
+  --accent:#b8361e;
+  --accent-strong:#d4462a;
+  --accent-soft:#f8e0d7;
+  --blue:#21639a;
+  --blue-soft:#dbe8f3;
+  --green:#2d7650;
+  --green-soft:#dcefe3;
+  --band-1:#0b3b45;
+  --band-2:#11707a;
+  --band-fg:#f2fbf9;
+  --gold:#f5c443;
+  --good:#22804a;
+  --bad:#c42f22;
+  --act-freeze:#2f7fc1; --act-flip:#e2a21f; --act-second:#d4462a; --mod:#e07a1f;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1416;--surface:#132024;--surface-2:#1b2c31;--fg:#e4f0ee;--muted:#9db3b2;--line:#29403f;
+    --accent:#ff8a6a;--accent-strong:#ff8a6a;--accent-soft:#3a1c15;--blue:#8cbcec;--blue-soft:#16283a;
+    --green:#7fd09e;--green-soft:#143022;--band-1:#06242a;--band-2:#0b4a52;--band-fg:#f2fbf9;--gold:#f7cf5e;
+    --good:#6fd38f;--bad:#ff6f61;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1416;--surface:#132024;--surface-2:#1b2c31;--fg:#e4f0ee;--muted:#9db3b2;--line:#29403f;
+  --accent:#ff8a6a;--accent-strong:#ff8a6a;--accent-soft:#3a1c15;--blue:#8cbcec;--blue-soft:#16283a;
+  --green:#7fd09e;--green-soft:#143022;--band-1:#06242a;--band-2:#0b4a52;--band-fg:#f2fbf9;--gold:#f7cf5e;
+  --good:#6fd38f;--bad:#ff6f61;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+img{max-width:100%}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.hero-art .flipcard{transform-box:fill-box;transform-origin:center;animation:flip 5s ease-in-out infinite}
+@keyframes flip{0%,70%{transform:scaleX(1)}78%{transform:scaleX(0)}86%,100%{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.hero-art .flipcard{animation:none}}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.unverified{display:inline-block;font-family:var(--font-tag);font-size:.74rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--bad);color:#fff;vertical-align:2px}
+.house{display:inline-block;font-family:var(--font-tag);font-size:.74rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--blue);color:#fff;vertical-align:2px}
+
+/* score formula chips */
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.zero b{color:var(--bad)}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens: ใช้ class เหล่านี้ใน SVG เพื่อให้สีเปลี่ยนตามโหมดมืด */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-acc{fill:var(--accent-strong)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)} .s-blue{fill:var(--blue)}
+.s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)}
+.s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)} .s-stroke-acc{stroke:var(--accent-strong)} .s-stroke-bad{stroke:var(--bad)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+/* การ์ดใน SVG: หน้าการ์ดสีครีมคงที่ทั้งโหมดสว่าง/มืด (เหมือนการ์ดจริง) */
+svg .cd{fill:#fffaf0;stroke:#16262a;stroke-width:1.5}
+svg .cn{font-family:var(--font-tag);font-weight:600;font-size:24px;text-anchor:middle}
+svg .cs{font-family:var(--font-tag);font-weight:600;font-size:9px;text-anchor:middle;fill:#fff}
+svg .ghost{fill:none;stroke-dasharray:5 4;stroke-width:1.5}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--c,var(--line));border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+.type .cnt{font-family:var(--font-tag);font-size:.8rem;color:var(--muted)}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+td .zero{color:var(--bad);font-weight:600}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.1rem}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.seg.nums button{min-width:44px;padding:6px 0;border-radius:10px;font-size:1.05rem}
+.seg.mods button[aria-pressed="true"]{background:var(--mod);border-color:var(--mod);color:#fff}
+.btn.primary{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+.inrow input[type=number],.inrow select{font:inherit;font-family:var(--font-tag);font-weight:600;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;font-variant-numeric:tabular-nums}
+.inrow input[type=number]{width:84px;text-align:center}
+.inrow select{padding:0 8px;max-width:100%}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent-strong)}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.result b{font-family:var(--font-tag);font-size:2.4rem;font-weight:600;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
+.result span{font-family:var(--font-tag);font-size:.95rem}
+.result small{color:var(--muted);font-size:.86rem}
+.odds{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.95rem}
+.meter{flex:1 1 180px;height:12px;border-radius:999px;background:var(--surface-2);overflow:hidden;min-width:120px}
+.meter i{display:block;height:100%;width:0;background:var(--bad);transition:width .2s}
+.pad input{font:inherit;width:100%;min-width:64px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:0 8px}
+.pad input[type=number]{font-family:var(--font-tag);font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
+.pad td,.pad th{padding:6px 8px}
+.pad table{min-width:0}
+.pad tfoot td{font-family:var(--font-tag);font-weight:600;font-size:1.1rem;background:var(--surface-2);text-align:center}
+.pad .win{color:var(--good)}
+.pad .goal{display:block;font-size:.72rem;color:var(--good)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:400px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+<!-- to-top: ปุ่มกลับบนสุด (มาตรฐานทุกเล่ม ลอยเหนือปุ่มชั้นคู่มือ) -->
+<a class="to-top is-hidden" href="#" aria-label="กลับไปบนสุด" title="กลับไปบนสุด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5 4.5 12h5v7.5h5V12h5z"/></svg></a>
+<style>.to-top{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:50;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#5f3c1f;color:#f6ecd9;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:opacity .2s ease,visibility .2s ease,transform .15s ease,background .15s ease}.to-top svg{width:22px;height:22px;fill:currentColor}.to-top:hover{background:#7a4f2c;transform:translateY(-2px)}.to-top:focus-visible{outline:3px solid #f0c869;outline-offset:3px}.to-top.is-hidden{opacity:0;visibility:hidden;pointer-events:none}@media (prefers-reduced-motion:reduce){.to-top{transition:none}.to-top:hover{transform:none}}</style>
+<script>(function(){var b=document.querySelector(".to-top");if(!b)return;var r=matchMedia("(prefers-reduced-motion: reduce)");function u(){b.classList.toggle("is-hidden",scrollY<400)}addEventListener("scroll",u,{passive:true});u();b.addEventListener("click",function(e){e.preventDefault();scrollTo({top:0,behavior:r.matches?"auto":"smooth"})})})();</script>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก (ฉบับไทย Tower Tactic Games) · อิงคู่มือทางการ (The Op / USAopoly)</div>
+      <h1>Flip 7<span>พลิก 7 · พลิกการ์ดต่อหรือพอแค่นี้ เลขซ้ำเมื่อไรรอบนั้นได้ศูนย์</span></h1>
+      <p class="lede">ทุกรอบผู้เล่นเลือกว่าจะ<b>ขอการ์ดอีกใบ</b>หรือ<b>หยุดเก็บแต้ม</b> ได้เลขที่มีอยู่แล้วซ้ำเมื่อไร "แตก" ได้ 0 ทั้งรอบ ถ้าเก็บเลขไม่ซ้ำครบ 7 ใบ รอบจบทันทีและได้โบนัส 15 แต้ม เล่นหลายรอบจนมีคนแต้มรวมถึง <b>200</b> คู่มือนี้เน้นเรื่อง<b>การ์ดแอ็กชัน 3 แบบ</b>ที่มือใหม่สับสนบ่อย กับ<b>ลำดับคิดแต้ม</b>ท้ายรอบ</p>
+      <div class="facts">
+        <div class="fact"><b>3–18</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>20</b><small>นาที (ตามกล่อง)</small></div>
+        <div class="fact"><b>94</b><small>การ์ด สำรับเดียว</small></div>
+        <div class="fact"><b>200</b><small>แต้ม = จบเกม</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 250">
+        <ellipse cx="170" cy="226" rx="150" ry="14" fill="rgba(0,0,0,.22)"/>
+        <g transform="rotate(-24 170 210)"><rect x="60" y="70" width="76" height="108" rx="10" fill="#fffaf0" stroke="#06242a" stroke-width="2"/><text x="98" y="138" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="44" fill="#2f7f9a">5</text></g>
+        <g transform="rotate(-12 170 210)"><rect x="92" y="62" width="76" height="108" rx="10" fill="#fffaf0" stroke="#06242a" stroke-width="2"/><text x="130" y="130" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="44" fill="#c96a2a">3</text></g>
+        <g transform="rotate(12 170 210)"><rect x="172" y="62" width="76" height="108" rx="10" fill="#fffaf0" stroke="#06242a" stroke-width="2"/><text x="210" y="130" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="44" fill="#2f5a9a">10</text></g>
+        <g transform="rotate(24 170 210)"><rect x="204" y="70" width="76" height="108" rx="10" fill="#e07a1f" stroke="#06242a" stroke-width="2"/><text x="242" y="136" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="34" fill="#fff">x2</text></g>
+        <g class="flipcard"><rect x="130" y="40" width="80" height="114" rx="10" fill="#fffaf0" stroke="#06242a" stroke-width="2.5"/><text x="170" y="118" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="64" fill="#c43b5a">7</text></g>
+        <g fill="#f5c443"><path d="M60 40 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4z"/><path d="M290 30 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/><path d="M30 150 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3z" opacity=".7"/></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม & แจกการ์ด</a></li>
+      <li><a href="#turn">หนึ่งรอบเล่น</a></li>
+      <li><a href="#bust">แตก & Flip 7</a></li>
+      <li><a href="#actions" style="--c:var(--act-flip)"><i></i>การ์ดแอ็กชัน</a></li>
+      <li><a href="#modifiers" style="--c:var(--mod)"><i></i>การ์ดปรับแต้ม</a></li>
+      <li><a href="#end">จบรอบ นับแต้ม จบเกม</a></li>
+      <li><a href="#tips">เคล็ดลับนับการ์ด</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#tools">เครื่องคิดแต้ม & สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>คนแจกถามทีละคน: "เอาอีกใบไหม?" ตอบได้ 2 แบบ</h3>
+        <ol>
+          <li><b>จั่วต่อ</b> <span class="en">Hit</span> คนแจกเปิดการ์ดใบบนสุดให้ 1 ใบ ถ้าเป็น<b>เลขที่คุณมีอยู่แล้ว = แตก</b> ออกจากรอบ ได้ 0 แต้ม</li>
+          <li><b>หยุด</b> <span class="en">Stay</span> เก็บแต้มของการ์ดที่มีอยู่ตอนนี้ แล้วออกจากรอบ (หยุดได้เมื่อมีการ์ดหน้าตัวอย่างน้อย 1 ใบ)</li>
+        </ol>
+        <p style="margin-top:8px">ถามวนไปเรื่อย ๆ จนทุกคนหยุดหรือแตกหมด หรือมีคนเก็บ<b>เลขไม่ซ้ำครบ 7 ใบ</b> (รอบจบทันที) แล้วนับแต้ม เล่นรอบต่อไปจนมีคนถึง 200</p>
+      </div>
+      <div class="formula" aria-label="สูตรแต้มต่อรอบ">
+        <div class="fm"><small>การ์ดตัวเลข</small><b>รวมเลขบนการ์ด</b></div>
+        <div class="fm"><small>การ์ด ×2</small><b>คูณ 2 เฉพาะผลรวมตัวเลข</b></div>
+        <div class="fm"><small>การ์ด +2 ถึง +10</small><b>บวกเพิ่มตามการ์ด</b></div>
+        <div class="fm"><small>เลขไม่ซ้ำครบ 7 ใบ</small><b>+15 โบนัส</b></div>
+        <div class="fm zero"><small>แตก (เลขซ้ำ)</small><b>0 ทั้งรอบ</b></div>
+        <div class="fm end"><small>จบเกม · หลังจบรอบที่มีคนถึง</small><b>200 แต้มรวม</b></div>
+      </div>
+      <p class="note">กล่องสีเข้มคือเงื่อนไขที่ดู<b>หลังจบรอบเท่านั้น</b> · คิดตามลำดับ: รวมเลข → ×2 → บวกการ์ด + → +15 ดูตัวอย่างที่ <a href="#end">จบรอบ นับแต้ม</a></p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <p class="prose">ทั้งเกมเป็นสำรับเดียว <b>94 ใบ</b> หัวใจของเกมคือ<b>เลขยิ่งสูง ยิ่งมีหลายใบ</b> เลข 12 มี 12 ใบ เลข 11 มี 11 ใบ ไล่ลงไปจนเลข 1 มีใบเดียว และมีเลข 0 อีก 1 ใบ เลขสูงจึงให้แต้มมากแต่เสี่ยงซ้ำมาก</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 220" role="img" aria-label="จำนวนการ์ดตัวเลข 0 ถึง 12 เลขยิ่งสูงยิ่งมีหลายใบ">
+          <rect x="0" y="0" width="640" height="220" rx="12" class="s-surface2"/>
+          <g class="tagf" font-size="12" text-anchor="middle">
+            <!-- แท่งสูง = จำนวนใบ × 12px · ฐานที่ y=180 -->
+            <rect x="24" y="168" width="34" height="12" rx="3" fill="#7d8a8c"/><text x="41" y="162" class="s-fg">1</text><text x="41" y="198" class="s-fg">0</text>
+            <rect x="70" y="168" width="34" height="12" rx="3" fill="#8a5a2b"/><text x="87" y="162" class="s-fg">1</text><text x="87" y="198" class="s-fg">1</text>
+            <rect x="116" y="156" width="34" height="24" rx="3" fill="#b8862f"/><text x="133" y="150" class="s-fg">2</text><text x="133" y="198" class="s-fg">2</text>
+            <rect x="162" y="144" width="34" height="36" rx="3" fill="#c96a2a"/><text x="179" y="138" class="s-fg">3</text><text x="179" y="198" class="s-fg">3</text>
+            <rect x="208" y="132" width="34" height="48" rx="3" fill="#3f8f5a"/><text x="225" y="126" class="s-fg">4</text><text x="225" y="198" class="s-fg">4</text>
+            <rect x="254" y="120" width="34" height="60" rx="3" fill="#2f7f9a"/><text x="271" y="114" class="s-fg">5</text><text x="271" y="198" class="s-fg">5</text>
+            <rect x="300" y="108" width="34" height="72" rx="3" fill="#6b4fa0"/><text x="317" y="102" class="s-fg">6</text><text x="317" y="198" class="s-fg">6</text>
+            <rect x="346" y="96" width="34" height="84" rx="3" fill="#c43b5a"/><text x="363" y="90" class="s-fg">7</text><text x="363" y="198" class="s-fg">7</text>
+            <rect x="392" y="84" width="34" height="96" rx="3" fill="#4b6b2f"/><text x="409" y="78" class="s-fg">8</text><text x="409" y="198" class="s-fg">8</text>
+            <rect x="438" y="72" width="34" height="108" rx="3" fill="#a0452f"/><text x="455" y="66" class="s-fg">9</text><text x="455" y="198" class="s-fg">9</text>
+            <rect x="484" y="60" width="34" height="120" rx="3" fill="#2f5a9a"/><text x="501" y="54" class="s-fg">10</text><text x="501" y="198" class="s-fg">10</text>
+            <rect x="530" y="48" width="34" height="132" rx="3" fill="#7a3f8a"/><text x="547" y="42" class="s-fg">11</text><text x="547" y="198" class="s-fg">11</text>
+            <rect x="576" y="36" width="34" height="144" rx="3" fill="#4a5658"/><text x="593" y="30" class="s-fg">12</text><text x="593" y="198" class="s-fg">12</text>
+          </g>
+          <text x="24" y="30" class="s-fg disp" font-size="15">การ์ดตัวเลข 79 ใบ</text>
+          <text x="24" y="50" class="s-muted" font-size="12">ตัวเลขบนแท่ง = จำนวนใบ · ใต้แท่ง = เลขบนการ์ด</text>
+          <text x="320" y="214" text-anchor="middle" class="s-muted" font-size="11">มีการ์ด 12 อยู่ 12 ใบ → ถือ 12 อยู่ ยังเหลือ 12 อีก 11 ใบที่จะทำให้แตก</text>
+        </svg></div>
+        <figcaption>เลข 0 กับเลข 1 มีอย่างละใบเดียว ได้มาแล้ว<b>ไม่มีทางซ้ำ</b> ส่วนเลข 12 เสี่ยงซ้ำสูงสุด</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของในกล่อง</th><th class="num">จำนวน</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="3">การ์ดตัวเลข <span class="en">Number cards</span> · 79 ใบ</td></tr>
+            <tr><td><b>เลข 1–12</b></td><td class="num">เลข n มี n ใบ</td><td>แต้มเท่ากับเลขบนการ์ด (12 ×12, 11 ×11 … 2 ×2, 1 ×1 รวม 78 ใบ)</td></tr>
+            <tr><td><b>เลข 0</b></td><td class="num">1</td><td>ไม่มีแต้ม แต่<b>นับเป็นเลข 1 ใบ</b>ช่วยให้ครบ 7 ใบง่ายขึ้น</td></tr>
+            <tr class="grp"><td colspan="3">การ์ดปรับแต้ม <span class="en">Score Modifier cards</span> · 6 ใบ</td></tr>
+            <tr><td><b>+2 · +4 · +6 · +8 · +10</b></td><td class="num">อย่างละ 1</td><td>บวกแต้มเพิ่มตามที่เขียน</td></tr>
+            <tr><td><b>×2</b></td><td class="num">1</td><td>คูณ 2 เฉพาะผลรวมการ์ดตัวเลข</td></tr>
+            <tr class="grp"><td colspan="3">การ์ดแอ็กชัน <span class="en">Action cards</span> · 9 ใบ</td></tr>
+            <tr><td><b style="color:var(--act-freeze)">แช่แข็ง</b><br><span class="en">Freeze</span></td><td class="num">3</td><td>บังคับให้ผู้รับหยุด เก็บแต้มเท่าที่มี</td></tr>
+            <tr><td><b style="color:var(--act-flip)">พลิกสาม</b><br><span class="en">Flip Three</span></td><td class="num">3</td><td>บังคับให้ผู้รับรับการ์ดอีก 3 ใบติดกัน</td></tr>
+            <tr><td><b style="color:var(--act-second)">โอกาสที่สอง</b><br><span class="en">Second Chance</span></td><td class="num">3</td><td>กันแตกได้ 1 ครั้ง</td></tr>
+            <tr class="grp"><td colspan="3">อื่น ๆ</td></tr>
+            <tr><td><b>คู่มือ</b><br><span class="en">Rules</span></td><td class="num">1</td><td>คู่มือทางการบอกให้<b>เตรียมกระดาษ-ปากกาจดแต้มเอง</b> (หรือใช้ <a href="#tools">สมุดคะแนน</a> ในหน้านี้) กล่องไทยมีกระดาษคะแนนแถมหรือไม่ <span class="unverified">ยังไม่ยืนยัน</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">รวม 79 + 6 + 9 = 94 ใบ · ชื่อไทยของการ์ดแอ็กชันในคู่มือนี้แปลเอง บนการ์ดฉบับไทยอาจใช้คำอื่น · ถ้ากล่องของคุณพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม และแจกการ์ดเปิดรอบ</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียมที่จดแต้ม <span class="en">Pen and paper</span></h3><p>กระดาษกับปากกา หรือเปิด <a href="#tools">สมุดคะแนน</a> ในหน้านี้ แต้มสะสมข้ามรอบไปจนถึง 200</p></div></li>
+        <li><div class="body"><h3>สับให้ทั่ว เลือกคนแจก <span class="en">Shuffle &amp; choose a Dealer</span></h3><p>สับสำรับทั้ง 94 ใบ<b>ให้ทั่วจริง ๆ</b> (คู่มือเน้นตัวใหญ่) แล้วเลือกผู้เล่น 1 คนเป็นคนแจกของรอบนี้ คนแจกก็เล่นด้วยตามปกติ</p></div></li>
+        <li><div class="body"><h3>แจกเปิดคนละ 1 ใบ <span class="en">Deal one card face up</span></h3>
+          <ul>
+            <li>คนแจกแจกการ์ด<b>หงายหน้า</b>ให้ทุกคนตามลำดับที่นั่ง คนละ 1 ใบ <b>รวมตัวเองด้วย</b></li>
+            <li>ถ้าระหว่างแจกเปิดได้<b>การ์ดแอ็กชัน</b> หยุดแจกทันที ทำผลการ์ดนั้นให้จบก่อน แล้วค่อยแจกต่อจนทุกคนได้ 1 ใบ</li>
+            <li>จบการแจก บางคนอาจไม่มีการ์ดตัวเลขเลย บางคนอาจมี 3–4 ใบ (เพราะโดนพลิกสาม) เป็นเรื่องปกติ</li>
+          </ul></div></li>
+        <li><div class="body"><h3>จัดแถวหน้าตัว <span class="en">Your line</span></h3><p>วางการ์ดตัวเลขเรียง<b>เป็นแถวเดียว</b> การ์ดปรับแต้มและการ์ดแอ็กชันที่เก็บไว้ (โอกาสที่สอง) วาง<b>เหนือ</b>แถวตัวเลข ทุกคนต้องเห็นเลขของกันและกันได้</p></div></li>
+        <li><div class="body"><h3>เริ่มถาม จั่วต่อ / หยุด <span class="en">Hit or Stay</span></h3><p>คนแจกถามผู้เล่นทีละคนตามลำดับ ดูต่อที่ <a href="#turn">หนึ่งรอบเล่น</a></p></div></li>
+      </ol>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนผู้เล่น</th><th>เปลี่ยนอะไรไหม</th></tr></thead>
+          <tbody>
+            <tr><td class="num">3–18 คน</td><td>กติกาเหมือนกันทุกจำนวน ใช้สำรับเดียว 94 ใบ</td></tr>
+            <tr><td class="num">มากกว่า 18 คน</td><td>คู่มือแนะนำให้ใช้<b>สำรับที่ 2</b> (กล่องที่ 2) รวมกัน</td></tr>
+            <tr><td class="num">1–2 คน</td><td>ไม่มีกติกาแข่งในคู่มือทางการ คู่มือแค่ชวนเล่นคนเดียวแบบท้าตัวเองว่า<b>ใช้กี่รอบถึงจะได้ 200</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>หนึ่งรอบเล่น</h2></div>
+      <p class="prose">เกมนี้ไม่มี "ตาของคุณ" แบบทำหลายอย่าง ทุกครั้งที่ถึงคุณมีคำถามเดียว: <b>เอาอีกใบไหม</b> คนแจกถามวนตามลำดับที่นั่ง ข้ามคนที่หยุดหรือแตกไปแล้ว จนกว่ารอบจะจบ</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 230" role="img" aria-label="ผู้เล่นมีการ์ด 11 5 12 และ +4 เลือกจั่วต่อหรือหยุดได้ 32 แต้ม">
+          <rect x="0" y="0" width="640" height="230" rx="12" class="s-surface2"/>
+          <text x="20" y="28" class="s-fg disp" font-size="15">แถวของคุณตอนนี้</text>
+          <g transform="translate(150 50)"><rect width="44" height="62" rx="6" fill="#e07a1f" stroke="#16262a" stroke-width="1.5"/><text x="22" y="39" class="cn" fill="#fff" font-size="18">+4</text></g>
+          <g transform="translate(20 120)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#7a3f8a">11</text></g>
+          <g transform="translate(72 120)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#2f7f9a">5</text></g>
+          <g transform="translate(124 120)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#4a5658">12</text></g>
+          <rect x="176" y="120" width="44" height="62" rx="6" class="ghost s-stroke-muted"/>
+          <text x="198" y="157" text-anchor="middle" class="s-muted tagf" font-size="20">?</text>
+          <text x="20" y="206" class="s-muted" font-size="12">การ์ดปรับแต้มวางเหนือแถว · ตัวเลขเรียงแถวเดียว</text>
+          <!-- arrows -->
+          <path d="M240 120 C290 90 300 70 340 66" fill="none" class="s-stroke-acc" stroke-width="2.5"/>
+          <path d="M240 160 C290 180 300 176 340 176" fill="none" class="s-stroke-muted" stroke-width="2.5"/>
+          <rect x="344" y="36" width="280" height="76" rx="12" class="s-surface"/>
+          <text x="360" y="62" class="s-acc disp" font-size="16">จั่วต่อ · Hit</text>
+          <text x="360" y="84" class="s-fg" font-size="13">ได้เลขใหม่ → ใส่แถว แต้มเพิ่ม</text>
+          <text x="360" y="102" class="s-bad" font-size="13">ได้ 11, 5 หรือ 12 ซ้ำ → แตก ได้ 0</text>
+          <rect x="344" y="132" width="280" height="76" rx="12" class="s-surface"/>
+          <text x="360" y="158" class="s-good disp" font-size="16">หยุด · Stay</text>
+          <text x="360" y="180" class="s-fg" font-size="13">11 + 5 + 12 = 28, +4 = 32 แต้ม</text>
+          <text x="360" y="198" class="s-muted" font-size="13">ออกจากรอบ คว่ำการ์ดไว้จนจบรอบ</text>
+        </svg></div>
+        <figcaption>ตัวอย่างจากคู่มือทางการ: หยุดตอนนี้ได้ <b>32 แต้ม</b> · ถ้าจั่วต่อ เลขที่ทำให้แตกคือ 11, 5, 12 ที่ยังเหลือในสำรับ</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>จั่วต่อ <span class="en">Hit</span></h3>
+          <ul>
+            <li>คนแจกเปิดการ์ดใบบนสุดให้คุณ 1 ใบ</li>
+            <li><b>การ์ดตัวเลขเลขใหม่</b> ใส่ต่อในแถว · <b>เลขซ้ำ</b> = แตก (ดู <a href="#bust">แตก</a>)</li>
+            <li><b>การ์ดปรับแต้ม</b> วางเหนือแถว ไม่มีทางทำให้แตก</li>
+            <li><b>การ์ดแอ็กชัน</b> คุณเลือกว่าจะใช้กับใคร (ตัวเองหรือคนอื่นที่ยังเล่นอยู่) ดู <a href="#actions">การ์ดแอ็กชัน</a></li>
+          </ul></div></li>
+        <li><div class="body"><h3>หยุด <span class="en">Stay</span></h3>
+          <ul>
+            <li>เก็บแต้มของทุกอย่างที่อยู่หน้าคุณ แล้ว<b>ออกจากรอบ</b> ไม่ได้การ์ดเพิ่มอีก และไม่โดนแอ็กชันของใครอีก</li>
+            <li>หยุดได้ก็ต่อเมื่อ<b>มีการ์ดหน้าตัวอย่างน้อย 1 ใบ</b></li>
+            <li>คู่มือให้<b>คว่ำการ์ด</b>ของตัวเองไว้เป็นสัญญาณว่าไม่ได้เล่นแล้ว จนจบรอบ</li>
+          </ul></div></li>
+        <li><div class="body"><h3>รอบจบเมื่อ <span class="en">End of a round</span></h3>
+          <ul>
+            <li><b>ไม่เหลือผู้เล่นที่ยังเล่นอยู่</b> ทุกคนหยุดหรือแตกหมดแล้ว หรือ</li>
+            <li>มีคน<b>เก็บเลขไม่ซ้ำครบ 7 ใบ</b> รอบจบทันทีสำหรับทุกคน</li>
+          </ul></div></li>
+      </ol>
+      <div class="callout blue">
+        <h3>ผู้เล่นที่ "ยังเล่นอยู่" <span class="en">Active player</span></h3>
+        <p>คือคนที่<b>ยังไม่แตกและยังไม่หยุด</b> คำนี้สำคัญเพราะการ์ดแอ็กชันใช้ได้กับผู้เล่นที่ยังเล่นอยู่เท่านั้น</p>
+      </div>
+    </section>
+
+    <!-- BUST & FLIP 7 -->
+    <section id="bust">
+      <div class="sec-head"><span class="tag">ได้ทุกอย่าง หรือไม่ได้อะไรเลย</span><h2>แตก และ Flip 7 <span class="en">Bust · Flip 7</span></h2></div>
+      <p class="prose">ถ้าได้การ์ดตัวเลข<b>เลขเดียวกับที่มีในแถวแล้ว</b> = <b>แตก</b> ออกจากรอบทันที และ<b>ได้ 0 แต้มในรอบนี้</b> ทั้งการ์ดตัวเลขและการ์ดปรับแต้มที่สะสมไว้ก็หายหมด (แต้มรวมจากรอบก่อน ๆ ไม่หาย) ถ้าเก็บเลขไม่ซ้ำได้ครบ <b>7 ใบ</b> เรียกว่า <b>Flip 7</b> รอบจบทันทีและได้โบนัส <b>+15</b></p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 250" role="img" aria-label="แถว 3 7 9 จั่วได้ 7 แตก แต่ถ้ามีโอกาสที่สองทิ้ง 7 กับโอกาสที่สองแล้วเล่นต่อ และแถว 7 ใบไม่ซ้ำได้ Flip 7">
+          <rect x="0" y="0" width="640" height="250" rx="12" class="s-surface2"/>
+          <!-- row A: bust -->
+          <text x="20" y="26" class="s-bad disp" font-size="15">แตก</text>
+          <g transform="translate(20 36)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#c96a2a" font-size="22">3</text></g>
+          <g transform="translate(66 36)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#c43b5a" font-size="22">7</text></g>
+          <g transform="translate(112 36)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#a0452f" font-size="22">9</text></g>
+          <text x="172" y="70" class="s-muted tagf" font-size="18">+</text>
+          <g transform="translate(192 36)"><rect width="40" height="56" rx="6" class="cd" style="stroke:var(--bad);stroke-width:3"/><text x="20" y="37" class="cn" fill="#c43b5a" font-size="22">7</text></g>
+          <text x="248" y="58" class="s-bad tagf" font-size="15">7 ซ้ำ → แตก</text>
+          <text x="248" y="78" class="s-fg" font-size="13">รอบนี้ได้ 0 แต้ม</text>
+          <!-- row A2: second chance -->
+          <text x="360" y="26" class="s-good disp" font-size="15">มีโอกาสที่สอง</text>
+          <g transform="translate(360 36)"><rect width="40" height="56" rx="6" fill="#d4462a" stroke="#16262a" stroke-width="1.5"/><text x="20" y="25" class="cs">SECOND</text><text x="20" y="37" class="cs">CHANCE</text></g>
+          <text x="410" y="70" class="s-muted tagf" font-size="18">+</text>
+          <g transform="translate(428 36)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#c43b5a" font-size="22">7</text></g>
+          <path d="M356 32 L472 96 M472 32 L356 96" class="s-stroke-muted" stroke-width="2"/>
+          <text x="484" y="58" class="s-good tagf" font-size="14">ทิ้งทั้งคู่</text>
+          <text x="484" y="78" class="s-fg" font-size="13">ยังอยู่ในรอบ (3, 7, 9)</text>
+          <!-- row B: flip 7 -->
+          <text x="20" y="130" class="s-acc disp" font-size="15">Flip 7 = เลขไม่ซ้ำครบ 7 ใบ</text>
+          <g transform="translate(20 142)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#7d8a8c" font-size="22">0</text></g>
+          <g transform="translate(66 142)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#8a5a2b" font-size="22">1</text></g>
+          <g transform="translate(112 142)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#b8862f" font-size="22">2</text></g>
+          <g transform="translate(158 142)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#c96a2a" font-size="22">3</text></g>
+          <g transform="translate(204 142)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#2f7f9a" font-size="22">5</text></g>
+          <g transform="translate(250 142)"><rect width="40" height="56" rx="6" class="cd"/><text x="20" y="37" class="cn" fill="#4b6b2f" font-size="22">8</text></g>
+          <g transform="translate(296 142)"><rect width="40" height="56" rx="6" class="cd" style="stroke:var(--good);stroke-width:3"/><text x="20" y="37" class="cn" fill="#4a5658" font-size="22">12</text></g>
+          <text x="356" y="166" class="s-fg tagf" font-size="15">0+1+2+3+5+8+12 = 31</text>
+          <text x="356" y="190" class="s-acc tagf" font-size="15">+15 โบนัส = 46 แต้ม</text>
+          <text x="20" y="230" class="s-muted" font-size="12">เลข 0 ไม่มีแต้ม แต่นับเป็น 1 ใบใน 7 ใบ · การ์ดปรับแต้มและแอ็กชันไม่นับ</text>
+        </svg></div>
+        <figcaption>บน: เลขซ้ำ = แตก ยกเว้นมีโอกาสที่สองถืออยู่ · ล่าง: ใบที่ 7 มาเมื่อไร รอบจบทันทีสำหรับทุกคน</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>จำให้แม่น</h3>
+        <ul>
+          <li>แตกได้เฉพาะ<b>การ์ดตัวเลข</b>ที่ซ้ำ การ์ดปรับแต้ม (+, ×2) และการ์ดแอ็กชัน<b>ไม่ทำให้แตก</b></li>
+          <li>Flip 7 ต้องเป็น<b>การ์ดตัวเลข 7 ใบเลขไม่ซ้ำ</b> การ์ดปรับแต้มกับแอ็กชันไม่นับรวม</li>
+          <li>พอมีคน Flip 7 ทุกคนที่<b>ยังไม่แตก</b> (ทั้งคนที่หยุดไปแล้วและคนที่ยังเล่นอยู่) ก็นับแต้มของตัวเองตามปกติ แต่<b>คนที่ Flip 7 คนเดียว</b>ได้ +15</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ACTIONS -->
+    <section id="actions">
+      <div class="sec-head"><span class="tag">ตัวป่วน 9 ใบ</span><h2>การ์ดแอ็กชัน <span class="en">Action cards</span></h2></div>
+      <p class="prose">เมื่อ<b>คุณ</b>ได้การ์ดแอ็กชัน (ตอนแจกเปิดรอบหรือตอนจั่วต่อ) <b>คุณเป็นคนเลือก</b>ว่าจะใช้กับใคร: ตัวเอง หรือผู้เล่นคนอื่นที่<b>ยังเล่นอยู่</b> ใช้กับคนที่หยุดหรือแตกไปแล้วไม่ได้ ถ้าคุณเป็น<b>คนเดียวที่ยังเล่นอยู่ ต้องใช้กับตัวเอง</b> วางการ์ดแอ็กชันไว้เหนือแถวตัวเลขของคนที่โดน</p>
+      <div class="types">
+        <div class="type" style="--c:var(--act-freeze)"><h3>แช่แข็ง <span class="en">Freeze</span></h3><span class="cnt">3 ใบ</span>
+          <p>ผู้รับ<b>เก็บแต้มเท่าที่มีตอนนี้และออกจากรอบ</b> เหมือนบังคับให้หยุด</p>
+          <p class="note">ใช้กับคู่แข่งที่เพิ่งมีแต้มน้อย ๆ ให้จบรอบไปแบบได้น้อย หรือใช้กับตัวเองเพื่อ "หยุด" ทันที (เช่น ตอนเลี่ยงไม่ได้)</p></div>
+        <div class="type" style="--c:var(--act-flip)"><h3>พลิกสาม <span class="en">Flip Three</span></h3><span class="cnt">3 ใบ</span>
+          <p>ผู้รับ<b>ต้องรับการ์ดอีก 3 ใบ</b> เปิดทีละใบ ทุกชนิดนับรวมเป็น 3 ใบ หยุดกลางทางถ้า<b>แตก</b>หรือ<b>ครบ Flip 7</b></p>
+          <p class="note">เปิดได้แช่แข็งหรือพลิกสามอีกใบระหว่างนั้น: พักไว้ ทำ<b>หลังครบ 3 ใบ</b> (ถ้ายังไม่แตก) ผู้รับเป็นคนเลือกเป้าหมาย ใช้กับคนอื่นหรือตัวเองก็ได้</p></div>
+        <div class="type" style="--c:var(--act-second)"><h3>โอกาสที่สอง <span class="en">Second Chance</span></h3><span class="cnt">3 ใบ</span>
+          <p><b>เก็บไว้หน้าตัว</b> ถ้าได้เลขซ้ำ ให้ทิ้งโอกาสที่สองกับการ์ดเลขซ้ำนั้น แล้วเล่นต่อได้ ไม่แตก</p>
+          <p class="note">ถือได้ทีละ 1 ใบ ได้ใบที่ 2 ต้องยกให้ผู้เล่นอื่นที่ยังเล่นอยู่ (ถ้าไม่มีใครรับได้ ให้ทิ้ง) · จบรอบแล้วทิ้งทุกใบแม้ไม่ได้ใช้ · กันแช่แข็งไม่ได้</p></div>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 210" role="img" aria-label="ตัวอย่างพลิกสาม เปิดได้ 4 แช่แข็ง และ +6 แล้วค่อยใช้แช่แข็งกับคนอื่น">
+          <rect x="0" y="0" width="640" height="210" rx="12" class="s-surface2"/>
+          <text x="20" y="28" class="s-fg disp" font-size="15">ตัวอย่าง: แดงโดนพลิกสาม (แถวเดิม 2, 10)</text>
+          <g transform="translate(20 50)"><rect width="44" height="62" rx="6" fill="#e2a21f" stroke="#16262a" stroke-width="1.5"/><text x="22" y="28" class="cs" font-size="10">FLIP</text><text x="22" y="42" class="cs" font-size="10">THREE</text></g>
+          <path d="M72 81 h30" class="s-stroke-muted" stroke-width="2"/><path d="M98 76 l6 5 -6 5" fill="none" class="s-stroke-muted" stroke-width="2"/>
+          <g transform="translate(116 50)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#3f8f5a">4</text></g>
+          <text x="138" y="128" text-anchor="middle" class="s-muted tagf" font-size="11">ใบ 1</text>
+          <g transform="translate(170 50)"><rect width="44" height="62" rx="6" fill="#2f7fc1" stroke="#16262a" stroke-width="1.5"/><text x="22" y="36" class="cs" font-size="10">FREEZE</text></g>
+          <text x="192" y="128" text-anchor="middle" class="s-muted tagf" font-size="11">ใบ 2 · พักไว้</text>
+          <g transform="translate(224 50)"><rect width="44" height="62" rx="6" fill="#e07a1f" stroke="#16262a" stroke-width="1.5"/><text x="22" y="39" class="cn" fill="#fff" font-size="18">+6</text></g>
+          <text x="246" y="128" text-anchor="middle" class="s-muted tagf" font-size="11">ใบ 3</text>
+          <rect x="300" y="44" width="324" height="104" rx="12" class="s-surface"/>
+          <text x="316" y="70" class="s-fg tagf" font-size="14">ครบ 3 ใบ ไม่แตก → ค่อยใช้แช่แข็ง</text>
+          <text x="316" y="94" class="s-fg" font-size="13">แดงเลือกแช่แข็งให้ฟ้า (ยังเล่นอยู่)</text>
+          <text x="316" y="116" class="s-fg" font-size="13">ฟ้าเก็บแต้มเท่าที่มี แล้วออกจากรอบ</text>
+          <text x="316" y="136" class="s-muted" font-size="12">แดงตอนนี้: 2+10+4 = 16, +6 = 22</text>
+          <text x="20" y="176" class="s-muted" font-size="12">ถ้าใบที่ 1 หรือ 2 เป็น 2 หรือ 10 (ซ้ำ) แดงแตกทันที ไม่ต้องเปิดใบที่เหลือ และแช่แข็งที่พักไว้ไม่ได้ใช้</text>
+          <text x="20" y="196" class="s-muted" font-size="12">ถ้าเปิดได้โอกาสที่สองระหว่างพลิกสาม วางไว้ใช้กันแตกได้เลยในใบถัดไป</text>
+        </svg></div>
+        <figcaption>การ์ดแอ็กชันที่เปิดได้<b>ระหว่าง</b>พลิกสามนับเป็น 1 ใบใน 3 ใบด้วย แต่ผลของมันรอทำตอนท้าย</figcaption>
+      </figure>
+    </section>
+
+    <!-- MODIFIERS -->
+    <section id="modifiers">
+      <div class="sec-head"><span class="tag">แต้มเสริม 6 ใบ</span><h2>การ์ดปรับแต้ม <span class="en">Score Modifier cards</span></h2></div>
+      <p class="prose">การ์ด <b>+2, +4, +6, +8, +10</b> บวกเพิ่มเข้ากับผลรวมการ์ดตัวเลข ส่วน <b>×2</b> คูณ 2 <b>เฉพาะผลรวมการ์ดตัวเลข</b> ไม่คูณการ์ด + และไม่คูณโบนัส 15 การ์ดพวกนี้<b>ไม่ทำให้แตก</b>และ<b>ไม่นับเป็นใบใน Flip 7</b></p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 170" role="img" aria-label="8 6 3 รวม 17 คูณ 2 เป็น 34 บวก 6 เป็น 40">
+          <rect x="0" y="0" width="640" height="170" rx="12" class="s-surface2"/>
+          <g transform="translate(20 30)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#4b6b2f">8</text></g>
+          <g transform="translate(70 30)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#6b4fa0">6</text></g>
+          <g transform="translate(120 30)"><rect width="44" height="62" rx="6" class="cd"/><text x="22" y="40" class="cn" fill="#c96a2a">3</text></g>
+          <g transform="translate(200 30)"><rect width="44" height="62" rx="6" fill="#e07a1f" stroke="#16262a" stroke-width="1.5"/><text x="22" y="39" class="cn" fill="#fff" font-size="18">x2</text></g>
+          <g transform="translate(250 30)"><rect width="44" height="62" rx="6" fill="#e07a1f" stroke="#16262a" stroke-width="1.5"/><text x="22" y="39" class="cn" fill="#fff" font-size="18">+6</text></g>
+          <g class="tagf" font-size="15">
+            <text x="320" y="44" class="s-fg">① รวมเลข 8+6+3 = 17</text>
+            <text x="320" y="70" class="s-fg">② ×2 → 34</text>
+            <text x="320" y="96" class="s-fg">③ บวก +6 → <tspan class="s-acc">40 แต้ม</tspan></text>
+          </g>
+          <text x="20" y="128" class="s-muted" font-size="13">ผิดบ่อย: (17 + 6) × 2 = 46 ← ไม่ถูก การ์ด +6 ไม่โดนคูณ</text>
+          <text x="20" y="150" class="s-muted" font-size="13">มีแค่การ์ด +10 ใบเดียว ไม่มีเลข แล้วหยุด = 10 แต้ม · มีแค่ ×2 ไม่มีเลข = 0</text>
+        </svg></div>
+        <figcaption>คูณก่อน บวกทีหลัง · ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</figcaption>
+      </figure>
+      <div class="formula">
+        <div class="fm"><small>+2 / +4 / +6 / +8 / +10</small><b>บวกเข้าแต้มรอบ</b></div>
+        <div class="fm"><small>×2</small><b>(ผลรวมเลข) × 2</b></div>
+        <div class="fm zero"><small>แตก</small><b>การ์ดปรับแต้มก็หายด้วย = 0</b></div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบรอบ นับแต้ม และจบเกม</h2></div>
+      <p class="prose">พอรอบจบ ทุกคนที่<b>ไม่แตก</b>คิดแต้มของตัวเองตาม 4 ขั้นนี้ <b>ตามลำดับ</b> แล้วบวกเข้าแต้มสะสม คนที่แตกได้ 0</p>
+      <ol class="steps">
+        <li><div class="body"><h3>รวมการ์ดตัวเลข <span class="en">Add the value of Number cards</span></h3><p>บวกเลขบนการ์ดตัวเลขทุกใบในแถว</p></div></li>
+        <li><div class="body"><h3>คูณ 2 ถ้ามี ×2 <span class="en">x2 multiplier</span></h3><p>คูณผลรวมจากขั้น 1</p></div></li>
+        <li><div class="body"><h3>บวกการ์ด + <span class="en">Add bonus points</span></h3><p>บวก +2 ถึง +10 ที่มี</p></div></li>
+        <li><div class="body"><h3>โบนัส Flip 7 <span class="en">Flip 7 bonus</span></h3><p>ถ้าเก็บเลขไม่ซ้ำครบ 7 ใบ +15</p></div></li>
+      </ol>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>แถวตอนจบรอบ</th><th>วิธีคิด</th><th class="num">แต้มรอบนี้</th></tr></thead>
+          <tbody>
+            <tr><td>12, 9, 5 + การ์ด +4</td><td>12+9+5 = 26 → +4</td><td class="num">30</td></tr>
+            <tr><td>8, 6, 3 + ×2 + +6</td><td>17 × 2 = 34 → +6</td><td class="num">40</td></tr>
+            <tr><td>0, 1, 2, 3, 5, 8, 12 (Flip 7)</td><td>31 → +15</td><td class="num">46</td></tr>
+            <tr><td>4, 6, 7, 9, 10, 11, 12 + ×2 + +10 (Flip 7)</td><td>59 × 2 = 118 → +10 → +15</td><td class="num">143</td></tr>
+            <tr><td>แค่การ์ด +10 (ไม่มีเลข) แล้วหยุด</td><td>0 + 10</td><td class="num">10</td></tr>
+            <tr><td>11, 7, 7 (แตก)</td><td>เลขซ้ำ</td><td class="num"><span class="zero">0</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>เริ่มรอบถัดไป <span class="en">Starting the next round</span></h3>
+          <ul>
+            <li>เก็บการ์ดทั้งหมดของรอบนี้ไว้<b>กองทิ้งด้านข้าง</b> <b>ห้ามสับกลับเข้าสำรับ</b></li>
+            <li>ส่งสำรับที่เหลือให้<b>คนทางซ้าย</b> คนนั้นเป็นคนแจกรอบใหม่</li>
+            <li>สำรับหมดเมื่อไร สับกองทิ้งเป็นสำรับใหม่ ถ้าหมดกลางรอบ การ์ดที่อยู่หน้าผู้เล่น<b>อยู่ที่เดิม</b> (แม้คนนั้นแตกไปแล้ว) ไม่เอามาสับ</li>
+          </ul></div></li>
+        <li><div class="body"><h3>จบเกม <span class="en">End of the game</span></h3><p>จบ<b>รอบ</b>ที่มีผู้เล่นอย่างน้อย 1 คนแต้มรวม<b>ถึง 200</b> แล้ว ใครแต้มรวมมากสุดชนะ (เล่นรอบนั้นให้จบก่อนเสมอ ไม่ได้ชนะทันทีที่แตะ 200)</p></div></li>
+      </ol>
+      <div class="callout blue"><h3>เสมอกัน <span class="en">Tie</span></h3><p>FAQ ทางการของ The Op: ถ้าจบรอบแล้วมีหลายคนแต้มเกิน 200 และเสมอกันที่สูงสุด ให้<b>เล่นรอบเพิ่ม</b>ไปเรื่อย ๆ จนเหลือผู้ชนะคนเดียว <span class="unverified">ยังไม่ยืนยัน</span> (เจอแค่ใน FAQ ไม่มีในคู่มือ)</p></div>
+      <p class="note">ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips">
+      <div class="sec-head"><span class="tag">เล่นให้เก่งขึ้น</span><h2>เคล็ดลับนับการ์ด</h2></div>
+      <p class="prose">คู่มือทางการย้ำว่า<b>ให้จำจำนวนการ์ดไว้ในหัว</b> เพราะเลขยิ่งสูงยิ่งมีหลายใบ โอกาสแตกตอนจั่วต่อจึงขึ้นกับว่าเลขในแถวคุณ "เหลือซ้ำในสำรับ" อีกกี่ใบ</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ถือเลขนี้อยู่</th><th class="num">ใบที่จะทำให้แตก (สำรับเต็ม)</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td><b>0 หรือ 1</b></td><td class="num">0</td><td>ปลอดภัย 100% ไม่มีใบซ้ำ</td></tr>
+            <tr><td><b>2–4</b></td><td class="num">1–3</td><td>เสี่ยงน้อย</td></tr>
+            <tr><td><b>8</b></td><td class="num">7</td><td>ราว 7–8% ต่อใบที่จั่ว</td></tr>
+            <tr><td><b>12</b></td><td class="num">11</td><td>ราว 12% ต่อใบที่จั่ว แค่ใบเดียวก็เสี่ยงกว่าถือ 1, 2, 3, 4 รวมกัน</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout green">
+        <h3>คิดแบบเร็ว</h3>
+        <ul>
+          <li>เอาเลขในแถวทุกใบ <b>ลบ 1</b> แล้วรวมกัน = จำนวนใบที่จะทำให้แตก เช่น ถือ 12, 9, 5 → 11+8+4 = <b>23 ใบ</b> จาก ~90 ใบ ≈ 1 ใน 4</li>
+          <li>ดูการ์ดที่<b>ออกไปแล้ว</b>บนโต๊ะด้วย ถ้าเลข 12 อยู่หน้าคนอื่น 5 ใบ ใบซ้ำของคุณก็เหลือน้อยลง</li>
+          <li>ถือโอกาสที่สองอยู่ = จั่วต่อได้ใจกล้าขึ้น 1 ครั้ง</li>
+          <li>ลองให้ <a href="#calc">เครื่องคิดแต้ม</a> คำนวณโอกาสแตกให้ระหว่างตัดสินใจ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>เครื่องคิดแต้ม & สมุดคะแนน</h2></div>
+      <div class="tool" id="calc">
+        <h3>เครื่องคิดแต้มท้ายรอบ</h3>
+        <div><span class="field-l">การ์ดตัวเลขในแถว (กดเลือก)</span><div class="seg nums" id="c-nums"></div></div>
+        <div><span class="field-l">การ์ดปรับแต้ม</span><div class="seg mods" id="c-mods"></div></div>
+        <div class="inrow">
+          <label class="chk"><input type="checkbox" id="c-bust"> แตก (เลขซ้ำ)</label>
+          <button type="button" class="btn" id="c-reset">ล้าง</button>
+        </div>
+        <div class="result" aria-live="polite"><b id="c-total">0</b><span id="c-line">ยังไม่ได้เลือกการ์ด</span><small id="c-note">เลือกเลขที่อยู่ในแถวของคุณ</small></div>
+        <div class="odds"><span>โอกาสแตกถ้าจั่วต่อ:</span><div class="meter" aria-hidden="true"><i id="c-meter"></i></div><b id="c-odds" class="tagf">0%</b></div>
+        <p class="note">โอกาสแตกคิดจากสำรับเต็ม 94 ใบ ลบการ์ดที่อยู่หน้าคุณ ไม่รวมการ์ดหน้าคนอื่นและโอกาสที่สอง ใช้เป็นตัวช่วยประมาณเท่านั้น</p>
+        <div class="inrow">
+          <label><span class="field-l">บันทึกแต้มนี้ให้</span><select id="c-who"></select></label>
+          <button type="button" class="btn primary" id="c-send">ใส่ลงสมุดคะแนน</button>
+        </div>
+      </div>
+      <div class="tool">
+        <h3>สมุดคะแนน</h3>
+        <p class="prose">ใส่ชื่อผู้เล่นและแต้มแต่ละรอบ ระบบรวมให้เอง ไฮไลต์คนนำ และบอกเมื่อมีคนถึง 200 เบราว์เซอร์จะจำไว้ให้จนกว่าจะกดล้าง</p>
+        <div class="inrow">
+          <label><span class="field-l">จำนวนผู้เล่น</span><input type="number" id="pad-n" min="3" max="18" value="4"></label>
+          <button type="button" class="btn" id="pad-add">เพิ่มรอบ</button>
+          <button type="button" class="btn" id="pad-clear">ล้างสมุด</button>
+        </div>
+        <div class="tbl-wrap pad"><table id="pad"></table></div>
+        <p class="note" id="pad-msg"></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details open><summary>×2 คูณการ์ด + และโบนัส 15 ด้วยไหม?</summary><p><span class="verdict">ไม่</span> ×2 คูณเฉพาะผลรวมการ์ดตัวเลข แล้วค่อยบวกการ์ด + และ +15 (FAQ ทางการ)</p></details>
+        <details><summary>ได้การ์ดแอ็กชัน แต่ไม่อยากใช้กับใครเลย ทิ้งได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> ต้องใช้กับผู้เล่นที่ยังเล่นอยู่สักคน (รวมตัวเอง) ถ้าเหลือคุณคนเดียวต้องใช้กับตัวเอง ยกเว้นโอกาสที่สองใบที่ 2 ที่ไม่มีใครรับได้ จึงทิ้ง</p></details>
+        <details><summary>ใช้แช่แข็ง/พลิกสามกับคนที่หยุดไปแล้วได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> ใช้ได้กับผู้เล่นที่<b>ยังเล่นอยู่</b>เท่านั้น คนที่หยุดหรือแตกแล้วปลอดภัย</p></details>
+        <details><summary>โอกาสที่สองกันแช่แข็งได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> โอกาสที่สองใช้กันแตกจากเลขซ้ำเท่านั้น (FAQ ทางการ)</p></details>
+        <details><summary>ใช้โอกาสที่สองแล้ว ได้จั่วใบใหม่ทันทีไหม?</summary><p><span class="verdict">ไม่</span> ทิ้งโอกาสที่สองกับเลขซ้ำ แล้วจบตานั้น ได้การ์ดใหม่ในตาถัดไปถ้าเลือกจั่วต่อ (FAQ ทางการ)</p></details>
+        <details><summary>ระหว่างพลิกสาม เปิดได้พลิกสามอีกใบ ทำยังไง?</summary><p><span class="verdict">พักไว้ก่อน</span> รับให้ครบ 3 ใบ ถ้ายังไม่แตกค่อยใช้ใบที่พักไว้ เลือกใช้กับคนอื่นหรือตัวเองก็ได้ แช่แข็งก็เหมือนกัน</p></details>
+        <details><summary>การ์ดปรับแต้มนับเป็นใบใน Flip 7 ไหม? ทำให้แตกได้ไหม?</summary><p><span class="verdict">ไม่ทั้งสองข้อ</span> Flip 7 ต้องเป็นการ์ดตัวเลข 7 ใบเลขไม่ซ้ำ และแตกได้เฉพาะเลขซ้ำ</p></details>
+        <details><summary>ยังไม่มีการ์ดสักใบ (เช่น ได้แอ็กชันตอนแจกแล้วยกให้คนอื่น) ขอหยุดได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> หยุดได้เมื่อมีการ์ดหน้าตัวอย่างน้อย 1 ใบ ต้องจั่วต่อ</p></details>
+        <details><summary>แตะ 200 กลางรอบ ชนะเลยไหม?</summary><p><span class="verdict">ไม่</span> เล่นรอบนั้นจนจบ ทุกคนนับแต้ม แล้วคนแต้มรวมมากสุดชนะ คนที่ยังไม่ถึง 200 อาจแซงได้ในรอบเดียวกัน</p></details>
+        <details><summary>สำรับหมดกลางรอบ ทำยังไง?</summary><p><span class="verdict">สับกองทิ้ง</span> เป็นสำรับใหม่ การ์ดที่อยู่หน้าผู้เล่นทุกคนอยู่ที่เดิม แม้คนนั้นแตกไปแล้วก็ไม่เอามาสับ</p></details>
+        <details><summary>โอกาสที่สองที่ไม่ได้ใช้ เก็บไว้รอบหน้าได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> จบรอบแล้วทิ้งทุกใบ รวมถึงตอนที่โดนแช่แข็งหรือ Flip 7 ก่อนได้ใช้</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>จั่วต่อ <span class="en">Hit</span></dt><dd>ขอให้คนแจกเปิดการ์ดให้อีก 1 ใบ</dd>
+        <dt>หยุด <span class="en">Stay</span></dt><dd>เก็บแต้มที่มีแล้วออกจากรอบ</dd>
+        <dt>แตก <span class="en">Bust</span></dt><dd>ได้การ์ดตัวเลขซ้ำ ออกจากรอบ ได้ 0</dd>
+        <dt>Flip 7</dt><dd>เก็บการ์ดตัวเลขเลขไม่ซ้ำครบ 7 ใบ รอบจบทันที +15</dd>
+        <dt>คนแจก <span class="en">Dealer</span></dt><dd>คนแจกการ์ดและถามจั่วต่อ/หยุด เปลี่ยนไปทางซ้ายทุกรอบ</dd>
+        <dt>แถว <span class="en">Line</span></dt><dd>การ์ดตัวเลขที่เรียงอยู่หน้าคุณ</dd>
+        <dt>ผู้เล่นที่ยังเล่นอยู่ <span class="en">Active player</span></dt><dd>คนที่ยังไม่แตกและยังไม่หยุด</dd>
+        <dt>การ์ดตัวเลข <span class="en">Number card</span></dt><dd>การ์ด 0–12 เลข n มี n ใบ</dd>
+        <dt>การ์ดปรับแต้ม <span class="en">Score Modifier</span></dt><dd>+2 ถึง +10 และ ×2</dd>
+        <dt>แช่แข็ง <span class="en">Freeze</span></dt><dd>บังคับให้ผู้รับหยุด</dd>
+        <dt>พลิกสาม <span class="en">Flip Three</span></dt><dd>บังคับให้ผู้รับรับการ์ด 3 ใบติด</dd>
+        <dt>โอกาสที่สอง <span class="en">Second Chance</span></dt><dd>กันแตกได้ 1 ครั้ง</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยจาก<b>คู่มือทางการ Flip 7 ของ The Op (USAopoly) ภาษาอังกฤษ Ruleset Edition 3.1</b> และ FAQ ทางการ เพราะหาคู่มือฉบับไทยของ Tower Tactic Games เป็นไฟล์ไม่ได้ ชื่อไทยของการ์ดแปลเอง ภาพประกอบทั้งหมดวาดใหม่เพื่ออธิบายกติกา ไม่ใช่ภาพจากเกมจริง ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="https://cdn.svc.asmodee.net/production-asmodeeca/uploads/2025/12/FLIP_7-RULES.pdf" target="_blank" rel="noopener">FLIP 7 Rules (PDF) · The Op / USAopoly</a></li>
+      <li><a href="https://theop.games/pages/flip-7-faqs" target="_blank" rel="noopener">Flip 7 FAQs · The Op</a></li>
+      <li><a href="https://rulespal.com/flip-7/rulebook" target="_blank" rel="noopener">Flip 7 Rulebook · RulesPal</a></li>
+      <li><a href="https://www.towertacticgames.com/products/flip-7-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%94%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%8B%E0%B9%89%E0%B8%B3-%E0%B8%97%E0%B8%B3%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B9%84%E0%B8%94%E0%B9%89-%E0%B8%A3%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B9%81%E0%B8%9B%E0%B8%A5%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%81%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B9%81%E0%B8%82%E0%B9%87%E0%B8%87" target="_blank" rel="noopener">FLIP 7 การ์ดไม่ซ้ำ ทำให้ได้ (ฉบับไทย) · Tower Tactic Games</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* ---------- สมุดคะแนน (แถว = รอบ) ---------- */
+const KEY='flip_7-pad-v1';   /* ห้ามซ้ำกับเล่มอื่น */
+const GOAL=200;
+const padN=document.getElementById('pad-n'), tbl=document.getElementById('pad'), msg=document.getElementById('pad-msg');
+const MIN=Number(padN.min)||3, MAX=Number(padN.max)||18;
+let st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){st=null;}
+if(!st||!Array.isArray(st.names)||!Array.isArray(st.v)){st={n:Number(padN.value)||MIN,names:[],v:[],rounds:5};}
+st.n=Math.min(MAX,Math.max(MIN,Number(st.n)||MIN));
+st.rounds=Math.min(60,Math.max(1,Number(st.rounds)||5));
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+function val(r,p){return Number((st.v[r]||[])[p])||0;}
+function pname(p){return st.names[p]||('ผู้เล่น '+(p+1));}
+function render(){
+  padN.value=st.n;
+  let h='<thead><tr><th>รอบ</th>';
+  for(let p=0;p<st.n;p++)h+='<th><input type="text" data-name="'+p+'" value="'+esc(pname(p))+'" aria-label="ชื่อผู้เล่น '+(p+1)+'"></th>';
+  h+='</tr></thead><tbody>';
+  for(let r=0;r<st.rounds;r++){
+    h+='<tr><td class="num">'+(r+1)+'</td>';
+    for(let p=0;p<st.n;p++){const v=(st.v[r]||[])[p];h+='<td><input type="number" inputmode="numeric" min="0" data-r="'+r+'" data-p="'+p+'" value="'+(v===undefined||v===''||v===null?'':esc(v))+'" aria-label="รอบ '+(r+1)+' '+esc(pname(p))+'"></td>';}
+    h+='</tr>';
+  }
+  h+='</tbody><tfoot><tr><td>รวม</td>';
+  for(let p=0;p<st.n;p++)h+='<td data-total="'+p+'"></td>';
+  tbl.innerHTML=h+'</tr></tfoot>';
+  totals();
+  fillWho();
+}
+function totals(){
+  const t=[];for(let p=0;p<st.n;p++){let s=0;for(let r=0;r<st.rounds;r++)s+=val(r,p);t.push(s);}
+  const best=Math.max.apply(null,t);
+  t.forEach((s,p)=>{const el=tbl.querySelector('[data-total="'+p+'"]');el.innerHTML=s+(s>=GOAL?'<span class="goal">ถึง 200</span>':'');el.classList.toggle('win',s===best&&s!==0);});
+  const reached=t.some(s=>s>=GOAL);
+  if(!reached){msg.textContent='ยังไม่มีใครถึง 200 · คนนำ: '+(best>0?t.map((s,p)=>s===best?pname(p):null).filter(Boolean).join(', ')+' ('+best+')':'-');}
+  else{const w=t.map((s,p)=>s===best?pname(p):null).filter(Boolean);msg.textContent=(w.length>1?'มีคนถึง 200 แต่เสมอกันที่ '+best+' ('+w.join(', ')+') FAQ ทางการให้เล่นรอบเพิ่ม':'มีคนถึง 200 แล้ว ถ้ารอบนี้จบแล้ว ผู้ชนะคือ '+w[0]+' ('+best+' แต้ม)');}
+}
+tbl.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.dataset.name!==undefined){st.names[Number(el.dataset.name)]=el.value;fillWho();totals();}
+  else if(el.dataset.r!==undefined){const r=Number(el.dataset.r),p=Number(el.dataset.p);st.v[r]=st.v[r]||[];st.v[r][p]=el.value;totals();}
+  save();
+});
+padN.addEventListener('change',()=>{st.n=Math.min(MAX,Math.max(MIN,Number(padN.value)||MIN));save();render();});
+document.getElementById('pad-add').addEventListener('click',()=>{st.rounds=Math.min(60,st.rounds+1);save();render();});
+document.getElementById('pad-clear').addEventListener('click',()=>{st={n:st.n,names:st.names,v:[],rounds:5};save();render();});
+
+/* ---------- เครื่องคิดแต้มท้ายรอบ ---------- */
+const NUMS=[0,1,2,3,4,5,6,7,8,9,10,11,12];
+const COUNT=n=>n===0?1:n;            /* เลข n มี n ใบ เลข 0 มี 1 ใบ */
+const MODS=['+2','+4','+6','+8','+10','x2'];
+const cs={nums:new Set(),mods:new Set(),bust:false};
+const numBox=document.getElementById('c-nums'), modBox=document.getElementById('c-mods');
+numBox.innerHTML=NUMS.map(n=>'<button type="button" data-n="'+n+'" aria-pressed="false">'+n+'</button>').join('');
+modBox.innerHTML=MODS.map(m=>'<button type="button" data-m="'+m+'" aria-pressed="false">'+(m==='x2'?'×2':m)+'</button>').join('');
+const bustEl=document.getElementById('c-bust');
+let lastScore=0;
+function calc(){
+  numBox.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',cs.nums.has(Number(b.dataset.n))));
+  modBox.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',cs.mods.has(b.dataset.m)));
+  const nums=[...cs.nums].sort((a,b)=>a-b);
+  const sum=nums.reduce((a,b)=>a+b,0);
+  const dbl=cs.mods.has('x2');
+  const plus=MODS.filter(m=>m!=='x2'&&cs.mods.has(m)).reduce((a,m)=>a+Number(m.slice(1)),0);
+  const f7=nums.length>=7;
+  let total, line, note;
+  if(cs.bust){total=0;line='แตก ได้ 0 แต้ม';note='เลขซ้ำ การ์ดทุกใบในรอบนี้ไม่นับ';}
+  else if(!nums.length&&!cs.mods.size){total=0;line='ยังไม่ได้เลือกการ์ด';note='เลือกเลขที่อยู่ในแถวของคุณ';}
+  else{
+    const base=dbl?sum*2:sum;
+    total=base+plus+(f7?15:0);
+    const parts=[];
+    parts.push(nums.length?nums.join('+')+' = '+sum:'ไม่มีการ์ดตัวเลข');
+    if(dbl)parts.push('×2 = '+base);
+    if(plus)parts.push('+'+plus);
+    if(f7)parts.push('Flip 7 +15');
+    line=parts.join(' → ');
+    note=nums.length>7?'เกิน 7 ใบไม่ได้ รอบจบทันทีที่ครบ 7 ใบ':(f7?'ครบ 7 ใบ รอบจบทันที':'มีเลข '+nums.length+' ใบ อีก '+(7-nums.length)+' ใบถึง Flip 7');
+  }
+  lastScore=total;
+  document.getElementById('c-total').textContent=total;
+  document.getElementById('c-line').textContent=line;
+  document.getElementById('c-note').textContent=note;
+  /* โอกาสแตก: ใบที่ซ้ำกับเลขในแถว ÷ ใบที่เหลือในสำรับเต็มหลังหักการ์ดของเรา */
+  const danger=nums.reduce((a,n)=>a+COUNT(n)-1,0);
+  const left=94-nums.length-cs.mods.size;
+  const pct=(cs.bust||f7||!nums.length)?0:Math.round(danger/left*1000)/10;
+  document.getElementById('c-odds').textContent=(cs.bust||f7)?'-':pct+'%';
+  document.getElementById('c-meter').style.width=Math.min(100,pct)+'%';
+}
+numBox.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=Number(b.dataset.n);cs.nums.has(n)?cs.nums.delete(n):cs.nums.add(n);calc();});
+modBox.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const m=b.dataset.m;cs.mods.has(m)?cs.mods.delete(m):cs.mods.add(m);calc();});
+bustEl.addEventListener('change',()=>{cs.bust=bustEl.checked;calc();});
+document.getElementById('c-reset').addEventListener('click',()=>{cs.nums.clear();cs.mods.clear();cs.bust=false;bustEl.checked=false;calc();});
+const who=document.getElementById('c-who');
+function fillWho(){
+  const cur=who.value;
+  let h='';for(let p=0;p<st.n;p++)h+='<option value="'+p+'">'+esc(pname(p))+'</option>';
+  who.innerHTML=h;
+  if(cur!==''&&Number(cur)<st.n)who.value=cur;
+}
+document.getElementById('c-send').addEventListener('click',()=>{
+  const p=Number(who.value)||0;
+  let r=0;while(r<st.rounds&&(st.v[r]||[])[p]!==undefined&&(st.v[r]||[])[p]!==''&&(st.v[r]||[])[p]!==null)r++;
+  if(r>=st.rounds)st.rounds=Math.min(60,st.rounds+1);
+  if(r>=st.rounds){msg.textContent='สมุดเต็มแล้ว';return;}
+  st.v[r]=st.v[r]||[];st.v[r][p]=String(lastScore);
+  save();render();
+  msg.textContent='ใส่ '+lastScore+' แต้มให้ '+pname(p)+' ในรอบ '+(r+1)+' แล้ว';
+});
+render();
+calc();
+})();
+</script>
+</body></html>
