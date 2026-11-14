@@ -1,0 +1,872 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>7 Wonders Architects ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: Mediterranean-dusk header band with pyramid + lighthouse, then a rulebook reading column with a sticky chapter rail.
+   Card colours follow the game (grey / yellow / blue / red / green). Tools near the end: setup helper, build checker, score pad. */
+:root{
+  --bg:#f4efe4;
+  --surface:#fffdf8;
+  --surface-2:#ebe2cf;
+  --fg:#261f16;
+  --muted:#6a5f4e;
+  --line:#dacdb2;
+  --accent:#9a5a12;
+  --accent-strong:#b8701c;
+  --accent-soft:#f6e6c8;
+  --blue-soft:#dde8f2;
+  --green-soft:#e1ecd6;
+  --red-soft:#f6ddd7;
+  --band-1:#0f2b40;
+  --band-2:#1f5a74;
+  --band-fg:#f7f0e0;
+  --gold:#e9b949;
+  --good:#2f7d3d;
+  --bad:#b8372b;
+  --k-grey:#7d838b; --k-gold:#d9a52a; --k-blue:#2f6fb5; --k-red:#c23b2e; --k-green:#3a8a4a;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#13110d;--surface:#1d1a14;--surface-2:#29241a;--fg:#efe7d6;--muted:#b3a68e;--line:#3a3226;
+    --accent:#f0b25f;--accent-strong:#f0b25f;--accent-soft:#3a2a14;--blue-soft:#16263a;--green-soft:#1b2a16;--red-soft:#3a1c18;
+    --band-1:#08182a;--band-2:#123848;--gold:#ecc15c;--good:#6fd086;--bad:#ff7a6b;
+    --k-grey:#a3a9b1;--k-gold:#ecc15c;--k-blue:#7fb0ea;--k-red:#f07a6b;--k-green:#7cc68a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13110d;--surface:#1d1a14;--surface-2:#29241a;--fg:#efe7d6;--muted:#b3a68e;--line:#3a3226;
+  --accent:#f0b25f;--accent-strong:#f0b25f;--accent-soft:#3a2a14;--blue-soft:#16263a;--green-soft:#1b2a16;--red-soft:#3a1c18;
+  --band-1:#08182a;--band-2:#123848;--gold:#ecc15c;--good:#6fd086;--bad:#ff7a6b;
+  --k-grey:#a3a9b1;--k-gold:#ecc15c;--k-blue:#7fb0ea;--k-red:#f07a6b;--k-green:#7cc68a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol,ul.prose{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout.red{background:var(--red-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 180px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)} .s-acc{fill:var(--accent-strong)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)}
+.k-grey{fill:var(--k-grey)} .k-gold{fill:var(--k-gold)} .k-blue{fill:var(--k-blue)} .k-red{fill:var(--k-red)} .k-green{fill:var(--k-green)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0;border-top:6px solid var(--c,var(--line))}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+.dot{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+
+.wonders{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.wonder{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:52px minmax(0,1fr);gap:4px 14px;align-items:start}
+.wonder svg{width:52px;height:52px;grid-row:span 3}
+.wonder h3{font-size:1.08rem}
+.wonder .en{display:block;margin-top:-2px}
+.wonder p{font-size:.95rem}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+.inrow input[type=number],.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:72px;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent-strong)}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.result b{font-family:var(--font-tag);font-size:1.9rem;font-weight:600;line-height:1.1;color:var(--accent);grid-row:span 2}
+.result.ok b{color:var(--good)} .result.no b{color:var(--bad)}
+.result span{font-family:var(--font-display);font-size:1.05rem}
+.result small{color:var(--muted);font-size:.9rem}
+.co{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:inline-grid;gap:0;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.7rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.co small{font-size:.84rem;color:var(--muted)}
+.deal{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.deal div{background:var(--surface-2);border-radius:10px;padding:8px 12px;font-size:.95rem}
+.deal b{font-family:var(--font-display);display:block}
+.res-in label{display:grid;justify-items:center;gap:2px}
+.res-in label .dot{margin:0}
+
+.sp{min-width:560px}
+.sp td,.sp th{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;min-width:190px}
+.sp td:first-child small{display:block;color:var(--muted);font-size:.8rem;line-height:1.4}
+.sp input[type=text]{font:inherit;font-family:var(--font-tag);font-weight:600;width:84px;height:34px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center}
+.sp input[type=number]{width:60px;height:36px}
+.sp select{font:inherit;font-size:.86rem;height:36px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;max-width:110px}
+.sp tr.total td{font-family:var(--font-tag);font-weight:600;font-size:1.3rem;background:var(--surface-2)}
+.sp td.win{color:var(--good)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.verdict.no{color:var(--bad)}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:400px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .beam{animation:beam 3.2s ease-in-out infinite alternate;transform-origin:262px 70px}
+  @keyframes beam{from{transform:rotate(-8deg);opacity:.35}to{transform:rotate(8deg);opacity:.75}}
+  .twinkle{animation:tw 3s ease-in-out infinite alternate}
+  @keyframes tw{from{opacity:.25}to{opacity:.9}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก · อิงคู่มือทางการ (Repos Production / Asmodee)</div>
+      <h1>7 Wonders Architects<span>เซเว่นวันเดอร์ส อาร์คิเท็กส์ · หยิบการ์ดทีละใบ สร้างสิ่งมหัศจรรย์ให้เสร็จก่อนใคร</span></h1>
+      <p class="lede">ทุกตาหยิบการ์ด <b>1 ใบ</b> จากสำรับข้างซ้าย ข้างขวา หรือกองกลาง เก็บวัตถุดิบไปสร้างมหาสิ่งของตัวเองทีละชั้น ระหว่างทางเก็บแต้มจากการ์ดฟ้า ชนะสงครามด้วยโล่ และแลกวิทยาศาสตร์เป็นเหรียญความก้าวหน้า พอมีคนสร้างมหาสิ่งเสร็จ เกมจบทันทีท้ายตานั้น แล้วนับแต้ม</p>
+      <div class="facts">
+        <div class="fact"><b>2–7</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>~25</b><small>นาที</small></div>
+        <div class="fact"><b>5</b><small>ชั้นต่อมหาสิ่ง</small></div>
+        <div class="fact"><b>1</b><small>การ์ดต่อตา (ไม่มีการ์ดในมือ)</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 250">
+        <g fill="#f7f0e0"><circle class="twinkle" cx="30" cy="22" r="1.4"/><circle class="twinkle" cx="110" cy="14" r="1.1" style="animation-delay:-1s"/><circle class="twinkle" cx="196" cy="30" r="1.3" style="animation-delay:-2s"/><circle class="twinkle" cx="320" cy="20" r="1" style="animation-delay:-.5s"/></g>
+        <circle cx="70" cy="62" r="20" fill="#e9b949" opacity=".9"/>
+        <path class="beam" d="M262 70 L340 46 L340 96Z" fill="#f7e2a0" opacity=".5"/>
+        <path d="M0 196 Q90 178 170 190 T340 184 V250 H0Z" fill="#c69a55"/>
+        <path d="M0 214 Q100 200 190 210 T340 206 V250 H0Z" fill="#a97c3c"/>
+        <!-- pyramid: 5 stages -->
+        <path d="M56 198 L136 92 L216 198Z" fill="#e2c07a"/>
+        <path d="M136 92 L216 198 L176 198Z" fill="#b8924a"/>
+        <g stroke="#8a6a32" stroke-width="1.4" opacity=".7"><path d="M72 177 H200 M88 156 H184 M104 135 H168 M120 113 H152"/></g>
+        <!-- lighthouse -->
+        <path d="M248 198 L254 96 L270 96 L276 198Z" fill="#efe4c8"/>
+        <path d="M250 150 H274 M252 124 H272" stroke="#c9b88e" stroke-width="2"/>
+        <rect x="251" y="76" width="22" height="20" fill="#d8c69a"/>
+        <circle cx="262" cy="70" r="7" fill="#ffd56a"/>
+        <path d="M248 76 L262 58 L276 76Z" fill="#b8701c"/>
+        <!-- cards fanned -->
+        <g transform="translate(150 206)">
+          <rect x="-58" y="-10" width="30" height="42" rx="4" fill="#7d838b" stroke="#1d1a14" transform="rotate(-18 -43 11)"/>
+          <rect x="-34" y="-16" width="30" height="42" rx="4" fill="#d9a52a" stroke="#1d1a14" transform="rotate(-8 -19 5)"/>
+          <rect x="-10" y="-18" width="30" height="42" rx="4" fill="#2f6fb5" stroke="#1d1a14"/>
+          <rect x="14" y="-16" width="30" height="42" rx="4" fill="#c23b2e" stroke="#1d1a14" transform="rotate(8 29 5)"/>
+          <rect x="38" y="-10" width="30" height="42" rx="4" fill="#3a8a4a" stroke="#1d1a14" transform="rotate(18 53 11)"/>
+        </g>
+        <!-- cat -->
+        <g transform="translate(300 192)" fill="#1d1a14"><ellipse cx="0" cy="0" rx="10" ry="7"/><circle cx="-9" cy="-8" r="6"/><path d="M-14 -12 l2 -7 l4 5z M-6 -13 l2 -6 l3 6z"/><path d="M9 -2 q10 -4 8 -14" stroke="#1d1a14" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li class="sep">การ์ด 5 สี</li>
+      <li><a href="#cards" style="--c:var(--k-grey)"><i></i>การ์ดทั้ง 5 สี</a></li>
+      <li><a href="#build" style="--c:var(--k-gold)"><i></i>สร้างชั้นมหาสิ่ง</a></li>
+      <li><a href="#science" style="--c:var(--k-green)"><i></i>วิทยาศาสตร์ & ความก้าวหน้า</a></li>
+      <li><a href="#war" style="--c:var(--k-red)"><i></i>ทหาร & สงคราม</a></li>
+      <li><a href="#cat" style="--c:var(--k-blue)"><i></i>การ์ดฟ้า & แมว</a></li>
+      <li class="sep">มหาสิ่ง & จบเกม</li>
+      <li><a href="#wonders">พลังมหาสิ่งทั้ง 7</a></li>
+      <li><a href="#progress">เหรียญความก้าวหน้าทั้ง 15</a></li>
+      <li><a href="#end">จบเกม & นับแต้ม</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#tool-setup">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#tool-build">ตัวเช็กสร้างชั้น</a></li>
+      <li><a href="#tool-score">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ</h3>
+        <ol>
+          <li><b>หยิบการ์ด 1 ใบ</b> จาก 3 ที่: ใบบนของสำรับ<b>ซ้าย</b> (หงาย) · สำรับ<b>ขวา</b> (หงาย) · <b>กองกลาง</b> (คว่ำ ต้องเสี่ยง)</li>
+          <li><b>วางการ์ดหน้าตัวเอง</b> แยกกองตามสี</li>
+          <li><b>ทำทุกอย่างที่ "ต้องทำ"</b> ถ้าวัตถุดิบพอ<b>ต้องสร้างชั้น</b> · ถ้าวิทยาศาสตร์ครบคู่/ครบชุด<b>ต้องรับเหรียญความก้าวหน้า</b> · ถ้าแตรพลิกโทเคนขัดแย้งครบ เกิด<b>สงคราม</b>ท้ายตา</li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="ที่มาของแต้ม">
+        <div class="fm"><small>ชั้นมหาสิ่งที่สร้างแล้ว</small><b>แต้มที่พิมพ์บนชั้น</b></div>
+        <div class="fm"><small>การ์ดฟ้า</small><b>แต้มบนการ์ด</b></div>
+        <div class="fm"><small>เหรียญชัยชนะทหาร</small><b>3 / เหรียญ</b></div>
+        <div class="fm"><small>ถือแมวตอนจบ</small><b>2</b></div>
+        <div class="fm"><small>เหรียญความก้าวหน้า (บางแบบ)</small><b>ตามเหรียญ</b></div>
+      </div>
+      <p class="note">ไม่มีการ์ดในมือ ไม่มีการจ่ายเงิน ไม่มีการเลือกว่าจะสร้างหรือไม่สร้าง เกมเดินเร็วเพราะ<b>ทุกอย่างที่ทำได้ คือต้องทำ</b> · รายละเอียดแต้มดูที่ <a href="#end">จบเกม & นับแต้ม</a></p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชิ้นส่วน</th><th class="num">จำนวน</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr><td><b>การ์ด</b><br><span class="en">Cards</span></td><td class="num">235</td><td>หลังการ์ด 8 แบบ: สำรับประจำมหาสิ่ง 7 แบบ + กองกลาง 1 แบบ (หลังเครื่องหมายคำถาม)</td></tr>
+            <tr><td><b>มหาสิ่ง</b><br><span class="en">Wonders</span></td><td class="num">7 × 5 ชิ้น</td><td>มหาสิ่งละ 5 ชั้น แต่ละชั้นมีด้าน <b>กำลังสร้าง</b> กับด้าน <b>สร้างแล้ว</b></td></tr>
+            <tr><td><b>ที่วางสำรับ</b><br><span class="en">Card holders</span></td><td class="num">7</td><td>ใส่สำรับประจำมหาสิ่ง หงายหน้าขึ้น</td></tr>
+            <tr><td><b>ถาดเก็บ</b><br><span class="en">Trays</span></td><td class="num">8</td><td>ถาดละมหาสิ่ง 1 แบบ (ก้นถาดมีภาพวิธีประกอบ) + ถาดกองกลาง</td></tr>
+            <tr><td><b>เหรียญความก้าวหน้า</b><br><span class="en">Progress tokens</span></td><td class="num">15</td><td>รับเมื่อวิทยาศาสตร์ครบ ให้พลังพิเศษหรือแต้มท้ายเกม (14 แบบ วัฒนธรรมมี 2 อัน)</td></tr>
+            <tr><td><b>โทเคนขัดแย้ง</b><br><span class="en">Conflict tokens</span></td><td class="num">6</td><td>ด้านสันติ/ด้านสงคราม ใช้ 3–6 อันตามจำนวนผู้เล่น</td></tr>
+            <tr><td><b>เหรียญชัยชนะทหาร</b><br><span class="en">Military Victory tokens</span></td><td class="num">28</td><td>ได้จากการชนะสงคราม เหรียญละ 3 แต้ม</td></tr>
+            <tr><td><b>ตัวแมว</b><br><span class="en">Cat pawn</span></td><td class="num">1</td><td>ส่องการ์ดใบบนของกองกลางได้ และให้ 2 แต้มตอนจบ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกมหาสิ่ง</h3><p>แต่ละคนเลือก (หรือสุ่ม) ถาดมหาสิ่ง 1 ถาด หยิบชิ้นมหาสิ่ง 5 ชิ้นกับที่วางสำรับออกมา แล้ว<b>ประกอบมหาสิ่งตามภาพที่ก้นถาด</b> หงาย<b>ด้านกำลังสร้าง</b>ขึ้นทุกชั้น</p></div></li>
+        <li><div class="body"><h3>วางสำรับประจำตัวไว้ทางซ้าย</h3><p>สับการ์ดประจำมหาสิ่งของตัวเอง ใส่ที่วางสำรับ<b>หงายหน้า</b> แล้ววางไว้<b>ระหว่างตัวเองกับคนทางซ้าย</b> ทำให้ทุกคนมีสำรับข้างซ้าย 1 กอง ข้างขวา 1 กอง ใช้ร่วมกับเพื่อนข้าง ๆ</p></div></li>
+        <li><div class="body"><h3>กองกลาง</h3><p>สับการ์ดกองกลาง (หลังเครื่องหมายคำถาม) วาง<b>คว่ำ</b>กลางโต๊ะ เว้นที่ข้าง ๆ ไว้เป็นกองทิ้ง (หงาย)</p></div></li>
+        <li><div class="body"><h3>เหรียญความก้าวหน้า</h3><p>สับ 15 อันเป็นกองคว่ำ เปิด <b>3 อัน</b>หงายเรียงไว้ข้างกอง</p></div></li>
+        <li><div class="body"><h3>โทเคนขัดแย้ง</h3><p>ใช้ตามจำนวนผู้เล่น หงาย<b>ด้านสันติ</b>ทุกอัน ที่เหลือเก็บกล่อง</p>
+          <ul><li>2–3 คน: <b>3</b> อัน · 4 คน: <b>4</b> อัน · 5 คน: <b>5</b> อัน · 6–7 คน: <b>6</b> อัน</li></ul></div></li>
+        <li><div class="body"><h3>ของกลาง และคนเริ่ม</h3><p>เหรียญชัยชนะทหารกองไว้เป็นคลัง วางแมวไว้กลางโต๊ะ <b>คนอายุน้อยสุด</b>เริ่ม แล้ววนตามเข็มนาฬิกา</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 300" role="img" aria-label="ผัง 4 คน สำรับของแต่ละคนอยู่ทางซ้ายของเจ้าของ ทุกคนหยิบได้จากสำรับซ้าย ขวา และกองกลาง">
+          <rect x="140" y="20" width="360" height="260" rx="22" class="s-surface2"/>
+          <!-- center deck -->
+          <rect x="294" y="122" width="52" height="70" rx="6" class="s-fg"/>
+          <text x="320" y="166" text-anchor="middle" font-size="26" class="tagf" fill="var(--surface)">?</text>
+          <text x="320" y="212" text-anchor="middle" font-size="13" class="s-muted">กองกลาง (คว่ำ)</text>
+          <!-- players -->
+          <g class="tagf" font-size="14">
+            <circle cx="320" cy="296" r="0"/>
+            <text x="320" y="300" text-anchor="middle" class="s-fg">ฉัน</text>
+            <text x="110" y="156" text-anchor="end" class="s-fg">ซ้ายฉัน</text>
+            <text x="320" y="14" text-anchor="middle" class="s-fg">ฝั่งตรงข้าม</text>
+            <text x="530" y="156" class="s-fg">ขวาฉัน</text>
+          </g>
+          <!-- decks at corners (between each player and their left) -->
+          <g stroke="var(--fg)" stroke-width="1.5">
+            <rect x="170" y="200" width="44" height="60" rx="5" class="k-gold"/>
+            <rect x="170" y="44" width="44" height="60" rx="5" class="k-blue"/>
+            <rect x="426" y="44" width="44" height="60" rx="5" class="k-red"/>
+            <rect x="426" y="200" width="44" height="60" rx="5" class="k-green"/>
+          </g>
+          <g font-size="12" class="s-fg">
+            <text x="192" y="190" text-anchor="middle">สำรับของฉัน</text>
+            <text x="192" y="122" text-anchor="middle">ของซ้ายฉัน</text>
+            <text x="448" y="122" text-anchor="middle">ของตรงข้าม</text>
+            <text x="448" y="190" text-anchor="middle">ของขวาฉัน</text>
+          </g>
+          <!-- arrows from me -->
+          <g stroke="var(--accent-strong)" stroke-width="3" fill="none" stroke-linecap="round">
+            <path d="M300 268 Q250 262 220 246"/><path d="M340 268 Q390 262 420 246"/><path d="M320 262 V200"/>
+          </g>
+          <g class="s-acc"><path d="M216 242 l10 -2 l-4 9z"/><path d="M424 242 l-10 -2 l4 9z"/><path d="M314 204 l6 -9 l6 9z"/></g>
+          <text x="40" y="250" font-size="12.5" class="s-muted">ฉันหยิบได้ 3 ที่:</text>
+          <text x="40" y="268" font-size="12.5" class="s-muted">ซ้าย · ขวา · กองกลาง</text>
+        </svg></div>
+        <figcaption>ผัง 4 คน: สำรับของแต่ละคนวาง<b>ระหว่างเจ้าของกับคนทางซ้าย</b> ฉันจึงหยิบจากสำรับของตัวเอง (ข้างซ้าย) สำรับของคนขวามือ (ข้างขวา) หรือกองกลาง · เล่น 2 คนก็วางแบบเดียวกัน แต่ละคนมีสำรับ 1 กองอยู่คนละฝั่ง</figcaption>
+      </figure>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกการ์ด 1 ใบ <span class="en">Take a card</span></h3>
+          <ul>
+            <li>ใบบนของ<b>สำรับข้างซ้าย</b> หรือ<b>ข้างขวา</b> เห็นหน้าการ์ดก่อนหยิบ</li>
+            <li>ใบบนของ<b>กองกลาง</b> คว่ำอยู่ ไม่รู้ว่าได้อะไร (ยกเว้นคุณถือ<a href="#cat">แมว</a>)</li>
+            <li>สำรับไหนหมด ก็หมดไปจนจบเกม ไม่มีการเติม</li>
+          </ul></div></li>
+        <li><div class="body"><h3>วางหน้าตัวเอง</h3><p>หงายการ์ดไว้ข้างมหาสิ่ง ซ้อนสีเดียวกันเป็นแถวให้เห็นแถบด้านบนทุกใบ จะได้นับง่าย</p></div></li>
+        <li><div class="body"><h3>ทำสิ่งที่ "ต้องทำ" จนหมด <span class="en">Resolve</span></h3>
+          <ul>
+            <li>วัตถุดิบพอสร้างชั้นถัดไป → <b>ต้องสร้าง</b> (ดู <a href="#build">สร้างชั้นมหาสิ่ง</a>)</li>
+            <li>วิทยาศาสตร์ครบ 2 เหมือน หรือ 3 ต่าง → <b>ต้องรับ</b>เหรียญความก้าวหน้า (ดู <a href="#science">วิทยาศาสตร์</a>)</li>
+            <li>หยิบการ์ดแดงที่มีแตร → พลิกโทเคนขัดแย้ง ถ้าพลิกครบ → <b>สงคราม</b>ท้ายตา (ดู <a href="#war">สงคราม</a>)</li>
+            <li>หยิบการ์ดฟ้ามีรูปแมว → รับ<b>แมว</b>มา</li>
+            <li>ทำสลับลำดับได้ตามสะดวก และทำต่อเนื่องจนไม่มีอะไรต้องทำแล้ว จากนั้นตาของคนทางซ้าย</li>
+          </ul></div></li>
+      </ol>
+      <div class="callout blue">
+        <h3>ทริกที่คนเล่นใหม่มักพลาด</h3>
+        <ul>
+          <li>หยิบจากสำรับข้าง ๆ = <b>เลือกได้แต่เห็นกันหมด</b> · หยิบกองกลาง = <b>เสี่ยง</b> แต่ไม่เปิดใบใหม่ให้เพื่อนเห็น</li>
+          <li>หยิบใบบนสำรับข้าง ๆ ไปแล้ว ใบถัดไปจะเปิดให้<b>เพื่อนข้าง ๆ</b>เห็นด้วย ดูก่อนว่าเปิดอะไรให้เขา</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">ทำความรู้จัก</span><h2>การ์ดทั้ง 5 สี</h2></div>
+      <div class="types">
+        <div class="type" style="--c:var(--k-grey)"><h3><i class="dot" style="--c:var(--k-grey)"></i>เทา · วัตถุดิบ <span class="en">Materials</span></h3><p>5 ชนิด: <b>ไม้</b> <span class="en">Wood</span> · <b>อิฐ</b> <span class="en">Clay</span> · <b>หิน</b> <span class="en">Stone</span> · <b>กระดาษ</b> <span class="en">Papyrus</span> · <b>แก้ว</b> <span class="en">Glass</span></p><p>ใช้จ่ายสร้างชั้นมหาสิ่ง แล้วทิ้ง</p></div>
+        <div class="type" style="--c:var(--k-gold)"><h3><i class="dot" style="--c:var(--k-gold)"></i>เหลือง · ทอง <span class="en">Gold</span></h3><p><b>ตัวแทนวัตถุดิบอะไรก็ได้</b> 1 ใบ = 1 ชิ้น ใช้เติมส่วนที่ขาดตอนสร้างชั้น แล้วทิ้ง</p></div>
+        <div class="type" style="--c:var(--k-blue)"><h3><i class="dot" style="--c:var(--k-blue)"></i>ฟ้า · แต้ม <span class="en">Victory points</span></h3><p>แต้มพิมพ์บนการ์ด นับตอนจบเกม · ใบที่มี<b>รูปแมว</b>แต้มน้อยกว่าใบปกติ แต่ได้ตัวแมวมาทันที</p></div>
+        <div class="type" style="--c:var(--k-red)"><h3><i class="dot" style="--c:var(--k-red)"></i>แดง · ทหาร <span class="en">Military</span></h3><p>ให้<b>โล่</b>ไว้สู้สงคราม · บางใบมี<b>แตร 1–2 อัน</b> ที่ทำให้สงครามใกล้เข้ามา (พลิกโทเคนขัดแย้ง)</p></div>
+        <div class="type" style="--c:var(--k-green)"><h3><i class="dot" style="--c:var(--k-green)"></i>เขียว · วิทยาศาสตร์ <span class="en">Science</span></h3><p>แต่ละใบมีสัญลักษณ์วิทยาศาสตร์ 1 แบบ (มี 3 แบบ) · ครบ <b>2 เหมือน</b> หรือ <b>3 ต่าง</b> แลกเป็นเหรียญความก้าวหน้า</p></div>
+      </div>
+      <p class="note">สำรับประจำมหาสิ่งแต่ละแบบมีสัดส่วนสีไม่เท่ากัน ดูทรงแต่ละสำรับแล้วจะรู้ว่าข้างไหนน่าหยิบอะไร</p>
+    </section>
+
+    <!-- BUILD -->
+    <section id="build">
+      <div class="sec-head"><span class="tag">เป้าหมายหลัก</span><h2>สร้างชั้นมหาสิ่ง</h2></div>
+      <p class="prose">แต่ละชั้นที่ยังเป็นด้าน<b>กำลังสร้าง</b> พิมพ์เงื่อนไขไว้ว่าต้องใช้วัตถุดิบกี่ใบ และต้อง<b>เหมือนกัน (=)</b> หรือ<b>ต่างกัน (≠)</b></p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 230" role="img" aria-label="ตัวอย่างเงื่อนไข 2 เหมือน 3 ต่าง และการใช้ทองแทน">
+          <g class="tagf" font-size="15">
+            <!-- 2= -->
+            <rect x="10" y="14" width="190" height="44" rx="8" class="s-surface2"/>
+            <text x="105" y="42" text-anchor="middle" class="s-fg">ชั้นต้องการ 2 =</text>
+            <!-- 3≠ -->
+            <rect x="225" y="14" width="190" height="44" rx="8" class="s-surface2"/>
+            <text x="320" y="42" text-anchor="middle" class="s-fg">ชั้นต้องการ 3 ≠</text>
+            <rect x="440" y="14" width="190" height="44" rx="8" class="s-surface2"/>
+            <text x="535" y="42" text-anchor="middle" class="s-fg">ชั้นต้องการ 3 =</text>
+          </g>
+          <g stroke="var(--fg)" stroke-width="1.3" font-size="12" class="tagf">
+            <rect x="50" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="72" y="112" text-anchor="middle" fill="#fff" stroke="none">หิน</text>
+            <rect x="110" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="132" y="112" text-anchor="middle" fill="#fff" stroke="none">หิน</text>
+
+            <rect x="240" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="262" y="112" text-anchor="middle" fill="#fff" stroke="none">ไม้</text>
+            <rect x="298" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="320" y="112" text-anchor="middle" fill="#fff" stroke="none">แก้ว</text>
+            <rect x="356" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="378" y="112" text-anchor="middle" fill="#fff" stroke="none">อิฐ</text>
+
+            <rect x="455" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="477" y="112" text-anchor="middle" fill="#fff" stroke="none">ไม้</text>
+            <rect x="513" y="76" width="44" height="62" rx="5" class="k-grey"/><text x="535" y="112" text-anchor="middle" fill="#fff" stroke="none">ไม้</text>
+            <rect x="571" y="76" width="44" height="62" rx="5" class="k-gold"/><text x="593" y="112" text-anchor="middle" fill="#1d1a14" stroke="none">ทอง</text>
+          </g>
+          <g font-size="14" class="disp">
+            <text x="105" y="168" text-anchor="middle" class="s-good">✓ หิน 2 ใบ</text>
+            <text x="320" y="168" text-anchor="middle" class="s-good">✓ 3 ชนิดไม่ซ้ำ</text>
+            <text x="535" y="168" text-anchor="middle" class="s-good">✓ ทองแทนไม้ใบที่ 3</text>
+          </g>
+          <g font-size="12.5" class="s-muted">
+            <text x="105" y="192" text-anchor="middle">ไม้ + หิน ไม่ได้ (ไม่เหมือน)</text>
+            <text x="320" y="192" text-anchor="middle">ไม้ + ไม้ + อิฐ ไม่ได้ (ซ้ำ)</text>
+            <text x="535" y="192" text-anchor="middle">ทองเป็นอะไรก็ได้ 1 ชิ้น</text>
+            <text x="320" y="218" text-anchor="middle">ใช้การ์ดเท่าที่ต้องการพอดี ใบที่ไม่ได้ใช้เก็บไว้ต่อ</text>
+          </g>
+        </svg></div>
+        <figcaption>เงื่อนไขที่มีในกล่อง: <b>2 ≠ · 2 = · 3 ≠ · 3 = · 4 ≠</b> · การ์ดที่จ่ายไปลงกองทิ้ง</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>สร้างจากล่างขึ้นบน</h3><p>ชั้นหนึ่งสร้างได้เมื่อ<b>ชั้นที่อยู่ข้างใต้สร้างเสร็จหมดแล้ว</b> มหาสิ่งบางแบบมีชั้นที่วางเคียงกัน จึงเลือกได้ว่าจะสร้างชั้นไหนก่อน ดูภาพประกอบที่ก้นถาด</p></div></li>
+        <li><div class="body"><h3>จ่ายแล้วพลิก</h3><p>ทิ้งการ์ดเทา/เหลืองที่ใช้ลงกองทิ้ง แล้วพลิกชั้นนั้นเป็นด้าน<b>สร้างแล้ว</b> ซึ่งพิมพ์แต้มไว้ บางชั้นมี<b>ไอคอนพลังมหาสิ่ง</b> ให้ใช้พลังทันที (ดู <a href="#wonders">พลังมหาสิ่ง</a>)</p></div></li>
+        <li><div class="body"><h3>บังคับสร้าง และสร้างต่อได้ในตาเดียว</h3><p>วัตถุดิบพอเมื่อไร<b>ต้องสร้าง</b> เลี่ยงไม่ได้ · ถ้าสร้างแล้วยังพอสร้างชั้นถัดไปอีก ก็ต้องสร้างต่อในตาเดียวกัน</p></div></li>
+      </ol>
+      <div class="callout">
+        <h3>ทองใช้ยังไงให้ถูก</h3>
+        <ul>
+          <li>ทอง 1 ใบ = วัตถุดิบ 1 ชิ้นชนิดใดก็ได้ ใช้<b>เติมส่วนที่ขาด</b></li>
+          <li>เพราะการสร้างเป็นภาคบังคับ ถ้าทองช่วยให้ครบเงื่อนไขได้ ก็ต้องเอามาใช้สร้าง</li>
+          <li>มีเหรียญ <b>เศรษฐกิจ</b> = ทอง 1 ใบของคุณนับเป็น 2 · มีเหรียญ <b>วิศวกรรม</b> = ไม่ต้องสนเงื่อนไข = / ≠</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SCIENCE -->
+    <section id="science">
+      <div class="sec-head"><span class="tag">การ์ดเขียว</span><h2>วิทยาศาสตร์ และเหรียญความก้าวหน้า</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 170" role="img" aria-label="สัญลักษณ์เหมือนกัน 2 ใบ หรือต่างกัน 3 ใบ แลกเหรียญความก้าวหน้าได้ 1 อัน">
+          <defs>
+            <g id="sym-a"><circle r="10" fill="none" stroke="#fff" stroke-width="3"/><circle r="3" fill="#fff"/></g>
+            <g id="sym-b"><path d="M-9 8 L0 -10 L9 8Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></g>
+            <g id="sym-c"><rect x="-8" y="-9" width="16" height="18" rx="2" fill="none" stroke="#fff" stroke-width="3"/><path d="M-4 -3 h8 M-4 3 h8" stroke="#fff" stroke-width="2"/></g>
+          </defs>
+          <g stroke="var(--fg)" stroke-width="1.3">
+            <rect x="30" y="20" width="56" height="78" rx="6" class="k-green"/><rect x="100" y="20" width="56" height="78" rx="6" class="k-green"/>
+            <rect x="330" y="20" width="56" height="78" rx="6" class="k-green"/><rect x="400" y="20" width="56" height="78" rx="6" class="k-green"/><rect x="470" y="20" width="56" height="78" rx="6" class="k-green"/>
+          </g>
+          <use href="#sym-a" x="58" y="50"/><use href="#sym-a" x="128" y="50"/>
+          <use href="#sym-a" x="358" y="50"/><use href="#sym-b" x="428" y="50"/><use href="#sym-c" x="498" y="50"/>
+          <g class="tagf" font-size="22" fill="var(--accent-strong)"><text x="186" y="66">→</text><text x="546" y="66">→</text></g>
+          <circle cx="240" cy="58" r="22" class="k-green" stroke="var(--fg)"/><text x="240" y="64" text-anchor="middle" font-size="15" fill="#fff" class="tagf">+1</text>
+          <circle cx="600" cy="58" r="22" class="k-green" stroke="var(--fg)"/><text x="600" y="64" text-anchor="middle" font-size="15" fill="#fff" class="tagf">+1</text>
+          <g font-size="14" class="disp s-fg"><text x="93" y="128" text-anchor="middle">2 ใบ สัญลักษณ์เหมือนกัน</text><text x="428" y="128" text-anchor="middle">3 ใบ สัญลักษณ์ต่างกันครบ 3 แบบ</text></g>
+          <text x="320" y="156" text-anchor="middle" font-size="12.5" class="s-muted">การ์ดเขียวที่ใช้แลก ทิ้งลงกองทิ้ง · ใบที่ไม่ได้ใช้เก็บไว้ต่อ</text>
+        </svg></div>
+        <figcaption>สัญลักษณ์ในภาพเป็นภาพแทน รูปจริงบนการ์ดต่างออกไป ให้ดูแค่ว่าเหมือนหรือต่าง</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>ครบเมื่อไร ต้องรับ</h3><p>มีสัญลักษณ์<b>เหมือนกัน 2</b> หรือ<b>ต่างกัน 3</b> → ทิ้งการ์ดเขียวชุดนั้น แล้วรับเหรียญความก้าวหน้า 1 อัน (บังคับ)</p></div></li>
+        <li><div class="body"><h3>เลือกจาก 4 ทาง</h3><p>เลือก 1 ใน <b>3 อันที่หงายอยู่</b> หรือหยิบ<b>อันบนสุดของกองคว่ำ</b>มาแบบไม่รู้ล่วงหน้า · ถ้าหยิบอันที่หงาย ให้เปิดจากกองมาเติมให้ครบ 3</p></div></li>
+        <li><div class="body"><h3>ใช้ผลทันที</h3><p>เหรียญที่เป็นพลังถาวรเริ่มทำงานทันที เหรียญที่ให้แต้มเก็บไว้นับตอนจบเกม · ดูครบทุกอันที่ <a href="#progress">เหรียญความก้าวหน้าทั้ง 15</a></p></div></li>
+      </ol>
+    </section>
+
+    <!-- WAR -->
+    <section id="war">
+      <div class="sec-head"><span class="tag">การ์ดแดง</span><h2>ทหาร และสงคราม</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 220" role="img" aria-label="โทเคนขัดแย้ง 3 อัน พลิกครบด้านสงครามแล้วเกิดสงครามท้ายตา">
+          <g font-size="13" class="tagf s-fg"><text x="20" y="24">เล่น 3 คน → โทเคนขัดแย้ง 3 อัน</text></g>
+          <!-- before -->
+          <g stroke="var(--fg)" stroke-width="1.5">
+            <circle cx="50" cy="70" r="22" class="s-surface"/><circle cx="104" cy="70" r="22" class="k-red"/><circle cx="158" cy="70" r="22" class="s-surface"/>
+          </g>
+          <g font-size="11" class="tagf" text-anchor="middle"><text x="50" y="74" class="s-fg">สันติ</text><text x="104" y="74" fill="#fff">สงคราม</text><text x="158" y="74" class="s-fg">สันติ</text></g>
+          <!-- card -->
+          <rect x="220" y="40" width="56" height="78" rx="6" class="k-red" stroke="var(--fg)" stroke-width="1.3"/>
+          <path d="M248 56 l12 5 v10 q0 12 -12 16 q-12 -4 -12 -16 v-10z" fill="#fff"/>
+          <g fill="#ffd56a" stroke="var(--fg)" stroke-width="1"><path d="M232 98 q8 -10 16 0 l-4 6 h-8z"/><path d="M252 98 q8 -10 16 0 l-4 6 h-8z"/></g>
+          <text x="248" y="136" text-anchor="middle" font-size="12.5" class="s-muted">แตร 2 อัน</text>
+          <text x="306" y="78" font-size="24" class="tagf" fill="var(--accent-strong)">→</text>
+          <!-- after -->
+          <g stroke="var(--fg)" stroke-width="1.5">
+            <circle cx="370" cy="70" r="22" class="k-red"/><circle cx="424" cy="70" r="22" class="k-red"/><circle cx="478" cy="70" r="22" class="k-red"/>
+          </g>
+          <g font-size="11" class="tagf" text-anchor="middle" fill="#fff"><text x="370" y="74">สงคราม</text><text x="424" y="74">สงคราม</text><text x="478" y="74">สงคราม</text></g>
+          <text x="560" y="66" font-size="16" class="disp s-bad">ครบ!</text><text x="540" y="86" font-size="13" class="s-fg">สงครามท้ายตา</text>
+          <!-- compare -->
+          <g font-size="13.5" class="s-fg">
+            <text x="20" y="170">ทุกคนเทียบโล่กับ<tspan class="disp">เพื่อนซ้าย</tspan> และ<tspan class="disp">เพื่อนขวา</tspan> แยกกัน · ชนะข้างไหน รับเหรียญชัยชนะ 1 อัน (3 แต้ม)</text>
+            <text x="20" y="196">จบสงคราม: ทิ้ง<tspan class="disp">การ์ดแดงที่มีแตร</tspan>ของทุกคน · การ์ดแดงไม่มีแตรอยู่ต่อ · พลิกโทเคนกลับเป็นสันติทั้งหมด</text>
+          </g>
+        </svg></div>
+        <figcaption>หยิบการ์ดแตร 2 อันตอนเหลือสันติแค่ 1 อัน ก็พลิกอันเดียว แตรที่เกินไม่มีผล</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type" style="--c:var(--k-red)"><h3>ก่อนสงคราม</h3><ul><li>หยิบการ์ดแดงมีแตร 1 อัน → พลิกโทเคน 1 อันเป็นด้านสงคราม · แตร 2 อัน → พลิก 2</li><li>การ์ดแดงไม่มีแตร ให้โล่อย่างเดียว ไม่เร่งสงคราม</li><li>พลิกอันสุดท้ายเมื่อไร สงครามเกิด<b>ท้ายตาของคนนั้น</b> (ทำเรื่องอื่นในตาให้เสร็จก่อน)</li></ul></div>
+        <div class="type" style="--c:var(--k-red)"><h3>เทียบโล่ (3 คนขึ้นไป)</h3><ul><li>รวมโล่บนการ์ดแดงทั้งหมด + โล่จาก<b>โรดส์</b> และเหรียญ<b>ยุทธวิธี</b></li><li>เทียบกับเพื่อน<b>ซ้าย</b>และ<b>ขวา</b>แยกกัน มากกว่าข้างไหนได้ 1 เหรียญ → ได้ 0, 1 หรือ 2 เหรียญต่อสงคราม</li><li><b>เท่ากัน = ไม่ได้</b></li></ul></div>
+        <div class="type" style="--c:var(--k-red)"><h3>เล่น 2 คน</h3><ul><li>โล่มากกว่าคู่แข่ง → ได้ <b>1</b> เหรียญ</li><li>โล่มาก<b>อย่างน้อย 2 เท่า</b>ของคู่แข่ง → ได้ <b>2</b> เหรียญ</li><li>เท่ากัน ไม่มีใครได้</li></ul></div>
+      </div>
+    </section>
+
+    <!-- CAT -->
+    <section id="cat">
+      <div class="sec-head"><span class="tag">การ์ดฟ้า</span><h2>การ์ดฟ้า และแมว</h2></div>
+      <div class="prose">
+        <p>การ์ดฟ้าให้แต้มตรง ๆ ตามตัวเลขบนการ์ด บางใบมี<b>รูปแมว</b> ใครหยิบใบมีแมว<b>เอาตัวแมวมาไว้หน้าตัวเองทันที</b> ไม่ว่าแมวอยู่กลางโต๊ะหรือหน้าใคร</p>
+      </div>
+      <div class="types">
+        <div class="type" style="--c:var(--k-blue)"><h3>พลังของแมว</h3><p>ตอนเริ่มตาของคุณ ถ้ามีแมว <b>แอบดูการ์ดใบบนของกองกลาง</b>ได้ ก่อนตัดสินใจว่าจะหยิบจากไหน</p></div>
+        <div class="type" style="--c:var(--k-blue)"><h3>แต้มของแมว</h3><p>ใครถือแมวตอนจบเกมได้ <b>2 แต้ม</b> · แมวย้ายมือได้เรื่อย ๆ ตลอดเกม</p></div>
+        <div class="type" style="--c:var(--k-blue)"><h3>คู่กับการเมือง</h3><p>เหรียญ<b>การเมือง</b>ให้ 1 แต้มต่อ<b>รูปแมวบนการ์ดฟ้า</b>ของคุณ (นับรูปบนการ์ด ไม่ใช่ตัวแมว)</p></div>
+      </div>
+    </section>
+
+    <!-- WONDERS -->
+    <section id="wonders">
+      <div class="sec-head"><span class="tag">ความต่างของแต่ละคน</span><h2>พลังมหาสิ่งทั้ง 7</h2></div>
+      <p class="prose">พลังของมหาสิ่งทำงาน<b>ตอนสร้างชั้นที่มีไอคอนพลัง</b>เสร็จ (ไม่ใช่ทุกชั้น) ใช้ทันทีครั้งเดียวต่อชั้น · แต้มของแต่ละชั้นพิมพ์อยู่บนด้านสร้างแล้ว</p>
+      <div class="wonders">
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><path d="M22 46 L24 18 h4 l2 28z" class="s-fg"/><circle cx="26" cy="13" r="5" class="k-gold"/></svg><h3>อเล็กซานเดรีย<span class="en">Alexandria</span></h3><p>หยิบการ์ดใบบนจาก<b>สำรับไหนก็ได้บนโต๊ะ</b> (รวมสำรับที่ไม่ได้อยู่ข้างคุณ และกองกลาง)</p></div>
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><path d="M8 44 h36 v-8 h-30 v-8 h24 v-8 h-18 v-8 h12" fill="none" stroke="var(--k-green)" stroke-width="4"/></svg><h3>บาบิโลน<span class="en">Babylon</span></h3><p>เลือกเหรียญความก้าวหน้า 1 อัน จาก 4 ทาง (3 อันที่หงาย หรืออันบนของกองคว่ำ)</p></div>
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><path d="M10 22 L26 10 L42 22Z" class="s-fg"/><g class="s-fg"><rect x="13" y="24" width="4" height="18"/><rect x="21" y="24" width="4" height="18"/><rect x="29" y="24" width="4" height="18"/><rect x="37" y="24" width="4" height="18"/></g></svg><h3>เอเฟซัส<span class="en">Ephesus</span></h3><p>หยิบการ์ดใบบนของ<b>กองกลาง</b>เพิ่ม 1 ใบ</p></div>
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><path d="M6 44 L26 10 L46 44Z" class="k-gold"/></svg><h3>กีซา<span class="en">Giza</span></h3><p><b>ไม่มีพลังพิเศษ</b> แต่ชั้นต่าง ๆ ให้<b>แต้มมากกว่า</b>มหาสิ่งอื่น เหมาะกับสายรีบสร้าง</p></div>
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><rect x="12" y="30" width="28" height="14" class="s-fg"/><g class="s-fg"><rect x="14" y="20" width="3" height="10"/><rect x="21" y="20" width="3" height="10"/><rect x="28" y="20" width="3" height="10"/><rect x="35" y="20" width="3" height="10"/></g><path d="M12 20 L26 8 L40 20Z" class="k-gold"/></svg><h3>ฮาลิคาร์นัสซัส<span class="en">Halicarnassus</span></h3><p>หยิบ 5 ใบบนของสำรับ<b>ซ้ายหรือขวา</b> เลือกเก็บ 1 ใบ ที่เหลือ 4 ใบสับกลับเข้าสำรับนั้น</p></div>
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><circle cx="26" cy="20" r="9" fill="none" stroke="var(--k-gold)" stroke-width="4"/><path d="M16 46 l10 -16 l10 16" fill="none" stroke="var(--k-gold)" stroke-width="4"/></svg><h3>โอลิมเปีย<span class="en">Olympia</span></h3><p>หยิบใบบนของสำรับ<b>ซ้าย และ ขวา</b> อย่างละ 1 ใบ (ได้ 2 ใบ)</p></div>
+        <div class="wonder"><svg viewBox="0 0 52 52" aria-hidden="true"><rect width="52" height="52" rx="10" class="s-surface2"/><path d="M26 8 l14 6 v12 q0 14 -14 20 q-14 -6 -14 -20 v-12z" class="k-red"/></svg><h3>โรดส์<span class="en">Rhodes</span></h3><p>ได้ <b>+1 โล่</b> ถาวร นับรวมตอนเทียบสงคราม</p></div>
+      </div>
+      <p class="note">การ์ดที่ได้จากพลังมหาสิ่งเหมือนหยิบปกติทุกอย่าง เช่น ได้การ์ดแดงมีแตรก็พลิกโทเคน ได้วัตถุดิบครบก็ต้องสร้างต่อ</p>
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="progress">
+      <div class="sec-head"><span class="tag">การ์ดเขียว → เหรียญ</span><h2>เหรียญความก้าวหน้าทั้ง 15</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>เหรียญ</th><th class="num">จำนวน</th><th>ผล</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="3">ได้การ์ดเพิ่ม (หยิบเพิ่ม 1 ใบ จาก 3 ที่ที่หยิบได้ตามปกติ)</td></tr>
+            <tr><td><b>ผังเมือง</b><br><span class="en">Urbanism</span></td><td class="num">1</td><td>ทุกครั้งที่หยิบ<b>ไม้</b>หรือ<b>อิฐ</b></td></tr>
+            <tr><td><b>หัตถกรรม</b><br><span class="en">Crafts</span></td><td class="num">1</td><td>ทุกครั้งที่หยิบ<b>กระดาษ</b>หรือ<b>แก้ว</b></td></tr>
+            <tr><td><b>เครื่องประดับ</b><br><span class="en">Jewellery</span></td><td class="num">1</td><td>ทุกครั้งที่หยิบ<b>หิน</b>หรือ<b>ทอง</b></td></tr>
+            <tr><td><b>วิทยาศาสตร์</b><br><span class="en">Science</span></td><td class="num">1</td><td>ทุกครั้งที่หยิบ<b>การ์ดเขียว</b></td></tr>
+            <tr><td><b>โฆษณาชวนเชื่อ</b><br><span class="en">Propaganda</span></td><td class="num">1</td><td>ทุกครั้งที่หยิบ<b>การ์ดแดงที่มีแตร</b></td></tr>
+            <tr><td><b>สถาปัตยกรรม</b><br><span class="en">Architecture</span></td><td class="num">1</td><td>ทุกครั้งที่<b>สร้างชั้นมหาสิ่ง</b>เสร็จ</td></tr>
+            <tr class="grp"><td colspan="3">พลังถาวร</td></tr>
+            <tr><td><b>เศรษฐกิจ</b><br><span class="en">Economy</span></td><td class="num">1</td><td>การ์ดทองของคุณ 1 ใบนับเป็น <b>2 ทอง</b></td></tr>
+            <tr><td><b>วิศวกรรม</b><br><span class="en">Engineering</span></td><td class="num">1</td><td>ตอนสร้างชั้น ใช้วัตถุดิบอะไรก็ได้ <b>ไม่ต้องสนเงื่อนไขเหมือน/ต่าง</b> ขอแค่จำนวนครบ</td></tr>
+            <tr><td><b>ยุทธวิธี</b><br><span class="en">Tactics</span></td><td class="num">1</td><td><b>+2 โล่</b> ถาวร</td></tr>
+            <tr class="grp"><td colspan="3">แต้มตอนจบเกม</td></tr>
+            <tr><td><b>ตกแต่ง</b><br><span class="en">Decor</span></td><td class="num">1</td><td><b>4</b> แต้ม ถ้ามหาสิ่งยังสร้างไม่เสร็จ · <b>6</b> แต้ม ถ้าสร้างเสร็จแล้ว</td></tr>
+            <tr><td><b>การเมือง</b><br><span class="en">Politics</span></td><td class="num">1</td><td><b>1</b> แต้ม ต่อรูปแมวบนการ์ดฟ้าของคุณ</td></tr>
+            <tr><td><b>กลยุทธ์</b><br><span class="en">Strategy</span></td><td class="num">1</td><td><b>1</b> แต้ม ต่อเหรียญชัยชนะทหารที่มี (เพิ่มจาก 3 ปกติ)</td></tr>
+            <tr><td><b>การศึกษา</b><br><span class="en">Education</span></td><td class="num">1</td><td><b>2</b> แต้ม ต่อเหรียญความก้าวหน้าที่มี <b>รวมอันนี้ด้วย</b></td></tr>
+            <tr><td><b>วัฒนธรรม</b><br><span class="en">Culture</span></td><td class="num">2</td><td>มี 1 อัน = <b>4</b> แต้ม · มีครบ 2 อัน = <b>12</b> แต้ม</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">เหรียญหยิบเพิ่มทำงานต่อกันได้ เช่น มีผังเมือง หยิบไม้ แล้วการ์ดใบที่หยิบเพิ่มเป็นอิฐ ก็หยิบเพิ่มได้อีก 1 ใบ · ชื่อภาษาไทยของเหรียญแปลเองในคู่มือนี้</p>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และนับแต้ม</h2></div>
+      <div class="callout red">
+        <h3>เกมจบเมื่อไร</h3>
+        <p>มีคน<b>สร้างมหาสิ่งครบทั้ง 5 ชั้น</b> → เล่นตานั้นให้จบ (รวมสงครามท้ายตา ถ้ามี) แล้ว<b>จบเกมทันที</b> คนอื่นไม่ได้เล่นต่อจนครบรอบ</p>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>นับอะไร</th><th>แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><b>ชั้นมหาสิ่ง</b>ที่สร้างแล้ว</td><td>ตามตัวเลขบนแต่ละชั้น</td></tr>
+            <tr><td><b>การ์ดฟ้า</b></td><td>ตามตัวเลขบนการ์ด</td></tr>
+            <tr><td><b>เหรียญชัยชนะทหาร</b></td><td>3 / เหรียญ</td></tr>
+            <tr><td><b>แมว</b> (ถ้าถืออยู่)</td><td>2</td></tr>
+            <tr><td><b>เหรียญความก้าวหน้า</b>กลุ่มแต้ม</td><td>ตกแต่ง · การเมือง · กลยุทธ์ · การศึกษา · วัฒนธรรม (ดู <a href="#progress">ตาราง</a>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="formula">
+        <div class="fm"><small>แต้มเท่ากัน</small><b>สร้างชั้นได้มากกว่า ชนะ</b></div>
+        <div class="fm"><small>ยังเท่ากันอีก</small><b>ชนะร่วมกัน</b></div>
+      </div>
+      <p class="note">คนที่สร้างเสร็จ<b>ไม่ได้ชนะอัตโนมัติ</b> คนอื่นที่เก็บการ์ดฟ้าหรือเหรียญทหารเยอะชนะได้ · ใช้ <a href="#tool-score">สมุดคะแนน</a> ด้านล่างรวมแต้ม</p>
+    </section>
+
+    <!-- TOOL: SETUP -->
+    <section id="tool-setup">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <p class="prose">เลือกจำนวนผู้เล่น ได้จำนวนโทเคนขัดแย้ง และสุ่มมหาสิ่งให้ทุกคน (คนแรกในรายการนั่งเริ่ม แล้ววนตามเข็มนาฬิกา)</p>
+      <div class="tool">
+        <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="su-n"></div></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div class="co"><b id="su-conf">3</b><small>โทเคนขัดแย้ง (หงายสันติ)</small></div>
+          <div class="co"><b>3</b><small>เหรียญความก้าวหน้าหงาย</small></div>
+          <div class="co"><b>2</b><small>แต้มของแมวตอนจบ</small></div>
+        </div>
+        <div><button type="button" class="btn" id="su-roll">สุ่มมหาสิ่ง</button></div>
+        <div class="deal" id="su-out" aria-live="polite"></div>
+        <p class="note">เตือนความจำ: สำรับของแต่ละคนวางระหว่างตัวเองกับ<b>คนทางซ้าย</b> · คนอายุน้อยสุดเริ่ม</p>
+      </div>
+    </section>
+
+    <!-- TOOL: BUILD -->
+    <section id="tool-build">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวเช็กสร้างชั้น</h2></div>
+      <p class="prose">ใส่จำนวนการ์ดเทา/เหลืองที่มีอยู่ เลือกเงื่อนไขของชั้นถัดไป แล้วดูว่า<b>ต้องสร้างไหม</b>และควรจ่ายใบไหน</p>
+      <div class="tool">
+        <div><span class="field-l">เงื่อนไขของชั้นถัดไป</span><div class="seg" id="b-cost">
+          <button type="button" data-v="2d" aria-pressed="true">2 ≠</button>
+          <button type="button" data-v="2s" aria-pressed="false">2 =</button>
+          <button type="button" data-v="3d" aria-pressed="false">3 ≠</button>
+          <button type="button" data-v="3s" aria-pressed="false">3 =</button>
+          <button type="button" data-v="4d" aria-pressed="false">4 ≠</button>
+        </div></div>
+        <div class="inrow res-in" id="b-res"></div>
+        <div class="inrow">
+          <label class="chk"><input type="checkbox" id="b-eco"> มีเหรียญเศรษฐกิจ</label>
+          <label class="chk"><input type="checkbox" id="b-eng"> มีเหรียญวิศวกรรม</label>
+        </div>
+        <div class="result" id="b-box" aria-live="polite"><b id="b-out">–</b><span id="b-head"></span><small id="b-why"></small></div>
+      </div>
+    </section>
+
+    <!-- TOOL: SCORE -->
+    <section id="tool-score">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <p class="prose">กรอกตอนจบเกม แถวเหรียญความก้าวหน้าคิดให้อัตโนมัติ (กลยุทธ์ใช้จำนวนเหรียญทหาร การศึกษาใช้จำนวนเหรียญความก้าวหน้า) ผู้ชนะไฮไลต์สีเขียว ใช้ชั้นที่สร้างตัดสินถ้าแต้มเท่ากัน</p>
+      <div class="tool">
+        <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="sp-n"></div></div>
+        <div class="tbl-wrap"><table class="sp" id="sp"></table></div>
+        <div><button type="button" class="btn" id="sp-clear">ล้างสมุด</button></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details open><summary>วัตถุดิบพอแล้ว แต่อยากเก็บไว้ก่อน ไม่สร้างได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> ถ้าทำได้ต้องสร้างทันที และถ้าสร้างแล้วยังพอสำหรับชั้นถัดไป ก็ต้องสร้างต่อในตาเดียวกัน</p></details>
+        <details><summary>วิทยาศาสตร์ครบแล้ว ขอเก็บการ์ดเขียวไว้รอชุดที่ดีกว่าได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> ครบ 2 เหมือนหรือ 3 ต่างเมื่อไร ต้องแลกเหรียญทันที</p></details>
+        <details><summary>มีทองแล้วมีวัตถุดิบตรงอยู่ด้วย ต้องใช้อันไหนก่อน?</summary><p>ทองใช้<b>เติมส่วนที่ขาด</b> ปกติจ่ายวัตถุดิบตรงก่อน แล้วค่อยเอาทองเติมชิ้นที่ยังขาด</p></details>
+        <details><summary>สงครามเสมอกับเพื่อนข้าง ๆ ได้อะไร?</summary><p><span class="verdict no">ไม่ได้อะไร</span> ต้องมีโล่<b>มากกว่า</b>เท่านั้นถึงได้เหรียญ ทั้งสองคนไม่ได้</p></details>
+        <details><summary>หลังสงคราม การ์ดแดงทุกใบถูกทิ้งไหม?</summary><p><span class="verdict">ไม่</span> ทิ้งเฉพาะใบที่มี<b>แตร</b> ใบที่ไม่มีแตรอยู่ต่อไปช่วยสงครามครั้งหน้า · โล่จากโรดส์และยุทธวิธีอยู่ถาวร</p></details>
+        <details><summary>หยิบการ์ดแตร 2 อัน แต่โทเคนสันติเหลืออันเดียว?</summary><p>พลิกอันนั้นอันเดียว แตรที่เกินไม่มีผล แล้วสงครามเกิดท้ายตา</p></details>
+        <details><summary>สงครามเกิดตอนพลิก หรือตอนท้ายตา?</summary><p><span class="verdict">ท้ายตา</span> ทำทุกอย่างในตาให้เสร็จก่อน (สร้างชั้น รับเหรียญ หยิบเพิ่ม) แล้วค่อยเทียบโล่ ดังนั้นการ์ดแดงที่ได้เพิ่มในตานั้นนับด้วย</p></details>
+        <details><summary>แมวโดนแย่งไปแล้ว ได้แต้มไหม?</summary><p>แมวให้ 2 แต้มเฉพาะคนที่<b>ถืออยู่ตอนจบเกม</b> แต่รูปแมวบนการ์ดฟ้ายังอยู่กับคุณ นับให้เหรียญการเมืองได้</p></details>
+        <details><summary>คนสร้างเสร็จแล้ว คนอื่นได้เล่นต่อให้ครบรอบไหม?</summary><p><span class="verdict no">ไม่</span> จบท้ายตาของคนที่สร้างเสร็จทันที แล้วนับแต้ม</p></details>
+        <details><summary>สำรับข้างตัวหมดแล้ว ทำยังไง?</summary><p>สำรับที่หมดจะหมดไปตลอดเกม หยิบจากที่ที่ยังเหลือแทน</p></details>
+        <details><summary>เหรียญการศึกษานับตัวเองด้วยไหม?</summary><p><span class="verdict">นับ</span> 2 แต้มต่อเหรียญความก้าวหน้าทุกอัน รวมการศึกษาเอง</p></details>
+        <details><summary>วัฒนธรรม 2 อันได้ 8 หรือ 12?</summary><p><span class="verdict">12</span> มีครบคู่ได้ 12 รวม ไม่ใช่ 4 + 4</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>มหาสิ่ง <span class="en">Wonder</span></dt><dd>สิ่งมหัศจรรย์ประจำตัวผู้เล่น 5 ชั้น สร้างครบ = จบเกม</dd>
+        <dt>ชั้น <span class="en">Stage</span></dt><dd>ชิ้นส่วนของมหาสิ่ง มีด้านกำลังสร้าง (เงื่อนไข) กับด้านสร้างแล้ว (แต้ม/พลัง)</dd>
+        <dt>กองกลาง <span class="en">Central deck</span></dt><dd>กองการ์ดคว่ำกลางโต๊ะ หลังเครื่องหมายคำถาม</dd>
+        <dt>โล่ <span class="en">Shield</span></dt><dd>กำลังทหาร ใช้เทียบตอนสงคราม</dd>
+        <dt>แตร <span class="en">Horn</span></dt><dd>ไอคอนบนการ์ดแดงบางใบ พลิกโทเคนขัดแย้งเป็นด้านสงคราม</dd>
+        <dt>โทเคนขัดแย้ง <span class="en">Conflict token</span></dt><dd>ด้านสันติ/สงคราม พลิกครบเมื่อไรเกิดสงคราม</dd>
+        <dt>เหรียญชัยชนะทหาร <span class="en">Military Victory token</span></dt><dd>ได้จากชนะเพื่อนข้าง ๆ ในสงคราม เหรียญละ 3 แต้ม</dd>
+        <dt>เหรียญความก้าวหน้า <span class="en">Progress token</span></dt><dd>ได้จากวิทยาศาสตร์ครบชุด ให้พลังหรือแต้ม</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยจาก<b>คู่มือ 7 Wonders Architects ภาษาอังกฤษ (Repos Production / Asmodee)</b> เฉพาะเกมหลัก ไม่รวมภาคเสริม Medals ภาพประกอบวาดใหม่เพื่ออธิบายกติกา ไม่ใช่ภาพจากการ์ดจริง ชื่อเหรียญภาษาไทยแปลเอง ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="https://rulespal.com/7-wonders-architects/rulebook" target="_blank" rel="noopener">7 Wonders Architects Rulebook · RulesPal</a></li>
+      <li><a href="https://www.tesera.ru/images/items/1320719/7AR-EN01_RULES.pdf" target="_blank" rel="noopener">7AR-EN01 Rules (PDF ภาษาอังกฤษ)</a></li>
+      <li><a href="https://officialgamerules.org/game-rules/7-wonders-architects/" target="_blank" rel="noopener">Official 7 Wonders: Architects Rules · officialgamerules.org</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var WONDERS=["อเล็กซานเดรีย","บาบิโลน","เอเฟซัส","กีซา","ฮาลิคาร์นัสซัส","โอลิมเปีย","โรดส์"];
+  var POWER={"อเล็กซานเดรีย":"หยิบจากสำรับไหนก็ได้","บาบิโลน":"รับเหรียญความก้าวหน้า","เอเฟซัส":"หยิบจากกองกลาง","กีซา":"แต้มชั้นสูง ไม่มีพลัง","ฮาลิคาร์นัสซัส":"ดู 5 เลือก 1","โอลิมเปีย":"หยิบซ้าย + ขวา","โรดส์":"+1 โล่"};
+  function conf(n){return n<=3?3:n>=6?6:n;}
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+  function segPlayers(el,cur,on){
+    el.innerHTML="";
+    for(var i=2;i<=7;i++){var b=document.createElement("button");b.type="button";b.textContent=i+" คน";b.dataset.v=i;b.setAttribute("aria-pressed",i===cur?"true":"false");el.appendChild(b);}
+    el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;[].forEach.call(el.children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});on(+b.dataset.v);});
+  }
+
+  /* setup helper */
+  var suN=+(store("7wa-n")||4); if(!(suN>=2&&suN<=7))suN=4;
+  var suOut=document.getElementById("su-out");
+  function suRender(){document.getElementById("su-conf").textContent=conf(suN);}
+  function roll(){
+    var w=WONDERS.slice();for(var i=w.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=w[i];w[i]=w[j];w[j]=t;}
+    suOut.innerHTML="";
+    for(var p=0;p<suN;p++){var d=document.createElement("div");d.innerHTML="<small>ผู้เล่น "+(p+1)+(p===0?" · เริ่มก่อน":"")+"</small><b>"+w[p]+"</b><small>"+POWER[w[p]]+"</small>";suOut.appendChild(d);}
+  }
+  segPlayers(document.getElementById("su-n"),suN,function(n){suN=n;store("7wa-n",String(n));suRender();suOut.innerHTML="";});
+  document.getElementById("su-roll").addEventListener("click",roll);
+  suRender();
+
+  /* build checker */
+  var RES=[["wood","ไม้","--k-grey"],["clay","อิฐ","--k-grey"],["stone","หิน","--k-grey"],["pap","กระดาษ","--k-grey"],["glass","แก้ว","--k-grey"],["gold","ทอง","--k-gold"]];
+  var resBox=document.getElementById("b-res");
+  RES.forEach(function(r){var l=document.createElement("label");l.innerHTML='<span class="field-l"><i class="dot" style="--c:var('+r[2]+')"></i>'+r[1]+'</span><input type="number" min="0" max="20" value="0" id="b-'+r[0]+'">';resBox.appendChild(l);});
+  var cost="2d";
+  document.getElementById("b-cost").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;cost=b.dataset.v;[].forEach.call(this.children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});check();});
+  function v(id){var n=parseInt(document.getElementById(id).value,10);return isNaN(n)||n<0?0:n;}
+  function check(){
+    var need=+cost[0], same=cost[1]==="s";
+    var names=RES.slice(0,5).map(function(r){return r[1];});
+    var cnt=RES.slice(0,5).map(function(r){return v("b-"+r[0]);});
+    var gold=v("b-gold"), eco=document.getElementById("b-eco").checked&&gold>0, eng=document.getElementById("b-eng").checked;
+    var goldVal=gold+(eco?1:0);
+    var ok=false, pay="", why="";
+    var total=cnt.reduce(function(a,b){return a+b;},0);
+    if(eng){
+      ok=total+goldVal>=need;
+      var useR=Math.min(total,need), gNeed=need-useR;
+      pay="วัตถุดิบ "+useR+" ใบ"+(gNeed>0?" + ทอง "+goldCards(gNeed,eco):"");
+      why="วิศวกรรม: ไม่สนเหมือน/ต่าง ขอแค่ครบ "+need+" ชิ้น";
+    }else if(same){
+      var mi=0;for(var i=1;i<5;i++)if(cnt[i]>cnt[mi])mi=i;
+      var m=cnt[mi]; ok=m+goldVal>=need;
+      var useS=Math.min(m,need), g2=need-useS;
+      pay=(useS>0?names[mi]+" "+useS+" ใบ":"")+(g2>0?(useS>0?" + ":"")+"ทอง "+goldCards(g2,eco):"");
+      why="ต้องการชนิดเดียวกัน "+need+" ชิ้น · มี"+(m>0?names[mi]+"มากสุด "+m+" ใบ":"วัตถุดิบ 0 ใบ")+" · ทองนับได้ "+goldVal;
+    }else{
+      var have=[];for(var k=0;k<5;k++)if(cnt[k]>0)have.push(names[k]);
+      var d=have.length; ok=d+goldVal>=need;
+      var useD=have.slice(0,Math.min(d,need)), g3=need-useD.length;
+      pay=(useD.length?useD.join(" + "):"")+(g3>0?(useD.length?" + ":"")+"ทอง "+goldCards(g3,eco):"");
+      why="ต้องการต่างกัน "+need+" ชนิด · มี "+d+" ชนิด"+(d?" ("+have.join(" ")+")":"")+" · ทองนับได้ "+goldVal;
+    }
+    var box=document.getElementById("b-box");
+    box.className="result "+(ok?"ok":"no");
+    document.getElementById("b-out").textContent=ok?"ต้องสร้าง":"ยังไม่ได้";
+    document.getElementById("b-head").textContent=ok?"จ่าย: "+pay:"ยังขาดอีก "+short(need,same,eng,cnt,goldVal)+" ชิ้น";
+    document.getElementById("b-why").textContent=why+(ok?" · สร้างแล้วถ้ายังพอสำหรับชั้นถัดไป ต้องสร้างต่อ":"");
+  }
+  function goldCards(n,eco){ if(!eco) return n+" ใบ"; var cards=Math.max(1,n-1); return cards+" ใบ (มีใบที่นับเป็น 2)"; }
+  function short(need,same,eng,cnt,gv){
+    var base;
+    if(eng) base=cnt.reduce(function(a,b){return a+b;},0);
+    else if(same) base=Math.max.apply(null,cnt);
+    else base=cnt.filter(function(x){return x>0;}).length;
+    return Math.max(0,need-Math.min(need,base)-gv);
+  }
+  resBox.addEventListener("input",check);
+  document.getElementById("b-eco").addEventListener("change",check);
+  document.getElementById("b-eng").addEventListener("change",check);
+  check();
+
+  /* score pad */
+  var ROWS=[
+    {k:"wonder",l:"ชั้นมหาสิ่ง",s:"รวมแต้มบนชั้นที่สร้างแล้ว",t:"n"},
+    {k:"blue",l:"การ์ดฟ้า",s:"รวมแต้มบนการ์ด",t:"n"},
+    {k:"cat",l:"ถือแมว",s:"2 แต้ม",t:"c"},
+    {k:"mil",l:"เหรียญชัยชนะทหาร",s:"ใส่จำนวนเหรียญ × 3",t:"n"},
+    {k:"prog",l:"เหรียญความก้าวหน้าที่มี",s:"ใส่จำนวนทุกอัน (ใช้กับการศึกษา) ไม่ได้แต้มเอง",t:"n",nos:1},
+    {k:"decor",l:"ตกแต่ง",s:"ยังไม่เสร็จ 4 · เสร็จ 6",t:"s",o:[["0","ไม่มี"],["4","มี · ยังไม่เสร็จ"],["6","มี · เสร็จแล้ว"]]},
+    {k:"pol",l:"การเมือง",s:"ใส่จำนวนรูปแมวบนการ์ดฟ้า (ถ้ามีเหรียญนี้)",t:"n"},
+    {k:"strat",l:"กลยุทธ์",s:"+1 ต่อเหรียญทหาร",t:"c"},
+    {k:"edu",l:"การศึกษา",s:"2 × เหรียญความก้าวหน้าที่มี",t:"c"},
+    {k:"cult",l:"วัฒนธรรม",s:"1 อัน 4 · 2 อัน 12",t:"s",o:[["0","0 อัน"],["4","1 อัน"],["12","2 อัน"]]},
+    {k:"stages",l:"ชั้นที่สร้างแล้ว",s:"ใช้ตัดสินเมื่อแต้มเท่ากัน",t:"n",nos:1}
+  ];
+  var spN=+(store("7wa-spn")||suN); if(!(spN>=2&&spN<=7))spN=4;
+  var data; try{data=JSON.parse(store("7wa-sp")||"null");}catch(e){data=null;}
+  if(!data||!data.p)data={p:[]};
+  for(var i=0;i<7;i++)if(!data.p[i])data.p[i]={name:"ผู้เล่น "+(i+1)};
+  var sp=document.getElementById("sp");
+  function pts(p,r){
+    var x=p[r.k];
+    switch(r.k){
+      case "cat":return x?2:0;
+      case "mil":return (+x||0)*3;
+      case "strat":return x?(+p.mil||0):0;
+      case "edu":return x?2*(+p.prog||0):0;
+      case "decor":case "cult":return +x||0;
+      default:return r.nos?0:(+x||0);
+    }
+  }
+  function build(){
+    var h="<thead><tr><th>หมวด</th>";
+    for(var i=0;i<spN;i++)h+='<th><input type="text" data-p="'+i+'" data-k="name" value="'+esc(data.p[i].name)+'" aria-label="ชื่อผู้เล่น '+(i+1)+'"></th>';
+    h+="</tr></thead><tbody>";
+    ROWS.forEach(function(r){
+      h+="<tr><td><b>"+r.l+"</b><small>"+r.s+"</small></td>";
+      for(var i=0;i<spN;i++){
+        var val=data.p[i][r.k];
+        var lab=' aria-label="'+r.l+' '+esc(data.p[i].name)+'"';
+        if(r.t==="n")h+='<td><input type="number" min="0" max="200" data-p="'+i+'" data-k="'+r.k+'" value="'+(val||"")+'"'+lab+'></td>';
+        else if(r.t==="c")h+='<td><input type="checkbox" class="chk" style="width:20px;height:20px;accent-color:var(--accent-strong)" data-p="'+i+'" data-k="'+r.k+'"'+(val?" checked":"")+lab+'></td>';
+        else{h+='<td><select data-p="'+i+'" data-k="'+r.k+'"'+lab+'>';r.o.forEach(function(o){h+='<option value="'+o[0]+'"'+(String(val||"0")===o[0]?" selected":"")+'>'+o[1]+'</option>';});h+="</select></td>";}
+      }
+      h+="</tr>";
+    });
+    h+='<tr class="total"><td>รวม</td>';
+    for(var j=0;j<spN;j++)h+='<td id="sp-t'+j+'">0</td>';
+    h+="</tr></tbody>";
+    sp.innerHTML=h;
+    total();
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function total(){
+    var tots=[];
+    for(var i=0;i<spN;i++){var t=0;ROWS.forEach(function(r){t+=pts(data.p[i],r);});tots.push(t);}
+    var best=Math.max.apply(null,tots), any=tots.some(function(x){return x>0;});
+    var cands=[];tots.forEach(function(t,i){if(t===best)cands.push(i);});
+    if(cands.length>1){var ms=Math.max.apply(null,cands.map(function(i){return +data.p[i].stages||0;}));cands=cands.filter(function(i){return (+data.p[i].stages||0)===ms;});}
+    tots.forEach(function(t,i){var c=document.getElementById("sp-t"+i);c.textContent=t;c.className=any&&cands.indexOf(i)>=0?"win":"";c.title=any&&cands.indexOf(i)>=0?(cands.length>1?"ชนะร่วม":"ผู้ชนะ"):"";});
+  }
+  sp.addEventListener("input",function(e){var el=e.target,p=el.dataset.p,k=el.dataset.k;if(p===undefined)return;data.p[p][k]=el.type==="checkbox"?el.checked:el.value;store("7wa-sp",JSON.stringify(data));total();});
+  sp.addEventListener("change",function(e){var el=e.target;if(el.type==="checkbox"||el.tagName==="SELECT"){data.p[el.dataset.p][el.dataset.k]=el.type==="checkbox"?el.checked:el.value;store("7wa-sp",JSON.stringify(data));total();}});
+  segPlayers(document.getElementById("sp-n"),spN,function(n){spN=n;store("7wa-spn",String(n));build();});
+  document.getElementById("sp-clear").addEventListener("click",function(){data={p:[]};for(var i=0;i<7;i++)data.p[i]={name:"ผู้เล่น "+(i+1)};store("7wa-sp",JSON.stringify(data));build();});
+  build();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,900 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cryptid ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@500;600&family=Sarabun:wght@400;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: misty lake-night header with a drawn hex map, then a field-notebook reading column with a sticky chapter rail; maps are drawn from one shared demo map; clue viewer, clue tracker, hint lookup and vocabulary sit near the end. */
+:root{
+  --bg:#edf2f0;
+  --surface:#ffffff;
+  --surface-2:#dfe8e5;
+  --fg:#15211f;
+  --muted:#52625e;
+  --line:#c6d3cf;
+  --accent:#16685f;
+  --accent-soft:#d8ebe6;
+  --night-1:#0c1f22;
+  --night-2:#1d4a47;
+  --band-fg:#eef5f2;
+  --moon:#f1d7a3;
+  --warn-soft:#f7e8cf;
+  --bad-soft:#f5dcd8;
+  --good:#22804e; --bad:#b63a2e;
+  --t-w:#4c8fc6; --t-d:#e2c069; --t-m:#9c9fa3; --t-f:#3e8a4c; --t-s:#7d5c93;
+  --bear:#1d1d1d; --cougar:#c3352b;
+  --st-white:#f4f4f0; --st-green:#2f9a55; --st-blue:#2d62c4; --st-black:#202020;
+  --p1:#e07b24; --p2:#8a4fc2; --p3:#1aa3a3; --p4:#c23b61; --p5:#7a5a2e;
+  --font-display:"Mitr","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1514;--surface:#15201f;--surface-2:#1f2d2b;--fg:#e4eeeb;--muted:#9fb2ad;--line:#2b3c39;
+    --accent:#6fd0bf;--accent-soft:#163430;--night-1:#050d0e;--night-2:#133533;
+    --warn-soft:#3a2f17;--bad-soft:#3b1d1a;--good:#5ccd8a;--bad:#ff7b6c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1514;--surface:#15201f;--surface-2:#1f2d2b;--fg:#e4eeeb;--muted:#9fb2ad;--line:#2b3c39;
+  --accent:#6fd0bf;--accent-soft:#163430;--night-1:#050d0e;--night-2:#133533;
+  --warn-soft:#3a2f17;--bad-soft:#3b1d1a;--good:#5ccd8a;--bad:#ff7b6c;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.7rem}
+h3{font-size:1.12rem;font-weight:500}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:radial-gradient(circle at 86% 4%,rgba(241,215,163,.35) 0 7%,transparent 26%),radial-gradient(ellipse at 20% 120%,rgba(111,208,191,.22),transparent 60%),linear-gradient(175deg,var(--night-1) 0%,var(--night-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.6rem,7vw,4.4rem);margin-top:4px;letter-spacing:.12em;font-weight:500}
+.hero h1 span{display:block;font-size:.36em;letter-spacing:.01em;color:var(--moon);margin-top:2px}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--moon);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:440px;margin-inline:auto}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.86em;color:var(--muted);font-style:normal}
+.say{font-family:var(--font-tag);font-size:.82em;color:var(--accent);white-space:nowrap}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.warn{background:var(--warn-soft)} .callout.bad{background:var(--bad-soft)}
+.callout h3{font-size:1.06rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--warn-soft);color:var(--fg);border:1px solid var(--t-d)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-acc{fill:var(--accent)}
+.k-line{stroke:var(--line)} .k-fg{stroke:var(--fg)} .k-muted{stroke:var(--muted)} .k-acc{stroke:var(--accent)}
+.s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+
+/* cards */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.sw{width:16px;height:16px;border-radius:4px;display:inline-block;flex:none;border:1px solid rgba(0,0,0,.15)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--night-2);color:var(--moon);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.06rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+td .enl{font-family:var(--font-tag);font-size:.86rem;color:var(--muted)}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.12rem}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--night-2);border-color:var(--night-2);color:var(--moon)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.sel,.txt{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 10px;min-height:38px;max-width:100%}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.status{font-family:var(--font-tag);font-weight:600;font-size:1rem}
+.status b{color:var(--accent);font-size:1.3rem;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.mapbox{overflow-x:auto}
+.mapbox svg{display:block;width:100%;min-width:520px;height:auto}
+.mapbox svg .hx{cursor:default}
+.ex-toggle{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.ex-toggle label{display:flex;gap:10px;align-items:flex-start;background:var(--surface-2);border-radius:12px;padding:10px 12px;cursor:pointer;min-width:0}
+.ex-toggle input{width:20px;height:20px;accent-color:var(--accent);flex:none;margin-top:3px}
+.ex-toggle .pc{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:4px}
+
+/* tracker */
+.trk-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.trk{min-width:560px;font-size:.93rem}
+.trk th,.trk td{padding:6px 8px;vertical-align:middle}
+.trk td.c{text-align:center}
+.trk input[type=text]{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;width:100%;min-width:64px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 6px;text-align:center}
+.trk .x{width:38px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;font-family:var(--font-tag);font-weight:600;font-size:1rem}
+.trk .x[aria-pressed="true"]{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.trk tr.grp td{background:var(--surface-2);font-family:var(--font-tag);font-weight:600;font-size:.82rem;color:var(--muted);letter-spacing:.04em}
+.trk tr.cnt td{font-family:var(--font-tag);font-weight:600;background:var(--accent-soft)}
+.trk tr.cnt td b{font-size:1.15rem;color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* hint lookup */
+.hint-out{background:var(--night-2);color:var(--band-fg);border-radius:14px;padding:16px 18px;font-size:1.1rem;min-height:3.5em;display:flex;align-items:center}
+.hint-out b{color:var(--moon)}
+.numin{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:1.2rem;width:96px;height:44px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;text-align:center;font-variant-numeric:tabular-nums}
+
+/* vocab */
+.vocab td:nth-child(1){font-family:var(--font-tag);font-weight:600;font-size:1rem;white-space:nowrap}
+.vocab td:nth-child(2){font-weight:700;color:var(--accent);white-space:nowrap}
+.vocab td.cat{font-size:.8rem;color:var(--muted);white-space:nowrap}
+.vocab tr.ph td:nth-child(1),.vocab tr.ph td:nth-child(2){white-space:normal}
+.vocab .empty{text-align:center;color:var(--muted)}
+
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.02rem;font-weight:500}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;font-size:.8rem;border-radius:999px;padding:1px 9px;margin-right:6px;white-space:nowrap}
+.v-yes{background:var(--accent-soft);color:var(--accent)} .v-no{background:var(--bad-soft);color:var(--bad)} .v-house{background:var(--warn-soft);color:var(--fg)}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .glow{animation:glow 5s ease-in-out infinite alternate}
+  @keyframes glow{from{opacity:.35}to{opacity:.9}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก (โหมดปกติ + โหมดขั้นสูง)</div>
+      <h1>CRYPTID<span>คริป-ทิด · ตามล่าถิ่นที่อยู่ของสัตว์ลึกลับ</span></h1>
+      <p class="lede">ทุกคนเป็นนักล่าสัตว์ลึกลับที่รู้เบาะแสคนละ<b>ครึ่ง</b> แต่ละคนถือคำใบ้ลับ 1 ข้อ เช่น “ถิ่นที่อยู่อยู่ในระยะ 1 ช่องจากน้ำ” เอาคำใบ้ของทุกคนมารวมกันจะเหลือช่องบนแผนที่ที่เป็นไปได้<b>ช่องเดียว</b> คุณต้องถามคนอื่นเพื่อแกะคำใบ้ของเขา โดยเปิดเผยคำใบ้ของตัวเองให้น้อยที่สุด ใครค้นเจอช่องนั้นก่อนชนะ</p>
+      <div class="facts">
+        <div class="fact"><b>3–5</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>1</b><small>ช่องที่ถูกต้อง</small></div>
+        <div class="fact"><b>0</b><small>คะแนน · ใครเจอก่อนชนะ</small></div>
+        <div class="fact"><b>30–50</b><small>นาที</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg id="heroart" viewBox="0 0 440 300"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#love">รักหรือเกลียด</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#map">อ่านแผนที่</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ตาของคุณ</a></li>
+      <li><a href="#laws">กฎเหล็ก</a></li>
+      <li><a href="#clues">คำใบ้ทุกแบบ</a></li>
+      <li><a href="#advanced">โหมดขั้นสูง</a></li>
+      <li><a href="#win">การชนะ</a></li>
+      <li><a href="#example">ตัวอย่างไขปริศนา</a></li>
+      <li><a href="#tips">เคล็ดลับ</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#viewer">ดูคำใบ้บนแผนที่</a></li>
+      <li><a href="#tracker">ตัวตัดคำใบ้คู่แข่ง</a></li>
+      <li><a href="#hints">เปิดคำใบ้ช่วย (?)</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#vocab">ตารางคำศัพท์ + คำอ่าน</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ชิ้นส่วนบนแผนที่มีแค่ 2 แบบ</h3>
+        <ul>
+          <li><b>แผ่นกลม (Disc <span class="say">ดิสก์</span>)</b> = “ตามคำใบ้ของฉัน สัตว์<b>อาจอยู่</b>ช่องนี้” · ซ้อนกันได้หลายแผ่น</li>
+          <li><b>ลูกบาศก์ (Cube <span class="say">คิวบ์</span>)</b> = “ตามคำใบ้ของฉัน สัตว์<b>ไม่อยู่</b>ช่องนี้แน่นอน” · ช่องละไม่เกิน 1 ลูก</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <h3>เริ่มเกม แล้วผลัดกันเล่นตามเข็มนาฬิกา</h3>
+        <ol>
+          <li>ทุกคนวางลูกบาศก์คนละ 2 ลูก (วนโต๊ะ 2 รอบ) บนช่องที่คำใบ้ตัวเองบอกว่า “ไม่ใช่”</li>
+          <li>ในตาของคุณ เลือกทำ 1 อย่าง: <b>ถาม (Question)</b> คน 1 คนเรื่องช่อง 1 ช่อง หรือ <b>ค้น (Search)</b> ช่องที่คุณคิดว่าใช่</li>
+          <li>ทำให้ใครต้องวางลูกบาศก์ คุณต้อง<b>วางลูกบาศก์ของตัวเองเพิ่ม 1 ลูก</b> (ลูกบาศก์ลงโทษ) แปลว่าคุณต้องบอกข้อมูลเพิ่ม</li>
+          <li>ค้นแล้วทุกคนวางแผ่นกลมหมด = เจอแล้ว ชนะทันที</li>
+        </ol>
+      </div>
+      <div class="callout bad">
+        <h3>ห้ามโกหกเด็ดขาด</h3>
+        <p>ทั้งเกมพังถ้ามีคนวางผิด คุณ<b>อำพราง</b>ได้ (เลือกวางลูกบาศก์ให้คนอื่นเดาผิด) แต่ทุกชิ้นที่วางต้อง<b>ตรงกับคำใบ้</b>จริง</p>
+      </div>
+    </section>
+
+    <!-- LOVE / HATE -->
+    <section id="love">
+      <div class="sec-head"><span class="tag">ก่อนชวนเพื่อนเล่น</span><h2>ทำไมเกมนี้มีแต่คนรักหรือเกลียด</h2></div>
+      <div class="types">
+        <div class="type"><h3>คนที่รัก</h3><ul><li>ชอบเกมสืบสวน ตรรกะ ไขปริศนา</li><li>ชอบช่วงที่ “อ๋อ!” แกะคำใบ้คนอื่นได้จากลูกบาศก์ 2–3 ลูก</li><li>เกมสั้น กติกาน้อย แต่คิดได้ลึก</li><li>ไม่มีโชคเลย ชนะเพราะคิดเก่ง</li></ul></div>
+        <div class="type"><h3>คนที่เกลียด</h3><ul><li>ต้องเงียบคิดคนเดียว ไม่ค่อยคุยกัน</li><li>คนเดียววางผิด ทั้งโต๊ะเสียเกม</li><li>คนคิดเร็วชนะขาด มือใหม่ตามไม่ทัน</li><li>ไม่มีการบลัฟแบบหลอกตรง ๆ (คู่มือบอกเองว่าถ้าชอบบลัฟ เกมนี้อาจไม่เหมาะ)</li></ul></div>
+        <div class="type"><h3>ชวนมือใหม่ให้รอด</h3><ul><li>เกมแรกใช้<b>โหมดปกติ</b> (การ์ดขอบสีอ่อน)</li><li>ให้ทุกคนเปิด<a href="#viewer">ตัวดูคำใบ้</a> หรือหลังสมุดคำใบ้ดูรายการคำใบ้ทั้งหมด</li><li>มีกระดาษ-ดินสอจด</li><li>ตกลงกันก่อนว่าจะใช้<a href="#hints">คำใบ้ช่วย (?)</a> เมื่อติด</li></ul></div>
+      </div>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th class="num">จำนวน</th><th>ชิ้นส่วน</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr><td class="num">6</td><td><b>แผ่นแผนที่</b> <span class="enl">Map pieces</span></td><td>ต่อเป็นแผนที่ช่องหกเหลี่ยม แต่ละแผ่นมีเลขที่มุม ใช้ตอนต่อแผนที่ตามการ์ดเตรียมเกม</td></tr>
+            <tr><td class="num">4</td><td><b>หินตั้ง</b> <span class="enl">Standing stones</span></td><td>สิ่งก่อสร้าง สีขาว เขียว น้ำเงิน ดำ อย่างละ 1</td></tr>
+            <tr><td class="num">4</td><td><b>กระท่อมร้าง</b> <span class="enl">Abandoned shacks</span></td><td>สิ่งก่อสร้าง สีขาว เขียว น้ำเงิน ดำ อย่างละ 1</td></tr>
+            <tr><td class="num">1</td><td><b>หมาก Cryptid</b> <span class="enl">Cryptid pawn</span></td><td>วางชี้ช่องตอนถามหรือค้น</td></tr>
+            <tr><td class="num">5</td><td><b>ชุดชิ้นส่วนผู้เล่น</b></td><td>แผ่นกลม + ลูกบาศก์ สีละชุด</td></tr>
+            <tr><td class="num">5</td><td><b>สมุดคำใบ้</b> <span class="enl">Clue books α β γ δ ε</span></td><td>คนละเล่ม หาคำใบ้ลับของตัวเองตามเลขบนการ์ด หลังสมุดมีรายการคำใบ้ทุกแบบ</td></tr>
+            <tr><td class="num">54</td><td><b>การ์ดเตรียมเกม</b> <span class="enl">Setup cards</span></td><td>ขอบสีอ่อน = โหมดปกติ · ขอบดำ = โหมดขั้นสูง แต่ละใบคือโจทย์ 1 ข้อ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">โหมดปกติใช้สิ่งก่อสร้างแค่ 3 สี (ขาว เขียว น้ำเงิน) สีดำใช้เฉพาะโหมดขั้นสูง · ทุกโจทย์ในกล่องออกแบบให้ได้คำตอบช่องเดียวเสมอ</p>
+    </section>
+
+    <!-- MAP -->
+    <section id="map">
+      <div class="sec-head"><span class="tag">สิ่งที่คำใบ้อ้างถึง</span><h2>อ่านแผนที่</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="legendart" viewBox="0 0 700 250" role="img" aria-label="ภูมิประเทศ 5 แบบ เขตสัตว์ 2 แบบ และสิ่งก่อสร้าง 2 แบบ 4 สี"></svg></div>
+        <figcaption>ภาพวาดอธิบาย สีและลวดลายบนแผ่นจริงต่างจากนี้เล็กน้อย</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ภูมิประเทศ 5 แบบ</h3><p>ทุกช่องเป็นภูมิประเทศ 1 แบบ: <b>น้ำ</b> <span class="en">Water</span>, <b>ทะเลทราย</b> <span class="en">Desert</span>, <b>ภูเขา</b> <span class="en">Mountain</span>, <b>ป่า</b> <span class="en">Forest</span>, <b>บึง</b> <span class="en">Swamp</span></p></div>
+        <div class="type"><h3>เขตสัตว์ 2 แบบ</h3><p>บางช่องเป็นเขตของ<b>หมี</b> <span class="en">Bear</span> หรือ<b>เสือคูการ์</b> <span class="en">Cougar</span> ดูจากเส้นขอบรอบกลุ่มช่อง และไอคอนหัวหมีหรือรอยเท้าเสือ ช่องนั้นยังมีภูมิประเทศตามปกติ</p></div>
+        <div class="type"><h3>สิ่งก่อสร้าง 2 แบบ × 4 สี</h3><p><b>หินตั้ง</b> (ทรงแปดเหลี่ยม) และ<b>กระท่อมร้าง</b> (ทรงสามเหลี่ยม) สีขาว เขียว น้ำเงิน (+ ดำในโหมดขั้นสูง) วางบนช่องตามการ์ดเตรียมเกม</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="cardart" viewBox="0 0 700 270" role="img" aria-label="การ์ดเตรียมเกมด้านหน้าเป็นผังแผนที่ ด้านหลังเป็นตารางเลขคำใบ้"></svg></div>
+        <figcaption>ตัวเลขในภาพแต่งขึ้นเพื่ออธิบาย · ด้านหน้า: เลขแผ่นแผนที่ + จุดบอกทิศ และตำแหน่งสิ่งก่อสร้าง · ด้านหลัง: แถวตามจำนวนผู้เล่น คอลัมน์ตามสมุด α β γ δ ε และคอลัมน์ “?” คือเลขคำใบ้ช่วย</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกโหมด แล้วสุ่มการ์ด 1 ใบ</h3><p>แจกชุดแผ่นกลม+ลูกบาศก์ให้ทุกคน เลือกผู้เล่นคนแรก (คู่มือแนะนำให้คนที่จัดโต๊ะเป็นคนแรก) สับการ์ดของโหมดที่เลือก (ขอบสีอ่อน = ปกติ, ขอบดำ = ขั้นสูง) จั่วมา 1 ใบ</p></div></li>
+        <li><div class="body"><h3>ต่อแผนที่ตามด้านหน้าการ์ด</h3>
+          <ul><li>เลขซ้าย-ขวาของผัง = เลขแผ่นแผนที่และตำแหน่ง (ผังเป็น 2 คอลัมน์ × 3 แถว)</li><li><b>จุดที่มุมแผ่น</b>ในผังบอกทิศ ให้หมุนแผ่นจริงให้จุดที่มุมอยู่ด้านเดียวกัน</li><li>วางหินตั้งและกระท่อมร้างตามตำแหน่งในผัง แล้ว<b>ตรวจกันอีกรอบ</b> ต่อผิดช่องเดียวโจทย์อาจไม่มีคำตอบ</li></ul></div></li>
+        <li><div class="body"><h3>พลิกการ์ด แจกสมุดคำใบ้</h3><p>ดูแถวที่ตรงกับจำนวนผู้เล่น (3, 4 หรือ 5) แจกสมุดเรียงตัวอักษรกรีก เริ่มจากผู้เล่นคนแรก: คนแรกได้ <b>α</b> คนถัดไปทางซ้ายได้ <b>β</b> แล้ว <b>γ</b> <b>δ</b> <b>ε</b> แต่ละคนเปิดสมุดของตัวเองหาเลขที่อยู่ในช่องตรงแถว×คอลัมน์ของตน นั่นคือคำใบ้ลับ</p>
+          <ul><li>อย่าให้ใครเห็นสมุดหรือเลขของคุณ</li></ul></div></li>
+        <li><div class="body"><h3>แบ่งปันข้อมูลรอบแรก (ลูกบาศก์เริ่มเกม)</h3><p>ผู้เล่นคนแรกวาง<b>ลูกบาศก์</b> 1 ลูกบนช่องที่คำใบ้ตัวเองบอกว่าไม่ใช่ แล้ววนตามลำดับ จนทุกคนวางครบ<b>คนละ 2 ลูก</b></p>
+          <ul><li>วางบนช่องที่มีสิ่งก่อสร้างได้</li><li>ช่องที่มีลูกบาศก์อยู่แล้ว (ของใครก็ตาม) วางซ้ำไม่ได้</li></ul></div></li>
+        <li><div class="body"><h3>เริ่มเล่น</h3><p>ผู้เล่นคนแรกเริ่มตาแรก แล้วเล่นต่อไปทางซ้าย (ตามเข็มนาฬิกา)</p></div></li>
+      </ol>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">ทุกตา</span><h2>ตาของคุณ: ถาม หรือ ค้น</h2></div>
+      <div class="types">
+        <div class="type"><h3>ถาม <span class="en">Question · เควส-ชั่น</span></h3><p>ใช้เก็บข้อมูลคำใบ้ของคนอื่น</p></div>
+        <div class="type"><h3>ค้น <span class="en">Search · เซิร์ช</span></h3><p>ใช้เมื่อมั่นใจว่าเจอช่องนั้นแล้ว ค้นผิดก็ยังได้ข้อมูล แต่ต้องเสียข้อมูลเหมือนกัน</p></div>
+      </div>
+
+      <h3>ถาม <span class="en">Question</span></h3>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="qart" viewBox="0 0 700 230" role="img" aria-label="ถามผู้เล่นคนหนึ่ง ตอบด้วยแผ่นกลมหรือลูกบาศก์ ถ้าเป็นลูกบาศก์ผู้ถามต้องวางลูกบาศก์ลงโทษ"></svg></div>
+        <figcaption>ถามได้ทีละคน · ตอบ “ไม่” = ผู้ถามเสียลูกบาศก์ลงโทษ 1 ลูก</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>วางหมาก Cryptid บนช่องใดก็ได้</h3><p>ช่องที่คำใบ้ของคุณเองบอกว่าไม่ใช่ก็ได้ (คู่มือบอกว่าบางทีเป็นทางที่ดีในการทำให้คู่แข่งหลงทาง) <b>ยกเว้น</b>ช่องที่มีลูกบาศก์อยู่แล้ว</p></div></li>
+        <li><div class="body"><h3>เลือกถาม 1 คน</h3><p>พูดว่า <b>“Could the creature be here?”</b> <span class="say">คุด เดอะ ครี-เชอร์ บี เฮียร์?</span> หรือภาษาไทย “สัตว์อยู่ช่องนี้ได้ไหม”</p></div></li>
+        <li><div class="body"><h3>คนที่ถูกถามตอบด้วยชิ้นส่วน</h3>
+          <ul><li>ตามคำใบ้ของเขา อยู่ได้ → วาง<b>แผ่นกลม</b>ของเขา</li><li>อยู่ไม่ได้ → วาง<b>ลูกบาศก์</b>ของเขา แล้ว<b>คุณ</b>ต้องวางลูกบาศก์ของคุณ 1 ลูกบนช่องใดก็ได้ที่คำใบ้คุณบอกว่าไม่ใช่</li></ul></div></li>
+        <li><div class="body"><h3>จบตา</h3><p>ตาต่อไปเป็นของคนทางซ้ายของคุณ</p></div></li>
+      </ol>
+
+      <h3>ค้น <span class="en">Search</span></h3>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="sart" viewBox="0 0 700 250" role="img" aria-label="ผู้ค้นวางแผ่นกลมก่อน แล้วคนอื่นตอบตามเข็มนาฬิกา หยุดทันทีที่มีลูกบาศก์"></svg></div>
+        <figcaption>ตอบวนตามเข็มนาฬิกาจากคนทางซ้ายของผู้ค้น · ใครมีแผ่นกลมบนช่องนั้นอยู่แล้วข้ามไป · ลูกบาศก์ลูกแรก = ค้นไม่สำเร็จ</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>วางหมาก Cryptid บนช่องที่คำใบ้คุณบอกว่า “ได้”</h3><p>ค้นช่องที่คำใบ้ตัวเองขัดไม่ได้ และห้ามค้นช่องที่มีลูกบาศก์</p></div></li>
+        <li><div class="body"><h3>วางแผ่นกลมของคุณทันที</h3><p>ถ้าช่องนั้นมีแผ่นกลมของคุณอยู่แล้ว ให้วางแผ่นกลมของคุณบน<b>ช่องอื่น</b>ที่คำใบ้คุณบอกว่าได้ และยังไม่มีแผ่นกลมของคุณ (ข้อมูลเพิ่มอีก 1 ชิ้น)</p></div></li>
+        <li><div class="body"><h3>คนอื่นตอบทีละคนตามเข็มนาฬิกา</h3><p>แต่ละคนวางแผ่นกลมหรือลูกบาศก์บนช่องนั้น คนที่มีแผ่นกลมอยู่แล้วข้ามไป</p></div></li>
+        <li><div class="body"><h3>มีลูกบาศก์ = หยุดทันที</h3><p>คนที่เหลือไม่ต้องตอบ คุณวางลูกบาศก์ลงโทษ 1 ลูก แล้วตาต่อไปเป็นของคนทางซ้าย</p></div></li>
+        <li><div class="body"><h3>ไม่มีใครวางลูกบาศก์ = ชนะ</h3><p>คุณเจอถิ่นที่อยู่ของ Cryptid คู่มือแนะนำให้ฉลองชัยสักพักก่อนเปิดคำใบ้คุยกัน</p></div></li>
+      </ol>
+    </section>
+
+    <!-- LAWS -->
+    <section id="laws">
+      <div class="sec-head"><span class="tag">ใช้ทั้งตอนถามและค้น</span><h2>กฎเหล็ก 5 ข้อ</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>วางทุกชิ้นตามจริง</h3><p>อำพรางได้ โกหกไม่ได้</p></div></li>
+        <li><div class="body"><h3>ชิ้นส่วนไม่ถูกเอาออกจากแผนที่</h3><p>ยกเว้นตอนแก้ที่วางผิด</p></div></li>
+        <li><div class="body"><h3>ห้ามถามหรือค้นช่องที่มีลูกบาศก์</h3><p>ลูกบาศก์ของใครก็ตาม ช่องนั้นถูกตัดไปแล้ว</p></div></li>
+        <li><div class="body"><h3>ทำให้ใครวางลูกบาศก์ คุณวางลูกบาศก์ด้วย</h3><p>วางบนช่องใดก็ได้ที่คำใบ้ของคุณบอกว่าไม่ใช่ (ลูกบาศก์ลงโทษ)</p></div></li>
+        <li><div class="body"><h3>ช่องที่มีชิ้นส่วนของคุณแล้ว วางของคุณซ้ำไม่ได้</h3><p>แต่ละช่องมีชิ้นของคุณได้ชิ้นเดียว และช่องหนึ่งมีลูกบาศก์ได้ลูกเดียว</p></div></li>
+      </ol>
+      <div class="callout warn">
+        <h3>วางผิดแล้วเพิ่งรู้ตัว</h3>
+        <p>บอกทุกคนทันที (แม้ไม่ใช่ตาของคุณ) เปลี่ยนชิ้นนั้นให้ถูก แล้วย้ายชิ้นที่ถูกเปลี่ยนออกไปวางบนช่องที่ถูกต้องตามคำใบ้ เช่น วางแผ่นกลมผิด → เปลี่ยนเป็นลูกบาศก์ แล้วเอาแผ่นกลมนั้นไปวางช่องที่คำใบ้บอกว่าได้</p>
+      </div>
+    </section>
+
+    <!-- CLUES -->
+    <section id="clues">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>คำใบ้ทุกแบบ</h2></div>
+      <div class="callout">
+        <h3>“ภายใน N ช่อง” นับรวมช่องนั้นเองด้วย</h3>
+        <p>คู่มือเขียนชัด: “ภายใน 1 ช่องจากป่า” = <b>ทุกช่องป่า</b> + ทุกช่องที่ติดกับป่า · ระยะนับเป็นจำนวนก้าวข้ามช่องหกเหลี่ยม</p>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="distart" viewBox="0 0 700 260" role="img" aria-label="ระยะ 0 1 2 3 ช่องรอบสิ่งก่อสร้าง"></svg></div>
+        <figcaption>ระยะรอบหินตั้ง 1 ก้อน: ช่องที่วางสิ่งก่อสร้าง = ระยะ 0 · วงถัดไป 1, 2, 3</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>แบบ</th><th>ข้อความในสมุด <span class="en">(อังกฤษ)</span></th><th>ความหมาย</th><th class="num">จำนวนแบบ</th></tr></thead>
+          <tbody>
+            <tr><td><b>1. อยู่บนภูมิประเทศ 1 ใน 2 แบบ</b></td><td class="enl">The habitat is on forest or swamp</td><td>ช่องต้องเป็นป่าหรือบึงเท่านั้น</td><td class="num">10</td></tr>
+            <tr><td><b>2. ภายใน 1 ช่องจากภูมิประเทศ</b></td><td class="enl">The habitat is within one space of desert</td><td>ช่องทะเลทราย + ช่องที่ติดทะเลทราย</td><td class="num">5</td></tr>
+            <tr><td><b>3. ภายใน 1 ช่องจากเขตสัตว์ใดก็ได้</b></td><td class="enl">The habitat is within one space of either animal territory</td><td>ช่องในเขตหมีหรือเขตคูการ์ + ช่องที่ติดกัน</td><td class="num">1</td></tr>
+            <tr><td><b>4. ภายใน 2 ช่องจากสิ่งก่อสร้างชนิดหนึ่ง</b></td><td class="enl">The habitat is within two spaces of a standing stone</td><td>ระยะ ≤ 2 จากหินตั้ง<b>สีไหนก็ได้</b> (หรือกระท่อมร้างสีไหนก็ได้)</td><td class="num">2</td></tr>
+            <tr><td><b>5. ภายใน 2 ช่องจากเขตสัตว์ชนิดหนึ่ง</b></td><td class="enl">The habitat is within two spaces of bear territory</td><td>ระยะ ≤ 2 จากเขตหมี (หรือเขตคูการ์) รวมช่องในเขต <span class="flag">ดูหมายเหตุ</span></td><td class="num">2</td></tr>
+            <tr><td><b>6. ภายใน 3 ช่องจากสิ่งก่อสร้างสีหนึ่ง</b></td><td class="enl">The habitat is within three spaces of a blue structure</td><td>ระยะ ≤ 3 จากหินตั้ง<b>หรือ</b>กระท่อมที่เป็นสีนั้น ไม่สนชนิด</td><td class="num">3 (+1 ดำ)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">โหมดปกติมีคำใบ้ที่เป็นไปได้ <b>23 แบบ</b> · โหมดขั้นสูงเพิ่มสีดำเป็น 24 แบบ และแต่ละแบบมีรูปปฏิเสธ “ไม่…” อีกเท่าตัว · หมายเหตุแบบที่ 5: คู่มือฉบับแปลภาษารัสเซียที่ใช้อ้างอิงพิมพ์ตัวอย่างเป็นรูปปฏิเสธ (“ห่างเกิน 2 ช่องจากเขตหมี”) ซึ่งตรงกับรูปของโหมดขั้นสูง ให้ยึดข้อความในสมุดคำใบ้ของกล่องคุณเป็นหลัก · ลองกดดูคำใบ้ทุกแบบบนแผนที่ได้ที่ <a href="#viewer">ดูคำใบ้บนแผนที่</a></p>
+    </section>
+
+    <!-- ADVANCED -->
+    <section id="advanced">
+      <div class="sec-head"><span class="tag">เมื่อคล่องแล้ว</span><h2>โหมดขั้นสูง</h2></div>
+      <div class="types">
+        <div class="type"><h3>ต่างจากโหมดปกติ 2 ข้อ</h3><ol style="margin:0;padding-left:1.2em;display:grid;gap:4px"><li>ใช้สิ่งก่อสร้าง<b>ครบ 4 สี</b> รวมสีดำ (มีคำใบ้ “ภายใน 3 ช่องจากสิ่งก่อสร้างสีดำ” เพิ่ม)</li><li>คำใบ้อาจเป็น<b>รูปปฏิเสธ</b> บอกว่าสัตว์<b>อยู่ไม่ได้</b>ที่ไหน</li></ol></div>
+        <div class="type"><h3>อ่านคำใบ้ปฏิเสธ</h3><p><span class="enl">The habitat is <b>not</b> within one space of water</span></p><p>= ช่องน้ำและช่องที่ติดน้ำ<b>ทั้งหมด</b>คือ “ไม่ใช่” ที่เหลือทั้งแผนที่คือ “อาจใช่”</p></div>
+        <div class="type"><h3>ทำไมยากขึ้น</h3><p>คำใบ้ปฏิเสธมัก “กว้าง” มาก (ช่องที่เป็นไปได้เยอะ) ลูกบาศก์ไม่กี่ลูกของคนที่ถือคำใบ้ปฏิเสธดูคล้ายคำใบ้บวกแบบอื่นได้ง่าย</p></div>
+      </div>
+      <p class="note">ใช้การ์ดขอบดำตอนเตรียมเกม การ์ดจะบอกตำแหน่งสิ่งก่อสร้างสีดำให้เอง</p>
+    </section>
+
+    <!-- WIN -->
+    <section id="win">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>การชนะ (เกมนี้ไม่มีการนับคะแนน)</h2></div>
+      <div class="prose">
+        <p>Cryptid ไม่มีแต้ม ไม่มีรอบจำกัด และไม่มีเสมอ <b>คนแรกที่ค้นแล้วทุกคนวางแผ่นกลม</b>ชนะทันที เกมจบตรงนั้น</p>
+        <ul>
+          <li>ค้นผิดไม่ตกรอบ ยังเล่นต่อได้ แค่เสียข้อมูล (ลูกบาศก์ลงโทษ + แผ่นกลมที่บอกว่าช่องนั้นผ่านคำใบ้คุณ)</li>
+          <li>Cryptid ไม่มีภาคเสริม · <b>Cryptid: Urban Legends</b> เป็น<b>เกมแยก</b>อีกกล่อง (กติกาคนละแบบ) คู่มือนี้ไม่ครอบคลุม</li>
+        </ul>
+      </div>
+      <div class="callout warn">
+        <h3>กติกาบ้าน: เล่นหลายเกมนับแต้ม <span class="flag">ไม่ใช่กติกาทางการ</span></h3>
+        <p>เกมละ 20–30 นาที หลายวงจึงเล่นต่อกัน 3 เกม ชนะได้เกมละ 1 แต้ม ถ้าอยากแต้มละเอียดขึ้น ให้คนที่ไม่ชนะได้ +1 ถ้าในเกมนั้นไม่เคยค้นผิดเลย</p>
+      </div>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section id="example">
+      <div class="sec-head"><span class="tag">ลองคิดตาม</span><h2>ตัวอย่างไขปริศนา 3 คน</h2></div>
+      <p class="prose">แผนที่จำลองเล็ก ๆ (ไม่ใช่แผนที่จริงในกล่อง) แต่ละคนมีคำใบ้คนละแบบ ติ๊กเปิดทีละข้อแล้วดูว่าช่องที่เป็นไปได้หดลงอย่างไร เปิดครบ 3 ข้อจะเหลือช่องเดียว</p>
+      <div class="tool">
+        <div class="ex-toggle" id="ex-toggles"></div>
+        <div class="status" id="ex-status"></div>
+        <div class="mapbox"><svg id="exmap" role="img" aria-label="แผนที่ตัวอย่าง แสดงช่องที่เป็นไปได้"></svg></div>
+        <div class="legend" id="ex-legend"></div>
+      </div>
+      <div class="callout">
+        <h3>ในเกมจริงคุณไม่รู้คำใบ้ของคนอื่น</h3>
+        <p>สมมติคุณคือ<b>ผู้เล่นส้ม</b> แล้วเห็นผู้เล่นม่วงวางลูกบาศก์บนช่องภูเขา 2 ช่อง และวางแผ่นกลมบนช่องป่า: คำใบ้ของม่วงอาจเป็น “ป่าหรือ…” หรือ “ภายใน 1 ช่องจากน้ำ” ก็ได้ ทุกครั้งที่ม่วงวางชิ้นใหม่ ให้ตัดแบบที่ขัดออก (ใช้<a href="#tracker">ตัวตัดคำใบ้</a>) เหลือแบบเดียวเมื่อไร ก็รวมกับคำใบ้ตัวเองหาคำตอบ</p>
+      </div>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips">
+      <div class="sec-head"><span class="tag">เล่นให้เก่งขึ้น</span><h2>เคล็ดลับนักล่า</h2></div>
+      <div class="types">
+        <div class="type"><h3>ถามช่องที่แยกคำใบ้ได้</h3><p>เลือกช่องที่คำใบ้ที่เหลือของคู่แข่ง “แตกเป็นสองฝั่ง” ครึ่งหนึ่งตอบใช่ ครึ่งหนึ่งตอบไม่ ได้ข้อมูลมากที่สุดต่อคำถาม</p></div>
+        <div class="type"><h3>ถามช่องที่คุณรู้ว่าไม่ใช่</h3><p>ถูกกติกา และคนอื่นจะเดาคำใบ้คุณผิด เพราะคิดว่าคุณสงสัยช่องนั้น</p></div>
+        <div class="type"><h3>ลูกบาศก์ลงโทษ วางให้กำกวม</h3><p>คู่มือยกตัวอย่าง: มีลูกบาศก์บนทะเลทรายอยู่แล้ว ก็วางอีกลูกบนทะเลทรายอีกช่อง ให้คนอื่นคิดว่าคำใบ้คุณคือ “ไม่ใช่ทะเลทราย” ทั้งที่จริงเป็นแบบอื่น</p></div>
+        <div class="type"><h3>อ่านลูกบาศก์เริ่มเกม</h3><p>ลูกบาศก์ 2 ลูกแรกของแต่ละคนเป็นข้อมูลชิ้นแรก ลองเดาไว้ก่อนเลยว่าตัดคำใบ้แบบไหนทิ้งได้บ้าง</p></div>
+        <div class="type"><h3>ค้นเพื่อถามทุกคนพร้อมกัน</h3><p>การค้นถามหลายคนในตาเดียว ถ้ามั่นใจ 2 ใน 3 คน การค้นคุ้มกว่าถามทีละคน แต่ต้องยอมให้ทุกคนเห็นแผ่นกลมของคุณ</p></div>
+        <div class="type"><h3>ระวังคนที่ใกล้ชนะ</h3><p>ถ้ามีคนเริ่มค้น แปลว่าเขาใกล้แล้ว ดูว่าเขาค้นช่องไหน แผ่นกลมที่ทุกคนวางบนช่องนั้นเป็นข้อมูลให้คุณด้วย</p></div>
+      </div>
+    </section>
+
+    <!-- VIEWER -->
+    <section id="viewer">
+      <div class="sec-head"><span class="tag">เครื่องมือ · เรียนรู้คำใบ้</span><h2>ดูคำใบ้บนแผนที่</h2></div>
+      <p class="prose">เลือกคำใบ้ 1 แบบ แล้วดูว่าบนแผนที่จำลองช่องไหนคือ “อาจใช่” (ไฮไลต์) ใช้สอนมือใหม่ หรือเช็กว่าตัวเองเข้าใจระยะถูกไหม</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div style="min-width:0;flex:1 1 280px"><label class="field-l" for="v-clue">คำใบ้</label><select class="sel" id="v-clue" style="width:100%"></select></div>
+          <label class="chk"><input type="checkbox" id="v-not"> กลับด้าน “ไม่…” (โหมดขั้นสูง)</label>
+        </div>
+        <div class="status" id="v-status"></div>
+        <div class="mapbox"><svg id="vmap" role="img" aria-label="แผนที่จำลองแสดงช่องที่ผ่านคำใบ้"></svg></div>
+        <div class="legend" id="v-legend"></div>
+      </div>
+    </section>
+
+    <!-- TRACKER -->
+    <section id="tracker">
+      <div class="sec-head"><span class="tag">เครื่องมือ · ใช้ระหว่างเกม</span><h2>ตัวตัดคำใบ้คู่แข่ง</h2></div>
+      <p class="prose">ใส่ชื่อคู่แข่ง แล้วกด ✗ ทับคำใบ้ที่<b>ขัด</b>กับชิ้นที่เขาวางแล้ว ช่องท้ายตารางบอกว่าเหลือกี่แบบ บันทึกไว้ในเครื่องนี้เท่านั้น เปิดเกมใหม่ให้กดล้าง</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">โหมด</span><div class="seg" id="t-mode" role="group" aria-label="โหมด">
+            <button type="button" data-v="n" aria-pressed="true">ปกติ (23)</button>
+            <button type="button" data-v="a" aria-pressed="false">ขั้นสูง (48)</button>
+          </div></div>
+          <div><span class="field-l">จำนวนคู่แข่ง</span><div class="seg" id="t-opp" role="group" aria-label="จำนวนคู่แข่ง">
+            <button type="button" data-v="2" aria-pressed="true">2</button>
+            <button type="button" data-v="3" aria-pressed="false">3</button>
+            <button type="button" data-v="4" aria-pressed="false">4</button>
+          </div></div>
+          <button type="button" class="btn" id="t-clear">ล้างเริ่มเกมใหม่</button>
+        </div>
+        <div class="trk-wrap"><table class="trk" id="t-table"></table></div>
+        <p class="note">เคล็ดลับ: ตัดทุกครั้งที่เขาวางลูกบาศก์ (คำใบ้ที่บอกว่าช่องนั้น “ใช่” ตัดได้) และทุกครั้งที่วางแผ่นกลม (คำใบ้ที่บอกว่าช่องนั้น “ไม่ใช่” ตัดได้)</p>
+      </div>
+    </section>
+
+    <!-- HINTS -->
+    <section id="hints">
+      <div class="sec-head"><span class="tag">เครื่องมือ · เมื่อติดทั้งโต๊ะ</span><h2>เปิดคำใบ้ช่วย (?)</h2></div>
+      <div class="prose"><p>ถ้าทุกคนงง ใช้คำใบ้ช่วยได้ เมื่อ<b>ทุกคนเห็นด้วย</b> (เล่น 4–5 คน: ทุกคนยกเว้น 1 คน) ดูเลขในคอลัมน์ “?” หลังการ์ดเตรียมเกม แล้วพิมพ์เลขด้านล่าง ข้อความแปลจากท้ายคู่มือ อ่านออกเสียงให้ทุกคนฟัง</p></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><label class="field-l" for="h-num">เลขคำใบ้ช่วย (1–80)</label><input class="numin" type="number" id="h-num" min="1" max="80" value="7" inputmode="numeric"></div>
+        </div>
+        <div class="hint-out" id="h-out" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details open><summary>“ภายใน 1 ช่องจากป่า” ช่องป่าเองนับไหม</summary><p><span class="verdict v-yes">นับ</span>คู่มือเขียนตรง ๆ ว่าคำใบ้ “ภายใน N ช่อง” รวมช่องต้นทางเองด้วย ช่องที่วางสิ่งก่อสร้างก็นับเป็นระยะ 0 เช่นกัน</p></details>
+        <details><summary>ถามช่องที่คำใบ้ตัวเองบอกว่าไม่ใช่ได้ไหม</summary><p><span class="verdict v-yes">ได้</span>ถามช่องไหนก็ได้ที่ไม่มีลูกบาศก์ คู่มือแนะนำว่าเป็นวิธีที่ดีในการทำให้คู่แข่งหลงทาง · แต่<b>การค้น</b>ต้องเป็นช่องที่คำใบ้คุณบอกว่าได้เท่านั้น</p></details>
+        <details><summary>ถามหรือค้นช่องที่มีลูกบาศก์อยู่แล้วได้ไหม</summary><p><span class="verdict v-no">ไม่ได้</span>ลูกบาศก์ของใครก็ตาม ช่องนั้นถูกตัดทิ้งแล้ว</p></details>
+        <details><summary>ถามคนที่มีแผ่นกลมบนช่องนั้นอยู่แล้วได้ไหม</summary><p><span class="verdict v-house">คู่มือไม่ได้เขียนตรง ๆ</span>เขาวางชิ้นซ้ำบนช่องที่มีชิ้นของเขาแล้วไม่ได้ และคำตอบก็รู้อยู่แล้ว วงส่วนใหญ่จึงถือว่า<b>ถามไม่ได้</b> ให้เลือกคนอื่นหรือช่องอื่น</p></details>
+        <details><summary>ลูกบาศก์ลงโทษ วางตรงไหนได้บ้าง</summary><p><span class="verdict v-yes">ช่องไหนก็ได้</span>ที่คำใบ้ของคุณบอกว่าไม่ใช่ ยังไม่มีลูกบาศก์ และยังไม่มีชิ้นของคุณ ไม่จำเป็นต้องอยู่ใกล้ช่องที่ถาม เลือกวางให้คนอื่นอ่านยากได้</p></details>
+        <details><summary>ค้นแล้วคนแรกที่ต้องตอบคือใคร</summary><p><span class="verdict v-yes">คนทางซ้ายของผู้ค้น</span>แล้ววนตามเข็มนาฬิกา คนที่มีแผ่นกลมบนช่องนั้นแล้วข้ามไป หยุดทันทีที่มีลูกบาศก์ คนที่เหลือไม่ต้องเปิดเผยอะไร</p></details>
+        <details><summary>ค้นช่องที่มีแผ่นกลมของตัวเองอยู่แล้ว ต้องวางอะไร</summary><p><span class="verdict v-yes">วางแผ่นกลมช่องอื่นแทน</span>คู่มือให้วางแผ่นกลมของคุณบนช่องอื่นที่คำใบ้คุณบอกว่าได้ (และยังไม่มีแผ่นกลมของคุณ) จึงเสียข้อมูลอีก 1 ชิ้นเสมอ</p></details>
+        <details><summary>ลูกบาศก์ช่วงเริ่มเกมวางบนช่องสิ่งก่อสร้างได้ไหม</summary><p><span class="verdict v-yes">ได้</span>แต่ช่องหนึ่งมีลูกบาศก์ได้ลูกเดียว คนต่อมาต้องเลือกช่องอื่น</p></details>
+        <details><summary>“ภายใน 2 ช่องจากหินตั้ง” หินสีไหนก็ได้ใช่ไหม</summary><p><span class="verdict v-yes">ใช่</span>คำใบ้แบบชนิด (หินตั้ง / กระท่อม) ไม่สนสี · คำใบ้แบบสี (ภายใน 3 ช่องจากสิ่งก่อสร้างสีน้ำเงิน) ไม่สนชนิด</p></details>
+        <details><summary>“เขตสัตว์ใดก็ได้” รวมทั้งหมีและคูการ์ไหม</summary><p><span class="verdict v-yes">รวมทั้งคู่</span>คำใบ้ “within one space of either animal territory” นับทุกช่องในเขตหมีและเขตคูการ์ + ช่องที่ติดกัน</p></details>
+        <details><summary>บลัฟได้แค่ไหน</summary><p><span class="verdict v-no">ห้ามโกหก</span>ทุกชิ้นต้องตรงคำใบ้ แต่<b>เลือก</b>ได้ว่าจะวางลูกบาศก์ลงโทษตรงไหน ถามช่องไหน และถามใคร นี่คือ “การอำพราง” ที่คู่มืออนุญาต</p></details>
+        <details><summary>มีคนวางผิด แต่เกมเดินไปหลายตาแล้ว</summary><p><span class="verdict v-yes">แก้ได้ทุกเมื่อ</span>ประกาศ เปลี่ยนชิ้นให้ถูก แล้วย้ายชิ้นที่ถูกเปลี่ยนไปช่องที่ถูกต้อง ทุกคนควรทบทวนข้อสรุปใหม่ ถ้ามีคนค้นผิดเพราะชิ้นที่วางผิด วงส่วนใหญ่ยอมให้เล่นต่อตามปกติ <span class="flag">ส่วนหลังเป็นกติกาบ้าน</span></p></details>
+        <details><summary>ใช้คำใบ้ช่วย (?) ได้กี่ครั้ง</summary><p><span class="verdict v-house">คู่มือไม่ได้จำกัด</span>แต่การ์ด 1 ใบมีเลขคำใบ้ช่วยเลขเดียว เปิดแล้วก็เปิดข้อความเดิม ต้องได้เสียงเห็นด้วยทั้งโต๊ะ (4–5 คน: ทุกคนยกเว้น 1)</p></details>
+      </div>
+    </section>
+
+    <!-- VOCAB -->
+    <section id="vocab">
+      <div class="sec-head"><span class="tag">พูดภาษาเกมได้ตรง ๆ</span><h2>ตารางคำศัพท์ + คำอ่าน</h2></div>
+      <p class="prose">คำอ่านเขียนให้ออกเสียงใกล้ภาษาอังกฤษ (สำเนียงอเมริกัน) ใช้ขีด “-” แบ่งพยางค์ พยางค์ที่ลงเสียงหนักอยู่ในข้อความตัวหนาของคอลัมน์คำอ่าน กดหมวดหรือพิมพ์ค้นได้ทั้งไทยและอังกฤษ</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">หมวด</span><div class="seg" id="vc-cat" role="group" aria-label="หมวดคำศัพท์"></div></div>
+          <div style="flex:1 1 200px;min-width:0"><label class="field-l" for="vc-q">ค้นหา</label><input class="txt" type="search" id="vc-q" placeholder="เช่น cube หรือ ลูกบาศก์" style="width:100%"></div>
+        </div>
+        <div class="tbl-wrap"><table class="vocab"><thead><tr><th>คำ</th><th>คำอ่าน</th><th>ความหมาย / ใช้ในเกม</th><th>หมวด</th></tr></thead><tbody id="vc-body"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b> · คู่มือนี้แปลและเรียบเรียงจากกติกาทางการของ Cryptid (Hal Duncan & Ruth Veevers, Osprey Games, 2018) อ่านจากคู่มือฉบับที่ได้รับลิขสิทธิ์ภาษารัสเซีย ซึ่งแปลจากต้นฉบับอังกฤษ ศัพท์อังกฤษในหน้านี้เทียบกับชื่อชิ้นส่วนในฉบับอังกฤษ</p>
+    <ul>
+      <li><a href="https://www.ospreypublishing.com/us/cryptid-9781472830654/" target="_blank" rel="noopener">หน้าเกม Cryptid · Osprey Games</a></li>
+      <li><a href="https://boardgamegeek.com/boardgame/246784/cryptid" target="_blank" rel="noopener">Cryptid · BoardGameGeek</a> (จำนวนผู้เล่น เวลาเล่น)</li>
+      <li><a href="https://nastol.io/storage/games/files/cryptid/925318/Cryptid_rules.pdf" target="_blank" rel="noopener">ไฟล์คู่มือกติกา (PDF ฉบับรัสเซีย)</a> · ส่วนประกอบ เตรียมเกม การถาม/ค้น คำใบ้ 6 แบบ และคำใบ้ช่วย 1–80</li>
+    </ul>
+    <p style="margin-top:8px">แผนที่ในหน้านี้เป็นแผนที่จำลองที่วาดขึ้นเอง ไม่ใช่แผ่นแผนที่จริง · ข้อที่ติดป้าย “กติกาบ้าน” หรือ “คู่มือไม่ได้เขียนตรง ๆ” เป็นการตีความ ไม่ใช่กติกาทางการ</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+function hexPts(cx,cy,s){var p=[];for(var i=0;i<6;i++){var a=Math.PI/180*60*i;p.push((cx+s*Math.cos(a)).toFixed(1)+","+(cy+s*Math.sin(a)).toFixed(1));}return p.join(" ");}
+var TV={W:"var(--t-w)",D:"var(--t-d)",M:"var(--t-m)",F:"var(--t-f)",S:"var(--t-s)"};
+var TN={W:"น้ำ",D:"ทะเลทราย",M:"ภูเขา",F:"ป่า",S:"บึง"};
+var TE={W:"water",D:"desert",M:"mountain",F:"forest",S:"swamp"};
+var COLV={white:"var(--st-white)",green:"var(--st-green)",blue:"var(--st-blue)",black:"var(--st-black)"};
+var COLN={white:"ขาว",green:"เขียว",blue:"น้ำเงิน",black:"ดำ"};
+
+function stone(g,x,y,r,col){var p=[];for(var i=0;i<8;i++){var a=Math.PI/4*i+Math.PI/8;p.push((x+r*Math.cos(a)).toFixed(1)+","+(y+r*Math.sin(a)).toFixed(1));}el("polygon",{points:p.join(" "),fill:COLV[col],stroke:"#111","stroke-width":1.5},g);}
+function shack(g,x,y,r,col){el("polygon",{points:x+","+(y-r)+" "+(x+r)+","+(y+r*.75)+" "+(x-r)+","+(y+r*.75),fill:COLV[col],stroke:"#111","stroke-width":1.5},g);}
+function disc(g,x,y,col,n){n=n||1;for(var i=0;i<n;i++){el("ellipse",{cx:x,cy:y-i*5,rx:11,ry:5.5,fill:col,stroke:"rgba(0,0,0,.45)","stroke-width":1},g);}}
+function cubeP(g,x,y,col){var s=9;el("polygon",{points:(x-s)+","+(y-s*.5)+" "+x+","+(y-s)+" "+(x+s)+","+(y-s*.5)+" "+x+","+y,fill:col,stroke:"rgba(0,0,0,.5)","stroke-width":1},g);el("polygon",{points:(x-s)+","+(y-s*.5)+" "+x+","+y+" "+x+","+(y+s)+" "+(x-s)+","+(y+s*.5),fill:col,stroke:"rgba(0,0,0,.5)","stroke-width":1,"fill-opacity":.8},g);el("polygon",{points:(x+s)+","+(y-s*.5)+" "+x+","+y+" "+x+","+(y+s)+" "+(x+s)+","+(y+s*.5),fill:col,stroke:"rgba(0,0,0,.5)","stroke-width":1,"fill-opacity":.6},g);}
+function pawn(g,x,y){el("path",{d:"M"+(x-9)+","+(y+10)+" Q"+x+","+(y-26)+" "+(x+9)+","+(y+10)+" Z",fill:"#20322f",stroke:"#f1d7a3","stroke-width":1.5},g);el("circle",{cx:x+1,cy:y-8,r:1.8,fill:"#f1d7a3"},g);}
+
+/* ---------- demo map ---------- */
+var T=["WWFFMMDDSS","WFFMMDDSSF","SWFFMDWWFF","SSWMMDDWFM","DSSWMFDWMM","DDSWWFFSMM"];
+var C=10,R=6;
+var BEAR=[[0,4],[1,4],[1,5],[0,5]],COUG=[[8,0],[9,0],[9,1]];
+var ST=[{c:2,r:1,t:"stone",col:"blue"},{c:8,r:4,t:"shack",col:"blue"},{c:6,r:2,t:"shack",col:"green"},{c:4,r:5,t:"stone",col:"white"},{c:7,r:0,t:"stone",col:"green"},{c:1,r:3,t:"shack",col:"white"}];
+function cube3(c,r){var x=c,z=r-(c-(c&1))/2;return[x,-x-z,z];}
+function dist(a,b){var p=cube3(a[0],a[1]),q=cube3(b[0],b[1]);return Math.max(Math.abs(p[0]-q[0]),Math.abs(p[1]-q[1]),Math.abs(p[2]-q[2]));}
+var CELLS=[];for(var r=0;r<R;r++)for(var c=0;c<C;c++)CELLS.push({c:c,r:r,t:T[r][c]});
+function near(cell,list,n){for(var i=0;i<list.length;i++)if(dist([cell.c,cell.r],list[i])<=n)return true;return false;}
+function terr(t){return CELLS.filter(function(x){return x.t===t;}).map(function(x){return[x.c,x.r];});}
+function stList(f){return ST.filter(f).map(function(s){return[s.c,s.r];});}
+function inList(cell,list){return list.some(function(p){return p[0]===cell.c&&p[1]===cell.r;});}
+
+/* clue catalogue */
+var TORDER="FDWSM";
+var CLUES=[];
+(function(){
+  var g1=[];for(var i=0;i<5;i++)for(var j=i+1;j<5;j++)(function(a,b){g1.push({g:1,th:"อยู่บน"+TN[a]+"หรือ"+TN[b],en:"on "+TE[a]+" or "+TE[b],f:function(x){return x.t===a||x.t===b;}});})(TORDER[i],TORDER[j]);
+  CLUES=CLUES.concat(g1);
+  TORDER.split("").forEach(function(t){CLUES.push({g:2,th:"ภายใน 1 ช่องจาก"+TN[t],en:"within one space of "+TE[t],f:function(x){return near(x,terr(t),1);}});});
+  CLUES.push({g:3,th:"ภายใน 1 ช่องจากเขตสัตว์ใดก็ได้",en:"within one space of either animal territory",f:function(x){return near(x,BEAR.concat(COUG),1);}});
+  CLUES.push({g:4,th:"ภายใน 2 ช่องจากหินตั้ง",en:"within two spaces of a standing stone",f:function(x){return near(x,stList(function(s){return s.t==="stone";}),2);}});
+  CLUES.push({g:4,th:"ภายใน 2 ช่องจากกระท่อมร้าง",en:"within two spaces of an abandoned shack",f:function(x){return near(x,stList(function(s){return s.t==="shack";}),2);}});
+  CLUES.push({g:5,th:"ภายใน 2 ช่องจากเขตหมี",en:"within two spaces of bear territory",f:function(x){return near(x,BEAR,2);}});
+  CLUES.push({g:5,th:"ภายใน 2 ช่องจากเขตคูการ์",en:"within two spaces of cougar territory",f:function(x){return near(x,COUG,2);}});
+  ["white","green","blue","black"].forEach(function(col){CLUES.push({g:6,adv:col==="black",th:"ภายใน 3 ช่องจากสิ่งก่อสร้างสี"+COLN[col],en:"within three spaces of a "+col+" structure",f:function(x){return near(x,stList(function(s){return s.col===col;}),3);}});});
+})();
+var GNAME={1:"อยู่บนภูมิประเทศ 1 ใน 2",2:"ภายใน 1 ช่องจากภูมิประเทศ",3:"ภายใน 1 ช่องจากเขตสัตว์",4:"ภายใน 2 ช่องจากสิ่งก่อสร้าง (ชนิด)",5:"ภายใน 2 ช่องจากเขตสัตว์ (ชนิด)",6:"ภายใน 3 ช่องจากสิ่งก่อสร้าง (สี)"};
+
+/* draw a demo map into svg; opts: {s, ok(cell)->bool|null, mark:[{c,r,...}], dim} */
+function drawMap(svg,opts){
+  while(svg.firstChild)svg.removeChild(svg.firstChild);
+  var s=opts.s||26,h=Math.sqrt(3)*s,ox=s+6,oy=h/2+6;
+  var W=ox+(C-1)*1.5*s+s+6,H=oy+(R-1)*h+h+6;
+  svg.setAttribute("viewBox","0 0 "+W.toFixed(0)+" "+H.toFixed(0));
+  function pos(c,r){return[ox+c*1.5*s,oy+r*h+(c&1?h/2:0)];}
+  var g=el("g",{},svg);
+  CELLS.forEach(function(x){
+    var p=pos(x.c,x.r),ok=opts.ok?opts.ok(x):true;
+    el("polygon",{"class":"hx",points:hexPts(p[0],p[1],s-1),fill:TV[x.t],stroke:"rgba(0,0,0,.35)","stroke-width":1,opacity:ok?1:.22},g);
+    if(inList(x,BEAR))el("polygon",{points:hexPts(p[0],p[1],s-5),fill:"none",stroke:"var(--bear)","stroke-width":2.2,"stroke-dasharray":"5 3",opacity:ok?1:.35},g);
+    if(inList(x,COUG))el("polygon",{points:hexPts(p[0],p[1],s-5),fill:"none",stroke:"var(--cougar)","stroke-width":2.2,"stroke-dasharray":"5 3",opacity:ok?1:.35},g);
+    if(opts.ok&&ok&&opts.ring)el("polygon",{points:hexPts(p[0],p[1],s-2.5),fill:"none",stroke:"#fff","stroke-width":2.5},g);
+  });
+  ST.forEach(function(st){var p=pos(st.c,st.r);if(st.t==="stone")stone(g,p[0],p[1],s*.36,st.col);else shack(g,p[0],p[1],s*.38,st.col);});
+  if(opts.after)opts.after(g,pos,s);
+}
+function legendHTML(){
+  var out=[];
+  "WDMFS".split("").forEach(function(t){out.push('<span><i class="sw" style="background:'+TV[t]+'"></i>'+TN[t]+'</span>');});
+  out.push('<span><svg width="20" height="16" aria-hidden="true"><rect x="2" y="2" width="16" height="12" fill="none" stroke="var(--bear)" stroke-width="2" stroke-dasharray="4 2"/></svg>เขตหมี</span>');
+  out.push('<span><svg width="20" height="16" aria-hidden="true"><rect x="2" y="2" width="16" height="12" fill="none" stroke="var(--cougar)" stroke-width="2" stroke-dasharray="4 2"/></svg>เขตคูการ์</span>');
+  out.push('<span><svg width="18" height="18" aria-hidden="true"><polygon points="9,2 15,5 15,13 9,16 3,13 3,5" fill="var(--st-blue)" stroke="#111"/></svg>หินตั้ง</span>');
+  out.push('<span><svg width="18" height="18" aria-hidden="true"><polygon points="9,2 16,15 2,15" fill="var(--st-green)" stroke="#111"/></svg>กระท่อมร้าง</span>');
+  return out.join("");
+}
+
+/* ---------- hero ---------- */
+(function(){
+  var svg=document.getElementById("heroart");
+  var moon=el("circle",{cx:392,cy:42,r:28,fill:"var(--moon)",opacity:.9},svg);
+  el("circle",{cx:392,cy:42,r:46,fill:"var(--moon)",opacity:.12,"class":"glow"},svg);
+  var g=el("g",{transform:"translate(14,62) scale(.88)"},svg);
+  var sub=document.createElementNS(NS,"svg");sub.setAttribute("x","0");sub.setAttribute("y","0");sub.setAttribute("width","470");sub.setAttribute("height","262");g.appendChild(sub);
+  drawMap(sub,{s:26,after:function(g2,pos){
+    var a=pos(5,2);disc(g2,a[0]-4,a[1]+6,"var(--p1)",1);disc(g2,a[0]-4,a[1]+1,"var(--p2)",1);
+    var b=pos(3,1);cubeP(g2,b[0]+8,b[1]+6,"var(--p3)");
+    var c=pos(8,2);pawn(g2,c[0],c[1]);disc(g2,c[0]+10,c[1]+12,"var(--p1)",1);
+    var d=pos(1,1);cubeP(g2,d[0],d[1]+2,"var(--p2)");
+    var e=pos(6,4);cubeP(g2,e[0],e[1]+2,"var(--p1)");
+    var f=pos(4,3);disc(g2,f[0],f[1]+4,"var(--p3)",1);
+  }});
+})();
+
+/* ---------- legend art ---------- */
+(function(){
+  var svg=document.getElementById("legendart");
+  var s=30;
+  el("text",{x:20,y:24,"class":"tagf s-muted","font-size":13},svg,"ภูมิประเทศ (Terrain)");
+  "WDMFS".split("").forEach(function(t,i){var x=50+i*78,y=72;el("polygon",{points:hexPts(x,y,s),fill:TV[t],stroke:"rgba(0,0,0,.35)"},svg);el("text",{x:x,y:y+50,"text-anchor":"middle","class":"s-fg","font-size":15,"font-weight":600},svg,TN[t]);el("text",{x:x,y:y+67,"text-anchor":"middle","class":"s-muted","font-size":12},svg,TE[t].charAt(0).toUpperCase()+TE[t].slice(1));});
+  el("text",{x:430,y:24,"class":"tagf s-muted","font-size":13},svg,"เขตสัตว์ (Animal territory)");
+  [["var(--bear)","หมี","Bear",480],["var(--cougar)","คูการ์","Cougar",600]].forEach(function(a){var x=a[3],y=72;el("polygon",{points:hexPts(x,y,s),fill:"var(--t-f)",stroke:"rgba(0,0,0,.35)"},svg);el("polygon",{points:hexPts(x,y,s-5),fill:"none",stroke:a[0],"stroke-width":2.5,"stroke-dasharray":"6 3"},svg);el("text",{x:x,y:y+50,"text-anchor":"middle","class":"s-fg","font-size":15,"font-weight":600},svg,"เขต"+a[1]);el("text",{x:x,y:y+67,"text-anchor":"middle","class":"s-muted","font-size":12},svg,a[2]+" territory");});
+  el("text",{x:20,y:172,"class":"tagf s-muted","font-size":13},svg,"สิ่งก่อสร้าง (Structures)");
+  ["white","green","blue","black"].forEach(function(col,i){var x=60+i*46;stone(svg,x,206,14,col);});
+  el("text",{x:129,y:242,"text-anchor":"middle","class":"s-fg","font-size":14,"font-weight":600},svg,"หินตั้ง · Standing stone");
+  ["white","green","blue","black"].forEach(function(col,i){var x=330+i*46;shack(svg,x,206,15,col);});
+  el("text",{x:399,y:242,"text-anchor":"middle","class":"s-fg","font-size":14,"font-weight":600},svg,"กระท่อมร้าง · Abandoned shack");
+  el("text",{x:560,y:200,"class":"s-muted","font-size":12},svg,"สีดำ = โหมดขั้นสูงเท่านั้น");
+})();
+
+/* ---------- setup card art ---------- */
+(function(){
+  var svg=document.getElementById("cardart");
+  el("rect",{x:20,y:20,width:250,height:230,rx:14,"class":"s-surface2",stroke:"var(--muted)","stroke-width":2},svg);
+  el("text",{x:145,y:44,"text-anchor":"middle","class":"tagf s-muted","font-size":13},svg,"ด้านหน้า · ผังแผนที่");
+  var nums=[[3,5],[1,6],[4,2]];
+  nums.forEach(function(row,ri){row.forEach(function(n,ci){var x=70+ci*80,y=62+ri*58;el("rect",{x:x,y:y,width:72,height:50,rx:4,fill:"var(--t-f)",opacity:.55},svg);el("text",{x:x+36,y:y+32,"text-anchor":"middle","class":"tagf s-fg","font-size":18},svg,String(n));var dot=(n%2)?[x+6,y+6]:[x+66,y+44];el("circle",{cx:dot[0],cy:dot[1],r:4,"class":"s-fg"},svg);});});
+  stone(svg,96,150,7,"blue");shack(svg,190,98,8,"green");stone(svg,205,200,7,"white");shack(svg,110,90,8,"blue");
+  el("text",{x:145,y:240,"text-anchor":"middle","class":"s-muted","font-size":12},svg,"● = มุมที่ต้องหมุนแผ่นให้ตรง");
+  // back
+  el("rect",{x:300,y:20,width:380,height:230,rx:14,"class":"s-surface2",stroke:"var(--muted)","stroke-width":2},svg);
+  el("text",{x:490,y:44,"text-anchor":"middle","class":"tagf s-muted","font-size":13},svg,"ด้านหลัง · เลขคำใบ้");
+  var hdr=["คน","α","β","γ","δ","ε","?"];
+  hdr.forEach(function(h,i){el("text",{x:338+i*50,y:78,"text-anchor":"middle","class":"tagf s-fg","font-size":16},svg,h);});
+  var rows=[["3","17","86","6","","","21"],["4","88","8","1","13","","18"],["5","26","34","27","85","86","24"]];
+  rows.forEach(function(rw,ri){var y=118+ri*40;if(ri===1)el("rect",{x:316,y:y-24,width:348,height:34,rx:8,"class":"s-acc",opacity:.18},svg);rw.forEach(function(v,i){el("text",{x:338+i*50,y:y,"text-anchor":"middle","class":(i===0?"tagf s-muted":"tagf s-fg"),"font-size":16},svg,v);});});
+  el("text",{x:490,y:236,"text-anchor":"middle","class":"s-muted","font-size":12},svg,"เล่น 4 คน: คนที่ถือสมุด β เปิดคำใบ้เลข 8 · คำใบ้ช่วยเลข 18");
+})();
+
+/* ---------- question art ---------- */
+(function(){
+  var svg=document.getElementById("qart");
+  var s=34;
+  el("polygon",{points:hexPts(110,110,s),fill:"var(--t-f)",stroke:"rgba(0,0,0,.35)"},svg);pawn(svg,110,108);
+  el("text",{x:110,y:172,"text-anchor":"middle","class":"s-fg","font-size":14,"font-weight":600},svg,"วางหมากบนช่อง");
+  el("text",{x:110,y:192,"text-anchor":"middle","class":"s-muted","font-size":13},svg,"แล้วถามผู้เล่น 1 คน");
+  el("path",{d:"M160,110 L230,70",fill:"none","class":"k-muted","stroke-width":2,"marker-end":"url(#ar)"},svg);
+  el("path",{d:"M160,110 L230,160",fill:"none","class":"k-muted","stroke-width":2,"marker-end":"url(#ar)"},svg);
+  var m=el("marker",{id:"ar",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto"},el("defs",{},svg));el("path",{d:"M0,0 L10,5 L0,10 z","class":"s-muted"},m);
+  el("polygon",{points:hexPts(280,62,26),fill:"var(--t-f)",stroke:"rgba(0,0,0,.35)"},svg);disc(svg,280,66,"var(--p2)",1);
+  el("text",{x:320,y:58,"class":"s-fg","font-size":15,"font-weight":600},svg,"“อาจอยู่ได้” → แผ่นกลม");
+  el("text",{x:320,y:80,"class":"s-muted","font-size":13},svg,"จบตา ไม่มีอะไรเพิ่ม");
+  el("polygon",{points:hexPts(280,168,26),fill:"var(--t-f)",stroke:"rgba(0,0,0,.35)"},svg);cubeP(svg,280,170,"var(--p2)");
+  el("text",{x:320,y:164,"class":"s-fg","font-size":15,"font-weight":600},svg,"“อยู่ไม่ได้” → ลูกบาศก์");
+  el("text",{x:320,y:186,"class":"s-muted","font-size":13},svg,"ผู้ถามต้องวางลูกบาศก์ลงโทษ 1 ลูก");
+  el("polygon",{points:hexPts(620,168,26),fill:"var(--t-d)",stroke:"rgba(0,0,0,.35)"},svg);cubeP(svg,620,170,"var(--p1)");
+  el("path",{d:"M560,175 L588,172",fill:"none","class":"k-muted","stroke-width":2,"marker-end":"url(#ar)"},svg);
+  el("text",{x:620,y:214,"text-anchor":"middle","class":"s-muted","font-size":12},svg,"ช่องไหนก็ได้ที่คำใบ้คุณ “ไม่ใช่”");
+})();
+
+/* ---------- search art ---------- */
+(function(){
+  var svg=document.getElementById("sart");
+  var m=el("marker",{id:"ar2",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto"},el("defs",{},svg));el("path",{d:"M0,0 L10,5 L0,10 z","class":"s-muted"},m);
+  var cols=["var(--p1)","var(--p2)","var(--p3)","var(--p4)"];
+  var names=["คุณ (ผู้ค้น)","คนที่ 2","คนที่ 3","คนที่ 4"];
+  // row A success
+  el("text",{x:20,y:30,"class":"tagf s-acc","font-size":14},svg,"ค้นสำเร็จ");
+  for(var i=0;i<4;i++){var x=80+i*150,y=80;el("polygon",{points:hexPts(x,y,30),fill:"var(--t-s)",stroke:"rgba(0,0,0,.35)"},svg);if(i===0)pawn(svg,x-10,y-2);
+    // stacked display
+    var gg=el("g",{},svg);for(var k2=0;k2<=i;k2++)el("ellipse",{cx:x+8,cy:y+14-k2*6,rx:11,ry:5.5,fill:cols[k2],stroke:"rgba(0,0,0,.45)"},gg);
+    el("text",{x:x,y:y+50,"text-anchor":"middle","class":"s-muted","font-size":12},svg,names[i]+(i===0?" วางก่อน":" วางแผ่นกลม"));
+    if(i<3)el("path",{d:"M"+(x+38)+","+y+" L"+(x+108)+","+y,fill:"none","class":"k-muted","stroke-width":2,"marker-end":"url(#ar2)"},svg);}
+  el("text",{x:640,y:84,"text-anchor":"middle","class":"s-good","font-size":15,"font-weight":700},svg,"ชนะ!");
+  // row B fail
+  el("text",{x:20,y:160,"class":"tagf s-muted","font-size":14},svg,"ค้นไม่สำเร็จ");
+  for(var j=0;j<3;j++){var x2=80+j*150,y2=200;el("polygon",{points:hexPts(x2,y2,30),fill:"var(--t-s)",stroke:"rgba(0,0,0,.35)"},svg);if(j===0)pawn(svg,x2-10,y2-2);var g3=el("g",{},svg);for(var q=0;q<=Math.min(j,1);q++)el("ellipse",{cx:x2+8,cy:y2+14-q*6,rx:11,ry:5.5,fill:cols[q],stroke:"rgba(0,0,0,.45)"},g3);if(j===2)cubeP(svg,x2-12,y2+10,cols[2]);
+    if(j<2)el("path",{d:"M"+(x2+38)+","+y2+" L"+(x2+108)+","+y2,fill:"none","class":"k-muted","stroke-width":2,"marker-end":"url(#ar2)"},svg);}
+  el("text",{x:380,y:244,"text-anchor":"middle","class":"s-muted","font-size":12},svg,"คนที่ 3 วางลูกบาศก์");
+  el("text",{x:530,y:196,"class":"s-bad","font-size":14,"font-weight":700},svg,"หยุด · คนที่ 4 ไม่ต้องตอบ");
+  el("text",{x:530,y:218,"class":"s-muted","font-size":13},svg,"ผู้ค้นวางลูกบาศก์ลงโทษ 1 ลูก");
+})();
+
+/* ---------- distance art ---------- */
+(function(){
+  var svg=document.getElementById("distart");
+  var s=20,h=Math.sqrt(3)*s,cc=7,rr=6,ox=200,oy=22;
+  var center=[3,3];
+  var shades=["var(--accent)","var(--accent)","var(--accent)","var(--accent)"];
+  var op=[1,.7,.45,.25];
+  for(var r=0;r<rr;r++)for(var c=0;c<cc;c++){var x=ox+c*1.5*s,y=oy+r*h+(c&1?h/2:0);var d=dist([c,r],center);
+    el("polygon",{points:hexPts(x,y,s-1),fill:d<=3?shades[d]:"var(--surface-2)","fill-opacity":d<=3?op[d]:1,stroke:"var(--line)"},svg);
+    el("text",{x:x,y:y+5,"text-anchor":"middle","class":"tagf s-fg","font-size":13},svg,String(d));}
+  var cx=ox+3*1.5*s,cy=oy+3*h+h/2;stone(svg,cx,cy-2,7,"blue");
+  var lx=40;[["0","ช่องของสิ่งก่อสร้างเอง"],["1","ติดกัน (6 ช่อง)"],["2","วงที่สอง"],["3","วงที่สาม"]].forEach(function(a,i){var y=60+i*40;el("rect",{x:lx-20,y:y-14,width:22,height:22,rx:5,fill:"var(--accent)","fill-opacity":op[i]},svg);el("text",{x:lx+12,y:y+2,"class":"s-fg","font-size":14},svg,"ระยะ "+a[0]+" · "+a[1]);});
+  el("text",{x:530,y:110,"class":"s-fg","font-size":14,"font-weight":600},svg,"“ภายใน 2 ช่อง”");
+  el("text",{x:530,y:132,"class":"s-muted","font-size":13},svg,"= ระยะ 0, 1 และ 2");
+  el("text",{x:530,y:154,"class":"s-muted","font-size":13},svg,"ทั้งหมดนับว่า “อาจใช่”");
+})();
+
+/* ---------- example ---------- */
+(function(){
+  var ex=[
+    {i:6,who:"ผู้เล่นส้ม",col:"var(--p1)"},   // F or D? find index
+    {i:-1,who:"ผู้เล่นม่วง",col:"var(--p2)"},
+    {i:-1,who:"ผู้เล่นฟ้า",col:"var(--p3)"}
+  ];
+  function find(en){for(var k=0;k<CLUES.length;k++)if(CLUES[k].en===en)return k;return -1;}
+  ex[0].i=find("on forest or desert");ex[1].i=find("within one space of water");ex[2].i=find("within one space of either animal territory");
+  var wrap=document.getElementById("ex-toggles");
+  ex.forEach(function(e,k){var lab=document.createElement("label");lab.innerHTML='<input type="checkbox" id="ex-'+k+'" checked><span><span class="pc" style="background:'+e.col+'"></span><b>'+e.who+'</b><br>'+CLUES[e.i].th+'<br><span class="en">'+CLUES[e.i].en+'</span></span>';wrap.appendChild(lab);});
+  var svg=document.getElementById("exmap");
+  document.getElementById("ex-legend").innerHTML=legendHTML()+'<span>ช่องจาง = ตัดทิ้งแล้ว</span>';
+  function upd(){var on=ex.filter(function(e,k){return document.getElementById("ex-"+k).checked;});
+    var n=0;drawMap(svg,{s:26,ring:on.length>0,ok:function(x){var ok=on.every(function(e){return CLUES[e.i].f(x);});if(ok)n++;return ok;}});
+    var st=document.getElementById("ex-status");
+    if(on.length===0)st.innerHTML="ยังไม่เปิดคำใบ้ · ทุกช่องเป็นไปได้ (<b>60</b>)";
+    else if(n===1){var hit=CELLS.filter(function(x){return on.every(function(e){return CLUES[e.i].f(x);});})[0];st.innerHTML="เหลือ <b>1</b> ช่อง · ป่า ติดน้ำ และอยู่ข้างเขตคูการ์ "+(on.length===3?"นี่คือถิ่นที่อยู่":"");
+      drawMap(svg,{s:26,ring:true,ok:function(x){return on.every(function(e){return CLUES[e.i].f(x);});},after:function(g,pos){var p=pos(hit.c,hit.r);pawn(g,p[0],p[1]);}});}
+    else st.innerHTML="ช่องที่ยังเป็นไปได้ <b>"+n+"</b> ช่อง";}
+  ex.forEach(function(e,k){document.getElementById("ex-"+k).addEventListener("change",upd);});
+  upd();
+})();
+
+/* ---------- viewer ---------- */
+(function(){
+  var sel=document.getElementById("v-clue"),notc=document.getElementById("v-not"),svg=document.getElementById("vmap");
+  var lastG=0,og=null;
+  CLUES.forEach(function(cl,k){if(cl.adv)return;if(cl.g!==lastG){og=document.createElement("optgroup");og.label=GNAME[cl.g];sel.appendChild(og);lastG=cl.g;}var o=document.createElement("option");o.value=k;o.textContent=cl.th+" · "+cl.en;og.appendChild(o);});
+  sel.value=String(CLUES.findIndex(function(c){return c.en==="within three spaces of a blue structure";}));
+  document.getElementById("v-legend").innerHTML=legendHTML()+'<span>ขอบขาว = อาจใช่</span>';
+  function upd(){var cl=CLUES[+sel.value],neg=notc.checked,n=0;
+    drawMap(svg,{s:26,ring:true,ok:function(x){var v=cl.f(x);if(neg)v=!v;if(v)n++;return v;}});
+    document.getElementById("v-status").innerHTML=(neg?"ไม่":"")+cl.th+" → อาจใช่ <b>"+n+"</b> จาก 60 ช่อง";}
+  sel.addEventListener("change",upd);notc.addEventListener("change",upd);upd();
+})();
+
+/* ---------- tracker ---------- */
+(function(){
+  var KEY="cryptid-th-tracker-v1";
+  var state={mode:"n",opp:2,names:["คู่แข่ง 1","คู่แข่ง 2","คู่แข่ง 3","คู่แข่ง 4"],x:{}};
+  try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.x)state=s;}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+  function list(){var out=[];CLUES.forEach(function(cl,k){if(cl.adv&&state.mode!=="a")return;out.push({id:"p"+k,th:cl.th,g:cl.g});});
+    if(state.mode==="a")CLUES.forEach(function(cl,k){out.push({id:"n"+k,th:"ไม่"+cl.th,g:10+cl.g});});return out;}
+  var tbl=document.getElementById("t-table");
+  function render(){
+    var L=list(),n=state.opp,h=[];
+    h.push("<thead><tr><th>คำใบ้</th>");for(var i=0;i<n;i++)h.push('<th class="num"><input type="text" aria-label="ชื่อคู่แข่งคนที่ '+(i+1)+'" data-name="'+i+'" value="'+String(state.names[i]).replace(/"/g,"&quot;")+'"></th>');h.push("</tr></thead><tbody>");
+    var lg=0;
+    L.forEach(function(it){if(it.g!==lg){lg=it.g;h.push('<tr class="grp"><td colspan="'+(n+1)+'">'+(it.g>10?"ปฏิเสธ · ":"")+GNAME[it.g>10?it.g-10:it.g]+"</td></tr>");}
+      h.push("<tr><td>"+it.th+"</td>");for(var i=0;i<n;i++){var on=!!state.x[i+":"+it.id];h.push('<td class="c"><button type="button" class="x" data-k="'+i+":"+it.id+'" aria-pressed="'+on+'" aria-label="ตัด '+it.th+'">'+(on?"✗":"·")+"</button></td>");}h.push("</tr>");});
+    h.push('<tr class="cnt"><td>เหลือที่เป็นไปได้</td>');for(var j=0;j<n;j++){var left=L.filter(function(it){return !state.x[j+":"+it.id];});h.push('<td class="c"><b>'+left.length+"</b>"+(left.length===1?"<br><small>"+left[0].th+"</small>":"")+"</td>");}h.push("</tr></tbody>");
+    tbl.innerHTML=h.join("");
+    document.querySelectorAll("#t-mode button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.v===state.mode));});
+    document.querySelectorAll("#t-opp button").forEach(function(b){b.setAttribute("aria-pressed",String(+b.dataset.v===state.opp));});
+  }
+  tbl.addEventListener("click",function(e){var b=e.target.closest("button.x");if(!b)return;var k=b.dataset.k;if(state.x[k])delete state.x[k];else state.x[k]=1;save();render();});
+  tbl.addEventListener("input",function(e){var t=e.target;if(t.dataset.name!=null){state.names[+t.dataset.name]=t.value;save();}});
+  document.getElementById("t-mode").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;state.mode=b.dataset.v;save();render();});
+  document.getElementById("t-opp").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;state.opp=+b.dataset.v;save();render();});
+  var clr=document.getElementById("t-clear"),armed=false;
+  clr.addEventListener("click",function(){if(!armed){armed=true;clr.textContent="กดอีกครั้งเพื่อล้าง";setTimeout(function(){armed=false;clr.textContent="ล้างเริ่มเกมใหม่";},3000);return;}armed=false;clr.textContent="ล้างเริ่มเกมใหม่";state.x={};save();render();});
+  render();
+})();
+
+/* ---------- hints ---------- */
+(function(){
+  var CODE="232A32T13DF222312MS31M3121F13WST121T13W332331W22T22X2313D3T222F2232SM3D23331223T";
+  var TXT={"1":"มีคำว่า “ภายใน 1 ช่อง” (within one space)","2":"มีคำว่า “ภายใน 2 ช่อง” (within two spaces)","3":"มีคำว่า “ภายใน 3 ช่อง” (within three spaces)","A":"เกี่ยวกับเขตสัตว์ (animal territory)","T":"ระบุภูมิประเทศ 2 แบบ (on X or Y)","X":"เกี่ยวกับชนิดภูมิประเทศ (terrain)","D":"เกี่ยวกับทะเลทราย (desert)","F":"เกี่ยวกับป่า (forest)","M":"เกี่ยวกับภูเขา (mountain)","S":"เกี่ยวกับบึง (swamp)","W":"เกี่ยวกับน้ำ (water)"};
+  var inp=document.getElementById("h-num"),out=document.getElementById("h-out");
+  function upd(){var n=parseInt(inp.value,10);if(!(n>=1&&n<=80)){out.innerHTML="ใส่เลข 1 ถึง 80";return;}var c=CODE.charAt(n-1);out.innerHTML="คำใบ้ช่วย #"+n+": ในเกมนี้ <b>ไม่มี</b>คำใบ้ของใคร"+TXT[c];}
+  inp.addEventListener("input",upd);upd();
+})();
+
+/* ---------- vocab ---------- */
+(function(){
+  var CAT={piece:"ชิ้นส่วน",act:"การเล่น",map:"แผนที่",clue:"คำในคำใบ้",talk:"ประโยคกลางโต๊ะ"};
+  var V=[
+    ["Cryptid","<b>คริป</b>-ทิด","สัตว์ลึกลับที่ยังไม่มีใครพิสูจน์ได้ เช่น บิ๊กฟุต เนสซี่ · ชื่อเกม","piece"],
+    ["Cryptozoologist","คริป-โท-โซ-<b>ออ</b>-ละ-จิสต์","นักล่าสัตว์ลึกลับ = บทบาทของผู้เล่น","piece"],
+    ["Habitat","<b>แฮบ</b>-บิ-แทต","ถิ่นที่อยู่ = ช่องคำตอบที่ทุกคนตามหา","clue"],
+    ["Creature","<b>ครี</b>-เชอร์","สิ่งมีชีวิต ตัวสัตว์ในเกม","clue"],
+    ["Clue","คลู","คำใบ้ลับของแต่ละคน","piece"],
+    ["Clue book","<b>คลู</b>-บุ๊ก","สมุดคำใบ้ (α β γ δ ε)","piece"],
+    ["Alpha / Beta / Gamma / Delta / Epsilon","<b>แอล</b>-ฟา / <b>เบ</b>-ทา / <b>แกม</b>-มา / <b>เดล</b>-ทา / <b>เอป</b>-ซิ-ลอน","ชื่อสมุดคำใบ้ตามตัวอักษรกรีก α β γ δ ε","piece"],
+    ["Setup card","<b>เซ็ต</b>-อัป-คาร์ด","การ์ดเตรียมเกม หน้าผังแผนที่ หลังเลขคำใบ้","piece"],
+    ["Map piece / Map tile","<b>แมป</b>-พีส / <b>แมป</b>-ไทล์","แผ่นแผนที่ 6 แผ่น","piece"],
+    ["Space","สเปซ","ช่อง (หกเหลี่ยม) · พหูพจน์ spaces = <b>สเป</b>-ซิซ","map"],
+    ["Hex","เฮ็กซ์","ช่องหกเหลี่ยม (ย่อจาก hexagon <b>เฮ็ก</b>-ซะ-กอน)","map"],
+    ["Disc","ดิสก์","แผ่นกลม = “อาจอยู่ที่นี่”","piece"],
+    ["Cube","คิวบ์","ลูกบาศก์ = “ไม่อยู่ที่นี่”","piece"],
+    ["Pawn","พอน","หมาก Cryptid ใช้ชี้ช่องตอนถาม/ค้น","piece"],
+    ["Question","<b>เควส</b>-ชั่น","ถาม 1 คนเรื่อง 1 ช่อง (การกระทำในตา)","act"],
+    ["Search","เซิร์ช","ค้นช่องที่คิดว่าใช่ ถามทุกคนวนโต๊ะ","act"],
+    ["Penalty cube","<b>เพน</b>-นัล-ตี-คิวบ์","ลูกบาศก์ลงโทษ วางเมื่อทำให้คนอื่นต้องวางลูกบาศก์","act"],
+    ["Turn","เทิร์น","ตาเล่น","act"],
+    ["Clockwise","<b>คล็อก</b>-ไวซ์","ตามเข็มนาฬิกา (ทางซ้ายของคุณ)","act"],
+    ["First player","<b>เฟิร์สต์</b>-<b>เพลย์</b>-เออร์","ผู้เล่นคนแรก ได้สมุด α","act"],
+    ["Honest","<b>ออ</b>-เนิสต์","ซื่อสัตย์ (กติกาหลัก: ห้ามโกหก)","act"],
+    ["Mistake","มิส-<b>เทก</b>","ความผิดพลาด วางชิ้นผิด","act"],
+    ["Hint","ฮินต์","คำใบ้ช่วย (คอลัมน์ ? หลังการ์ด)","act"],
+    ["Normal game","<b>นอร์</b>-เมิล-เกม","โหมดปกติ (การ์ดขอบสีอ่อน)","act"],
+    ["Advanced game","แอด-<b>แวนสท์</b>-เกม","โหมดขั้นสูง (การ์ดขอบดำ)","act"],
+    ["Deduce / Deduction","ดิ-<b>ดิวซ์</b> / ดิ-<b>ดัก</b>-ชั่น","อนุมาน / การอนุมาน หาคำตอบด้วยเหตุผล","act"],
+    ["Eliminate","อิ-<b>ลิม</b>-มิ-เนต","ตัดทิ้ง (ตัดช่องหรือคำใบ้ที่เป็นไปไม่ได้)","act"],
+    ["Terrain","เทอะ-<b>เรน</b>","ภูมิประเทศ","map"],
+    ["Forest","<b>ฟอ</b>-เริสต์","ป่า","map"],
+    ["Desert","<b>เด</b>-เซิร์ต","ทะเลทราย (ระวังสับสนกับ dessert ของหวาน ดิ-<b>เซิร์ต</b>)","map"],
+    ["Water","<b>วอ</b>-เทอร์ (อเมริกัน <b>วา</b>-เดอร์)","น้ำ","map"],
+    ["Swamp","สวอมพ์","บึง หนองน้ำ","map"],
+    ["Mountain","<b>เมาน์</b>-เทิน","ภูเขา","map"],
+    ["Animal territory","<b>แอน</b>-นิ-เมิล <b>เท</b>-ระ-ทอ-รี","เขตสัตว์","map"],
+    ["Bear","แบร์","หมี","map"],
+    ["Cougar","<b>คู</b>-เกอร์","เสือคูการ์ (เสือภูเขา) · คนไทยมักเรียก คู-การ์","map"],
+    ["Structure","<b>สตรัก</b>-เชอร์","สิ่งก่อสร้าง","map"],
+    ["Standing stone","<b>สแตน</b>-ดิ้ง-<b>สโตน</b>","หินตั้ง (ชิ้นแปดเหลี่ยม)","map"],
+    ["Abandoned shack","อะ-<b>แบน</b>-เดินด์-<b>แช็ก</b>","กระท่อมร้าง (ชิ้นสามเหลี่ยม)","map"],
+    ["White / Green / Blue / Black","ไวต์ / กรีน / บลู / แบล็ก","ขาว / เขียว / น้ำเงิน / ดำ (สีสิ่งก่อสร้าง)","map"],
+    ["Within","วิด-<b>อิน</b>","ภายใน (ระยะไม่เกิน รวมช่องตัวเอง)","clue"],
+    ["One / Two / Three spaces","วัน-สเปซ / ทู-<b>สเป</b>-ซิซ / ทรี-<b>สเป</b>-ซิซ","1 / 2 / 3 ช่อง","clue"],
+    ["On","ออน","อยู่บน (ภูมิประเทศ)","clue"],
+    ["Or","ออร์","หรือ","clue"],
+    ["Either","<b>อี</b>-เธอร์","อันใดก็ได้ (either animal territory = เขตสัตว์ไหนก็ได้)","clue"],
+    ["Not","น็อต","ไม่ (คำใบ้ปฏิเสธ โหมดขั้นสูง)","clue"],
+    ["Could the creature be here?","คุด เดอะ <b>ครี</b>-เชอร์ บี <b>เฮียร์</b>?","สัตว์อยู่ช่องนี้ได้ไหม (ประโยคตอนถาม)","talk"],
+    ["Yes, it could.","เยส อิท <b>คุด</b>","ได้ อาจอยู่ (แล้ววางแผ่นกลม)","talk"],
+    ["No, it can't.","โน อิท <b>แคนต์</b>","ไม่ได้ (แล้ววางลูกบาศก์)","talk"],
+    ["I'm searching here.","แอม <b>เซิร์ช</b>-ชิง <b>เฮียร์</b>","ฉันจะค้นช่องนี้","talk"],
+    ["Your turn.","ยัวร์ <b>เทิร์น</b>","ตาคุณ","talk"],
+    ["Place your penalty cube.","<b>เพลส</b> ยัวร์ <b>เพน</b>-นัล-ตี-คิวบ์","วางลูกบาศก์ลงโทษด้วย","talk"],
+    ["Let's use the hint.","เล็ตส์ <b>ยูซ</b> เดอะ <b>ฮินต์</b>","ใช้คำใบ้ช่วยกันเถอะ","talk"],
+    ["Oops, I made a mistake.","อุ๊ปส์ ไอ เมด อะ มิส-<b>เทก</b>","อุ๊ย วางผิด (แล้วแก้ตามกติกา)","talk"],
+    ["I found it!","ไอ <b>ฟาวนด์</b> อิท!","เจอแล้ว! (ตอนค้นสำเร็จ)","talk"]
+  ];
+  var cur="all",body=document.getElementById("vc-body"),q=document.getElementById("vc-q"),seg=document.getElementById("vc-cat");
+  var cats=[["all","ทั้งหมด"]].concat(Object.keys(CAT).map(function(k){return[k,CAT[k]];}));
+  seg.innerHTML=cats.map(function(c){return'<button type="button" data-v="'+c[0]+'" aria-pressed="'+(c[0]==="all")+'">'+c[1]+"</button>";}).join("");
+  function strip(s){return s.replace(/<[^>]+>/g,"");}
+  function render(){var t=q.value.trim().toLowerCase();var rows=V.filter(function(v){if(cur!=="all"&&v[3]!==cur)return false;if(!t)return true;return(v[0]+" "+strip(v[1])+" "+v[2]).toLowerCase().indexOf(t)>=0;});
+    body.innerHTML=rows.length?rows.map(function(v){return'<tr'+(v[3]==="talk"?' class="ph"':"")+"><td>"+v[0]+"</td><td>"+v[1]+"</td><td>"+v[2]+'</td><td class="cat">'+CAT[v[3]]+"</td></tr>";}).join(""):'<tr><td colspan="4" class="empty">ไม่พบคำที่ค้น</td></tr>';}
+  seg.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;cur=b.dataset.v;seg.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});render();});
+  q.addEventListener("input",render);render();
+})();
+})();
+</script>
+
+</body></html>

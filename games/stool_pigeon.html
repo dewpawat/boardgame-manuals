@@ -1,0 +1,873 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Stool Pigeon ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: noir "crime scene" header band (dark ink + coral red like the box), then the rulebook reading column with a sticky chapter rail.
+   Card diagrams are drawn SVG cards (cream face, coral back). Setup helper + score calculator with tiebreaker near the end. */
+:root{
+  --bg:#f4efe7;
+  --surface:#fffcf7;
+  --surface-2:#ebe3d6;
+  --fg:#25222e;
+  --muted:#675f6d;
+  --line:#dcd1c2;
+  --accent:#c2412f;
+  --accent-strong:#d9503f;
+  --accent-soft:#f8ddd5;
+  --blue:#2f4f8f;
+  --blue-soft:#dfe5f2;
+  --green:#3f7046;
+  --green-soft:#dfecdc;
+  --band-1:#1b1a26;
+  --band-2:#2f2c42;
+  --band-fg:#f7f0e4;
+  --gold:#f0a58f;
+  --good:#2f7d3d;
+  --bad:#bb3326;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131219;--surface:#1c1b24;--surface-2:#282632;--fg:#efe8dc;--muted:#b4abb8;--line:#363343;
+    --accent:#f08a74;--accent-strong:#f08a74;--accent-soft:#3a1d18;--blue:#9db5ea;--blue-soft:#1b2238;
+    --green:#94c79a;--green-soft:#1b2a1d;--band-1:#0c0b12;--band-2:#1d1b2a;--gold:#f4b09b;
+    --good:#6fd086;--bad:#ff6f61;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131219;--surface:#1c1b24;--surface-2:#282632;--fg:#efe8dc;--muted:#b4abb8;--line:#363343;
+  --accent:#f08a74;--accent-strong:#f08a74;--accent-soft:#3a1d18;--blue:#9db5ea;--blue-soft:#1b2238;
+  --green:#94c79a;--green-soft:#1b2a1d;--band-1:#0c0b12;--band-2:#1d1b2a;--gold:#f4b09b;
+  --good:#6fd086;--bad:#ff6f61;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.exp-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.76rem;font-weight:600;border-radius:999px;padding:2px 10px;color:#fff;text-decoration:none;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol,ul.prose{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal;font-weight:500}
+.xhead .en{color:rgba(255,255,255,.8)}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.unv{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--surface-2);color:var(--muted);border:1px dashed var(--muted);vertical-align:2px;white-space:nowrap}
+
+/* score formula chips */
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 170px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.zero b{color:var(--good)}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-acc{fill:var(--accent-strong)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)} .s-blue{fill:var(--blue)}
+.s-surface2{fill:var(--surface-2)}
+.k-acc{stroke:var(--accent-strong)} .k-muted{stroke:var(--muted)} .k-good{stroke:var(--good)} .k-bad{stroke:var(--bad)} .k-blue{stroke:var(--blue)} .k-fg{stroke:var(--fg)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+.type .val{font-family:var(--font-tag);font-weight:600;font-size:.8rem;border-radius:999px;padding:0 9px;background:var(--accent-soft);color:var(--accent)}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+.xmeta{display:flex;flex-wrap:wrap;gap:6px}
+.xmeta span{background:rgba(255,255,255,.16);border-radius:999px;padding:0 10px;font-family:var(--font-tag);font-size:.78rem}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+.inrow input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:84px;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.result b{font-family:var(--font-tag);font-size:2.2rem;font-weight:600;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
+.result span{font-family:var(--font-tag);font-size:.95rem}
+.result small{color:var(--muted);font-size:.86rem}
+.co{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:inline-grid;gap:0}
+.co b{font-family:var(--font-tag);font-size:1.7rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.co small{font-size:.84rem;color:var(--muted)}
+.prow{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.prow-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.prow-h input[type=text]{font:inherit;font-family:var(--font-display);font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 10px;width:150px;min-width:0}
+.prow-h .tot{font-family:var(--font-tag);font-weight:600;font-variant-numeric:tabular-nums}
+.prow-h .tot b{font-size:1.4rem;color:var(--accent)}
+.hand{display:flex;flex-wrap:wrap;gap:6px;min-height:34px;align-items:center}
+.hand .chipc{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:6px;padding:2px 10px;cursor:pointer;min-height:32px}
+.hand .empty{color:var(--muted);font-size:.88rem}
+.adds{display:flex;flex-wrap:wrap;gap:4px}
+.adds button{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.82rem;min-width:36px;min-height:34px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:6px;cursor:pointer;padding:0 8px}
+.adds button.pg{color:var(--accent);border-color:var(--accent)}
+.rank{margin:0;padding-left:1.4em;display:grid;gap:4px}
+.rank li b{font-family:var(--font-display)}
+.winner{font-family:var(--font-display);font-size:1.15rem}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+details p+p{margin-top:6px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.verdict.no{color:var(--bad)}
+.verdict.hr{color:var(--blue)}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:400px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes bob{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก (ไม่มีภาคเสริม) · อิงคู่มือทางการ (Barrel Aged Games)</div>
+      <h1>Stool Pigeon<span>มาเฟียนกพิราบ · เกมการ์ดความจำ แข่งกันตบ แข่งกันกำจัดพยาน</span></h1>
+      <p class="lede">คุณคือหัวหน้าแก๊งมาเฟียนกพิราบ ตรงหน้าคุณคือ "ที่เกิดเหตุ" เป็นการ์ดคว่ำ 4 ใบที่คุณ<b>ห้ามเปิดดู</b> แต่ละใบคือพยานที่มีแต้ม ทุกตาจั่วการ์ดแล้วสลับเข้าที่เกิดเหตุ ทิ้งการ์ดที่สลับออก ถ้าเป็น<b>พยาน</b> ทุกคนแข่งกันตบเลขเดียวกันลงกองเพื่อกำจัดทิ้ง ถ้าเป็น<b>นกพิราบ</b> ได้ใช้พลังแอบดูหรือสลับการ์ด พอมีคนมั่นใจว่าแต้มตัวเองต่ำสุดก็<b>เคาะ</b> ทุกคนเล่นอีกตาเดียวแล้วเปิดนับ <b>แต้มรวมต่ำสุดชนะ</b></p>
+      <div class="facts">
+        <div class="fact"><b>2–6</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>4</b><small>ใบคว่ำต่อคนตอนเริ่ม</small></div>
+        <div class="fact"><b>54</b><small>การ์ดในกล่อง</small></div>
+        <div class="fact"><b>ต่ำสุด</b><small>ชนะ (ไม่ใช่สูงสุด)</small></div>
+      </div>
+      <div class="exp-badges">
+        <a class="xb" href="#race">แข่งตบพยาน</a>
+        <a class="xb" href="#pigeons">พลังนกพิราบ</a>
+        <a class="xb" href="#rat">หนู</a>
+        <a class="xb" href="#end">เคาะจบเกม</a>
+        <a class="xb" href="#faq">ข้อที่ชอบเถียงกัน</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 250">
+        <circle cx="286" cy="46" r="20" fill="#f4ecd8" opacity=".85"/>
+        <g fill="#f7f0e4" opacity=".6"><circle cx="30" cy="22" r="1.3"/><circle cx="120" cy="12" r="1"/><circle cx="210" cy="30" r="1.2"/></g>
+        <!-- spotlight -->
+        <path d="M170 0 L60 250 H280Z" fill="#f0a58f" opacity=".08"/>
+        <!-- table -->
+        <ellipse cx="170" cy="216" rx="170" ry="40" fill="#14131c"/>
+        <!-- face-down crime scene -->
+        <g transform="translate(36 150) rotate(-14)"><rect width="38" height="54" rx="5" fill="#d9503f" stroke="#7a2318"/><path d="M8 34 q11 -22 22 0" fill="none" stroke="#7a2318" stroke-width="2"/></g>
+        <g transform="translate(78 160) rotate(-4)"><rect width="38" height="54" rx="5" fill="#d9503f" stroke="#7a2318"/><path d="M8 34 q11 -22 22 0" fill="none" stroke="#7a2318" stroke-width="2"/></g>
+        <g transform="translate(226 160) rotate(6)"><rect width="38" height="54" rx="5" fill="#d9503f" stroke="#7a2318"/><path d="M8 34 q11 -22 22 0" fill="none" stroke="#7a2318" stroke-width="2"/></g>
+        <!-- played witness -->
+        <g transform="translate(268 150) rotate(16)"><rect width="38" height="54" rx="5" fill="#fbf6ec" stroke="#25222e"/><text x="19" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#25222e" font-family="Chakra Petch,sans-serif">7</text><path d="M2 46 l10 6 M2 41 l14 9" stroke="#d9503f" stroke-width="2"/></g>
+        <!-- pigeon boss -->
+        <g class="bob">
+          <path d="M120 200 Q112 120 170 104 Q228 120 220 200Z" fill="#8d8a98"/>
+          <path d="M146 200 Q150 150 170 140 Q190 150 194 200Z" fill="#f4ecd8"/>
+          <path d="M162 152 l8 10 l8 -10 l-8 -4z" fill="#d9503f"/>
+          <path d="M170 162 v30" stroke="#d9503f" stroke-width="5"/>
+          <circle cx="170" cy="84" r="34" fill="#a19eac"/>
+          <path d="M150 92 q20 -8 40 0 q-4 10 -20 12 q-16 -2 -20 -12z" fill="#6d6a7a"/>
+          <circle cx="158" cy="78" r="5" fill="#1b1a26"/><circle cx="182" cy="78" r="5" fill="#1b1a26"/>
+          <path d="M150 70 l16 4 M190 70 l-16 4" stroke="#1b1a26" stroke-width="3" stroke-linecap="round"/>
+          <path d="M164 88 l6 10 l6 -10z" fill="#e9a23b"/>
+          <!-- fedora -->
+          <path d="M126 56 h88 q-4 8 -18 8 h-52 q-14 0 -18 -8z" fill="#2b2838"/>
+          <path d="M140 56 q2 -28 30 -28 q28 0 30 28z" fill="#3a3650"/>
+          <rect x="140" y="46" width="60" height="7" fill="#d9503f"/>
+          <!-- cigar -->
+          <rect x="176" y="96" width="26" height="6" rx="2" fill="#7a4a24" transform="rotate(10 176 96)"/>
+          <circle cx="203" cy="104" r="2.5" fill="#f0a58f"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#race">แข่งตบกำจัดพยาน</a></li>
+      <li><a href="#oops">ตบผิดโดนปรับ</a></li>
+      <li><a href="#pigeons">พลังนกพิราบ</a></li>
+      <li><a href="#kingpin">Kingpin เจ้าพ่อ</a></li>
+      <li><a href="#rat">หนู & มีตบอล</a></li>
+      <li><a href="#end">เคาะ จบเกม นับแต้ม</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#setuptool">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#calc">เครื่องคิดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#tips">เทคนิคเล่น</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ ทำ 3 ขั้นตามลำดับ (หรือเคาะแทนทั้งตา)</h3>
+        <ol>
+          <li><b>จั่ว</b> 1 ใบจากกองจั่ว หรือหยิบใบบนสุดของกองทิ้ง (ถ้าเป็นพยานที่หยิบได้) ดูหน้าการ์ดแล้วจำไว้</li>
+          <li><b>สลับ</b> เอาใบที่จั่วเข้าไปแทนการ์ดคว่ำใบหนึ่งในที่เกิดเหตุของคุณ <b>ใบที่จั่วมาทิ้งเลยไม่ได้</b> ต้องเข้าที่เกิดเหตุก่อนเสมอ</li>
+          <li><b>ลงการ์ด</b> เปิดใบที่สลับออกมาลงกองทิ้ง ถ้าเป็น<b>พยาน</b> ทุกคนแข่งตบเลขเดียวกันจากที่เกิดเหตุไหนก็ได้ ถ้าเป็น<b>นกพิราบ</b> ใช้พลังของมัน</li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="แต้มของการ์ดแต่ละแบบ">
+        <div class="fm"><small>พยาน (การ์ดเลข)</small><b>= เลขบนการ์ด</b></div>
+        <div class="fm"><small>Stool Pigeon</small><b>7</b></div>
+        <div class="fm"><small>Bamboozle</small><b>5</b></div>
+        <div class="fm"><small>Vendetta</small><b>3</b></div>
+        <div class="fm"><small>Kingpin</small><b>1</b></div>
+        <div class="fm zero"><small>Meatball</small><b>0</b></div>
+        <div class="fm end"><small>Rat (หนู) · ตอนจบเกม</small><b>= ใบบนสุดของกองจั่ว</b></div>
+      </div>
+      <p class="note">ตัวเลขพวกนี้คือแต้มที่พิมพ์มุมการ์ดในคู่มือทางการ · ตอนจบเกมรวมแต้มการ์ดทุกใบในที่เกิดเหตุ <b>ต่ำสุดชนะ</b> · เสมอ: ใบน้อยกว่าชนะ → การ์ดใบต่ำสุดต่ำกว่าชนะ → ยังเสมอ ไม่มีใครชนะ เล่นใหม่ · ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <p class="prose">ปกหลังคู่มือพิมพ์ว่า <b>การ์ด 54 ใบ · การ์ดช่วยจำ 4 ใบ · คู่มือ 1 เล่ม</b> การ์ดแบ่งเป็น 3 กลุ่ม ภาพในคู่มือหน้าเตรียมเกมบอกจำนวนไว้ว่า พยาน ×4 · นกพิราบ ×4 · การ์ดพิเศษ ×1</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>กลุ่ม</th><th class="num">แต้ม</th><th class="num">จำนวน</th><th>ลงแล้วเกิดอะไร</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="5">พยาน <span class="en">Witness cards</span></td></tr>
+            <tr><td><b>การ์ดเลข</b><br><span class="en">Witness</span></td><td>พยาน</td><td class="num">ตามเลข</td><td class="num">เลขละ 4</td><td>ทุกคนแข่งตบเลขเดียวกันลงกองเพื่อกำจัด · ดู <a href="#race">แข่งตบ</a><br><span class="unv">ยังไม่ยืนยัน</span> <span class="note">ช่วงเลข: คู่มือโชว์แค่ใบ 2, 8, 10 ถ้านับจาก 54 ใบ จะเหลือพยาน 36 ใบ = 9 เลข × 4 จึงน่าจะเป็นเลข 2–10 ให้เช็กกับการ์ดในกล่อง</span></td></tr>
+            <tr class="grp"><td colspan="5">นกพิราบ <span class="en">Pigeon cards</span> · ลงแล้วใช้พลัง</td></tr>
+            <tr><td><b>Stool Pigeon</b><br><span class="en">นกต่อ / สายลับ</span></td><td>นกพิราบ</td><td class="num">7</td><td class="num">4</td><td>แอบดูการ์ดคว่ำใบไหนก็ได้บนโต๊ะ 1 ใบ</td></tr>
+            <tr><td><b>Bamboozle</b><br><span class="en">หลอกสลับ</span></td><td>นกพิราบ</td><td class="num">5</td><td class="num">4</td><td>สลับการ์ดคว่ำ 2 ใบไหนก็ได้บนโต๊ะ (ไม่ต้องมีของตัวเอง)</td></tr>
+            <tr><td><b>Vendetta</b><br><span class="en">ล้างแค้น</span></td><td>นกพิราบ</td><td class="num">3</td><td class="num">4</td><td>แอบดู 1 ใบ แล้วสลับ 2 ใบไหนก็ได้ (ไม่ต้องเป็นใบที่ดู)</td></tr>
+            <tr><td><b>Kingpin</b><br><span class="en">เจ้าพ่อ</span></td><td>นกพิราบ</td><td class="num">1</td><td class="num">4</td><td>เลือก: กำจัดการ์ด<b>ของตัวเอง</b> 1 ใบ หรือ แจกใบบนสุดของกองจั่วให้คนอื่น 1 ใบ</td></tr>
+            <tr class="grp"><td colspan="5">การ์ดพิเศษ <span class="en">Special cards</span></td></tr>
+            <tr><td><b>Rat</b><br><span class="en">หนู</span></td><td>พิเศษ</td><td class="num">?</td><td class="num">1</td><td>ทิ้งไม่ได้ ลงเมื่อไรกลับเข้าที่เกิดเหตุคุณ และใบที่จั่วมาก็ค้างอยู่ด้วย · แต้ม = ใบบนสุดกองจั่วตอนจบ</td></tr>
+            <tr><td><b>Meatball</b><br><span class="en">มีตบอล</span></td><td>พิเศษ</td><td class="num">0</td><td class="num">1</td><td>เป็นพยานธรรมดา แต่มีใบเดียวในเกม จึงไม่มีใบไหนตบคู่ได้</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตรวจกับ 2 แหล่ง: คู่มือทางการ (PDF ของสำนักพิมพ์) และหน้า RulesPal ตรงกันทุกตัวเลขในตารางนี้ · มีรีวิวต่างประเทศบางเว็บเขียนว่ากล่องมี 56 ใบ และนกพิราบ 3 ตัวแรกมีค่า 10 แต้ม ซึ่ง<b>ไม่ตรงกับภาพการ์ดในคู่มือทางการ</b> ดู <a href="#faq">ข้อที่ชอบเถียงกัน</a> · ถ้าการ์ดในกล่องคุณพิมพ์ต่างจากนี้ ให้ยึดตัวเลขบนการ์ดจริง</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม <span class="en">Setup</span></h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="table" viewBox="0 0 640 400" role="img" aria-label="ผัง 4 ผู้เล่น ทุกคนมีการ์ดคว่ำ 2×2 กลางโต๊ะมีกองจั่วและกองทิ้ง"></svg></div>
+        <figcaption>ผังโต๊ะ 4 คน · ทุกคนมีการ์ดคว่ำ 4 ใบวางเป็นตาราง 2×2 คือ "ที่เกิดเหตุ" · กลางโต๊ะมีกองจั่ว <span class="en">DRAW</span> กับกองทิ้ง <span class="en">PLAY</span> · 2 ใบแถวที่ใกล้ตัว (กรอบส้ม) คือ 2 ใบที่แอบดูได้ครั้งเดียวตอนเริ่ม</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>สับการ์ด <span class="en">Shuffle the deck</span></h3><p>สับการ์ดทั้ง 54 ใบรวมกัน</p></div></li>
+        <li><div class="body"><h3>แจกคนละ 4 ใบคว่ำ <span class="en">Deal 4 cards face down</span></h3><p>วางคว่ำตรงหน้าเป็นตาราง 2×2 นี่คือ<b>ที่เกิดเหตุ</b> <span class="en">CRIME SCENE</span> ของคุณ · <b>ห้ามเปิดดู!</b></p></div></li>
+        <li><div class="body"><h3>วางกองจั่วไว้กลางโต๊ะ</h3><p>การ์ดที่เหลือคือกองจั่ว เว้นที่ข้าง ๆ ไว้เป็นกองทิ้ง (กองนี้เริ่มว่าง)</p></div></li>
+        <li><div class="body"><h3>แอบดู 2 ใบล่าง ครั้งเดียว <span class="en">Peek at your 2 bottom cards once</span></h3><p>ทุกคนดู<b>2 ใบแถวที่ใกล้ตัว</b> ได้<b>ครั้งเดียวเท่านั้น</b> แล้วคว่ำไว้ตามเดิม จำให้ดีว่าใบไหนเลขอะไร หลังจากนี้ห้ามดูการ์ดตัวเองอีก ยกเว้นใช้พลังนกพิราบ</p></div></li>
+        <li><div class="body"><h3>เลือกคนเริ่ม</h3><p>คู่มือให้เลือกกันเองตามสะดวก แล้ววน<b>ตามเข็มนาฬิกา</b></p></div></li>
+      </ol>
+      <div class="callout green">
+        <h3>ข้อแนะนำจากคู่มือ: เล่นมือเดียว <span class="en">One handed</span></h3>
+        <p>คู่มือ "แนะนำอย่างยิ่ง" ให้ทุกคนใช้มือเดียวตอนลงและตบการ์ด เพื่อให้คนอื่นมีโอกาสตบทัน คู่มือเขียนเป็น<b>ข้อแนะนำ</b> ไม่ใช่กฎบังคับ ตกลงกันก่อนเริ่ม</p>
+      </div>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ <span class="en">Gameplay</span></h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="turn" viewBox="0 0 640 250" role="img" aria-label="จั่ว 2 สลับเข้าที่เกิดเหตุ แล้วลงใบที่สลับออกคือ 9"></svg></div>
+        <figcaption>ตัวอย่าง: จั่วได้ <b>2</b> (แต้มต่ำ น่าเก็บ) สลับเข้าไปแทนใบที่คุณจำได้ว่าเป็น <b>9</b> แล้วเปิด 9 ลงกองทิ้ง แต้มในมือลดไป 7 ทันที และทุกคนเริ่มแข่งตบ 9</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>จั่ว <span class="en">Draw</span></h3>
+          <ul>
+            <li>หยิบใบบนสุดของ<b>กองจั่ว</b> หรือใบบนสุดของ<b>กองทิ้ง</b> (ถ้ามี)</li>
+            <li>จากกองทิ้ง <b>ห้ามหยิบนกพิราบที่หงายอยู่</b> และ<b>ห้ามหยิบการ์ดที่ถูกกำจัดแล้ว</b> (ใบที่มีคนตบทับสำเร็จ) จึงหยิบได้แค่พยานที่เพิ่งลงและยังไม่มีใครตบทับ</li>
+            <li>ดูหน้าการ์ด พยายามจำไว้</li>
+          </ul></div></li>
+        <li><div class="body"><h3>สลับเข้าที่เกิดเหตุ <span class="en">Switch it with a crime scene card</span></h3><p>เอาใบที่จั่วไปวางคว่ำแทนการ์ดใบใดก็ได้ในที่เกิดเหตุของคุณ <b>ใบที่จั่วมาลงกองเลยไม่ได้</b> คู่มือย้ำว่าต้องเข้าที่เกิดเหตุก่อนทุกครั้ง</p></div></li>
+        <li><div class="body"><h3>ลงการ์ดที่สลับออก <span class="en">Play the crime scene card</span></h3><p>รีบเปิดใบที่สลับออกมาลงกองทิ้ง แล้วดูว่าเป็นอะไร:</p>
+          <ul>
+            <li><b>นกพิราบ</b> → ใช้พลังของใบนั้น · ดู <a href="#pigeons">พลังนกพิราบ</a></li>
+            <li><b>หนู</b> → กลับเข้าที่เกิดเหตุคุณ คุณมีการ์ดเพิ่ม 1 ใบ · ดู <a href="#rat">หนู</a></li>
+            <li><b>มีตบอล</b> → นับเป็นพยานธรรมดา แต่มีใบเดียวในเกม</li>
+            <li><b>พยาน</b> (การ์ดเลขล้วน) → ทุกคนแข่งตบเลขเดียวกัน · ดู <a href="#race">แข่งตบ</a></li>
+          </ul></div></li>
+      </ol>
+      <div class="callout blue">
+        <h3>ใช้พลังนกพิราบที่อยู่ในที่เกิดเหตุได้ยังไง</h3>
+        <p>พลังทำงานตอน<b>นกพิราบถูกลงกอง</b> และใบที่ลงกองต้องเป็นใบที่สลับออกจากที่เกิดเหตุเสมอ ดังนั้นถ้าจั่วได้ Stool Pigeon มันต้องเข้าไปอยู่ในที่เกิดเหตุก่อน ตาต่อ ๆ ไปค่อยจั่วใบอื่นมาสลับแทนตำแหน่งนั้น นกพิราบจึงถูกลงกองแล้วใช้พลังได้ <b>จำตำแหน่งนกพิราบให้ดี</b> เพราะมันมีแต้ม (7, 5, 3)</p>
+      </div>
+    </section>
+
+    <!-- RACE -->
+    <section id="race">
+      <div class="sec-head"><span class="tag">ช่วงที่เสียงดังที่สุด</span><h2>แข่งตบกำจัดพยาน <span class="en">Eliminating witnesses</span></h2></div>
+      <p class="prose">เมื่อมีพยาน (การ์ดเลข) ถูกลงกองทิ้ง ใครจำได้ว่าเลขเดียวกันอยู่ตรงไหน ให้รีบหยิบใบนั้นลงทับบนกองทิ้ง <b>หยิบจากที่เกิดเหตุของใครก็ได้ รวมของตัวเอง</b> คนที่ลงได้ถูกต้อง<b>คนแรกเท่านั้น</b>ได้กำจัดการ์ดใบนั้น ไม่ต้องรอตาตัวเอง</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="race" viewBox="0 0 640 300" role="img" aria-label="ส้มลง 6 ฟ้าจำได้ว่าเขียวมี 6 ตบลงก่อน แล้วยกการ์ดของฟ้าให้เขียวแทน"></svg></div>
+        <figcaption>ส้มลง <b>6</b> · ฟ้าจำได้ว่าการ์ดมุมซ้ายบนของเขียวคือ 6 จึงหยิบมาตบทับก่อนใคร ① กำจัดสำเร็จ ② <b>ฟ้าต้องยกการ์ดของตัวเอง 1 ใบไปแทนที่ช่องที่ว่างของเขียว</b> ฟ้าจึงเหลือการ์ดน้อยลง 1 ใบ ส่วนเขียวยังมีเท่าเดิม</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ตบจากที่เกิดเหตุตัวเอง</h3><p>การ์ดหายไปจากที่เกิดเหตุคุณ 1 ใบ <b>แต้มลดทันที</b> เป็นทางลดแต้มที่ดีที่สุดในเกม</p></div>
+        <div class="type"><h3>ตบจากที่เกิดเหตุคนอื่น</h3><p>เลือกการ์ดของคุณ 1 ใบ (คว่ำ) ยกไปแทนช่องที่ว่างของเขา <b>คุณเหลือการ์ดน้อยลง</b> และได้โยนใบที่ไม่อยากได้ (เช่นใบที่คุณจำได้ว่าแต้มสูง) ไปให้เขา</p></div>
+        <div class="type"><h3>ตบได้ถึงเมื่อไร</h3><p>พยานที่ลงไว้ยังตบได้จนกว่าจะมี<b>การ์ดถูกกำจัดสำเร็จ</b> หรือมี<b>ใบถัดไปลงทับ</b> · คู่มือย้ำว่าได้กำจัดเฉพาะ "คนแรก" ที่ตบถูก</p></div>
+      </div>
+      <div class="callout">
+        <h3>นกพิราบตบไม่ได้</h3>
+        <ul>
+          <li>ห้ามตบนกพิราบทับนกพิราบชนิดเดียวกัน เช่น Bamboozle ทับ Bamboozle</li>
+          <li>ห้ามตบนกพิราบทับพยานเลขเดียวกัน เช่น Stool Pigeon (7) ทับพยานเลข 7</li>
+          <li>มีตบอลมีใบเดียว จึงไม่มีอะไรตบคู่ได้ · หนูตบไม่ได้ กำจัดได้ทางเดียวคือ Kingpin</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- OOPS -->
+    <section id="oops">
+      <div class="sec-head"><span class="tag">โทษของคนใจร้อน</span><h2>ตบผิดโดนปรับ <span class="en">OOPS</span></h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="oops" viewBox="0 0 640 230" role="img" aria-label="ตบ 8 ทับ 6 ผิด ต้องคืนการ์ดที่เดิมแล้วจั่วการ์ดปรับ 1 ใบ"></svg></div>
+        <figcaption>คิดว่าเป็น 6 แต่เปิดออกมาเป็น <b>8</b> · ① คืนการ์ดใบนั้นไปที่เดิม (คว่ำ) ② คนตบผิดจั่วใบบนสุดของกองจั่ว <b>ห้ามดู</b> เพิ่มเข้าที่เกิดเหตุตัวเอง 1 ใบ</figcaption>
+      </figure>
+      <ul class="prose">
+        <li>การ์ดที่ตบผิด<b>กลับไปที่เดิม</b> ถ้าหยิบมาจากคนอื่นก็คืนคนนั้น</li>
+        <li>การ์ดปรับไม่มีเพดาน ที่เกิดเหตุของใครจะโตเท่าไรก็ได้ <span class="en">no limit</span></li>
+        <li>คนที่ตบผิดได้เห็นหน้าการ์ดใบนั้นแล้ว (และคนอื่นก็เห็น) ใช้เป็นข้อมูลต่อได้</li>
+      </ul>
+    </section>
+
+    <!-- PIGEONS -->
+    <section id="pigeons">
+      <div class="xhead" style="--c:#2f2c42"><span class="tag">PIGEON CARDS · ลงกองแล้วใช้พลัง</span><h2>พลังนกพิราบ</h2><p>นกพิราบ 3 ตัวนี้แต้มสูง (7 / 5 / 3) ถ้าค้างในมือตอนจบจะเสียแต้มมาก จึงควรลงเพื่อใช้พลังเมื่อมีโอกาส ทั้งสามตัวทำกับการ์ด<b>คว่ำบนโต๊ะใบไหนก็ได้</b> ของใครก็ได้</p><div class="xmeta"><span>ชนิดละ 4 ใบ</span><span>ห้ามหยิบจากกองทิ้ง</span><span>ตบทับไม่ได้</span></div></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="powers" viewBox="0 0 640 260" role="img" aria-label="Stool Pigeon แอบดู 1 ใบ Bamboozle สลับ 2 ใบ Vendetta ดู 1 ใบแล้วสลับ 2 ใบ"></svg></div>
+        <figcaption>ตาคือแอบดู ลูกศรคือสลับ · Bamboozle กับ Vendetta สลับระหว่างคนอื่น 2 คนได้ คุณไม่ต้องเกี่ยวด้วย · ตอนสลับ<b>ห้ามเปิดดู</b>การ์ดที่ย้าย (ยกเว้นใบที่ได้สิทธิ์ดู)</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>Stool Pigeon <span class="val">7 แต้ม</span></h3><p class="en">Take a peek at ANY card</p><p>แอบดูการ์ดคว่ำ<b>ใบไหนก็ได้</b>บนโต๊ะ 1 ใบ ของตัวเองหรือของคนอื่น แล้วคว่ำคืนที่เดิม</p></div>
+        <div class="type"><h3>Bamboozle <span class="val">5 แต้ม</span></h3><p class="en">Pull a good ol' switcheroo</p><p>เลือกการ์ดคว่ำ <b>2 ใบไหนก็ได้</b>บนโต๊ะ สลับที่กัน ไม่ต้องมีการ์ดของคุณในนั้นก็ได้ (ไม่ได้ดูหน้าการ์ด)</p></div>
+        <div class="type"><h3>Vendetta <span class="val">3 แต้ม</span></h3><p class="en">Sneak a peek and swap</p><p>แอบดูการ์ดคว่ำ 1 ใบ <b>แล้ว</b>สลับการ์ด 2 ใบไหนก็ได้ ใบที่สลับไม่จำเป็นต้องเป็นใบที่ดู</p></div>
+      </div>
+    </section>
+
+    <!-- KINGPIN -->
+    <section id="kingpin">
+      <div class="xhead" style="--c:#7a2318"><span class="tag">PIGEON CARD · 1 แต้ม</span><h2>Kingpin เจ้าพ่อ <span class="en">Add or eliminate a card</span></h2><p>นกพิราบตัวเดียวที่<b>เปลี่ยนจำนวนการ์ด</b>ได้ แต้มแค่ 1 จึงเก็บไว้ในมือก็ไม่เสียมาก แต่ใช้แล้วคุ้มกว่าเสมอ</p><div class="xmeta"><span>4 ใบ</span><span>เลือก 1 ใน 2 อย่าง</span></div></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="kingpin" viewBox="0 0 640 240" role="img" aria-label="ทางเลือกที่ 1 กำจัดการ์ดของตัวเอง 1 ใบ ทางเลือกที่ 2 แจกใบบนสุดของกองจั่วให้คนอื่น"></svg></div>
+        <figcaption>ซ้าย: กำจัดการ์ด<b>ของตัวเอง</b> 1 ใบ ออกจากเกม (เช่นใบที่จำได้ว่าเป็น 10 หรือหนู) · ขวา: จั่วใบบนสุดของกองจั่ว (ไม่มีใครดู) ไปเพิ่มในที่เกิดเหตุ<b>ของคนอื่น</b></figcaption>
+      </figure>
+      <div class="callout blue">
+        <h3>คำในการ์ด</h3>
+        <p>"Eliminate ANY one of your CRIME SCENE cards or add the next card from the DRAW pile to another player's CRIME SCENE!" · คำว่า <b>ANY</b> หมายถึงการ์ดใบไหนก็ได้<b>ในที่เกิดเหตุของคุณ</b> ไม่ใช่การ์ดของคนอื่น (ดู <a href="#faq">ข้อที่ชอบเถียงกัน</a>)</p>
+      </div>
+    </section>
+
+    <!-- RAT + MEATBALL -->
+    <section id="rat">
+      <div class="xhead" style="--c:#4a4656"><span class="tag">SPECIAL CARDS · อย่างละ 1 ใบ</span><h2>หนู และมีตบอล <span class="en">The Rat · Meatball</span></h2><p>หนูคือใบที่ไม่มีใครอยากได้ ส่วนมีตบอลคือใบที่ทุกคนอยากได้ (0 แต้ม)</p><div class="xmeta"><span>หนู: แต้มสุ่มตอนจบ</span><span>มีตบอล: 0 แต้ม</span></div></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="rat" viewBox="0 0 640 240" role="img" aria-label="ลงหนูแล้วหนูวิ่งกลับ ใบที่จั่วก็ค้าง การ์ดเพิ่มจาก 4 เป็น 5 ใบ"></svg></div>
+        <figcaption>จั่วได้ 4 สลับเข้าไป แต่ใบที่ออกมาคือ<b>หนู</b> หนูวิ่งกลับที่เกิดเหตุทันที และ 4 ก็อยู่ต่อ คุณมีการ์ด<b>เพิ่ม 1 ใบ</b> · ตอนจบเกม เปิดใบบนสุดของกองจั่ววางบนหนู เลขนั้นคือแต้มของหนู</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>หนู <span class="val">? แต้ม</span></h3><ul style="margin:0;padding-left:1.2em"><li>ลงกองเมื่อไร "แม้แต่ลงโดยไม่ตั้งใจ" หนูกลับที่เกิดเหตุคุณ และใบที่จั่วตานั้นก็ค้างอยู่ด้วย</li><li>ย้ายออกได้ 2 ทาง: <b>สลับ</b>ไปให้คนอื่นด้วย Bamboozle/Vendetta หรือ<b>กำจัด</b>ทิ้งด้วย Kingpin</li><li>ตอนจบ: จั่วใบบนสุดของกองจั่ววางบนหนู แต้มหนู = แต้มใบนั้น (ถ้าได้นกพิราบก็ใช้แต้มนกพิราบ เช่น 7)</li></ul></div>
+        <div class="type"><h3>มีตบอล <span class="val">0 แต้ม</span></h3><ul style="margin:0;padding-left:1.2em"><li>ใบที่ดีที่สุดในเกม ถ้าใครลงทิ้ง <b>รีบหยิบจากกองทิ้ง</b> ตาถัดไปเลย (คู่มือก็แนะนำแบบนี้)</li><li>ลงกองแล้วนับเป็นพยานธรรมดา แต่ไม่มีใบไหนตบคู่ได้</li></ul></div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>เคาะ จบเกม และนับแต้ม <span class="en">Ending the game</span></h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เคาะ <span class="en">Knock</span></h3><p>ถึงตาคุณ ถ้าเชื่อว่าแต้มรวมในที่เกิดเหตุของคุณ<b>ต่ำที่สุด</b> ให้เคาะโต๊ะ<b>แทน</b>การจั่วและลงการ์ด เคาะ = ใช้ตานั้นทั้งตา</p></div></li>
+        <li><div class="body"><h3>ทุกคนเล่นอีกคนละ 1 ตา</h3><p>ผู้เล่นคนอื่นทุกคน<b>ต้อง</b>เล่นตาสุดท้ายคนละ 1 ตา (คนเคาะไม่ได้เล่นอีก)</p></div></li>
+        <li><div class="body"><h3>เปิดทั้งหมดแล้วรวมแต้ม</h3><p>ทุกคนเปิดการ์ดในที่เกิดเหตุ ถ้าใครมีหนู เปิดใบบนสุดของกองจั่ววางบนหนูเป็นแต้มหนู <b>แต้มรวมต่ำสุดชนะ</b></p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="knock" viewBox="0 0 640 300" role="img" aria-label="ส้ม 9 แต้ม 3 ใบ ฟ้า 9 แต้ม 2 ใบ ฟ้าชนะเพราะใบน้อยกว่า"></svg></div>
+        <figcaption>ส้มกับฟ้าได้ <b>9 แต้ม</b> เท่ากัน ตัดสินด้วยจำนวนการ์ด: ฟ้ามี 2 ใบ ส้มมี 3 ใบ <b>ฟ้าชนะ</b> · เขียวมีหนู เปิดใบบนสุดของกองจั่วได้ 6 หนูจึงนับ 6</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ลำดับตัดสิน</th><th>ใครชนะ</th><th>ตัวอย่าง</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td><b>แต้มรวมต่ำสุด</b></td><td>8 ชนะ 9</td></tr>
+            <tr><td class="num">2</td><td>เสมอ → <b>การ์ดน้อยใบกว่า</b> <span class="en">fewest cards</span></td><td>9 แต้ม 2 ใบ (2+7) ชนะ 9 แต้ม 3 ใบ (2+3+4)</td></tr>
+            <tr><td class="num">3</td><td>ยังเสมอ → <b>มีการ์ดใบต่ำสุดต่ำกว่า</b> <span class="en">lowest card</span></td><td>2 ใบ: 0+9 ชนะ 4+5 (มีใบ 0)</td></tr>
+            <tr><td class="num">4</td><td>ยังเสมอ → <b>ไม่มีใครชนะ</b> เล่นใหม่!</td><td>2+7 กับ 2+7</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">คู่มือทางการ<b>ไม่มีบทลงโทษ</b>คนเคาะที่แต้มไม่ต่ำสุด และเล่นเป็นเกมเดียวจบ ไม่มีการสะสมแต้มหลายรอบ · กลุ่มไหนอยากเล่นหลายรอบ ใช้ <a href="#calc">เครื่องคิดคะแนน</a> นับรอบชนะเอาเองได้</p>
+    </section>
+
+    <!-- SETUP TOOL -->
+    <section id="setuptool">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div><span class="field-l">จำนวนผู้เล่น</span>
+          <div class="seg" id="s-n">
+            <button type="button" data-v="2" aria-pressed="false">2</button>
+            <button type="button" data-v="3" aria-pressed="false">3</button>
+            <button type="button" data-v="4" aria-pressed="true">4</button>
+            <button type="button" data-v="5" aria-pressed="false">5</button>
+            <button type="button" data-v="6" aria-pressed="false">6</button>
+          </div></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div class="co"><b id="s-deal">16</b><small>ใบที่แจก (คนละ 4)</small></div>
+          <div class="co"><b id="s-draw">38</b><small>ใบในกองจั่วตอนเริ่ม</small></div>
+        </div>
+        <ol class="prose" id="s-list" style="padding-left:1.3em"></ol>
+      </div>
+    </section>
+
+    <!-- CALC -->
+    <section id="calc">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>เครื่องคิดคะแนน</h2></div>
+      <p class="prose">ตอนเปิดการ์ด กดปุ่มการ์ดที่แต่ละคนมี เครื่องจะรวมแต้มและตัดสินเสมอตามลำดับในคู่มือให้ กดที่การ์ดในแถวเพื่อลบออก</p>
+      <div class="tool">
+        <div class="inrow">
+          <div><span class="field-l">จำนวนผู้เล่น</span>
+            <div class="seg" id="c-n">
+              <button type="button" data-v="2" aria-pressed="false">2</button>
+              <button type="button" data-v="3" aria-pressed="false">3</button>
+              <button type="button" data-v="4" aria-pressed="true">4</button>
+              <button type="button" data-v="5" aria-pressed="false">5</button>
+              <button type="button" data-v="6" aria-pressed="false">6</button>
+            </div></div>
+          <label><span class="field-l">ใบบนสุดกองจั่ว (แต้มหนู)</span><input type="number" id="c-rat" min="0" max="10" value="5"></label>
+          <button type="button" class="btn" id="c-clear">ล้างทั้งหมด</button>
+        </div>
+        <div id="c-players"></div>
+        <div class="result" aria-live="polite"><b id="c-win">–</b><span id="c-wtxt">ยังไม่ได้ใส่การ์ด</span><small id="c-why"></small></div>
+        <ol class="rank" id="c-rank"></ol>
+      </div>
+      <p class="note">ปุ่มสีแดงคือนกพิราบ (แต้มตามที่พิมพ์บนการ์ด) · หนูใช้ค่าในช่อง "ใบบนสุดกองจั่ว" · เบราว์เซอร์จะจำชื่อผู้เล่นไว้ให้ครั้งหน้า</p>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <p class="prose">เกมนี้มีข้อถกเถียงเยอะ ส่วนหนึ่งเพราะรีวิวและคลิปสอนเล่นต่างประเทศบางแห่งอธิบายไม่ตรงกับคู่มือทางการ ด้านล่างแยกให้เห็นชัดว่าข้อไหน<b>คู่มือตอบไว้แล้ว</b> <span class="verdict">(สีเขียว/แดง)</span> และข้อไหน<b>คู่มือไม่ได้เขียน</b> <span class="verdict hr">(สีน้ำเงิน = ต้องตกลงกันเอง)</span></p>
+      <div class="faq">
+        <details open><summary>Stool Pigeon, Bamboozle, Vendetta มีค่า 10 แต้มใช่ไหม?</summary><p><span class="verdict no">ไม่ใช่</span> ภาพการ์ดในคู่มือทางการพิมพ์ <b>7 / 5 / 3</b> ตามลำดับ (Kingpin 1, Meatball 0) ตัวเลข "10 แต้มทั้งสามใบ" มาจากรีวิวเว็บหนึ่งปี 2019 ซึ่งยังบอกว่ากล่องมี 56 ใบด้วย ขณะที่คู่มือพิมพ์ 54 ใบ · ถ้าการ์ดในกล่องคุณพิมพ์ต่างจากนี้ ให้ยึดตัวเลขบนการ์ด</p></details>
+        <details><summary>จั่วได้นกพิราบ ใช้พลังเลยได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> คู่มือเขียนว่า "you cannot immediately PLAY the card you DRAW" ใบที่จั่วต้องเข้าที่เกิดเหตุก่อน ใบที่ลงกองคือใบที่สลับออก ถ้าใบที่สลับออกบังเอิญเป็นนกพิราบก็ใช้พลังได้ · บางคลิปสอนให้ทิ้งใบที่จั่วได้เลยแบบเกม Cabo/Golf ซึ่งไม่ตรงกับคู่มือเกมนี้</p></details>
+        <details><summary>Kingpin กำจัดการ์ดของคนอื่นได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> กำจัดได้แค่การ์ดใน<b>ที่เกิดเหตุของคุณเอง</b> 1 ใบ ส่วนคนอื่นทำได้แค่ "แจก" การ์ดจากกองจั่วไปเพิ่มให้ · รีวิวบางแห่งเขียนว่ากำจัดการ์ดใครก็ได้ ซึ่งไม่ตรงกับคำในการ์ด</p></details>
+        <details><summary>กำจัดการ์ดคนอื่นได้ แล้วผมต้องให้การ์ดเขาไหม?</summary><p><span class="verdict">ต้องให้</span> ถ้าตบการ์ดจาก<b>ที่เกิดเหตุคนอื่น</b>สำเร็จ ให้ยกการ์ดคว่ำของคุณ 1 ใบไปแทน การตบการ์ดคนอื่นจึงลดการ์ดของ<b>คุณ</b> ไม่ใช่ของเขา (เลือกใบที่ไม่อยากได้ส่งไป)</p></details>
+        <details><summary>ตบ Stool Pigeon (7) ทับพยานเลข 7 ได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> นกพิราบตบไม่ได้ทั้งทับนกพิราบชนิดเดียวกันและทับพยานเลขเดียวกัน ถ้าตบไปถือว่า<b>ตบผิด</b> คืนการ์ดแล้วจั่วการ์ดปรับ</p></details>
+        <details><summary>หยิบนกพิราบจากกองทิ้งมาเก็บได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> นกพิราบที่หงายบนกองทิ้งหยิบไม่ได้ และการ์ดที่ถูกกำจัด (ใบที่มีคนตบทับสำเร็จ) ก็หยิบไม่ได้</p></details>
+        <details><summary>พยานใบเดียวตบได้กี่ครั้ง ถ้ามีเลขเดียวกันหลายใบบนโต๊ะ?</summary><p><span class="verdict">คนแรกคนเดียว</span> คู่มือเขียนว่า "Only the FIRST player ... gets to eliminate" และพยานที่ลงไว้ตบได้จน "another card is correctly eliminated" แปลว่าพอมีคนตบถูกแล้ว ใบนั้นปิดรับ</p><p><span class="verdict hr">ต้องตกลง</span> บางกลุ่มอ่านว่าตบต่อกันได้เรื่อย ๆ ตราบที่เลขตรงกัน (ตบ 6 ทับ 6 ทับ 6) คู่มือไม่ได้เขียนตรง ๆ ว่าห้าม ตกลงก่อนเล่น · คู่มือนี้แนะนำแบบตามตัวอักษร คือ<b>ครั้งเดียว</b></p></details>
+        <details><summary>ตบพร้อมกันเป๊ะ ใครได้?</summary><p><span class="verdict hr">คู่มือไม่ได้เขียน</span> ยึดหลัก "การ์ดใบไหนแตะกองก่อน" ถ้าตัดสินไม่ได้จริง ๆ คู่มือมีกฎ <b>House Rules</b>: เถียงกันเสียงดัง (แบบนกพิราบ) แล้วโหวต ผลโหวตกลายเป็นกฎบ้านตลอดไป</p></details>
+        <details><summary>คนเคาะแต้มไม่ต่ำสุด โดนปรับไหม?</summary><p><span class="verdict">ไม่โดน</span> คู่มือทางการไม่มีบทลงโทษ แค่แพ้ตามแต้ม · ถ้ากลุ่มอยากให้เคาะมีความเสี่ยง (เช่น +5 แต้ม) ถือเป็นกฎบ้าน</p></details>
+        <details><summary>หลังมีคนเคาะ ยังสลับหรือตบการ์ดของคนเคาะได้ไหม?</summary><p><span class="verdict hr">คู่มือไม่ได้ห้าม</span> คู่มือไม่มีข้อคุ้มครองคนเคาะ ตาสุดท้ายของคนอื่นจึงใช้ Bamboozle/Vendetta สลับการ์ดกับคนเคาะ หรือใช้ Kingpin แจกการ์ดให้ได้ และยังแข่งตบได้ตามปกติ · ถ้าอยากล็อกที่เกิดเหตุของคนเคาะแบบเกมคล้าย ๆ กัน ให้ตกลงเป็นกฎบ้าน</p></details>
+        <details><summary>การ์ดในที่เกิดเหตุหมดเกลี้ยง ทำยังไง?</summary><p><span class="verdict hr">คู่มือไม่ได้เขียน</span> รีวิวหนึ่งบอกว่าต้องเคาะในตาถัดไป ซึ่งก็สมเหตุสมผล เพราะคุณจั่วแล้วไม่มีใบให้สลับ · แนะนำให้ตกลงแบบนี้ไว้ก่อนเล่น</p></details>
+        <details><summary>กองจั่วหมดก่อนมีคนเคาะ?</summary><p><span class="verdict hr">คู่มือไม่ได้เขียน</span> แนะนำ: เก็บกองทิ้ง (ยกเว้นใบบนสุด) มาสับเป็นกองจั่วใหม่ · ตอนจบเกมถ้ามีหนูแต่กองจั่วว่าง ให้สับกองทิ้งแล้วเปิดใบบนสุด</p></details>
+        <details><summary>ใช้ Stool Pigeon ดูการ์ดตัวเองได้ไหม?</summary><p><span class="verdict">ได้</span> ดู "ANY card" คือใบไหนก็ได้บนโต๊ะ รวมของตัวเอง เป็นทางเดียว (นอกจาก Vendetta) ที่จะได้ดูการ์ดตัวเองระหว่างเกม</p></details>
+        <details><summary>Bamboozle สลับการ์ด 2 ใบของคนเดียวกันได้ไหม?</summary><p><span class="verdict">ได้</span> "any two facedown cards" ไม่ได้บังคับว่าต้องคนละคน แต่ห้ามเปิดดูตอนสลับ (การสลับตำแหน่งในมือคนอื่นก็ทำให้เขาจำผิดได้)</p></details>
+        <details><summary>ลงหนูโดยไม่ตั้งใจ (นึกว่าเป็นใบอื่น) ล่ะ?</summary><p><span class="verdict no">ก็ต้องรับ</span> คู่มือเขียนว่า "even on accident" หนูกลับที่เกิดเหตุคุณ และใบที่จั่วมาตานั้นก็ค้าง</p></details>
+        <details><summary>ต้องเล่นมือเดียวจริงไหม?</summary><p><span class="verdict hr">เป็นข้อแนะนำ</span> คู่มือใช้คำว่า "highly suggest" ไม่ใช่กฎบังคับ รีวิวบางแห่งเขียนเหมือนเป็นกฎ ตกลงกันก่อนเริ่ม (แนะนำให้ใช้ เพราะเกมแฟร์ขึ้นมาก)</p></details>
+      </div>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips">
+      <div class="sec-head"><span class="tag">เล่นให้เก่งขึ้น</span><h2>เทคนิคเล่น</h2></div>
+      <ul class="prose">
+        <li><b>จำทั้งโต๊ะ ไม่ใช่แค่ของตัวเอง</b> ทุกการ์ดที่คนอื่นจั่วจากกองทิ้งแล้วสลับเข้าไป คุณรู้ว่าอยู่ช่องไหน ใช้ตอนแข่งตบได้</li>
+        <li><b>ตบการ์ดคนอื่นดีพอ ๆ กับตบการ์ดตัวเอง</b> เพราะคุณต้องยกการ์ดตัวเองไปแทน จึงเหลือน้อยลง 1 ใบเหมือนกัน แถมได้โยนใบแต้มสูงไปให้</li>
+        <li><b>อย่าใจร้อนตบ</b> ตบผิดได้การ์ดเพิ่ม 1 ใบที่ไม่รู้ค่า เสียมากกว่าได้</li>
+        <li><b>Kingpin ใช้กำจัดหนู</b> ถ้าจำได้ว่าหนูอยู่ช่องไหน</li>
+        <li><b>อย่าเคาะเร็วเกินไป</b> คนอื่นยังมีอีกคนละตา ซึ่งอาจเป็น Bamboozle สลับใบดีของคุณออกไป</li>
+      </ul>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>ที่เกิดเหตุ <span class="en">Crime scene</span></dt><dd>การ์ดคว่ำตรงหน้าคุณทั้งหมด นับแต้มตอนจบ</dd>
+        <dt>พยาน <span class="en">Witness</span></dt><dd>การ์ดเลขล้วน ไม่มีพลัง ตบกำจัดได้</dd>
+        <dt>นกพิราบ <span class="en">Pigeon card</span></dt><dd>Stool Pigeon, Bamboozle, Vendetta, Kingpin ลงแล้วใช้พลัง ตบไม่ได้</dd>
+        <dt>กองจั่ว <span class="en">DRAW pile</span></dt><dd>กองคว่ำกลางโต๊ะ</dd>
+        <dt>กองทิ้ง <span class="en">PLAY pile</span></dt><dd>กองหงายที่ลงการ์ดและตบการ์ด</dd>
+        <dt>กำจัด <span class="en">Eliminate</span></dt><dd>ตบพยานเลขเดียวกันทับสำเร็จ หรือใช้ Kingpin เอาการ์ดออกจากเกม</dd>
+        <dt>แอบดู <span class="en">Peek</span></dt><dd>ดูหน้าการ์ดคว่ำแล้วคว่ำคืนที่เดิม</dd>
+        <dt>สลับ <span class="en">Swap</span></dt><dd>ย้ายการ์ดคว่ำ 2 ใบสลับตำแหน่งกัน โดยไม่ดู</dd>
+        <dt>การ์ดปรับ <span class="en">Penalty card</span></dt><dd>ใบบนสุดกองจั่ว ห้ามดู ใส่ที่เกิดเหตุคนตบผิด</dd>
+        <dt>เคาะ <span class="en">Knock</span></dt><dd>ประกาศจบเกมแทนการเล่นตานั้น คนอื่นเล่นอีกคนละตา</dd>
+        <dt>กฎบ้าน <span class="en">House rule</span></dt><dd>ข้อที่คู่มือไม่ได้เขียน ให้เถียงแล้วโหวต ผลโหวตใช้ตลอดไป</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยจาก<b>คู่มือ Stool Pigeon ภาษาอังกฤษของ Barrel Aged Games</b> (ออกแบบโดย Nate Miller · ภาพโดย Jon Yetter · 2–6 ผู้เล่น · อายุ 8+ ตามปกหลังคู่มือ) ตัวเลขทุกตัวตรวจกับคู่มือทางการและหน้า RulesPal ส่วนช่วงเลขพยาน (2–10) เป็นการคำนวณจากจำนวนการ์ด ยังไม่ยืนยัน · เวลาเล่นไม่ได้พิมพ์ในคู่มือ รีวิวบอกประมาณ 10–20 นาที · ภาพประกอบทั้งหมดวาดใหม่เพื่ออธิบายการเล่น ไม่ใช่ภาพจากการ์ดจริง ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="https://barrelagedgames.com/products/stool-pigeon" target="_blank" rel="noopener">Stool Pigeon · Barrel Aged Games (มีลิงก์คู่มือ PDF ทางการ)</a></li>
+      <li><a href="https://rulespal.com/stool-pigeon/rulebook" target="_blank" rel="noopener">Stool Pigeon Rulebook · RulesPal</a></li>
+      <li><a href="https://geekdad.com/2019/06/stool-pigeon/" target="_blank" rel="noopener">รีวิว Stool Pigeon · GeekDad (2019) — ที่มาของตัวเลขที่ต่างจากคู่มือ</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+/* ---------- card renderer ---------- */
+const W=40,H=56;
+const COL={back:'#d9503f',backEdge:'#7a2318',face:'#fbf6ec',ink:'#25222e',red:'#d9503f',grey:'#8d8a98'};
+const P={orange:'#e07b24',blue:'#2f6fd0',green:'#3a9a46',purple:'#8a4fc2'};
+const PIG={SP:{v:7,n:'STOOL'},BZ:{v:5,n:'BAMBOO'},VD:{v:3,n:'VENDET'},KP:{v:1,n:'KING'},RAT:{v:'?',n:'RAT'},MB:{v:0,n:'MEAT'}};
+function card(x,y,o){
+  o=o||{};const r=o.r||0;const s=o.s||1;
+  let g=`<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})" ${o.op?`opacity="${o.op}"`:''}>`;
+  if(o.hl) g+=`<rect x="-5" y="-5" width="${W+10}" height="${H+10}" rx="8" fill="none" stroke="${o.hl}" stroke-width="2.5" ${o.dash?'stroke-dasharray="5 4"':''}/>`;
+  if(o.back){
+    g+=`<rect width="${W}" height="${H}" rx="5" fill="${COL.back}" stroke="${COL.backEdge}"/>`+
+       `<rect x="4" y="4" width="${W-8}" height="${H-8}" rx="3" fill="none" stroke="${COL.backEdge}" opacity=".5"/>`+
+       `<path d="M11 34 q9 -18 18 0 M17 26 a3 3 0 1 1 .1 0" fill="none" stroke="${COL.backEdge}" stroke-width="1.8"/>`;
+    if(o.q) g+=`<text x="${W/2}" y="${H/2+6}" text-anchor="middle" font-size="16" class="tagf" fill="#fff">${o.q}</text>`;
+  }else{
+    const p=o.p?PIG[o.p]:null;
+    const val=p?p.v:o.v;
+    g+=`<rect width="${W}" height="${H}" rx="5" fill="${COL.face}" stroke="${COL.ink}" stroke-width="1"/>`;
+    g+=`<path d="M1 ${H-12} l12 10 M1 ${H-7} l7 6" stroke="${COL.red}" stroke-width="2"/>`;
+    if(p){
+      g+=`<text x="5" y="13" font-size="10" class="tagf" fill="${COL.ink}">${val}</text>`;
+      if(o.p==='RAT'){g+=`<ellipse cx="20" cy="31" rx="9" ry="7" fill="${COL.grey}"/><circle cx="14" cy="25" r="3" fill="${COL.grey}"/><circle cx="26" cy="25" r="3" fill="${COL.grey}"/><path d="M29 34 q8 2 6 10" stroke="${COL.grey}" stroke-width="1.5" fill="none"/>`;}
+      else if(o.p==='MB'){g+=`<circle cx="20" cy="30" r="9" fill="#a8432e"/><path d="M13 28 q7 -6 14 0 q-3 5 -7 4 q-4 1 -7 -4z" fill="${COL.red}"/>`;}
+      else{g+=`<circle cx="20" cy="27" r="7" fill="${COL.grey}"/><path d="M12 42 q0 -12 8 -12 q8 0 8 12z" fill="${COL.grey}"/><circle cx="18" cy="26" r="1.4" fill="${COL.ink}"/><path d="M23 27 l4 1.5 l-4 1.2z" fill="#e9a23b"/>`;
+        if(o.p==='KP'||o.p==='SP') g+=`<path d="M11 21 h18 l-3 -1 q-1 -6 -6 -6 q-5 0 -6 6z" fill="${COL.ink}"/>`;
+        if(o.p==='BZ') g+=`<path d="M13 22 q7 -9 14 0 v8 h-14z" fill="${COL.ink}"/><circle cx="18" cy="26" r="2" fill="#fff"/>`;
+        if(o.p==='VD') g+=`<rect x="13" y="18" width="14" height="3" fill="#fff" stroke="${COL.ink}" stroke-width=".6"/>`;}
+      g+=`<text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="5.6" class="tagf" fill="${COL.red}">${p.n}</text>`;
+    }else{
+      g+=`<text x="${W/2}" y="${H/2+8}" text-anchor="middle" font-size="22" class="tagf" fill="${COL.ink}">${val}</text>`;
+    }
+  }
+  if(o.mark) g+=o.mark;
+  return g+'</g>';
+}
+const txt=(x,y,t,o)=>{o=o||{};return `<text x="${x}" y="${y}" ${o.a?`text-anchor="${o.a}"`:''} font-size="${o.fs||13}" class="${o.c||'s-fg'} ${o.f||''}">${t}</text>`;};
+const arrow=(x1,y1,x2,y2,cls,curve)=>{
+  const mx=(x1+x2)/2+(curve||0)*-(y2-y1)/Math.hypot(x2-x1,y2-y1||1), my=(y1+y2)/2+(curve||0)*(x2-x1)/Math.hypot(x2-x1,y2-y1||1);
+  const ang=Math.atan2(y2-my,x2-mx);const a1=ang+2.6,a2=ang-2.6;
+  return `<path d="M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}" fill="none" stroke-width="2.4" class="${cls||'k-acc'}" stroke-linecap="round"/>`+
+  `<path d="M${x2} ${y2} L${x2+9*Math.cos(a1)} ${y2+9*Math.sin(a1)} M${x2} ${y2} L${x2+9*Math.cos(a2)} ${y2+9*Math.sin(a2)}" stroke-width="2.4" class="${cls||'k-acc'}" stroke-linecap="round"/>`;
+};
+const eye=(x,y,cls)=>`<g transform="translate(${x} ${y})"><path d="M-10 0 q10 -9 20 0 q-10 9 -20 0z" fill="var(--surface)" stroke-width="1.8" class="${cls||'k-blue'}"/><circle r="3.2" class="s-blue"/></g>`;
+const badge=(x,y,n,cls)=>`<g transform="translate(${x} ${y})"><circle r="11" class="${cls||'s-acc'}"/><text y="4.5" text-anchor="middle" font-size="12" class="tagf" fill="#fff">${n}</text></g>`;
+function scene(x,y,cards,o){ /* 2x2 grid: cards = array of 4 option objects (row-major: top-left, top-right, bottom-left, bottom-right) */
+  o=o||{};let g='';const gap=6;
+  cards.forEach((c,i)=>{ if(!c) return; const cx=x+(i%2)*(W+gap), cy=y+Math.floor(i/2)*(H+gap); g+=card(cx,cy,c);});
+  if(o.label) g+=txt(x+W+gap/2,y+2*H+gap+18,o.label,{a:'middle',fs:12.5,f:'disp',c:o.lc||'s-fg'});
+  if(o.dot) g+=`<circle cx="${x-10}" cy="${y+8}" r="6" fill="${o.dot}"/>`;
+  return g;
+}
+const B={back:true};
+const FIG={
+  table(){
+    let g='';
+    g+=`<ellipse cx="320" cy="200" rx="300" ry="185" class="s-surface2" opacity=".6"/>`;
+    // centre piles
+    g+=card(262,166,{back:true,r:-3})+card(266,164,{back:true,r:2})+card(270,162,B);
+    g+=card(334,162,{v:4,r:6});
+    g+=txt(290,246,'กองจั่ว',{a:'middle',fs:12,f:'tagf',c:'s-muted'})+txt(354,246,'กองทิ้ง',{a:'middle',fs:12,f:'tagf',c:'s-muted'});
+    // players
+    g+=scene(274,268,[B,B,{back:true,hl:'var(--accent-strong)'},{back:true,hl:'var(--accent-strong)'}],{label:'คุณ',dot:P.orange});
+    g+=eye(248,330,'k-acc');
+    g+=txt(400,330,'แอบดู 2 ใบแถวใกล้ตัว',{fs:12.5,c:'s-acc',f:'tagf'})+txt(400,347,'ครั้งเดียวตอนเริ่มเกม',{fs:12.5,c:'s-acc',f:'tagf'});
+    g+=scene(274,14,[B,B,B,B],{dot:P.green})+txt(320,14+2*H+6+18,'',{});
+    g+=scene(70,130,[B,B,B,B],{label:'ผู้เล่น',dot:P.blue});
+    g+=scene(484,130,[B,B,B,B],{label:'ผู้เล่น',dot:P.purple});
+    return g;
+  },
+  turn(){
+    let g='';
+    // step 1 draw
+    g+=badge(30,24,1)+txt(48,29,'จั่ว',{f:'disp',fs:15});
+    g+=card(24,52,{back:true,r:-3})+card(28,50,B)+card(86,58,{v:2,hl:'var(--good)'});
+    g+=arrow(70,78,84,84,'k-muted');
+    // step 2 swap
+    g+=badge(200,24,2)+txt(218,29,'สลับเข้าที่เกิดเหตุ',{f:'disp',fs:15});
+    g+=scene(220,52,[B,{back:true,q:'9?',hl:'var(--accent-strong)',dash:true},B,B]);
+    g+=arrow(132,90,262,70,'k-good',-30);
+    g+=txt(150,140,'2 เข้าไปแทน',{fs:12,c:'s-good',f:'tagf'});
+    // step 3 play
+    g+=badge(420,24,3)+txt(438,29,'ลงใบที่สลับออก',{f:'disp',fs:15});
+    g+=card(470,58,{v:9,r:5});
+    g+=arrow(312,80,462,84,'k-acc',-24);
+    g+=txt(490,136,'กองทิ้ง',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    // result row
+    g+=`<rect x="20" y="172" width="600" height="62" rx="12" class="s-surface2"/>`;
+    g+=txt(36,198,'เป็นพยาน (เลข) →',{f:'disp',fs:14})+txt(160,198,'ทุกคนแข่งตบ 9 จากที่เกิดเหตุไหนก็ได้',{fs:13.5});
+    g+=txt(36,222,'เป็นนกพิราบ →',{f:'disp',fs:14,c:'s-acc'})+txt(160,222,'ใช้พลัง · เป็นหนู → กลับเข้าที่เกิดเหตุ',{fs:13.5});
+    return g;
+  },
+  race(){
+    let g='';
+    g+=scene(30,40,[B,B,B,B],{label:'ส้ม (เพิ่งลง 6)',dot:P.orange});
+    g+=scene(250,40,[{v:6,hl:'var(--accent-strong)',op:.35},B,B,B],{label:'เขียว',dot:P.green});
+    g+=scene(470,40,[B,{back:true,hl:'var(--blue)'},B,B],{label:'ฟ้า',dot:P.blue});
+    // play pile
+    g+=card(286,216,{v:6,r:-6})+card(292,212,{v:6,r:9,hl:'var(--good)'});
+    g+=txt(312,292,'กองทิ้ง',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    g+=arrow(260,70,300,206,'k-good',30)+badge(244,170,1,'s-good');
+    g+=arrow(540,64,270,48,'k-blue',36)+badge(420,22,2,'s-blue');
+    g+=txt(372,150,'ฟ้ายกการ์ดตัวเอง',{fs:12,c:'s-blue',f:'tagf'})+txt(372,166,'ไปแทนช่องที่ว่าง',{fs:12,c:'s-blue',f:'tagf'});
+    g+=txt(36,214,'ฟ้า: 4 → 3 ใบ',{fs:13.5,f:'tagf',c:'s-good'})+txt(36,234,'เขียว: 4 → 4 ใบ',{fs:13.5,f:'tagf'});
+    g+=txt(470,214,'ใครตบถูกก่อน',{fs:13,f:'tagf'})+txt(470,232,'คนนั้นได้กำจัด',{fs:13,f:'tagf'});
+    return g;
+  },
+  oops(){
+    let g='';
+    g+=card(40,60,{v:6,r:-5})+txt(60,140,'กองทิ้ง: 6',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    g+=card(130,46,{v:8,r:12,hl:'var(--bad)'});
+    g+=`<path d="M128 40 l48 72 M176 40 l-48 72" class="k-bad" stroke-width="3" stroke-linecap="round"/>`;
+    g+=txt(150,140,'ตบ 8 ผิด!',{a:'middle',fs:13,c:'s-bad',f:'tagf'});
+    g+=scene(300,40,[B,{v:8,hl:'var(--muted)',dash:true},B,B],{label:'ที่เกิดเหตุคนตบผิด'});
+    g+=arrow(186,70,342,50,'k-muted',-26)+badge(260,30,1,'s-muted');
+    g+=card(530,40,{back:true,r:-3})+card(534,38,B);
+    g+=card(420,100,{back:true,hl:'var(--bad)',dash:true});
+    g+=arrow(528,84,468,116,'k-bad',-12)+badge(506,128,2,'s-bad');
+    g+=txt(554,114,'กองจั่ว',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    g+=txt(372,198,'4 ใบ → 5 ใบ (ใบใหม่ห้ามดู)',{a:'middle',fs:13.5,f:'tagf',c:'s-bad'});
+    return g;
+  },
+  powers(){
+    let g='';
+    // stool pigeon
+    g+=card(20,20,{p:'SP'})+txt(70,36,'Stool Pigeon',{f:'disp',fs:14})+txt(70,54,'แอบดู 1 ใบ',{fs:12.5,c:'s-muted'});
+    g+=scene(40,100,[B,{back:true,hl:'var(--blue)'},B,B]);
+    g+=eye(112,96);
+    // bamboozle
+    g+=card(220,20,{p:'BZ'})+txt(270,36,'Bamboozle',{f:'disp',fs:14})+txt(270,54,'สลับ 2 ใบ',{fs:12.5,c:'s-muted'});
+    g+=card(214,110,{back:true,hl:'var(--accent-strong)'})+card(330,110,{back:true,hl:'var(--accent-strong)'});
+    g+=`<circle cx="208" cy="118" r="5" fill="${P.green}"/><circle cx="324" cy="118" r="5" fill="${P.purple}"/>`;
+    g+=arrow(260,124,322,124,'k-acc',-18)+arrow(324,156,260,156,'k-acc',-18);
+    g+=txt(292,200,'ของคนอื่น 2 คนก็ได้',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    // vendetta
+    g+=card(430,20,{p:'VD'})+txt(480,36,'Vendetta',{f:'disp',fs:14})+txt(480,54,'ดู 1 ใบ + สลับ 2 ใบ',{fs:12.5,c:'s-muted'});
+    g+=card(424,110,{back:true,hl:'var(--blue)'})+eye(444,104);
+    g+=card(500,110,{back:true,hl:'var(--accent-strong)'})+card(570,110,{back:true,hl:'var(--accent-strong)'});
+    g+=arrow(544,124,566,124,'k-acc',-12)+arrow(566,156,544,156,'k-acc',-12);
+    g+=txt(520,200,'ใบที่ดูกับใบที่สลับ',{a:'middle',fs:12,c:'s-muted',f:'tagf'})+txt(520,216,'ไม่ต้องเป็นใบเดียวกัน',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    return g;
+  },
+  kingpin(){
+    let g='';
+    g+=card(296,14,{p:'KP'});
+    g+=`<line x1="320" y1="84" x2="320" y2="230" class="k-muted" stroke-dasharray="4 5"/>`;
+    g+=txt(150,30,'ทางเลือก ①',{a:'middle',f:'disp',fs:15})+txt(150,50,'กำจัดการ์ดของตัวเอง 1 ใบ',{a:'middle',fs:12.5,c:'s-muted'});
+    g+=scene(70,70,[B,{v:10,hl:'var(--good)'},B,B],{label:'ที่เกิดเหตุคุณ: 4 → 3 ใบ',lc:'s-good'});
+    g+=`<path d="M118 66 l36 52 M154 66 l-36 52" class="k-good" stroke-width="3"/>`;
+    g+=arrow(166,96,236,96,'k-good')+txt(246,100,'ออกจากเกม',{fs:12,c:'s-good',f:'tagf'});
+    g+=txt(490,30,'ทางเลือก ②',{a:'middle',f:'disp',fs:15})+txt(490,50,'แจกใบบนสุดกองจั่วให้คนอื่น',{a:'middle',fs:12.5,c:'s-muted'});
+    g+=card(360,90,{back:true,r:-3})+card(364,88,B)+txt(384,166,'กองจั่ว',{a:'middle',fs:12,c:'s-muted',f:'tagf'});
+    g+=scene(470,70,[B,B,B,B],{label:'คนอื่น: 4 → 5 ใบ',lc:'s-bad',dot:P.blue});
+    g+=card(570,140,{back:true,hl:'var(--bad)',dash:true});
+    g+=arrow(410,110,566,156,'k-bad',-30);
+    return g;
+  },
+  rat(){
+    let g='';
+    g+=card(30,60,{v:4,hl:'var(--good)'})+txt(50,140,'จั่วได้ 4',{a:'middle',fs:12.5,f:'tagf'});
+    g+=scene(150,40,[B,{p:'RAT',hl:'var(--accent-strong)',dash:true},B,B]);
+    g+=arrow(76,86,200,64,'k-good',-24);
+    g+=card(370,60,{p:'RAT',r:8,op:.55});
+    g+=arrow(244,70,360,82,'k-acc',-20);
+    g+=txt(392,140,'ลงหนู…',{a:'middle',fs:12.5,f:'tagf',c:'s-acc'});
+    g+=arrow(392,52,250,40,'k-bad',40)+txt(330,22,'หนูวิ่งกลับ!',{a:'middle',fs:13,f:'tagf',c:'s-bad'});
+    g+=scene(470,40,[B,{p:'RAT'},B,B])+card(566,72,{v:4,hl:'var(--bad)',dash:true});
+    g+=txt(530,196,'4 ใบ → 5 ใบ',{a:'middle',fs:13.5,f:'tagf',c:'s-bad'});
+    g+=txt(20,226,'ตอนจบเกม: เปิดใบบนสุดของกองจั่ววางบนหนู = แต้มหนู',{fs:13,c:'s-muted'});
+    return g;
+  },
+  knock(){
+    let g='';
+    const rows=[
+      {n:'ส้ม (คนเคาะ)',c:P.orange,cards:[{v:2},{v:3},{v:4}],t:'9 แต้ม · 3 ใบ',cls:'s-fg'},
+      {n:'ฟ้า',c:P.blue,cards:[{v:2},{p:'SP'}],t:'9 แต้ม · 2 ใบ → ชนะ',cls:'s-good',win:true},
+      {n:'เขียว',c:P.green,cards:[{p:'KP'},{p:'RAT',mark:''},{v:5}],t:'1 + 6 + 5 = 12 แต้ม',cls:'s-fg',rat:true}
+    ];
+    rows.forEach((r,i)=>{
+      const y=20+i*92;
+      g+=`<circle cx="22" cy="${y+28}" r="7" fill="${r.c}"/>`+txt(36,y+33,r.n,{f:'disp',fs:14});
+      r.cards.forEach((c,j)=>{ g+=card(170+j*50,y,Object.assign({hl:r.win?'var(--good)':null},c)); });
+      if(r.rat){ g+=card(232,y+18,{v:6,r:10,s:.72}); }
+      g+=txt(340,y+33,r.t,{f:'tagf',fs:14,c:r.cls});
+    });
+    g+=`<g transform="translate(560 120)"><circle r="38" class="s-surface2"/><text y="-4" text-anchor="middle" font-size="22">✊</text><text y="20" text-anchor="middle" font-size="12" class="tagf s-fg">ก๊อก ก๊อก</text></g>`;
+    return g;
+  }
+};
+document.querySelectorAll('svg[data-fig]').forEach(s=>{const f=FIG[s.dataset.fig]; if(f) s.innerHTML=f();});
+
+/* ---------- storage (optional) ---------- */
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function seg(id,cb){const el=document.getElementById(id);el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));cb(b.dataset.v);});return el;}
+
+/* ---------- setup helper ---------- */
+function setup(n){
+  n=+n;document.getElementById('s-deal').textContent=4*n;document.getElementById('s-draw').textContent=54-4*n;
+  const L=[
+    `สับการ์ด 54 ใบ แจกคนละ 4 ใบคว่ำเป็นตาราง 2×2 (รวม ${4*n} ใบ)`,
+    `วางการ์ดที่เหลือ ${54-4*n} ใบเป็นกองจั่วกลางโต๊ะ เว้นที่ไว้เป็นกองทิ้ง`,
+    'ทุกคนแอบดู 2 ใบแถวใกล้ตัว ครั้งเดียว แล้วคว่ำคืน',
+    'ตกลงก่อนเริ่ม: เล่นมือเดียวไหม · ตบซ้ำได้กี่ครั้ง · กองจั่วหมดทำยังไง',
+    'เลือกคนเริ่ม แล้ววนตามเข็มนาฬิกา'
+  ];
+  if(n===2) L.push('เล่น 2 คนการแข่งตบจะช้าลง จำการ์ดได้ง่ายขึ้น เกมมักจบเร็ว');
+  if(n>=5) L.push(`เล่น ${n} คน วางที่เกิดเหตุให้ทุกคนเอื้อมถึง เพราะตบจากที่เกิดเหตุของใครก็ได้`);
+  document.getElementById('s-list').innerHTML=L.map(t=>`<li>${t}</li>`).join('');
+}
+seg('s-n',setup);setup(4);
+
+/* ---------- score calculator ---------- */
+const ADD=[['0','MB',0,'มีตบอล 0'],['1','KP',1,'Kingpin 1'],['3','VD',3,'Vendetta 3'],['5','BZ',5,'Bamboozle 5'],['7','SP',7,'Stool Pigeon 7'],['หนู','RAT',null,'หนู']];
+const LBL={MB:'มีตบอล',KP:'Kingpin',VD:'Vendetta',BZ:'Bamboozle',SP:'Stool P.',RAT:'หนู'};
+let N=4;const names=store.get('sp-names')||['ผู้เล่น 1','ผู้เล่น 2','ผู้เล่น 3','ผู้เล่น 4','ผู้เล่น 5','ผู้เล่น 6'];
+let hands=[[],[],[],[],[],[]];
+const box=document.getElementById('c-players'),ratIn=document.getElementById('c-rat');
+function val(c){if(c.k==='RAT'){const r=parseInt(ratIn.value,10);return isNaN(r)?0:Math.max(0,r);}return c.v;}
+function drawPlayers(){
+  let h='';
+  for(let i=0;i<N;i++){
+    h+=`<div class="prow" data-i="${i}"><div class="prow-h"><input type="text" value="${names[i].replace(/"/g,'&quot;')}" aria-label="ชื่อผู้เล่น ${i+1}" data-name="${i}"><span class="tot" id="t-${i}"></span></div>`+
+       `<div class="adds" aria-label="เพิ่มการ์ด">`+[2,3,4,5,6,7,8,9,10].map(v=>`<button type="button" data-add="${v}" aria-label="เพิ่มพยาน ${v}">${v}</button>`).join('')+
+       ADD.map(a=>`<button type="button" class="pg" data-addk="${a[1]}" aria-label="เพิ่ม ${a[3]}">${LBL[a[1]]}</button>`).join('')+`</div>`+
+       `<div class="hand" id="h-${i}"></div></div>`;
+  }
+  box.innerHTML=h;calc();
+}
+function calc(){
+  const res=[];
+  for(let i=0;i<N;i++){
+    const hd=hands[i];const vs=hd.map(val);const tot=vs.reduce((a,b)=>a+b,0);const mn=vs.length?Math.min(...vs):Infinity;
+    document.getElementById('h-'+i).innerHTML=hd.length?hd.map((c,j)=>`<button type="button" class="chipc" data-rm="${j}" aria-label="ลบการ์ด">${c.k?LBL[c.k]+' '+val(c):c.v}</button>`).join(''):'<span class="empty">ยังไม่มีการ์ด (กดปุ่มด้านบน)</span>';
+    document.getElementById('t-'+i).innerHTML=`<b>${tot}</b> แต้ม · ${hd.length} ใบ`;
+    res.push({i,name:names[i],tot,n:hd.length,mn,has:hd.length>0});
+  }
+  const act=res.filter(r=>r.has);
+  const W=document.getElementById('c-win'),T=document.getElementById('c-wtxt'),Y=document.getElementById('c-why'),R=document.getElementById('c-rank');
+  if(!act.length){W.textContent='–';T.textContent='ยังไม่ได้ใส่การ์ด';Y.textContent='';R.innerHTML='';return;}
+  act.sort((a,b)=>a.tot-b.tot||a.n-b.n||a.mn-b.mn);
+  const f=act[0];const tied=act.filter(r=>r.tot===f.tot&&r.n===f.n&&r.mn===f.mn);
+  if(tied.length>1){W.textContent='เสมอ';T.textContent='ไม่มีใครชนะ เล่นใหม่!';Y.textContent=tied.map(r=>r.name).join(', ')+` เท่ากันทั้งแต้ม จำนวนใบ และใบต่ำสุด`;}
+  else{
+    W.textContent=f.tot;T.innerHTML=`<span class="winner">${f.name} ชนะ</span>`;
+    const s=act[1];let why='แต้มรวมต่ำสุด';
+    if(s&&s.tot===f.tot){why=s.n!==f.n?`เสมอ ${f.tot} แต้ม ตัดสินด้วยจำนวนใบ (${f.n} < ${s.n})`:`เสมอแต้มและจำนวนใบ ตัดสินด้วยใบต่ำสุด (${f.mn} < ${s.mn})`;}
+    Y.textContent=why;
+  }
+  R.innerHTML=act.map(r=>`<li><b>${r.name}</b> · ${r.tot} แต้ม · ${r.n} ใบ</li>`).join('');
+}
+box.addEventListener('click',e=>{
+  const row=e.target.closest('.prow');if(!row)return;const i=+row.dataset.i;const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.add){hands[i].push({v:+b.dataset.add});}
+  else if(b.dataset.addk){const a=ADD.find(x=>x[1]===b.dataset.addk);hands[i].push({k:a[1],v:a[2]});}
+  else if(b.dataset.rm!==undefined){hands[i].splice(+b.dataset.rm,1);}
+  calc();
+});
+box.addEventListener('input',e=>{const t=e.target;if(t.dataset.name!==undefined){names[+t.dataset.name]=t.value||('ผู้เล่น '+(+t.dataset.name+1));store.set('sp-names',names);calc();}});
+ratIn.addEventListener('input',calc);
+seg('c-n',v=>{N=+v;drawPlayers();});
+document.getElementById('c-clear').addEventListener('click',()=>{hands=[[],[],[],[],[],[]];calc();});
+drawPlayers();
+})();
+</script>
+
+</body></html>

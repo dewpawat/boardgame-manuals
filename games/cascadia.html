@@ -1,0 +1,1103 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cascadia + Landmarks ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: Pacific-Northwest dusk band (mountain, forest, river) with a hex cluster, then a rulebook column with a sticky chapter rail.
+   All score diagrams are drawn hex boards (pointy-top, odd rows shifted) rendered by one JS function from FIG specs.
+   Habitat colours are physical tile colours and stay the same in both themes. Tools (setup + scorepad) near the end. */
+:root{
+  --bg:#eef1ea;
+  --surface:#fbfcf8;
+  --surface-2:#e1e7dc;
+  --fg:#1f2a24;
+  --muted:#5e6b62;
+  --line:#cdd6c9;
+  --accent:#1d6a86;
+  --accent-soft:#d7e9ef;
+  --rust:#b5521f;
+  --rust-soft:#f6e0d2;
+  --moss-soft:#e1ecd3;
+  --band-1:#13261f;
+  --band-2:#22433f;
+  --band-fg:#f1f4ec;
+  --gold:#f2c14e;
+  --good:#2f7d3d;
+  --bad:#b8322a;
+  --tile-blank:#e9e4d6;
+  --tile-edge:#3a3a32;
+  --h-M:#a3abb4; --h-F:#2f6b3c; --h-P:#e2bf45; --h-W:#8cc46a; --h-R:#3f8fcf;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111915;--surface:#18221d;--surface-2:#223029;--fg:#e8efe6;--muted:#a6b5aa;--line:#2f3e35;
+    --accent:#7cc4dd;--accent-soft:#16303a;--rust:#f0915f;--rust-soft:#3a2216;--moss-soft:#1f2c18;
+    --band-1:#0a1411;--band-2:#16302b;--good:#6fd086;--bad:#ff7a6b;--tile-blank:#3a3d33;--tile-edge:#0d0f0c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111915;--surface:#18221d;--surface-2:#223029;--fg:#e8efe6;--muted:#a6b5aa;--line:#2f3e35;
+  --accent:#7cc4dd;--accent-soft:#16303a;--rust:#f0915f;--rust-soft:#3a2216;--moss-soft:#1f2c18;
+  --band-1:#0a1411;--band-2:#16302b;--good:#6fd086;--bad:#ff7a6b;--tile-blank:#3a3d33;--tile-edge:#0d0f0c;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--rust);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+ul.prose{margin:0;padding-left:1.3em}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--rust-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--accent-soft)}
+.callout.green{background:var(--moss-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0;display:grid;gap:10px}
+.figure figcaption{font-size:.9rem;color:var(--muted)}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+.score-strip{display:flex;flex-wrap:wrap;gap:8px}
+.score-strip span{font-family:var(--font-tag);font-size:.86rem;background:var(--surface-2);border-radius:999px;padding:2px 12px}
+.score-strip span b{font-variant-numeric:tabular-nums}
+
+svg text{font-family:var(--font-body)}
+.t-fg{fill:var(--fg)} .t-muted{fill:var(--muted)} .t-good{fill:var(--good)} .t-bad{fill:var(--bad)} .t-acc{fill:var(--accent)} .t-rust{fill:var(--rust)}
+.t-b{font-weight:700}
+.tile{stroke:var(--tile-edge);stroke-width:1.2}
+.blank{fill:var(--tile-blank)}
+.ring{fill:none;stroke-width:3.2}
+.ring.good{stroke:var(--good)} .ring.bad{stroke:var(--bad)} .ring.acc{stroke:var(--accent)} .ring.rust{stroke:var(--rust)} .ring.muted{stroke:var(--muted);stroke-dasharray:4 3}
+.ring.new{stroke:var(--fg);stroke-dasharray:6 4}
+.los{stroke:var(--accent);stroke-width:2.4;stroke-dasharray:6 5;fill:none}
+.los.bad{stroke:var(--bad)}
+.badge-c{fill:var(--fg)} .badge-t{fill:var(--bg);font-family:var(--font-tag);font-weight:600}
+.xmark{stroke:var(--bad);stroke-width:3.4;stroke-linecap:round}
+.bar{fill:var(--surface-2);stroke:var(--line)}
+.bar.win{fill:var(--good)} .bar.sec{fill:var(--accent)}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.92rem}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:16px;height:16px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.35)}
+.legend i.hx{border-radius:3px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+td.pts{font-family:var(--font-tag);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+.lt{display:inline-block;font-family:var(--font-tag);font-weight:600;font-size:.8rem;min-width:26px;text-align:center;border-radius:6px;padding:0 6px;background:var(--band-1);color:var(--gold)}
+.lt.new{background:var(--rust);color:#fff}
+
+.animal-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.animal-head .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);font-size:.8rem;font-weight:600;color:#fff;border:1.5px solid rgba(0,0,0,.4)}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:linear-gradient(160deg,#4a5a2a 0%,#24331a 100%)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+.xmeta{display:flex;flex-wrap:wrap;gap:6px}
+.xmeta span{background:rgba(255,255,255,.16);border-radius:999px;padding:0 10px;font-family:var(--font-tag);font-size:.78rem}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.06rem}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+details .ans{display:grid;gap:6px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.src{font-family:var(--font-tag);font-size:.74rem;border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:2px;white-space:nowrap;background:var(--surface-2);color:var(--muted)}
+.src.d{background:var(--accent-soft);color:var(--accent)}
+.src.h{background:var(--rust-soft);color:var(--rust)}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.btn.primary{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center}
+.outgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:grid;gap:0;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.25}
+.co small{font-size:.84rem;color:var(--muted)}
+.cards-out{display:flex;flex-wrap:wrap;gap:8px}
+.cards-out span{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border-radius:999px;padding:3px 12px 3px 4px;font-size:.92rem}
+.cards-out i{width:22px;height:22px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.35)}
+.pad{min-width:560px}
+.pad input{font:inherit;font-family:var(--font-tag);font-weight:600;width:100%;min-width:52px;height:36px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.pad input.name{text-align:left;padding-inline:8px;font-family:var(--font-body)}
+.pad td,.pad th{padding:6px 8px;vertical-align:middle}
+.pad .auto{font-family:var(--font-tag);font-weight:600;text-align:center;color:var(--accent);font-variant-numeric:tabular-nums}
+.pad tr.total td{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;text-align:center;background:var(--surface-2)}
+.pad tr.total td.lead{color:var(--rust)}
+.pad th.rowh{white-space:nowrap}
+.pad .hsw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.3)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+select{font:inherit;font-family:var(--font-tag);font-weight:600;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:0 10px}
+
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:420px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .drift{animation:drift 6s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + ภาคเสริม Landmarks · อิงคู่มือทางการ (Flatout Games / AEG)</div>
+      <h1>Cascadia + Landmarks<span>คาสเคเดีย · ต่อผืนป่า ภูเขา ทุ่งหญ้า แล้วจัดสัตว์ให้ตรงการ์ดคะแนน</span></h1>
+      <p class="lede">ทุกตาหยิบไทล์ถิ่นอาศัย 1 แผ่นคู่กับโทเคนสัตว์ 1 ตัว ต่อไทล์เข้ากับผืนดินของตัวเอง แล้ววางสัตว์ลงบนไทล์ที่มีรูปสัตว์นั้น เล่นคนละ 20 ตาแล้วนับแต้ม 3 ทาง คือ<b>รูปแบบสัตว์ตามการ์ด</b> <b>ผืนถิ่นอาศัยที่ต่อกันใหญ่สุด</b> และ<b>แลนด์มาร์ก</b> คู่มือเล่มนี้เน้นข้อที่โต๊ะชอบเถียงกัน มีรูปนับแต้มแบบไล่ทีละไทล์</p>
+      <div class="facts">
+        <div class="fact"><b>1–6</b><small>ผู้เล่น (5–6 คนต้องมี Landmarks)</small></div>
+        <div class="fact"><b>20</b><small>ตาต่อคน</small></div>
+        <div class="fact"><b>35</b><small>การ์ดสัตว์ A–G</small></div>
+        <div class="fact"><b>60</b><small>การ์ดแลนด์มาร์ก</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 360 250">
+        <circle cx="292" cy="50" r="20" fill="#f2c14e" opacity=".9"/>
+        <path d="M0 150 L60 80 L96 112 L150 40 L206 108 L246 72 L320 140 L360 120 V250 H0Z" fill="#33524a"/>
+        <path d="M132 62 L150 40 L170 64 L160 60 L150 68 L142 58Z" fill="#eef3ea"/>
+        <path d="M232 86 L246 72 L262 90 L250 86 L244 92Z" fill="#eef3ea"/>
+        <g fill="#1d3b2b"><path d="M14 170 l12 -34 l12 34z"/><path d="M34 172 l14 -42 l14 42z"/><path d="M300 168 l12 -36 l12 36z"/><path d="M320 170 l14 -44 l14 44z"/></g>
+        <path class="drift" d="M0 196 Q90 178 170 194 T360 186 V214 Q270 206 180 216 T0 222Z" fill="#3f8fcf" opacity=".85"/>
+        <g transform="translate(112 132)" stroke="#0d1310" stroke-width="1.4">
+          <path d="M0,-30 L26,-15 L26,15 L0,30 L-26,15 L-26,-15Z" fill="#2f6b3c"/>
+          <path d="M52,-30 L78,-15 L78,15 L52,30 L26,15 L26,-15Z" fill="#e2bf45"/>
+          <path d="M52,-30 L52,30 L26,15 L26,-15Z" fill="#8cc46a"/>
+          <path d="M26,15 L52,30 L52,60 L26,75 L0,60 L0,30Z" fill="#3f8fcf"/>
+          <path d="M104,-30 L130,-15 L130,15 L104,30 L78,15 L78,-15Z" fill="#a3abb4"/>
+          <path d="M78,15 L104,30 L104,60 L78,75 L52,60 L52,30Z" fill="#2f6b3c"/>
+          <path d="M78,15 L104,30 L104,60 L78,15Z" fill="#e2bf45"/>
+        </g>
+        <g stroke="#14110c" stroke-width="1.3">
+          <circle cx="112" cy="132" r="12" fill="#6b4630"/>
+          <circle cx="164" cy="132" r="12" fill="#e2607a"/>
+          <circle cx="138" cy="177" r="12" fill="#4ea3d8"/>
+          <circle cx="216" cy="132" r="12" fill="#c49a5c"/>
+          <circle cx="190" cy="177" r="12" fill="#e8822a"/>
+        </g>
+        <path d="M226 108 L234 92 L240 100 L244 96 L252 108Z" fill="#5b6470" stroke="#fff" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#nature">โทเคนธรรมชาติ</a></li>
+      <li><a href="#end">จบเกม & ลำดับนับแต้ม</a></li>
+      <li class="sep">นับแต้ม</li>
+      <li><a href="#corridor" style="--c:var(--h-F)"><i></i>ทางเดินถิ่นอาศัย</a></li>
+      <li><a href="#majority" style="--c:var(--h-P)"><i></i>โบนัสเสียงข้างมาก</a></li>
+      <li><a href="#bear" style="--c:#6b4630"><i></i>หมี</a></li>
+      <li><a href="#elk" style="--c:#c49a5c"><i></i>กวาง</a></li>
+      <li><a href="#salmon" style="--c:#e2607a"><i></i>แซลมอน</a></li>
+      <li><a href="#hawk" style="--c:#4ea3d8"><i></i>เหยี่ยว</a></li>
+      <li><a href="#fox" style="--c:#e8822a"><i></i>จิ้งจอก</a></li>
+      <li class="sep">ภาคเสริม Landmarks</li>
+      <li><a href="#lm">แลนด์มาร์กคืออะไร</a></li>
+      <li><a href="#lm-claim">วางแลนด์มาร์ก</a></li>
+      <li><a href="#lm-cards">การ์ด A–L นับยังไง</a></li>
+      <li><a href="#lm-ex">ตัวอย่างนับแลนด์มาร์ก</a></li>
+      <li><a href="#fast">5–6 คน & เล่นเร็ว</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#tool-setup">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#tool-pad">สมุดคะแนน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ</h3>
+        <ol>
+          <li><b>เช็กประชากรล้น</b> ถ้าโทเคนสัตว์กลางโต๊ะเหมือนกันครบ 4 ตัว ล้างทิ้งจั่วใหม่ทันที ถ้าเหมือนกัน 3 ตัว เลือกล้างได้</li>
+          <li><b>หยิบ 1 คู่</b> ไทล์กับโทเคนที่วางคู่กันอยู่ (ใช้โทเคนธรรมชาติเพื่อหยิบแบบไม่ต้องเป็นคู่ได้)</li>
+          <li><b>วางไทล์</b> ให้แตะไทล์ของตัวเองอย่างน้อย 1 ด้าน หมุนได้ ภูมิประเทศ<b>ไม่ต้อง</b>ตรงกัน</li>
+          <li><b>วางสัตว์ (ไม่บังคับ)</b> บนไทล์ไหนก็ได้ของตัวเองที่มีรูปสัตว์ตัวนั้นและยังว่าง ถ้าเป็นไทล์คีย์สโตนได้โทเคนธรรมชาติ 1</li>
+          <li><b>เติมกลางโต๊ะ</b> ให้ครบ 4 คู่</li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="แหล่งแต้มทั้งหมด">
+        <div class="fm"><small>สัตว์ 5 ชนิด</small><b>ตามการ์ดที่เปิดไว้</b></div>
+        <div class="fm"><small>ถิ่นอาศัย 5 แบบ</small><b>1 / ไทล์ ในผืนใหญ่สุด</b></div>
+        <div class="fm"><small>โบนัสผืนใหญ่สุด</small><b>+3 / +1 (2 คน +2)</b></div>
+        <div class="fm"><small>โทเคนธรรมชาติที่เหลือ</small><b>1 / อัน</b></div>
+        <div class="fm end"><small>Landmarks</small><b>ตามการ์ดแลนด์มาร์ก</b></div>
+      </div>
+      <p class="note">ทุกแต้มนับ<b>ตอนจบเกมครั้งเดียว</b> ระหว่างเกมไม่มีการนับแต้ม · แต้มเท่ากัน ใครเหลือโทเคนธรรมชาติมากกว่าชนะ ถ้ายังเท่ากันชนะร่วมกัน</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th class="num">เกมหลัก</th><th class="num">Landmarks</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td><b>ไทล์ถิ่นอาศัย</b> <span class="en">Habitat Tiles</span></td><td class="num">85</td><td class="num">45</td><td>ในนั้นเป็นคีย์สโตน 25 และ 15 แผ่น · ไทล์ Landmarks สับรวมกับเกมหลักได้เลย ไม่ต้องแยก</td></tr>
+            <tr><td><b>ไทล์เริ่ม</b> <span class="en">Starter Habitat Tiles</span></td><td class="num">5</td><td class="num">5</td><td>แผ่นสามเหลี่ยม 3 ช่อง คนละ 1 แผ่น</td></tr>
+            <tr><td><b>โทเคนสัตว์</b> <span class="en">Wildlife Tokens</span></td><td class="num">100</td><td class="num">35</td><td>ชนิดละ 20 และ 7 · ใส่ถุงรวมกันได้</td></tr>
+            <tr><td><b>โทเคนธรรมชาติ</b> <span class="en">Nature Tokens</span></td><td class="num">25</td><td class="num">15</td><td>รูปลูกสน</td></tr>
+            <tr><td><b>การ์ดคะแนนสัตว์</b></td><td class="num">20 (+1)</td><td class="num">15</td><td>เกมหลัก A–D ชนิดละ 4 ใบ (+ การ์ดโหมดครอบครัว 1 ใบ) · Landmarks เพิ่ม E–G ชนิดละ 3 ใบ</td></tr>
+            <tr><td><b>โทเคนแลนด์มาร์ก (ไม้)</b></td><td class="num">–</td><td class="num">30</td><td>ถิ่นอาศัยละ 6 ชิ้น</td></tr>
+            <tr><td><b>การ์ดแลนด์มาร์ก</b></td><td class="num">–</td><td class="num">60</td><td>ถิ่นอาศัยละ 12 ใบ ตัวอักษร A–L</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend" aria-label="สีในรูปประกอบ">
+        <span><i class="hx" style="background:var(--h-M)"></i>ภูเขา <span class="en">Mountain</span></span>
+        <span><i class="hx" style="background:var(--h-F)"></i>ป่า <span class="en">Forest</span></span>
+        <span><i class="hx" style="background:var(--h-P)"></i>ทุ่งหญ้า <span class="en">Prairie</span></span>
+        <span><i class="hx" style="background:var(--h-W)"></i>พื้นที่ชุ่มน้ำ <span class="en">Wetland</span></span>
+        <span><i class="hx" style="background:var(--h-R)"></i>แม่น้ำ <span class="en">River</span></span>
+      </div>
+      <div class="legend">
+        <span><i style="background:#6b4630"></i>หมี</span>
+        <span><i style="background:#c49a5c"></i>กวาง</span>
+        <span><i style="background:#e2607a"></i>แซลมอน (ในรูปเขียน "ปลา")</span>
+        <span><i style="background:#4ea3d8"></i>เหยี่ยว</span>
+        <span><i style="background:#e8822a"></i>จิ้งจอก</span>
+      </div>
+      <p class="note">ในรูปประกอบทั้งเล่ม ไทล์สีครีมคือไทล์ที่ไม่เกี่ยวกับเรื่องที่กำลังอธิบาย ไทล์ที่มีรูปเพชรเล็กสีขาวคือ<b>คีย์สโตน</b></p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>นับไทล์ตามจำนวนคน</h3><p>สับไทล์ถิ่นอาศัย คว่ำ แล้วใช้แค่จำนวนตามตาราง (สูตรคือ 20 × จำนวนคน + 3) ที่เหลือเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>เปิดการ์ดสัตว์ 5 ใบ</h3><p>สุ่มการ์ดคะแนนชนิดละ 1 ใบ (หมี กวาง แซลมอน เหยี่ยว จิ้งจอก) เกมแรกแนะนำใช้ A ทั้งหมด</p></div></li>
+        <li><div class="body"><h3>ไทล์เริ่มคนละแผ่น</h3><p>วางไทล์เริ่มหน้าตัวเอง นี่คือจุดตั้งต้นของผืนดิน <span class="en">environment</span></p></div></li>
+        <li><div class="body"><h3>ตั้งกลางโต๊ะ 4 คู่</h3><p>เปิดไทล์ 4 แผ่น จั่วโทเคนสัตว์จากถุง 4 ตัว วางคู่กับไทล์ทีละแผ่น <b>ยังไม่เช็กประชากรล้นตอนตั้งเกม</b> เช็กตอนต้นตาของแต่ละคน</p></div></li>
+        <li><div class="body"><h3>โทเคนธรรมชาติ</h3><p>กองไว้กลางโต๊ะ ทุกคน<b>เริ่มที่ 0</b> ได้มาจากการวางสัตว์บนคีย์สโตนเท่านั้น</p></div></li>
+      </ol>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ผู้เล่น</th><th class="num">ไทล์ (ไม่มี Landmarks)</th><th class="num">ไทล์ (มี Landmarks)</th><th>เพิ่มเติม</th></tr></thead>
+          <tbody>
+            <tr><td>1 คน</td><td class="num">43</td><td class="num">44</td><td rowspan="6">ตัวเลขฝั่ง Landmarks รวมคีย์สโตนที่แจกเพิ่มตอนเริ่ม คนละ 1 แผ่นแล้ว · 5–6 คนต้องมีไทล์จาก Landmarks ถึงจะพอ</td></tr>
+            <tr><td>2 คน</td><td class="num">43</td><td class="num">45</td></tr>
+            <tr><td>3 คน</td><td class="num">63</td><td class="num">66</td></tr>
+            <tr><td>4 คน</td><td class="num">83</td><td class="num">87</td></tr>
+            <tr><td>5 คน</td><td class="num">103</td><td class="num">108</td></tr>
+            <tr><td>6 คน</td><td class="num">123</td><td class="num">129</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="draft" role="img" aria-label="ประชากรล้น: สัตว์เหมือนกัน 4 ตัวล้างอัตโนมัติ เหมือนกัน 3 ตัวเลือกล้างได้"></svg></div>
+        <figcaption>ซ้าย: เหยี่ยว 4 ตัว ล้างทั้ง 4 ทันที จั่วใหม่ ถ้ายังได้ 4 ตัวเหมือนกันอีกก็ล้างอีก · ขวา: แซลมอน 3 ตัว คนที่กำลังเล่น<b>เลือก</b>ได้ว่าจะล้าง 3 ตัวนั้นหรือไม่ ทำได้<b>ครั้งเดียวต่อตา</b> และต้องล้างครบทั้ง 3 ตัว จิ้งจอกตัวที่ 4 อยู่ที่เดิม</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>ประชากรล้น <span class="en">Overpopulation</span></h3><p>โทเคนที่ล้างวางพักไว้ก่อน จั่วตัวใหม่ทีละตัวลงช่องที่ว่าง จบเรื่องแล้วค่อยเทตัวที่ล้างกลับถุง</p></div></li>
+        <li><div class="body"><h3>หยิบไทล์ + สัตว์ 1 คู่</h3><p>ปกติต้องหยิบคู่ที่วางคู่กันอยู่ ถ้าจ่ายโทเคนธรรมชาติ 1 อัน หยิบไทล์ใดก็ได้กับสัตว์ใดก็ได้ (ดู <a href="#nature">โทเคนธรรมชาติ</a>)</p></div></li>
+        <li><div class="body"><h3>วางไทล์</h3>
+          <ul>
+            <li>ต้องแตะไทล์ที่มีอยู่แล้วอย่างน้อย 1 ด้าน หมุนได้ทุกทิศ วางทับหรือย้ายไทล์เก่าไม่ได้</li>
+            <li>ด้านที่ชนกัน<b>ไม่ต้องเป็นภูมิประเทศเดียวกัน</b> แต่ถ้าตรงกันจะได้ผืนถิ่นอาศัยใหญ่ขึ้น</li>
+          </ul></div></li>
+        <li><div class="body"><h3>วางสัตว์ (ไม่บังคับ)</h3>
+          <ul>
+            <li>วางได้บน<b>ไทล์ไหนก็ได้ของตัวเอง</b> ไม่จำเป็นต้องเป็นไทล์ที่เพิ่งหยิบ ขอแค่ไทล์นั้นมีรูปสัตว์ตัวนี้และยังไม่มีโทเคนอื่น</li>
+            <li>1 ไทล์ วางได้ 1 โทเคน วางแล้วย้ายไม่ได้</li>
+            <li>วางไม่ได้หรือไม่อยากวาง คืนลงถุง</li>
+            <li>วางบน<b>คีย์สโตน</b> (ไทล์ถิ่นอาศัยเดียว รูปสัตว์ตัวเดียว) ได้โทเคนธรรมชาติ 1 อัน</li>
+          </ul></div></li>
+        <li><div class="body"><h3>เติมกลางโต๊ะ</h3><p>เติมไทล์จากกองคว่ำ เติมสัตว์จากถุง ลงช่องที่ว่างเท่านั้น ห้ามเลื่อนคู่ที่เหลือ</p></div></li>
+      </ol>
+    </section>
+
+    <!-- NATURE -->
+    <section id="nature">
+      <div class="sec-head"><span class="tag">ลูกสน</span><h2>โทเคนธรรมชาติ</h2></div>
+      <div class="types">
+        <div class="type"><h3>ใช้แบบที่ 1: หยิบแยกคู่</h3><p>จ่าย 1 อัน แล้วหยิบไทล์ 1 แผ่นใดก็ได้ใน 4 แผ่น กับโทเคนสัตว์ 1 ตัวใดก็ได้ใน 4 ตัว</p></div>
+        <div class="type"><h3>ใช้แบบที่ 2: ล้างสัตว์</h3><p>จ่าย 1 อัน แล้วเลือกล้างโทเคนสัตว์กลางโต๊ะกี่ตัวก็ได้ จั่วใหม่ลงที่เดิม</p></div>
+        <div class="type"><h3>จำนวนต่อตา</h3><p><b>ไม่จำกัด</b> จ่ายกี่อันก็ได้ในตาเดียว เช่น ล้าง 2 รอบแล้วหยิบแยกคู่อีกอัน (รวม 3 อัน) · ใช้ก่อนหยิบเท่านั้น</p></div>
+        <div class="type"><h3>ตอนจบเกม</h3><p>อันที่เหลือ อันละ <b>1 แต้ม</b> และใช้ตัดสินเมื่อแต้มรวมเท่ากัน</p></div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และลำดับนับแต้ม</h2></div>
+      <p class="prose">เกมจบทันทีเมื่อจบตาของใครก็ตามแล้ว<b>ไม่มีไทล์คว่ำเหลือให้เติม</b> ด้วยจำนวนไทล์ตามตาราง ทุกคนจะได้เล่น<b>ครบ 20 ตาเท่ากันพอดี</b> และจะเหลือไทล์ 3 แผ่นค้างกลางโต๊ะ (ถ้าเล่นเร็วแบบ 5–6 คน ดู <a href="#fast">ตรงนี้</a>)</p>
+      <ol class="steps">
+        <li><div class="body"><h3>สัตว์</h3><p>นับตามการ์ดทีละชนิด จดลงช่องสัตว์ในสมุดคะแนน</p></div></li>
+        <li><div class="body"><h3>ทางเดินถิ่นอาศัย</h3><p>หาผืนที่ใหญ่สุดของแต่ละภูมิประเทศ ได้ 1 แต้มต่อไทล์ (รวมผลของการ์ดแลนด์มาร์ก I–J ถ้ามี)</p></div></li>
+        <li><div class="body"><h3>โบนัสเสียงข้างมาก</h3><p>เทียบขนาดผืนใหญ่สุดกับคนอื่นทีละภูมิประเทศ</p></div></li>
+        <li><div class="body"><h3>โทเคนธรรมชาติ</h3><p>อันละ 1 แต้ม</p></div></li>
+        <li><div class="body"><h3>แลนด์มาร์ก</h3><p>รวมแต้มจากการ์ดแลนด์มาร์กที่เลือกไว้ จดในช่อง Landmarks</p></div></li>
+      </ol>
+    </section>
+
+    <!-- CORRIDOR -->
+    <section id="corridor">
+      <div class="sec-head"><span class="tag">นับแต้ม · ภูมิประเทศ</span><h2>ทางเดินถิ่นอาศัย <span class="en">Habitat Corridors</span></h2></div>
+      <p class="prose">ไทล์ 2 แผ่นจะ "ต่อกัน" ในภูมิประเทศหนึ่ง เมื่อ<b>ด้านที่ชนกันเป็นภูมิประเทศนั้นทั้งสองฝั่ง</b> ไทล์ที่มี 2 ภูมิประเทศนับเข้าได้ทั้ง 2 ผืน (ฝั่งป่าเข้าผืนป่า ฝั่งน้ำเข้าผืนน้ำ) แต่ละภูมิประเทศนับ<b>เฉพาะผืนที่ใหญ่ที่สุด</b>ผืนเดียว</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="corridor" role="img" aria-label="ผืนป่าต่อกัน 4 ไทล์ ได้ 4 แต้ม ไทล์ป่าอีกแผ่นแตะแต่ด้านที่ไม่ใช่ป่าจึงไม่ต่อ"></svg></div>
+        <figcaption>ไทล์หมายเลข 1–4 ต่อกันด้วย<b>ด้านป่าชนด้านป่า</b> ผืนป่านี้มี 4 ไทล์ ได้ 4 แต้ม · ไทล์กรอบแดงก็มีป่า แต่ด้านป่าของมันชนกับด้านชุ่มน้ำและทุ่งหญ้าของเพื่อนบ้าน จึงเป็นผืนป่าแยกขนาด 1 ไม่นับรวม · ไทล์ 2 กับไทล์ทุ่งหญ้าทางขวาเป็นผืนทุ่งหญ้าขนาด 2 และไทล์ 3 กับไทล์ล่างเป็นผืนชุ่มน้ำขนาด 2</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>จุดที่มักนับผิด</h3>
+        <ul>
+          <li>ต้อง<b>ชนกันเต็มด้าน</b> แตะกันแค่มุมไม่นับ และด้านที่ชนต้องเป็นภูมิประเทศเดียวกัน</li>
+          <li>นับ<b>จำนวนไทล์</b> ไม่ใช่ครึ่งไทล์ ไทล์ 2 ภูมิประเทศนับ 1 ในแต่ละผืนที่มันอยู่</li>
+          <li>ผืนเล็กกว่าของภูมิประเทศเดียวกัน<b>ไม่ได้แต้มเลย</b> แม้มีหลายผืน (ป่า 3 + ป่า 4 = ได้ 4 ไม่ใช่ 7)</li>
+          <li>ไทล์เริ่มก็เป็นไทล์ปกติ 3 แผ่นที่ต่อกัน นับรวมได้</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MAJORITY -->
+    <section id="majority">
+      <div class="sec-head"><span class="tag">เรื่องที่เถียงกันบ่อยสุด</span><h2>โบนัสเสียงข้างมาก</h2></div>
+      <p class="prose">หลังนับผืนใหญ่สุดของทุกคนแล้ว เทียบกัน<b>ทีละภูมิประเทศ</b> คนที่ผืนใหญ่ที่สุดได้แต้มเพิ่ม กติกาเสมอมีหลายกรณี ดูรูปทีละกรณี</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="majority" role="img" aria-label="ตัวอย่างโบนัสเสียงข้างมาก 6 กรณี"></svg></div>
+        <figcaption>แท่งคือขนาดผืนใหญ่สุดของแต่ละคนในภูมิประเทศเดียวกัน ตัวเลขใต้แท่งคือโบนัสที่ได้ · สีเขียว = อันดับ 1 · สีน้ำเงิน = อันดับ 2</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนคน</th><th>ปกติ</th><th>เสมออันดับ 1</th><th>เสมออันดับ 2</th></tr></thead>
+          <tbody>
+            <tr><td><b>1 คน</b></td><td colspan="3">ผืนไหนมี <b>7 ไทล์ขึ้นไป</b> ได้ +2 (นับแยกทุกภูมิประเทศ)</td></tr>
+            <tr><td><b>2 คน</b></td><td>ใหญ่สุด +2 · ที่ 2 ไม่ได้</td><td>ได้ +1 ทั้งคู่</td><td>–</td></tr>
+            <tr><td><b>3–6 คน</b></td><td>ใหญ่สุด +3 · ที่ 2 +1</td><td>เสมอ 2 คน: +2 คนละ · เสมอ 3 คนขึ้นไป: +1 คนละ · <b>ไม่มีรางวัลที่ 2</b></td><td>+0 ทุกคนที่เสมอ (อันดับ 1 ยังได้ +3)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">5–6 คน ผู้ออกแบบยืนยันว่าใช้แต้มและกติกาเสมอเหมือน 3–4 คน · เกมไม่ได้กำหนดขนาดขั้นต่ำ แต่ถ้าทุกคนไม่มีภูมิประเทศนั้นเลย (0 ไทล์) สมุดคะแนนในเล่มนี้ไม่ให้โบนัส</p>
+    </section>
+
+    <!-- BEAR -->
+    <section id="bear">
+      <div class="animal-head"><span class="dot" style="background:#6b4630">หมี</span><h2>หมี <span class="en">Bear</span></h2></div>
+      <p class="prose">หมีนับเป็น<b>กลุ่ม</b> หมีที่แตะกันคือกลุ่มเดียวกันเสมอ แยกไม่ได้ กลุ่มต้องมีจำนวน<b>พอดี</b>ตามการ์ด เกินหรือขาดได้ 0 · กลุ่มหมีจะรูปร่างไหนก็ได้ ขอแค่กลุ่มหนึ่งไม่แตะอีกกลุ่ม</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="bear" role="img" aria-label="หมีคู่ 2 กลุ่ม กลุ่ม 3 ตัว 1 กลุ่ม และหมีเดี่ยว 1 ตัว"></svg></div>
+        <figcaption>ผืนเดียวกัน นับด้วยการ์ดต่างใบ ได้แต้มไม่เท่ากัน</figcaption>
+        <div class="score-strip"><span>A: 2 คู่ = <b>11</b> (กลุ่ม 3 กับตัวเดี่ยวได้ 0)</span><span>B: กลุ่ม 3 = <b>10</b></span><span>C: 5+5+8+2 +3 โบนัส = <b>23</b></span><span>D: 5+5+8 = <b>18</b> (ตัวเดี่ยวได้ 0)</span></div>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>นับอะไร</th><th>แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lt">A</span></td><td>จำนวน<b>คู่</b>หมี (กลุ่มละ 2 ตัวพอดี)</td><td class="pts">1 คู่ = 4 · 2 = 11 · 3 = 19 · 4 คู่ขึ้นไป = 27</td></tr>
+            <tr><td><span class="lt">B</span></td><td>กลุ่มหมี 3 ตัวพอดี</td><td class="pts">กลุ่มละ 10</td></tr>
+            <tr><td><span class="lt">C</span></td><td>กลุ่มขนาด 1, 2, 3</td><td class="pts">1 = 2 · 2 = 5 · 3 = 8 · ครบ 3 ขนาด +3 (ครบ 2 ชุดได้ +3 สองครั้ง)</td></tr>
+            <tr><td><span class="lt">D</span></td><td>กลุ่มขนาด 2, 3, 4</td><td class="pts">2 = 5 · 3 = 8 · 4 = 13</td></tr>
+            <tr><td><span class="lt new">E</span></td><td>หมีที่<b>ไม่แตะหมีตัวอื่น</b> และข้าง ๆ มี<b>ช่องว่าง</b>อย่างน้อย 1 ช่อง (ช่องว่าง = ยังไม่มีไทล์เลย ไทล์ว่างไม่นับ)</td><td class="pts">ตัวละ 3</td></tr>
+            <tr><td><span class="lt new">F</span></td><td>กลุ่มหมี 3 ตัวขึ้นไป ที่แตะสัตว์ครบทั้ง 4 ชนิดที่เหลือ (กลุ่มใหญ่กว่า 3 ก็เป็นกลุ่มเดียว แบ่งเป็น 2 กลุ่มไม่ได้)</td><td class="pts">กลุ่มละ 12</td></tr>
+            <tr><td><span class="lt new">G</span></td><td>คู่หมีบน<b>ป่า</b> ขอแค่ 1 ใน 2 ตัวอยู่บนไทล์ที่มีป่าบางส่วน</td><td class="pts">เพิ่มตามจำนวนคู่ ดูตารางบนการ์ด</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ELK -->
+    <section id="elk">
+      <div class="animal-head"><span class="dot" style="background:#c49a5c;color:#2b1d0e">กวาง</span><h2>กวาง <span class="en">Elk</span></h2></div>
+      <p class="prose">ต่างจากหมีตรงที่<b>กลุ่มกวางแตะกันได้</b> และกวางที่ติดกันเป็นก้อนใหญ่ ให้<b>แบ่งเองแบบที่ได้แต้มมากที่สุด</b> แต่ละตัวนับได้ครั้งเดียว</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="elk" role="img" aria-label="กวาง 5 ตัวเรียงแถว และกวาง 3 ตัวเป็นสามเหลี่ยม"></svg></div>
+        <figcaption>แถวบน 5 ตัวเรียงตรง การ์ด A แบ่งเป็นเส้น 4 + เส้น 1 (เส้น 5 ไม่มีในการ์ด) · สามเหลี่ยมล่างไม่ใช่เส้นตรง แบ่งเป็นเส้น 2 + เส้น 1</figcaption>
+        <div class="score-strip"><span>A: (13+2) + (5+2) = <b>22</b></span><span>B: (5+5+2) + สามเหลี่ยม 9 = <b>21</b></span><span>C: กลุ่ม 5 = 14 + กลุ่ม 3 = 7 → <b>21</b></span></div>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>นับอะไร</th><th>แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lt">A</span></td><td><b>เส้นตรง</b> ต่อกันด้านแบนชนด้านแบน ทิศไหนก็ได้</td><td class="pts">ยาว 1 = 2 · 2 = 5 · 3 = 9 · 4 = 13</td></tr>
+            <tr><td><span class="lt">B</span></td><td>รูปร่างตามการ์ดพอดี (เดี่ยว · คู่ · สามเหลี่ยม · ข้าวหลามตัด 4 ตัว) หมุนได้</td><td class="pts">1 = 2 · 2 = 5 · 3 = 9 · 4 = 13</td></tr>
+            <tr><td><span class="lt">C</span></td><td>กลุ่มที่ติดกันทั้งก้อน รูปไหนก็ได้</td><td class="pts">1 = 2 · 2 = 4 · 3 = 7 · 4 = 10 · 5 = 14 · 6 = 18 · 7 = 23 · 8+ = 28</td></tr>
+            <tr><td><span class="lt">D</span></td><td>วงโค้งรอบจุดกลาง ตามรูปบนการ์ด</td><td class="pts">1 = 2 · 2 = 5 · 3 = 8 · 4 = 12 · 5 = 16 · 6 = 21</td></tr>
+            <tr><td><span class="lt new">E</span></td><td>กลุ่ม 3 ตัวรูป<b>ครึ่งวงกลม</b>พอดี (หมุนได้) เดี่ยว คู่ หรือ 4 ตัวขึ้นไปไม่นับ · วงครบ 6 ตัว = ครึ่งวง 2 กลุ่ม</td><td class="pts">ตามการ์ด</td></tr>
+            <tr><td><span class="lt new">F</span></td><td>กลุ่ม 3 ตัวรูป<b>สามเหลี่ยม</b>พอดี แล้ว<b>หัก 1 แต้ม</b>ต่อสัตว์ทุกตัวที่แตะกลุ่ม (นับตัวละครั้ง รวมกวางตัวอื่นด้วย)</td><td class="pts">ตามการ์ด −1 ต่อตัวที่แตะ</td></tr>
+            <tr><td><span class="lt new">G</span></td><td>รูปร่างตามการ์ด (หมุนได้) มีอย่างน้อย 1 ตัวอยู่บนไทล์ที่มี<b>ทุ่งหญ้า</b> ตำแหน่งไหนในรูปก็ได้</td><td class="pts">ตามการ์ด</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">การ์ด A: กวาง 5 ตัวเรียงตรง = เส้น 4 (13) + ตัวเดี่ยว (2) = 15 ตามคำตอบของผู้ออกแบบ · กวาง 7 ตัวเรียง = 4 + 3</p>
+    </section>
+
+    <!-- SALMON -->
+    <section id="salmon">
+      <div class="animal-head"><span class="dot" style="background:#e2607a">ปลา</span><h2>แซลมอน <span class="en">Salmon</span></h2></div>
+      <p class="prose"><b>ฝูง (run)</b> คือกลุ่มแซลมอนที่ติดกัน โดย<b>แต่ละตัวแตะแซลมอนตัวอื่นไม่เกิน 2 ตัว</b> จะเป็นเส้นตรง เส้นโค้ง วงกลม 6 ตัว หรือสามเหลี่ยม 3 ตัวก็ได้ (สามเหลี่ยมแล้วต่อเพิ่มไม่ได้อีก เพราะจะมีตัวที่แตะ 3)</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="salmon" role="img" aria-label="แซลมอน 6 ตัว มี 2 ตัวที่แตะแซลมอน 3 ตัว"></svg></div>
+        <figcaption>ตัวที่กากบาท 2 ตัวแตะแซลมอน 3 ตัว จึงผิดเงื่อนไขฝูง</figcaption>
+        <div class="score-strip"><span>อ่านตามคำตอบผู้ออกแบบ (การ์ด A): ตัดตัวกากบาททิ้ง เหลือ เดี่ยว 2 + เดี่ยว 2 + ฝูง 2 ตัว 5 = <b>9</b></span><span>อ่านแบบเคร่ง: ทั้งก้อนไม่ใช่ฝูง = <b>0</b></span></div>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>นับอะไร</th><th>แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lt">A</span></td><td>ทุกฝูง ตามขนาด</td><td class="pts">1 = 2 · 2 = 5 · 3 = 8 · 4 = 12 · 5 = 16 · 6 = 20 · 7+ = 25</td></tr>
+            <tr><td><span class="lt">B</span></td><td>ทุกฝูง ตามขนาด</td><td class="pts">1 = 2 · 2 = 4 · 3 = 7 · 4 = 11 · 5+ = 15</td></tr>
+            <tr><td><span class="lt">C</span></td><td>เฉพาะฝูงขนาด 3–5</td><td class="pts">3 = 10 · 4 = 12 · 5 = 15 · ฝูง 1–2 ได้ 0</td></tr>
+            <tr><td><span class="lt">D</span></td><td>ทุกฝูง: 1 แต้มต่อแซลมอน + 1 แต้มต่อสัตว์ชนิดอื่นที่แตะฝูง (ตัวละครั้ง)</td><td class="pts">นับตามจริง</td></tr>
+            <tr><td><span class="lt new">E</span></td><td>ฝูงต้องเป็น<b>ซิกแซก</b>ตามรูปบนการ์ดพอดี (กลับด้านได้) ขนาดสูงสุด 6</td><td class="pts">ตามการ์ด</td></tr>
+            <tr><td><span class="lt new">F</span></td><td>ทุกฝูงตามขนาด สูงสุด 7 และนับ<b>หมี</b>ที่แตะฝูงด้วย หมีตัวหนึ่งนับครั้งเดียวต่อฝูง แต่นับให้ฝูงอื่นที่แยกกันได้</td><td class="pts">ตามการ์ด</td></tr>
+            <tr><td><span class="lt new">G</span></td><td>ทุกฝูงตามขนาด สูงสุด 5 บวก 1 แต้มต่อไทล์ในฝูงที่มี<b>แม่น้ำ</b>บางส่วน</td><td class="pts">ตามการ์ด +1 ต่อไทล์แม่น้ำ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ฝูงที่ใหญ่เกินตาราง ได้แต้มช่องสูงสุด (ฝูง 9 ตัวบนการ์ด A = 25) · สองฝูงต้องไม่แตะกัน ถ้าแตะกันก็คือฝูงเดียว</p>
+    </section>
+
+    <!-- HAWK -->
+    <section id="hawk">
+      <div class="animal-head"><span class="dot" style="background:#4ea3d8">เหยี่ยว</span><h2>เหยี่ยว <span class="en">Hawk</span></h2></div>
+      <p class="prose"><b>แนวสายตา</b> <span class="en">line of sight</span> คือเส้นตรงจากด้านแบนผ่านไทล์ไปเรื่อย ๆ (6 ทิศ) ระยะเท่าไรก็ได้ <b>มีแต่เหยี่ยวที่บังสายตา</b> สัตว์อื่น ไทล์ว่าง หรือช่องที่ไม่มีไทล์ไม่บัง เหยี่ยวที่แตะกันไม่นับว่ามองเห็นกัน</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="hawk" role="img" aria-label="เหยี่ยว 5 ตัว มีแนวสายตา 2 เส้น"></svg></div>
+        <figcaption>เหยี่ยว 2 ตัวกรอบแดงแตะกัน · เส้นประคือแนวสายตา ผ่านจิ้งจอกและแซลมอนได้ · เหยี่ยวมุมขวาล่างไม่แตะใครแต่ไม่เห็นใครเลย</figcaption>
+        <div class="score-strip"><span>A: ไม่แตะเหยี่ยวอื่น 3 ตัว = <b>8</b></span><span>B: ไม่แตะ + เห็นเหยี่ยวอื่น 2 ตัว = <b>5</b></span><span>C: แนวสายตา 2 เส้น × 3 = <b>6</b></span></div>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>นับอะไร</th><th>แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lt">A</span></td><td>เหยี่ยวที่ไม่แตะเหยี่ยวตัวอื่น</td><td class="pts">1 = 2 · 2 = 5 · 3 = 8 · 4 = 11 · 5 = 14 · 6 = 18 · 7 = 22 · 8+ = 26</td></tr>
+            <tr><td><span class="lt">B</span></td><td>เหยี่ยวที่ไม่แตะเหยี่ยวอื่น <b>และ</b>เห็นเหยี่ยวอื่นอย่างน้อย 1 ตัว (ตัวที่ถูกมองแตะเหยี่ยวอื่นได้)</td><td class="pts">2 = 5 · 3 = 9 · 4 = 12 · 5 = 16 · 6 = 20 · 7 = 24 · 8+ = 28</td></tr>
+            <tr><td><span class="lt">C</span></td><td>ทุกแนวสายตาระหว่างเหยี่ยว 2 ตัวที่ไม่แตะกัน เหยี่ยวตัวเดียวอยู่ได้หลายเส้น</td><td class="pts">เส้นละ 3</td></tr>
+            <tr><td><span class="lt">D</span></td><td>จับคู่เหยี่ยวที่เห็นกัน (ตัวละ 1 คู่) นับชนิดสัตว์<b>ที่ไม่ซ้ำกัน</b>ที่อยู่ระหว่างคู่ ไม่นับเหยี่ยว</td><td class="pts">1 ชนิด = 4 · 2 = 7 · 3 = 9</td></tr>
+            <tr><td><span class="lt new">E</span></td><td>คู่เหยี่ยว (ไม่แตะกัน) ที่เห็นกัน ตัวละ 1 คู่ · เหยี่ยวที่เห็นเหยี่ยว<b>มากกว่า 1 ตัว</b>เข้าคู่ไม่ได้</td><td class="pts">คู่ละ 7</td></tr>
+            <tr><td><span class="lt new">F</span></td><td>เหยี่ยวที่เห็น<b>จิ้งจอก</b>อย่างน้อย 1 ตัว (ต้องมีอย่างน้อย 1 ช่องคั่น จิ้งจอกที่แตะกันไม่นับ และบังจิ้งจอกตัวหลัง)</td><td class="pts">เพิ่มตามจำนวน ดูการ์ด</td></tr>
+            <tr><td><span class="lt new">G</span></td><td>คู่เหยี่ยวไม่แตะกัน ที่ระหว่างกลางมีภูมิประเทศ<b>ไม่ซ้ำอย่างน้อย 3 แบบ</b> (ไม่นับไทล์ที่เหยี่ยวยืน)</td><td class="pts">เพิ่มตามจำนวนคู่ ดูการ์ด</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FOX -->
+    <section id="fox">
+      <div class="animal-head"><span class="dot" style="background:#e8822a">จิ้งจอก</span><h2>จิ้งจอก <span class="en">Fox</span></h2></div>
+      <p class="prose">จิ้งจอก<b>นับทีละตัว</b>ดู 6 ช่องรอบตัว สัตว์ตัวเดียวกันนับให้จิ้งจอกหลายตัวได้ จิ้งจอกที่อยู่ติดกันไม่หักล้างกัน</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="fox" role="img" aria-label="จิ้งจอก 2 ตัวติดกัน ล้อมด้วยแซลมอน หมี กวาง"></svg></div>
+        <figcaption>จิ้งจอกตัวซ้าย (1) แตะ แซลมอน 2 · หมี 2 · กวาง 1 · จิ้งจอก 1 · จิ้งจอกตัวขวา (2) แตะ หมี 1 · แซลมอน 1 · จิ้งจอก 1</figcaption>
+        <div class="score-strip"><span>A: ตัว 1 มี 4 ชนิด = 4 + ตัว 2 มี 3 ชนิด = 3 → <b>7</b></span><span>B: ตัว 1 มีคู่แซลมอน + คู่หมี = 5 · ตัว 2 = 0 → <b>5</b></span><span>C: ตัว 1 = 2 · ตัว 2 = 1 → <b>3</b></span><span>D: คู่จิ้งจอก 1 คู่ รอบคู่มีคู่แซลมอน + คู่หมี → <b>7</b></span></div>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>นับอะไร</th><th>แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lt">A</span></td><td>จำนวน<b>ชนิด</b>สัตว์ที่แตะ <b>รวมจิ้งจอก</b>ด้วย</td><td class="pts">1 = 1 · 2 = 2 · 3 = 3 · 4 = 4 · 5 = 5</td></tr>
+            <tr><td><span class="lt">B</span></td><td>จำนวน<b>คู่</b>สัตว์ชนิดเดียวกันที่แตะ ไม่นับจิ้งจอก · ชนิดละ 1 คู่ (แซลมอน 4 ตัว = 1 คู่) · 2 ตัวในคู่ไม่ต้องแตะกัน</td><td class="pts">1 คู่ = 3 · 2 = 5 · 3 = 7</td></tr>
+            <tr><td><span class="lt">C</span></td><td>นับเฉพาะชนิดที่<b>มีมากสุด</b>รอบตัว ไม่นับจิ้งจอก</td><td class="pts">1–6 ตัว = 1–6 แต้ม</td></tr>
+            <tr><td><span class="lt">D</span></td><td><b>คู่จิ้งจอก</b> (ตัวละคู่เดียว) ดูช่องรอบคู่ 8 ช่อง นับคู่สัตว์ชนิดเดียวกัน ไม่นับจิ้งจอก · จิ้งจอก 3 ตัวเรียง = 1 คู่ + เศษ</td><td class="pts">1 คู่ = 5 · 2 = 7 · 3 = 9 · 4 = 11</td></tr>
+            <tr><td><span class="lt new">E</span></td><td>จำนวนช่องรอบตัวที่มีสัตว์</td><td class="pts">ครบ 6 = 4 · 4–5 = 2 · 3 หรือน้อยกว่า = 0</td></tr>
+            <tr><td><span class="lt new">F</span></td><td>จิ้งจอกที่แตะสัตว์<b>พอดี 2 ชนิด</b> (จิ้งจอกนับเป็นชนิดหนึ่ง) จำนวนตัวเท่าไรก็ได้</td><td class="pts">ตัวละ 3 ตามคู่มือ (ดู <a href="#faq-foxf">ข้อถกเถียง</a>)</td></tr>
+            <tr><td><span class="lt new">G</span></td><td>จำนวนภูมิประเทศไม่ซ้ำ<b>ที่ขอบไทล์ข้าง ๆ แตะขอบไทล์จิ้งจอก</b> ภูมิประเทศของไทล์ที่จิ้งจอกยืนไม่นับ</td><td class="pts">ตามการ์ด</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวเลขการ์ด A–D เรียบเรียงจากการ์ดภาษาอังกฤษ การ์ด E–G บางใบคู่มือไม่ได้พิมพ์ตาราง จึงเขียนว่า "ตามการ์ด" · ถ้าการ์ดในกล่องพิมพ์ต่างจากเล่มนี้ ให้ยึดการ์ด</p>
+    </section>
+
+    <!-- LANDMARKS -->
+    <section id="lm">
+      <div class="xhead"><span class="tag">ภาคเสริม · CASCADIA: LANDMARKS</span><h2>แลนด์มาร์ก</h2><p>เมื่อผืนถิ่นอาศัยของคุณโตถึง 5 ไทล์ วางแลนด์มาร์กไม้ลงไทล์ที่เพิ่งวาง แล้วเลือกการ์ดแลนด์มาร์ก 1 ใบมานับแต้มตอนจบ แลนด์มาร์กกินที่ 1 ไทล์ ไทล์นั้นวางสัตว์ไม่ได้อีก</p><div class="xmeta"><span>โทเคนไม้ 30</span><span>การ์ด 60 (ภูมิประเทศละ A–L)</span><span>มีได้ภูมิประเทศละ 1 · สูงสุด 5</span></div></div>
+      <ol class="steps">
+        <li><div class="body"><h3>คีย์สโตนเพิ่มคนละ 1</h3><p>หลังแจกไทล์เริ่ม สุ่มคนเล่นก่อน แล้วพลิกไทล์จากกองที่ใช้เล่นจนเจอคีย์สโตนเท่าจำนวนคน เลือกกัน<b>ย้อนลำดับ</b> (เริ่มจากคนสุดท้าย ทวนเข็ม) วางต่อผืนตัวเองตรงไหนก็ได้ ไทล์อื่นที่พลิกเจอสับคืนกอง · เล่นคนเดียวเอาคีย์สโตนแผ่นแรกที่เจอ</p></div></li>
+        <li><div class="body"><h3>เปิดการ์ดแลนด์มาร์ก</h3><p>สับการ์ด 5 กอง (ป่า ทุ่งหญ้า ภูเขา แม่น้ำ ชุ่มน้ำ) เปิด<b>กองละเท่าจำนวนคน</b> (คนเดียวเปิดกองละ 2) วางเรียงให้ทุกคนเห็น</p></div></li>
+        <li><div class="body"><h3>วางโทเคนแลนด์มาร์ก</h3><p>แต่ละภูมิประเทศ วางโทเคนไม้เท่าจำนวนคนไว้ข้างการ์ด</p></div></li>
+      </ol>
+    </section>
+
+    <section id="lm-claim">
+      <div class="sec-head"><span class="tag">Landmarks · ระหว่างเกม</span><h2>วางแลนด์มาร์ก</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="lmclaim" role="img" aria-label="ไทล์ทุ่งหญ้าแผ่นที่ 5 ได้วางแลนด์มาร์กทุ่งหญ้า"></svg></div>
+        <figcaption>ซ้าย: ผืนทุ่งหญ้ามี 4 ไทล์ วางไทล์ที่ 5 (กรอบประ) ด้านทุ่งหญ้าชนผืนเดิม จึงวางแลนด์มาร์กทุ่งหญ้า<b>บนไทล์ที่ 5 นี้</b> แล้วเลือกการ์ดทุ่งหญ้า 1 ใบ สัตว์ที่หยิบมาตานี้ไปวางไทล์อื่นได้ · ขวา: ถ้าวางสัตว์ลงไทล์ใหม่ไปก่อน ไทล์มีโทเคนแล้ว จึงวางแลนด์มาร์กไม่ได้ และย้อนไปวางบนไทล์ 1–4 ก็ไม่ได้</figcaption>
+      </figure>
+      <div class="callout blue">
+        <h3>เงื่อนไขวางแลนด์มาร์ก (ทุกข้อต้องครบ)</h3>
+        <ul>
+          <li>ไทล์ที่<b>เพิ่งวางตานี้</b>ทำให้ผืนภูมิประเทศนั้นมี<b>ตั้งแต่ 5 ไทล์ขึ้นไป</b> (นับไทล์ใหม่ด้วย) ผืนนี้นับแบบเดียวกับ<a href="#corridor">ทางเดินถิ่นอาศัย</a></li>
+          <li>วางบน<b>ไทล์ที่เพิ่งวาง</b>เท่านั้น ไม่ใช่ไทล์ไหนก็ได้ในผืน</li>
+          <li>ยังไม่มีแลนด์มาร์กภูมิประเทศนี้ (1 คน มีได้ภูมิประเทศละ 1 รวมไม่เกิน 5)</li>
+          <li>ไม่บังคับ ข้ามไปก่อนได้ แล้ววางตอนต่อไทล์ที่ 6, 7, 8 … เข้าผืนเดิม (หรือผืนอื่นที่ถึง 5)</li>
+          <li>วางไทล์ 1 แผ่น ได้แลนด์มาร์กสูงสุด 1 อัน แม้ไทล์นั้นทำให้ 2 ผืนถึง 5 พร้อมกัน</li>
+          <li>วางบนคีย์สโตน<b>ไม่ได้</b>โทเคนธรรมชาติ</li>
+        </ul>
+      </div>
+      <p class="prose">วางโทเคนแล้ว เลือกการ์ดแลนด์มาร์ก<b>ภูมิประเทศเดียวกัน</b> 1 ใบจากที่เปิดไว้ มาวางข้างผืนตัวเอง การ์ดถูกเปิดไว้เท่าจำนวนคนพอดี คนที่วางทีหลังจึงเลือกจากใบที่เหลือ (ยกเว้นโหมดฉาก 11–20 ที่คู่มือให้หลายคนเลือกใบเดียวกันได้)</p>
+    </section>
+
+    <section id="lm-cards">
+      <div class="sec-head"><span class="tag">Landmarks · จบเกม</span><h2>การ์ดแลนด์มาร์ก A–L นับยังไง</h2></div>
+      <p class="prose">การ์ดทุกภูมิประเทศแบ่งเป็นกลุ่มตามตัวอักษรเหมือนกัน ตัวเลขแต้มจริงพิมพ์อยู่บนการ์ดแต่ละใบ ตารางนี้คือ<b>วิธีอ่าน</b>ที่คู่มือกำหนด ซึ่งเป็นต้นเหตุของการเถียงเกือบทั้งหมด</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>นับอะไร</th><th>ข้อตัดสิน</th></tr></thead>
+          <tbody>
+            <tr><td><span class="lt">A–E</span></td><td>สัตว์ชนิดหนึ่ง<b>บน</b>ภูมิประเทศนั้น (เช่น แซลมอนบนทุ่งหญ้า)</td><td>สัตว์อยู่ "บน" ภูมิประเทศ ถ้าไทล์ที่มันยืนมีภูมิประเทศนั้น<b>อย่างน้อยบางส่วน</b> ไม่ต้องอยู่ในผืนที่มีแลนด์มาร์ก · ตัวอย่างในคู่มือ: แซลมอนบนทุ่งหญ้า 4 ตัว = 4 แต้ม</td></tr>
+            <tr><td><span class="lt">F</span></td><td>คีย์สโตนของภูมิประเทศนั้นที่มีโทเคนแล้ว นับเป็นคู่</td><td>คีย์สโตนนับเป็นภูมิประเทศนั้นถ้ามีบางส่วน · 2 แผ่นในคู่ไม่ต้องติดกัน · คีย์สโตนที่มีแลนด์มาร์กนับว่ามีโทเคน · ตัวอย่างในคู่มือ: 1 คู่ = 3 แต้ม</td></tr>
+            <tr><td><span class="lt">G</span></td><td>จำนวน<b>ทางเดิน</b>ของภูมิประเทศนั้น</td><td>ไทล์เดี่ยวก็นับเป็น 1 ทางเดิน · ตัวอย่างในคู่มือ: ภูเขา 5 ทางเดิน = 5 แต้ม</td></tr>
+            <tr><td><span class="lt">H</span></td><td>จำนวนทางเดินของภูมิประเทศนั้น</td><td>นับเฉพาะทางเดินที่มี<b>อย่างน้อย 2 ไทล์</b></td></tr>
+            <tr><td><span class="lt">I–J</span></td><td><b>ไม่ให้แต้มเอง</b></td><td>ไปเพิ่มขนาดทางเดินถิ่นอาศัยแทน (ตัวอย่างในคู่มือ: รวมผืนป่า 6 กับ 2 เป็น 8) ขนาดที่เพิ่ม<b>ใช้แข่งโบนัสเสียงข้างมากด้วย</b> แต่ไม่นับเป็นแต้มแลนด์มาร์กในโหมดฉาก · จดแต้มในช่องภูมิประเทศ ไม่ใช่ช่อง Landmarks</td></tr>
+            <tr><td><span class="lt">K</span></td><td>ยิ่งทางเดินภูมิประเทศนั้น<b>น้อย</b> ยิ่งได้มาก</td><td>ได้ 6 − จำนวนทางเดิน สูงสุด 5 (ทุกคนมีอย่างน้อย 1 ทางเดิน) ต่ำสุด 0 ไม่ติดลบ · 6 ทางเดินขึ้นไป = 0</td></tr>
+            <tr><td><span class="lt">L</span></td><td>ไม่มีเงื่อนไข</td><td>ได้ 3 แต้มเลย</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="lmcorr" role="img" aria-label="ภูเขา 4 ทางเดิน ขนาด 1 2 1 3"></svg></div>
+        <figcaption>ภูเขาในผืนนี้มี 4 ทางเดิน (ขนาด 1, 2, 1, 3) ทางเดินถิ่นอาศัยภูเขาได้ 3 แต้ม (ผืนใหญ่สุด) ส่วนการ์ดแลนด์มาร์กภูเขาให้ผลต่างกัน</figcaption>
+        <div class="score-strip"><span>G: นับทุกทางเดิน = 4 ทางเดิน</span><span>H: นับเฉพาะ 2 ไทล์ขึ้นไป = 2 ทางเดิน</span><span>K: 6 − 4 = <b>2</b></span></div>
+      </figure>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="lmon" role="img" aria-label="แซลมอนบนไทล์ที่มีทุ่งหญ้าบางส่วนนับว่าอยู่บนทุ่งหญ้า และคีย์สโตนชุ่มน้ำ"></svg></div>
+        <figcaption>บน: การ์ด A–E แบบ "แซลมอนบนทุ่งหญ้า" ไทล์ไหนมีทุ่งหญ้าบางส่วนก็นับ ได้ 3 ตัว ตัวที่อยู่บนแม่น้ำล้วนไม่นับ · ล่าง: การ์ด F คีย์สโตนชุ่มน้ำที่มีโทเคน 2 แผ่น (มีสัตว์ 1 แผ่น มีแลนด์มาร์ก 1 แผ่น) = 1 คู่ แผ่นที่ว่างไม่นับ</figcaption>
+      </figure>
+    </section>
+
+    <section id="lm-ex">
+      <div class="sec-head"><span class="tag">Landmarks · ตัวอย่างเต็ม</span><h2>การ์ด I–J กับโบนัสเสียงข้างมาก</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="lmmerge" role="img" aria-label="ผืนป่า 6 กับ 2 รวมเป็น 8 ด้วยการ์ด I หรือ J แล้วชนะโบนัสเสียงข้างมาก"></svg></div>
+        <figcaption>ผืนป่า 6 ไทล์กับ 2 ไทล์ (มีแลนด์มาร์กป่า) ไม่ได้ต่อกัน ปกตินับแค่ 6 การ์ดแลนด์มาร์กกลุ่ม I–J ใบที่รวมสองผืนทำให้นับเป็น 8 เกมนี้ 4 คน เพื่อนที่ป่าใหญ่สุด 7 ไทล์จึงตกเป็นที่ 2</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ตัวอย่างจากคู่มือ</th><th class="num">ช่องคะแนน</th><th class="num">แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td>การ์ดป่า (กลุ่ม I–J) รวมผืนป่า 6 + 2</td><td class="num">ทางเดินป่า</td><td class="num">8 (แลนด์มาร์ก 0)</td></tr>
+            <tr><td>การ์ดภูเขา (G) มี 5 ทางเดิน</td><td class="num">Landmarks</td><td class="num">5</td></tr>
+            <tr><td>การ์ดทุ่งหญ้า (A–E) แซลมอนบนทุ่งหญ้า 4 ตัว</td><td class="num">Landmarks</td><td class="num">4</td></tr>
+            <tr><td>การ์ดชุ่มน้ำ (F) คีย์สโตนชุ่มน้ำมีโทเคน 1 คู่</td><td class="num">Landmarks</td><td class="num">3</td></tr>
+            <tr class="grp"><td>รวมช่อง Landmarks</td><td class="num"></td><td class="num">0+5+4+3 = 12</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="fast">
+      <div class="sec-head"><span class="tag">Landmarks · ทางเลือก</span><h2>5–6 คน และกติกาเล่นเร็ว</h2></div>
+      <p class="prose">เล่น 5–6 คนด้วยกติกาปกติได้ แต่จะนาน คู่มือ Landmarks จึงมีกติกาเล่นเร็ว ใช้ได้ทุกจำนวนคน</p>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p>เอาโทเคนสัตว์ออกจากถุง ชนิดละเท่าจำนวนคน · แจกไทล์จากกองที่ใช้เล่น คนละ 5 แผ่นหงายข้างตัว · วางสัตว์คนละ 1 ชนิดคู่ไทล์ทีละแผ่น (หมี กวาง แซลมอน เหยี่ยว จิ้งจอก) เป็นคลังส่วนตัว 5 คู่</p></div></li>
+        <li><div class="body"><h3>ระหว่างตา</h3><p>เล่นตาตัวเองจบแล้ว พอตาผ่านไปคนถัดไป จะเล่นคู่จากคลังส่วนตัว 1 คู่ก็ได้ ทำได้ครั้งเดียวระหว่างตาของตัวเอง และทั้งเกมไม่เกิน 5 ครั้ง คลังไม่เติม · จ่ายโทเคนธรรมชาติ 1 อันสลับสัตว์ 2 ตัวในคลังได้</p></div></li>
+        <li><div class="body"><h3>จบเกม</h3><p>ตาหลักเหลือ<b>คนละ 15 ตา</b> + ระหว่างตา 5 ครั้ง = 20 ไทล์เท่าเดิม ถ้าไม่เล่นคลังให้หมดก่อนตาสุดท้าย คู่ที่เหลือทิ้งไป</p></div></li>
+      </ol>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินให้จบที่โต๊ะ</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <p class="note">ป้ายท้ายคำถาม: <span class="src">คู่มือ</span> = เขียนในคู่มือทางการ · <span class="src d">ผู้ออกแบบ</span> = คำตอบของทีมผู้ออกแบบที่รวบรวมไว้ใน FAQ · <span class="src h">ตกลงกันเอง</span> = กติกาไม่ชัด แนะนำให้ตกลงก่อนเล่น</p>
+      <h3>เกมหลัก</h3>
+      <div class="faq">
+        <details><summary>ไทล์ที่วางชนกันต้องเป็นภูมิประเทศเดียวกันไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่ต้อง</p><p>วางชนแบบไหนก็ได้ ขอแค่แตะไทล์เดิมอย่างน้อย 1 ด้าน แค่ด้านที่ไม่ตรงกันจะไม่ต่อเป็นผืนเดียวกันตอนนับแต้ม</p></div></details>
+        <details><summary>ต้องวางสัตว์บนไทล์ที่หยิบมาด้วยกันไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่ต้อง</p><p>วางบนไทล์ไหนก็ได้ของตัวเองที่มีรูปสัตว์ตัวนั้นและยังว่าง จะทิ้งคืนถุงก็ได้ แต่วางแล้วย้ายไม่ได้</p></div></details>
+        <details><summary>ประชากรล้น 3 ตัว ล้างได้กี่ครั้ง <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ไม่บังคับ ครั้งเดียวต่อตา ต้องล้างครบ 3 ตัว</p><p>ล้างแล้วยังเจอ 3 ตัวเหมือนเดิมอีก ล้างไม่ได้แล้ว แต่ถ้าออกมา 4 ตัวเหมือนกันจะล้างอัตโนมัติทุกครั้ง · ถ้าใช้โทเคนธรรมชาติล้างแล้วเกิด 4 ตัว ยังเหลือสิทธิ์ล้าง 3 ตัวอยู่</p></div></details>
+        <details><summary>ใช้โทเคนธรรมชาติได้กี่อันต่อตา <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่จำกัด</p><p>แต่ละอันทำได้ 1 อย่าง คือหยิบแยกคู่ หรือล้างสัตว์กี่ตัวก็ได้ ทุกคนเริ่มเกมที่ 0 อัน</p></div></details>
+        <details><summary>เกมจบตอนไหน ทุกคนได้เล่นเท่ากันไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">จบทันทีเมื่อเติมไทล์ไม่ได้ ทุกคนได้ 20 ตาพอดี</p><p>ไม่ต้องเล่นให้ครบรอบ เพราะจำนวนไทล์คิดมาให้ลงตัวแล้ว ถ้านับไทล์ผิดตอนตั้งเกม จำนวนตาจะเพี้ยน</p></div></details>
+        <details><summary>ไทล์ 2 ภูมิประเทศ นับเข้าผืนได้กี่ผืน <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ทั้ง 2 ผืน ผืนละ 1 ไทล์</p><p>ฝั่งป่าต่อผืนป่า ฝั่งแม่น้ำต่อผืนแม่น้ำ ดูรูปใน <a href="#corridor">ทางเดินถิ่นอาศัย</a></p></div></details>
+        <details><summary>เสมออันดับ 1 แล้วคนที่ 3 ได้รางวัลที่ 2 ไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่ได้</p><p>เสมอที่ 1 สองคนได้ +2 คนละ ไม่มีรางวัลที่ 2 · เสมอที่ 1 สามคนขึ้นไปได้ +1 คนละ · เสมอที่ 2 ได้ 0</p></div></details>
+        <details><summary>หมีกลุ่ม 3 ตัว นับเป็นคู่ + เดี่ยวในการ์ด A ได้ไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ไม่ได้ ได้ 0</p><p>หมีที่แตะกันเป็นกลุ่มเดียว การ์ด A นับเฉพาะกลุ่ม 2 ตัวพอดี · คู่ที่ 5 ขึ้นไปยังได้ 27 เท่าเดิม ไม่ลดลง</p></div></details>
+        <details><summary>กวางก้อนใหญ่ แบ่งเส้นยังไง <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">แบ่งเองแบบได้แต้มมากสุด ตัวละครั้ง</p><p>5 ตัวเรียงตรง = เส้น 4 + เดี่ยว = 15 · 7 ตัวเรียง = 4 + 3 = 22</p></div></details>
+        <details><summary>แซลมอนที่แตะแซลมอน 3 ตัว ทำให้ทั้งก้อนได้ 0 ไหม <span class="src d">ผู้ออกแบบ</span> <span class="src h">ตกลงกันเอง</span></summary><div class="ans"><p class="verdict">คำตอบผู้ออกแบบ: ตัดตัวนั้นออก ที่เหลือนับเป็นฝูงตามปกติ</p><p>คู่มือเขียนแค่ว่าในฝูงห้ามมีตัวที่แตะเกิน 2 ทำให้หลายโต๊ะอ่านว่าทั้งก้อนได้ 0 ดูตัวอย่างใน <a href="#salmon">แซลมอน</a> แนะนำใช้แบบตัดออกตามผู้ออกแบบ และบอกกันก่อนเล่น</p></div></details>
+        <details><summary>สัตว์อื่นบังแนวสายตาเหยี่ยวไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่บัง มีแต่เหยี่ยวที่บัง</p><p>ช่องที่ไม่มีไทล์ก็ไม่บัง · การ์ด C เหยี่ยวที่แตะกันไม่นับเป็นเส้น แต่ยังมองเหยี่ยวตัวอื่นได้</p></div></details>
+        <details><summary>การ์ดเหยี่ยว B ตัวที่ถูกมองต้องไม่แตะเหยี่ยวด้วยไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ไม่ต้อง</p><p>เฉพาะตัวที่ได้แต้มต้องไม่แตะเหยี่ยวอื่น ตัวที่ถูกมองแตะเหยี่ยวอื่นได้</p></div></details>
+        <details><summary>จิ้งจอก B: แซลมอน 4 ตัวรอบตัว นับ 2 คู่ไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ไม่ได้ นับ 1 คู่</p><p>นับคู่ได้ชนิดละ 1 คู่ คู่สัตว์ที่แตะจิ้งจอก 2 ตัวนับให้ทั้งสองตัวได้</p></div></details>
+        <details id="faq-foxf"><summary>จิ้งจอก F ได้ 3 หรือ 4 แต้ม <span class="src h">ตกลงกันเอง</span></summary><div class="ans"><p class="verdict">ใช้ตัวเลขบนการ์ดในกล่อง</p><p>คู่มือ Landmarks พิมพ์ 3 แต้ม แต่ FAQ บางแหล่งอ้างคำตอบผู้ออกแบบว่า 4 แต้ม ถ้าการ์ดในกล่องพิมพ์ต่างจากคู่มือ ให้ยึดการ์ดและตกลงกันก่อนเริ่ม</p></div></details>
+      </div>
+      <h3>Landmarks (นับแต้มพลาดบ่อย)</h3>
+      <div class="faq">
+        <details open><summary>ไทล์ที่ 5 หมายถึงไทล์ที่ 5 ของผืน หรือของทั้งเกม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ของผืนภูมิประเทศนั้น นับไทล์ที่เพิ่งวางด้วย</p><p>ผืนนับแบบเดียวกับทางเดินถิ่นอาศัย คือด้านที่ชนต้องเป็นภูมิประเทศเดียวกัน ไทล์ 2 ภูมิประเทศที่ต่อผืนป่าด้วยฝั่งป่า ทำให้ได้แลนด์มาร์ก<b>ป่า</b> ไม่ใช่ภูมิประเทศอีกฝั่ง</p></div></details>
+        <details open><summary>ลืมวางตอนไทล์ที่ 5 ย้อนไปวางทีหลังได้ไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ย้อนไม่ได้ แต่รอวางตอนต่อไทล์ใหม่เข้าผืนได้</p><p>แลนด์มาร์กลงได้เฉพาะไทล์ที่วางตานั้น ถ้าผืนถึง 5 แล้ว ตาไหนต่อไทล์ใหม่เข้าผืนเดิมอีกก็วางได้ (ไทล์ที่ 6, 7 …)</p></div></details>
+        <details open><summary>วางสัตว์ลงไทล์ใหม่ไปแล้ว ยังวางแลนด์มาร์กได้ไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ไม่ได้</p><p>1 ไทล์ใส่โทเคนได้ 1 อันไม่ว่าชนิดไหน ถ้าอยากได้แลนด์มาร์ก ให้วางแลนด์มาร์กก่อน แล้วเอาสัตว์ไปวางไทล์อื่นหรือคืนถุง</p></div></details>
+        <details><summary>วางไทล์ 1 แผ่นแล้ว 2 ผืนถึง 5 พร้อมกัน ได้ 2 แลนด์มาร์กไหม <span class="src d">ผู้ออกแบบ</span></summary><div class="ans"><p class="verdict">ได้ 1 อัน</p><p>ไทล์แผ่นเดียวรับโทเคนได้อันเดียว เลือกภูมิประเทศใดภูมิประเทศหนึ่ง</p></div></details>
+        <details><summary>การ์ดหมด หรือคนอื่นเลือกใบที่อยากได้ไปแล้ว <span class="src h">ตกลงกันเอง</span></summary><div class="ans"><p class="verdict">เลือกจากใบที่เหลือ ไม่เปิดเพิ่ม</p><p>คู่มือเปิดการ์ดกองละเท่าจำนวนคน และให้คนละ 1 ใบต่อภูมิประเทศ จึงพอกันพอดี คู่มือไม่ได้เขียนเรื่องเติมการ์ด แต่บอกไว้ว่ามีเฉพาะโหมดฉากที่เลือกใบซ้ำกันได้ จึงอ่านได้ว่าเกมปกติเลือกซ้ำไม่ได้</p></div></details>
+        <details><summary>การ์ด A–E นับเฉพาะสัตว์ในผืนที่มีแลนด์มาร์กหรือเปล่า <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่ใช่ นับทั้งผืนดินของคุณ</p><p>สัตว์ตัวไหนยืนบนไทล์ที่มีภูมิประเทศนั้นบางส่วนก็นับ ไม่สนว่าไทล์อยู่ผืนไหน</p></div></details>
+        <details><summary>แต้มจากการ์ด I–J จดช่องไหน และใช้แข่งโบนัสได้ไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">จดช่องภูมิประเทศ และใช้แข่งโบนัสได้</p><p>การ์ดได้ 0 แต้มในช่อง Landmarks แต่ขนาดผืนที่เพิ่มขึ้นนับเป็นแต้มทางเดิน และใช้เทียบเสียงข้างมากด้วย ดูตัวอย่างใน <a href="#lm-ex">การ์ด I–J กับโบนัส</a></p></div></details>
+        <details><summary>การ์ด K ติดลบได้ไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">ไม่ได้ ต่ำสุด 0 สูงสุด 5</p><p>คิด 6 − จำนวนทางเดินภูมิประเทศนั้น ไทล์เดี่ยวนับเป็น 1 ทางเดิน</p></div></details>
+        <details><summary>ไทล์ที่มีแลนด์มาร์ก ยังนับเป็นไทล์ในผืนอยู่ไหม <span class="src">คู่มือ</span></summary><div class="ans"><p class="verdict">นับ</p><p>แลนด์มาร์กเป็นแค่โทเคนบนไทล์ ไทล์ยังเป็นภูมิประเทศเดิม นับขนาดผืน นับการ์ด G/H/K ได้ตามปกติ เสียแค่ที่วางสัตว์</p></div></details>
+        <details><summary>การ์ดแลนด์มาร์ก 2 ใบนับสัตว์ตัวเดียวกันได้ไหม <span class="src h">ตกลงกันเอง</span></summary><div class="ans"><p class="verdict">ได้ ตามคำตอบที่รวบรวมไว้</p><p>การ์ดแต่ละใบนับแยกกัน ไม่มีข้อห้ามนับซ้ำ (ไม่มีในคู่มือ แนะนำบอกกันก่อน)</p></div></details>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tool-setup">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="su-n" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+        <div class="inrow">
+          <label class="chk"><input type="checkbox" id="su-lm" checked> ใช้แลนด์มาร์ก</label>
+          <label class="chk"><input type="checkbox" id="su-efg" checked> สุ่มการ์ดสัตว์ E–G ด้วย</label>
+          <label class="chk"><input type="checkbox" id="su-fast"> กติกาเล่นเร็ว</label>
+        </div>
+        <div class="outgrid" id="su-out" aria-live="polite"></div>
+        <div><span class="field-l">การ์ดสัตว์เกมนี้</span><div class="cards-out" id="su-cards"></div></div>
+        <div><button type="button" class="btn primary" id="su-roll">สุ่มการ์ดสัตว์ใหม่</button></div>
+      </div>
+    </section>
+
+    <section id="tool-pad">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <p class="prose">กรอกแต้มสัตว์ที่นับเองตามการ์ด กับ<b>ขนาดผืนใหญ่สุด</b>ของแต่ละภูมิประเทศ (รวมผลการ์ด I–J แล้ว) โบนัสเสียงข้างมากคิดให้อัตโนมัติตามจำนวนคน ตัวเลขที่ใส่ไว้เป็นตัวอย่าง กดล้างก่อนใช้จริง</p>
+      <div class="tool">
+        <div class="inrow">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="sp-n" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน"></div></div>
+          <button type="button" class="btn" id="sp-clear">ล้างค่าทั้งหมด</button>
+        </div>
+        <div class="tbl-wrap"><table class="pad" id="sp-table"></table></div>
+        <p class="note" id="sp-win" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ้างอิง</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>ผืนดิน <span class="en">Environment</span></dt><dd>ไทล์ทั้งหมดของผู้เล่นหนึ่งคน</dd>
+        <dt>ทางเดินถิ่นอาศัย <span class="en">Habitat Corridor</span></dt><dd>กลุ่มไทล์ภูมิประเทศเดียวกันที่ต่อกันด้วยด้านที่ตรงกัน ไทล์เดียวก็นับเป็นทางเดิน</dd>
+        <dt>คีย์สโตน <span class="en">Keystone Tile</span></dt><dd>ไทล์ที่มีรูปสัตว์ตัวเดียว วางสัตว์แล้วได้โทเคนธรรมชาติ</dd>
+        <dt>ประชากรล้น <span class="en">Overpopulation</span></dt><dd>สัตว์กลางโต๊ะเหมือนกัน 4 หรือ 3 ตัว ต้อง/เลือกล้างได้</dd>
+        <dt>ฝูง <span class="en">Run</span></dt><dd>กลุ่มแซลมอนที่แต่ละตัวแตะแซลมอนไม่เกิน 2 ตัว</dd>
+        <dt>แนวสายตา <span class="en">Line of Sight</span></dt><dd>เส้นตรงระหว่างเหยี่ยว ตามทิศด้านแบนของไทล์ บังได้ด้วยเหยี่ยวเท่านั้น</dd>
+        <dt>ช่องว่าง <span class="en">Unoccupied space</span></dt><dd>ช่องรอบไทล์ที่ยังไม่มีไทล์วางเลย (ใช้ในการ์ดหมี E)</dd>
+        <dt>แลนด์มาร์ก <span class="en">Landmark</span></dt><dd>โทเคนไม้ วางบนไทล์ที่ทำให้ผืนถึง 5 ไทล์ ได้สิทธิ์เลือกการ์ดแลนด์มาร์ก 1 ใบ</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>เรียบเรียงจากคู่มือทางการ Cascadia และ Cascadia: Landmarks (Flatout Games / AEG) ร่วมกับคำตอบของทีมผู้ออกแบบที่รวบรวมไว้ใน FAQ สาธารณะ ตัวเลขแต้มของการ์ดบางใบที่คู่มือไม่ได้พิมพ์ ให้ดูจากการ์ดจริง</p>
+    <ul>
+      <li>Cascadia: Landmarks Rulebook — alderac.com/cascadia-landmarks</li>
+      <li>Cascadia Rulebook — alderac.com/cascadia</li>
+      <li>รวมคำถาม Cascadia — rulespal.com/cascadia/faq</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var R3=Math.sqrt(3);
+var HAB={M:"var(--h-M)",F:"var(--h-F)",P:"var(--h-P)",W:"var(--h-W)",R:"var(--h-R)"};
+var LMC={M:"#5b6470",F:"#174a24",P:"#b8901a",W:"#4f8a34",R:"#1d5f99"};
+var ANI={B:["#6b4630","หมี","#fff"],E:["#c49a5c","กวาง","#2b1d0e"],S:["#e2607a","ปลา","#fff"],H:["#4ea3d8","เหยี่ยว","#fff"],F:["#e8822a","จิ้งจอก","#fff"]};
+var NS="http://www.w3.org/2000/svg";
+function ctr(c,r,S,ox,oy){return [ox+R3*S*(c+0.5*(r&1)),oy+1.5*S*r];}
+function vts(x,y,S){var a=[];for(var i=0;i<6;i++){var t=(60*i-90)*Math.PI/180;a.push([x+S*Math.cos(t),y+S*Math.sin(t)]);}return a;}
+function pts(a){return a.map(function(p){return p[0].toFixed(1)+","+p[1].toFixed(1);}).join(" ");}
+function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+function txt(g,x,y,t,cls,anchor,size){return el("text",{x:x,y:y,"class":cls||"t-fg","text-anchor":anchor||"start","font-size":size||13},g,t);}
+
+function tile(g,T,S,ox,oy){
+  var p=ctr(T.c,T.r,S,ox,oy),x=p[0],y=p[1],v=vts(x,y,S);
+  var h=T.h||"";
+  if(h.length===2){
+    var k=T.k||0,A=[],B=[];
+    for(var i=0;i<4;i++)A.push(v[(k+i)%6]);
+    for(i=3;i<7;i++)B.push(v[(k+i)%6]);
+    el("polygon",{points:pts(A),fill:HAB[h[0]],stroke:"none"},g);
+    el("polygon",{points:pts(B),fill:HAB[h[1]],stroke:"none"},g);
+    el("polygon",{points:pts(v),fill:"none","class":"tile"},g);
+  }else if(h.length===1){
+    el("polygon",{points:pts(v),fill:HAB[h],"class":"tile"},g);
+  }else{
+    el("polygon",{points:pts(v),"class":"tile blank"},g);
+  }
+  if(T.dim)el("polygon",{points:pts(v),fill:"var(--bg)",opacity:.55,stroke:"none"},g);
+  if(T.key)el("path",{d:"M"+x+","+(y+S*0.62)+" l5,5 l-5,5 l-5,-5z",fill:"#fff",stroke:"#222","stroke-width":.8},g);
+  if(T.ring)el("polygon",{points:pts(vts(x,y,S*0.86)),"class":"ring "+T.ring},g);
+  if(T.lm){var lc=LMC[T.lm];el("path",{d:"M"+(x-13)+","+(y+9)+" L"+(x-4)+","+(y-11)+" L"+(x+1)+","+(y-3)+" L"+(x+5)+","+(y-8)+" L"+(x+13)+","+(y+9)+"Z",fill:lc,stroke:"#fff","stroke-width":1.8,"stroke-linejoin":"round",opacity:T.lmx?.45:1},g);}
+  if(T.a)token(g,x,y,T.a,S);
+  if(T.lmx||T.x){var d=S*0.42;el("path",{d:"M"+(x-d)+","+(y-d)+" L"+(x+d)+","+(y+d)+" M"+(x+d)+","+(y-d)+" L"+(x-d)+","+(y+d),"class":"xmark"},g);}
+  if(T.n!=null){var bx=x-S*0.58,by=y-S*0.42;el("circle",{cx:bx,cy:by,r:9,"class":"badge-c"},g);el("text",{x:bx,y:by+4,"text-anchor":"middle","font-size":11,"class":"badge-t"},g,T.n);}
+}
+function token(g,x,y,a,S){
+  var A=ANI[a],r=S*0.47;
+  el("circle",{cx:x,cy:y,r:r,fill:A[0],stroke:"#141414","stroke-width":1.3},g);
+  el("text",{x:x,y:y+3.2,"text-anchor":"middle","font-size":A[1].length>4?7.6:9,"font-weight":700,fill:A[2]},g,A[1]);
+}
+function board(cols,rows,list){
+  var m={},out=[];
+  (list||[]).forEach(function(t){m[t.c+","+t.r]=t;});
+  for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){out.push(m[c+","+r]||{c:c,r:r});delete m[c+","+r];}
+  for(var k in m)out.push(m[k]);
+  return out;
+}
+function T(c,r,o){o=o||{};o.c=c;o.r=r;return o;}
+
+var FIG={
+  draft:{w:560,h:190,draw:function(g){
+    var S=26,sets=[{ox:40,title:"เหมือนกัน 4 ตัว → ล้างอัตโนมัติ",tok:["H","H","H","H"],hab:["F","PR","M","WF"],cls:"t-bad"},{ox:310,title:"เหมือนกัน 3 ตัว → เลือกล้างได้ 1 ครั้ง",tok:["S","S","F","S"],hab:["R","MW","FP","P"],cls:"t-acc"}];
+    sets.forEach(function(s){
+      txt(g,s.ox-14,22,s.title,s.cls+" t-b","start",13.5);
+      for(var i=0;i<4;i++){
+        tile(g,{c:i,r:0,h:s.hab[i],k:1},S,s.ox,62);
+        var p=ctr(i,0,S,s.ox,62);
+        token(g,p[0],p[1]+66,s.tok[i],S);
+        if(s.tok[i]===s.tok[0]||s.tok.filter(function(t){return t===s.tok[i];}).length>=3){el("circle",{cx:p[0],cy:p[1]+66,r:S*0.62,"class":"ring "+(s.cls==="t-bad"?"bad":"acc")},g);}
+      }
+      txt(g,s.ox-14,172,"ไทล์กลางโต๊ะ (บน) คู่กับโทเคนสัตว์ (ล่าง)","t-muted","start",11.5);
+    });
+  }},
+  corridor:{w:600,h:250,draw:function(g){
+    var S=34,ox=70,oy=58;
+    [T(1,0,{h:"F",key:1,a:"B",n:1,ring:"acc"}),T(2,0,{h:"PF",k:0,a:"E",n:2,ring:"acc"}),T(1,1,{h:"WF",k:0,n:3,ring:"acc"}),T(0,1,{h:"F",a:"F",n:4,ring:"acc"}),
+     T(2,1,{h:"FR",k:3,a:"H",ring:"bad"}),T(3,0,{h:"P",a:"H"}),T(2,2,{h:"W",a:"S"}),T(0,2,{h:"R"})].forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=330;
+    txt(g,x0,52,"ผืนป่าใหญ่สุด = 4 ไทล์","t-good t-b","start",16);
+    txt(g,x0,74,"→ ทางเดินป่า 4 แต้ม","t-fg","start",14);
+    txt(g,x0,112,"ไทล์กรอบแดง: ฝั่งป่าชนด้าน","t-bad t-b","start",13.5);
+    txt(g,x0,132,"ชุ่มน้ำและทุ่งหญ้า → ผืนป่าแยก (ขนาด 1)","t-fg","start",13);
+    txt(g,x0,170,"ทุ่งหญ้า 2 ไทล์ = 2 แต้ม","t-fg","start",13);
+    txt(g,x0,190,"ชุ่มน้ำ 2 ไทล์ = 2 แต้ม","t-fg","start",13);
+    txt(g,x0,210,"แม่น้ำ 1 · ภูเขา 0","t-fg","start",13);
+  }},
+  majority:{w:720,h:250,draw:function(g){
+    var cases=[
+      {t:"2 คน",s:[9,7],b:["+2","0"],c:["win",""]},
+      {t:"2 คน เสมอ",s:[8,8],b:["+1","+1"],c:["win","win"]},
+      {t:"3 คน",s:[10,6,5],b:["+3","+1","0"],c:["win","sec",""]},
+      {t:"4 คน เสมอที่ 2",s:[9,7,7,4],b:["+3","0","0","0"],c:["win","","",""]},
+      {t:"4 คน เสมอที่ 1",s:[8,8,6,5],b:["+2","+2","0","0"],c:["win","win","",""]},
+      {t:"เสมอที่ 1 สามคน",s:[7,7,7,3],b:["+1","+1","+1","0"],c:["win","win","win",""]}
+    ];
+    var cw=116,base=190,unit=12;
+    cases.forEach(function(cs,i){
+      var x0=10+i*cw;
+      txt(g,x0+cw/2-8,22,cs.t,"t-fg t-b","middle",12.5);
+      var n=cs.s.length,bw=Math.min(20,(cw-30)/n-4);
+      cs.s.forEach(function(v,j){
+        var bx=x0+8+j*(bw+5),bh=v*unit;
+        el("rect",{x:bx,y:base-bh,width:bw,height:bh,rx:3,"class":"bar "+cs.c[j]},g);
+        txt(g,bx+bw/2,base-bh-5,String(v),"t-fg","middle",11);
+        txt(g,bx+bw/2,base+16,cs.b[j],cs.b[j]==="0"?"t-muted":"t-good t-b","middle",12);
+        txt(g,bx+bw/2,base+32,"P"+(j+1),"t-muted","middle",10);
+      });
+      el("line",{x1:x0+4,y1:base,x2:x0+cw-14,y2:base,stroke:"var(--line)","stroke-width":1.5},g);
+    });
+  }},
+  bear:{w:620,h:240,draw:function(g){
+    var S=28,ox=40,oy=40;
+    board(6,4,[T(0,0,{a:"B",ring:"good"}),T(1,0,{a:"B",ring:"good"}),T(4,0,{a:"B",ring:"good"}),T(4,1,{a:"B",ring:"good"}),
+      T(1,2,{a:"B",ring:"acc"}),T(2,2,{a:"B",ring:"acc"}),T(1,3,{a:"B",ring:"acc"}),T(4,3,{a:"B",ring:"muted"}),
+      T(3,1,{a:"S"}),T(0,2,{a:"F"}),T(3,3,{a:"H"}),T(5,2,{a:"E"}),T(2,0,{}),T(2,1,{a:"E"})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=370;
+    txt(g,x0,48,"กรอบเขียว: คู่ 2 คู่","t-good t-b","start",14);
+    txt(g,x0,70,"แต่ละคู่ไม่แตะหมีตัวอื่น","t-fg","start",12.5);
+    txt(g,x0,110,"กรอบน้ำเงิน: กลุ่ม 3 ตัว","t-acc t-b","start",14);
+    txt(g,x0,132,"การ์ด A แบ่งเป็นคู่ไม่ได้ = 0","t-fg","start",12.5);
+    txt(g,x0,172,"กรอบประ: หมีเดี่ยว","t-muted t-b","start",14);
+    txt(g,x0,194,"มีแต้มเฉพาะการ์ด C (2 แต้ม)","t-fg","start",12.5);
+  }},
+  elk:{w:620,h:270,draw:function(g){
+    var S=28,ox=40,oy=40;
+    board(6,5,[T(0,1,{a:"E",ring:"good",n:1}),T(1,1,{a:"E",ring:"good",n:2}),T(2,1,{a:"E",ring:"good",n:3}),T(3,1,{a:"E",ring:"good",n:4}),T(4,1,{a:"E",ring:"rust"}),
+      T(1,3,{a:"E",ring:"acc"}),T(1,4,{a:"E",ring:"acc"}),T(2,4,{a:"E",ring:"acc"}),T(2,0,{a:"H"}),T(4,3,{a:"S"}),T(0,4,{a:"F"})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=370;
+    txt(g,x0,60,"แถวบน (การ์ด A)","t-good t-b","start",14);
+    txt(g,x0,82,"เส้น 4 (13) + ตัวเดี่ยวกรอบส้ม (2)","t-fg","start",12.5);
+    txt(g,x0,104,"= 15","t-fg t-b","start",13);
+    txt(g,x0,160,"สามเหลี่ยมล่าง (การ์ด A)","t-acc t-b","start",14);
+    txt(g,x0,182,"ไม่ใช่เส้นตรง → เส้น 2 (5) + เดี่ยว (2)","t-fg","start",12.5);
+    txt(g,x0,204,"= 7 · การ์ด B ได้รูปสามเหลี่ยม 9","t-fg","start",12.5);
+  }},
+  salmon:{w:620,h:200,draw:function(g){
+    var S=30,ox=40,oy=52;
+    board(6,3,[T(0,1,{a:"S",h:"R",ring:"good"}),T(1,1,{a:"S",h:"R",x:1}),T(2,1,{a:"S",h:"R",x:1}),T(3,1,{a:"S",h:"R",ring:"acc"}),T(4,1,{a:"S",h:"R",ring:"acc"}),T(2,0,{a:"S",h:"RW",k:2,ring:"good"}),T(5,1,{a:"B"}),T(0,0,{a:"E"}),T(3,2,{a:"F"})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=400;
+    txt(g,x0,48,"กากบาท: แตะแซลมอน 3 ตัว","t-bad t-b","start",13.5);
+    txt(g,x0,84,"ตัดออกแล้วเหลือ","t-fg","start",13);
+    txt(g,x0,106,"กรอบเขียว: เดี่ยว 2 ตัว","t-good","start",13);
+    txt(g,x0,128,"กรอบน้ำเงิน: ฝูง 2 ตัว","t-acc","start",13);
+    txt(g,x0,160,"การ์ด A: 2 + 2 + 5 = 9","t-fg t-b","start",14);
+  }},
+  hawk:{w:640,h:280,draw:function(g){
+    var S=28,ox=40,oy=40;
+    var L=[[0,0],[4,0]],L2=[[4,0],[2,3]];
+    board(7,5,[T(0,0,{a:"H",ring:"good"}),T(4,0,{a:"H",ring:"bad"}),T(5,0,{a:"H",ring:"bad"}),T(2,3,{a:"H",ring:"good"}),T(5,4,{a:"H",ring:"acc"}),
+      T(2,0,{a:"S"}),T(3,2,{a:"F"}),T(1,2,{a:"E"}),T(6,2,{a:"B"})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    [L,L2].forEach(function(l){var a=ctr(l[0][0],l[0][1],S,ox,oy),b=ctr(l[1][0],l[1][1],S,ox,oy);el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],"class":"los"},g);});
+    var x0=420;
+    txt(g,x0,40,"กรอบเขียว: ไม่แตะ + เห็นเหยี่ยว","t-good t-b","start",13);
+    txt(g,x0,60,"นับทั้งการ์ด A และ B","t-fg","start",12.5);
+    txt(g,x0,96,"กรอบแดง: แตะกัน","t-bad t-b","start",13);
+    txt(g,x0,116,"การ์ด A/B ไม่นับทั้งคู่","t-fg","start",12.5);
+    txt(g,x0,136,"ตัวซ้ายยังเป็นปลายเส้นให้ C","t-fg","start",12.5);
+    txt(g,x0,172,"กรอบน้ำเงิน: ไม่แตะใคร","t-acc t-b","start",13);
+    txt(g,x0,192,"แต่ไม่เห็นใคร → นับแค่การ์ด A","t-fg","start",12.5);
+    txt(g,x0,228,"เส้นประ = แนวสายตา 2 เส้น","t-acc t-b","start",13);
+  }},
+  fox:{w:620,h:230,draw:function(g){
+    var S=30,ox=40,oy=44;
+    board(6,4,[T(2,1,{a:"F",ring:"rust",n:1}),T(3,2,{a:"F",ring:"rust",n:2}),T(1,1,{a:"S"}),T(3,1,{a:"S"}),T(2,0,{a:"E"}),T(3,0,{a:"B"}),T(2,2,{a:"B"}),T(5,0,{a:"H"}),T(0,3,{a:"E"})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=380;
+    txt(g,x0,50,"จิ้งจอก 1","t-rust t-b","start",14);
+    txt(g,x0,72,"แซลมอน 2 · หมี 2 · กวาง 1 · จิ้งจอก 1","t-fg","start",12.5);
+    txt(g,x0,116,"จิ้งจอก 2","t-rust t-b","start",14);
+    txt(g,x0,138,"หมี 1 · แซลมอน 1 · จิ้งจอก 1","t-fg","start",12.5);
+    txt(g,x0,180,"สัตว์ตัวเดียวกันนับให้ทั้ง 2 ตัวได้","t-muted","start",12.5);
+  }},
+  lmclaim:{w:660,h:230,draw:function(g){
+    var S=30,oxA=40,oxB=380,oy=56;
+    txt(g,oxA-20,22,"ไทล์ที่ 5 → วางแลนด์มาร์กทุ่งหญ้า","t-good t-b","start",13.5);
+    [T(0,0,{h:"P",n:1}),T(1,0,{h:"P",a:"E",n:2}),T(0,1,{h:"PW",k:4,a:"S",n:3}),T(1,1,{h:"P",n:4}),T(2,1,{h:"PM",k:3,n:5,lm:"P",ring:"new"}),T(1,2,{h:"R",a:"H",ring:"good"})].forEach(function(t){tile(g,t,S,oxA,oy);});
+    var p=ctr(1,2,S,oxA,oy);txt(g,p[0]+S+6,p[1]+4,"สัตว์ตานี้ไปลงไทล์อื่นได้","t-good","start",11.5);
+    txt(g,oxB-20,22,"วางสัตว์ลงไทล์ใหม่ก่อน → พลาด","t-bad t-b","start",13.5);
+    [T(0,0,{h:"P",n:1}),T(1,0,{h:"P",a:"E",n:2}),T(0,1,{h:"PW",k:4,a:"S",n:3}),T(1,1,{h:"P",n:4,lm:"P",lmx:1}),T(2,1,{h:"PM",k:3,n:5,a:"F",ring:"bad"})].forEach(function(t){tile(g,t,S,oxB,oy);});
+    var q=ctr(1,1,S,oxB,oy);txt(g,q[0]-S,q[1]+S+30,"ย้อนวางบนไทล์เก่าไม่ได้","t-bad","start",11.5);
+  }},
+  lmcorr:{w:620,h:230,draw:function(g){
+    var S=28,ox=40,oy=40;
+    board(7,4,[T(0,0,{h:"M",ring:"muted",n:"1"}),T(2,0,{h:"M",ring:"good",n:"2"}),T(3,0,{h:"M",ring:"good"}),T(5,1,{h:"M",ring:"muted",n:"3"}),T(1,2,{h:"M",ring:"good",n:"4"}),T(2,2,{h:"M",ring:"good"}),T(1,3,{h:"M",ring:"good"}),
+      T(1,0,{h:"F",dim:1}),T(0,1,{h:"P",dim:1}),T(3,1,{h:"R",dim:1}),T(4,0,{h:"W",dim:1})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=410;
+    txt(g,x0,50,"ภูเขา 4 ทางเดิน","t-fg t-b","start",14);
+    txt(g,x0,74,"กรอบเขียว: 2 ไทล์ขึ้นไป (2 ทาง)","t-good","start",12.5);
+    txt(g,x0,96,"กรอบประ: ไทล์เดี่ยว (2 ทาง)","t-muted","start",12.5);
+    txt(g,x0,136,"G = 4 · H = 2 · K = 6−4 = 2","t-fg t-b","start",13.5);
+    txt(g,x0,158,"(G/H คูณตามตัวเลขบนการ์ด)","t-muted","start",11.5);
+  }},
+  lmon:{w:620,h:250,draw:function(g){
+    var S=28;
+    txt(g,20,22,"การ์ด A–E: แซลมอนบนทุ่งหญ้า","t-fg t-b","start",13.5);
+    [T(0,0,{h:"PR",k:0,a:"S",ring:"good"}),T(2,0,{h:"P",a:"S",ring:"good"}),T(4,0,{h:"R",a:"S",ring:"bad"}),T(6,0,{h:"WP",k:2,a:"S",ring:"good"})].forEach(function(t){tile(g,t,S,50,64);});
+    txt(g,430,70,"นับ 3 ตัว","t-good t-b","start",14);
+    txt(g,20,136,"การ์ด F: คีย์สโตนชุ่มน้ำที่มีโทเคน","t-fg t-b","start",13.5);
+    [T(0,0,{h:"W",key:1,a:"E",ring:"good"}),T(2,0,{h:"W",key:1,ring:"muted"}),T(4,0,{h:"WR",k:1,key:1,lm:"W",ring:"good"})].forEach(function(t){tile(g,t,S,50,182);});
+    txt(g,330,188,"มีโทเคน 2 แผ่น = 1 คู่","t-good t-b","start",14);
+    txt(g,330,210,"(แลนด์มาร์กนับเป็นโทเคน)","t-muted","start",12);
+  }},
+  lmmerge:{w:660,h:250,draw:function(g){
+    var S=28,ox=40,oy=44;
+    board(6,4,[T(0,0,{h:"F",ring:"good",n:1}),T(1,0,{h:"F",ring:"good",n:2}),T(2,0,{h:"F",ring:"good",n:3}),T(0,1,{h:"F",ring:"good",n:4}),T(1,1,{h:"F",ring:"good",n:5}),T(0,2,{h:"F",ring:"good",n:6}),
+      T(4,1,{h:"F",ring:"acc",n:7}),T(4,2,{h:"F",ring:"acc",n:8,lm:"F"})]).forEach(function(t){tile(g,t,S,ox,oy);});
+    var x0=360;
+    txt(g,x0,30,"ป่าใหญ่สุด เกม 4 คน","t-fg t-b","start",13.5);
+    var rows=[["ก่อนใช้การ์ด",[["คุณ",6,"+1","sec"],["เพื่อน",7,"+3","win"]]],["หลังใช้การ์ด I–J",[["คุณ",8,"+3","win"],["เพื่อน",7,"+1","sec"]]]];
+    rows.forEach(function(r,i){
+      var y=60+i*92;
+      txt(g,x0,y,r[0],"t-muted t-b","start",12);
+      r[1].forEach(function(b,j){
+        var yy=y+14+j*28;
+        txt(g,x0,yy+14,b[0],"t-fg","start",12);
+        el("rect",{x:x0+48,y:yy,width:b[1]*20,height:18,rx:3,"class":"bar "+b[3]},g);
+        txt(g,x0+54+b[1]*20,yy+14,b[1]+" ไทล์ "+b[2],"t-fg t-b","start",12);
+      });
+    });
+  }}
+};
+Array.prototype.forEach.call(document.querySelectorAll("svg[data-fig]"),function(svg){
+  var f=FIG[svg.getAttribute("data-fig")];if(!f)return;
+  svg.setAttribute("viewBox","0 0 "+f.w+" "+f.h);
+  var g=el("g",{},svg);f.draw(g);
+});
+
+/* ===== setup helper ===== */
+var TILES={1:[43,44],2:[43,45],3:[63,66],4:[83,87],5:[103,108],6:[123,129]};
+var ANIMALS=[["B","หมี"],["E","กวาง"],["S","แซลมอน"],["H","เหยี่ยว"],["F","จิ้งจอก"]];
+var su={n:4,cards:null};
+function segBtns(host,vals,cur,fn){host.innerHTML="";vals.forEach(function(v){var b=document.createElement("button");b.type="button";b.textContent=v+" คน";b.setAttribute("aria-pressed",String(v===cur));b.addEventListener("click",function(){fn(v);});host.appendChild(b);});}
+function rollCards(){var efg=document.getElementById("su-efg").checked;var L=efg?"ABCDEFG":"ABCD";su.cards=ANIMALS.map(function(a){return L[Math.floor(Math.random()*L.length)];});}
+function renderSetup(){
+  var n=su.n,lm=document.getElementById("su-lm").checked,fast=document.getElementById("su-fast").checked;
+  segBtns(document.getElementById("su-n"),[1,2,3,4,5,6],n,function(v){su.n=v;renderSetup();});
+  var tiles=TILES[n][lm?1:0];
+  var out=[
+    ["ไทล์ที่ใช้",tiles,lm?"รวมคีย์สโตนเพิ่มคนละ 1":"20 × คน + 3"+(n===1?" (คนเดียวใช้ 43)":"")],
+    ["ตาต่อคน",fast?"15 + 5":"20",fast?"ตาหลัก + ระหว่างตา":"เกมจบเมื่อเติมไทล์ไม่ได้"]
+  ];
+  if(lm)out.push(["การ์ดแลนด์มาร์ก",(n===1?2:n)+" / กอง","เปิดทุกภูมิประเทศ 5 กอง"],["โทเคนแลนด์มาร์ก",n+" / ภูมิประเทศ","วางข้างการ์ด"]);
+  if(fast)out.push(["เอาสัตว์ออกจากถุง",n+" / ชนิด","แล้วแจกคลังคนละ 5 คู่"]);
+  if(n>=5&&!lm)out.push(["ข้อควรระวัง","ไทล์ไม่พอ","5–6 คนต้องสับไทล์ Landmarks รวม"]);
+  document.getElementById("su-out").innerHTML=out.map(function(o){return '<div class="co"><small>'+o[0]+'</small><b>'+o[1]+'</b><small>'+o[2]+'</small></div>';}).join("");
+  if(!su.cards)rollCards();
+  var col={B:"#6b4630",E:"#c49a5c",S:"#e2607a",H:"#4ea3d8",F:"#e8822a"};
+  document.getElementById("su-cards").innerHTML=ANIMALS.map(function(a,i){return '<span><i style="background:'+col[a[0]]+'"></i>'+a[1]+' <b>'+su.cards[i]+'</b></span>';}).join("");
+}
+["su-lm","su-fast"].forEach(function(id){document.getElementById(id).addEventListener("change",renderSetup);});
+document.getElementById("su-efg").addEventListener("change",function(){rollCards();renderSetup();});
+document.getElementById("su-roll").addEventListener("click",function(){rollCards();renderSetup();});
+renderSetup();
+
+/* ===== scorepad ===== */
+var HABS=[["M","ภูเขา"],["F","ป่า"],["P","ทุ่งหญ้า"],["W","ชุ่มน้ำ"],["R","แม่น้ำ"]];
+var EX={names:["แดง","น้ำเงิน","เขียว","เหลือง","ม่วง","ส้ม"],
+  wild:[[11,15,20,8,7],[19,9,16,12,5],[10,22,9,5,8],[5,13,12,11,9],[8,9,10,6,6],[6,8,8,9,10]],
+  hab:[[6,8,5,4,7],[6,6,7,3,9],[5,4,7,6,6],[3,7,4,6,5],[4,5,3,5,4],[2,6,5,4,3]],
+  nat:[2,1,3,0,2,1],lm:[12,7,5,9,3,4]};
+var sp={n:4,v:null};
+function initVals(){sp.v={names:EX.names.slice(),wild:EX.wild.map(function(a){return a.slice();}),hab:EX.hab.map(function(a){return a.slice();}),nat:EX.nat.slice(),lm:EX.lm.slice()};}
+initVals();
+function num(x){var v=parseInt(x,10);return isNaN(v)?0:v;}
+function bonusFor(sizes){
+  var n=sizes.length,out=sizes.map(function(){return 0;});
+  if(n===1){out[0]=sizes[0]>=7?2:0;return out;}
+  var max=Math.max.apply(null,sizes);if(max<=0)return out;
+  var top=[];sizes.forEach(function(s,i){if(s===max)top.push(i);});
+  if(n===2){if(top.length===2){out[0]=out[1]=1;}else out[top[0]]=2;return out;}
+  if(top.length===1){
+    out[top[0]]=3;
+    var rest=sizes.filter(function(s,i){return i!==top[0];}),sec=Math.max.apply(null,rest);
+    if(sec>0){var si=[];sizes.forEach(function(s,i){if(i!==top[0]&&s===sec)si.push(i);});if(si.length===1)out[si[0]]=1;}
+  }else if(top.length===2){top.forEach(function(i){out[i]=2;});}
+  else top.forEach(function(i){out[i]=1;});
+  return out;
+}
+function renderPad(){
+  segBtns(document.getElementById("sp-n"),[1,2,3,4,5,6],sp.n,function(v){sp.n=v;renderPad();});
+  var n=sp.n,h='<thead><tr><th class="rowh">หมวด</th>';
+  for(var i=0;i<n;i++)h+='<th><input class="name" id="sp-name-'+i+'" aria-label="ชื่อผู้เล่น '+(i+1)+'" value="'+String(sp.v.names[i]).replace(/"/g,"&quot;")+'"></th>';
+  h+='</tr></thead><tbody>';
+  var col={B:"#6b4630",E:"#c49a5c",S:"#e2607a",H:"#4ea3d8",F:"#e8822a"};
+  ANIMALS.forEach(function(a,ai){h+='<tr><th class="rowh"><span class="hsw" style="background:'+col[a[0]]+';border-radius:50%"></span>'+a[1]+'</th>';for(var i=0;i<n;i++)h+='<td><input type="number" inputmode="numeric" id="sp-w-'+ai+'-'+i+'" data-k="wild" data-a="'+ai+'" data-p="'+i+'" aria-label="'+a[1]+' ผู้เล่น '+(i+1)+'" value="'+sp.v.wild[i][ai]+'"></td>';h+='</tr>';});
+  h+='<tr class="grp"><td colspan="'+(n+1)+'">ขนาดผืนใหญ่สุด → แต้ม + โบนัส</td></tr>';
+  HABS.forEach(function(hb,hi){h+='<tr><th class="rowh"><span class="hsw" style="background:var(--h-'+hb[0]+')"></span>'+hb[1]+'</th>';for(var i=0;i<n;i++)h+='<td><input type="number" inputmode="numeric" id="sp-h-'+hi+'-'+i+'" data-k="hab" data-a="'+hi+'" data-p="'+i+'" aria-label="ผืน'+hb[1]+' ผู้เล่น '+(i+1)+'" value="'+sp.v.hab[i][hi]+'"></td>';h+='</tr>';});
+  h+='<tr><th class="rowh">โบนัสเสียงข้างมาก</th>';for(i=0;i<n;i++)h+='<td class="auto" id="sp-bonus-'+i+'"></td>';h+='</tr>';
+  h+='<tr><th class="rowh">โทเคนธรรมชาติ</th>';for(i=0;i<n;i++)h+='<td><input type="number" inputmode="numeric" id="sp-nat-'+i+'" data-k="nat" data-p="'+i+'" aria-label="โทเคนธรรมชาติ ผู้เล่น '+(i+1)+'" value="'+sp.v.nat[i]+'"></td>';h+='</tr>';
+  h+='<tr><th class="rowh">Landmarks</th>';for(i=0;i<n;i++)h+='<td><input type="number" inputmode="numeric" id="sp-lm-'+i+'" data-k="lm" data-p="'+i+'" aria-label="แลนด์มาร์ก ผู้เล่น '+(i+1)+'" value="'+sp.v.lm[i]+'"></td>';h+='</tr>';
+  h+='<tr class="total"><th class="rowh">รวม</th>';for(i=0;i<n;i++)h+='<td id="sp-tot-'+i+'"></td>';h+='</tr></tbody>';
+  document.getElementById("sp-table").innerHTML=h;
+  calcPad();
+}
+function calcPad(){
+  var n=sp.n,tot=[],bon=[];
+  for(var i=0;i<n;i++)bon.push(0);
+  HABS.forEach(function(hb,hi){var sizes=[];for(var i=0;i<n;i++)sizes.push(num(sp.v.hab[i][hi]));bonusFor(sizes).forEach(function(b,i){bon[i]+=b;});});
+  for(i=0;i<n;i++){
+    var w=sp.v.wild[i].reduce(function(s,x){return s+num(x);},0),h=sp.v.hab[i].reduce(function(s,x){return s+num(x);},0);
+    tot.push(w+h+bon[i]+num(sp.v.nat[i])+num(sp.v.lm[i]));
+    document.getElementById("sp-bonus-"+i).textContent="+"+bon[i];
+  }
+  var max=Math.max.apply(null,tot),lead=[];
+  tot.forEach(function(t,i){var c=document.getElementById("sp-tot-"+i);c.textContent=t;c.className=t===max?"lead":"";if(t===max)lead.push(i);});
+  var msg;
+  if(lead.length===1)msg="นำอยู่: "+sp.v.names[lead[0]]+" "+max+" แต้ม";
+  else{
+    var nat=lead.map(function(i){return num(sp.v.nat[i]);}),mx=Math.max.apply(null,nat),w=lead.filter(function(i){return num(sp.v.nat[i])===mx;});
+    msg="แต้มเท่ากัน "+max+" · ตัดสินด้วยโทเคนธรรมชาติ: "+(w.length===1?sp.v.names[w[0]]+" ชนะ":"ยังเท่ากัน ชนะร่วมกัน");
+  }
+  document.getElementById("sp-win").textContent=msg;
+}
+document.getElementById("sp-table").addEventListener("input",function(e){
+  var t=e.target;if(t.classList.contains("name")){var i=num(t.id.split("-")[2]);sp.v.names[i]=t.value;calcPad();return;}
+  var k=t.dataset.k,p=num(t.dataset.p);if(!k)return;
+  if(k==="wild"||k==="hab")sp.v[k][p][num(t.dataset.a)]=t.value;else sp.v[k][p]=t.value;
+  calcPad();
+});
+document.getElementById("sp-clear").addEventListener("click",function(){
+  sp.v.wild=sp.v.wild.map(function(a){return a.map(function(){return "";});});
+  sp.v.hab=sp.v.hab.map(function(a){return a.map(function(){return "";});});
+  sp.v.nat=sp.v.nat.map(function(){return "";});sp.v.lm=sp.v.lm.map(function(){return "";});
+  sp.v.names=sp.v.names.map(function(x,i){return "ผู้เล่น "+(i+1);});
+  renderPad();
+});
+renderPad();
+})();
+</script>
+
+</body></html>

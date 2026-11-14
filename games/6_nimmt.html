@@ -1,0 +1,924 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>6 nimmt! ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: barn-red header band with four rows of number cards, then a rulebook reading column with a sticky chapter rail.
+   Card diagrams are drawn SVG number cards coloured by bullhead count. Placement simulator + bullhead counter + score pad near the end. */
+:root{
+  --bg:#f4efe6;
+  --surface:#fffdf8;
+  --surface-2:#ebe2d2;
+  --fg:#2a1f18;
+  --muted:#6c5e50;
+  --line:#dacdb6;
+  --accent:#a8321f;
+  --accent-strong:#c23b25;
+  --accent-soft:#f6ddd2;
+  --blue:#2b5d8f;
+  --blue-soft:#dde8f3;
+  --green:#3f7a32;
+  --green-soft:#e2ecd5;
+  --band-1:#3a1210;
+  --band-2:#7a2418;
+  --band-fg:#fbf2e4;
+  --gold:#f2c35a;
+  --good:#2f7d3d;
+  --bad:#bb3326;
+  --b1:#f3eee4; --b2:#a9d4ee; --b3:#f3c55a; --b5:#ee8a6d; --b7:#b48ad8;
+  --x-tac:#2b5d8f; --x-pro:#7a3a8f; --x-open:#2f7a6f; --x-nifty:#8a5a12; --x-hand:#5c4a40; --x-tour:#3f6b2a; --x-double:#8b3a55; --x-fan:#b2541c; --x-buf:#1f4f5c;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15100d;--surface:#1f1814;--surface-2:#2b221c;--fg:#f1e7da;--muted:#b6a796;--line:#3c3129;
+    --accent:#f29276;--accent-strong:#f29276;--accent-soft:#3c1d15;--blue:#93b8e6;--blue-soft:#18253a;
+    --green:#9ccb7d;--green-soft:#1d2a16;--band-1:#1c0807;--band-2:#4a140d;--gold:#f2c86a;
+    --good:#6fd086;--bad:#ff7563;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15100d;--surface:#1f1814;--surface-2:#2b221c;--fg:#f1e7da;--muted:#b6a796;--line:#3c3129;
+  --accent:#f29276;--accent-strong:#f29276;--accent-soft:#3c1d15;--blue:#93b8e6;--blue-soft:#18253a;
+  --green:#9ccb7d;--green-soft:#1d2a16;--band-1:#1c0807;--band-2:#4a140d;--gold:#f2c86a;
+  --good:#6fd086;--bad:#ff7563;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.3rem,5.6vw,3.6rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.42em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.exp-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.76rem;font-weight:600;border-radius:999px;padding:2px 10px;color:#fff;text-decoration:none}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block}
+.prose ul,.prose ol,ul.prose{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal;font-weight:500}
+.xhead .en{color:rgba(255,255,255,.8)}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.warn{border-left:4px solid var(--accent-strong);padding:8px 14px;background:var(--surface);border-radius:0 10px 10px 0;max-width:48em;font-size:.95rem}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 170px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:540px}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-acc{fill:var(--accent-strong)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+.s-stroke-muted{stroke:var(--muted)} .s-stroke-acc{stroke:var(--accent-strong)} .s-stroke-line{stroke:var(--line)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+.rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.rule{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c,var(--accent));border-radius:12px;padding:14px 16px;display:grid;gap:4px;align-content:start}
+.rule small{font-family:var(--font-tag);font-size:.76rem;letter-spacing:.06em;color:var(--muted)}
+.rule h3{font-size:1.08rem}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.35);vertical-align:-2px;margin-right:6px}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+.xmeta{display:flex;flex-wrap:wrap;gap:6px}
+.xmeta span{background:rgba(255,255,255,.16);border-radius:999px;padding:0 10px;font-family:var(--font-tag);font-size:.78rem}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"],.btn.primary{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+.tin{font:inherit;font-family:var(--font-tag);font-weight:600;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:0 10px;min-width:0;width:100%}
+.rows-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.result b{font-family:var(--font-tag);font-size:2.4rem;font-weight:600;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
+.result span{font-family:var(--font-tag);font-size:.95rem}
+.result small{color:var(--muted);font-size:.86rem}
+.co{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:inline-grid;gap:0;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.7rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.co small{font-size:.84rem;color:var(--muted)}
+.cos{display:flex;flex-wrap:wrap;gap:10px}
+.err{color:var(--bad);font-size:.92rem}
+.log{margin:0;padding-left:1.3em;display:grid;gap:6px;font-size:.95rem}
+.log li b{font-family:var(--font-tag)}
+.board{display:grid;gap:6px}
+.brow{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.brow>span:first-child{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);width:48px}
+.chip{display:inline-grid;place-items:center;width:40px;height:48px;border-radius:6px;font-family:var(--font-tag);font-weight:600;font-size:1rem;color:#1d1510;border:1px solid rgba(0,0,0,.35);line-height:1;padding-top:4px;position:relative}
+.chip i{font-style:normal;font-size:.62rem;font-weight:600;opacity:.75}
+.chip.new{outline:3px solid var(--accent-strong);outline-offset:1px}
+.chip.slot{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.chip.six{border:1.5px dashed var(--bad);color:var(--bad);background:transparent}
+.pad{overflow-x:auto}
+.pad table{min-width:0}
+.pad input{font:inherit;font-family:var(--font-tag);font-weight:600;width:64px;height:36px;text-align:center;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:6px;font-variant-numeric:tabular-nums}
+.pad input.name{width:96px;text-align:left;padding:0 8px}
+.pad tfoot td{font-family:var(--font-tag);font-weight:600;font-variant-numeric:tabular-nums;background:var(--surface-2)}
+.pad td.lead{color:var(--good)}
+.pad td.over{color:var(--bad)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:420px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bob{animation:bob 2.6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + แบบเล่นเสริม 8 แบบ + ส่วนเสริมฉบับ 30 ปี · อิงคู่มือทางการ (AMIGO)</div>
+      <h1>6 nimmt!<span>ซิกส์นิมท์ · ใครวางไพ่ใบที่ 6 ต้องเก็บทั้งแถว หัววัวน้อยสุดชนะ</span></h1>
+      <p class="lede">ทุกคนเลือกไพ่ 1 ใบ คว่ำไว้ แล้วเปิดพร้อมกัน จากนั้นวางทีละใบจากเลขน้อยไปมาก ลงท้ายแถวที่เลขใกล้ที่สุด ใครวางเป็นใบที่ 6 ของแถว ต้องเก็บ 5 ใบนั้นไปเป็นแต้มติดลบ นับจากรูปหัววัวบนไพ่ เล่นหลายรอบจนมีคนติดลบถึง 66 แล้วคนที่หัววัวน้อยที่สุดชนะ คู่มือนี้เน้น<b>กฎวางไพ่ 4 ข้อ</b> ซึ่งเป็นจุดที่คนเล่นใหม่พลาดบ่อยที่สุด</p>
+      <div class="facts">
+        <div class="fact"><b>2–10</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>~45</b><small>นาที</small></div>
+        <div class="fact"><b>104</b><small>ไพ่เลข 1–104</small></div>
+        <div class="fact"><b>66</b><small>หัววัว = จบเกม</small></div>
+      </div>
+      <div class="exp-badges">
+        <a class="xb" href="#tactics" style="background:var(--x-tac)">รู้ไพ่ทุกใบ / Pro 2–6 คน</a>
+        <a class="xb" href="#pro" style="background:var(--x-pro)">มืออาชีพ (วางซ้ายได้)</a>
+        <a class="xb" href="#open" style="background:var(--x-open)">เปิดหน้า</a>
+        <a class="xb" href="#nifty" style="background:var(--x-nifty)">ทีละ 2 ใบ</a>
+        <a class="xb" href="#hand" style="background:var(--x-hand)">เก็บเข้ามือ</a>
+        <a class="xb" href="#tour" style="background:var(--x-tour)">ทัวร์นาเมนต์</a>
+        <a class="xb" href="#double" style="background:var(--x-double)">2 กล่อง</a>
+        <a class="xb" href="#fan" style="background:var(--x-fan)">ไพ่พิเศษ (30 ปี)</a>
+        <a class="xb" href="#buffalo" style="background:var(--x-buf)">สู้ควาย (ร่วมมือ)</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 360 250" id="hero-svg"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#bulls">หัววัว = แต้มติดลบ</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#rule12">กฎข้อ 1–2 วางที่ไหน</a></li>
+      <li><a href="#rule3">กฎข้อ 3 แถวเต็ม</a></li>
+      <li><a href="#rule4">กฎข้อ 4 ไพ่ต่ำเกิน</a></li>
+      <li><a href="#traps">กับดักที่เจอบ่อย</a></li>
+      <li><a href="#end">จบรอบ & จบเกม</a></li>
+      <li class="sep">แบบเล่นเสริม</li>
+      <li><a href="#tactics" style="--c:var(--x-tac)"><i></i>รู้ไพ่ทุกใบ / Pro</a></li>
+      <li><a href="#pro" style="--c:var(--x-pro)"><i></i>มืออาชีพ</a></li>
+      <li><a href="#open" style="--c:var(--x-open)"><i></i>เปิดหน้า</a></li>
+      <li><a href="#nifty" style="--c:var(--x-nifty)"><i></i>ทีละ 2 ใบ</a></li>
+      <li><a href="#hand" style="--c:var(--x-hand)"><i></i>เก็บเข้ามือ</a></li>
+      <li><a href="#tour" style="--c:var(--x-tour)"><i></i>ทัวร์นาเมนต์</a></li>
+      <li><a href="#double" style="--c:var(--x-double)"><i></i>2 กล่อง</a></li>
+      <li><a href="#fan" style="--c:var(--x-fan)"><i></i>ไพ่พิเศษ (30 ปี)</a></li>
+      <li><a href="#buffalo" style="--c:var(--x-buf)"><i></i>สู้ควาย (ร่วมมือ)</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#prep">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#sim">ตัวช่วยวางไพ่</a></li>
+      <li><a href="#calc">เครื่องคิดคะแนน</a></li>
+      <li><a href="#pad">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>หนึ่งตา ทุกคนเล่นพร้อมกัน</h3>
+        <ol>
+          <li><b>เลือกไพ่</b> ทุกคนเลือกไพ่จากมือ 1 ใบ วางคว่ำ แล้ว<b>เปิดพร้อมกัน</b></li>
+          <li><b>วางจากเลขน้อยไปมาก</b> ใบที่เลขน้อยที่สุดวางก่อน แต่ละใบต่อ<b>ท้ายแถว</b>ที่ใบสุดท้าย<b>น้อยกว่าและใกล้ที่สุด</b></li>
+          <li><b>เก็บแถว</b> ถ้าไพ่คุณเป็น<b>ใบที่ 6</b> ของแถว หรือ<b>ต่ำเกินจนลงแถวไหนไม่ได้</b> ต้องเก็บไพ่ในแถวมาเป็นแต้มติดลบ แล้วไพ่คุณเริ่มแถวใหม่</li>
+        </ol>
+      </div>
+      <div class="rule-grid" aria-label="กฎวางไพ่ 4 ข้อ">
+        <div class="rule" style="--c:var(--blue)"><small>กฎข้อ 1</small><h3>เรียงขึ้น</h3><p>วางได้เฉพาะแถวที่ใบสุดท้าย<b>น้อยกว่า</b>ไพ่คุณ</p></div>
+        <div class="rule" style="--c:var(--green)"><small>กฎข้อ 2</small><h3>ห่างน้อยสุด</h3><p>ถ้าวางได้หลายแถว ต้องลงแถวที่<b>ผลต่างน้อยที่สุด</b> เลือกเองไม่ได้</p></div>
+        <div class="rule" style="--c:var(--accent-strong)"><small>กฎข้อ 3</small><h3>แถวเต็ม</h3><p>แถวมี 5 ใบแล้ว ใบที่ 6 = <b>เก็บ 5 ใบ</b> ไพ่คุณเริ่มแถวใหม่</p></div>
+        <div class="rule" style="--c:#8a5a12"><small>กฎข้อ 4</small><h3>ไพ่ต่ำเกิน</h3><p>น้อยกว่าทุกแถว = <b>เลือกเก็บแถวไหนก็ได้</b> 1 แถว ไพ่คุณเริ่มแถวใหม่</p></div>
+      </div>
+      <div class="formula" aria-label="สูตรแต้ม">
+        <div class="fm"><small>ไพ่ทั่วไป</small><b>1 หัววัว</b></div>
+        <div class="fm"><small>ลงท้ายด้วย 5</small><b>2</b></div>
+        <div class="fm"><small>หาร 10 ลงตัว</small><b>3</b></div>
+        <div class="fm"><small>เลขเบิ้ล 11, 22, …</small><b>5</b></div>
+        <div class="fm"><small>55 (ทั้งเบิ้ลและลงท้าย 5)</small><b>7</b></div>
+        <div class="fm end"><small>จบเกม</small><b>มีคนถึง 66 → น้อยสุดชนะ</b></div>
+      </div>
+      <p class="note">หัววัว 1 ตัว = ติดลบ 1 แต้ม · ทั้งเกมมีหัววัวรวม 171 ตัว (คิดจากจำนวนไพ่แต่ละแบบ) · ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <p class="prose">6 nimmt! พิมพ์ซ้ำมาหลายรุ่น ไพ่ 104 ใบกับกติกาหลักเหมือนกันทุกรุ่น สิ่งที่ต่างคือของแถม ลองเปิดกล่องดูว่าตรงกับแถวไหนในตาราง</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>รุ่น</th><th>ของในกล่อง</th><th>คู่มือที่ใช้อ้างอิง</th></tr></thead>
+          <tbody>
+            <tr><td><b>กล่องมาตรฐาน</b><br><span class="en">Base game</span></td><td>ไพ่เลข <b>104 ใบ</b> (1–104) + คู่มือ 1 เล่ม · ต้องเตรียม<b>กระดาษกับดินสอ</b>จดแต้มเอง</td><td>คู่มือ AMIGO ภาษาอังกฤษ (ฉบับปี 2005) มีแบบเล่นเสริม 8 แบบ</td></tr>
+            <tr><td><b>ฉบับครบรอบ 30 ปี</b><br><span class="en">30th Anniversary (2024)</span></td><td>ไพ่เลข 104 ใบ · <b>ไพ่พิเศษจากแฟนเกม 13 ใบ</b> (คู่/คี่ 1, ปีนเขา 1, วัวกระโดด 1, กลับหลักเลข 10) · <b>ไพ่พิเศษ "สู้ควาย" 16 ใบ</b> (8 แบบ แบบละ 2) · แผ่นควาย 1 · สมุดจดแต้ม 1 · ดินสอ 1 · ยางรัดกล่อง 1</td><td>คู่มือ AMIGO ภาษาอังกฤษ (ฉบับปี 2024) มี Pro Variant, ไพ่พิเศษ, โหมดร่วมมือ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">กล่องภาษาไทยที่มีอยู่ ยังไม่ได้ยืนยันว่าแปลจากรุ่นไหน ถ้าในกล่องไม่มีไพ่พิเศษ ให้ข้ามหัวข้อ <a href="#fan">ไพ่พิเศษ</a> กับ <a href="#buffalo">สู้ควาย</a> ไปได้เลย · อายุบนกล่อง: ฉบับ 2005 พิมพ์ 10+ ส่วนฉบับ 2024 พิมพ์ 8+</p>
+    </section>
+
+    <!-- BULLS -->
+    <section id="bulls">
+      <div class="sec-head"><span class="tag">แต้มติดลบ</span><h2>หัววัว = แต้มติดลบ</h2></div>
+      <p class="prose">ไพ่ทุกใบมีรูปหัววัว 1–7 ตัว ยิ่งเก็บหัววัวมากยิ่งแย่ ในคู่มือนี้ระบายสีไพ่ตามจำนวนหัววัวให้ดูง่าย (สีในภาพเป็นสีที่วาดขึ้นใหม่ ไม่ใช่สีบนไพ่จริง ให้ดูจากจำนวนหัววัวบนไพ่เป็นหลัก)</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="types" role="img" aria-label="ไพ่ 5 แบบ: 1, 2, 3, 5 และ 7 หัววัว"></svg></div>
+        <figcaption>55 เป็นใบเดียวในเกมที่มี 7 หัววัว เพราะเป็นทั้งเลขเบิ้ลและลงท้ายด้วย 5</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>แบบไพ่</th><th>ตัวอย่าง</th><th class="num">หัววัว/ใบ</th><th class="num">จำนวนใบ</th><th class="num">หัววัวรวม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="sw" style="background:var(--b1)"></span>ไพ่ทั่วไป</td><td>1, 2, 3, 4, 6, 7 …</td><td class="num">1</td><td class="num">76</td><td class="num">76</td></tr>
+            <tr><td><span class="sw" style="background:var(--b2)"></span>ลงท้ายด้วย 5 (ยกเว้น 55)</td><td>5, 15, 25 … 95</td><td class="num">2</td><td class="num">9</td><td class="num">18</td></tr>
+            <tr><td><span class="sw" style="background:var(--b3)"></span>หาร 10 ลงตัว</td><td>10, 20 … 100</td><td class="num">3</td><td class="num">10</td><td class="num">30</td></tr>
+            <tr><td><span class="sw" style="background:var(--b5)"></span>เลขเบิ้ล (ยกเว้น 55)</td><td>11, 22, 33, 44, 66, 77, 88, 99</td><td class="num">5</td><td class="num">8</td><td class="num">40</td></tr>
+            <tr><td><span class="sw" style="background:var(--b7)"></span>55</td><td>55</td><td class="num">7</td><td class="num">1</td><td class="num">7</td></tr>
+            <tr><td><b>รวม</b></td><td></td><td></td><td class="num">104</td><td class="num">171</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ค่าหัววัวแต่ละแบบตรงกันในคู่มือทั้งสองฉบับ ส่วนจำนวนใบและหัววัวรวมนับจากเลข 1–104 ตามกฎข้างบน</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม <span class="en">Setup</span></h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>สับไพ่ แจกคนละ 10 ใบ <span class="en">Deal 10 cards</span></h3><p>ทุกคนถือไพ่ไว้ในมือ ไม่ให้คนอื่นเห็น คู่มือแนะนำให้<b>เรียงเลขในมือจากน้อยไปมาก</b> จะคิดง่ายขึ้น</p></div></li>
+        <li><div class="body"><h3>เปิด 4 ใบตั้งเป็น 4 แถว <span class="en">Make four rows</span></h3><p>หยิบ 4 ใบจากกองที่เหลือ วางหงายเรียง<b>ลงมาเป็นแนวตั้ง</b> กลางโต๊ะ แต่ละใบคือใบแรกของแถว 1 แถว แถวหนึ่งมีได้<b>ไม่เกิน 5 ใบ</b> (นับใบแรกด้วย)</p></div></li>
+        <li><div class="body"><h3>ไพ่ที่เหลือเก็บไว้ข้าง ๆ</h3><p>รอบนี้ไม่ใช้ ใช้อีกทีตอนสับใหม่รอบหน้า · เตรียมกระดาษจดแต้ม (ฉบับ 30 ปีมีสมุดจดแต้มให้ หรือใช้ <a href="#pad">สมุดคะแนน</a> ท้ายคู่มือนี้)</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="setup" role="img" aria-label="กลางโต๊ะมี 4 แถว แต่ละแถวมีใบแรก 1 ใบ ช่องที่ 2 ถึง 5 ว่าง ช่องที่ 6 คือจุดที่ต้องเก็บแถว"></svg></div>
+        <figcaption>ตัวอย่างโต๊ะตอนเริ่ม (เลขในภาพตั้งขึ้นเอง) · ช่องประคือที่ว่างของแถว ช่องที่ 6 สีแดงคือจุดที่<b>ไม่มีใครอยากวาง</b></figcaption>
+      </figure>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ <span class="en">How to play</span></h2></div>
+      <p class="prose">เกมนี้ไม่มีการผลัดกันเล่น ทุกคนเล่น<b>พร้อมกัน</b>ทุกตา หนึ่งรอบมี 10 ตา จนไพ่ในมือหมด</p>
+      <ol class="steps">
+        <li><div class="body"><h3>ทุกคนเลือกไพ่ 1 ใบ คว่ำไว้ <span class="en">Play a card</span></h3><p>วางคว่ำหน้าตัวเอง เปลี่ยนใจไม่ได้หลังวางแล้ว รอจนทุกคนวางครบ</p></div></li>
+        <li><div class="body"><h3>เปิดพร้อมกัน</h3><p>พลิกไพ่ทุกใบขึ้นพร้อมกัน</p></div></li>
+        <li><div class="body"><h3>วางจากเลขน้อยไปมาก</h3><p>คนที่ไพ่<b>เลขน้อยที่สุด</b>วางลงแถวก่อนตาม<a href="#rule12">กฎวางไพ่</a> ต่อด้วยใบที่น้อยรองลงมา ไล่ไปจนครบ ไพ่ต่อ<b>ท้ายแถว</b>ทางขวาเสมอ ห้ามแทรกกลาง</p></div></li>
+        <li><div class="body"><h3>เก็บแถวถ้าจำเป็น <span class="en">Getting cards</span></h3><p>ถ้าไพ่คุณลงแถวไม่ได้ (<a href="#rule3">กฎข้อ 3</a> หรือ <a href="#rule4">ข้อ 4</a>) คุณเก็บไพ่ทั้งแถว วาง<b>คว่ำหน้าตัวเอง</b>เป็น<b>กองหัววัว</b> <span class="en">bullhead stack / bull pile</span> · ไพ่ในกองนี้<b>ห้ามหยิบขึ้นมือ</b>มาเล่นต่อ</p></div></li>
+      </ol>
+    </section>
+
+    <!-- RULE 1-2 -->
+    <section id="rule12">
+      <div class="sec-head"><span class="tag">กฎข้อ 1 + 2</span><h2>ไพ่ของคุณต้องลงแถวไหน</h2></div>
+      <p class="prose">ไพ่แต่ละใบ<b>ลงได้แถวเดียวเท่านั้น</b> ไม่มีการเลือก ใช้ 2 กฎนี้หาแถว:</p>
+      <ul class="prose">
+        <li><b>ข้อ 1 เรียงขึ้น</b> <span class="en">Ascending order</span> · ดูเฉพาะแถวที่ใบ<b>สุดท้าย</b>น้อยกว่าไพ่คุณ</li>
+        <li><b>ข้อ 2 ห่างน้อยสุด</b> <span class="en">Smallest difference</span> · ในแถวเหล่านั้น เลือกแถวที่ไพ่คุณ<b>ลบ</b>ใบสุดท้ายแล้วได้<b>น้อยที่สุด</b></li>
+      </ul>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="r12" role="img" aria-label="เปิดไพ่ 10 12 50 70 วางลงแถวตามผลต่างน้อยสุด"></svg></div>
+        <figcaption>เปิดได้ 10, 12, 50, 70 · <b>10</b> ลงได้แถวเดียวคือต่อ 8 (ห่าง 2) · <b>12</b> ต่อ 10 · <b>50</b> ต่อท้าย 12, 31 หรือ 47 ได้ทั้งสามแถว แต่ 47 ห่างแค่ 3 จึงต้องลงแถว 3 · <b>70</b> ต่อ 66 (ห่าง 4)</figcaption>
+      </figure>
+      <div class="callout blue">
+        <h3>ลำดับการวางสำคัญมาก</h3>
+        <p>ใบที่วางก่อนเปลี่ยน "ใบสุดท้าย" ของแถว ใบถัดไปจึงต้องคิดจากแถวที่<b>เปลี่ยนแล้ว</b> เช่นในภาพ 12 ต่อ 10 ไม่ใช่ต่อ 8 เพราะ 10 ลงไปก่อนแล้ว</p>
+      </div>
+    </section>
+
+    <!-- RULE 3 -->
+    <section id="rule3">
+      <div class="sec-head"><span class="tag">กฎข้อ 3</span><h2>แถวเต็ม <span class="en">Full row</span></h2></div>
+      <p class="prose">แถวที่มี 5 ใบถือว่า<b>เต็ม</b> ถ้ากฎข้อ 2 บอกว่าไพ่คุณต้องลงแถวนี้ ไพ่คุณจะเป็นใบที่ 6 คุณต้อง<b>เก็บ 5 ใบนั้น</b>เข้ากองหัววัว แล้ววางไพ่คุณเป็น<b>ใบแรกของแถวใหม่</b>ในตำแหน่งเดิม</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="r3" role="img" aria-label="แถวมี 5 ใบ ไพ่ 22 เป็นใบที่ 6 ต้องเก็บ 5 ใบได้ 9 หัววัว"></svg></div>
+        <figcaption>แถว 1 มี 8, 10, 12, 17, 20 ครบ 5 ใบ · คุณเปิด 22 ซึ่งต้องลงแถวนี้ (ห่าง 2 น้อยสุด) → เก็บ 5 ใบ ได้ 1+3+1+1+3 = <b>9 หัววัว</b> · 22 กลายเป็นใบแรกของแถว 1</figcaption>
+      </figure>
+      <p class="note">ไพ่ใบถัดไปในตาเดียวกันที่ต้องลงแถวนี้ ก็ต่อจาก 22 ได้ตามปกติ</p>
+    </section>
+
+    <!-- RULE 4 -->
+    <section id="rule4">
+      <div class="sec-head"><span class="tag">กฎข้อ 4</span><h2>ไพ่ต่ำเกิน <span class="en">Lowest card</span></h2></div>
+      <p class="prose">ถ้าไพ่คุณ<b>น้อยกว่าใบสุดท้ายของทุกแถว</b> ไม่มีแถวไหนรับได้ คุณต้อง<b>เก็บ 1 แถว</b> แถวไหนก็ได้ตามใจ แล้ววางไพ่คุณเป็นใบแรกของแถวนั้น</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="r4" role="img" aria-label="ไพ่ 5 ต่ำกว่าทุกแถว เลือกเก็บแถวที่มีหัววัวน้อยที่สุด"></svg></div>
+        <figcaption>เปิดได้ 5 กับ 7 · <b>5</b> น้อยกว่าทุกแถว จึงเลือกเก็บแถว 2 ที่มีแค่ 31 (1 หัววัว) · จากนั้น <b>7</b> ต่อ 5 ได้เลย คนเปิด 7 เลยรอดเพราะคนเปิด 5</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>เลือกแถวตอนไหน</h3>
+        <ul>
+          <li>เลือกตอนถึงคิวไพ่ใบนั้น ซึ่งปกติเป็นคิวแรก เพราะไพ่ต่ำสุดวางก่อน</li>
+          <li>ส่วนใหญ่ควรเก็บแถวที่<b>หัววัวน้อยที่สุด</b> แต่บางทีเก็บแถวอื่นเพื่อวางกับดักคนอื่นก็ได้ เช่น เก็บแถวที่ตัวเลขทำให้ไพ่คนอื่นต้องไปลงแถวเต็ม</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TRAPS -->
+    <section id="traps">
+      <div class="sec-head"><span class="tag">เรียนจากความพลาด</span><h2>กับดักที่เจอบ่อย <span class="en">A few tips</span></h2></div>
+      <div class="types">
+        <div class="type"><h3>คิดว่าลงแถวนี้ แต่อีกแถวใกล้กว่า</h3><p>คุณเปิด 44 คิดว่าจะต่อ 38 ในแถวสั้น แต่มีอีกแถวจบที่ 40 ซึ่งห่างแค่ 4 และแถวนั้นมี 5 ใบแล้ว → 44 ต้องลงแถว 40 และคุณต้องเก็บแถว</p></div>
+        <div class="type"><h3>คนอื่นเก็บแถวที่คุณหมายตา</h3><p>คุณเปิด 62 หวังต่อแถวที่จบด้วย 60 แต่มีคนเปิดไพ่ต่ำเกินแล้วเลือกเก็บแถวนั้นก่อน แถวนั้นเหลือแค่เลขต่ำ 62 เลยต้องไปลงแถวอื่นที่เต็ม</p></div>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="trap" role="img" aria-label="ไพ่ 44 ไม่ได้ต่อ 38 แต่ต้องต่อ 40 ที่แถวเต็ม"></svg></div>
+        <figcaption>กับดักแบบแรก · 44 − 38 = 6 แต่ 44 − 40 = 4 จึงต้องลงแถว 3 ซึ่งเต็มแล้ว ต้องเก็บ 5 ใบ</figcaption>
+      </figure>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบรอบ และจบเกม <span class="en">End of the game</span></h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>จบรอบเมื่อเล่นครบ 10 ใบ</h3><p>ทุกคนนับหัววัวในกองหัววัวของตัวเอง จดลงกระดาษ</p></div></li>
+        <li><div class="body"><h3>สับใหม่ทั้งหมด เริ่มรอบใหม่</h3><p>เก็บไพ่ทุกใบ (บนโต๊ะ กองหัววัว กองที่เหลือ) สับ แจกคนละ 10 ตั้ง 4 แถวใหม่</p></div></li>
+        <li><div class="body"><h3>มีคนติดลบ 66 ขึ้นไป = จบเกม</h3><p>คนที่แต้มติดลบรวม<b>น้อยที่สุด</b>ชนะ · ถ้าเสมอ ฉบับ 2024 ให้<b>ชนะร่วมกัน</b> (ฉบับ 2005 ไม่ได้เขียนเรื่องเสมอ)</p></div></li>
+      </ol>
+      <div class="formula">
+        <div class="fm"><small>ตัวอย่าง: แต้มสะสมหลังรอบ 4</small><b>A 41 · B 58 · C 67 · D 33</b></div>
+        <div class="fm end"><small>C ถึง 66 แล้ว → จบเกม</small><b>D ชนะ (33)</b></div>
+      </div>
+      <p class="note">คู่มือทั้งสองฉบับบอกว่าจะตกลงกันเล่นถึงแต้มอื่น หรือเล่นจำนวนรอบที่กำหนดก็ได้</p>
+    </section>
+
+    <!-- TACTICS / LOGIC / PRO 2-6 -->
+    <section id="tactics">
+      <div class="xhead" style="--c:var(--x-tac)"><span class="tag">แบบเล่นเสริม 1–2 · TACTICS / LOGIC · ฉบับ 2024 เรียกว่า PRO VARIANT 2–6 คน</span><h2>รู้ไพ่ทุกใบ และเลือกไพ่เอง</h2><p>ตัดไพ่ให้เหลือเท่าที่ใช้จริง ทุกคนจึงรู้ว่ามีเลขไหนอยู่ในเกมบ้าง เกมจะกลายเป็นเกมคิด ไม่ใช่เกมดวง</p><div class="xmeta"><span>ใช้ไพ่ (ผู้เล่น × 10) + 4 ใบ</span><span>เหมาะ 2–6 คน</span></div></div>
+      <div class="types">
+        <div class="type"><h3>Tactics: รู้ไพ่ทุกใบ <span class="en">Take 6! – Tactics</span></h3><p>ใช้ไพ่แค่เลข 1 ถึง <b>(ผู้เล่น × 10) + 4</b> เลขที่สูงกว่านั้นเก็บกล่อง แล้วเล่นตามปกติ</p><ul><li>3 คน = ไพ่ 1–34</li><li>4 คน = ไพ่ 1–44</li><li>5 คน = ไพ่ 1–54</li></ul></div>
+        <div class="type"><h3>Logic: เลือกไพ่เอง <span class="en">Take 6! – Logic</span></h3><p>ตัดไพ่แบบ Tactics แล้ว<b>หงายทุกใบบนโต๊ะ</b> ผลัดกันหยิบทีละใบตามเข็มนาฬิกาจนได้คนละ 10 ใบ <b>4 ใบที่เหลือ</b>คือใบแรกของ 4 แถว</p><p>เหมาะกับคนชอบเกมคิด และเล่น<b>2 คน</b>ได้ดี (ใช้ไพ่ 1–24)</p></div>
+      </div>
+      <div class="callout blue">
+        <h3>ชื่อเรียกไม่เหมือนกันในแต่ละฉบับ</h3>
+        <p>ฉบับ 2024 รวม 2 ข้อนี้เป็นแบบเดียว ชื่อ <b>Pro Variant for 2–6 Players</b> (รู้ไพ่ทุกใบ + เลือกไพ่เอง) ส่วนฉบับ 2005 แยกเป็น Tactics กับ Logic และมีอีกแบบชื่อ <b>Professional</b> ซึ่ง<b>เป็นคนละกติกา</b> (ดูหัวข้อถัดไป) อย่าสับสนกัน</p>
+      </div>
+    </section>
+
+    <!-- PROFESSIONAL -->
+    <section id="pro">
+      <div class="xhead" style="--c:var(--x-pro)"><span class="tag">แบบเล่นเสริม 4 · TAKE 6! – PROFESSIONAL</span><h2>มืออาชีพ: วางได้ทั้งซ้ายและขวา</h2><p>สำหรับคนที่รู้สึกว่าเกมหลักง่ายเกินไป ต้องคิดทั้งสองหัวของทุกแถว พลาดง่ายมาก</p><div class="xmeta"><span>ใช้กติกาหลักทั้งหมด</span><span>+ ต่อซ้ายแถวได้</span></div></div>
+      <ul class="prose">
+        <li>ต่อ<b>ขวา</b>ได้ถ้าไพ่<b>มากกว่า</b>ใบขวาสุด (เหมือนเดิม) · ต่อ<b>ซ้าย</b>ได้ถ้าไพ่<b>น้อยกว่า</b>ใบซ้ายสุด แถวยังเรียงจากน้อยไปมากจากซ้ายไปขวา</li>
+        <li>ดูทุกหัวทุกท้ายของทุกแถว แล้วลงตรงที่<b>ผลต่างน้อยที่สุด</b> · ห้ามแทรกกลางแถว</li>
+        <li>เป็นใบที่ 6 ไม่ว่าลงซ้ายหรือขวา = เก็บ 5 ใบ ไพ่คุณเริ่มแถวใหม่</li>
+        <li>ลงที่ไหนไม่ได้เลย (ทั้งซ้ายและขวา) = เลือกเก็บ 1 แถวตาม<a href="#rule4">กฎข้อ 4</a></li>
+      </ul>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" data-fig="pro" role="img" aria-label="ไพ่ 18 ต่อซ้ายของ 20 เพราะห่าง 2 น้อยกว่าต่อขวาของ 15 ที่ห่าง 3"></svg></div>
+        <figcaption>18 ต่อขวาของ 15 ได้ (ห่าง 3) หรือต่อซ้ายของ 20 ได้ (ห่าง 2) → ต้องลง<b>ซ้ายของ 20</b> ในแถว 2</figcaption>
+      </figure>
+      <p class="note">ถ้าผลต่างซ้ายและขวาเท่ากันพอดี (เช่น 18 กับแถวที่จบ 16 และแถวที่เริ่ม 20) คู่มือไม่ได้ระบุ ให้ตกลงกันก่อนเล่น</p>
+    </section>
+
+    <!-- OPEN -->
+    <section id="open">
+      <div class="xhead" style="--c:var(--x-open)"><span class="tag">แบบเล่นเสริม 5 · TAKE 6! – OPEN</span><h2>เปิดหน้า: ผลัดกันลงไพ่หงาย</h2><p>ไม่เปิดพร้อมกันแล้ว แต่ลงหงายทีละคน คนหลังเห็นไพ่คนก่อน ได้เปรียบเรื่องข้อมูล</p><div class="xmeta"><span>ไพ่เลข 1 = ไพ่คนเริ่ม</span></div></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เอาไพ่ 1 ออกก่อน</h3><p>ใช้เป็นไพ่ "คนเริ่ม" ให้<b>คนอายุมากที่สุด</b> แล้วสับ แจกคนละ 10 ตั้ง 4 แถวตามปกติ</p></div></li>
+        <li><div class="body"><h3>ผลัดกันลงไพ่หงาย</h3><p>คนเริ่มลงไพ่หงาย 1 ใบ แล้วคนทางซ้ายลง ไล่ไปจนครบทุกคน จากนั้นวางลงแถวตามกติกาหลัก (จากน้อยไปมาก)</p></div></li>
+        <li><div class="body"><h3>ส่งไพ่คนเริ่มไปทางซ้าย</h3><p>จบแต่ละตา ส่งไพ่ 1 ให้คนทางซ้าย คนเริ่มจึงเปลี่ยนทุกตา</p></div></li>
+      </ol>
+      <p class="note">เพราะไพ่ 1 ถูกเอาออก เหลือไพ่ 103 ใบ เล่น 10 คนจะไม่พอ (ต้องใช้ 104) ข้อนี้คำนวณเอง คู่มือไม่ได้เขียนไว้</p>
+    </section>
+
+    <!-- NIFTY -->
+    <section id="nifty">
+      <div class="xhead" style="--c:var(--x-nifty)"><span class="tag">แบบเล่นเสริม 6 · TAKE 6! – NIFTY · 2–7 คน</span><h2>ทีละ 2 ใบ</h2><p>ได้ไพ่ในมือมากขึ้น และลงทีละ 2 ใบ เลือกเองได้ว่าจะวางใบไหนก่อน</p><div class="xmeta"><span>แจกคนละ 14 ใบ</span><span>ลงตาละ 2 ใบ</span></div></div>
+      <ul class="prose">
+        <li>แจกคนละ <b>14 ใบ</b> ทุกตาเลือกไพ่ <b>2 ใบ</b> คว่ำไว้ แล้วเปิดพร้อมกัน</li>
+        <li>คนที่มี<b>ไพ่ต่ำสุดบนโต๊ะ</b>วางก่อน และวาง<b>ทั้ง 2 ใบ</b> เลือกได้ว่าจะวางใบไหนก่อน</li>
+        <li>จากนั้นคนที่ตอนนี้มีไพ่ต่ำสุดที่ยังไม่ได้วาง วางทั้ง 2 ใบในลำดับที่ตัวเองเลือก ไล่ไปจนครบ</li>
+      </ul>
+    </section>
+
+    <!-- HAND -->
+    <section id="hand">
+      <div class="xhead" style="--c:var(--x-hand)"><span class="tag">แบบเล่นเสริม 7 · TAKE 6! – HAND</span><h2>เก็บเข้ามือ</h2><p>ผลัดกันเล่นทีละคน และไพ่ที่เก็บจากแถวเอาเข้ามือมาใช้ต่อได้ แต่ไพ่ที่ค้างมือตอนจบนับ<b>สองเท่า</b></p><div class="xmeta"><span>แจกคนละ 14 ใบ</span><span>มือไม่เกิน 16 ใบ</span></div></div>
+      <ul class="prose">
+        <li><b>คนอายุน้อยสุด</b>เริ่ม ลงไพ่หงาย <b>1 หรือ 2 ใบ</b> แล้ววางลงแถวทันที จากนั้นคนทางซ้ายเล่นต่อ</li>
+        <li>ต้องเก็บแถวเมื่อไร <b>เลือกเอง</b>ว่าใบไหนเข้ากองหัววัว ใบไหนเอาเข้ามือ (จะเข้ามือหมดหรือเข้ากองหมดก็ได้) แต่ในมือมีได้<b>ไม่เกิน 16 ใบ</b></li>
+        <li>เกมจบหลังรอบที่ (1) มีคน<b>ไพ่ในมือหมด</b>ตอนจบรอบ หรือ (2) มีคนมีไพ่ในกองหัววัว<b>เกิน 20 ใบ</b></li>
+        <li>นับแต้ม: กองหัววัวนับปกติ · ไพ่ที่<b>ค้างในมือนับ 2 เท่า</b> · น้อยสุดชนะ</li>
+      </ul>
+    </section>
+
+    <!-- TOURNAMENT -->
+    <section id="tour">
+      <div class="xhead" style="--c:var(--x-tour)"><span class="tag">แบบเล่นเสริม 3 · TAKE 6! – TOURNAMENT · ไม่เกิน 5 คน</span><h2>ทัวร์นาเมนต์</h2><p>ทุกคนได้เล่นไพ่ชุดเดียวกันครบทุกชุด เพื่อวัดฝีมือล้วน ๆ</p><div class="xmeta"><span>ใช้กติกา Tactics + Logic</span><span>ต้องมีใบจดทัวร์นาเมนต์</span></div></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกไพ่แบบ Logic แล้วจด</h3><p>แต่ละคนจดเลข 10 ใบที่เลือกได้ลงใบจดของตัวเอง ใส่ชื่อตัวเองเป็นผู้เล่น 1 และชื่อคนอื่นไล่ตามเข็มนาฬิกา</p></div></li>
+        <li><div class="body"><h3>เล่นจบเกม จดแต้ม แล้วส่งใบจดไปทางซ้าย</h3><p>ทุกคนหยิบไพ่ตามรายการในใบจดที่ได้รับมา แล้วเล่นเกมต่อไป</p></div></li>
+        <li><div class="body"><h3>วนจนทุกคนเล่นครบทุกชุด</h3><p>รวมแต้มติดลบจากทุกใบจด คนที่รวมน้อยสุดชนะทัวร์นาเมนต์</p></div></li>
+      </ol>
+    </section>
+
+    <!-- DOUBLE -->
+    <section id="double">
+      <div class="xhead" style="--c:var(--x-double)"><span class="tag">แบบเล่นเสริม 8 · TAKE 6! – DOUBLE</span><h2>2 กล่อง (208 ใบ)</h2><p>ใช้ไพ่สองชุดรวมกัน เล่นตามกติกาหลัก แต่จะมี "ไพ่แฝด" เลขซ้ำกัน จึงมีกฎเพิ่ม 4 ข้อ</p><div class="xmeta"><span>ต้องมี 2 กล่อง</span></div></div>
+      <ul class="prose">
+        <li>แฝดถูกเล่นในตาเดียวกัน วาง<b>ซ้อนกัน</b>ในแถวเดียวกัน นับเป็น <b>1 ใบ</b>ตอนนับว่าแถวเต็มไหม แต่ตอนเก็บแถวนับหัววัวทุกใบ</li>
+        <li>เล่นไพ่ที่แฝดของมันเป็น<b>ใบสุดท้าย</b>ของแถวอยู่ วางซ้อนบนแฝดนั้น · ถ้าแฝดอยู่กลางแถว วางท้ายแถวที่ถูกต้องตามปกติ</li>
+        <li>สองคนเล่นเลขเดียวกันแล้วต้องเก็บแถว <b>หารแต้มกัน ปัดขึ้น</b> (อาจต้องใช้ไพ่จากกองที่ไม่ได้แจกมาแทนแต้ม)</li>
+        <li>ตอนตั้ง 4 แถว ถ้าเปิดได้แฝด ให้ซ้อนกันแล้วเปิดใบใหม่แทนแถวที่ขาด</li>
+      </ul>
+      <p class="note">คู่มือบอกว่าเล่นแบบนี้ด้วยไพ่ 1 ชุด + เฉพาะเลขเบิ้ล (11–99) จากชุดที่สองก็ได้</p>
+    </section>
+
+    <!-- FAN CARDS -->
+    <section id="fan">
+      <div class="xhead" style="--c:var(--x-fan)"><span class="tag">เฉพาะฉบับ 30 ปี · SPECIAL FAN CARDS · 2–10 คน</span><h2>ไพ่พิเศษจากแฟนเกม</h2><p>ไพ่ 4 แบบที่ได้จากการประกวดไอเดียแฟนเกม ใช้ร่วมกับเกมหลัก คู่มือแนะนำให้<b>ใส่ทีละแบบ</b> ไม่ผสมกัน</p><div class="xmeta"><span>คู่/คี่ 1</span><span>ปีนเขา 1</span><span>วัวกระโดด 1</span><span>กลับหลักเลข 10</span></div></div>
+      <div class="types">
+        <div class="type"><h3>คู่/คี่ <span class="en">Even/Odd</span></h3><p>วางไว้หน้าแถวที่ใบสุดท้ายน้อยที่สุด หันด้านตามเลขนั้นว่าคู่หรือคี่ · แถวนี้รับเฉพาะไพ่<b>คู่</b>หรือ<b>คี่</b>ตามด้านที่หงาย · มีคนเก็บแถวไหนก็ตาม ย้ายไพ่นี้ไปแถว<b>อื่น</b>ที่ใบสุดท้ายน้อยสุด แล้วหันด้านใหม่</p></div>
+        <div class="type"><h3>ปีนเขา <span class="en">Mountain Climbing</span></h3><p>เริ่มหน้าแถว 4 ลูกศรชี้ขึ้น · แถวนี้วางแบบ<b>เรียงลง</b> (ต้องน้อยกว่าใบสุดท้าย) ยังใช้ผลต่างน้อยสุด ถ้าผลต่างเท่ากันให้ลงแถวนี้ · มีคนเก็บแถวไหนก็ตาม ย้ายไปแถวถัดไปตามลูกศร ถึงแถวบนสุด/ล่างสุดแล้วพลิกกลับทิศ</p></div>
+        <div class="type"><h3>วัวกระโดด <span class="en">The Jumping Cow</span></h3><p>วางต่อขวาของแถวที่เลขน้อยสุด ไม่มีเลข ใช้ใบทางซ้ายแทน แต่<b>นับเป็น 1 ใบ</b>ของแถว (เลข 4 ใบ + วัว = เต็ม) · มีคนวางต่อแถวนี้หรือเก็บแถวนี้ วัวกระโดดไปแถวอื่นที่ใบสุดท้ายน้อยสุด · กระโดดแล้วแถวนั้นมี 6 ใบ คุณต้องเก็บแถวนั้นด้วย</p></div>
+        <div class="type"><h3>กลับหลักเลข <span class="en">Flippin' Digits</span></h3><p>ทุกคนได้ 1 ใบเพิ่มในมือ ใช้ได้ครั้งเดียวต่อรอบ ลงคู่กับไพ่เลขเพื่อ<b>กลับหลัก</b> เช่น 31 → 13, 90 → 09 · กลับ 100–104 ไม่ได้ · ถ้าเลขชนกับคนอื่น คนที่ใช้ไพ่นี้วางก่อน · ลงแถวแล้วไพ่กลับเป็นเลขเดิม</p></div>
+      </div>
+      <p class="note">ตรวจจากคู่มือทางการฉบับ 2024 เพียงแหล่งเดียว (ไพ่ชุดนี้ไม่มีในกล่องรุ่นอื่น) ยังไม่ได้เทียบแหล่งที่สอง</p>
+    </section>
+
+    <!-- BUFFALO -->
+    <section id="buffalo">
+      <div class="xhead" style="--c:var(--x-buf)"><span class="tag">เฉพาะฉบับ 30 ปี · "BEAT THE BUFFALO" · ร่วมมือ 1–6 คน</span><h2>สู้ควาย (โหมดร่วมมือ)</h2><p>ทุกคนเป็นทีมเดียวกัน แข่งกับ "ควาย" ที่ลงไพ่ตาละ 1 ใบเหมือนผู้เล่น ใช้ไพ่พิเศษโยนหัววัวให้ควาย จบเกมแล้วทีมต้องมีแต้มติดลบ<b>น้อยกว่าควาย</b>จึงชนะ</p><div class="xmeta"><span>ไพ่พิเศษ 8 แบบ แบบละ 2</span><span>แผ่นควาย 1</span></div></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p>แจกคนละ 10 และแจก 10 ใบคว่ำให้ควายบนแผ่นควาย (ห้ามดู) ตั้ง 4 แถว · สับไพ่พิเศษแล้วนับตามจำนวนคน ที่เหลือคืนกล่องโดยไม่ดู · หงายไพ่พิเศษ 2 ใบ</p></div></li>
+        <li><div class="body"><h3>เล่น</h3><p>ทุกคนลงคว่ำ เปิดพร้อมกับใบบนสุดของควาย แล้ววางตามกติกาหลัก · ทีมเก็บแถวเข้ากองรวมของทีม ควายเก็บเข้ากองของควาย · ควายลงไพ่ต่ำเกิน: เก็บแถวที่หัววัว<b>น้อยสุด</b> ถ้าเสมอเก็บแถวที่ใบสุดท้าย<b>เลขสูงสุด</b></p></div></li>
+        <li><div class="body"><h3>คุยกันได้แค่หลังเปิดไพ่</h3><p>ห้ามบอกไพ่ในมือหรือคุยว่าจะลงอะไร หลังเปิดแล้วจึงคุยกันได้ว่าจะวางยังไงและใช้ไพ่พิเศษใบไหน · ใช้ได้เฉพาะ 2 ใบที่หงายอยู่ ใช้แล้วเปิดใบใหม่แทน</p></div></li>
+      </ol>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ไพ่พิเศษ</th><th>ทำอะไร</th><th>ใช้กับควาย</th></tr></thead>
+          <tbody>
+            <tr><td><b>เก็บที่ 7</b> <span class="en">Take 7!</span></td><td>วางหน้าแถวหนึ่ง แถวนี้เก็บเมื่อลงใบที่ 7 แทนใบที่ 6 (คนเก็บได้ 6 ใบ) อยู่จนมีคนเก็บแถว</td><td>–</td></tr>
+            <tr><td><b>หยุด</b> <span class="en">Stop!</span></td><td>ล็อกแถวหนึ่ง ห้ามวาง ห้ามเก็บ ห้ามแทรก ห้ามดัน จนกว่าทีมจะเอาออก</td><td>–</td></tr>
+            <tr><td><b>เปลี่ยน</b> <span class="en">Replace!</span></td><td>คนในทีมเอาไพ่ที่เพิ่งลงคืนมือ แล้วลงใบอื่นแทนทันที (ไม่เปลี่ยนลำดับวางของใบอื่น)</td><td>ไม่ได้</td></tr>
+            <tr><td><b>แทรก</b> <span class="en">Insert!</span></td><td>ไพ่ของทีม 1 ใบแทรกกลางแถวหรือหน้าแถวได้ แต่ต้องยังเรียงขึ้น · ถ้าแถวเต็มต้องเก็บแถว ใบท้ายสุดกลายเป็นใบแรก</td><td>ไม่ได้</td></tr>
+            <tr><td><b>ดัน</b> <span class="en">Push!</span></td><td>ย้ายไพ่ 1 ใบที่อยู่บนโต๊ะไปแถวอื่น (แทรก/หน้า/ท้าย ต้องเรียงขึ้น) ก่อนวางไพ่ใบหนึ่ง</td><td>–</td></tr>
+            <tr><td><b>ใบแรก</b> <span class="en">First Card</span></td><td>เลือกว่าไพ่ใบไหนของทีมวางก่อน ไม่สนเลข</td><td>ไม่ได้</td></tr>
+            <tr><td><b>ใบสุดท้าย</b> <span class="en">Last Card</span></td><td>เลือกว่าไพ่ใบไหนของทีมวางทีหลังสุด</td><td>ไม่ได้</td></tr>
+            <tr><td><b>เรียงเอง</b> <span class="en">Sort</span></td><td>กำหนดลำดับวางของไพ่ทุกใบที่เปิด รวมของควายด้วย</td><td>–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="formula">
+        <div class="fm"><small>ไพ่พิเศษที่ใช้ · 1 คน</small><b>0</b></div>
+        <div class="fm"><small>2 คน</small><b>2</b></div>
+        <div class="fm"><small>3 คน</small><b>4</b></div>
+        <div class="fm"><small>4 คน</small><b>6</b></div>
+        <div class="fm"><small>5 คน</small><b>11</b></div>
+        <div class="fm"><small>6 คน</small><b>16</b></div>
+        <div class="fm end"><small>เล่น 1–2 คน</small><b>แต้มทีม × 2</b></div>
+      </div>
+      <p class="note">"–" ในช่องใช้กับควาย หมายถึงคู่มือไม่ได้ห้าม · ตรวจจากคู่มือทางการฉบับ 2024 เพียงแหล่งเดียว ยังไม่ได้เทียบแหล่งที่สอง</p>
+    </section>
+
+    <!-- PREP TOOL -->
+    <section id="prep">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <p class="prose">เลือกจำนวนคนและแบบที่จะเล่น แล้วดูว่าต้องใช้ไพ่เลขไหนบ้าง แจกคนละกี่ใบ และเหลือกองกี่ใบ</p>
+      <div class="tool">
+        <div><span class="field-l">ผู้เล่น</span><div class="seg" id="p-n"></div></div>
+        <div><span class="field-l">แบบที่เล่น</span>
+          <div class="seg" id="p-mode">
+            <button type="button" data-v="base" aria-pressed="true">เกมหลัก</button>
+            <button type="button" data-v="tac" aria-pressed="false">Tactics / Logic / Pro</button>
+            <button type="button" data-v="open" aria-pressed="false">เปิดหน้า</button>
+            <button type="button" data-v="nifty" aria-pressed="false">ทีละ 2 ใบ</button>
+            <button type="button" data-v="hand" aria-pressed="false">เก็บเข้ามือ</button>
+          </div></div>
+        <div class="cos" aria-live="polite">
+          <div class="co"><b id="p-range">1–104</b><small>เลขไพ่ที่ใช้</small></div>
+          <div class="co"><b id="p-deal">10</b><small>แจกคนละ</small></div>
+          <div class="co"><b>4</b><small>ใบตั้งแถว</small></div>
+          <div class="co"><b id="p-left">56</b><small>เหลือเป็นกอง</small></div>
+        </div>
+        <p id="p-note" class="note"></p>
+      </div>
+    </section>
+
+    <!-- SIM TOOL -->
+    <section id="sim">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยวางไพ่</h2></div>
+      <p class="prose">เถียงกันว่าไพ่ใบนี้ต้องลงแถวไหน ใส่เลขบนโต๊ะกับไพ่ที่เปิด แล้วกด "วางไพ่" จะได้ทีละขั้นตามกฎข้อ 1–4 ใช้กับเกมหลักเท่านั้น</p>
+      <div class="tool">
+        <div class="rows-in">
+          <label><span class="field-l">แถว 1 (เลขซ้ายไปขวา เว้นวรรค)</span><input class="tin" id="s-r1" value="8 10 12 17 20" inputmode="numeric"></label>
+          <label><span class="field-l">แถว 2</span><input class="tin" id="s-r2" value="31" inputmode="numeric"></label>
+          <label><span class="field-l">แถว 3</span><input class="tin" id="s-r3" value="38 39 40 41 43" inputmode="numeric"></label>
+          <label><span class="field-l">แถว 4</span><input class="tin" id="s-r4" value="66 70" inputmode="numeric"></label>
+        </div>
+        <label><span class="field-l">ไพ่ที่เปิดตานี้ (ใส่ชื่อได้ เช่น ก:22 ข:5)</span><input class="tin" id="s-play" value="ก:22 ข:5 ค:44 ง:7"></label>
+        <div class="inrow"><button type="button" class="btn primary" id="s-go">วางไพ่</button><button type="button" class="btn" id="s-keep">ใช้ผลเป็นโต๊ะตาถัดไป</button></div>
+        <p class="err" id="s-err" role="alert"></p>
+        <div class="mixout" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+          <div><h3 style="margin-bottom:8px">ทีละขั้น</h3><ol class="log" id="s-log"></ol></div>
+          <div><h3 style="margin-bottom:8px">โต๊ะหลังวาง</h3><div class="board" id="s-board"></div></div>
+        </div>
+        <p class="note">ไพ่ต่ำเกิน (กฎข้อ 4) ตัวช่วยจะเลือกแถวที่หัววัวน้อยสุดให้ แต่ในเกมจริงคนเล่นเลือกแถวไหนก็ได้</p>
+      </div>
+    </section>
+
+    <!-- CALC -->
+    <section id="calc">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>เครื่องคิดคะแนน (นับหัววัว)</h2></div>
+      <p class="prose">พิมพ์เลขไพ่ในกองหัววัวของคุณ เว้นวรรคหรือจุลภาค ไม่ต้องดูรูปหัววัวทีละใบ</p>
+      <div class="tool">
+        <label><span class="field-l">เลขไพ่ในกองหัววัว</span><input class="tin" id="c-in" value="8 10 12 17 20 55" inputmode="numeric"></label>
+        <div class="result" aria-live="polite"><b id="c-out">16</b><span id="c-f"></span><small id="c-note"></small></div>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <p class="prose">จดแต้มติดลบทีละรอบ ช่องรวมจะเป็นสีแดงเมื่อถึง 66 และบอกคนที่นำอยู่ เบราว์เซอร์จะจำตารางไว้ให้ถ้าปิดหน้าไปก่อน</p>
+      <div class="tool">
+        <div class="inrow"><button type="button" class="btn" id="d-addp">+ ผู้เล่น</button><button type="button" class="btn" id="d-delp">− ผู้เล่น</button><button type="button" class="btn" id="d-addr">+ รอบ</button><button type="button" class="btn" id="d-clear">ล้างแต้ม</button></div>
+        <div class="pad tbl-wrap"><table id="d-tbl"></table></div>
+        <p class="result" style="display:block" aria-live="polite"><span id="d-status"></span></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details open><summary>วางได้หลายแถว ผมเลือกแถวที่ไม่เต็มได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> ต้องลงแถวที่ผลต่างน้อยที่สุดเสมอ (กฎข้อ 2) ถึงแถวนั้นจะเต็มก็ต้องลงแล้วเก็บแถว</p></details>
+        <details><summary>ไพ่ต่ำเกิน ต้องเก็บแถวที่หัววัวน้อยสุดไหม?</summary><p><span class="verdict">เลือกแถวไหนก็ได้</span> คู่มือแค่บอกว่าคนส่วนใหญ่จะเลือกแถวที่หัววัวน้อยสุด ไม่ได้บังคับ</p></details>
+        <details><summary>เก็บแถวแล้ว ไพ่ผมไปอยู่ไหน?</summary><p>ไปเป็นใบแรกของแถวที่เพิ่งเก็บ ทั้งกรณีแถวเต็มและไพ่ต่ำเกิน · ไม่ได้เข้ากองหัววัว</p></details>
+        <details><summary>แถวเต็ม ผมเก็บกี่ใบ?</summary><p><span class="verdict">5 ใบ</span> คือทั้งแถวที่อยู่ก่อน ไพ่ใบที่ 6 ของคุณไม่ได้เก็บ แต่เริ่มแถวใหม่</p></details>
+        <details><summary>เอาไพ่ในกองหัววัวกลับมาเล่นได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> ในเกมหลักห้ามหยิบขึ้นมือ (ยกเว้นแบบเล่น <a href="#hand">เก็บเข้ามือ</a>)</p></details>
+        <details><summary>ดูกองหัววัวของตัวเองได้ไหม?</summary><p>คู่มือเกมหลักไม่ได้เขียนไว้ตรง ๆ แค่ให้วางคว่ำ ให้ตกลงกันก่อนเล่น · ในโหมดสู้ควาย คู่มือบอกว่าดูกองของทีมได้ แต่ห้ามดูกองของควาย</p></details>
+        <details><summary>วางไพ่ลงแถวแล้ว เปลี่ยนใจได้ไหม?</summary><p><span class="verdict">ไม่ได้</span> พอวางคว่ำแล้วถือว่าเลือกแล้ว และการวางลงแถวเป็นไปตามกฎ ไม่มีการเลือก (ยกเว้นเลือกแถวตอนไพ่ต่ำเกิน)</p></details>
+        <details><summary>Pro Variant กับ Professional คืออันเดียวกันไหม?</summary><p><span class="verdict">ไม่ใช่</span> Pro Variant (ฉบับ 2024) = รู้ไพ่ทุกใบ + เลือกไพ่เอง · Professional (ฉบับ 2005) = วางต่อซ้ายแถวได้ ดู <a href="#tactics">รู้ไพ่ทุกใบ</a> และ <a href="#pro">มืออาชีพ</a></p></details>
+        <details><summary>ถึง 66 กลางรอบ จบทันทีไหม?</summary><p><span class="verdict">ไม่</span> นับแต้มตอนจบรอบ (เล่นครบ 10 ใบ) แล้วถ้ามีคนรวมถึง 66 ขึ้นไปค่อยจบเกม</p></details>
+        <details><summary>แต้มรวมเสมอกันตอนจบเกม ใครชนะ?</summary><p><span class="verdict">ชนะร่วม</span> ตามคู่มือฉบับ 2024 · ฉบับ 2005 ไม่ได้เขียนไว้</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>หัววัว <span class="en">Bullhead</span></dt><dd>รูปหัววัวบนไพ่ 1 ตัว = ติดลบ 1 แต้ม</dd>
+        <dt>แถว <span class="en">Row</span></dt><dd>ไพ่เรียงกลางโต๊ะ มี 4 แถว แถวละไม่เกิน 5 ใบ</dd>
+        <dt>กองหัววัว <span class="en">Bullhead stack / Bull pile</span></dt><dd>ไพ่ที่คุณเก็บมา วางคว่ำหน้าตัวเอง นับเป็นแต้มติดลบ</dd>
+        <dt>เรียงขึ้น <span class="en">Ascending order</span></dt><dd>กฎข้อ 1 ไพ่ต้องมากกว่าใบสุดท้ายของแถว</dd>
+        <dt>ห่างน้อยสุด <span class="en">Smallest / Lowest difference</span></dt><dd>กฎข้อ 2 ลงแถวที่ผลต่างน้อยที่สุด</dd>
+        <dt>แถวเต็ม <span class="en">Full row</span></dt><dd>กฎข้อ 3 ใบที่ 6 ต้องเก็บแถว</dd>
+        <dt>ไพ่ต่ำเกิน <span class="en">Lowest card / Low card</span></dt><dd>กฎข้อ 4 ไพ่น้อยกว่าทุกแถว ต้องเลือกเก็บ 1 แถว</dd>
+        <dt>เลขเบิ้ล <span class="en">Doublet / Double</span></dt><dd>เลขสองหลักซ้ำกัน 11, 22 … 99 มี 5 หัววัว</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยจาก<b>คู่มือ 6 nimmt! ภาษาอังกฤษของ AMIGO</b> 2 ฉบับ คือฉบับปี 2005 (Take 6! พร้อมแบบเล่นเสริม 8 แบบ) และฉบับครบรอบ 30 ปี ปี 2024 (Pro Variant ไพ่พิเศษจากแฟนเกม และโหมดสู้ควาย) เกมออกแบบโดย Wolfgang Kramer ภาพบนไพ่จริงโดย Franz Vohwinkel ภาพประกอบในคู่มือนี้วาดขึ้นใหม่ และตัวเลขในตัวอย่างตั้งขึ้นเอง ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="https://blog.amigo-spiele.de/content/ap/rule/02401-GB-AmigoRule.pdf" target="_blank" rel="noopener">6 nimmt! Rules (EN) · AMIGO</a></li>
+      <li><a href="https://www.world-of-board-games.com.sg/docs/6-Nimmt.pdf" target="_blank" rel="noopener">6 nimmt! / Take 6! Rules (EN) · World of Board Games</a></li>
+      <li><a href="https://www.amigo-spiele.de/6-nimmt_4910_1124" target="_blank" rel="noopener">6 nimmt! · หน้าสินค้า AMIGO</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/6_nimmt!" target="_blank" rel="noopener">6 nimmt! · Wikipedia</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+/* ---------- card renderer ---------- */
+const BH=n=>n===55?7:(n%11===0?5:(n%10===0?3:(n%5===0?2:1)));
+const BC={1:'#f3eee4',2:'#a9d4ee',3:'#f3c55a',5:'#ee8a6d',7:'#b48ad8'};
+const W=40,H=56,G=6;
+function head(x,y,s){return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-6,-3 Q-9,-7 -7,-9 Q-5,-6 -3,-5 M6,-3 Q9,-7 7,-9 Q5,-6 3,-5" fill="none" stroke="#3a1f12" stroke-width="1.6" stroke-linecap="round"/><path d="M-4,-5 Q0,-7 4,-5 Q5,0 3,4 Q0,6 -3,4 Q-5,0 -4,-5Z" fill="#3a1f12"/></g>`;}
+function heads(cx,y,k,w){const sp=Math.min(8,(w-8)/Math.max(k,1));let s='';const st=cx-sp*(k-1)/2;for(let i=0;i<k;i++)s+=head(st+sp*i,y,.5);return s;}
+function card(x,y,n,o={}){
+  if(o.slot)return `<rect x="${x}" y="${y}" width="${W}" height="${H}" rx="5" fill="none" class="s-stroke-line" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  if(o.six)return `<g><rect x="${x}" y="${y}" width="${W}" height="${H}" rx="5" fill="none" class="s-stroke-acc" stroke-width="1.6" stroke-dasharray="4 3"/><text x="${x+W/2}" y="${y+H/2+5}" text-anchor="middle" class="s-acc tagf" font-size="15">6</text></g>`;
+  const k=BH(n),fill=BC[k];
+  let g=`<rect x="${x}" y="${y}" width="${W}" height="${H}" rx="5" fill="${fill}" stroke="${o.hl?'var(--accent-strong)':'rgba(0,0,0,.45)'}" stroke-width="${o.hl?3:1}" ${o.dim?'opacity=".35"':''}/>`;
+  g+=`<g ${o.dim?'opacity=".35"':''}>${heads(x+W/2,y+10,k,W)}<text x="${x+W/2}" y="${y+H/2+9}" text-anchor="middle" font-family="Chakra Petch,Sarabun,sans-serif" font-weight="600" font-size="${n>99?15:18}" fill="#1d1510">${n}</text></g>`;
+  return g;
+}
+function row(x,y,cards,o={}){
+  let s='';const hl=o.hl||[];const max=o.slots||0;
+  for(let i=0;i<Math.max(cards.length,max);i++){
+    const cx=x+i*(W+G);
+    if(i<cards.length)s+=card(cx,y,cards[i],{hl:hl.includes(cards[i]),dim:(o.dim||[]).includes(cards[i])});
+    else if(i===5)s+=card(cx,y,0,{six:true});
+    else s+=card(cx,y,0,{slot:true});
+  }
+  return s;
+}
+const T=(x,y,t,cls='s-muted',sz=12,anchor='start',extra='')=>`<text x="${x}" y="${y}" font-size="${sz}" class="${cls}" text-anchor="${anchor}" ${extra}>${t}</text>`;
+const arrow=(x1,y1,x2,y2)=>`<path d="M${x1},${y1} L${x2},${y2}" class="s-stroke-acc" stroke-width="2" fill="none" marker-end="url(#ah)"/>`;
+const DEFS=`<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10z" fill="var(--accent-strong)"/></marker></defs>`;
+function labels(x,y0,n){let s='';for(let i=0;i<n;i++)s+=T(x,y0+i*(H+10)+H/2+4,'แถว '+(i+1),'s-muted tagf',12);return s;}
+function pile(x,y,cards,label){
+  let s='';cards.forEach((n,i)=>{s+=card(x+i*8,y+i*4,n);});
+  return s+T(x,y+H+cards.length*4+16,label,'s-fg tagf',12);
+}
+
+const FIG={
+  types(){
+    const ns=[7,15,30,44,55];let s='';
+    ns.forEach((n,i)=>{const x=20+i*104;s+=`<g transform="translate(${x} 14) scale(1.5)">${card(0,0,n)}</g>`;s+=T(x+30,114,BH(n)+' หัววัว','s-fg tagf',13,'middle');s+=T(x+30,132,['ไพ่ทั่วไป','ลงท้าย 5','หาร 10 ลงตัว','เลขเบิ้ล','55 ใบเดียว'][i],'s-muted',12,'middle');});
+    return {vb:'0 0 540 144',s};
+  },
+  setup(){
+    let s=labels(6,14,4);const rs=[[8],[31],[47],[66]];
+    rs.forEach((r,i)=>{s+=row(56,14+i*(H+10),r,{slots:6});});
+    s+=T(56+5*(W+G)+W/2,8,'ใบที่ 6','s-acc tagf',11,'middle');
+    s+=T(380,40,'ในมือคุณ (เรียงแล้ว)','s-fg tagf',12);
+    [3,14,29,33,45,52,61,77,90,101].forEach((n,i)=>{s+=`<g transform="translate(${380+(i%5)*30} ${50+Math.floor(i/5)*48}) scale(.7)">${card(0,0,n)}</g>`;});
+    s+=T(380,170,'คนละ 10 ใบ ห้ามให้คนอื่นเห็น','s-muted',12);
+    return {vb:'0 0 540 278',s};
+  },
+  r12(){
+    let s=DEFS+T(6,14,'เปิดพร้อมกัน → วางจากน้อยไปมาก','s-fg tagf',12);
+    [10,12,50,70].forEach((n,i)=>{s+=card(6+i*(W+G),22,n,{hl:true});s+=T(6+i*(W+G)+W/2,92,'#'+(i+1),'s-acc tagf',12,'middle');});
+    s+=labels(206,22,4);
+    const rs=[[8,10,12],[31],[47,50],[66,70]];
+    rs.forEach((r,i)=>{s+=row(256,22+i*(H+10),r,{slots:5,hl:[10,12,50,70]});});
+    s+=T(256+3*(W+G)+6,22+2*(H+10)+H/2-2,'50−47 = 3 ✓','s-good tagf',12);
+    s+=T(256+3*(W+G)+6,22+2*(H+10)+H/2+14,'50−31 = 19 · 50−12 = 38','s-muted',11);
+    return {vb:'0 0 540 290',s};
+  },
+  r3(){
+    let s=DEFS+T(6,14,'ก่อน','s-fg tagf',12);
+    s+=row(6,22,[8,10,12,17,20],{slots:6});
+    s+=card(6+5*(W+G),22,22,{hl:true});
+    s+=arrow(150,92,150,118);
+    s+=T(6,112,'หลัง','s-fg tagf',12);
+    s+=row(6,124,[22],{slots:5,hl:[22]});
+    s+=pile(340,40,[8,10,12,17,20],'กองหัววัวของคุณ +9');
+    return {vb:'0 0 540 196',s};
+  },
+  r4(){
+    let s=DEFS+T(6,14,'เปิดได้','s-fg tagf',12);
+    s+=card(6,22,5,{hl:true});s+=card(52,22,7,{hl:true});
+    s+=labels(120,22,4);
+    s+=row(170,22,[22]);s+=row(170,22+(H+10),[5,7],{hl:[5,7]});s+=row(170,22+2*(H+10),[47,50]);s+=row(170,22+3*(H+10),[66,70]);
+    s+=pile(400,60,[31],'คนเปิด 5 เก็บ +1');
+    s+=T(270,22+(H+10)+H/2+4,'← แถวที่ 31 เดิม','s-acc tagf',12);
+    return {vb:'0 0 540 290',s};
+  },
+  trap(){
+    let s=DEFS+T(6,14,'เปิดได้','s-fg tagf',12);s+=card(6,22,44,{hl:true});
+    s+=labels(80,22,3);
+    s+=row(130,22,[25,30]);s+=row(130,22+(H+10),[33,36,38],{});s+=row(130,22+2*(H+10),[24,27,31,35,40],{slots:6});
+    s+=T(130+3*(W+G)+8,22+(H+10)+H/2+4,'44−38 = 6','s-muted tagf',12);
+    s+=T(130+5*(W+G)+W+8,22+2*(H+10)+H/2+4,'44−40 = 4 ✓','s-acc tagf',12);
+    return {vb:'0 0 540 222',s};
+  },
+  pro(){
+    let s=DEFS+T(6,14,'เปิดได้','s-fg tagf',12);s+=card(6,22,18,{hl:true});
+    s+=labels(80,22,2);
+    s+=row(176,22,[9,12,15]);
+    s+=card(130,22+(H+10),18,{hl:true});s+=row(176,22+(H+10),[20,24,29]);
+    s+=T(176+3*(W+G)+6,22+H/2+4,'ขวาของ 15: 18−15 = 3','s-muted tagf',12);
+    s+=T(176+3*(W+G)+6,22+(H+10)+H/2+4,'ซ้ายของ 20: 20−18 = 2 ✓','s-acc tagf',12);
+    return {vb:'0 0 540 156',s};
+  }
+};
+document.querySelectorAll('svg[data-fig]').forEach(el=>{const f=FIG[el.dataset.fig];if(!f)return;const r=f();el.setAttribute('viewBox',r.vb);el.innerHTML=r.s;});
+
+/* hero art */
+(function(){
+  const el=document.getElementById('hero-svg');let s='';
+  const rows=[[3,14,25],[41,44,47,52,55],[60,66],[88,91,99,100]];
+  rows.forEach((r,i)=>{r.forEach((n,j)=>{s+=`<g transform="translate(${20+j*50} ${16+i*58})">${card(0,0,n)}</g>`;});});
+  s+=`<g class="bob"><g transform="translate(278 60) rotate(8)">${card(0,0,104).replace('rgba(0,0,0,.45)','#f2c35a').replace('stroke-width="1"','stroke-width="3"')}</g></g>`;
+  s+=`<text x="296" y="150" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="13" fill="#f2c35a">ใบที่ 6?</text>`;
+  s+=`<path d="M276 100 Q262 104 272 112" stroke="#f2c35a" stroke-width="2" fill="none"/>`;
+  s+=`<g transform="translate(300 214) scale(3.2)" opacity=".9"><path d="M-6,-3 Q-9,-7 -7,-9 Q-5,-6 -3,-5 M6,-3 Q9,-7 7,-9 Q5,-6 3,-5" fill="none" stroke="#fbf2e4" stroke-width="1.6" stroke-linecap="round"/><path d="M-4,-5 Q0,-7 4,-5 Q5,0 3,4 Q0,6 -3,4 Q-5,0 -4,-5Z" fill="#fbf2e4"/></g>`;
+  el.innerHTML=s;
+})();
+
+/* ---------- storage ---------- */
+const store={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+function seg(id,cb){const box=document.getElementById(id);box.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;box.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));cb(b.dataset.v);});}
+
+/* ---------- prep ---------- */
+(function(){
+  const nb=document.getElementById('p-n');let n=4,mode='base';
+  for(let i=2;i<=10;i++)nb.insertAdjacentHTML('beforeend',`<button type="button" data-v="${i}" aria-pressed="${i===4}">${i}</button>`);
+  function upd(){
+    let range,deal=10,left,note='';const total=104;
+    if(mode==='base'){range='1–104';left=total-10*n-4;}
+    else if(mode==='tac'){const m=10*n+4;range='1–'+m;left=0;note=n>6?'ฉบับ 2024 แนะนำ Pro Variant สำหรับ 2–6 คน (ฉบับ 2005 ไม่ได้จำกัดจำนวนคน)':'Logic / Pro: หงายทุกใบ ผลัดกันหยิบทีละใบจนได้คนละ 10 ใบ 4 ใบสุดท้ายตั้งเป็นแถว';}
+    else if(mode==='open'){range='2–104';left=103-10*n-4;note='เอาไพ่ 1 ออกใช้เป็นไพ่คนเริ่ม ให้คนอายุมากที่สุด';}
+    else if(mode==='nifty'){range='1–104';deal=14;left=total-14*n-4;note=n>7?'แบบนี้เล่นได้ 2–7 คน':'ลงตาละ 2 ใบ เล่น 7 ตาต่อรอบ';}
+    else{range='1–104';deal=14;left=total-14*n-4;note='มือมีได้ไม่เกิน 16 ใบ · ไพ่ค้างมือตอนจบนับ 2 เท่า';}
+    if(left<0)note='ไพ่ไม่พอสำหรับ '+n+' คนในแบบนี้ (ขาด '+(-left)+' ใบ) · ค่านี้คำนวณเอง';
+    document.getElementById('p-range').textContent=range;
+    document.getElementById('p-deal').textContent=deal;
+    document.getElementById('p-left').textContent=left<0?'ไม่พอ':left;
+    document.getElementById('p-note').textContent=note;
+  }
+  seg('p-n',v=>{n=+v;upd();});seg('p-mode',v=>{mode=v;upd();});upd();
+})();
+
+/* ---------- simulator ---------- */
+(function(){
+  const $=id=>document.getElementById(id);let last=null;
+  const parseNums=s=>s.split(/[\s,]+/).filter(Boolean).map(Number);
+  function chip(n,cls){return `<span class="chip ${cls||''}" style="background:${BC[BH(n)]}">${n}<i>${BH(n)}</i></span>`;}
+  function draw(rows,newSet){
+    $('s-board').innerHTML=rows.map((r,i)=>`<div class="brow"><span>แถว ${i+1}</span>${r.map(n=>chip(n,newSet.has(n)?'new':'')).join('')}${r.length<5?'<span class="chip slot">·</span>'.repeat(5-r.length):''}</div>`).join('')+'<p class="note">ตัวเลขเล็กใต้เลขไพ่ = จำนวนหัววัว</p>';
+  }
+  function run(){
+    $('s-err').textContent='';$('s-log').innerHTML='';
+    const rows=[1,2,3,4].map(i=>parseNums($('s-r'+i).value));
+    const plays=$('s-play').value.split(/[\s,]+/).filter(Boolean).map(t=>{const m=t.split(':');return m.length>1?{who:m[0],n:+m[1]}:{who:'',n:+m[0]};});
+    const all=rows.flat().concat(plays.map(p=>p.n));
+    const bad=all.find(n=>!Number.isInteger(n)||n<1||n>104);
+    if(bad!==undefined){$('s-err').textContent='มีเลขที่ไม่ใช่ 1–104: '+bad;return;}
+    if(new Set(all).size!==all.length){$('s-err').textContent='มีเลขซ้ำกัน ไพ่แต่ละเลขมีใบเดียว';return;}
+    if(rows.some(r=>r.length<1||r.length>5)){$('s-err').textContent='แต่ละแถวต้องมี 1–5 ใบ';return;}
+    if(rows.some(r=>r.some((n,i)=>i&&n<=r[i-1]))){$('s-err').textContent='เลขในแถวต้องเรียงจากน้อยไปมาก';return;}
+    if(!plays.length){$('s-err').textContent='ใส่ไพ่ที่เปิดอย่างน้อย 1 ใบ';return;}
+    plays.sort((a,b)=>a.n-b.n);
+    const log=[],newSet=new Set(),tot={};
+    const sum=r=>r.reduce((a,n)=>a+BH(n),0);
+    plays.forEach(p=>{
+      const who=p.who?p.who+' ':'';
+      let best=-1,diff=999;
+      rows.forEach((r,i)=>{const e=r[r.length-1];if(e<p.n&&p.n-e<diff){diff=p.n-e;best=i;}});
+      if(best<0){
+        let pick=0;rows.forEach((r,i)=>{if(sum(r)<sum(rows[pick]))pick=i;});
+        const pts=sum(rows[pick]);tot[who||p.n]=(tot[who||p.n]||0)+pts;
+        log.push(`<b>${who}${p.n}</b> ต่ำกว่าทุกแถว (กฎข้อ 4) → เก็บแถว ${pick+1} [${rows[pick].join(', ')}] = <b>${pts} หัววัว</b> แล้ว ${p.n} เริ่มแถวใหม่`);
+        rows[pick]=[p.n];
+      }else if(rows[best].length===5){
+        const pts=sum(rows[best]);tot[who||p.n]=(tot[who||p.n]||0)+pts;
+        log.push(`<b>${who}${p.n}</b> ต้องลงแถว ${best+1} (ห่าง ${diff}) แต่แถวเต็ม (กฎข้อ 3) → เก็บ [${rows[best].join(', ')}] = <b>${pts} หัววัว</b> แล้ว ${p.n} เริ่มแถวใหม่`);
+        rows[best]=[p.n];
+      }else{
+        log.push(`<b>${who}${p.n}</b> ต่อท้ายแถว ${best+1} หลัง ${rows[best][rows[best].length-1]} (ห่าง ${diff} น้อยสุด) · แถวนี้มี ${rows[best].length+1} ใบ`);
+        rows[best].push(p.n);
+      }
+      newSet.add(p.n);
+    });
+    $('s-log').innerHTML=log.map(l=>`<li>${l}</li>`).join('');
+    draw(rows,newSet);last=rows;
+  }
+  $('s-go').addEventListener('click',run);
+  $('s-keep').addEventListener('click',()=>{if(!last)return;last.forEach((r,i)=>{$('s-r'+(i+1)).value=r.join(' ');});$('s-play').value='';$('s-log').innerHTML='';$('s-play').focus();});
+  run();
+})();
+
+/* ---------- bullhead calc ---------- */
+(function(){
+  const inp=document.getElementById('c-in');
+  function upd(){
+    const ns=inp.value.split(/[\s,]+/).filter(Boolean).map(Number);
+    const ok=ns.filter(n=>Number.isInteger(n)&&n>=1&&n<=104),bad=ns.length-ok.length;
+    const by={};ok.forEach(n=>{const k=BH(n);by[k]=(by[k]||0)+1;});
+    const total=ok.reduce((a,n)=>a+BH(n),0);
+    document.getElementById('c-out').textContent=total;
+    document.getElementById('c-f').textContent=Object.keys(by).sort((a,b)=>a-b).map(k=>`${by[k]} ใบ × ${k}`).join(' + ')+(ok.length?` = ${total}`:'');
+    document.getElementById('c-note').textContent=(ok.length+' ใบ')+(bad?` · ข้าม ${bad} ค่าที่ไม่ใช่เลข 1–104`:'');
+  }
+  inp.addEventListener('input',upd);upd();
+})();
+
+/* ---------- score pad ---------- */
+(function(){
+  const K='sixnimmt-pad-v1';
+  let st=store.get(K)||{names:['ผู้เล่น 1','ผู้เล่น 2','ผู้เล่น 3','ผู้เล่น 4'],rounds:[[ '','','','' ]]};
+  const tbl=document.getElementById('d-tbl');
+  const save=()=>store.set(K,st);
+  function render(){
+    const n=st.names.length;
+    let h='<thead><tr><th>รอบ</th>'+st.names.map((nm,i)=>`<th><input class="name" data-n="${i}" value="${nm.replace(/"/g,'&quot;')}" aria-label="ชื่อผู้เล่น ${i+1}"></th>`).join('')+'</tr></thead><tbody>';
+    st.rounds.forEach((r,ri)=>{h+=`<tr><td class="num">${ri+1}</td>`+st.names.map((_,i)=>`<td><input type="number" min="0" max="171" inputmode="numeric" data-r="${ri}" data-p="${i}" value="${r[i]??''}" aria-label="รอบ ${ri+1} ${st.names[i]}"></td>`).join('')+'</tr>';});
+    h+='</tbody><tfoot><tr><td>รวม</td>'+st.names.map((_,i)=>`<td id="d-t${i}">0</td>`).join('')+'</tr></tfoot>';
+    tbl.innerHTML=h;totals();
+  }
+  function totals(){
+    const n=st.names.length,t=st.names.map((_,i)=>st.rounds.reduce((a,r)=>a+(+r[i]||0),0));
+    const min=Math.min(...t),over=t.some(x=>x>=66);
+    t.forEach((v,i)=>{const c=document.getElementById('d-t'+i);c.textContent=v;c.className=(v>=66?'over':'')+(v===min&&st.rounds.some(r=>r[i]!==''&&r[i]!=null)?' lead':'');});
+    const leaders=st.names.filter((_,i)=>t[i]===min);
+    document.getElementById('d-status').textContent=over?`มีคนถึง 66 แล้ว จบเกม · ผู้ชนะ: ${leaders.join(', ')} (${min} หัววัว)${leaders.length>1?' ชนะร่วม':''}`:`ยังไม่มีใครถึง 66 · ตอนนี้นำ: ${leaders.join(', ')} (${min}) · คนที่แต้มสูงสุดเหลืออีก ${66-Math.max(...t)} ถึง 66`;
+  }
+  tbl.addEventListener('input',e=>{const x=e.target;if(x.dataset.n!==undefined){st.names[+x.dataset.n]=x.value;totals();}else if(x.dataset.r!==undefined){st.rounds[+x.dataset.r][+x.dataset.p]=x.value;totals();}save();});
+  document.getElementById('d-addp').onclick=()=>{if(st.names.length>=10)return;st.names.push('ผู้เล่น '+(st.names.length+1));st.rounds.forEach(r=>r.push(''));save();render();};
+  document.getElementById('d-delp').onclick=()=>{if(st.names.length<=2)return;st.names.pop();st.rounds.forEach(r=>r.pop());save();render();};
+  document.getElementById('d-addr').onclick=()=>{st.rounds.push(st.names.map(()=>''));save();render();};
+  document.getElementById('d-clear').onclick=()=>{if(!confirm('ล้างแต้มทุกรอบ? (ชื่อยังอยู่)'))return;st.rounds=[st.names.map(()=>'')];save();render();};
+  render();
+})();
+})();
+</script>
+
+</body></html>

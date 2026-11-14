@@ -1,0 +1,1108 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>เหมียวระเบิด ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: a black "bomb" header with a drawn fuse-cat and five box chips, then a reading column with a sticky chapter rail. Each box gets its own color band; setup calculator, turn keeper and odds meter sit near the end. */
+:root{
+  --bg:#f1f2f0;
+  --surface:#ffffff;
+  --surface-2:#e5e7e3;
+  --fg:#1b1d1a;
+  --muted:#5a5f57;
+  --line:#d0d4cc;
+  --accent:#c4301f;
+  --accent-soft:#f8e0dc;
+  --fuse:#f2a51c;
+  --ink:#141513;
+  --band-fg:#f6f4ee;
+  --x-base:#c4301f; --x-imp:#3b3f8f; --x-str:#2c8a4d; --x-bark:#d36a1c; --x-zom:#5f8f2a; --x-apoc:#2f4a1e;
+  --base-soft:#f8e0dc; --imp-soft:#e1e2f4; --str-soft:#daf0e1; --bark-soft:#fbe6d4; --zom-soft:#e6f1d6;
+  --good:#23804a; --bad:#bf2e22; --apoc-fg:#ffffff;
+  --font-display:"Mitr","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","IBM Plex Sans Thai","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121411;--surface:#1a1d19;--surface-2:#252923;--fg:#eceee8;--muted:#a5ab9f;--line:#33382f;
+    --accent:#ff6a55;--accent-soft:#3a1d18;--fuse:#f5b63f;--ink:#090a08;--band-fg:#f6f4ee;
+    --x-base:#e2493a;--x-imp:#7378d6;--x-str:#46b06d;--x-bark:#ec8a3d;--x-zom:#8cc04f;--x-apoc:#a8d27a;
+    --base-soft:#3a1d18;--imp-soft:#1f2140;--str-soft:#16301f;--bark-soft:#3a2614;--zom-soft:#22301a;
+    --good:#5ccd80;--bad:#ff6e62;--apoc-fg:#141513;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121411;--surface:#1a1d19;--surface-2:#252923;--fg:#eceee8;--muted:#a5ab9f;--line:#33382f;
+  --accent:#ff6a55;--accent-soft:#3a1d18;--fuse:#f5b63f;--ink:#090a08;--band-fg:#f6f4ee;
+  --x-base:#e2493a;--x-imp:#7378d6;--x-str:#46b06d;--x-bark:#ec8a3d;--x-zom:#8cc04f;--x-apoc:#a8d27a;
+  --base-soft:#3a1d18;--imp-soft:#1f2140;--str-soft:#16301f;--bark-soft:#3a2614;--zom-soft:#22301a;
+  --good:#5ccd80;--bad:#ff6e62;--apoc-fg:#141513;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.75rem}
+h3{font-size:1.15rem;font-weight:500}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 82% 18%,#3a2a12 0%,transparent 55%),var(--ink);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.4rem,6vw,3.8rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.4em;color:var(--fuse);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--fuse);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:360px;margin-inline:auto}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#fff}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:flex;align-items:center;gap:8px;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sw{width:9px;height:9px;border-radius:50%;flex:none}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.imp{background:var(--imp-soft)} .callout.str{background:var(--str-soft)} .callout.bark{background:var(--bark-soft)} .callout.zom{background:var(--zom-soft)} .callout.plain{background:var(--surface-2)}
+.callout h3{font-size:1.08rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--bark-soft);color:var(--fg);border:1px solid var(--x-bark)}
+.flag.house{background:var(--imp-soft);border-color:var(--x-imp)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:580px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-ink{fill:var(--ink)}
+.s-acc{fill:var(--accent)} .s-fuse{fill:var(--fuse)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+.s-imp{fill:var(--x-imp)} .s-str{fill:var(--x-str)} .s-bark{fill:var(--x-bark)} .s-zom{fill:var(--x-zom)}
+.s-impsoft{fill:var(--imp-soft)} .s-strsoft{fill:var(--str-soft)} .s-barksoft{fill:var(--bark-soft)} .s-zomsoft{fill:var(--zom-soft)} .s-basesoft{fill:var(--base-soft)}
+.k-line{stroke:var(--line)} .k-fg{stroke:var(--fg)} .k-muted{stroke:var(--muted)} .k-acc{stroke:var(--accent)} .k-good{stroke:var(--good)} .k-bad{stroke:var(--bad)} .k-zom{stroke:var(--x-zom)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* box header bands */
+.xhead{border-radius:16px;padding:18px 20px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.06em;opacity:.92}
+.xhead.apoc,.xhead.apoc h2{color:var(--apoc-fg)}
+.xhead.apoc{background:linear-gradient(135deg,var(--x-zom),var(--x-apoc))}
+
+/* cards grid */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--fuse);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.08rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+td .now{display:inline-block;font-family:var(--font-tag);font-size:.7rem;font-weight:600;background:var(--accent);color:#fff;border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:middle}
+td .kill{display:inline-block;font-family:var(--font-tag);font-size:.7rem;font-weight:600;background:var(--ink);color:var(--fuse);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:middle}
+.cardname b{display:block}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--fuse)}
+.seg button:disabled{opacity:.35;cursor:not-allowed}
+.btn.big{font-size:1rem;padding:8px 16px;min-height:44px;border-radius:12px}
+.btn.red{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.green{background:var(--good);border-color:var(--good);color:#fff}
+.btn.ink{background:var(--ink);border-color:var(--ink);color:var(--fuse)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)}
+.co.hl b{color:var(--accent)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.chk input:disabled+span{opacity:.45}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+.notes li.warn{color:var(--bad);font-weight:500}
+.sel,.txt{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 8px;min-height:38px}
+.txt{width:100%}
+
+/* turn keeper */
+.tk-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--ink);color:var(--band-fg);border-radius:14px;padding:16px 18px}
+.tk-now{font-family:var(--font-display);font-size:1.6rem;line-height:1.3}
+.tk-now small{display:block;font-family:var(--font-tag);font-size:.8rem;color:var(--fuse);letter-spacing:.06em}
+.tk-owed{text-align:center;font-family:var(--font-tag)}
+.tk-owed b{display:block;font-size:2.6rem;line-height:1;color:var(--fuse);font-variant-numeric:tabular-nums}
+.tk-owed small{font-size:.8rem;opacity:.85}
+.ring{display:flex;flex-wrap:wrap;gap:8px}
+.pl{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 12px;background:var(--surface-2);font-size:.93rem;min-width:0}
+.pl.cur{background:var(--ink);color:var(--fuse);border-color:var(--ink)}
+.pl.dead{opacity:.6;text-decoration:line-through}
+.pl button{font:inherit;font-family:var(--font-tag);font-size:.75rem;font-weight:600;border:0;border-radius:999px;padding:3px 9px;cursor:pointer;background:var(--surface);color:var(--fg);min-height:28px}
+.pl .nm{background:transparent;color:inherit;padding:3px 2px;font-size:.93rem;font-family:var(--font-body);font-weight:500;text-decoration:inherit}
+.tk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.tk-log{font-size:.88rem;color:var(--muted);max-height:9.5em;overflow:auto;margin:0;padding-left:1.2em}
+.meter{height:18px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--fuse),var(--accent));width:0;transition:width .25s ease}
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font:600 1.2rem var(--font-tag);cursor:pointer}
+.stepper output{min-width:3ch;text-align:center;font:600 1.5rem var(--font-tag);font-variant-numeric:tabular-nums}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:500}
+details[open] summary{margin-bottom:8px}
+details p+p{margin-top:6px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:56em}
+dl.gl dt{font-family:var(--font-display);font-weight:500}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art svg{max-width:260px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .spark{animation:spark .9s ease-in-out infinite alternate;transform-origin:center;transform-box:fill-box}
+  @keyframes spark{from{transform:scale(.8);opacity:.7}to{transform:scale(1.15);opacity:1}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + 3 ภาคเสริม + Zombie Kittens + โหมด Zombie Apocalypse</div>
+      <h1>เหมียวระเบิด<span>Exploding Kittens · ผลัดกันจั่วการ์ด ใครจั่วได้แมวระเบิดแล้วกู้ไม่ทัน ตกรอบ</span></h1>
+      <p class="lede">ในกองการ์ดมี<b>เหมียวระเบิด</b>ซ่อนอยู่ น้อยกว่าจำนวนคน 1 ใบ แต่ละตาเล่นการ์ดกี่ใบก็ได้ (หรือไม่เล่น) แล้ว<b>จั่ว 1 ใบเพื่อจบตา</b> จั่วได้เหมียวระเบิดต้องใช้การ์ด<b>กู้ระเบิด</b> ไม่มีก็ตาย คนสุดท้ายที่รอดชนะ การ์ดอื่นทั้งหมดมีไว้แอบดู สับ ข้าม โยนตาให้คนอื่น และขโมยของ</p>
+      <div class="facts">
+        <div class="fact"><b>2–5</b><small>คน เกมหลัก</small></div>
+        <div class="fact"><b>2–6</b><small>คน รวม 4 กล่องที่เล่นอยู่</small></div>
+        <div class="fact"><b>2–9</b><small>คน โหมด Zombie Apocalypse</small></div>
+        <div class="fact"><b>15</b><small>นาทีต่อเกม (โดยประมาณ)</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:var(--x-base)">Exploding Kittens</span>
+        <span class="xb" style="background:var(--x-imp)">Imploding</span>
+        <span class="xb" style="background:var(--x-str)">Streaking</span>
+        <span class="xb" style="background:var(--x-bark)">Barking</span>
+        <span class="xb" style="background:var(--x-zom)">Zombie · ยังไม่เคยเล่น</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 300 300">
+        <!-- fuse -->
+        <path d="M196 72 C214 46 238 46 248 30" fill="none" stroke="#c9b48a" stroke-width="6" stroke-linecap="round"/>
+        <g class="spark"><circle cx="250" cy="28" r="13" fill="#f2a51c"/><circle cx="250" cy="28" r="6" fill="#fff3c4"/></g>
+        <path d="M250 6 v8 M250 42 v8 M228 28 h8 M264 28 h8 M235 13 l5 5 M260 38 l5 5 M265 13 l-5 5 M240 38 l-5 5" stroke="#f2a51c" stroke-width="3" stroke-linecap="round"/>
+        <!-- cap -->
+        <rect x="178" y="70" width="34" height="22" rx="4" transform="rotate(35 195 81)" fill="#3b3d38"/>
+        <!-- body bomb-cat -->
+        <path d="M76 98 L92 52 L120 86 Z" fill="#2a2c28"/>
+        <path d="M184 86 L210 52 L222 100 Z" fill="#2a2c28"/>
+        <path d="M86 92 L94 66 L110 86 Z" fill="#c4301f"/>
+        <path d="M194 86 L208 66 L214 94 Z" fill="#c4301f"/>
+        <circle cx="150" cy="170" r="104" fill="#2a2c28"/>
+        <circle cx="150" cy="170" r="104" fill="none" stroke="#3d403a" stroke-width="3"/>
+        <path d="M86 120 C104 98 128 88 150 86" fill="none" stroke="#4a4d46" stroke-width="10" stroke-linecap="round"/>
+        <!-- eyes -->
+        <ellipse cx="112" cy="160" rx="22" ry="25" fill="#f6f4ee"/>
+        <ellipse cx="188" cy="160" rx="22" ry="25" fill="#f6f4ee"/>
+        <ellipse cx="116" cy="164" rx="9" ry="14" fill="#141513"/>
+        <ellipse cx="184" cy="164" rx="9" ry="14" fill="#141513"/>
+        <circle cx="119" cy="157" r="3.5" fill="#fff"/><circle cx="187" cy="157" r="3.5" fill="#fff"/>
+        <!-- nose & mouth -->
+        <path d="M143 190 h14 l-7 8 z" fill="#e88a8a"/>
+        <path d="M150 198 q-10 14 -22 6 M150 198 q10 14 22 6" fill="none" stroke="#f6f4ee" stroke-width="3" stroke-linecap="round"/>
+        <!-- whiskers -->
+        <path d="M60 188 l40 -2 M62 204 l38 -8 M240 188 l-40 -2 M238 204 l-38 -8" stroke="#8d918a" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- paws holding a card -->
+        <rect x="118" y="226" width="64" height="44" rx="6" fill="#c4301f" transform="rotate(-6 150 248)"/>
+        <text x="150" y="254" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="15" fill="#fff" transform="rotate(-6 150 248)">NOPE</text>
+        <ellipse cx="116" cy="248" rx="14" ry="10" fill="#3b3d38"/><ellipse cx="184" cy="244" rx="14" ry="10" fill="#3b3d38"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#boxes">5 กล่องมีอะไรบ้าง</a></li>
+      <li class="sep">เกมหลัก</li>
+      <li><a href="#setup"><span class="sw" style="background:var(--x-base)"></span>เตรียมเกม</a></li>
+      <li><a href="#turn"><span class="sw" style="background:var(--x-base)"></span>เล่นหนึ่งตา</a></li>
+      <li><a href="#base-cards"><span class="sw" style="background:var(--x-base)"></span>การ์ดเกมหลัก</a></li>
+      <li><a href="#attack"><span class="sw" style="background:var(--x-base)"></span>โจมตีซ้อน & Nope</a></li>
+      <li><a href="#combos"><span class="sw" style="background:var(--x-base)"></span>คอมโบพิเศษ</a></li>
+      <li class="sep">แยกทีละกล่อง</li>
+      <li><a href="#imploding"><span class="sw" style="background:var(--x-imp)"></span>Imploding</a></li>
+      <li><a href="#streaking"><span class="sw" style="background:var(--x-str)"></span>Streaking</a></li>
+      <li><a href="#barking"><span class="sw" style="background:var(--x-bark)"></span>Barking</a></li>
+      <li><a href="#zombie"><span class="sw" style="background:var(--x-zom)"></span>Zombie Kittens</a></li>
+      <li class="sep">เล่นรวม</li>
+      <li><a href="#mix4">รวม 4 กล่อง</a></li>
+      <li><a href="#apoc"><span class="sw" style="background:var(--x-apoc)"></span>Zombie Apocalypse</a></li>
+      <li class="sep">ใช้กลางโต๊ะ</li>
+      <li><a href="#helper">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#keeper">ผู้คุมตา</a></li>
+      <li><a href="#odds">โอกาสระเบิด</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ชื่อการ์ดไทย-อังกฤษ</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 250" role="img" aria-label="ขั้นตอนหนึ่งตา: เล่นการ์ดหรือผ่าน แล้วจั่ว 1 ใบ ถ้าเป็นเหมียวระเบิด มีกู้ระเบิดก็ใส่คืนกอง ไม่มีก็ตาย">
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-muted"/></marker></defs>
+            <rect x="10" y="70" width="170" height="90" rx="14" class="s-surface2"/>
+            <text x="95" y="104" text-anchor="middle" class="disp s-fg" font-size="18">1 · เล่น หรือ ผ่าน</text>
+            <text x="95" y="128" text-anchor="middle" class="s-muted" font-size="13">เล่นการ์ดกี่ใบก็ได้</text>
+            <text x="95" y="146" text-anchor="middle" class="s-muted" font-size="13">หรือไม่เล่นเลย</text>
+            <path d="M184 115 h46" class="k-muted" stroke-width="2.5" marker-end="url(#ar)"/>
+            <rect x="236" y="70" width="170" height="90" rx="14" class="s-ink"/>
+            <text x="321" y="104" text-anchor="middle" class="disp s-fuse" font-size="18">2 · จั่ว 1 ใบ</text>
+            <text x="321" y="128" text-anchor="middle" fill="#f6f4ee" font-size="13">การจั่ว = จบตาของคุณ</text>
+            <text x="321" y="146" text-anchor="middle" fill="#f6f4ee" font-size="13">ส่งตาตามเข็มนาฬิกา</text>
+            <path d="M410 100 C440 70 450 52 480 46" fill="none" class="k-muted" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M410 132 C440 162 450 190 480 196" fill="none" class="k-muted" stroke-width="2.5" marker-end="url(#ar)"/>
+            <text x="432" y="58" class="s-muted" font-size="12">การ์ดธรรมดา</text>
+            <text x="432" y="194" class="s-muted" font-size="12">เหมียวระเบิด!</text>
+            <rect x="486" y="16" width="224" height="62" rx="12" class="s-strsoft"/>
+            <text x="598" y="44" text-anchor="middle" class="disp s-fg" font-size="15">เก็บเข้ามือ จบตา</text>
+            <text x="598" y="64" text-anchor="middle" class="s-muted" font-size="12">ไม่มีขีดจำกัดจำนวนการ์ดในมือ</text>
+            <rect x="486" y="150" width="108" height="86" rx="12" class="s-strsoft"/>
+            <text x="540" y="180" text-anchor="middle" class="disp s-fg" font-size="14">มีกู้ระเบิด</text>
+            <text x="540" y="200" text-anchor="middle" class="s-muted" font-size="11.5">ทิ้งกู้ระเบิด แล้ว</text>
+            <text x="540" y="216" text-anchor="middle" class="s-muted" font-size="11.5">แอบใส่แมวคืนกอง</text>
+            <rect x="602" y="150" width="108" height="86" rx="12" class="s-basesoft"/>
+            <text x="656" y="180" text-anchor="middle" class="disp s-fg" font-size="14">ไม่มี</text>
+            <text x="656" y="200" text-anchor="middle" class="s-muted" font-size="11.5">ระเบิด ตกรอบ</text>
+            <text x="656" y="216" text-anchor="middle" class="s-muted" font-size="11.5">(Zombie: ตายแต่ยังอยู่)</text>
+          </svg>
+        </div>
+        <figcaption>ทุกตามีแค่นี้ ความสนุกอยู่ที่การ์ดในข้อ 1 ที่ใช้หลบไม่ให้ต้องจั่ว หรือรู้ก่อนว่าใบบนสุดคืออะไร</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>จำ 5 ข้อนี้ก่อน</h3>
+        <ol>
+          <li>จบตาด้วยการ<b>จั่ว</b> ไม่ใช่ด้วยการเล่นการ์ด (ยกเว้นการ์ดที่เขียนว่า “จบตาโดยไม่จั่ว” เช่น ข้าม โจมตี)</li>
+          <li>ในกองมีเหมียวระเบิด <b>จำนวนคน − 1</b> ใบเสมอ กองจึงไม่มีวันหมดก่อนเกมจบ</li>
+          <li><b>Nope</b> หยุดการ์ดใดก็ได้ เล่นได้ทุกเมื่อแม้ไม่ใช่ตาตัวเอง แต่<b>หยุดเหมียวระเบิดและกู้ระเบิดไม่ได้</b></li>
+          <li>การ์ดคู่ที่ชื่อเหมือนกัน เล่นเป็นคอมโบ<b>ขโมยการ์ดสุ่ม</b> 1 ใบจากใครก็ได้</li>
+          <li>ถูก<b>โจมตี</b> = เล่น 2 ตาติด ถ้าโจมตีกลับ คนถัดไปรับตาที่ค้าง + 2 (เช่น 4 ตา)</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- BOXES -->
+    <section id="boxes">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>5 กล่องมีอะไรบ้าง</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>กล่อง</th><th class="num">การ์ด</th><th>เพิ่มอะไร</th><th>ตัวที่ฆ่าคนได้</th></tr></thead>
+          <tbody>
+            <tr><td><b style="color:var(--x-base)">Exploding Kittens</b><br><span class="en">Original Edition · 2–5 คน · กล่องแดง</span></td><td class="num">56</td><td>เกมหลัก: กู้ระเบิด 6, Nope, โจมตี, ข้าม, ขอหน่อย, สับกอง, ส่องอนาคต, การ์ดแมว 5 ลาย</td><td>เหมียวระเบิด 4</td></tr>
+            <tr><td><b style="color:var(--x-imp)">Imploding Kittens</b><br><span class="en">ภาคเสริมที่ 1 · กล่องดำ</span></td><td class="num">20</td><td>กลับทิศ, จั่วจากก้นกอง, เปลี่ยนอนาคต, โจมตีระบุตัว, แมวจรจัด (ไวลด์) + <b>กรวยแห่งความอับอาย</b></td><td>เหมียวปะทุ 1 (หงายหน้า กู้ไม่ได้)</td></tr>
+            <tr><td><b style="color:var(--x-str)">Streaking Kittens</b><br><span class="en">ภาคเสริมที่ 2 · กล่องเขียว</span></td><td class="num">15</td><td>เหมียววิ่งแก้ผ้า, ข้ามยาว, ส่อง/เปลี่ยนอนาคต 5 ใบ, สลับบน-ล่าง, เก็บขยะ, ระเบิดแคทอมิก, ประจาน, คำสาปก้นแมว</td><td>เหมียวระเบิด +1</td></tr>
+            <tr><td><b style="color:var(--x-bark)">Barking Kittens</b><br><span class="en">ภาคเสริมที่ 3 · บ้านหมา</span></td><td class="num">20</td><td>หอคอยแห่งพลัง (มี<b>มงกุฎ</b>), ฝังคืน, โจมตีตัวเอง, แบ่งอนาคต, ขอเอาไปนะ, ปาร์ตี้ลงขัน, ข้ามยาว, เปลี่ยนอนาคต NOW</td><td>เหมียวเห่า 2 (ดวลกัน)</td></tr>
+            <tr><td><b style="color:var(--x-zom)">Zombie Kittens</b><br><span class="en">เกมแยกเล่นเดี่ยวได้ · 2–5 คน</span></td><td class="num">61</td><td>เหมียวซอมบี้ 5 (ใช้แทนกู้ระเบิด + ชุบชีวิต), เลี้ยงผี, ขุดลึก, โคลน, โจรขุดหลุม, ฝูงผีบุก, ตาทิพย์ ฯลฯ</td><td>เหมียวระเบิด 4</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ภาคเสริม 3 กล่อง (Imploding, Streaking, Barking) ต้องเล่นคู่กับเกมหลัก ส่วน Zombie Kittens เป็นเกมเต็มในตัว เล่นเองได้ หรือเอาไปรวมกับเกมหลักเป็นโหมด <a href="#apoc">Zombie Apocalypse</a> ได้สูงสุด 9 คน</p>
+    </section>
+
+    <!-- BASE SETUP -->
+    <section id="setup">
+      <div class="xhead" style="--c:var(--x-base)"><span class="tag">เกมหลัก · EXPLODING KITTENS ORIGINAL EDITION · 2–5 คน</span><h2>เตรียมเกม</h2><p>ทุกภาคเสริมเตรียมเกมแบบเดียวกันนี้ แล้วเปลี่ยนนิดหน่อยตามที่บอกในหัวข้อของแต่ละกล่อง</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>แยกเหมียวระเบิด (4) และกู้ระเบิด (6) ออกจากกอง</h3></div></li>
+        <li><div class="body"><h3>แจกกู้ระเบิดคนละ 1 ใบ</h3><p>ใบที่เหลือใส่กลับเข้ากอง · <b>เล่น 2 คน</b>ใส่กลับแค่ 2 ใบ อีก 2 ใบเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>สับ แจกคนละ 7 ใบ</h3><p>ทุกคนมีการ์ด 8 ใบ (7 + กู้ระเบิด 1) ดูได้คนเดียว</p></div></li>
+        <li><div class="body"><h3>ใส่เหมียวระเบิด = จำนวนคน − 1</h3><p>2 คน 1 ใบ · 3 คน 2 · 4 คน 3 · 5 คน 4 ใบที่เหลือเก็บกล่อง แล้วสับเป็นกองจั่ว คว่ำไว้กลางโต๊ะ เว้นที่ไว้เป็นกองทิ้ง</p></div></li>
+        <li><div class="body"><h3>เลือกผู้เริ่ม</h3><p>คู่มือแนะนำแบบขำ ๆ เช่น คนที่หน้าตาเหมือนแมวที่สุด สุ่มเอาก็ได้ เล่นตามเข็มนาฬิกา</p></div></li>
+      </ol>
+      <div class="callout plain">
+        <h3>อยากให้เกมสั้นลง</h3>
+        <p>ก่อนใส่เหมียวระเบิด ให้สุ่มเอาการ์ดออกจากกองประมาณ <b>1 ใน 3</b> (ทุกภาคเสริมมีตัวแปรนี้) กองเล็กลง แมวจึงหนาแน่นขึ้น</p>
+      </div>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">เกมหลัก</span><h2>เล่นหนึ่งตา และการระเบิด</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เล่น หรือ ผ่าน</h3><p>วางการ์ด<b>หงาย</b>บนกองทิ้งแล้วทำตามข้อความ เล่นต่ออีกใบได้เรื่อย ๆ หรือไม่เล่นเลยก็ได้</p></div></li>
+        <li><div class="body"><h3>จั่ว 1 ใบจากบนสุด = จบตา</h3><p>ไม่มีขีดจำกัดการ์ดในมือ การ์ดหมดมือก็ไม่เป็นไร ตาหน้าจะได้จั่วอีกอย่างน้อย 1 ใบ</p></div></li>
+        <li><div class="body"><h3>ถ้าจั่วได้เหมียวระเบิด</h3>
+          <ul>
+            <li><b>ต้องเปิดให้ทุกคนเห็นทันที</b></li>
+            <li>มี<b>กู้ระเบิด</b>: เล่นกู้ระเบิดลงกองทิ้ง แล้ว<b>แอบ</b>ใส่เหมียวระเบิดกลับเข้ากองจั่ว ตรงไหนก็ได้ (บนสุด ล่างสุด กลางกอง ถือกองไว้ใต้โต๊ะได้) จบตา</li>
+            <li>ไม่มีกู้ระเบิด: <b>ระเบิด ตกรอบ</b> ทิ้งการ์ดในมือทั้งหมดรวมทั้งแมวตัวนั้นลงกองทิ้ง</li>
+          </ul></div></li>
+        <li><div class="body"><h3>ชนะ</h3><p>คนสุดท้ายที่ยังไม่ระเบิด</p></div></li>
+      </ol>
+      <div class="callout">
+        <h3>ทริกกู้ระเบิดจากคู่มือ</h3>
+        <p>อยากแกล้งคนถัดไป ใส่แมวไว้<b>บนสุด</b>ของกองเลย แล้วถือกองไว้ใต้โต๊ะไม่ให้ใครเห็นว่าใส่ตรงไหน</p>
+      </div>
+    </section>
+
+    <!-- BASE CARDS -->
+    <section id="base-cards">
+      <div class="sec-head"><span class="tag">เกมหลัก · 56 ใบ</span><h2>การ์ดเกมหลัก</h2></div>
+      <div class="tbl-wrap"><table><thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>ทำอะไร</th></tr></thead><tbody data-cards="base"></tbody></table></div>
+      <p class="note"><span class="now">NOW</span> = เล่นได้ทุกเมื่อแม้ไม่ใช่ตาตัวเอง · <span class="kill" style="font-family:var(--font-tag);font-size:.7rem;font-weight:600;background:var(--ink);color:var(--fuse);border-radius:4px;padding:0 5px">ฆ่าได้</span> = การ์ดที่ทำให้ตาย</p>
+    </section>
+
+    <!-- ATTACK / NOPE -->
+    <section id="attack">
+      <div class="sec-head"><span class="tag">ข้อที่คนจำผิดบ่อยที่สุด</span><h2>โจมตีซ้อน และ Nope ซ้อน</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 230" role="img" aria-label="แอนโจมตีบี บีต้องเล่น 2 ตา บีโจมตีกลับ ซีต้องเล่น 4 ตา ซีโจมตีต่อ ดีต้องเล่น 6 ตา">
+            <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-acc"/></marker></defs>
+            <g font-size="13">
+              <text x="70" y="30" text-anchor="middle" class="disp s-fg" font-size="16">แอน</text>
+              <text x="250" y="30" text-anchor="middle" class="disp s-fg" font-size="16">บี</text>
+              <text x="430" y="30" text-anchor="middle" class="disp s-fg" font-size="16">ซี</text>
+              <text x="610" y="30" text-anchor="middle" class="disp s-fg" font-size="16">ดี</text>
+              <rect x="40" y="170" width="60" height="22" rx="5" class="s-surface2"/>
+              <text x="70" y="186" text-anchor="middle" class="tagf s-muted" font-size="12">1 ตา</text>
+              <rect x="210" y="148" width="80" height="44" rx="5" class="s-basesoft"/>
+              <rect x="390" y="104" width="80" height="88" rx="5" class="s-basesoft"/>
+              <rect x="570" y="60" width="80" height="132" rx="5" class="s-basesoft"/>
+              <g class="s-acc">
+                <rect x="216" y="154" width="68" height="16" rx="3"/><rect x="216" y="172" width="68" height="16" rx="3"/>
+                <rect x="396" y="110" width="68" height="16" rx="3"/><rect x="396" y="128" width="68" height="16" rx="3"/><rect x="396" y="146" width="68" height="16" rx="3"/><rect x="396" y="164" width="68" height="16" rx="3"/>
+                <rect x="576" y="66" width="68" height="16" rx="3"/><rect x="576" y="84" width="68" height="16" rx="3"/><rect x="576" y="102" width="68" height="16" rx="3"/><rect x="576" y="120" width="68" height="16" rx="3"/><rect x="576" y="138" width="68" height="16" rx="3"/><rect x="576" y="156" width="68" height="16" rx="3"/>
+              </g>
+              <text x="250" y="214" text-anchor="middle" class="tagf s-fg">2 ตา</text>
+              <text x="430" y="214" text-anchor="middle" class="tagf s-fg">2 + 2 = 4 ตา</text>
+              <text x="610" y="214" text-anchor="middle" class="tagf s-fg">4 + 2 = 6 ตา</text>
+              <path d="M104 160 C140 120 170 120 204 150" fill="none" class="k-acc" stroke-width="2.5" marker-end="url(#ar2)"/>
+              <path d="M294 140 C330 90 350 90 384 110" fill="none" class="k-acc" stroke-width="2.5" marker-end="url(#ar2)"/>
+              <path d="M474 96 C510 50 530 46 564 64" fill="none" class="k-acc" stroke-width="2.5" marker-end="url(#ar2)"/>
+              <text x="154" y="116" text-anchor="middle" class="s-muted" font-size="12">โจมตี</text>
+              <text x="338" y="80" text-anchor="middle" class="s-muted" font-size="12">โจมตีกลับทันที</text>
+              <text x="518" y="38" text-anchor="middle" class="s-muted" font-size="12">โจมตีต่อ</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>ตัวอย่างตามคู่มือ: เหยื่อของการโจมตีที่เล่นการ์ดโจมตีต่อ ส่ง<b>ตาที่เหลือทั้งหมด + ตัวเลขบนการ์ดใหม่</b>ให้เป้าหมายใหม่ · ถ้าบีเล่นไปแล้ว 1 ตา แล้วค่อยโจมตีในตาที่ 2 ซีจะรับ 1 + 2 = 3 ตา</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ข้าม กับ การถูกโจมตี</h3><p>ข้าม 1 ใบ จบได้แค่ <b>1 ใน 2 ตา</b> ต้องใช้ 2 ใบถึงจะพ้นทั้งหมด · <b>ข้ามยาว</b> (Super Skip) จบทุกตาที่ค้างในใบเดียว</p></div>
+        <div class="type"><h3>กู้ระเบิดตอนถูกโจมตี</h3><p>กู้ระเบิดสำเร็จจบแค่ <b>1 ตา</b> ยังต้องเล่นตาที่เหลือต่อ (คู่มือ Barking ย้ำไว้ ใช้กับการโจมตีทุกแบบ)</p></div>
+        <div class="type"><h3>Nope ซ้อน Nope</h3><p>Nope ทับ Nope = <b>Yup</b> การ์ดเดิมกลับมาทำงาน ทับไปเรื่อย ๆ ได้ นับจำนวน Nope: คี่ = ยกเลิก คู่ = ทำงาน · การ์ดที่โดน Nope เสียไปเลย ไม่คืนมือ</p></div>
+        <div class="type"><h3>Nope ทำอะไรไม่ได้</h3><p>หยุด<b>เหมียวระเบิด</b> <b>กู้ระเบิด</b> <b>เหมียวซอมบี้</b> และแมวทุกตัว (ปะทุ เห่า) ไม่ได้ · ต้องเล่น<b>ก่อน</b>การกระทำจะเริ่ม เช่นก่อนคนที่เล่นส่องอนาคตจะได้ดูการ์ด</p></div>
+      </div>
+    </section>
+
+    <!-- COMBOS -->
+    <section id="combos">
+      <div class="sec-head"><span class="tag">เกมหลัก</span><h2>คอมโบพิเศษ</h2></div>
+      <p class="prose">เล่นการ์ดเป็นชุดพร้อมกัน <b>ไม่สนข้อความบนการ์ด</b> ใช้ได้กับการ์ดทุกชื่อ ไม่ใช่เฉพาะการ์ดแมว (คู่มือ Original Edition รุ่นปัจจุบันเขียนไว้แบบนี้)</p>
+      <div class="types">
+        <div class="type"><h3>2 ใบเหมือนกัน</h3><p>เลือกคนหนึ่ง แล้ว<b>หยิบการ์ดสุ่ม</b> 1 ใบจากมือเขา (ให้เขาสับมือแล้วยื่นคว่ำ)</p></div>
+        <div class="type"><h3>3 ใบเหมือนกัน</h3><p>เลือกคนหนึ่ง <b>เอ่ยชื่อการ์ด</b>ที่อยากได้ ถ้าเขามีต้องให้ 1 ใบ ถ้าไม่มีก็ไม่ได้อะไร</p></div>
+        <div class="type"><h3>5 ใบไม่ซ้ำกันเลย</h3><p>เลือกหยิบการ์ดใดก็ได้ 1 ใบจาก<b>กองทิ้ง</b> (เช่นเก็บกู้ระเบิดคืนมา) · มีในคู่มือเกมหลัก แต่ <b>Zombie Kittens ไม่มีคอมโบนี้</b></p></div>
+      </div>
+      <p class="note">คอมโบโดน Nope ได้ทั้งชุด · การ์ดแมวจรจัด (Imploding) ใช้แทนการ์ดแมวลายไหนก็ได้ · <b>โคลน</b> (Zombie) วางทับการ์ดแมวที่ตัวเองเพิ่งเล่นแล้วนับเป็นคู่ได้</p>
+    </section>
+
+    <!-- IMPLODING -->
+    <section id="imploding">
+      <div class="xhead" style="--c:var(--x-imp)"><span class="tag">ภาคเสริมที่ 1 · IMPLODING KITTENS · 20 ใบ + กรวยแห่งความอับอาย</span><h2>Imploding Kittens · เหมียวปะทุ</h2><p>เพิ่มแมวพิเศษ 1 ตัวที่<b>กู้ระเบิดไม่ได้</b> แต่ทุกคนจะเห็นว่ามันกำลังเข้ามาใกล้ และเพิ่มการ์ดเปลี่ยนทิศ/จั่วก้นกองให้เกมพลิกง่ายขึ้น</p></div>
+      <div class="tbl-wrap"><table><thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>ทำอะไร</th></tr></thead><tbody data-cards="imp"></tbody></table></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 200" role="img" aria-label="จั่วเหมียวปะทุครั้งแรก ใส่คืนกองแบบหงายหน้า ครั้งที่สองที่ต้องจั่วตอนหงายอยู่ ตายทันที">
+            <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-muted"/></marker></defs>
+            <rect x="20" y="40" width="80" height="112" rx="8" class="s-ink"/><text x="60" y="102" text-anchor="middle" class="tagf s-fuse" font-size="13">คว่ำ</text>
+            <text x="60" y="176" text-anchor="middle" class="s-muted" font-size="12.5">จั่วครั้งแรก</text>
+            <path d="M110 96 h60" class="k-muted" stroke-width="2.5" marker-end="url(#ar3)"/>
+            <rect x="180" y="20" width="250" height="150" rx="14" class="s-impsoft"/>
+            <text x="305" y="52" text-anchor="middle" class="disp s-fg" font-size="15">ไม่ตาย ไม่ต้องใช้กู้ระเบิด</text>
+            <text x="305" y="78" text-anchor="middle" class="s-muted" font-size="12.5">แอบใส่คืนกอง “หงายหน้า” ตรงไหนก็ได้</text>
+            <rect x="214" y="92" width="182" height="58" rx="6" class="s-surface"/>
+            <g><rect x="226" y="102" width="26" height="38" rx="3" class="s-surface2"/><rect x="258" y="102" width="26" height="38" rx="3" class="s-surface2"/><rect x="290" y="102" width="26" height="38" rx="3" class="s-imp"/><rect x="322" y="102" width="26" height="38" rx="3" class="s-surface2"/><rect x="354" y="102" width="26" height="38" rx="3" class="s-surface2"/></g>
+            <text x="303" y="126" text-anchor="middle" fill="#fff" class="tagf" font-size="11">!</text>
+            <path d="M440 96 h60" class="k-muted" stroke-width="2.5" marker-end="url(#ar3)"/>
+            <rect x="510" y="20" width="190" height="150" rx="14" class="s-basesoft"/>
+            <text x="605" y="56" text-anchor="middle" class="disp s-fg" font-size="15">ใครต้องจั่วตอนหงาย</text>
+            <text x="605" y="84" text-anchor="middle" class="disp s-bad" font-size="22">ตายทันที</text>
+            <text x="605" y="112" text-anchor="middle" class="s-muted" font-size="12.5">กู้ระเบิดไม่ได้ Nope ไม่ได้</text>
+            <text x="605" y="132" text-anchor="middle" class="s-muted" font-size="12.5">หนีได้ด้วย ข้าม / สับ / โจมตี</text>
+            <text x="605" y="150" text-anchor="middle" class="s-muted" font-size="12.5">/ จั่วจากก้นกอง ฯลฯ</text>
+          </svg>
+        </div>
+        <figcaption>เหมียวปะทุมีขอบขาว จึงเห็นได้แม้อยู่ในกองแบบคว่ำ ถ้ามันหงายอยู่บนสุดแล้วมีคนเล่นสับกอง ให้สับใต้โต๊ะ</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>แยกออก</h3><p>เอาเหมียวปะทุ เหมียวระเบิดทั้งหมด และกู้ระเบิดทั้งหมดออก</p></div></li>
+        <li><div class="body"><h3>กู้ระเบิด</h3><p>แจกคนละ 1 ใบ ใบที่เหลือใส่กลับกองเหมือนเกมหลัก</p></div></li>
+        <li><div class="body"><h3>รวมการ์ด 19 ใบ</h3><p>สับการ์ดภาคเสริมที่เหลือรวมกับเกมหลัก (จะเลือกใส่แค่บางใบก็ได้) แจกคนละ 7</p></div></li>
+        <li><div class="body"><h3>ใส่แมว</h3><p>ใส่<b>เหมียวปะทุ + เหมียวระเบิด ให้รวมกัน = จำนวนคน − 1</b> เช่น 6 คน = ปะทุ 1 + ระเบิด 4</p></div></li>
+      </ol>
+      <div class="types">
+        <div class="type"><h3>เล่น 2 คน</h3><p>คู่มือแนะนำใส่ระเบิด 1 + ปะทุ 1 (ตายได้ 2 ทาง) ใครตายก่อนแพ้</p></div>
+        <div class="type"><h3>กรวยแห่งความอับอาย</h3><p>คนแรกที่ลืมว่าตาใคร หรือเล่นผิดทิศหลังโดนกลับทิศ ต้องใส่กรวยไปจนจบเกม (หมุนกรวยตามทิศทุกครั้งที่มีกลับทิศ) · ใช้ <a href="#keeper">ผู้คุมตา</a> ช่วยก็ได้</p></div>
+        <div class="type"><h3>ตายเพราะปะทุ</h3><p>วางเหมียวปะทุหงายไว้หน้าตัว · เหมียววิ่งแก้ผ้า<b>ถือ</b>เหมียวปะทุไม่ได้</p></div>
+      </div>
+    </section>
+
+    <!-- STREAKING -->
+    <section id="streaking">
+      <div class="xhead" style="--c:var(--x-str)"><span class="tag">ภาคเสริมที่ 2 · STREAKING KITTENS · 15 ใบ</span><h2>Streaking Kittens · เหมียววิ่งแก้ผ้า</h2><p>เพิ่มแมวที่ให้คุณ<b>เก็บเหมียวระเบิดไว้ในมือ</b>ได้ และการ์ดที่ทำให้ทุกคนต้องยัดการ์ดคืนกอง</p></div>
+      <div class="callout str">
+        <h3>ข้อที่ต้องจำข้อเดียว (คู่มือเขียนตัวโต)</h3>
+        <p>ภาคนี้ต้องใส่เหมียวระเบิด<b>เพิ่ม 1 ใบ</b>: จำนวนแมวทั้งหมดในกอง = <b>จำนวนคน</b> (ไม่ใช่ −1) เพราะอาจมีแมว 1 ตัวไปค้างอยู่ในมือคนที่ถือเหมียววิ่งแก้ผ้า</p>
+      </div>
+      <div class="tbl-wrap"><table><thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>ทำอะไร</th></tr></thead><tbody data-cards="str"></tbody></table></div>
+      <div class="types">
+        <div class="type"><h3>เหมียววิ่งแก้ผ้า ถือระเบิดไว้</h3><ul>
+          <li>มีในมือ = เก็บเหมียวระเบิดไว้ในมือได้ <b>1 ตัว</b> แบบลับ ไม่ระเบิด</li>
+          <li>เหมียววิ่งแก้ผ้าหลุดจากมือ (ถูกขโมย เล่นออก) → แมวในมือระเบิดทันที ต้องกู้</li>
+          <li>คนอื่นขโมย/ได้รับแมวตัวนั้นไป → <b>คนนั้นระเบิด</b> ต้องกู้หรือตาย แล้วเล่นตาตัวเองต่อ</li>
+          <li>เล่นแมวออกจากมือเอง → คุณระเบิด</li>
+          <li>ถือเหมียวปะทุไม่ได้ · ใช้ในคอมโบ 5 ใบไม่ได้</li>
+        </ul></div>
+        <div class="type"><h3>คำสาปก้นแมว (ตาบอด)</h3><ul>
+          <li>คนโดนคำสาปคว่ำการ์ดในมือลงโต๊ะ สับ ห้ามดู จนกว่าจะ<b>จั่วรอด</b> 1 ครั้ง</li>
+          <li>จะเล่นการ์ด: สุ่มหยิบ 1 ใบเปิด ถ้าเล่นได้ก็ทำงาน ถ้าเล่นไม่ได้ (เช่นแมวใบเดียว) ทิ้งเปล่า</li>
+          <li>จั่วได้เหมียวระเบิดตอนตาบอด: ยังไม่นับว่าจั่วรอด ต้องสุ่มเปิดไปเรื่อย ๆ จนเจอกู้ระเบิด ใบอื่นที่เปิดเสียเปล่า</li>
+          <li>สุ่มเปิดเจอเหมียวระเบิดที่ถือไว้ = ระเบิด (กู้แบบตาบอด)</li>
+        </ul></div>
+        <div class="type"><h3>ตาบอดกับการ์ดอื่น</h3><ul>
+          <li><b>ขอหน่อย</b>: ดูการ์ดที่ได้รับได้ แล้วสับคว่ำเข้ามือ</li>
+          <li><b>ประจาน</b>: การ์ดที่โดนหันอีกทาง</li>
+          <li><b>3 ใบเหมือน</b> ที่ขอจากคนตาบอด: ให้เขาหาการ์ดแล้วสับมือใหม่</li>
+          <li><b>เก็บขยะ</b>: เลือกแบบตาบอด แล้วค่อยดูการ์ดใบนั้นได้</li>
+        </ul></div>
+      </div>
+      <p class="note">เตรียมเกม: แยกเหมียวระเบิด 4 + กู้ระเบิด 6 จากเกมหลัก และเหมียวระเบิด 1 จากภาคนี้ → แจกกู้ระเบิดคนละใบ ใบที่เหลือรวมกับการ์ด Streaking 14 ใบเข้ากอง → แจก 7 → ใส่แมว<b>เท่าจำนวนคน</b> (ถ้ามี Imploding นับเหมียวปะทุรวมในนั้น)</p>
+    </section>
+
+    <!-- BARKING -->
+    <section id="barking">
+      <div class="xhead" style="--c:var(--x-bark)"><span class="tag">ภาคเสริมที่ 3 · BARKING KITTENS · 20 ใบ + มงกุฎหอคอยแห่งพลัง</span><h2>Barking Kittens · เหมียวเห่า</h2><p>เพิ่มแมว 2 ตัวที่ดวลกันแบบ “ใครกล้ากว่า” และมงกุฎที่ป้องกันการขโมย</p></div>
+      <div class="tbl-wrap"><table><thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>ทำอะไร</th></tr></thead><tbody data-cards="bark"></tbody></table></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 210" role="img" aria-label="ดวลเหมียวเห่า: เอวางเหมียวเห่าหน้าตัว ถามหาอีกตัว ถ้าบีมีอยู่ บีต้องกู้หรือระเบิด ถ้าไม่มีใครมี ใบนั้นค้างหน้าเอ และเอจะเป็นเป้าเมื่อมีคนเล่นใบที่สอง">
+            <rect x="10" y="20" width="220" height="170" rx="14" class="s-barksoft"/>
+            <text x="120" y="48" text-anchor="middle" class="disp s-fg" font-size="15">เอ เล่นเหมียวเห่า</text>
+            <rect x="92" y="62" width="56" height="78" rx="6" class="s-bark"/>
+            <path d="M104 118 l16 -26 l16 26 z" fill="#fff" opacity=".9"/><rect x="113" y="110" width="14" height="10" class="s-bark"/>
+            <text x="120" y="164" text-anchor="middle" class="s-muted" font-size="12.5">วางหงายหน้าตัว แล้วถาม</text>
+            <text x="120" y="180" text-anchor="middle" class="s-muted" font-size="12.5">“ใครมีอีกตัว?”</text>
+            <text x="244" y="70" class="tagf s-fg" font-size="13">มีคนถือ</text>
+            <text x="244" y="160" class="tagf s-fg" font-size="13">ไม่มีใครถือ</text>
+            <path d="M236 80 h70" class="k-muted" stroke-width="2.5"/><path d="M300 74 l8 6 l-8 6" fill="none" class="k-muted" stroke-width="2.5"/>
+            <path d="M236 170 h70" class="k-muted" stroke-width="2.5"/><path d="M300 164 l8 6 l-8 6" fill="none" class="k-muted" stroke-width="2.5"/>
+            <rect x="320" y="20" width="390" height="80" rx="14" class="s-basesoft"/>
+            <text x="515" y="50" text-anchor="middle" class="disp s-fg" font-size="15">คนที่ถืออีกตัวเป็นเป้า: กู้ระเบิด หรือ ระเบิด</text>
+            <text x="515" y="76" text-anchor="middle" class="s-muted" font-size="12.5">ทิ้งเหมียวเห่าทั้งคู่ตอนจบตา · เอยังเล่นตาตัวเองต่อ</text>
+            <rect x="320" y="112" width="390" height="80" rx="14" class="s-surface2"/>
+            <text x="515" y="142" text-anchor="middle" class="disp s-fg" font-size="15">ใบนั้นค้างหน้าเอ (ไม่ใช่การ์ดในมือแล้ว)</text>
+            <text x="515" y="168" text-anchor="middle" class="s-muted" font-size="12.5">ใครจั่วได้ตัวที่สองแล้วเล่น เอกลายเป็นเป้าทันที</text>
+          </svg>
+        </div>
+        <figcaption>ได้เหมียวเห่าครบทั้ง 2 ตัว (แม้จะเคยวางไปแล้ว 1 ตัว) เล่นคู่กันแล้วเลือก<b>ใครก็ได้</b>เป็นเป้า · Nope เหมียวเห่าไม่ได้ เหมือนแมวทุกตัว</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>มงกุฎหอคอยแห่งพลัง</h3><ul>
+          <li>ตอนเตรียมเกม แจกการ์ดคว่ำ 6 ใบเป็น<b>กองสมบัติ</b> วางมงกุฎทับไว้</li>
+          <li>คนที่เล่นการ์ดหอคอย สวมมงกุฎ เอากองสมบัติใส่ในมงกุฎโดยไม่ดู</li>
+          <li>ใครขโมยจากคุณ (ขอหน่อย, คู่, 3 ใบ, ขอเอาไปนะ ฯลฯ) ต้องสุ่มหยิบจาก<b>ในมงกุฎ</b>แทน จนกว่ามงกุฎจะว่าง</li>
+          <li>ห้ามย้ายการ์ดในมงกุฎเข้ามือ · สวมไปจนจบเกม</li>
+        </ul></div>
+        <div class="type"><h3>เตรียมเกม Barking</h3><ul>
+          <li>แยกเหมียวระเบิด 4 กู้ระเบิด 6 และ<b>การ์ดหอคอย</b>ออก</li>
+          <li>แจกกู้ระเบิดคนละ 1 ใบที่เหลือคืนกอง รวมการ์ดภาคเสริม 19 ใบ</li>
+          <li>แจกคว่ำ 6 ใบเป็นกองสมบัติ ใส่การ์ดหอคอยคืนแล้วสับ</li>
+          <li>แจกคนละ 7 · ใส่เหมียวระเบิด คน − 1 · สับ</li>
+          <li>ภาคนี้<b>ไม่เพิ่ม</b>เหมียวระเบิดและกู้ระเบิด</li>
+        </ul></div>
+        <div class="type"><h3>คำสาปก้นแมว + Barking</h3><ul>
+          <li>ตาบอดเล่นเหมียวเห่าได้แบบสุ่มเปิด · โดนเห่าตอนตาบอด เปิดสุ่มจนเจอกู้ระเบิด</li>
+          <li>มงกุฎ: คำสาปมีผลกับการ์ดในมงกุฎเมื่อมันเข้ามือคนตาบอดเท่านั้น</li>
+          <li>ขอเอาไปนะ: ตาบอดดูการ์ดที่จั่วได้ก่อนยกให้ แล้วหายตาบอด (นับว่าจั่วรอดแม้ยกระเบิดให้)</li>
+          <li>ปาร์ตี้ลงขัน: เลือกแบบตาบอด แล้วค่อยดูได้</li>
+        </ul></div>
+      </div>
+    </section>
+
+    <!-- ZOMBIE -->
+    <section id="zombie">
+      <div class="xhead" style="--c:var(--x-zom)"><span class="tag">เกมแยก · ZOMBIE KITTENS · 61 ใบ · 2–5 คน · กล่องที่ยังไม่เคยเล่น</span><h2>Zombie Kittens · เหมียวซอมบี้</h2><p>ไม่มีกู้ระเบิดแล้ว มีแต่<b>เหมียวซอมบี้</b> ที่กันระเบิดและ<b>ต้องชุบชีวิตคนตาย</b> 1 คนทุกครั้งที่ใช้ คนตายไม่ได้ออกจากเกม ยังเล่นการ์ดบางใบป่วนได้ และรอให้มีคนลากกลับมา</p></div>
+      <div class="callout zom">
+        <h3>คู่มือเตือนคนที่เล่นเกมหลักเป็นแล้ว</h3>
+        <p>กติกาการตายต่างจากเกมหลักมาก อ่าน 3 กล่องด้านล่างให้ครบก่อนเล่น</p>
+      </div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 240" role="img" aria-label="วงจรชีวิตซอมบี้: มีชีวิต จั่วระเบิดไม่ใช้เหมียวซอมบี้ กลายเป็นคนตาย คนอื่นใช้เหมียวซอมบี้เลือกคุณ กลับมามีชีวิต">
+            <defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-zom"/></marker></defs>
+            <rect x="20" y="70" width="190" height="100" rx="16" class="s-strsoft"/>
+            <text x="115" y="110" text-anchor="middle" class="disp s-fg" font-size="20">มีชีวิต</text>
+            <text x="115" y="136" text-anchor="middle" class="s-muted" font-size="12.5">เล่นตาตามปกติ จั่วจบตา</text>
+            <text x="115" y="154" text-anchor="middle" class="s-muted" font-size="12.5">ถูกขโมยได้ ถูกโจมตีได้</text>
+            <rect x="510" y="70" width="190" height="100" rx="16" class="s-surface2"/>
+            <text x="605" y="110" text-anchor="middle" class="disp s-fg" font-size="20">ตาย</text>
+            <text x="605" y="136" text-anchor="middle" class="s-muted" font-size="12.5">ไม่ได้เล่นตา เก็บมือไว้</text>
+            <text x="605" y="154" text-anchor="middle" class="s-muted" font-size="12.5">เล่นได้แค่ NOW และ Nope</text>
+            <path d="M214 92 C320 30 400 30 506 92" fill="none" class="k-zom" stroke-width="3" marker-end="url(#ar4)"/>
+            <path d="M506 150 C400 212 320 212 214 150" fill="none" class="k-zom" stroke-width="3" marker-end="url(#ar4)"/>
+            <rect x="248" y="18" width="224" height="46" rx="10" class="s-surface"/>
+            <text x="360" y="38" text-anchor="middle" class="tagf s-fg" font-size="13">จั่วระเบิด แล้วไม่มี/ไม่ใช้เหมียวซอมบี้</text>
+            <text x="360" y="56" text-anchor="middle" class="s-muted" font-size="12">วางแมวที่ฆ่าคุณหงายไว้หน้าตัว</text>
+            <rect x="238" y="178" width="244" height="54" rx="10" class="s-surface"/>
+            <text x="360" y="200" text-anchor="middle" class="tagf s-fg" font-size="13">คนอื่นเล่นเหมียวซอมบี้แล้วเลือกคุณ</text>
+            <text x="360" y="220" text-anchor="middle" class="s-muted" font-size="12">เขาแอบใส่แมว 2 ตัวคืนกอง คนละจุดก็ได้</text>
+          </svg>
+        </div>
+        <figcaption>จบเกมเมื่อเหลือคนมีชีวิตคนเดียว กองไม่มีวันหมด เพราะแมวในกองพอฆ่าทุกคนยกเว้น 1 คน</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ตาย</h3><ul>
+          <li>จั่วระเบิดแล้วไม่มีเหมียวซอมบี้ หรือ<b>มีแต่เลือกไม่ใช้</b> = ตาย</li>
+          <li>วางแมวที่ฆ่าคุณหงายหน้าตัว <b>เก็บการ์ดในมือไว้</b> (ไม่ทิ้งเหมือนเกมหลัก)</li>
+          <li>ตายโดยตั้งใจได้ เพื่อหลบการจั่วและกันการขโมย</li>
+        </ul></div>
+        <div class="type"><h3>เป็นคนตาย</h3><ul>
+          <li>ไม่ได้เล่นตา ข้ามไปเลย</li>
+          <li>เล่นการ์ดที่มีป้าย <span class="now" style="font-family:var(--font-tag);font-size:.7rem;font-weight:600;background:var(--accent);color:#fff;border-radius:4px;padding:0 5px">NOW</span> และ Nope ได้ทุกเมื่อ</li>
+          <li>ขโมยจากคนตายไม่ได้ (ขอหน่อย คู่ คอมโบ) เว้นแต่การ์ดบอกไว้ตรง ๆ</li>
+        </ul></div>
+        <div class="type"><h3>ฟื้นคืนชีพ</h3><ul>
+          <li>ใครเล่นเหมียวซอมบี้กันระเบิด ถ้ามีคนตาย <b>ต้อง</b>เลือกชุบ 1 คน</li>
+          <li>คนเล่นเอาแมวของตัวเอง + แมวหน้าคนตาย แอบใส่คืนกอง 2 จุด</li>
+          <li>ไม่มีคนตายก็เล่นเหมียวซอมบี้กันระเบิดได้ตามปกติ</li>
+        </ul></div>
+      </div>
+      <div class="tbl-wrap"><table><thead><tr><th>การ์ด</th><th class="num">จำนวน<br><span class="en">มีอุ้งเท้า/ไม่มี</span></th><th>ทำอะไร</th></tr></thead><tbody data-cards="zom"></tbody></table></div>
+      <ol class="steps">
+        <li><div class="body"><h3>แยกเหมียวระเบิด 4 ใบออก</h3></div></li>
+        <li><div class="body"><h3>เลือกชุดการ์ดตามจำนวนคน</h3><ul><li>2 คน: ใช้เฉพาะใบที่มี<b>รูปอุ้งเท้า</b>ที่มุม (24 ใบ)</li><li>3 คน: ใช้เฉพาะใบที่<b>ไม่มี</b>รูปอุ้งเท้า (33 ใบ)</li><li>4–5 คน: ใช้ทั้งหมด</li></ul></div></li>
+        <li><div class="body"><h3>แจกเหมียวซอมบี้คนละ 1</h3><p>เล่น 4 คนจะเหลือ 1 ใบ สับคืนเข้ากอง</p></div></li>
+        <li><div class="body"><h3>สับ แจกคนละ 7 · ใส่เหมียวระเบิด คน − 1 · สับ</h3></div></li>
+      </ol>
+      <p class="note">คอมโบ Zombie: คู่และ 3 ใบใช้ได้กับการ์ดทุกชื่อ แต่<b>เล็งคนตายไม่ได้</b> และไม่มีคอมโบ 5 ใบ · ลายการ์ดแมวมี 4 ลาย ลายละ 4 ใบ</p>
+    </section>
+
+    <!-- MIX 4 -->
+    <section id="mix4">
+      <div class="sec-head"><span class="tag">วิธีที่เล่นกันอยู่</span><h2>รวม 4 กล่อง: เกมหลัก + Imploding + Streaking + Barking</h2></div>
+      <p class="prose">คู่มือทุกเล่มบอกว่า “เล่นหลายภาคพร้อมกัน ให้ทำตามขั้นเตรียมเกมของทุกภาค” รวมกันแล้วได้ขั้นตอนนี้</p>
+      <ol class="steps">
+        <li><div class="body"><h3>แยกออกทั้งหมด</h3><p>เหมียวระเบิด (4 + 1 จาก Streaking), กู้ระเบิด 6, เหมียวปะทุ, การ์ดหอคอย</p></div></li>
+        <li><div class="body"><h3>กู้ระเบิด</h3><p>แจกคนละ 1 ใบที่เหลือคืนกอง (2 คนคืนแค่ 2)</p></div></li>
+        <li><div class="body"><h3>รวมกอง</h3><p>เกมหลัก + Imploding 19 + Streaking 14 + Barking 19 สับรวม</p></div></li>
+        <li><div class="body"><h3>กองสมบัติ</h3><p>แจกคว่ำ 6 ใบ วางมงกุฎทับ แล้วใส่การ์ดหอคอยคืนกอง สับ</p></div></li>
+        <li><div class="body"><h3>แจกคนละ 7</h3></div></li>
+        <li><div class="body"><h3>ใส่แมวรวม = จำนวนคน</h3><p>เพราะมี Streaking · นับเหมียวปะทุเป็น 1 ในนั้น ที่เหลือเป็นเหมียวระเบิด · เหมียวเห่า 2 ตัวอยู่ในกองอยู่แล้ว ไม่นับรวม</p></div></li>
+      </ol>
+      <div class="callout bark">
+        <h3>ทำไมรวม 4 กล่องเล่นได้แค่ 6 คน</h3>
+        <ul>
+          <li>มี<b>กู้ระเบิดแค่ 6 ใบ</b> ทั้ง 3 ภาคเสริมไม่มีกู้ระเบิดเพิ่ม คนที่ 7 จะเริ่มเกมโดยไม่มีกู้ระเบิด</li>
+          <li>มีแมวที่ใส่ในกองได้ 6 ตัว (ระเบิด 5 + ปะทุ 1) และ Streaking ต้องการแมว = จำนวนคน · 7 คนจะขาด 1 ตัว</li>
+          <li>อยากเล่น 7–9 คน ให้เอา Zombie Kittens เข้ามาเป็น <a href="#apoc">Zombie Apocalypse</a> เหมียวซอมบี้ 5 ใบเติมส่วนที่ขาดพอดี</li>
+        </ul>
+        <p class="note" style="margin-top:6px">ข้อนี้คำนวณจากจำนวนการ์ดในกล่อง คู่มือไม่ได้เขียนตัวเลขสูงสุดของการเล่นรวมไว้</p>
+      </div>
+      <div class="types">
+        <div class="type"><h3>ระเบิดแคทอมิก + Imploding</h3><p>ดึงเฉพาะเหมียวระเบิดขึ้นบนสุด <b>ไม่ยุ่ง</b>กับเหมียวปะทุ</p></div>
+        <div class="type"><h3>ฝังคืน + Imploding</h3><p>จั่วได้เหมียวปะทุตอนใช้ฝังคืน ให้ใส่คืนด้าน<b>เดิมที่จั่วได้</b> (คว่ำก็คว่ำ หงายก็หงาย)</p></div>
+        <div class="type"><h3>เปลี่ยนอนาคตมี 2 ขนาด</h3><p>Imploding และ Barking ดู 3 ใบ · Streaking ดู <b>5</b> ใบ · ของ Barking เป็นแบบ NOW เล่นนอกตาได้</p></div>
+      </div>
+    </section>
+
+    <!-- APOCALYPSE -->
+    <section id="apoc">
+      <div class="xhead apoc"><span class="tag">โหมดทางการ · ZOMBIE APOCALYPSE · 2–9 คน · แผ่นกติกา © Exploding Kittens 2024</span><h2>Zombie Apocalypse · เหมียวระเบิดอโพคาลิปส์</h2><p>ชื่อที่ถามหาคือโหมดนี้: เอา Zombie Kittens รวมกับ Exploding Kittens กล่องไหนก็ได้ ใช้การ์ดของทั้งสองเกม เล่นได้สูงสุด 9 คน และแผ่นกติกามีหัวข้อ<b>เล่นกับภาคเสริมอื่น</b> ที่พูดถึง Imploding, Streaking และ Barking ตรง ๆ จึงรวมได้ครบ 5 กล่อง</p></div>
+      <div class="tbl-wrap">
+        <table style="min-width:420px">
+          <thead><tr><th class="num">คน</th><th class="num">เหมียวซอมบี้</th><th class="num">กู้ระเบิด</th><th class="num">กองจั่วตัดเหลือ</th><th class="num">ใส่แมว (คน − 1)</th></tr></thead>
+          <tbody id="apoc-table"></tbody>
+        </table>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>แยกกองสองเกมไว้ก่อน</h3><p>จะได้เลือกการ์ดออกง่าย</p></div></li>
+        <li><div class="body"><h3>เลือกตัวกันระเบิดตามตาราง</h3><p>เหมียวซอมบี้ (ใช้แทนกู้ระเบิด) กับกู้ระเบิดจริงจากเกมหลัก ตามจำนวนคน ส่วนเกินเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>สับตัวกันระเบิดที่เลือก แจกคนละ 1</h3><p>บางคนได้เหมียวซอมบี้ บางคนได้กู้ระเบิด (เมื่อเล่น 6 คนขึ้นไป)</p></div></li>
+        <li><div class="body"><h3>เอาเหมียวระเบิดออกจากทั้งสองกองพักไว้</h3></div></li>
+        <li><div class="body"><h3>เอาการ์ดแมว<b>ทั้งหมด</b>ของเกมหลักออก</h3><p>การ์ดแมวของ Zombie มีพอแล้ว</p></div></li>
+        <li><div class="body"><h3>สับรวมเป็นกอง Zombie Apocalypse แจกคนละ 7</h3><p>ทุกคนมี 8 ใบ แล้ว<b>สุ่มตัดการ์ดออกจากกองจั่ว</b>จนเหลือตามตาราง (2 คน 15 · 3 คน 20 · 4 คน 25 · 5 คน 30 · 6–9 คน 35) การ์ดที่ตัดไม่ใช้</p></div></li>
+        <li><div class="body"><h3>ใส่เหมียวระเบิด = จำนวนคน − 1 แล้วสับ</h3><p>เล่นตามปกติ ใช้กติกาการตายและฟื้นของ <a href="#zombie">Zombie Kittens</a></p></div></li>
+      </ol>
+      <div class="callout zom">
+        <h3>ตอนใส่ภาคเสริมอื่นด้วย (สิ่งที่แผ่นกติกาไม่ได้บอกลำดับ)</h3>
+        <ul>
+          <li><b>Imploding</b>: นับเหมียวปะทุเป็นหนึ่งในแมว คน − 1 ตามกติกา Imploding <span class="flag house">ข้อสรุปจากกติกาแต่ละภาค</span></li>
+          <li><b>Streaking</b>: แผ่น Apocalypse บอก “คน − 1” แต่ Streaking บังคับให้แมว = จำนวนคน ถ้าใส่เหมียววิ่งแก้ผ้า<b>แนะนำเพิ่มแมว 1 ตัว</b> เพื่อไม่ให้กองจั่วแห้งตอนมีแมวค้างในมือ (มีเหมียวระเบิด 4 + 4 + 1 = 9 ตัว พอถึง 9 คน) <span class="flag house">ข้อแนะนำ ตกลงกันก่อนเล่น</span></li>
+          <li><b>Barking</b>: แจกกองสมบัติ 6 ใบก่อนแจกมือ และใส่การ์ดหอคอยพร้อมแมวหลังตัดกองแล้ว ไม่งั้นอาจถูกตัดทิ้ง <span class="flag house">ข้อแนะนำ</span></li>
+          <li><b>แมวจรจัด</b> (Imploding) อยู่นอกกองเกมหลัก จะเก็บไว้เป็นไวลด์คู่กับแมว Zombie ก็ได้ หรือเอาออกตามเจตนา “เอาแมวออกทั้งหมด” ก็ได้ <span class="flag house">ตกลงกันเอง</span></li>
+        </ul>
+      </div>
+      <h3>เล่นกับภาคเสริมอื่น (ข้อความจากแผ่นกติกา Zombie Apocalypse)</h3>
+      <div class="types">
+        <div class="type"><h3>ทั่วไป</h3><ul>
+          <li>ระเบิดตายตอนมีการ์ดหงายอยู่หน้าตัว → ทิ้งการ์ดเหล่านั้น</li>
+          <li>คนที่วางการ์ดไว้หน้าคุณระเบิดตาย → ทิ้งการ์ดที่เขาวางไว้หน้าคุณ</li>
+          <li>การ์ดที่บังคับให้ยกการ์ดให้ เช่น เก็บขยะ ปาร์ตี้ลงขัน <b>ไม่มีผลกับคนตาย</b> เว้นแต่การ์ดเขียนไว้ตรง ๆ</li>
+        </ul></div>
+        <div class="type" style="border-color:var(--x-imp)"><h3>เหมียวปะทุ</h3><ul>
+          <li>ตายเพราะปะทุแล้วฟื้น → เหมียวปะทุใส่คืนกอง<b>แบบหงาย</b></li>
+          <li><b>เหมียวซอมบี้ใช้กับเหมียวปะทุที่หงายอยู่ไม่ได้</b></li>
+        </ul></div>
+        <div class="type" style="border-color:var(--x-str)"><h3>เหมียววิ่งแก้ผ้า</h3><ul>
+          <li>เสียเหมียววิ่งแก้ผ้าไปตอนตาย แล้วฟื้นมาพร้อมเหมียวระเบิดในมือ → <b>ตายอีกทันที</b> วางแมวหงายหน้าตัว</li>
+          <li>ฟื้นมาพร้อมทั้งเหมียววิ่งแก้ผ้าและเหมียวระเบิด → เล่นต่อตามปกติ</li>
+          <li><b>เลี้ยงผี</b>: ถือวิ่งแก้ผ้า + ระเบิดอยู่ ห้ามใช้เลี้ยงผีส่งเหมียวระเบิดให้คนตาย</li>
+        </ul></div>
+        <div class="type" style="border-color:var(--x-bark)"><h3>เหมียวเห่า</h3><ul>
+          <li>ตายตอนเหมียวเห่าอยู่ในมือ → เก็บไว้ ถ้ามีคนเล่นอีกตัวตอนคุณตาย ไม่ต้องบอก ทำเนียนได้ ฟื้นแล้วใช้เล่นงานคนที่มีเห่าวางอยู่ได้</li>
+          <li>ตายตอนเห่าวางหน้าตัว → ค้างอยู่แต่ไม่มีผลกับคนตาย ถ้ามีคนเล่นอีกตัว เขาวางหน้าตัวเอง ฟื้นทั้งคู่แล้วต่างคนต่างเล่นใส่กันได้ในตาตัวเอง (หยิบกลับเข้ามือไม่ได้)</li>
+          <li>ตายเพราะเห่า → วางเห่าทั้ง 2 ใบหน้าตัว ใครชุบคุณด้วยเหมียวซอมบี้ต้องแอบใส่เห่าทั้งคู่คืนกองด้วย</li>
+        </ul></div>
+        <div class="type" style="border-color:var(--x-bark)"><h3>หอคอย · แบ่งอนาคต</h3><ul>
+          <li>ตายตอนสวมมงกุฎ → ยังสวมอยู่ ฟื้นแล้วกลับมาป้องกันได้อีก</li>
+          <li>แบ่งอนาคต: คนถัดไปตายอยู่ ก็ยังให้เขาดู 3 ใบนั้น</li>
+        </ul></div>
+        <div class="type" style="border-color:var(--x-str)"><h3>คำสาปก้นแมว · ประจาน</h3><ul>
+          <li>ตายตอนโดนสาป → ยังตาบอด คว่ำการ์ดไว้หน้าตัว เล่นการ์ด NOW แบบสุ่มเปิดได้ ใบที่เล่นไม่ได้เสียเปล่า หายสาปได้เฉพาะฟื้นแล้ว<b>จั่วรอด</b></li>
+          <li>ตาย+ตาบอด โดนโจรขุดหลุม → เลือกการ์ดบริจาคแบบไม่ดู</li>
+          <li>โดนสาปแล้วเป็นคนรับเลี้ยงผี → การ์ดที่ได้วางคว่ำหน้าตัว ดูได้เมื่อหายสาป</li>
+          <li>การ์ดที่ถูกประจานยังโดนประจานตอนตาย จนกว่าจะเล่นออกหรือถูกขโมย</li>
+        </ul></div>
+      </div>
+      <p class="note">2 คนไม่ค่อยสนุกในโหมดนี้ เพราะพอคนหนึ่งตาย อีกคนชนะทันที (คนชุบไม่มีโอกาสเกิด)</p>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ตอนเตรียมเกม</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">โหมด</span><div class="seg" id="h-mode" role="group" aria-label="โหมด">
+            <button type="button" data-v="classic" aria-pressed="false">เกมหลัก + ภาคเสริม</button>
+            <button type="button" data-v="zombie" aria-pressed="false">Zombie Kittens เดี่ยว</button>
+            <button type="button" data-v="apoc" aria-pressed="true">Zombie Apocalypse</button>
+          </div></div>
+        </div>
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="h-players" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+        </div>
+        <div class="tool-row" id="h-exps">
+          <label class="chk"><input type="checkbox" id="h-imp" checked><span>Imploding</span></label>
+          <label class="chk"><input type="checkbox" id="h-str" checked><span>Streaking</span></label>
+          <label class="chk"><input type="checkbox" id="h-bark" checked><span>Barking</span></label>
+          <label class="chk" id="h-plus-wrap"><input type="checkbox" id="h-plus" checked><span>เพิ่มแมว 1 ตัวเพราะมี Streaking (แนะนำ)</span></label>
+        </div>
+        <div class="calc-out" id="h-out"></div>
+        <ul class="notes" id="h-notes"></ul>
+      </div>
+    </section>
+
+    <!-- KEEPER -->
+    <section id="keeper">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น · แทนกรวยแห่งความอับอาย</span><h2>ผู้คุมตา</h2></div>
+      <p class="prose">วางมือถือไว้กลางโต๊ะ กดปุ่มตามการ์ดที่เพิ่งเล่น ระบบนับตาที่ค้างจากการโจมตีซ้อน ทิศทางหลังกลับทิศ และข้ามคนตายให้เอง กดชื่อเพื่อเปลี่ยนว่าตาใคร กด “ตาย/ฟื้น” เมื่อมีคนระเบิดหรือถูกชุบ</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div style="flex:1;min-width:220px"><label class="field-l" for="k-names">ชื่อผู้เล่น (คั่นด้วยจุลภาค เรียงตามเข็มนาฬิกา)</label><input class="txt" id="k-names" type="text" value="แอน, บี, ซี, ดี, อี"></div>
+          <button type="button" class="btn" id="k-new">เริ่มเกมใหม่</button>
+          <button type="button" class="btn" id="k-undo">ย้อนกลับ</button>
+        </div>
+        <div class="tk-top" aria-live="polite">
+          <div class="tk-now" id="k-now"></div>
+          <div class="tk-owed"><b id="k-owed">1</b><small>ตาที่ต้องเล่น</small></div>
+        </div>
+        <div class="ring" id="k-ring"></div>
+        <div class="tool-row">
+          <div><label class="field-l" for="k-target">เป้าของการโจมตี</label><select class="sel" id="k-target"></select></div>
+        </div>
+        <div class="tk-grid">
+          <button type="button" class="btn big green" data-k="draw">จั่วรอด / กู้สำเร็จ</button>
+          <button type="button" class="btn big" data-k="skip">ข้าม · จั่วก้นกอง</button>
+          <button type="button" class="btn big" data-k="super">ข้ามยาว</button>
+          <button type="button" class="btn big" data-k="reverse">กลับทิศ</button>
+          <button type="button" class="btn big red" data-k="atk2">โจมตี 2x</button>
+          <button type="button" class="btn big red" data-k="self3">โจมตีตัวเอง 3x</button>
+          <button type="button" class="btn big red" data-k="dead3">ฝูงผีบุก 3x/คนตาย</button>
+          <button type="button" class="btn big ink" data-k="boom">ระเบิดตาย</button>
+        </div>
+        <ol class="tk-log" id="k-log" reversed></ol>
+        <p class="note">“โจมตี 2x” ใช้ได้ทั้งโจมตีปกติและโจมตีระบุตัว (เลือกเป้าในช่องด้านบน ค่าเริ่มต้นคือคนถัดไป) · การ์ดที่ไม่เปลี่ยนตา เช่น ส่องอนาคต สับกอง ไม่ต้องกด · ข้อมูลเก็บในเบราว์เซอร์เครื่องนี้ ปิดหน้าแล้วเปิดใหม่ยังอยู่ (ถ้าเบราว์เซอร์อนุญาต)</p>
+      </div>
+    </section>
+
+    <!-- ODDS -->
+    <section id="odds">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น</span><h2>โอกาสระเบิดใบถัดไป</h2></div>
+      <div class="tool">
+        <p class="note">นับการ์ดในกองจั่ว (คู่มือ Zombie แนะนำให้นับ) แล้วใส่จำนวนแมวที่ยังอยู่ในกอง = แมวที่ใส่ตอนเริ่ม − คนที่ตายไปแล้ว (เกมหลัก) − แมวที่อยู่ในมือคนถือวิ่งแก้ผ้า</p>
+        <div class="tool-row">
+          <div><span class="field-l">การ์ดในกองจั่ว</span><div class="stepper"><button type="button" data-o="n-">−</button><output id="o-n">20</output><button type="button" data-o="n+">+</button></div></div>
+          <div><span class="field-l">แมวในกอง (ระเบิด/ปะทุ/เห่า)</span><div class="stepper"><button type="button" data-o="k-">−</button><output id="o-k">3</output><button type="button" data-o="k+">+</button></div></div>
+        </div>
+        <div class="meter" aria-hidden="true"><i id="o-bar"></i></div>
+        <div class="calc-out">
+          <div class="co hl"><small>ใบถัดไปเป็นแมว</small><b id="o-p1">15%</b></div>
+          <div class="co"><small>ถ้าต้องจั่ว 2 ใบติด (โดนโจมตี) อย่างน้อย 1 ตัว</small><b id="o-p2">28%</b></div>
+          <div class="co"><small>ค่าเฉลี่ย จั่วกี่ใบถึงเจอแมว</small><b id="o-avg">5.3</b></div>
+        </div>
+        <p class="note">ไม่รวมสิ่งที่คุณรู้จากส่องอนาคต และไม่นับเหมียวเห่าแยก (เห่าฆ่าตอนมีคนเล่น ไม่ใช่ตอนจั่ว ใส่รวมเฉพาะถ้าอยากนับเป็นใบอันตราย)</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>โดนโจมตี แล้วโจมตีต่อ คนถัดไปเล่น 2 หรือ 4 ตา</summary><p><b>4 ตา</b> เหยื่อที่โจมตีต่อส่งตาที่เหลือทั้งหมด + 2 ไปให้ ซ้อนอีกเป็น 6 · ถ้าเล่นตาแรกจบไปแล้ว เหลือ 1 ตา แล้วค่อยโจมตี คนถัดไปรับ 3 ตา (ตัวอย่างในคู่มือ Imploding)</p></details>
+        <details><summary>ใช้ข้าม 1 ใบตอนโดนโจมตี พ้นไหม</summary><p>ไม่พ้น ข้าม 1 ใบจบ 1 ตา ยังเหลืออีก 1 ตา ต้องใช้ 2 ใบหรือข้ามยาว 1 ใบ · <b>กลับทิศ</b>ตอนโดนโจมตีก็จบแค่ 1 ตาเหมือนกัน แต่ทิศเปลี่ยนแล้ว</p></details>
+        <details><summary>กู้ระเบิดได้ระหว่างโดนโจมตี จบตาทั้งหมดไหม</summary><p>ไม่ จบแค่ 1 ตา ยังต้องเล่นตาที่เหลือ</p></details>
+        <details><summary>Nope กู้ระเบิด หรือ Nope เหมียวระเบิดได้ไหม</summary><p>ไม่ได้ทั้งคู่ รวมถึงเหมียวซอมบี้ เหมียวปะทุ และเหมียวเห่าด้วย · Nope การ์ดตัวอื่นที่ใช้ตอนเรื่องแมว เช่น ตาทิพย์ หรือคอมโบขโมยกู้ระเบิด ได้ตามปกติ</p></details>
+        <details><summary>คู่การ์ดขโมยได้เฉพาะการ์ดแมวหรือเปล่า</summary><p>Original Edition รุ่นปัจจุบันและ Zombie Kittens เขียนว่า<b>การ์ดชื่อเดียวกันทุกชนิด</b> เป็นคู่ได้ เช่น Nope 2 ใบ หรือข้าม 2 ใบ (เล่นเป็นคอมโบ ข้อความบนการ์ดไม่ทำงาน) ถ้าคู่มือกล่องคุณรุ่นเก่ากว่าเขียนแค่การ์ดแมว ตกลงกันก่อนเล่น</p></details>
+        <details><summary>ขอหน่อย: ใครเลือกการ์ด</summary><p>คนที่<b>ถูกขอ</b>เป็นคนเลือกว่าจะให้ใบไหน ต่างจากคู่การ์ดที่สุ่มหยิบ</p></details>
+        <details><summary>เดินไปดูตอนคนอื่นใส่แมวคืนกองได้ไหม</summary><p>ไม่ได้ เว้นแต่ใช้<b>ตาทิพย์</b> (Zombie) ที่ให้ลุกไปยืนดูได้เลย คนใส่ถือกองไว้ใต้โต๊ะได้</p></details>
+        <details><summary>ขโมยไปเจอเหมียวระเบิดที่คนถือวิ่งแก้ผ้าเก็บไว้ ใครระเบิด</summary><p><b>คนที่ขโมย</b>ระเบิด ต้องกู้หรือตาย แล้วเล่นตาตัวเองต่อ เจ้าของเดิมปลอดภัย · ถ้าขโมยเหมียววิ่งแก้ผ้าไปแทน เจ้าของเดิมระเบิด</p></details>
+        <details><summary>Zombie: จั่วระเบิดแล้วมีเหมียวซอมบี้ ต้องใช้ไหม</summary><p>ไม่ต้อง เลือกตายได้ เพื่อหลบการจั่วและกันการขโมย แล้วรอให้มีคนชุบ แต่ถ้าเลือก<b>ใช้</b> และมีคนตายอยู่ ต้องชุบ 1 คน ไม่มีทางเลี่ยง</p></details>
+        <details><summary>Zombie: คนตายเล่นการ์ดอะไรได้บ้าง</summary><p>เฉพาะ Nope และการ์ดที่มีป้าย NOW (สับกอง ตาทิพย์ เลี้ยงผี และเปลี่ยนอนาคต NOW ของ Barking) · <b>โคลน</b>เล่นตอนตายไม่ได้ แม้จะวางทับการ์ด NOW ก็ตาม</p></details>
+        <details><summary>Apocalypse: เหมียวซอมบี้กันเหมียวปะทุได้ไหม</summary><p>ไม่ได้ เมื่อมันหงายอยู่ (แผ่นกติกาเขียนไว้ตรง ๆ) · ถ้าจั่วเหมียวปะทุตอนคว่ำ ก็ใส่คืนแบบหงายตามปกติ ไม่ต้องใช้อะไร</p></details>
+        <details><summary>Apocalypse + Streaking: ใส่แมว คน − 1 หรือเท่าจำนวนคน</summary><p>แผ่นกติกาเขียน “คน − 1” ส่วนคู่มือ Streaking บังคับ “เท่าจำนวนคน” แผ่น Apocalypse ไม่ได้แก้ข้อนี้ คู่มือนี้แนะนำ<b>เท่าจำนวนคน</b>เมื่อใส่เหมียววิ่งแก้ผ้า เพราะแมวที่ค้างในมือทำให้กองจั่วมีแมวไม่พอฆ่า เลือกแบบไหนก็ได้ แต่ตกลงก่อนแจก</p></details>
+        <details><summary>เหมียวเห่าเป็นเป้า แต่คนถือตายอยู่ (Apocalypse)</summary><p>คนตายไม่ต้องบอกว่าถือไว้ ทำเนียนได้ · ฟื้นแล้วค่อยเอาไปใช้เล่นงานคนที่มีเห่าวางหน้าตัว</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ้างอิง</span><h2>ชื่อการ์ดไทย-อังกฤษ</h2></div>
+      <p class="note">ชื่อไทยในคู่มือนี้แปลขึ้นเองให้เรียกง่ายตอนเล่น ไม่ใช่ชื่อจากฉบับภาษาไทยอย่างเป็นทางการ (ยกเว้นเหมียวระเบิดและเหมียวปะทุ ที่ร้านใช้กัน)</p>
+      <dl class="gl" id="gl"></dl>
+    </section>
+
+    <footer>
+      <p><b>แหล่งที่มา</b> (อ่านเมื่อ 14 พ.ย. 2569) · ทุกเนื้อหาเรียบเรียงใหม่เป็นภาษาไทย ไม่ได้แปลคำต่อคำ</p>
+      <ul>
+        <li>คู่มือ Exploding Kittens Original Edition · <a href="https://www.explodingkittens.com/pages/rules-kittens" target="_blank" rel="noopener">explodingkittens.com/pages/rules-kittens</a></li>
+        <li>คู่มือ Imploding Kittens (©2023) · <a href="https://www.explodingkittens.com/pages/rules-imploding-kittens" target="_blank" rel="noopener">explodingkittens.com/pages/rules-imploding-kittens</a></li>
+        <li>คู่มือ Streaking Kittens (©2023) · <a href="https://www.explodingkittens.com/pages/rules-streaking-kittens" target="_blank" rel="noopener">explodingkittens.com/pages/rules-streaking-kittens</a></li>
+        <li>คู่มือ Barking Kittens (©2023) · <a href="https://www.explodingkittens.com/pages/rules-barking-kittens" target="_blank" rel="noopener">explodingkittens.com/pages/rules-barking-kittens</a></li>
+        <li>คู่มือ Zombie Kittens (©2022) · <a href="https://ek-instructions.s3.amazonaws.com/ek-zombie-kittens/zombie-kittens-rules.pdf" target="_blank" rel="noopener">ek-instructions.s3.amazonaws.com/…/zombie-kittens-rules.pdf</a></li>
+        <li>แผ่นกติกา Zombie Apocalypse (©2024) · <a href="https://cdn.shopify.com/s/files/1/0345/9180/1483/files/EKG-ZOMB_Instructions_14MAR2024_Web.pdf" target="_blank" rel="noopener">cdn.shopify.com/…/EKG-ZOMB_Instructions_14MAR2024_Web.pdf</a></li>
+      </ul>
+      <p style="margin-top:8px">ป้าย <span class="flag house">ข้อแนะนำ</span> คือจุดที่คู่มือทางการไม่ได้เขียนไว้ตรง ๆ และคู่มือนี้สรุปเอง · ชื่อการ์ดแมวของเกมหลักและจำนวนการ์ดบางใบ ให้ตรวจกับการ์ดในกล่องอีกครั้ง หากพิมพ์ต่างรุ่น</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  // card data: [english, thai, count, text(html), flags]
+  const CARDS={
+    base:[
+      ['Exploding Kitten','เหมียวระเบิด','4','จั่วได้ต้องเปิดทันที ไม่มีกู้ระเบิด = ตกรอบ','kill'],
+      ['Defuse','กู้ระเบิด','6','เล่นแทนการระเบิด แล้วแอบใส่เหมียวระเบิดคืนกองตรงไหนก็ได้ จบตา',''],
+      ['Nope','ไม่!','5','หยุดการกระทำของการ์ดอื่น (ยกเว้นแมวและกู้ระเบิด) เล่นได้ทุกเมื่อก่อนการกระทำจะเริ่ม Nope ทับ Nope ได้','now'],
+      ['Attack (2x)','โจมตี','4','จบตาทันทีโดยไม่จั่ว คนถัดไปเล่น 2 ตาติด (ซ้อนได้ ดูหัวข้อโจมตีซ้อน)',''],
+      ['Skip','ข้าม','4','จบตาทันทีโดยไม่จั่ว (ตอนโดนโจมตีจบแค่ 1 ตา)',''],
+      ['Favor','ขอหน่อย','4','คนที่คุณเลือกต้องให้การ์ด 1 ใบ เขาเลือกเองว่าใบไหน',''],
+      ['Shuffle','สับกอง','4','สับกองจั่ว',''],
+      ['See the Future (3x)','ส่องอนาคต','5','แอบดู 3 ใบบนสุด แล้ววางคืนลำดับเดิม',''],
+      ['Cat Cards','การ์ดแมว','5 ลาย × 4','Tacocat, Cattermelon, Hairy Potato Cat, Beard Cat, Rainbow-Ralphing Cat · ใช้เดี่ยวไม่ได้ ต้องเล่นเป็นคอมโบ','']
+    ],
+    imp:[
+      ['Imploding Kitten','เหมียวปะทุ','1','จั่วครั้งแรก (คว่ำ) แอบใส่คืนกองแบบหงายหน้า ไม่ต้องกู้ · ต้องจั่วตอนหงาย = ตายทันที กู้ไม่ได้ Nope ไม่ได้','kill'],
+      ['Reverse','กลับทิศ','4','กลับทิศการเล่น และจบตาโดยไม่จั่ว · เล่น 2 คนเท่ากับข้าม',''],
+      ['Draw from the Bottom','จั่วจากก้นกอง','4','จบตาโดยจั่วใบล่างสุดแทน',''],
+      ['Alter the Future (3x)','เปลี่ยนอนาคต','4','แอบดู 3 ใบบนสุด เรียงใหม่ได้ตามใจ แล้ววางคืนคว่ำ',''],
+      ['Targeted Attack (2x)','โจมตีระบุตัว','3','จบตาโดยไม่จั่ว เลือกใครก็ได้ (รวมตัวเอง) ให้เล่น 2 ตาติด ซ้อนได้เหมือนโจมตี · เล่นต่อจากผู้ถูกเลือก',''],
+      ['Feral Cat','แมวจรจัด','4','ใช้แทนการ์ดแมวลายไหนก็ได้ในคอมโบ ใช้แทนการ์ดอื่นที่ไม่ใช่แมวไม่ได้','']
+    ],
+    str:[
+      ['Streaking Kitten','เหมียววิ่งแก้ผ้า','1','ถืออยู่ในมือ = เก็บเหมียวระเบิดไว้ในมือได้ 1 ตัวแบบไม่ระเบิด (ถือเหมียวปะทุไม่ได้)',''],
+      ['Exploding Kitten','เหมียวระเบิด','1','ตัวเพิ่ม ให้แมวในกองเท่าจำนวนคน','kill'],
+      ['Super Skip','ข้ามยาว','1','จบตาโดยไม่จั่ว ถ้าค้างหลายตา จบทั้งหมด',''],
+      ['See the Future (5x)','ส่องอนาคต 5','1','แอบดู 5 ใบบนสุด วางคืนลำดับเดิม',''],
+      ['Alter the Future (5x)','เปลี่ยนอนาคต 5','1','แอบดู 5 ใบบนสุด เรียงใหม่ วางคืน',''],
+      ['Swap Top and Bottom','สลับบน-ล่าง','3','สลับใบบนสุดกับใบล่างสุด โดยไม่ดู',''],
+      ['Garbage Collection','เก็บขยะ','1','ทุกคนที่มีการ์ด (รวมคนเล่น) เลือก 1 ใบในมือแอบใส่คืนกองจั่ว แล้วสับ · ใช้เหมียวระเบิดที่ถือไว้เป็นใบที่ใส่ได้',''],
+      ['Catomic Bomb','ระเบิดแคทอมิก','1','ดึงเหมียวระเบิดทั้งหมดออกจากกองให้ทุกคนเห็น สับกอง แล้ววางแมวทั้งหมดคว่ำไว้บนสุด จบตาโดยไม่จั่ว (ไม่ยุ่งกับเหมียวปะทุ)',''],
+      ['Mark','ประจาน','3','เลือกคนหนึ่ง สุ่มการ์ด 1 ใบในมือเขา หันหน้าออกให้ทุกคนเห็น ค้างไว้จนกว่าจะเล่นออกหรือถูกขโมย',''],
+      ['Curse of the Cat Butt','คำสาปก้นแมว','2','เป้าหมายคว่ำการ์ดในมือลงโต๊ะ สับ ห้ามดู จนกว่าจะจั่วรอด 1 ครั้ง ระหว่างนั้นเล่นการ์ดแบบสุ่มเปิด','']
+    ],
+    bark:[
+      ['Barking Kitten','เหมียวเห่า','2','วางหงายหน้าตัวแล้วถามหาอีกตัว คนที่ถือต้องกู้หรือระเบิด · ไม่มีใครถือ ใบนั้นค้างหน้าคุณ และคุณเป็นเป้าเมื่อมีคนเล่นตัวที่สอง · ยังเป็นตาคุณหลังเล่น','kill'],
+      ['Tower of Power','หอคอยแห่งพลัง','1','สวมมงกุฎ เอากองสมบัติ 6 ใบใส่มงกุฎ ใครขโมยจากคุณต้องสุ่มจากมงกุฎแทน สวมจนจบเกม',''],
+      ['Alter the Future (3x) NOW','เปลี่ยนอนาคต NOW','2','แอบดู 3 ใบบนสุด เรียงใหม่ เล่นได้ทุกเมื่อ ไม่เปลี่ยนว่าตาใคร (เล่นกลางการกระทำไม่ได้ เช่นระหว่างสับ)','now'],
+      ['Bury','ฝังคืน','2','จบตาโดยจั่ว 1 ใบ ดูแล้วแอบใส่คืนกองตรงไหนก็ได้ · เล่นไม่ได้ถ้ามี “ขอเอาไปนะ” วางอยู่หน้าคุณ',''],
+      ['Personal Attack (3x)','โจมตีตัวเอง','4','ตัวคุณเองเล่น 3 ตาติด · ถ้าระหว่างนั้นเล่นการโจมตีอื่น เป้ารับตาที่เหลือ + เลขบนการ์ด',''],
+      ['Share the Future (3x)','แบ่งอนาคต','2','ดู 3 ใบบนสุด เรียงใหม่ได้ แล้วให้คนถัดไปดูด้วย วางคืน เล่นตาต่อ',''],
+      ['I\'ll Take That','ขอเอาไปนะ','4','วางหงายหน้าคนอื่น ครั้งหน้าที่เขาจั่ว ต้องดูแล้วยกการ์ดนั้นให้คุณ (ถ้าเป็นเหมียวระเบิด คุณต้องกู้หรือตาย) ถือว่าเขาจั่วจบตาแล้ว · วางซ้อนคนที่มีอยู่แล้วไม่ได้',''],
+      ['Super Skip','ข้ามยาว','1','จบตาโดยไม่จั่ว ถ้าค้างหลายตา จบทั้งหมด',''],
+      ['Potluck','ปาร์ตี้ลงขัน','2','เริ่มจากคุณ ตามทิศการเล่น ทุกคนที่มีการ์ดวาง 1 ใบที่เลือกเองคว่ำบนกองจั่ว','']
+    ],
+    zom:[
+      ['Exploding Kitten','เหมียวระเบิด','4','ต้องเปิดทันที ไม่มีเหมียวซอมบี้ = ตาย วางแมวหงายหน้าตัว เก็บการ์ดในมือไว้','kill'],
+      ['Zombie Kitten','เหมียวซอมบี้','2 / 3','เล่นแทนการระเบิด (ไม่บังคับ) ถ้ามีคนตาย ต้องชุบ 1 คน แล้วแอบใส่แมวของคุณและแมวหน้าคนตายคืนกองคนละจุด จบตา · Nope ไม่ได้',''],
+      ['Attack (2x)','โจมตี','2 / 0','จบตาโดยไม่จั่ว คนถัดไปเล่น 2 ตาติด ซ้อนได้',''],
+      ['Attack of the Dead','ฝูงผีบุก','0 / 3','จบตาโดยไม่จั่ว คนถัดไปเล่น 3 ตาต่อคนตาย 1 คน ซ้อนได้ · ไม่มีคนตายเล่นไม่ได้',''],
+      ['Nope','ไม่!','2 / 3','หยุดการกระทำ ยกเว้นเหมียวระเบิดและเหมียวซอมบี้ · คนตายเล่นได้','now'],
+      ['Skip','ข้าม','1 / 2','จบตาโดยไม่จั่ว (ตอนโดนโจมตีจบ 1 ตา)',''],
+      ['Super Skip','ข้ามยาว','1 / 1','จบตาโดยไม่จั่ว ค้างกี่ตาจบหมด',''],
+      ['See the Future (3x)','ส่องอนาคต','2 / 2','แอบดู 3 ใบบนสุด วางคืนลำดับเดิม',''],
+      ['Shuffle','สับกอง','1 / 1','สับกองจั่ว · เล่นได้ทุกเมื่อ คนตายเล่นได้','now'],
+      ['Clairvoyance','ตาทิพย์','1 / 1','เล่นหลังมีคนกันระเบิดได้ ลุกไปดูได้ว่าเขาใส่แมวคืนตรงไหน · คนตายเล่นได้','now'],
+      ['Feed the Dead','เลี้ยงผี','0 / 2','เลือกคนตาย 1 คน ทุกคนที่มีชีวิตและมีการ์ด (ยกเว้นคุณ) ต้องให้การ์ดที่เลือกเองคนละ 1 ใบแก่เขา · ไม่มีคนตายเล่นไม่ได้ · คนตายเล่นได้','now'],
+      ['Grave Robber','โจรขุดหลุม','0 / 1','คนตายทุกคนที่มีการ์ด เลือก 1 ใบสับเข้ากองจั่ว (ช่วยเจือจางแมวตอนท้ายเกม) · ไม่มีคนตายเล่นไม่ได้',''],
+      ['Dig Deeper','ขุดลึก','2 / 2','จั่วใบบนสุดมาดู จะเก็บก็ได้ ถ้าไม่เก็บต้องจั่วใบถัดไปไม่ว่าจะเป็นอะไร แล้ววางใบแรกคืนบนสุด จบตา',''],
+      ['Clone','โคลน','1 / 2','วางทับการ์ดบนกองทิ้ง แล้วกลายเป็นการ์ดใบนั้น · ทับโคลนไม่ได้ · เล่นนอกตาหรือตอนตายไม่ได้ · ทับการ์ดแมวที่ตัวเองเพิ่งเล่น = นับเป็นคู่',''],
+      ['Favor','ขอหน่อย','1 / 2','คนที่ถูกเลือกให้การ์ด 1 ใบที่เขาเลือก · เล็งคนตายไม่ได้',''],
+      ['Cat Cards','การ์ดแมว','8 / 8','4 ลาย ลายละ 4 ใบ (เช่น De-Cat-Ipated) · คู่ขโมยสุ่มจากคนมีชีวิต','']
+    ]
+  };
+  document.querySelectorAll('tbody[data-cards]').forEach(tb=>{
+    tb.innerHTML=CARDS[tb.dataset.cards].map(c=>`<tr><td class="cardname"><b>${esc(c[1])}</b><span class="en">${esc(c[0])}</span></td><td class="num">${esc(c[2])}</td><td>${c[3]}${c[4]==='now'?'<span class="now">NOW</span>':''}${c[4]==='kill'?'<span class="kill">ฆ่าได้</span>':''}</td></tr>`).join('');
+  });
+  // glossary
+  const seen=new Set(),gl=[];
+  const boxName={base:'เกมหลัก',imp:'Imploding',str:'Streaking',bark:'Barking',zom:'Zombie'};
+  Object.keys(CARDS).forEach(k=>CARDS[k].forEach(c=>{const key=c[0]+c[1];if(seen.has(key))return;seen.add(key);gl.push([c[1],c[0],boxName[k]]);}));
+  gl.push(['กรวยแห่งความอับอาย','Cone of Shame','Imploding'],['กองสมบัติ','The Stash','Barking'],['คนตาย / คนมีชีวิต','Dead / Living player','Zombie']);
+  $('#gl').innerHTML=gl.map(g=>`<dt>${esc(g[0])}</dt><dd>${esc(g[1])} <span class="en">· ${esc(g[2])}</span></dd>`).join('');
+
+  // apocalypse table
+  const TRIM={2:15,3:20,4:25,5:30};
+  let at='';for(let p=2;p<=9;p++){at+=`<tr><td class="num">${p}</td><td class="num">${Math.min(p,5)}</td><td class="num">${p>5?p-5:'–'}</td><td class="num">${TRIM[p]||35}</td><td class="num">${p-1}</td></tr>`;}
+  $('#apoc-table').innerHTML=at;
+
+  /* ---------- setup helper ---------- */
+  const H={mode:'apoc',p:7};
+  const modeRange={classic:[2,6],zombie:[2,5],apoc:[2,9]};
+  function renderPlayers(){
+    const [lo,hi]=modeRange[H.mode];
+    if(H.p<lo)H.p=lo; if(H.p>hi)H.p=hi;
+    let h='';for(let p=2;p<=9;p++)h+=`<button type="button" data-v="${p}" aria-pressed="${p===H.p}" ${p<lo||p>hi?'disabled':''}>${p}</button>`;
+    $('#h-players').innerHTML=h;
+  }
+  function co(label,val,hl){return `<div class="co${hl?' hl':''}"><small>${label}</small><b>${val}</b></div>`;}
+  function calc(){
+    renderPlayers();
+    const p=H.p, imp=$('#h-imp').checked, str=$('#h-str').checked, bark=$('#h-bark').checked;
+    const expWrap=$('#h-exps');
+    expWrap.hidden=H.mode==='zombie';
+    $('#h-plus-wrap').hidden=H.mode!=='apoc'||!str;
+    const out=[],notes=[];
+    if(H.mode==='classic'){
+      const kittens=p-1+(str?1:0), ik=imp?1:0, ek=kittens-ik, ekAvail=4+(str?1:0);
+      const back=p===2?2:6-p;
+      let deck=46+(imp?19:0)+(str?14:0)+(bark?19:0)+back-(bark?6:0)-7*p+(bark?1:0)+kittens;
+      out.push(co('แจกกู้ระเบิด','คนละ 1'));
+      out.push(co('กู้ระเบิดใส่คืนกอง',back+' ใบ'));
+      out.push(co('เหมียวระเบิด',ek+' ใบ',true));
+      if(imp)out.push(co('เหมียวปะทุ','1 ใบ',true));
+      if(bark)out.push(co('กองสมบัติ (คว่ำ)','6 ใบ'));
+      out.push(co('กองจั่วเริ่มเกม','≈ '+deck+' ใบ'));
+      notes.push(`แมวในกองรวม ${kittens} ตัว = ${str?'จำนวนคน (เพราะมี Streaking)':'จำนวนคน − 1'}${imp?' นับเหมียวปะทุแล้ว':''}`);
+      if(bark)notes.push('มีเหมียวเห่า 2 ตัวในกองด้วย ฆ่าได้ตอนมีคนเล่น ไม่ได้นับรวมในจำนวนแมวข้างบน');
+      if(ek>ekAvail)notes.push(`<li class="warn">เหมียวระเบิดไม่พอ ต้องใช้ ${ek} มี ${ekAvail}`);
+      if(p===6&&!imp&&str)notes.push('6 คนแบบไม่มี Imploding ต้องใช้เหมียวระเบิด 6 ตัว มีแค่ 5');
+      notes.push('7 คนขึ้นไป กู้ระเบิด 6 ใบไม่พอแจก ให้เปลี่ยนเป็นโหมด Zombie Apocalypse');
+      if(p===2)notes.push('2 คน: ใส่กู้ระเบิดคืนแค่ 2 ใบ อีก 2 ใบเก็บกล่อง');
+    }else if(H.mode==='zombie'){
+      const set=p===2?24:p===3?33:57;
+      const deck=set-p-7*p+(p-1);
+      out.push(co('ชุดการ์ดที่ใช้',p===2?'มีอุ้งเท้า':p===3?'ไม่มีอุ้งเท้า':'ทั้งหมด'));
+      out.push(co('แจกเหมียวซอมบี้','คนละ 1'));
+      out.push(co('เหมียวระเบิด',(p-1)+' ใบ',true));
+      out.push(co('กองจั่วเริ่มเกม','≈ '+deck+' ใบ'));
+      if(p===4)notes.push('เหมียวซอมบี้เหลือ 1 ใบ สับคืนเข้ากอง');
+      notes.push('คนตายเก็บมือไว้ เล่นได้แค่ Nope และการ์ด NOW · คอมโบเล็งคนตายไม่ได้');
+    }else{
+      const zk=Math.min(p,5), df=Math.max(0,p-5), trim=TRIM[p]||35;
+      const plus=str&&$('#h-plus').checked?1:0;
+      const kittens=p-1+plus, ik=imp?1:0, ek=kittens-ik, ekAvail=8+(str?1:0);
+      out.push(co('เหมียวซอมบี้',zk+' ใบ'));
+      out.push(co('กู้ระเบิด (เกมหลัก)',df?df+' ใบ':'ไม่ใช้'));
+      out.push(co('ตัดกองจั่วเหลือ',trim+' ใบ'));
+      out.push(co('เหมียวระเบิด',ek+' ใบ',true));
+      if(imp)out.push(co('เหมียวปะทุ','1 ใบ',true));
+      if(bark)out.push(co('กองสมบัติ (คว่ำ)','6 ใบ'));
+      out.push(co('กองจั่วเริ่มเกม',(trim+kittens+(bark?1:0))+' ใบ'));
+      notes.push(`สับเหมียวซอมบี้ ${zk}${df?' + กู้ระเบิด '+df:''} ใบ แจกคนละ 1 · ที่เหลือเก็บกล่อง`);
+      notes.push('เอาเหมียวระเบิดออกจากทั้งสองกอง และเอาการ์ดแมวของเกมหลักออกทั้งหมด');
+      notes.push(`แจกคนละ 7 แล้วสุ่มตัดกองจั่วให้เหลือ ${trim} ใบ ก่อนใส่แมว`);
+      if(plus)notes.push('แผ่นกติกา Apocalypse เขียน คน − 1 · ที่บวก 1 คือข้อแนะนำเพราะมี Streaking (ปิดช่องติ๊กเพื่อใช้ตัวเลขทางการ)');
+      if(bark)notes.push('แจกกองสมบัติ 6 ใบจากกองรวมก่อนแจกมือ · ใส่การ์ดหอคอยพร้อมแมวหลังตัดกอง (ข้อแนะนำ)');
+      if(imp)notes.push('เหมียวซอมบี้ใช้กับเหมียวปะทุที่หงายอยู่ไม่ได้');
+      if(p===2)notes.push('2 คน: พอคนหนึ่งตาย อีกคนชนะทันที โหมดนี้สนุกเมื่อ 3 คนขึ้นไป');
+      if(ek>ekAvail)notes.push(`<li class="warn">เหมียวระเบิดไม่พอ ต้องใช้ ${ek} มี ${ekAvail}`);
+    }
+    $('#h-out').innerHTML=out.join('');
+    $('#h-notes').innerHTML=notes.map(n=>n.startsWith('<li')?n+'</li>':`<li>${n}</li>`).join('');
+  }
+  $('#h-mode').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;H.mode=b.dataset.v;document.querySelectorAll('#h-mode button').forEach(x=>x.setAttribute('aria-pressed',x===b));calc();});
+  $('#h-players').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;H.p=+b.dataset.v;calc();});
+  ['#h-imp','#h-str','#h-bark','#h-plus'].forEach(s=>$(s).addEventListener('change',calc));
+  calc();
+
+  /* ---------- turn keeper ---------- */
+  const KEY='ek-th-keeper-v1';
+  let S, hist=[];
+  function fresh(names){return {pl:names.map(n=>({n,dead:false})),cur:0,dir:1,owed:1,victim:false,log:['เริ่มเกม · '+names[0]+' เริ่ม']};}
+  function parseNames(){const a=$('#k-names').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean).slice(0,10);return a.length>=2?a:['ผู้เล่น 1','ผู้เล่น 2'];}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function load(){try{const v=JSON.parse(localStorage.getItem(KEY)||'null');if(v&&v.pl&&v.pl.length>=2)return v;}catch(e){}return null;}
+  function alive(){return S.pl.filter(p=>!p.dead).length;}
+  function nextFrom(i){const n=S.pl.length;for(let k=1;k<=n;k++){const j=((i+S.dir*k)%n+n)%n;if(!S.pl[j].dead)return j;}return i;}
+  function push(){hist.push(JSON.stringify(S));if(hist.length>60)hist.shift();}
+  function log(t){S.log.unshift(t);if(S.log.length>40)S.log.pop();}
+  function advance(){S.cur=nextFrom(S.cur);S.owed=1;S.victim=false;}
+  function endOne(){S.owed-=1;if(S.owed<=0)advance();}
+  function act(k){
+    if(alive()<=1)return;
+    push();
+    const me=S.pl[S.cur].n;
+    const tv=$('#k-target').value;
+    const tgt=tv==='next'?nextFrom(S.cur):+tv;
+    if(k==='draw'){endOne();log(me+' จั่วรอด / กู้สำเร็จ');}
+    else if(k==='skip'){endOne();log(me+' ข้าม');}
+    else if(k==='super'){advance();log(me+' ข้ามยาว');}
+    else if(k==='reverse'){S.dir*=-1;endOne();log(me+' กลับทิศ → '+(S.dir===1?'ตามเข็ม':'ทวนเข็ม'));}
+    else if(k==='atk2'||k==='self3'||k==='dead3'){
+      const deadN=S.pl.filter(p=>p.dead).length;
+      if(k==='dead3'&&deadN===0){hist.pop();flash('ฝูงผีบุกเล่นไม่ได้ ยังไม่มีคนตาย');return;}
+      const n=k==='atk2'?2:k==='self3'?3:3*deadN;
+      const to=k==='self3'?S.cur:tgt;
+      const total=(S.victim?S.owed:0)+n;
+      S.cur=to;S.owed=total;S.victim=true;
+      log(me+(k==='self3'?' โจมตีตัวเอง':k==='dead3'?' ฝูงผีบุก':' โจมตี')+' → '+S.pl[to].n+' เล่น '+total+' ตา');
+    }
+    else if(k==='boom'){S.pl[S.cur].dead=true;log(me+' ระเบิดตาย');advance();}
+    finish();
+  }
+  function flash(t){S.log.unshift('⚠ '+t);render();S.log.shift();}
+  function finish(){
+    if(alive()===1){const w=S.pl.find(p=>!p.dead);log('🏆 '+w.n+' ชนะ');}
+    save();render();
+  }
+  function render(){
+    const a=alive();
+    const cur=S.pl[S.cur];
+    $('#k-now').innerHTML=a===1?`<small>จบเกม</small>${esc(S.pl.find(p=>!p.dead).n)} ชนะ`:`<small>ตาของ · ${S.dir===1?'ตามเข็มนาฬิกา ↻':'ทวนเข็มนาฬิกา ↺'}</small>${esc(cur.n)}`;
+    $('#k-owed').textContent=a===1?'–':S.owed;
+    $('#k-ring').innerHTML=S.pl.map((p,i)=>`<span class="pl${i===S.cur&&a>1?' cur':''}${p.dead?' dead':''}"><button type="button" class="nm" data-cur="${i}" title="ให้เป็นตาของคนนี้">${esc(p.n)}</button><button type="button" data-tog="${i}">${p.dead?'ฟื้น':'ตาย'}</button></span>`).join('<span aria-hidden="true" style="align-self:center;color:var(--muted)">'+(S.dir===1?'→':'←')+'</span>');
+    const opts=['<option value="next">คนถัดไป</option>'].concat(S.pl.map((p,i)=>p.dead?'':`<option value="${i}">${esc(p.n)}${i===S.cur?' (ตัวเอง)':''}</option>`));
+    const keep=$('#k-target').value;
+    $('#k-target').innerHTML=opts.join('');
+    if([...$('#k-target').options].some(o=>o.value===keep))$('#k-target').value=keep;
+    $('#k-log').innerHTML=S.log.slice(0,12).map(t=>`<li>${esc(t)}</li>`).join('');
+    $('#k-undo').disabled=!hist.length;
+  }
+  S=load();
+  if(S){$('#k-names').value=S.pl.map(p=>p.n).join(', ');}else{S=fresh(parseNames());}
+  render();
+  document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>act(b.dataset.k)));
+  $('#k-new').addEventListener('click',()=>{push();S=fresh(parseNames());save();$('#k-target').value='next';render();});
+  $('#k-undo').addEventListener('click',()=>{if(!hist.length)return;S=JSON.parse(hist.pop());save();render();});
+  $('#k-ring').addEventListener('click',e=>{
+    const t=e.target.closest('button');if(!t)return;
+    push();
+    if(t.dataset.tog!=null){const i=+t.dataset.tog;const p=S.pl[i];p.dead=!p.dead;log(p.n+(p.dead?' ตาย':' ฟื้นคืนชีพ'));if(p.dead&&i===S.cur)advance();}
+    else if(t.dataset.cur!=null){const i=+t.dataset.cur;if(S.pl[i].dead){hist.pop();return;}S.cur=i;S.owed=1;S.victim=false;log('เปลี่ยนเป็นตาของ '+S.pl[i].n);}
+    finish();
+  });
+
+  /* ---------- odds ---------- */
+  const O={n:20,k:3};
+  function odds(){
+    if(O.k>O.n)O.k=O.n;
+    $('#o-n').textContent=O.n;$('#o-k').textContent=O.k;
+    const p1=O.n?O.k/O.n:0;
+    const p2=O.n>=2?1-((O.n-O.k)/O.n)*((O.n-O.k-1)/(O.n-1)):p1;
+    const avg=O.k?(O.n+1)/(O.k+1):null;
+    $('#o-p1').textContent=Math.round(p1*100)+'%';
+    $('#o-p2').textContent=Math.round(Math.max(0,Math.min(1,p2))*100)+'%';
+    $('#o-avg').textContent=avg?avg.toFixed(1)+' ใบ':'ไม่มีแมว';
+    $('#o-bar').style.width=(p1*100)+'%';
+  }
+  document.querySelectorAll('[data-o]').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.o;
+    if(v==='n+')O.n=Math.min(200,O.n+1);if(v==='n-')O.n=Math.max(1,O.n-1);
+    if(v==='k+')O.k=Math.min(O.n,O.k+1);if(v==='k-')O.k=Math.max(0,O.k-1);
+    odds();
+  }));
+  odds();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,935 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Monopoly ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@500;600&family=Sarabun:wght@400;600;700&family=Chakra+Petch:wght@500;600;700&display=swap">
+<style>
+/* Layout: mint "board felt" page, dark-green hero with a drawn mini board; reading column with sticky chapter rail; full 40-space UK board drawn in SVG and clickable; tools (rent, mortgage, bank stock, net worth) near the end. */
+:root{
+  --bg:#eef5ef;
+  --surface:#fbfdfb;
+  --surface-2:#dde9df;
+  --fg:#14291f;
+  --muted:#53685c;
+  --line:#c5d6c9;
+  --accent:#c42a20;
+  --accent-soft:#f8e1dc;
+  --mint:#cfe6d3;
+  --gold:#c99a1c;
+  --gold-soft:#f6ecd0;
+  --blue-soft:#dde9f6;
+  --band-1:#0f2a20; --band-2:#1d4635; --band-fg:#f1f7f0; --spot:#f2c84b;
+  --good:#1f7f45; --bad:#b8352a;
+  --g-brown:#8b5a2b; --g-lb:#9fd3ef; --g-pink:#d23c93; --g-orange:#ef8a1b; --g-red:#dd2a2a; --g-yellow:#f1d21a; --g-green:#1e9a4c; --g-db:#1f56a8;
+  --board:#d6eadb; --board-ink:#14291f;
+  --font-display:"Mitr","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1813;--surface:#13221b;--surface-2:#1c3027;--fg:#e4efe6;--muted:#9fb5a7;--line:#2b4237;
+    --accent:#ff7a6b;--accent-soft:#3a1a16;--mint:#1b3328;--gold:#f0c24f;--gold-soft:#332a10;--blue-soft:#162638;
+    --band-1:#06110c;--band-2:#14332a;
+    --good:#5fd08a;--bad:#ff7466;
+    --board:#1e3a2d;--board-ink:#e4efe6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1813;--surface:#13221b;--surface-2:#1c3027;--fg:#e4efe6;--muted:#9fb5a7;--line:#2b4237;
+  --accent:#ff7a6b;--accent-soft:#3a1a16;--mint:#1b3328;--gold:#f0c24f;--gold-soft:#332a10;--blue-soft:#162638;
+  --band-1:#06110c;--band-2:#14332a;
+  --good:#5fd08a;--bad:#ff7466;
+  --board:#1e3a2d;--board-ink:#e4efe6;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75;margin:0}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.7rem}
+h3{font-size:1.12rem}
+p{margin:0}
+.m{font-family:var(--font-tag);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:radial-gradient(ellipse at 85% 10%,#2f6b50 0%,transparent 60%),linear-gradient(165deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.3rem,5.6vw,3.5rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.4em;color:var(--spot);margin-top:4px}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:35em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:700;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:380px;margin-inline:auto}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#14291f}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a.hot{color:var(--accent);font-weight:600}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.85em;color:var(--muted);font-weight:400}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.mint{background:var(--mint)} .callout.gold{background:var(--gold-soft)} .callout.blue{background:var(--blue-soft)}
+.callout h3{font-size:1.08rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--gold-soft);color:var(--fg);border:1px solid var(--gold)}
+.flag.th{background:var(--accent-soft);border-color:var(--accent)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body);fill:var(--fg)}
+svg .tagf{font-family:var(--font-tag);font-weight:700}
+svg .mut{fill:var(--muted)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.chipc{width:16px;height:16px;border-radius:4px;display:inline-block;flex:none;border:1px solid rgba(0,0,0,.25);vertical-align:middle}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:700;font-size:1.05rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.08rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:right}
+table.cmp td:nth-child(2){background:color-mix(in srgb,var(--accent-soft) 55%,transparent)}
+table.cmp td:nth-child(3){background:color-mix(in srgb,var(--mint) 55%,transparent)}
+table.rent td,table.rent th{padding:7px 10px}
+table.rent td:first-child{white-space:nowrap}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+select,input[type=number],input[type=text]{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:6px 10px;min-height:38px;max-width:100%}
+input[type=number]{width:120px;font-family:var(--font-tag);font-weight:600}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)} .co.hl b{color:var(--accent)}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+.stock{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.stk{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.stk b{font-family:var(--font-tag);font-size:1.8rem;font-weight:700;min-width:2.4ch;text-align:center;font-variant-numeric:tabular-nums}
+.stk .lbl{flex:1;min-width:90px}
+.stk .btn{min-width:44px}
+.nw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 14px}
+.nw-row{display:flex;align-items:center;gap:8px;min-width:0}
+.nw-row label{flex:1;min-width:0;font-size:.92rem;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nw-row select{font-size:.85rem;padding:3px 6px;min-height:32px}
+.rank{margin:0;padding-left:1.4em;display:grid;gap:4px}
+.rank li b{font-family:var(--font-tag)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.cellinfo{display:grid;gap:8px;background:var(--surface-2);border-radius:12px;padding:12px 14px;min-height:84px}
+.cellinfo h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#board-svg .cell{cursor:pointer}
+#board-svg .cell:hover rect.bg,#board-svg .cell:focus rect.bg{fill:var(--gold-soft)}
+#board-svg .cell.sel rect.bg{fill:var(--gold-soft);stroke:var(--accent);stroke-width:2.5}
+#board-svg .cell:focus{outline:none}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.02rem;font-weight:500}
+details[open] summary{margin-bottom:8px}
+details p+p{margin-top:6px}
+.faq{display:grid;gap:8px}
+.faq-group{font-family:var(--font-tag);font-size:.82rem;color:var(--accent);letter-spacing:.06em;margin-top:10px}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:500}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · Monopoly ภาคหลัก (Hasbro C1009) · กระดานฉบับอังกฤษ ถนนในลอนดอน</div>
+      <h1>Monopoly<span>โมโนโพลี · เกมเศรษฐีต้นฉบับ แบบกติกาทางการ</span></h1>
+      <p class="lede">เดินรอบกระดาน ซื้อที่ดิน เก็บสีให้ครบชุด สร้างบ้านและโรงแรม แล้วเก็บค่าเช่าจนคู่แข่งล้มละลายทีละคน คนสุดท้ายที่ยังเหลือเงินชนะ หน้านี้แปลจากคู่มือทางการ และชี้ทุกจุดที่<b>ต่างจากเกมเศรษฐีแบบที่คนไทยคุ้นมือ</b></p>
+      <div class="facts">
+        <div class="fact"><b>2–6</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>8+</b><small>ปี</small></div>
+        <div class="fact"><b>M1,500</b><small>เงินตั้งต้นต่อคน</small></div>
+        <div class="fact"><b>40</b><small>ช่องบนกระดาน</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:var(--spot)">กติกาทางการ ไม่มีกฎบ้าน</span>
+        <span class="xb" style="background:#9fd3ef">มีตารางค่าเช่าครบ 28 โฉนด</span>
+        <span class="xb" style="background:#f2a7a0">เทียบเกมเศรษฐีไทยทุกข้อ</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 320 280" id="heroart"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#thai" class="hot">ต่างจากเกมเศรษฐีไทย</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#board">กระดาน 40 ช่อง</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">เล่นหนึ่งตา</a></li>
+      <li><a href="#spaces">ช่องพิเศษ</a></li>
+      <li><a href="#buy">ซื้อที่ & ประมูล</a></li>
+      <li><a href="#rent">ค่าเช่า</a></li>
+      <li><a href="#build">บ้านและโรงแรม</a></li>
+      <li><a href="#jail">คุก</a></li>
+      <li><a href="#mortgage">จำนอง</a></li>
+      <li><a href="#deals">ซื้อขายแลกเปลี่ยน</a></li>
+      <li><a href="#broke">จ่ายไม่ไหว & ล้มละลาย</a></li>
+      <li><a href="#end">ผู้ชนะ & จบแบบจับเวลา</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#rentcalc">คิดค่าเช่า</a></li>
+      <li><a href="#rents">ตารางค่าเช่าทั้งหมด</a></li>
+      <li><a href="#stock">บ้าน/โรงแรมในธนาคาร</a></li>
+      <li><a href="#networth">นับทรัพย์สินตอนจบ</a></li>
+      <li><a href="#faq" class="hot">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout mint">
+        <h3>ตาของคุณ</h3>
+        <ol>
+          <li><b>ทอยลูกเต๋า 2 ลูก</b> เดินตามเข็มนาฬิกา แล้วทำตามช่องที่หยุด</li>
+          <li>หยุดที่ดิน<b>ไม่มีเจ้าของ</b> → ซื้อตามราคา หรือ<b>ต้องเปิดประมูล</b> (ข้ามเฉย ๆ ไม่ได้)</li>
+          <li>หยุดที่ดิน<b>คนอื่น</b> → จ่ายค่าเช่า ถ้าเจ้าของทวงทันก่อนคนถัดไปทอย</li>
+          <li>ทอยได้<b>เลขคู่</b> → เล่นอีกตา · คู่ 3 ครั้งติด → <b>เข้าคุกทันที</b></li>
+        </ol>
+      </div>
+      <div class="callout">
+        <h3>หัวใจของเกม</h3>
+        <p>ได้<b>ครบทุกช่องในสีเดียวกัน</b>เมื่อไร ค่าเช่าที่ว่างคูณ 2 และ<b>สร้างบ้านได้ทันทีเมื่อไรก็ได้</b> (ไม่ต้องรอตาตัวเอง) สร้างเฉลี่ยทุกช่องเท่า ๆ กัน บ้านครบ 4 หลังค่อยอัปเป็นโรงแรม · เงินไม่พอจ่าย ขายบ้านคืนครึ่งราคา จำนองที่ดิน ถ้ายังไม่พอ = ล้มละลาย ออกจากเกม · <b>เหลือคนสุดท้ายคือผู้ชนะ</b></p>
+      </div>
+      <p class="note">กล่องนี้เป็นภาคหลัก (รหัส C1009) ที่ใช้ชื่อถนนในลอนดอน เงินใช้สัญลักษณ์ <span class="m">M</span> (Monopoly money) · Monopoly ภาคอื่น (ฉบับเมือง ฉบับการ์ตูน Deal, Junior ฯลฯ) มีกติกาเพิ่มหรือต่างไป หน้านี้ครอบคลุมเฉพาะภาคหลัก</p>
+    </section>
+
+    <!-- THAI -->
+    <section id="thai">
+      <div class="sec-head"><span class="tag">อ่านก่อนเล่นกับคนไทย</span><h2>ต่างจากเกมเศรษฐีที่เราคุ้นยังไง</h2></div>
+      <p class="prose">เกมเศรษฐีที่ขายในไทยมีกติกาของตัวเอง และหลายบ้านเล่นตามกฎที่ส่งต่อกันมา คอลัมน์ซ้ายคือ “ที่หลายวงคุ้น” (ไม่ใช่กติกาของ Monopoly) คอลัมน์ขวาคือคู่มือ Monopoly ทางการ ถ้าจะเล่นกล่องนี้ให้ตกลงกันก่อนเริ่มว่าใช้แบบขวา</p>
+      <div class="tbl-wrap">
+        <table class="cmp">
+          <thead><tr><th>เรื่อง</th><th>ที่หลายวงคุ้นจากเกมเศรษฐีไทย</th><th>Monopoly ทางการ (กล่องนี้)</th></tr></thead>
+          <tbody>
+            <tr><td><b>ไม่อยากซื้อที่</b></td><td>ไม่ซื้อก็ผ่านไป ที่ยังว่าง</td><td><b>ต้องประมูล</b>ทันที เริ่มที่ <span class="m">M10</span> ทุกคนรวมคนที่ไม่ซื้อประมูลได้</td></tr>
+            <tr><td><b>สร้างบ้าน</b></td><td>สร้างตอนเดินตกที่ตัวเอง ทีละหลัง ไม่ต้องครบสี</td><td>ต้อง<b>ครบสี</b>ก่อน แล้วสร้างได้<b>ทุกเมื่อ</b> แม้ไม่ใช่ตาตัวเอง และต้องสร้าง<b>เฉลี่ยเท่ากัน</b></td></tr>
+            <tr><td><b>ช่องจอดรถฟรี</b></td><td>ภาษีและค่าปรับกองกลาง ใครตกได้ทั้งกอง</td><td><b>ไม่มีอะไรเกิดขึ้น</b> ค่าภาษีจ่ายเข้าธนาคาร คู่มือเตือนตรง ๆ ว่าห้ามกองเงินกลางกระดาน</td></tr>
+            <tr><td><b>หยุดพอดีที่ GO</b></td><td>ได้เงินเดือนสองเท่า</td><td>ได้ <span class="m">M200</span> เท่ากันทั้งผ่านและหยุด</td></tr>
+            <tr><td><b>ค่าเช่า</b></td><td>ตกแล้วต้องจ่ายเสมอ</td><td>เจ้าของต้อง<b>ทวงเอง</b> ถ้าลืมจนคนถัดไปทอยเต๋า <b>ไม่ต้องจ่าย</b></td></tr>
+            <tr><td><b>ติดคุก</b></td><td>หยุดทุกอย่าง บางวงเก็บค่าเช่าไม่ได้</td><td>ยัง<b>เก็บค่าเช่า ประมูล สร้างบ้าน จำนอง แลกเปลี่ยน</b>ได้ตามปกติ</td></tr>
+            <tr><td><b>ยืมเงินกัน / ดีลไม่เก็บค่าเช่า</b></td><td>ยืมกันได้ ช่วยเพื่อนได้</td><td>คู่มือแนะนำ<b>ห้ามให้ยืมเงิน</b> และห้ามตกลงยกเว้นค่าเช่ากัน แลกได้แค่เงิน โฉนด การ์ดออกคุก</td></tr>
+            <tr><td><b>รอบแรก</b></td><td>บางวงต้องเดินครบรอบก่อนถึงซื้อได้</td><td>ไม่มีกฎนี้ ซื้อได้ตั้งแต่ตาแรก</td></tr>
+            <tr><td><b>ขายบ้าน</b></td><td>ขายต่อให้เพื่อนได้</td><td>ขายคืน<b>ธนาคารเท่านั้น</b> ได้<b>ครึ่งราคา</b></td></tr>
+            <tr><td><b>จบเกม</b></td><td>หมดเวลาแล้วนับเงินสด</td><td>เล่นจน<b>เหลือคนเดียว</b> (อยากจับเวลา ดู <a href="#end">จบแบบจับเวลา</a> ซึ่งเป็นกฎบ้าน)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout gold">
+        <h3>ทำไมคู่มือถึงย้ำเรื่องนี้</h3>
+        <p>หน้าแรกของคู่มือมีกล่อง “เคล็ดลับ” บอกว่า ถ้าอยากให้เกมสั้นและสนุก <b>อย่าใช้กฎบ้าน</b>: ประมูลทุกครั้งที่มีคนไม่ซื้อ ห้ามให้ยืมเงิน ห้ามดีลไม่เก็บค่าเช่า และห้ามกองเงินที่ช่องจอดรถฟรี กฎบ้านพวกนี้อัดเงินเข้าระบบ ทำให้ไม่มีใครล้มละลาย เกมเลยลากยาวหลายชั่วโมง</p>
+      </div>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชิ้นส่วน</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td><b>กระดาน</b></td><td class="num">1</td><td>40 ช่อง ฉบับอังกฤษ (Old Kent Road ถึง Mayfair)</td></tr>
+            <tr><td><b>ตัวเดิน</b> <span class="en">tokens</span></td><td class="num">8</td><td>เช่น หมาสก็อตตี้ แมว รถแข่ง เรือรบ หมวก เป็ดยาง ไดโนเสาร์ T-Rex เพนกวิน (แล้วแต่ล็อตผลิต)</td></tr>
+            <tr><td><b>โฉนด</b> <span class="en">Title Deed cards</span></td><td class="num">28</td><td>ถนน 22 · สถานีรถไฟ 4 · สาธารณูปโภค 2 · ด้านหลังบอกราคาจำนอง</td></tr>
+            <tr><td><b>การ์ดโอกาส</b> <span class="en">Chance</span></td><td class="num">16</td><td>เครื่องหมาย ? วางที่ช่องเครื่องหมาย ? กลางกระดาน</td></tr>
+            <tr><td><b>การ์ดกองทุนชุมชน</b> <span class="en">Community Chest</span></td><td class="num">16</td><td>รูปหีบสมบัติ</td></tr>
+            <tr><td><b>บ้าน</b> (สีเขียว)</td><td class="num">32</td><td>มีจำกัด หมดแล้วต้องรอคนขายคืน</td></tr>
+            <tr><td><b>โรงแรม</b> (สีแดง)</td><td class="num">12</td><td>มีจำกัดเหมือนกัน</td></tr>
+            <tr><td><b>ลูกเต๋า</b></td><td class="num">2</td><td></td></tr>
+            <tr><td><b>ธนบัตร</b></td><td class="num">1 ชุด</td><td>ใบละ <span class="m">M1 · 5 · 10 · 20 · 50 · 100 · 500</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BOARD -->
+    <section id="board">
+      <div class="sec-head"><span class="tag">ทำความรู้จัก</span><h2>กระดาน 40 ช่อง</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="board-svg" viewBox="0 0 660 660" role="group" aria-label="กระดาน Monopoly ฉบับอังกฤษ 40 ช่อง แตะช่องเพื่อดูรายละเอียด"></svg></div>
+        <div class="cellinfo" id="cellinfo" aria-live="polite"></div>
+        <figcaption>วาดใหม่ตามกระดานในกล่อง (ไม่ใช่ภาพจริง) · <b>แตะช่องไหนก็ได้</b>เพื่อดูราคาและค่าเช่า · เดินตามเข็มนาฬิกาจาก GO มุมขวาล่าง</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ถนน <span class="en">Streets</span></h3><p>22 ช่อง แบ่ง 8 กลุ่มสี ครบสีแล้วค่าเช่าคูณ 2 และสร้างบ้านได้</p></div>
+        <div class="type"><h3>สถานีรถไฟ <span class="en">Stations</span></h3><p>4 ช่อง ราคาละ <span class="m">M200</span> ค่าเช่าขึ้นกับจำนวนสถานีที่เจ้าของถือ สร้างบ้านไม่ได้</p></div>
+        <div class="type"><h3>สาธารณูปโภค <span class="en">Utilities</span></h3><p>การไฟฟ้า กับ การประปา ราคาละ <span class="m">M150</span> ค่าเช่าคิดจากแต้มลูกเต๋า</p></div>
+        <div class="type"><h3>ช่องพิเศษ</h3><p>GO · คุก · จอดรถฟรี · ไปคุก · ภาษี 2 ช่อง · โอกาส 3 ช่อง · กองทุนชุมชน 3 ช่อง</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกนายธนาคาร</h3><p>ดูแลเงินธนาคาร บ้าน โรงแรม โฉนด และการประมูล นายธนาคารเล่นด้วยได้ แต่<b>ต้องแยกเงินตัวเองออกจากเงินธนาคาร</b></p></div></li>
+        <li><div class="body"><h3>สับการ์ดสองกอง</h3><p>สับการ์ดโอกาสและกองทุนชุมชน คว่ำหน้าวางบนช่องที่พิมพ์ไว้กลางกระดาน</p></div></li>
+        <li><div class="body"><h3>เลือกตัวเดิน</h3><p>ทุกคนวางตัวเดินบนช่อง <b>GO</b> วางลูกเต๋าข้างกระดาน</p></div></li>
+        <li><div class="body"><h3>แจกเงินคนละ <span class="m">M1,500</span></h3>
+          <figure class="figure" style="margin-top:6px"><div class="scroll"><svg class="wide" viewBox="0 0 700 150" id="money-svg" role="img" aria-label="เงินตั้งต้น: 500 สองใบ 100 สี่ใบ 50 หนึ่งใบ 20 หนึ่งใบ 10 สองใบ 5 หนึ่งใบ 1 ห้าใบ รวม 1500"></svg></div></figure>
+        </div></li>
+        <li><div class="body"><h3>ใครเริ่มก่อน</h3><p>ทุกคนทอยเต๋า 2 ลูก <b>แต้มสูงสุดเริ่ม</b> แล้ววนไปทางซ้าย (ตามเข็มนาฬิกา)</p></div></li>
+      </ol>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">ระหว่างเกม</span><h2>เล่นหนึ่งตา</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ทอยเต๋า 2 ลูก</h3></div></li>
+        <li><div class="body"><h3>เดินตามเข็มนาฬิกา</h3><p>เดินเท่าแต้มรวม</p></div></li>
+        <li><div class="body"><h3>ทำตามช่องที่หยุด</h3><p>ดู <a href="#spaces">ช่องพิเศษ</a> และ <a href="#buy">ซื้อที่</a></p></div></li>
+        <li><div class="body"><h3>ได้เลขคู่?</h3><p>ทอยอีกครั้งแล้วเล่นอีกตา · ถ้าได้คู่ <b>3 ครั้งติดกัน</b> ไปคุกทันที <b>ไม่ต้องเดินครั้งที่ 3</b></p></div></li>
+        <li><div class="body"><h3>จบตา</h3><p>ส่งลูกเต๋าให้คนทางซ้าย</p></div></li>
+      </ol>
+      <p class="note">นอกจากเดินตัวเอง ทุกคนทำบางอย่างได้<b>ตลอดเวลา</b> แม้ไม่ใช่ตาตัวเอง: สร้างบ้าน/โรงแรม ขายบ้านคืน จำนอง/ไถ่ถอน และซื้อขายแลกเปลี่ยนกับผู้เล่นอื่น</p>
+    </section>
+
+    <!-- SPACES -->
+    <section id="spaces">
+      <div class="sec-head"><span class="tag">ช่องบนกระดาน</span><h2>ช่องพิเศษ</h2></div>
+      <div class="types">
+        <div class="type"><h3>GO</h3><p>ทุกครั้งที่<b>ผ่านหรือหยุด</b> รับ <span class="m">M200</span> จากธนาคาร</p></div>
+        <div class="type"><h3>โอกาส / กองทุนชุมชน</h3><p>จั่วใบบนสุดของกองนั้น ทำตาม<b>ทันที</b> แล้วสอดไว้<b>ใต้กอง</b> · การ์ดออกคุกฟรีเก็บไว้ใช้หรือขายได้</p></div>
+        <div class="type"><h3>ภาษีเงินได้ / ภาษีพิเศษ</h3><p>จ่ายธนาคารตามที่พิมพ์บนช่อง: Income Tax <span class="m">M200</span> · Super Tax <span class="m">M100</span></p></div>
+        <div class="type"><h3>เยี่ยมคุก <span class="en">Just Visiting</span></h3><p>เดินมาหยุดเฉย ๆ ไม่เป็นอะไร วางตัวในส่วน Just Visiting</p></div>
+        <div class="type"><h3>จอดรถฟรี <span class="en">Free Parking</span></h3><p><b>ไม่มีอะไรเกิดขึ้น</b> พักได้</p></div>
+        <div class="type"><h3>ไปคุก <span class="en">Go To Jail</span></h3><p>ย้ายไปช่อง In Jail ทันที <b>ไม่รับ M200</b> แม้จะผ่าน GO · จบตาทันที ดู <a href="#jail">คุก</a></p></div>
+      </div>
+    </section>
+
+    <!-- BUY -->
+    <section id="buy">
+      <div class="sec-head"><span class="tag">ที่ดินว่าง</span><h2>ซื้อที่ และการประมูล</h2></div>
+      <p class="prose">หยุดบนถนน สถานี หรือสาธารณูปโภคที่ยังไม่มีเจ้าของ <b>ต้องเลือกอย่างใดอย่างหนึ่ง</b>: ซื้อ หรือเปิดประมูล</p>
+      <div class="types">
+        <div class="type"><h3>ซื้อ</h3><p>จ่ายธนาคารตามราคาบนช่อง รับโฉนดมาวางหงายหน้าไว้หน้าตัวเอง</p></div>
+        <div class="type"><h3>ไม่ซื้อ → ประมูล</h3><ul>
+          <li>นายธนาคารเปิดประมูล <b>เริ่ม <span class="m">M10</span></b></li>
+          <li><b>ทุกคน</b>เสนอเพิ่มได้ ครั้งละอย่างน้อย <span class="m">M1</span> ไม่ต้องเรียงตามลำดับ</li>
+          <li>ไม่มีใครเพิ่มแล้ว = ปิด คนเสนอสูงสุดจ่ายธนาคาร</li>
+          <li>ไม่มีใครประมูลเลย ไม่เป็นไร โฉนดอยู่กับธนาคารต่อ</li>
+        </ul></div>
+      </div>
+      <div class="callout blue">
+        <h3>ทำไมการประมูลสำคัญ</h3>
+        <p>คนที่หยุดอาจได้ที่ดินถูกกว่าราคาป้าย ถ้าคนอื่นเงินน้อย หรือไม่มีใครอยากได้ ในทางกลับกัน ถ้าคุณไม่ซื้อที่ที่ช่วยให้คู่แข่งครบสี เขาอาจประมูลได้ไปเลย กฎนี้ทำให้ที่ดินกระจายออกเร็วและเกมจบเร็วขึ้น</p>
+      </div>
+    </section>
+
+    <!-- RENT -->
+    <section id="rent">
+      <div class="sec-head"><span class="tag">ที่ดินมีเจ้าของ</span><h2>ค่าเช่า</h2></div>
+      <div class="callout">
+        <h3>เจ้าของต้องทวง</h3>
+        <p>หยุดบนที่ของคนอื่น <b>เจ้าของต้องขอค่าเช่าเอง</b> ถ้าขอ คุณต้องจ่าย ถ้าไม่ขอก่อน<b>คนถัดไปทอยเต๋า</b> คุณไม่ต้องจ่าย · หยุดบนที่ของตัวเองหรือที่ติดจำนอง ไม่มีค่าเช่า</p>
+      </div>
+      <div class="types">
+        <div class="type"><h3>ถนน</h3><ul>
+          <li>จ่ายตามโฉนด</li>
+          <li>เจ้าของถือ<b>ครบทุกช่องในสี</b> ช่องที่ยังไม่มีบ้านคิด<b>ค่าเช่า × 2</b></li>
+          <li>มีบ้าน/โรงแรม จ่ายตามแถวนั้นบนโฉนด</li>
+        </ul></div>
+        <div class="type"><h3>สถานีรถไฟ</h3><p>ตามจำนวนสถานีที่เจ้าของถือ:</p><p><span class="m">1 = M25 · 2 = M50 · 3 = M100 · 4 = M200</span></p></div>
+        <div class="type"><h3>สาธารณูปโภค</h3><p>ทอยเต๋าเพื่อหาค่าเช่า:</p><ul><li>เจ้าของถือ 1 แห่ง = <b>แต้ม × 4</b></li><li>ถือทั้ง 2 แห่ง = <b>แต้ม × 10</b></li></ul></div>
+      </div>
+      <p class="note">ค่าเช่าทุกช่องดูได้ใน <a href="#rents">ตารางค่าเช่าทั้งหมด</a> หรือใช้ <a href="#rentcalc">เครื่องคิดค่าเช่า</a></p>
+    </section>
+
+    <!-- BUILD -->
+    <section id="build">
+      <div class="sec-head"><span class="tag">ทำเงิน</span><h2>บ้านและโรงแรม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ครบสีก่อน</h3><p>ถือครบทุกถนนในสีเดียวกันเมื่อไร ซื้อบ้านได้เลย <b>ไม่ต้องรอตาตัวเอง</b> จ่ายธนาคารตามราคาบ้านบนโฉนด</p></div></li>
+        <li><div class="body"><h3>สร้างเฉลี่ย</h3><p>สร้างหลังที่ 2 บนถนนใดไม่ได้ จนกว่าทุกถนนในสีนั้นมีอย่างน้อย 1 หลัง (ส่วนต่างของจำนวนบ้านในสีเดียวกันห้ามเกิน 1) ถนนละไม่เกิน <b>4 หลัง</b></p></div></li>
+        <li><div class="body"><h3>อัปเป็นโรงแรม</h3><p>ทุกถนนในสีมีบ้านครบ 4 หลังแล้ว จ่ายราคาโรงแรมตามโฉนด <b>คืนบ้าน 4 หลังให้ธนาคาร</b> แล้ววางโรงแรม ถนนละ 1 โรงแรม ต่อบ้านเพิ่มไม่ได้</p></div></li>
+        <li><div class="body"><h3>ข้อห้าม</h3><p>ถ้าถนนใดในสีนั้น<b>ติดจำนอง</b> สร้างบนสีนั้นไม่ได้เลย</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 200" id="even-svg" role="img" aria-label="ตัวอย่างการสร้างเฉลี่ย: 1-1-1 แล้วเพิ่มเป็น 2-1-1 ได้ แต่ 2-0-1 หรือ 3-1-1 ไม่ได้"></svg></div>
+        <figcaption>สีส้ม 3 ถนน: ซ้าย สร้างถูก (ห่างกันไม่เกิน 1 หลัง) · ขวา ผิด 2 แบบ</figcaption>
+      </figure>
+      <div class="callout gold">
+        <h3>บ้านหมดกระดาน <span class="en">Housing shortage</span></h3>
+        <ul>
+          <li>บ้านมี <b>32</b> หลัง โรงแรม <b>12</b> หลัง หมดแล้ว<b>ซื้อไม่ได้</b>จนกว่าจะมีคนขายคืนธนาคาร</li>
+          <li>หลายคนอยากได้บ้าน/โรงแรมชิ้นสุดท้าย → นายธนาคาร<b>ประมูล</b> เริ่ม <span class="m">M10</span> เพิ่มทีละ <span class="m">M1</span> ไม่ต้องเรียงลำดับ</li>
+          <li>เทคนิคที่ใช้กันในเกมจริง: ตั้งบ้าน 4 หลังค้างไว้ไม่อัปโรงแรม เพื่อกันบ้านไม่ให้คนอื่นได้ใช้</li>
+        </ul>
+      </div>
+      <p class="prose"><b>ขายบ้านคืน:</b> ขายให้ธนาคารได้<b>ครึ่งราคา</b> ต้องขายแบบเฉลี่ยเหมือนตอนสร้าง · ขายโรงแรมได้ครึ่งราคา และได้บ้าน 4 หลังกลับมาวางแทนทันที</p>
+    </section>
+
+    <!-- JAIL -->
+    <section id="jail">
+      <div class="sec-head"><span class="tag">ช่องมุม</span><h2>คุก</h2></div>
+      <div class="types">
+        <div class="type"><h3>เข้าคุกเมื่อ</h3><ul><li>หยุดช่อง <b>Go To Jail</b></li><li>จั่วได้การ์ดสั่งให้ไปคุก</li><li>ทอยได้เลขคู่ <b>3 ครั้งติด</b></li></ul><p>ย้ายไปช่อง In Jail ทันที ไม่รับ <span class="m">M200</span> จบตา</p></div>
+        <div class="type"><h3>ระหว่างอยู่ในคุก</h3><p>ยัง<b>เก็บค่าเช่า</b> ร่วม<b>ประมูล</b> <b>สร้างบ้าน/โรงแรม</b> <b>จำนอง</b> และ<b>แลกเปลี่ยน</b>ได้ตามปกติ</p></div>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 230" id="jail-svg" role="img" aria-label="ออกจากคุก 3 วิธี: จ่าย 50, ใช้การ์ด, ทอยคู่ภายใน 3 ตา"></svg></div>
+        <figcaption>ออกจากคุก 3 วิธี เลือกตอน<b>ต้นตาถัดไป</b></figcaption>
+      </figure>
+      <div class="prose"><ol>
+        <li><b>จ่าย <span class="m">M50</span></b> ตอนต้นตาถัดไป แล้วทอยเดินตามปกติ</li>
+        <li><b>ใช้การ์ดออกคุกฟรี</b> ตอนต้นตาถัดไป (มีเอง หรือซื้อจากคนอื่น) สอดการ์ดคืนใต้กองเดิม แล้วทอยเดิน</li>
+        <li><b>ทอยให้ได้เลขคู่</b> ได้แล้วออกเลย เดินตามแต้มนั้น <b>แล้วจบตา</b> (ไม่ทอยซ้ำ) · ลองได้ไม่เกิน 3 ตา ถ้าตาที่ 3 ยังไม่ได้คู่ ต้อง<b>จ่าย <span class="m">M50</span></b> แล้วเดินตามแต้มที่ทอยครั้งสุดท้าย</li>
+      </ol></div>
+    </section>
+
+    <!-- MORTGAGE -->
+    <section id="mortgage">
+      <div class="sec-head"><span class="tag">หาเงินด่วน</span><h2>จำนอง</h2></div>
+      <div class="types">
+        <div class="type"><h3>จำนอง</h3><ul><li>ต้องขายบ้าน/โรงแรม<b>ทั้งสี</b>คืนธนาคารก่อน (ได้ครึ่งราคา)</li><li>พลิกโฉนดคว่ำ รับเงินตาม<b>ราคาจำนองหลังโฉนด</b> (เท่ากับครึ่งราคาที่ดิน)</li></ul></div>
+        <div class="type"><h3>ไถ่ถอน</h3><p>จ่ายธนาคาร <b>ราคาจำนอง + 10%</b> แล้วพลิกโฉนดหงาย</p></div>
+        <div class="type"><h3>ระหว่างจำนอง</h3><ul><li>ที่ดินที่จำนอง<b>เก็บค่าเช่าไม่ได้</b></li><li>ถนนอื่นในสีเดียวกันที่ไม่ได้จำนอง <b>ยังคิดค่าเช่า × 2</b> ได้ (สถานี/สาธารณูปโภคก็เช่นกัน)</li><li>สีที่มีช่องจำนอง สร้างบ้านไม่ได้</li></ul></div>
+      </div>
+    </section>
+
+    <!-- DEALS -->
+    <section id="deals">
+      <div class="sec-head"><span class="tag">เจรจา</span><h2>ซื้อขายแลกเปลี่ยน</h2></div>
+      <div class="prose"><ul>
+        <li>ซื้อ ขาย หรือแลกที่ดินกับผู้เล่นอื่นได้<b>ทุกเมื่อ</b></li>
+        <li>แลกได้ด้วย <b>เงิน ที่ดิน และการ์ดออกคุกฟรี</b> ราคาตกลงกันเอง</li>
+        <li>จะขาย/แลกถนนไหน ต้อง<b>ขายบ้านทั้งสีคืนธนาคารก่อน</b> · ขายบ้านให้ผู้เล่นอื่นไม่ได้</li>
+        <li>ที่ดินติดจำนองแลกได้ในราคาที่ตกลง เจ้าของใหม่ต้องเลือก<b>ทันที</b>: ไถ่ถอนเลย (จ่ายจำนอง + 10%) หรือถือจำนองต่อ (จ่าย <b>10%</b> ของราคาจำนองตอนนี้ แล้วถ้าไถ่ถอนทีหลังก็จ่ายจำนอง + 10% อีกครั้ง)</li>
+      </ul></div>
+      <div class="callout"><h3>ห้าม (ตามเคล็ดลับในคู่มือ)</h3><p>ให้ผู้เล่นอื่นยืมเงิน และตกลงว่า “ฉันไม่เก็บค่าเช่าเธอ เธอไม่เก็บฉัน”</p></div>
+    </section>
+
+    <!-- BROKE -->
+    <section id="broke">
+      <div class="sec-head"><span class="tag">เงินไม่พอ</span><h2>จ่ายไม่ไหว และล้มละลาย</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>พยายามหาเงินก่อน</h3><p>ขายบ้าน/โรงแรมคืนธนาคาร (ครึ่งราคา) จำนองที่ดิน หรือขายที่ดินให้ผู้เล่นอื่น</p></div></li>
+        <li><div class="body"><h3>ยังไม่พอ = ล้มละลาย ออกจากเกม</h3></div></li>
+      </ol>
+      <div class="types">
+        <div class="type"><h3>ติดหนี้<b>ผู้เล่น</b></h3><ul><li>ยกเงินที่เหลือ ที่ดินทั้งหมด (ซึ่งตอนนี้ติดจำนอง) และการ์ดออกคุกฟรีให้เจ้าหนี้</li><li>เจ้าหนี้ต้องเลือกทันทีทีละโฉนด: ไถ่ถอนเลย หรือจ่าย 10% แล้วถือจำนองต่อ</li></ul></div>
+        <div class="type"><h3>ติดหนี้<b>ธนาคาร</b></h3><ul><li>คืนที่ดินทั้งหมดให้ธนาคาร จำนองถูกยกเลิก</li><li>ธนาคาร<b>ประมูลที่ดินทั้งหมดทันที</b></li><li>การ์ดออกคุกฟรีสอดคืนใต้กองเดิม</li></ul></div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>ผู้ชนะ และการจบแบบจับเวลา</h2></div>
+      <div class="callout mint"><h3>กติกาทางการ</h3><p>เล่นไปเรื่อย ๆ จนเหลือผู้เล่น<b>คนสุดท้ายที่ยังไม่ล้มละลาย</b> คนนั้นชนะ</p></div>
+      <div class="callout gold">
+        <h3>จบแบบจับเวลา <span class="flag">กฎบ้าน</span></h3>
+        <p>คู่มือกล่องนี้ไม่มีโหมดจับเวลา แต่คู่มือ Monopoly รุ่นเก่ามี “เกมสั้น” ที่หลายวงยังใช้ ตกลงเวลาจบก่อนเริ่ม พอหมดเวลา ทุกคนนับทรัพย์สิน:</p>
+        <ul>
+          <li>เงินสด</li>
+          <li>ที่ดินไม่ติดจำนอง = ราคาบนกระดาน · ติดจำนอง = ครึ่งราคา</li>
+          <li>บ้าน = ราคาที่ซื้อ · โรงแรม = ราคาที่ซื้อรวมบ้าน 4 หลัง</li>
+        </ul>
+        <p style="margin-top:6px">ยอดรวมสูงสุดชนะ · ใช้ <a href="#networth">เครื่องนับทรัพย์สิน</a> ช่วยได้</p>
+      </div>
+    </section>
+
+    <!-- RENT CALC -->
+    <section id="rentcalc">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น</span><h2>คิดค่าเช่า จำนอง ไถ่ถอน</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div style="min-width:0"><label class="field-l" for="rc-prop">ที่ดิน</label><select id="rc-prop"></select></div>
+          <div id="rc-state-wrap"><label class="field-l" for="rc-state">สถานะ</label><select id="rc-state"></select></div>
+          <div id="rc-count-wrap" hidden><label class="field-l" for="rc-count">เจ้าของถือกี่แห่ง</label><select id="rc-count"></select></div>
+          <div id="rc-dice-wrap" hidden><label class="field-l" for="rc-dice">แต้มเต๋ารวม</label><input type="number" id="rc-dice" min="2" max="12" value="7"></div>
+        </div>
+        <div class="calc-out" id="rc-out"></div>
+        <ul class="notes" id="rc-notes"></ul>
+      </div>
+    </section>
+
+    <!-- RENT TABLE -->
+    <section id="rents">
+      <div class="sec-head"><span class="tag">อ้างอิง</span><h2>ตารางค่าเช่าทั้งหมด (ฉบับอังกฤษ)</h2></div>
+      <div class="tbl-wrap"><table class="rent" id="rent-table"></table></div>
+      <p class="note">ราคาที่ดินตรงกับที่พิมพ์บนกระดานในภาพ · ค่าเช่าและราคาบ้านเป็นค่ามาตรฐานของ Monopoly ฉบับอังกฤษ ถ้าไม่ตรงกับโฉนดในกล่อง <b>ยึดโฉนดเป็นหลัก</b> · จำนอง = ครึ่งราคาที่ดิน</p>
+    </section>
+
+    <!-- STOCK -->
+    <section id="stock">
+      <div class="sec-head"><span class="tag">สำหรับนายธนาคาร</span><h2>บ้าน/โรงแรมที่เหลือในธนาคาร</h2></div>
+      <div class="tool">
+        <div class="stock">
+          <div class="stk"><span class="lbl"><b style="font-size:1rem;min-width:0">บ้าน</b><br><small class="note">จาก 32</small></span><button type="button" class="btn" data-k="h" data-d="-1" aria-label="บ้านออกจากธนาคาร 1 หลัง">−</button><b id="stk-h">32</b><button type="button" class="btn" data-k="h" data-d="1" aria-label="บ้านคืนธนาคาร 1 หลัง">+</button></div>
+          <div class="stk"><span class="lbl"><b style="font-size:1rem;min-width:0">โรงแรม</b><br><small class="note">จาก 12</small></span><button type="button" class="btn" data-k="o" data-d="-1" aria-label="โรงแรมออกจากธนาคาร 1 หลัง">−</button><b id="stk-o">12</b><button type="button" class="btn" data-k="o" data-d="1" aria-label="โรงแรมคืนธนาคาร 1 หลัง">+</button></div>
+        </div>
+        <div class="tool-row"><button type="button" class="btn pri" id="stk-up">อัปโรงแรม 1 แห่ง (บ้านคืน 4 · โรงแรมออก 1)</button><button type="button" class="btn" id="stk-reset">เริ่มใหม่</button></div>
+        <p class="note" id="stk-msg">กด − เมื่อมีคนซื้อ กด + เมื่อมีคนขายคืน · บ้านเหลือน้อยกว่าที่คนต้องการเมื่อไร ต้องประมูล</p>
+      </div>
+    </section>
+
+    <!-- NETWORTH -->
+    <section id="networth">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบแบบจับเวลา</span><h2>นับทรัพย์สินตอนจบ</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><label class="field-l" for="nw-name">ชื่อผู้เล่น</label><input type="text" id="nw-name" value="ผู้เล่น 1"></div>
+          <div><label class="field-l" for="nw-cash">เงินสด (M)</label><input type="number" id="nw-cash" min="0" value="640"></div>
+        </div>
+        <div><span class="field-l">ที่ดินที่ถือ (ตัวอย่างใส่ไว้ให้ ลบได้)</span><div class="nw-grid" id="nw-grid"></div></div>
+        <div class="calc-out" id="nw-out"></div>
+        <div class="tool-row"><button type="button" class="btn pri" id="nw-save">บันทึกยอดคนนี้ แล้วล้างฟอร์ม</button><button type="button" class="btn" id="nw-clearall">ล้างอันดับ</button></div>
+        <div><span class="field-l">อันดับ</span><ol class="rank" id="nw-rank"><li class="note">ยังไม่มีการบันทึก</li></ol></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <p class="note">คำตอบอิงคู่มือทางการ ข้อที่คู่มือไม่ได้เขียนไว้ติดป้าย <span class="flag">กฎบ้าน</span> ให้ตกลงกันก่อนเล่น · ป้าย <span class="flag th">คนไทยมักเข้าใจผิด</span> คือจุดที่ติดมาจากเกมเศรษฐีไทย</p>
+      <div class="faq">
+        <div class="faq-group">เงิน และช่องบนกระดาน</div>
+        <details><summary>ตกช่องจอดรถฟรี ได้เงินกองกลางไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ไม่ได้ คู่มือเขียนว่า “ไม่มีอะไรเกิดขึ้น” และย้ำในเคล็ดลับหน้าแรกว่าห้ามวางเงินกลางกระดาน ค่าภาษี ค่าปรับคุก และเงินจากการ์ดที่ต้องจ่าย เข้า<b>ธนาคาร</b>ทั้งหมด</p></details>
+        <details><summary>หยุดพอดีบน GO ได้ M400 ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ไม่ได้ ผ่านหรือหยุดได้ <span class="m">M200</span> เท่ากัน</p></details>
+        <details><summary>ถูกส่งเข้าคุก (หรือการ์ดให้ถอยหลัง) ผ่าน GO ได้ M200 ไหม</summary><p>ไปคุก <b>ไม่ได้</b> คู่มือเขียนไว้ชัด · การ์ดที่สั่งให้<b>เดินหน้า</b>ไปช่องหนึ่งแล้วผ่าน GO ได้ <span class="m">M200</span> (เว้นแต่การ์ดเขียนว่าไม่ได้) · การ์ดที่ให้<b>ถอยหลัง</b>ไม่ได้ผ่าน GO ตามทิศเดิน จึงไม่ได้เงิน</p></details>
+        <details><summary>Income Tax ต้องจ่าย 10% ของทรัพย์สินหรือเปล่า</summary><p>กล่องรุ่นนี้ไม่มีตัวเลือก 10% แล้ว จ่ายตามที่พิมพ์บนช่อง: Income Tax <span class="m">M200</span> · Super Tax <span class="m">M100</span> (กติการุ่นเก่ามากมีให้เลือก 10% ทำให้คนยังจำกันอยู่)</p></details>
+        <details><summary>ธนาคารเงินหมด ทำไง</summary><p>คู่มือกล่องนี้ไม่ได้เขียนไว้ · กติการุ่นเก่าบอกว่า<b>ธนาคารไม่มีวันล้มละลาย</b> นายธนาคารจดยอดบนกระดาษแทนธนบัตรได้ <span class="flag">กฎบ้าน</span></p></details>
+        <details><summary>การ์ดโอกาสแบบใหม่ “Grab the flying cash!” ที่หน้ากล่องคืออะไร</summary><p>เป็นการ์ดใหม่ที่โฆษณาบนหน้ากล่อง คู่มือไม่ได้อธิบายแยก ให้ทำตามข้อความบนการ์ด เหมือนการ์ดใบอื่น ถ้าข้อความกำกวม ตกลงกันก่อนเล่น</p></details>
+
+        <div class="faq-group">ซื้อที่ และค่าเช่า</div>
+        <details><summary>หยุดแล้วไม่ซื้อ ปล่อยว่างไว้ได้ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ไม่ได้ ต้องเปิดประมูลทันที เริ่ม <span class="m">M10</span> ถ้าไม่มีใครประมูลเลย โฉนดจึงอยู่กับธนาคาร</p></details>
+        <details><summary>คนที่ไม่ยอมซื้อ ประมูลแข่งได้ไหม</summary><p>ได้ คู่มือเขียนว่า “ทุกคน” เพิ่มราคาได้ บางทีการไม่ซื้อแล้วไปประมูลถูกกว่าก็เป็นกลยุทธ์</p></details>
+        <details><summary>ต้องเดินครบรอบแรกก่อนถึงจะซื้อที่ได้ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ไม่มีกฎนี้ในคู่มือ ซื้อได้ตั้งแต่ตาแรก</p></details>
+        <details><summary>เจ้าของลืมทวงค่าเช่า ทวงย้อนหลังได้ไหม</summary><p>ไม่ได้ ต้องขอก่อนคนถัดไปทอยเต๋า เลยจากนั้นถือว่าหมดสิทธิ์ ผู้เล่นที่หยุดไม่ต้องเตือนเจ้าของ</p></details>
+        <details><summary>ติดคุกอยู่ ยังเก็บค่าเช่าได้ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ได้ คู่มือระบุว่าระหว่างอยู่ในคุกยังเก็บค่าเช่า ประมูล สร้างบ้าน จำนอง และแลกเปลี่ยนได้</p></details>
+        <details><summary>ครบสีแต่จำนองไว้ 1 ช่อง ช่องอื่นยังได้ค่าเช่า × 2 ไหม</summary><p>ได้ คู่มือเขียนชัดว่าช่องที่ไม่ได้จำนองในสีนั้นยังเก็บค่าเช่าแบบเพิ่มได้ ช่องที่จำนองเก็บไม่ได้ · สถานีก็นับแบบเดียวกัน (นับจำนวนสถานีที่ถือรวมที่จำนอง แต่สถานีที่จำนองเก็บไม่ได้)</p></details>
+        <details><summary>สาธารณูปโภค ใช้แต้มไหนคูณ</summary><p>คู่มือรุ่นนี้เขียนสั้น ๆ ว่า “ทอยเต๋าเพื่อหาค่าเช่า” · กติการุ่นเก่าและวงส่วนใหญ่ใช้<b>แต้มที่เพิ่งทอยมาหยุดช่องนั้น</b> ถ้ามาด้วยการ์ด ให้ทอยใหม่ตามที่การ์ดบอก <span class="flag">กฎบ้าน</span></p></details>
+
+        <div class="faq-group">บ้าน โรงแรม จำนอง</div>
+        <details><summary>ต้องเดินไปหยุดที่ตัวเองก่อนถึงสร้างบ้านได้ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ไม่ต้อง ครบสีแล้วซื้อได้ทุกเมื่อ คู่มือเขียนว่า “ไม่ต้องรอตาตัวเอง” จะซื้อรวดเดียวหลายหลังก็ได้ ตราบที่สร้างเฉลี่ย</p></details>
+        <details><summary>ยังไม่ครบสี สร้างบ้านได้ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>ไม่ได้ ต้องถือครบทุกถนนในสีเดียวกันก่อน · สถานีและสาธารณูปโภคสร้างบ้านไม่ได้เลย</p></details>
+        <details><summary>ทุ่มบ้าน 4 หลังบนช่องเดียวที่แพงสุดได้ไหม</summary><p>ไม่ได้ ต้องสร้างเฉลี่ย ทุกช่องในสีต้องมีจำนวนบ้านห่างกันไม่เกิน 1 หลัง</p></details>
+        <details><summary>ขายบ้านให้เพื่อนในราคาเต็มได้ไหม</summary><p>ไม่ได้ บ้าน/โรงแรมขายคืนธนาคารได้อย่างเดียว ได้ครึ่งราคา</p></details>
+        <details><summary>บ้านหมดแล้ว ขอใช้ของอย่างอื่นแทนได้ไหม</summary><p>ไม่ได้ ความขาดแคลนบ้านเป็นส่วนหนึ่งของเกม ต้องรอคนขายคืน (เช่น ตอนมีคนอัปโรงแรมแล้วคืนบ้าน 4 หลัง) ถ้ามีหลายคนแย่งชิ้นสุดท้าย ประมูลเริ่ม <span class="m">M10</span></p></details>
+        <details><summary>จะจำนองที่ดินที่มีบ้านอยู่ได้ไหม</summary><p>ไม่ได้ ต้องขายบ้านทุกหลังใน<b>สีนั้นทั้งสี</b>ก่อน แล้วค่อยจำนอง</p></details>
+
+        <div class="faq-group">คุก</div>
+        <details><summary>ทอยได้คู่ออกจากคุก ได้ทอยอีกรอบไหม</summary><p>ไม่ได้ เดินตามแต้มคู่นั้นแล้วจบตา</p></details>
+        <details><summary>ขอจ่าย M50 ออกเลยในตาที่เพิ่งเข้าคุกได้ไหม</summary><p>คู่มือให้จ่าย<b>ตอนต้นตาถัดไป</b> ก่อนทอย แล้วทอยเดินตามปกติ</p></details>
+        <details><summary>ได้คู่ครั้งที่ 3 ต้องเดินก่อนแล้วค่อยเข้าคุกไหม</summary><p>ไม่ต้องเดิน ไปคุกทันที และไม่ต้องทำตามช่องใดของครั้งที่ 3</p></details>
+        <details><summary>ติดคุกครบ 3 ตายังไม่ได้คู่</summary><p>จ่าย <span class="m">M50</span> แล้วเดินตามแต้มที่ทอยครั้งที่ 3 ทันที</p></details>
+        <details><summary>การ์ดออกคุกฟรีขายให้คนอื่นได้ไหม</summary><p>ได้ ราคาตกลงกันเอง คู่มือยังบอกว่าคนติดคุกซื้อการ์ดจากคนอื่นมาใช้ได้</p></details>
+
+        <div class="faq-group">ดีล หนี้ ล้มละลาย</div>
+        <details><summary>ให้เพื่อนยืมเงินได้ไหม <span class="flag th">คนไทยมักเข้าใจผิด</span></summary><p>คู่มือแนะนำว่า<b>ห้าม</b> และสิ่งที่แลกกันได้มีแค่เงิน ที่ดิน และการ์ดออกคุกฟรี จึงไม่มีระบบกู้ยืมระหว่างผู้เล่น หาเงินได้จากการขายบ้านคืน จำนอง หรือขายที่ดินเท่านั้น</p></details>
+        <details><summary>ดีลว่า “ยกที่ให้ แลกกับไม่ต้องจ่ายค่าเช่า 3 รอบ” ได้ไหม</summary><p>คู่มือแนะนำให้ไม่ทำดีลยกเว้นค่าเช่า เพราะเป็นสัญญาล่วงหน้าที่บังคับไม่ได้ วงที่อยากให้ทำได้ ตกลงกันก่อนเริ่ม <span class="flag">กฎบ้าน</span></p></details>
+        <details><summary>แลกที่ดินกันตอนไม่ใช่ตาตัวเองได้ไหม</summary><p>ได้ คู่มือเขียนว่า “ทุกเมื่อ” แต่ไม่ควรเจรจาขัดตอนคนอื่นกำลังทอยหรือประมูล วงส่วนใหญ่ทำระหว่างตา</p></details>
+        <details><summary>เงินสดไม่พอจ่าย ประกาศล้มละลายทันทีได้ไหม</summary><p>ต้องลองหาเงินก่อน (ขายบ้าน จำนอง ขายที่ดิน) ถ้ารวมทุกอย่างแล้วยังไม่พอจึงล้มละลาย</p></details>
+        <details><summary>ล้มละลายให้ผู้เล่น ที่ดินติดจำนองที่ได้มาต้องทำไง</summary><p>เจ้าหนี้รับไปทั้งหมด และต้องเลือกทันที: ไถ่ถอนเลย (จำนอง + 10%) หรือจ่าย 10% แล้วถือจำนองต่อ ถ้าเงินไม่พอก็ต้องหาเงินตามขั้นตอนปกติ</p></details>
+        <details><summary>เกมยาวไม่จบ ทำไงดี</summary><p>เล่นตามกติกาจริง (ประมูล ไม่มีเงินกองกลาง ไม่ยืมเงิน) เกมจะสั้นลงมาก ถ้ายังมีเวลาจำกัด ใช้ <a href="#end">จบแบบจับเวลา</a> <span class="flag">กฎบ้าน</span></p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ภาษาบนกระดาน</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>GO</dt><dd>จุดเริ่ม · ผ่านหรือหยุดรับ M200</dd>
+        <dt>Title Deed</dt><dd>โฉนด · บอกราคา ค่าเช่า ราคาบ้าน ด้านหลังบอกราคาจำนอง</dd>
+        <dt>Colour set</dt><dd>ครบสี · ถือทุกถนนในกลุ่มสีเดียวกัน</dd>
+        <dt>Station</dt><dd>สถานีรถไฟ (King's Cross, Marylebone, Fenchurch St, Liverpool St)</dd>
+        <dt>Electric Company / Water Works</dt><dd>การไฟฟ้า / การประปา (สาธารณูปโภค)</dd>
+        <dt>Chance</dt><dd>การ์ดโอกาส</dd>
+        <dt>Community Chest</dt><dd>การ์ดกองทุนชุมชน (หีบสมบัติ)</dd>
+        <dt>Income Tax / Super Tax</dt><dd>ภาษีเงินได้ M200 / ภาษีพิเศษ M100</dd>
+        <dt>In Jail / Just Visiting</dt><dd>ติดคุก / แค่แวะเยี่ยม (ช่องเดียวกัน คนละส่วน)</dd>
+        <dt>Go To Jail</dt><dd>ไปคุกทันที</dd>
+        <dt>Free Parking</dt><dd>จอดรถฟรี · ไม่มีอะไรเกิดขึ้น</dd>
+        <dt>Get Out of Jail Free</dt><dd>การ์ดออกคุกฟรี · เก็บไว้ใช้หรือขายได้</dd>
+        <dt>Mortgage / Unmortgage</dt><dd>จำนอง / ไถ่ถอน (จำนอง + 10%)</dd>
+        <dt>Auction</dt><dd>ประมูล · เริ่ม M10 เพิ่มทีละ M1 ขึ้นไป</dd>
+        <dt>Bankrupt</dt><dd>ล้มละลาย · ออกจากเกม</dd>
+        <dt>Banker</dt><dd>นายธนาคาร · คนดูแลเงินกลาง</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b></p>
+    <ul>
+      <li>คู่มือทางการ Monopoly (Hasbro C1009) ฉบับปี 2021 จาก <a href="https://instructions.hasbro.com/en-gb/instruction/monopoly-game" target="_blank" rel="noopener">instructions.hasbro.com</a> · ไฟล์ที่เว็บให้ดาวน์โหลดใช้ชื่อถนนแบบอเมริกา แต่ข้อความกติกาเหมือนกันทุกฉบับ</li>
+      <li>ชื่อช่องและราคาที่ดินฉบับอังกฤษ: จากกระดานในกล่องของผู้ใช้ · ค่าเช่าและราคาบ้าน: ค่ามาตรฐานฉบับอังกฤษ ตรวจกับโฉนดจริงอีกครั้ง</li>
+      <li>โหมดจับเวลาอ้างจากกติกา “Short Game” ของคู่มือรุ่นเก่า · คอลัมน์ “ที่หลายวงคุ้น” “ทำไมการประมูลสำคัญ” และคำตอบที่มีป้าย <span class="flag">กฎบ้าน</span> เป็นข้อสรุปของผู้เรียบเรียง ไม่ใช่ข้อความในคู่มือ</li>
+      <li>หน้านี้เป็นคู่มือแปลไม่เป็นทางการ ภาพประกอบวาดใหม่ทั้งหมด MONOPOLY เป็นเครื่องหมายการค้าของ Hasbro</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var G={brown:"var(--g-brown)",lb:"var(--g-lb)",pink:"var(--g-pink)",orange:"var(--g-orange)",red:"var(--g-red)",yellow:"var(--g-yellow)",green:"var(--g-green)",db:"var(--g-db)"};
+var GN={brown:"น้ำตาล",lb:"ฟ้า",pink:"ชมพู",orange:"ส้ม",red:"แดง",yellow:"เหลือง",green:"เขียว",db:"น้ำเงิน"};
+var HC={brown:50,lb:50,pink:100,orange:100,red:150,yellow:150,green:200,db:200};
+/* [name, type, group, price, rents(base,1,2,3,4,hotel)] */
+var B=[
+ ["GO","go"],
+ ["Old Kent Road","st","brown",60,[2,10,30,90,160,250]],
+ ["Community Chest","cc"],
+ ["Whitechapel Road","st","brown",60,[4,20,60,180,320,450]],
+ ["Income Tax","tax",null,200],
+ ["King's Cross Station","rr",null,200],
+ ["The Angel, Islington","st","lb",100,[6,30,90,270,400,550]],
+ ["Chance","ch"],
+ ["Euston Road","st","lb",100,[6,30,90,270,400,550]],
+ ["Pentonville Road","st","lb",120,[8,40,100,300,450,600]],
+ ["Jail / Just Visiting","jail"],
+ ["Pall Mall","st","pink",140,[10,50,150,450,625,750]],
+ ["Electric Company","ut",null,150],
+ ["Whitehall","st","pink",140,[10,50,150,450,625,750]],
+ ["Northumberland Avenue","st","pink",160,[12,60,180,500,700,900]],
+ ["Marylebone Station","rr",null,200],
+ ["Bow Street","st","orange",180,[14,70,200,550,750,950]],
+ ["Community Chest","cc"],
+ ["Marlborough Street","st","orange",180,[14,70,200,550,750,950]],
+ ["Vine Street","st","orange",200,[16,80,220,600,800,1000]],
+ ["Free Parking","fp"],
+ ["Strand","st","red",220,[18,90,250,700,875,1050]],
+ ["Chance","ch"],
+ ["Fleet Street","st","red",220,[18,90,250,700,875,1050]],
+ ["Trafalgar Square","st","red",240,[20,100,300,750,925,1100]],
+ ["Fenchurch St Station","rr",null,200],
+ ["Leicester Square","st","yellow",260,[22,110,330,800,975,1150]],
+ ["Coventry Street","st","yellow",260,[22,110,330,800,975,1150]],
+ ["Water Works","ut",null,150],
+ ["Piccadilly","st","yellow",280,[24,120,360,850,1025,1200]],
+ ["Go To Jail","gtj"],
+ ["Regent Street","st","green",300,[26,130,390,900,1100,1275]],
+ ["Oxford Street","st","green",300,[26,130,390,900,1100,1275]],
+ ["Community Chest","cc"],
+ ["Bond Street","st","green",320,[28,150,450,1000,1200,1400]],
+ ["Liverpool St Station","rr",null,200],
+ ["Chance","ch"],
+ ["Park Lane","st","db",350,[35,175,500,1100,1300,1500]],
+ ["Super Tax","tax",null,100],
+ ["Mayfair","st","db",400,[50,200,600,1400,1700,2000]]
+];
+var PROPS=[];B.forEach(function(c,i){if(c[1]==="st"||c[1]==="rr"||c[1]==="ut")PROPS.push({i:i,name:c[0],t:c[1],g:c[2],price:c[3],r:c[4]});});
+function M(n){return "M"+Number(n).toLocaleString("en-US");}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+
+/* ---------- HERO ---------- */
+(function(){
+  var o='';
+  o+='<rect x="30" y="30" width="200" height="200" rx="10" fill="#d6eadb" stroke="#0a1f16" stroke-width="3"/><rect x="62" y="62" width="136" height="136" fill="#cfe6d3" stroke="#0a1f16" stroke-width="1.5"/>';
+  var cols=["#8b5a2b","#9fd3ef","#d23c93","#ef8a1b","#dd2a2a","#f1d21a","#1e9a4c","#1f56a8"];
+  for(var k=0;k<4;k++){o+='<rect x="'+(66+k*33)+'" y="34" width="28" height="8" fill="'+cols[4+k%2]+'"/>';o+='<rect x="'+(66+k*33)+'" y="218" width="28" height="8" fill="'+cols[k%2]+'"/>';o+='<rect x="34" y="'+(66+k*33)+'" width="8" height="28" fill="'+cols[2+k%2]+'"/>';o+='<rect x="218" y="'+(66+k*33)+'" width="8" height="28" fill="'+cols[6+k%2]+'"/>';}
+  o+='<rect x="96" y="112" width="70" height="38" rx="4" fill="#c42a20" transform="rotate(-30 131 131)"/>';
+  /* houses & hotel */
+  function house(x,y,c){return '<g><path d="M'+x+' '+(y+12)+' l14 -12 l14 12 v16 h-28z" fill="'+c+'" stroke="#0a1f16" stroke-width="1.5"/></g>';}
+  o+=house(236,150,"#2aa65a")+house(268,150,"#2aa65a")+house(252,180,"#2aa65a");
+  o+='<rect x="240" y="214" width="56" height="30" rx="3" fill="#d4302a" stroke="#0a1f16" stroke-width="1.5"/><path d="M236 216 h64 l-8 -12 h-48z" fill="#d4302a" stroke="#0a1f16" stroke-width="1.5"/>';
+  /* dice */
+  function die(x,y,n,rot){var s='<g transform="rotate('+rot+' '+(x+20)+' '+(y+20)+')"><rect x="'+x+'" y="'+y+'" width="40" height="40" rx="8" fill="#fff" stroke="#0a1f16" stroke-width="2"/>';var P={1:[[20,20]],5:[[10,10],[30,10],[20,20],[10,30],[30,30]],3:[[10,10],[20,20],[30,30]],6:[[10,9],[30,9],[10,20],[30,20],[10,31],[30,31]]};P[n].forEach(function(p){s+='<circle cx="'+(x+p[0])+'" cy="'+(y+p[1])+'" r="3.6" fill="#0a1f16"/>';});return s+'</g>';}
+  o+=die(244,40,5,12)+die(270,86,6,-10);
+  /* banknotes */
+  o+='<g transform="rotate(-8 90 255)"><rect x="40" y="236" width="110" height="36" rx="3" fill="#f2c84b" stroke="#0a1f16"/><text x="95" y="260" text-anchor="middle" font-size="16" class="tagf" style="fill:#0a1f16">M500</text></g>';
+  o+='<g transform="rotate(6 160 250)"><rect x="110" y="232" width="110" height="36" rx="3" fill="#f6c99a" stroke="#0a1f16"/><text x="165" y="256" text-anchor="middle" font-size="16" class="tagf" style="fill:#0a1f16">M100</text></g>';
+  $("heroart").innerHTML=o;
+})();
+
+/* ---------- BOARD ---------- */
+var SHORT={"Old Kent Road":["Old Kent","Road"],"Whitechapel Road":["Whitechapel","Road"],"King's Cross Station":["King's Cross","Station"],"The Angel, Islington":["The Angel","Islington"],"Euston Road":["Euston","Road"],"Pentonville Road":["Pentonville","Road"],"Pall Mall":["Pall Mall"],"Electric Company":["Electric","Co."],"Whitehall":["Whitehall"],"Northumberland Avenue":["Northumb.","Avenue"],"Marylebone Station":["Marylebone","Station"],"Bow Street":["Bow","Street"],"Marlborough Street":["Marlborough","Street"],"Vine Street":["Vine","Street"],"Strand":["Strand"],"Fleet Street":["Fleet","Street"],"Trafalgar Square":["Trafalgar","Square"],"Fenchurch St Station":["Fenchurch","St Stn"],"Leicester Square":["Leicester","Square"],"Coventry Street":["Coventry","Street"],"Water Works":["Water","Works"],"Piccadilly":["Piccadilly"],"Regent Street":["Regent","Street"],"Oxford Street":["Oxford","Street"],"Bond Street":["Bond","Street"],"Liverpool St Station":["Liverpool","St Stn"],"Park Lane":["Park","Lane"],"Mayfair":["Mayfair"],"Community Chest":["Community","Chest"],"Chance":["Chance"],"Income Tax":["Income","Tax"],"Super Tax":["Super","Tax"]};
+var C=84,W=54,SZ=C*2+W*9; /* 654 */
+function cellRect(i){
+  if(i===0)return [SZ-C,SZ-C,C,C,"c"];
+  if(i<10)return [SZ-C-i*W,SZ-C,W,C,"b"];
+  if(i===10)return [0,SZ-C,C,C,"c"];
+  if(i<20)return [0,SZ-C-(i-10)*W,C,W,"l"];
+  if(i===20)return [0,0,C,C,"c"];
+  if(i<30)return [C+(i-21)*W,0,W,C,"t"];
+  if(i===30)return [SZ-C,0,C,C,"c"];
+  return [SZ-C,C+(i-31)*W,C,W,"r"];
+}
+function icon(c,cx,cy){
+  var t=c[1];
+  if(t==="rr")return '<g transform="translate('+(cx-11)+' '+(cy-8)+')"><rect x="0" y="4" width="16" height="10" rx="2" fill="var(--board-ink)"/><rect x="12" y="0" width="8" height="14" rx="1" fill="var(--board-ink)"/><circle cx="4" cy="16" r="2.6" fill="var(--board-ink)"/><circle cx="14" cy="16" r="2.6" fill="var(--board-ink)"/></g>';
+  if(t==="ut"&&c[0][0]==="E")return '<g transform="translate('+(cx-7)+' '+(cy-11)+')"><circle cx="7" cy="7" r="7" fill="#f6d84a" stroke="var(--board-ink)"/><rect x="4" y="13" width="6" height="6" fill="var(--board-ink)"/></g>';
+  if(t==="ut")return '<g transform="translate('+(cx-10)+' '+(cy-8)+')"><path d="M0 4 h14 v8 h6" fill="none" stroke="var(--board-ink)" stroke-width="3"/><path d="M20 12 q2 4 0 6 q-2 -2 0 -6z" fill="#3a8fd6"/></g>';
+  if(t==="ch")return '<text x="'+cx+'" y="'+(cy+10)+'" text-anchor="middle" font-size="26" class="tagf" style="fill:var(--accent)">?</text>';
+  if(t==="cc")return '<g transform="translate('+(cx-10)+' '+(cy-7)+')"><rect x="0" y="4" width="20" height="12" rx="2" fill="#4a8fd0" stroke="var(--board-ink)"/><path d="M0 4 q10 -8 20 0" fill="#7fb6e6" stroke="var(--board-ink)"/></g>';
+  if(t==="tax")return '<g transform="translate('+(cx-8)+' '+(cy-8)+')"><path d="M8 0 l8 8 l-8 8 l-8 -8z" fill="var(--gold)" stroke="var(--board-ink)"/></g>';
+  return '';
+}
+function drawBoard(){
+  var o='<rect x="0" y="0" width="'+SZ+'" height="'+SZ+'" fill="var(--board)" stroke="var(--board-ink)" stroke-width="2"/>';
+  o+='<rect x="'+C+'" y="'+C+'" width="'+(W*9)+'" height="'+(W*9)+'" fill="var(--mint)" stroke="var(--board-ink)"/>';
+  o+='<g transform="rotate(-35 '+(SZ/2)+' '+(SZ/2)+')"><rect x="'+(SZ/2-150)+'" y="'+(SZ/2-32)+'" width="300" height="64" rx="6" fill="var(--accent)"/><text x="'+(SZ/2)+'" y="'+(SZ/2+12)+'" text-anchor="middle" font-size="32" class="tagf" style="fill:#fff;letter-spacing:.12em">ฉบับอังกฤษ</text></g>';
+  o+='<text x="'+(SZ/2)+'" y="'+(SZ/2+90)+'" text-anchor="middle" font-size="13" class="mut">แตะช่องเพื่อดูรายละเอียด</text>';
+  B.forEach(function(c,i){
+    var r=cellRect(i),x=r[0],y=r[1],w=r[2],h=r[3],side=r[4];
+    o+='<g class="cell" data-i="'+i+'" tabindex="0" role="button" aria-label="'+esc(c[0])+(c[3]?" ราคา "+c[3]:"")+'">';
+    o+='<rect class="bg" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="var(--board)" stroke="var(--board-ink)" stroke-width="1"/>';
+    var band=14,tx,ty,cx=x+w/2,cy=y+h/2;
+    if(c[1]==="st"){
+      if(side==="b")o+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+band+'" fill="'+G[c[2]]+'" stroke="var(--board-ink)"/>';
+      if(side==="t")o+='<rect x="'+x+'" y="'+(y+h-band)+'" width="'+w+'" height="'+band+'" fill="'+G[c[2]]+'" stroke="var(--board-ink)"/>';
+      if(side==="l")o+='<rect x="'+(x+w-band)+'" y="'+y+'" width="'+band+'" height="'+h+'" fill="'+G[c[2]]+'" stroke="var(--board-ink)"/>';
+      if(side==="r")o+='<rect x="'+x+'" y="'+y+'" width="'+band+'" height="'+h+'" fill="'+G[c[2]]+'" stroke="var(--board-ink)"/>';
+    }
+    if(side==="c"){
+      var lab={go:["GO","รับ M200","←"],jail:["IN JAIL","Just","Visiting"],fp:["FREE","PARKING","จอดฟรี"],gtj:["GO TO","JAIL","ไปคุก"]}[c[1]];
+      o+='<text x="'+cx+'" y="'+(cy-10)+'" text-anchor="middle" font-size="'+(c[1]==="go"?24:13)+'" class="tagf" style="fill:'+(c[1]==="go"?"var(--accent)":"var(--board-ink)")+'">'+lab[0]+'</text>';
+      o+='<text x="'+cx+'" y="'+(cy+10)+'" text-anchor="middle" font-size="12" class="tagf" style="fill:var(--board-ink)">'+lab[1]+'</text>';
+      o+='<text x="'+cx+'" y="'+(cy+28)+'" text-anchor="middle" font-size="12" style="fill:var(--muted)">'+lab[2]+'</text>';
+      if(c[1]==="jail")o+='<rect x="'+(x+C-50)+'" y="'+(y+4)+'" width="46" height="46" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 3"/>';
+    }else{
+      var lines=SHORT[c[0]]||[c[0]];
+      var ia,ib;
+      if(side==="b"){tx=cx;ty=y+band+13;ia=cx;ib=y+48;}
+      else if(side==="t"){tx=cx;ty=y+12;ia=cx;ib=y+44;}
+      else if(side==="l"){tx=x+(w-band)/2;ty=y+14;ia=x+(w-band)/2;ib=y+33;}
+      else {tx=x+band+(w-band)/2;ty=y+14;ia=tx;ib=y+33;}
+      var fs=(side==="l"||side==="r")?9.5:8.2;
+      if(side==="l"||side==="r"){o+='<text x="'+tx+'" y="'+ty+'" text-anchor="middle" font-size="'+fs+'" class="tagf" style="fill:var(--board-ink)">'+esc(lines.join(" "))+'</text>';}
+      else lines.forEach(function(L,k){o+='<text x="'+tx+'" y="'+(ty+k*10)+'" text-anchor="middle" font-size="'+fs+'" class="tagf" style="fill:var(--board-ink)">'+esc(L)+'</text>';});
+      o+=icon(c,ia,ib);
+      if(c[3]){var py=(side==="t")?y+h-band-5:(side==="b")?y+h-6:y+h-6;var px=(side==="l")?x+(w-band)/2:(side==="r")?x+band+(w-band)/2:cx;o+='<text x="'+px+'" y="'+py+'" text-anchor="middle" font-size="10" class="tagf" style="fill:var(--board-ink)">'+M(c[3])+'</text>';}
+    }
+    o+='</g>';
+  });
+  $("board-svg").setAttribute("viewBox","-3 -3 "+(SZ+6)+" "+(SZ+6));
+  $("board-svg").innerHTML=o;
+}
+function cellInfo(i){
+  var c=B[i],h='';
+  var d={go:"ผ่านหรือหยุด รับ M200 จากธนาคาร",jail:"หยุดเฉย ๆ = แค่แวะเยี่ยม (Just Visiting) · ถ้าถูกส่งมา อยู่ส่วน In Jail ดูวิธีออกในหัวข้อคุก",fp:"ไม่มีอะไรเกิดขึ้น · ไม่มีเงินกองกลาง",gtj:"ไปคุกทันที ไม่รับ M200 จบตา",cc:"จั่วการ์ดกองทุนชุมชน ทำตามทันที แล้วสอดใต้กอง",ch:"จั่วการ์ดโอกาส ทำตามทันที แล้วสอดใต้กอง",tax:"จ่ายธนาคาร "+M(c[3])};
+  if(c[1]==="st"){
+    var g=c[2];
+    h='<h3><span class="chipc" style="background:'+G[g]+'"></span>'+esc(c[0])+' <span class="en">กลุ่ม'+GN[g]+'</span></h3>';
+    h+='<p>ราคา <span class="m">'+M(c[3])+'</span> · บ้านหลังละ <span class="m">'+M(HC[g])+'</span> · จำนองได้ <span class="m">'+M(c[3]/2)+'</span></p>';
+    h+='<p>ค่าเช่า <span class="m">'+M(c[4][0])+'</span> · ครบสี <span class="m">'+M(c[4][0]*2)+'</span> · บ้าน 1–4: <span class="m">'+c[4].slice(1,5).map(M).join(" / ")+'</span> · โรงแรม <span class="m">'+M(c[4][5])+'</span></p>';
+  }else if(c[1]==="rr"){
+    h='<h3>'+esc(c[0])+' <span class="en">สถานีรถไฟ</span></h3><p>ราคา <span class="m">M200</span> · จำนอง <span class="m">M100</span> · ค่าเช่าตามจำนวนสถานีของเจ้าของ: <span class="m">M25 / M50 / M100 / M200</span></p>';
+  }else if(c[1]==="ut"){
+    h='<h3>'+esc(c[0])+' <span class="en">สาธารณูปโภค</span></h3><p>ราคา <span class="m">M150</span> · จำนอง <span class="m">M75</span> · ค่าเช่า = แต้มเต๋า × 4 (ถือ 1 แห่ง) หรือ × 10 (ถือ 2 แห่ง)</p>';
+  }else{
+    h='<h3>'+esc(c[0])+'</h3><p>'+d[c[1]]+'</p>';
+  }
+  $("cellinfo").innerHTML=h;
+  Array.prototype.forEach.call(document.querySelectorAll("#board-svg .cell"),function(e){e.classList.toggle("sel",+e.getAttribute("data-i")===i);});
+}
+drawBoard();cellInfo(39);
+$("board-svg").addEventListener("click",function(e){var g=e.target.closest(".cell");if(g)cellInfo(+g.getAttribute("data-i"));});
+$("board-svg").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){var g=e.target.closest(".cell");if(g){e.preventDefault();cellInfo(+g.getAttribute("data-i"));}}});
+
+/* ---------- MONEY ---------- */
+(function(){
+  var notes=[[500,2,"#f2c84b"],[100,4,"#f6c99a"],[50,1,"#9fd3ef"],[20,1,"#a6dba8"],[10,2,"#f4c4dc"],[5,1,"#f6ead0"],[1,5,"#ffffff"]];
+  var o='',x=10;
+  notes.forEach(function(n){
+    for(var k=n[1]-1;k>=0;k--){o+='<rect x="'+(x+k*5)+'" y="'+(24-k*4)+'" width="78" height="44" rx="4" fill="'+n[2]+'" stroke="#2a3a32"/>';}
+    o+='<text x="'+(x+39)+'" y="52" text-anchor="middle" font-size="17" class="tagf" style="fill:#14291f">M'+n[0]+'</text>';
+    o+='<text x="'+(x+44)+'" y="100" text-anchor="middle" font-size="17" class="tagf">× '+n[1]+'</text>';
+    o+='<text x="'+(x+44)+'" y="122" text-anchor="middle" font-size="13" class="mut">= M'+(n[0]*n[1])+'</text>';
+    x+=98;
+  });
+  o+='<text x="690" y="146" text-anchor="end" font-size="13" class="tagf" style="fill:var(--accent)">รวม M1,500</text>';
+  $("money-svg").innerHTML=o;
+})();
+
+/* ---------- EVEN BUILD ---------- */
+(function(){
+  function hs(x,y,n){var s='';for(var k=0;k<n;k++)s+='<path d="M'+(x+k*15)+' '+(y+8)+' l6 -6 l6 6 v8 h-12z" fill="#2aa65a" stroke="#0a1f16"/>';return s;}
+  function street(x,y,n,label){return '<rect x="'+x+'" y="'+y+'" width="68" height="90" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="'+x+'" y="'+y+'" width="68" height="18" rx="3" fill="var(--g-orange)"/>'+hs(x+4,y+24,n)+'<text x="'+(x+34)+'" y="'+(y+72)+'" text-anchor="middle" font-size="11" class="mut">'+label+'</text><text x="'+(x+34)+'" y="'+(y+112)+'" text-anchor="middle" font-size="16" class="tagf">'+n+'</text>';}
+  var o='';
+  o+='<text x="10" y="20" font-size="14" class="tagf" style="fill:var(--good)">✓ ถูก</text>';
+  o+=street(10,34,2,"Bow")+street(86,34,1,"Marlb.")+street(162,34,1,"Vine");
+  o+='<text x="300" y="20" font-size="14" class="tagf" style="fill:var(--bad)">✗ ผิด: มีช่องที่ยังไม่มีบ้าน</text>';
+  o+=street(300,34,2,"Bow")+street(376,34,0,"Marlb.")+street(452,34,1,"Vine");
+  o+='<text x="700" y="20" text-anchor="end" font-size="14" class="tagf" style="fill:var(--bad)">✗ ห่างเกิน 1</text>';
+  o+='<g transform="translate(-10 0)">'+street(546,34,3,"Bow")+'</g><text x="640" y="80" font-size="13" class="mut">อีก 2 ช่อง</text><text x="640" y="98" font-size="13" class="mut">มี 1 หลัง</text>';
+  $("even-svg").innerHTML=o;
+})();
+
+/* ---------- JAIL ---------- */
+(function(){
+  var o='<rect x="10" y="70" width="140" height="90" rx="10" fill="var(--surface-2)" stroke="var(--line)"/>';
+  for(var k=0;k<5;k++)o+='<rect x="'+(26+k*24)+'" y="80" width="5" height="70" fill="var(--muted)"/>';
+  o+='<text x="80" y="185" text-anchor="middle" font-size="14" class="tagf">IN JAIL</text>';
+  var opts=[["จ่าย M50","ต้นตาถัดไป แล้วทอยเดินปกติ","var(--gold-soft)"],["ใช้การ์ดออกคุกฟรี","สอดคืนใต้กอง แล้วทอยเดิน","var(--blue-soft)"],["ทอยได้เลขคู่","เดินตามแต้ม แล้วจบตา · ได้ 3 ตา","var(--mint)"]];
+  opts.forEach(function(p,i){var y=14+i*72;o+='<path d="M150 115 C 200 115, 200 '+(y+28)+', 250 '+(y+28)+'" fill="none" stroke="var(--muted)" stroke-width="2"/><rect x="250" y="'+y+'" width="250" height="56" rx="10" fill="'+p[2]+'" stroke="var(--line)"/><text x="266" y="'+(y+24)+'" font-size="15" class="tagf">'+(i+1)+'. '+p[0]+'</text><text x="266" y="'+(y+44)+'" font-size="12.5" class="mut">'+p[1]+'</text>';});
+  o+='<path d="M500 186 C 540 186, 540 186, 560 186" stroke="var(--bad)" stroke-width="2" fill="none"/><rect x="560" y="150" width="134" height="72" rx="10" fill="var(--accent-soft)" stroke="var(--line)"/><text x="627" y="174" text-anchor="middle" font-size="12.5" class="tagf">ตาที่ 3 ยังไม่ได้คู่</text><text x="627" y="194" text-anchor="middle" font-size="12.5">จ่าย M50</text><text x="627" y="212" text-anchor="middle" font-size="12.5">เดินตามแต้มนั้น</text>';
+  $("jail-svg").innerHTML=o;
+})();
+
+/* ---------- RENT TABLE ---------- */
+(function(){
+  var h='<thead><tr><th>ที่ดิน</th><th class="num">ราคา</th><th class="num">ค่าเช่า</th><th class="num">ครบสี</th><th class="num">บ้าน 1</th><th class="num">บ้าน 2</th><th class="num">บ้าน 3</th><th class="num">บ้าน 4</th><th class="num">โรงแรม</th><th class="num">ราคาบ้าน</th><th class="num">จำนอง</th></tr></thead><tbody>';
+  PROPS.forEach(function(p){
+    if(p.t!=="st")return;
+    h+='<tr><td><span class="chipc" style="background:'+G[p.g]+'"></span> '+esc(p.name)+'</td><td class="num">'+p.price+'</td><td class="num">'+p.r[0]+'</td><td class="num">'+(p.r[0]*2)+'</td>';
+    for(var k=1;k<=5;k++)h+='<td class="num">'+p.r[k]+'</td>';
+    h+='<td class="num">'+HC[p.g]+'</td><td class="num">'+(p.price/2)+'</td></tr>';
+  });
+  h+='<tr><td>สถานีรถไฟ × 4</td><td class="num">200</td><td colspan="7">ถือ 1 = 25 · 2 = 50 · 3 = 100 · 4 = 200</td><td class="num">—</td><td class="num">100</td></tr>';
+  h+='<tr><td>การไฟฟ้า / การประปา</td><td class="num">150</td><td colspan="7">แต้มเต๋า × 4 (ถือ 1) · × 10 (ถือ 2)</td><td class="num">—</td><td class="num">75</td></tr>';
+  $("rent-table").innerHTML=h+'</tbody>';
+})();
+
+/* ---------- RENT CALC ---------- */
+(function(){
+  var sel=$("rc-prop");
+  PROPS.forEach(function(p,k){var o=document.createElement("option");o.value=k;o.textContent=(p.g?GN[p.g]+" · ":p.t==="rr"?"สถานี · ":"สาธารณูปโภค · ")+p.name;sel.appendChild(o);});
+  sel.value=PROPS.length-1;
+  var ST=[["base","ยังไม่ครบสี"],["set","ครบสี ไม่มีบ้าน"],["h1","บ้าน 1 หลัง"],["h2","บ้าน 2 หลัง"],["h3","บ้าน 3 หลัง"],["h4","บ้าน 4 หลัง"],["hotel","โรงแรม"],["mort","ติดจำนอง"]];
+  ST.forEach(function(s){var o=document.createElement("option");o.value=s[0];o.textContent=s[1];$("rc-state").appendChild(o);});
+  $("rc-state").value="set";
+  function render(){
+    var p=PROPS[+sel.value],st=$("rc-state").value,out='',notes=[],rent=0,mort=p.price/2,unm=Math.ceil(mort*1.1);
+    var isSt=p.t==="st";
+    $("rc-count-wrap").hidden=isSt;$("rc-dice-wrap").hidden=p.t!=="ut";
+    var cs=$("rc-count"),max=p.t==="rr"?4:2,cur=+cs.value||1;
+    if(cs.options.length!==max){cs.innerHTML="";for(var k=1;k<=max;k++){var o=document.createElement("option");o.value=k;o.textContent=k+" แห่ง";cs.appendChild(o);}cs.value=Math.min(cur,max);}
+    var mortOpt=isSt?st==="mort":false;
+    if(!isSt){
+      Array.prototype.forEach.call($("rc-state").options,function(o){o.hidden=!(o.value==="base"||o.value==="mort");o.textContent=o.value==="base"?"ปกติ":o.textContent.replace("ยังไม่ครบสี","ยังไม่ครบสี");});
+      if(st!=="base"&&st!=="mort"){$("rc-state").value="base";st="base";}
+      mortOpt=st==="mort";
+    }else{
+      Array.prototype.forEach.call($("rc-state").options,function(o){o.hidden=false;if(o.value==="base")o.textContent="ยังไม่ครบสี";});
+    }
+    if(mortOpt){rent=0;notes.push("ที่ดินติดจำนอง เก็บค่าเช่าไม่ได้");}
+    else if(isSt){
+      var idx={base:0,h1:1,h2:2,h3:3,h4:4,hotel:5}[st];
+      rent=st==="set"?p.r[0]*2:p.r[idx];
+      if(st==="set")notes.push("ครบสีแต่ยังไม่มีบ้าน คิดค่าเช่าพื้นฐาน × 2 · ถ้าในสีมีช่องอื่นจำนองอยู่ ช่องนี้ยังได้ × 2 แต่สร้างบ้านในสีนี้ไม่ได้");
+      if(st.charAt(0)==="h")notes.push("ราคาบ้านกลุ่ม"+GN[p.g]+" หลังละ "+M(HC[p.g])+" · ขายคืนได้ "+M(HC[p.g]/2));
+    }else if(p.t==="rr"){
+      var n=+cs.value;rent=[0,25,50,100,200][n];notes.push("นับสถานีทั้งหมดที่เจ้าของถือ รวมที่จำนอง");
+    }else{
+      var dv=Math.max(2,Math.min(12,+$("rc-dice").value||7));var n2=+cs.value;rent=dv*(n2===2?10:4);notes.push("แต้ม "+dv+" × "+(n2===2?10:4));
+    }
+    out+='<div class="co hl"><b>'+M(rent)+'</b><small>ค่าเช่าที่ต้องจ่าย</small></div>';
+    out+='<div class="co"><b>'+M(p.price)+'</b><small>ราคาซื้อ</small></div>';
+    out+='<div class="co"><b>'+M(mort)+'</b><small>รับเมื่อจำนอง</small></div>';
+    out+='<div class="co"><b>'+M(unm)+'</b><small>จ่ายเมื่อไถ่ถอน (+10%)</small></div>';
+    out+='<div class="co"><b>'+M(Math.ceil(mort*0.1))+'</b><small>ค่า 10% ตอนรับโฉนดจำนองมา</small></div>';
+    $("rc-out").innerHTML=out;
+    if(mort*0.1%1)notes.push("ตัวเลข 10% มีเศษ เครื่องนี้ปัดขึ้น ถ้าหลังโฉนดพิมพ์ยอดไว้ ใช้ตามโฉนด");
+    $("rc-notes").innerHTML=notes.map(function(s){return "<li>"+s+"</li>";}).join("");
+  }
+  ["rc-prop","rc-state","rc-count","rc-dice"].forEach(function(id){$(id).addEventListener("input",render);$(id).addEventListener("change",render);});
+  render();
+})();
+
+/* ---------- STOCK ---------- */
+(function(){
+  var s={h:32,o:12};
+  function show(msg){$("stk-h").textContent=s.h;$("stk-o").textContent=s.o;if(msg)$("stk-msg").textContent=msg;}
+  document.querySelectorAll("#stock [data-k]").forEach(function(b){b.addEventListener("click",function(){var k=b.getAttribute("data-k"),d=+b.getAttribute("data-d"),max=k==="h"?32:12;var v=s[k]+d;if(v<0){show((k==="h"?"บ้าน":"โรงแรม")+"หมดแล้ว ต้องรอคนขายคืน");return;}if(v>max)return;s[k]=v;show(s.h<=3?"บ้านเหลือน้อย ถ้ามีหลายคนอยากได้พร้อมกัน ต้องประมูล เริ่ม M10":" ");});});
+  $("stk-up").addEventListener("click",function(){if(s.o<1){show("โรงแรมหมด อัปไม่ได้");return;}if(s.h+4>32){show("ตัวเลขบ้านเกิน 32 ตรวจการนับอีกครั้ง");return;}s.o--;s.h+=4;show("อัปโรงแรมแล้ว บ้าน 4 หลังกลับเข้าธนาคาร");});
+  $("stk-reset").addEventListener("click",function(){s.h=32;s.o=12;show("เริ่มนับใหม่");});
+})();
+
+/* ---------- NET WORTH ---------- */
+(function(){
+  var grid=$("nw-grid"),ranks=[];
+  var OPTS=[["0","—"],["own","ถือ"],["1","บ้าน 1"],["2","บ้าน 2"],["3","บ้าน 3"],["4","บ้าน 4"],["hotel","โรงแรม"],["mort","จำนอง"]];
+  var sample={"Old Kent Road":"2","Whitechapel Road":"2","Liverpool St Station":"own","King's Cross Station":"own","Bond Street":"mort","Water Works":"own"};
+  PROPS.forEach(function(p,k){
+    var row=document.createElement("div");row.className="nw-row";
+    var id="nw-p"+k;
+    var sw=p.g?'<span class="chipc" style="background:'+G[p.g]+'"></span>':'<span class="chipc" style="background:var(--muted)"></span>';
+    var opts=OPTS.filter(function(o){return p.t==="st"||o[0]==="0"||o[0]==="own"||o[0]==="mort";}).map(function(o){return '<option value="'+o[0]+'">'+o[1]+'</option>';}).join("");
+    row.innerHTML='<label for="'+id+'">'+sw+esc(p.name)+'</label><select id="'+id+'" data-k="'+k+'">'+opts+'</select>';
+    grid.appendChild(row);
+    if(sample[p.name])row.querySelector("select").value=sample[p.name];
+  });
+  function calc(){
+    var cash=Math.max(0,+$("nw-cash").value||0),land=0,bld=0;
+    grid.querySelectorAll("select").forEach(function(s){var p=PROPS[+s.getAttribute("data-k")],v=s.value;if(v==="0")return;if(v==="mort"){land+=p.price/2;return;}land+=p.price;if(v==="hotel")bld+=HC[p.g]*5;else if(/^[1-4]$/.test(v))bld+=HC[p.g]*(+v);});
+    var tot=cash+land+bld;
+    $("nw-out").innerHTML='<div class="co"><b>'+M(cash)+'</b><small>เงินสด</small></div><div class="co"><b>'+M(land)+'</b><small>ที่ดิน (จำนองคิดครึ่ง)</small></div><div class="co"><b>'+M(bld)+'</b><small>บ้าน/โรงแรม (ราคาซื้อ)</small></div><div class="co hl"><b>'+M(tot)+'</b><small>ทรัพย์สินรวม</small></div>';
+    return tot;
+  }
+  function renderRank(){
+    if(!ranks.length){$("nw-rank").innerHTML='<li class="note">ยังไม่มีการบันทึก</li>';return;}
+    var r=ranks.slice().sort(function(a,b){return b.v-a.v;});
+    $("nw-rank").innerHTML=r.map(function(x,i){return '<li>'+(i===0?"🏆 ":"")+esc(x.n)+' — <b>'+M(x.v)+'</b></li>';}).join("");
+  }
+  grid.addEventListener("change",calc);$("nw-cash").addEventListener("input",calc);
+  $("nw-save").addEventListener("click",function(){ranks.push({n:$("nw-name").value||("ผู้เล่น "+(ranks.length+1)),v:calc()});renderRank();$("nw-name").value="ผู้เล่น "+(ranks.length+1);$("nw-cash").value=0;grid.querySelectorAll("select").forEach(function(s){s.value="0";});calc();});
+  $("nw-clearall").addEventListener("click",function(){ranks=[];renderRank();});
+  calc();
+})();
+})();
+</script>
+
+</body></html>

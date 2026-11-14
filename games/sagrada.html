@@ -1,0 +1,995 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sagrada ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: lead-glass night header with a drawn window of dice, then a reading column with a sticky chapter rail; diagrams are drawn SVG; setup helper, window scorer and scorepad live near the end. */
+:root{
+  --bg:#eef1f5;
+  --surface:#ffffff;
+  --surface-2:#e2e7ee;
+  --fg:#18202c;
+  --muted:#556072;
+  --line:#cdd4de;
+  --accent:#23529b;
+  --accent-soft:#dfe8f6;
+  --lead:#1b2230;
+  --d-r:#c8382f; --d-y:#e0a91b; --d-g:#2f8f52; --d-b:#2d63b8; --d-p:#7d43a8; --d-x:#9fb7c4;
+  --r-soft:#f6dedb; --y-soft:#f8eccb; --g-soft:#d9eee0; --b-soft:#dbe5f5; --p-soft:#ebdff4;
+  --band-1:#0d1220; --band-2:#1a2440; --band-fg:#eef2fa; --spot:#f4cf6a;
+  --good:#24804a; --bad:#bf3328;
+  --font-display:"Noto Serif Thai","Leelawadee UI","Tahoma",serif;
+  --font-body:"IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","IBM Plex Sans Thai","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f131b;--surface:#171c26;--surface-2:#222936;--fg:#e8ecf3;--muted:#a1abbc;--line:#2f3747;
+    --accent:#8fb4f2;--accent-soft:#1d2a42;--lead:#05070c;
+    --d-r:#e0574d;--d-y:#e9b937;--d-g:#43a967;--d-b:#4c82d6;--d-p:#9a63c6;--d-x:#b9cfda;
+    --r-soft:#3a1c1a;--y-soft:#372c12;--g-soft:#15301f;--b-soft:#162540;--p-soft:#2a1c39;
+    --band-1:#070a12;--band-2:#141c33;--band-fg:#eef2fa;--spot:#f4cf6a;
+    --good:#5ccd80;--bad:#ff6e62;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f131b;--surface:#171c26;--surface-2:#222936;--fg:#e8ecf3;--muted:#a1abbc;--line:#2f3747;
+  --accent:#8fb4f2;--accent-soft:#1d2a42;--lead:#05070c;
+  --d-r:#e0574d;--d-y:#e9b937;--d-g:#43a967;--d-b:#4c82d6;--d-p:#9a63c6;--d-x:#b9cfda;
+  --r-soft:#3a1c1a;--y-soft:#372c12;--g-soft:#15301f;--b-soft:#162540;--p-soft:#2a1c39;
+  --band-1:#070a12;--band-2:#141c33;--band-fg:#eef2fa;--spot:#f4cf6a;
+  --good:#5ccd80;--bad:#ff6e62;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.75rem}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 78% 10%,#2b3d6e 0%,transparent 58%),linear-gradient(170deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.3rem,5.6vw,3.6rem);margin-top:6px;letter-spacing:.01em}
+.hero h1 span{display:block;font-size:.42em;color:var(--spot);margin-top:4px;font-weight:600}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:400px;margin-inline:auto}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#fff}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.red{background:var(--r-soft)} .callout.yellow{background:var(--y-soft)} .callout.green{background:var(--g-soft)} .callout.blue{background:var(--b-soft)} .callout.purple{background:var(--p-soft)}
+.callout h3{font-size:1.08rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--y-soft);color:var(--fg);border:1px solid var(--d-y)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)}
+.s-good{fill:var(--good)} .s-bad{fill:var(--bad)} .s-acc{fill:var(--accent)}
+.k-good{stroke:var(--good)} .k-bad{stroke:var(--bad)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:700}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* cards grid */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.dot{width:14px;height:14px;border-radius:3px;display:inline-block;flex:none}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.08rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+.tc{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:6px}
+
+/* expansion headers */
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.06em;opacity:.92}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)}
+.co.hl b{color:var(--accent)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+
+/* window scorer */
+.ws{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:20px;align-items:start}
+.pal{display:flex;flex-wrap:wrap;gap:6px}
+.pal button{width:40px;height:40px;border-radius:9px;border:2px solid transparent;cursor:pointer;font-family:var(--font-tag);font-weight:600;font-size:1rem;color:#fff}
+.pal button[aria-pressed="true"]{border-color:var(--fg);box-shadow:0 0 0 2px var(--surface) inset}
+.pal .vbtn{background:var(--surface-2);color:var(--fg);border-color:var(--line)}
+.pal .vbtn[aria-pressed="true"]{background:var(--band-2);color:var(--spot);border-color:var(--band-2)}
+.wgrid{display:grid;grid-template-columns:repeat(5,52px);gap:5px;background:var(--lead);padding:8px;border-radius:12px;width:max-content;max-width:100%}
+.wgrid button{width:52px;height:52px;border-radius:8px;border:0;cursor:pointer;padding:0;background:var(--surface-2);display:grid;place-items:center;position:relative}
+.wgrid button svg{width:44px;height:44px}
+.wgrid button.bad{outline:3px solid var(--bad);outline-offset:-3px}
+.wgrid .lab{font-family:var(--font-tag);font-size:.7rem;color:var(--muted)}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px}
+.ri{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:10px;padding:6px 10px;background:var(--surface-2);min-width:0;font-size:.92rem}
+.ri label{display:flex;gap:8px;align-items:center;cursor:pointer;min-width:0}
+.ri input{width:18px;height:18px;accent-color:var(--accent);flex:none}
+.ri b{font-family:var(--font-tag);font-weight:600;font-variant-numeric:tabular-nums}
+.ri.on{box-shadow:inset 4px 0 0 var(--accent)}
+.warn{color:var(--bad);font-size:.92rem}
+.sel{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 8px;min-height:36px}
+.numin{font:inherit;font-family:var(--font-tag);font-weight:600;width:72px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+
+/* scorepad */
+.sp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.sp{min-width:560px;font-size:.95rem}
+.sp th,.sp td{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;padding-left:12px}
+.sp input[type=text]{font:inherit;font-size:1rem;width:100%;min-width:70px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 8px;text-align:center}
+.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:64px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sp input::-webkit-outer-spin-button,.sp input::-webkit-inner-spin-button,.numin::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sp tr.tot td{font-family:var(--font-tag);font-weight:600;font-size:1.25rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.sp td.win{color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.sp .sub{font-size:.78rem;color:var(--muted);display:block;line-height:1.3}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(120px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .ws{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (max-width:420px){
+  .wgrid{grid-template-columns:repeat(5,minmax(0,1fr));width:100%}
+  .wgrid button{width:auto;aspect-ratio:1;height:auto}
+  .wgrid button svg{width:80%;height:80%}
+}
+@media (prefers-reduced-motion:no-preference){
+  .glow{animation:glow 6s ease-in-out infinite alternate}
+  @keyframes glow{from{opacity:.55}to{opacity:.95}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + ภาคเสริม 5-6 คน + Passion</div>
+      <h1>Sagrada<span>ซากราดา · ดราฟต์ลูกเต๋ามาประกอบหน้าต่างกระจกสีของมหาวิหาร</span></h1>
+      <p class="lede">ทุกคนเป็นช่างกระจกสีที่แข่งกันทำหน้าต่างในมหาวิหาร Sagrada Familia ลูกเต๋าแต่ละลูกคือกระจก 1 ชิ้น มี<b>สี</b>และ<b>ความเข้ม</b> (แต้มน้อย = สีอ่อน) แต่ละรอบผลัดกันหยิบลูกเต๋าจากกองกลางมาวางบนหน้าต่าง 4×5 ช่อง ต้องวางตามข้อจำกัดบนการ์ด และห้ามวางลูกสีเดียวกันหรือแต้มเดียวกันติดกัน ครบ 10 รอบแล้วนับคะแนนจากเป้าหมายส่วนกลางและเป้าหมายลับ</p>
+      <div class="facts">
+        <div class="fact"><b>1–6</b><small>ผู้เล่น (4 คนจากเกมหลัก)</small></div>
+        <div class="fact"><b>10</b><small>รอบ แล้วจบเกม</small></div>
+        <div class="fact"><b>4×5</b><small>ช่องบนหน้าต่าง = 20 ลูก</small></div>
+        <div class="fact"><b>30–45</b><small>นาที</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:var(--d-b)">5-6 Player Expansion</span>
+        <span class="xb" style="background:var(--d-r)">Passion · ยังไม่เคยเล่น</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 320 330" id="heroart"></svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#window">อ่านการ์ดหน้าต่าง</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#round">หนึ่งรอบเล่น</a></li>
+      <li><a href="#place">กฎวางลูกเต๋า</a></li>
+      <li><a href="#tools">การ์ดเครื่องมือ</a></li>
+      <li><a href="#scoring">จบเกม & นับคะแนน</a></li>
+      <li><a href="#solo">เล่นคนเดียว</a></li>
+      <li class="sep">ภาคเสริม</li>
+      <li><a href="#five-six">5-6 คน</a></li>
+      <li><a href="#pool">กองเต๋าส่วนตัว</a></li>
+      <li><a href="#passion">Passion</a></li>
+      <li><a href="#mix">รวมทุกภาค</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#helper">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#scorer">ตรวจหน้าต่าง</a></li>
+      <li><a href="#pad">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>แต่ละรอบ (เล่น 10 รอบ)</h3>
+        <ol>
+          <li>ผู้เริ่มรอบหยิบลูกเต๋าจากถุง <b>2 × จำนวนผู้เล่น + 1</b> ลูก ทอยกองกลาง</li>
+          <li>ผลัดกันเล่นตามเข็มนาฬิกา แล้ว<b>ย้อนกลับ</b>ทวนเข็ม (แบบงู) ทุกคนได้ 2 ตาต่อรอบ</li>
+          <li>ในตาหนึ่งทำได้อย่างละ 1 ครั้ง ไม่ทำก็ได้: <b>หยิบลูกเต๋า 1 ลูกมาวาง</b> และ/หรือ <b>ใช้การ์ดเครื่องมือ 1 ใบ</b> (จ่ายเหรียญ Favor)</li>
+          <li>ลูกที่เหลือไปวางบนรางรอบ ส่งถุงลูกเต๋าให้คนทางซ้าย เป็นผู้เริ่มรอบใหม่</li>
+        </ol>
+      </div>
+      <div class="callout red">
+        <h3>กฎวางที่ต้องจำ</h3>
+        <ul>
+          <li>ลูกแรกของเกมต้องวาง<b>ช่องริมหรือมุม</b></li>
+          <li>ลูกต่อ ๆ ไปต้อง<b>แตะ</b>ลูกที่วางแล้ว (ด้านข้างหรือแนวทแยงก็ได้)</li>
+          <li>ช่องสีรับเฉพาะลูกสีนั้น ช่องตัวเลขรับเฉพาะแต้มนั้น ช่องขาววางอะไรก็ได้</li>
+          <li><b>ห้าม</b>วางลูกสีเดียวกันหรือแต้มเดียวกัน<b>ชิดด้านข้าง</b>กัน (ทแยงได้)</li>
+        </ul>
+      </div>
+      <p class="prose">จบเกมนับ: เป้าหมายส่วนกลาง 3 ใบ (ทำซ้ำได้หลายครั้ง) + เป้าหมายลับ (ผลรวมแต้มลูกเต๋าสีของคุณ) + เหรียญ Favor ที่เหลือ เหรียญละ 1 − ช่องว่างช่องละ 1 · คะแนนสูงสุดชนะ</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>กล่อง</th><th>ของในกล่อง</th></tr></thead>
+          <tbody>
+            <tr><td><b>เกมหลัก</b><br><span class="en">1–4 คน</span></td><td>ลูกเต๋า 90 ลูก (5 สี สีละ 18: แดง เหลือง เขียว น้ำเงิน ม่วง) + ถุงผ้า, กรอบหน้าต่าง (บอร์ดผู้เล่น) 4, การ์ดหน้าต่างสองหน้า 12 ใบ (24 ลาย), การ์ดเครื่องมือ 12, เป้าหมายส่วนกลาง 10 (หลังเต๋าสีฟ้า), เป้าหมายลับ 5 (หลังเต๋าสีเทา), เหรียญ Favor 24, ตัวนับคะแนน 4, รางรอบ (พลิกเป็นรางคะแนน)</td></tr>
+            <tr><td><b style="color:var(--d-b)">5-6 Player</b><br><span class="en">เพิ่ม 2 คน</span></td><td>ลูกเต๋าเพิ่ม 40 (สีละ 8 → รวม 130), กรอบหน้าต่าง 2, เหรียญ Favor 12, ตัวนับคะแนน 2, <b>บอร์ดกองเต๋าส่วนตัว</b> 6, การ์ดหน้าต่าง 6, <b>เป้าหมายลับแบบใหม่</b> 6, การ์ดเครื่องมือใหม่ 2, ถาดลูกเต๋า 1</td></tr>
+            <tr><td><b style="color:var(--d-r)">Passion</b><br><span class="en">The Great Facades ภาค 1</span></td><td><b>การ์ดแรงบันดาลใจ</b> 6, <b>บอร์ดกระจกหายาก</b> 6, <b>ลูกเต๋ากระจกหายาก</b> 6, เป้าหมายลับกระจกหายาก 7, เป้าหมายส่วนกลางแบบสมมาตร/สมดุล 6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">การ์ดของภาค 5-6 คนมีสัญลักษณ์ภาคเสริมที่มุมการ์ด ใช้แยกเก็บกล่องหลังเล่น · Passion เป็นภาคแบบแยกชิ้น (modular) ใส่ทั้งหมดหรือเลือกเฉพาะบางส่วนก็ได้</p>
+    </section>
+
+    <!-- WINDOW -->
+    <section id="window">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>อ่านการ์ดหน้าต่าง</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 700 300" role="img" aria-label="การ์ดหน้าต่าง 4 แถว 5 คอลัมน์ มีช่องสี ช่องตัวเลข และช่องขาว" id="windemo"></svg>
+        </div>
+        <figcaption>ลายหน้าต่างนี้แต่งขึ้นเพื่ออธิบาย ไม่ใช่การ์ดจริง · แถวเรียกด้วยตัวอักษร A–D (บนลงล่าง) คอลัมน์ 1–5 (ซ้ายไปขวา) เหมือนในคู่มือ</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3><span class="dot" style="background:var(--d-r)"></span>ช่องสี</h3><p>รับเฉพาะลูกเต๋า<b>สีนั้น</b> แต้มอะไรก็ได้</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--muted)"></span>ช่องตัวเลข (ความเข้ม)</h3><p>ช่องเทาเข้มมีจุดแต้ม รับเฉพาะลูกที่<b>แต้มนั้น</b> สีอะไรก็ได้</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--surface-2);border:1px solid var(--line)"></span>ช่องขาว</h3><p>ไม่มีข้อจำกัดของช่อง แต่ยังต้องทำตามกฎวางข้ออื่น</p></div>
+        <div class="type"><h3>ความยาก 3–6</h3><p>จุดที่มุมการ์ดบอกความยาก หน้าต่างยากได้<b>เหรียญ Favor</b> ตอนเริ่มเกมมากกว่า (ความยาก 5 = 5 เหรียญ)</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม (เกมหลัก 2–4 คน)</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>แจกเป้าหมายลับ</h3><p>สับเป้าหมายลับ (หลังเต๋าสีเทา) แจกคนละ 1 ใบคว่ำ ดูได้คนเดียว แต่ละใบคือ 1 สี เช่น <b>Shades of Green</b> = จบเกมได้คะแนนเท่าผลรวมแต้มลูกเต๋าสีเขียวทั้งหมดในหน้าต่างคุณ</p></div></li>
+        <li><div class="body"><h3>เลือกหน้าต่าง</h3><p>แจกการ์ดหน้าต่างคนละ <b>2 ใบ</b> (สองหน้า = 4 ลาย) และกรอบหน้าต่าง 1 อัน เลือก 1 ลาย สอดการ์ดเข้าที่ขอบล่างของกรอบ อีกใบเก็บกล่อง</p>
+          <ul><li>ดูลายเทียบกับสีของเป้าหมายลับตัวเองก่อนเลือก</li></ul></div></li>
+        <li><div class="body"><h3>รับเหรียญ Favor</h3><p>เท่ากับเลขความยากของลายที่เลือก (3–6 เหรียญ) วางตัวนับคะแนนสีของตัวเองไว้ข้างรางรอบ</p></div></li>
+        <li><div class="body"><h3>กลางโต๊ะ</h3><p>วางรางรอบ เปิด<b>การ์ดเครื่องมือ 3 ใบ</b> และ<b>เป้าหมายส่วนกลาง 3 ใบ</b> (หลังเต๋าสีฟ้า) ที่เหลือเก็บกล่อง ใส่ลูกเต๋าทั้ง 90 ลูกลงถุง</p></div></li>
+        <li><div class="body"><h3>เลือกผู้เริ่ม</h3><p>สุ่ม หรือให้คนที่<b>ไปโบสถ์/มหาวิหารล่าสุด</b>เริ่ม (คู่มือแนะนำแบบนี้) ผู้เริ่มถือถุงลูกเต๋า</p></div></li>
+      </ol>
+      <p class="note">ถ้ามีภาค 5-6 คน คู่มือภาคเสริมให้ใส่ลูกเต๋าลงถุง<b>พอดีจำนวนที่ใช้</b> (2 คน 50 · 3 คน 70 · 4 คน 90 · 5 คน 110 · 6 คน 130) ดูได้ใน <a href="#helper">ตัวช่วยเตรียมเกม</a></p>
+    </section>
+
+    <!-- ROUND -->
+    <section id="round">
+      <div class="sec-head"><span class="tag">ทุกรอบ</span><h2>หนึ่งรอบเล่น</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 700 220" role="img" aria-label="ลำดับเล่นแบบงู 3 คน 1 2 3 แล้ว 3 2 1" id="snakedemo"></svg>
+        </div>
+        <figcaption>ตัวอย่างจากคู่มือ 3 คน: เอมิลี่ (ผู้เริ่ม) → เบน → มาริ แล้วมาริเล่นต่ออีกตาทันที → เบน → เอมิลี่ · เปิดลูกเต๋า 7 ลูก ใช้ไป 6 เหลือ 1 ลงรางรอบ</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>ทอยกองกลาง</h3><p>ผู้เริ่มรอบหยิบลูกเต๋าจากถุงแบบสุ่ม: 2 คน = 5 ลูก · 3 คน = 7 · 4 คน = 9 · 5 คน = 11 · 6 คน = 13 แล้วทอย</p></div></li>
+        <li><div class="body"><h3>ตาแรก ตามเข็มนาฬิกา</h3><p>ในตาของคุณ ทำแต่ละอย่างได้ 1 ครั้ง สลับลำดับได้ และไม่ทำเลยก็ได้</p>
+          <ul><li>หยิบลูกเต๋า 1 ลูกจากกองกลาง วางลงช่องว่างบนหน้าต่าง</li><li>ใช้การ์ดเครื่องมือ 1 ใบ โดยจ่ายเหรียญ Favor</li></ul></div></li>
+        <li><div class="body"><h3>ตาที่สอง ทวนเข็ม</h3><p>คนสุดท้ายเล่นตาที่สองต่อทันที แล้วย้อนกลับจนถึงผู้เริ่มรอบ</p></div></li>
+        <li><div class="body"><h3>จบรอบ</h3><p>ลูกเต๋าที่เหลือทั้งหมดวางบนรางรอบ ทับเลขรอบที่เพิ่งจบ (เหลือหลายลูกก็วางกองที่ช่องเดียว) ส่งถุงตามเข็มนาฬิกา คนนั้นเป็นผู้เริ่มรอบใหม่ จบรอบที่ 10 = จบเกม</p></div></li>
+      </ol>
+    </section>
+
+    <!-- PLACE -->
+    <section id="place">
+      <div class="sec-head"><span class="tag">กฎสำคัญที่สุด</span><h2>กฎวางลูกเต๋า</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 700 300" role="img" aria-label="ลูกแดง 3 อยู่กลาง ช่องข้างห้ามแดงและห้าม 3 ช่องทแยงวางได้" id="placedemo"></svg>
+        </div>
+        <figcaption>รอบลูกแดง 3: ด้านข้างห้ามลูกแดงและห้ามแต้ม 3 · ทแยงมุมวางแดงหรือ 3 ได้ · ช่องที่ไม่แตะลูกใดเลยวางไม่ได้</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>ลูกแรก: ริมหรือมุม</h3><p>ลูกแรกของเกมต้องอยู่ช่องขอบนอกของหน้าต่าง (แถว A, แถว D, คอลัมน์ 1 หรือ 5) และต้องตรงข้อจำกัดของช่องนั้นด้วย</p></div></li>
+        <li><div class="body"><h3>ลูกต่อไป: ต้องแตะ</h3><p>ต้องอยู่ติดลูกที่วางแล้วอย่างน้อย 1 ลูก ทั้ง<b>ด้านข้าง</b> (แถว/คอลัมน์เดียวกัน) หรือ<b>ทแยงมุม</b>ก็ได้</p></div></li>
+        <li><div class="body"><h3>ตรงข้อจำกัดของช่อง</h3><p>ช่องสี = สีตรง · ช่องตัวเลข = แต้มตรง · ช่องขาว = อะไรก็ได้</p></div></li>
+        <li><div class="body"><h3>ห้ามซ้ำกับลูกชิดด้านข้าง</h3><p>ลูกที่ชิด<b>ด้านข้าง</b>กันต้อง<b>ต่างสีและต่างแต้ม</b> ทแยงมุมไม่ถือ</p></div></li>
+      </ol>
+      <div class="callout yellow">
+        <h3>เคล็ดลับจากคู่มือ</h3>
+        <p>อย่าวางลูกชิดช่องที่ “ตรงกับมัน” เช่นลูกแต้ม 2 ชิดช่องเลข 2 หรือลูกแดงชิดช่องแดง เพราะช่องนั้นจะวางอะไรไม่ได้อีกเลย เสียคะแนน −1 ตอนจบ</p>
+      </div>
+      <div class="callout red">
+        <h3>วางผิดแล้วเพิ่งเห็น</h3>
+        <p>ถ้าพบเมื่อไรว่าหน้าต่างของใครผิดกฎ คนนั้นต้อง<b>เอาลูกเต๋าออก</b> (เลือกเองว่าลูกไหน) จนถูกกฎทั้งหมด ลูกที่เอาออกเลิกใช้ ช่องที่ว่างเพราะเหตุนี้หักคะแนนตามปกติ</p>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools">
+      <div class="sec-head"><span class="tag">ความสามารถพิเศษ</span><h2>การ์ดเครื่องมือ และเหรียญ Favor</h2></div>
+      <div class="callout">
+        <h3>ค่าใช้ 1 หรือ 2 เหรียญ</h3>
+        <p>วางเหรียญ Favor บนการ์ดเครื่องมือ: <b>ถ้าบนการ์ดยังไม่มีเหรียญ จ่าย 1</b> ถ้ามีเหรียญอยู่แล้ว (ใครวางไว้ก็ตาม) <b>จ่าย 2</b> แล้วใช้ความสามารถ ตาละไม่เกิน 1 ใบ · เหรียญที่เหลือจบเกมได้เหรียญละ 1 คะแนน</p>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th class="num">#</th><th>การ์ด</th><th>ความสามารถ</th></tr></thead>
+          <tbody id="tooltable"></tbody>
+        </table>
+      </div>
+      <p class="note">สีที่หน้าชื่อการ์ดคือสีมุมซ้ายบน ใช้เฉพาะตอนเล่นคนเดียว (ตรวจกับการ์ดจริงอีกครั้ง) · เครื่องมือที่ย้ายลูกเต๋า ลูกที่ย้ายยังต้องทำตามกฎวางข้ออื่นทั้งหมด · ภาค 5-6 คนมีเครื่องมือเพิ่ม 2 ใบ ใช้เฉพาะกติกากองเต๋าส่วนตัว (ดู <a href="#pool">กองเต๋าส่วนตัว</a>)</p>
+    </section>
+
+    <!-- SCORING -->
+    <section id="scoring">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และนับคะแนน</h2></div>
+      <p class="prose">จบรอบที่ 10 ให้เก็บลูกเต๋าออกจากรางรอบ พลิกเป็นรางคะแนน (เกิน 50 พลิกตัวนับ) แล้วรวมคะแนน 4 ส่วน</p>
+      <ol class="steps">
+        <li><div class="body"><h3>เป้าหมายส่วนกลาง 3 ใบ</h3><p>ทุกคนได้จากทุกใบ และ<b>ได้หลายครั้ง</b>ต่อใบ เป้าหมายแบบแถว/คอลัมน์นับเฉพาะแถว/คอลัมน์ที่<b>เต็ม</b></p></div></li>
+        <li><div class="body"><h3>เป้าหมายลับ</h3><p>ผลรวมแต้มของลูกเต๋าสีบนการ์ด</p></div></li>
+        <li><div class="body"><h3>เหรียญ Favor ที่เหลือ</h3><p>เหรียญละ +1</p></div></li>
+        <li><div class="body"><h3>ช่องว่าง</h3><p>ช่องละ −1</p></div></li>
+      </ol>
+      <h3>เป้าหมายส่วนกลาง 10 ใบ (เกมหลัก)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>เงื่อนไข</th><th class="num">คะแนน</th></tr></thead>
+          <tbody>
+            <tr><td><b>Row Color Variety</b><br><span class="en">สีไม่ซ้ำในแถว</span></td><td>แถวเต็มที่ไม่มีสีซ้ำ</td><td class="num">6 / แถว</td></tr>
+            <tr><td><b>Column Color Variety</b><br><span class="en">สีไม่ซ้ำในคอลัมน์</span></td><td>คอลัมน์เต็มที่ไม่มีสีซ้ำ</td><td class="num">5 / คอลัมน์</td></tr>
+            <tr><td><b>Row Shade Variety</b><br><span class="en">แต้มไม่ซ้ำในแถว</span></td><td>แถวเต็มที่ไม่มีแต้มซ้ำ</td><td class="num">5 / แถว</td></tr>
+            <tr><td><b>Column Shade Variety</b><br><span class="en">แต้มไม่ซ้ำในคอลัมน์</span></td><td>คอลัมน์เต็มที่ไม่มีแต้มซ้ำ</td><td class="num">4 / คอลัมน์</td></tr>
+            <tr><td><b>Light Shades</b><br><span class="en">สีอ่อน</span></td><td>ชุดของแต้ม 1 กับ 2 (ที่ไหนก็ได้)</td><td class="num">2 / ชุด</td></tr>
+            <tr><td><b>Medium Shades</b><br><span class="en">สีกลาง</span></td><td>ชุดของแต้ม 3 กับ 4</td><td class="num">2 / ชุด</td></tr>
+            <tr><td><b>Deep Shades</b><br><span class="en">สีเข้ม</span></td><td>ชุดของแต้ม 5 กับ 6</td><td class="num">2 / ชุด</td></tr>
+            <tr><td><b>Shade Variety</b><br><span class="en">แต้มครบ</span></td><td>ชุดแต้ม 1-2-3-4-5-6 ครบ 1 ชุด</td><td class="num">5 / ชุด</td></tr>
+            <tr><td><b>Color Variety</b><br><span class="en">สีครบ</span></td><td>ชุดที่มีครบ 5 สี สีละ 1 ลูก</td><td class="num">4 / ชุด</td></tr>
+            <tr><td><b>Color Diagonals</b><br><span class="en">สีต่อเนื่องทแยง</span></td><td>นับจำนวนลูกเต๋าที่อยู่ในแนวทแยงต่อกันซึ่ง<b>สีเดียวกัน</b> (ลูกละ 1)</td><td class="num"># ลูก</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">คำนวณจำนวน “ชุด” ง่าย ๆ: จำนวนชุด = จำนวนของสิ่งที่มีน้อยที่สุดในชุด เช่น แต้ม 1 มี 2 ลูก แต้ม 2 มี 3 ลูก = Light Shades 2 ชุด (4 คะแนน) · คะแนนตัวที่ยืนยันจากคู่มือ: Column Color Variety 5, Light Shades 2, Color Variety 4 ส่วนใบอื่นตรวจตัวเลขบนการ์ดจริงอีกครั้ง</p>
+      <div class="callout green">
+        <h3>ตัวอย่างนับคะแนนในคู่มือ (รวม 40)</h3>
+        <ul>
+          <li>Column Color Variety: คอลัมน์ 4 และ 5 = 10 (คอลัมน์ 1, 3 ไม่เต็ม · คอลัมน์ 2 มีเขียวซ้ำ)</li>
+          <li>Light Shades: แต้ม 1 มี 2 ลูก แต้ม 2 มี 3 ลูก = 2 ชุด = 4</li>
+          <li>Color Variety: 3 ชุด = 12</li>
+          <li>เป้าหมายลับ Shades of Purple: 5 + 6 + 6 = 17</li>
+          <li>เหรียญเหลือ 0 · ช่องว่าง 3 ช่อง = −3</li>
+        </ul>
+      </div>
+      <div class="callout red">
+        <h3>เสมอกัน</h3>
+        <p>ดูคะแนน<b>เป้าหมายลับ</b>มากกว่า → ยังเสมอดู<b>เหรียญ Favor เหลือ</b>มากกว่า → ยังเสมอ ให้คนที่เล่น<b>ทีหลังในลำดับรอบสุดท้าย</b>ชนะ (ลำดับย้อนกลับของรอบสุดท้าย)</p>
+      </div>
+    </section>
+
+    <!-- SOLO -->
+    <section id="solo">
+      <div class="sec-head"><span class="tag">1 คน</span><h2>เล่นคนเดียว</h2></div>
+      <p class="prose">เป้าคือชนะ<b>คะแนนเป้า</b> = ผลรวมแต้มของลูกเต๋าทั้งหมดที่ค้างบนรางรอบตอนจบเกม</p>
+      <div class="types">
+        <div class="type"><h3>ตั้งเกม</h3><ul><li><b>ไม่ใช้</b>เหรียญ Favor</li><li>เปิดเป้าหมายส่วนกลาง 2 ใบ และเป้าหมายลับ 2 ใบ (หงาย)</li><li>การ์ดเครื่องมือ 1 ใบ (ยากสุด) ถึง 5 ใบ (ง่ายสุด)</li></ul></div>
+        <div class="type"><h3>เล่น 10 รอบ</h3><ul><li>รอบละ 4 ลูก ทอย</li><li>เล่น 2 ตา แต่ละตาหยิบ-วางลูก 1 ลูก และ/หรือใช้เครื่องมือ</li><li>ใช้เครื่องมือโดย<b>จ่ายลูกเต๋าจากกองกลาง</b>ที่สีตรงกับมุมซ้ายบนของการ์ด ใช้แล้วทิ้งทั้งลูกเต๋าและการ์ด (ใบละครั้งเดียว)</li></ul></div>
+        <div class="type"><h3>จบรอบ & นับ</h3><ul><li>ลูกที่เหลือลงรางรอบ<b>ห้ามเปลี่ยนแต้ม</b> ไม่เหลือเลยใช้ตัวนับคะแนนวางแทน</li><li>ลูกที่จ่ายค่าเครื่องมือไม่นับเป็นเป้า</li><li>เลือกนับเป้าหมายลับ 1 ใน 2 ใบ</li><li>ช่องว่างหักช่องละ <b>3</b></li><li>คะแนน<b>มากกว่า</b>เป้า = ชนะ</li></ul></div>
+      </div>
+    </section>
+
+    <!-- 5-6 -->
+    <section id="five-six">
+      <div class="xhead" style="--c:var(--d-b)"><span class="tag">ภาคเสริม · 5-6 PLAYER EXPANSION</span><h2>เล่น 5–6 คน</h2><p>เพิ่มคนได้อีก 2 คน กติกามาตรฐานเหมือนเกมหลักทุกอย่าง และเพิ่ม<b>กติกากองเต๋าส่วนตัว</b> (เลือกใช้ได้ 2–6 คน) ให้เกมเร็วขึ้น</p></div>
+      <h3>เล่นแบบกติกามาตรฐาน</h3>
+      <div class="prose"><ul>
+        <li>ทุกอย่างเหมือนเกมหลัก เล่น 2 ตาต่อรอบแบบงูเหมือนเดิม</li>
+        <li>ใส่ลูกเต๋าลงถุงให้พอดีจำนวนคน: 5 คน = สีละ 22 (110 ลูก) · 6 คน = สีละ 26 (130 ลูก ทั้งหมด)</li>
+        <li>ทอยรอบละ 2 × คน + 1: 5 คน = 11 ลูก · 6 คน = 13 ลูก</li>
+        <li><b>6 คนต้องใช้เป้าหมายลับแบบใหม่ด้วย</b> เพราะเกมหลักมีเป้าหมายลับแค่ 5 สี</li>
+        <li>ทุกจำนวนคน: สับเป้าหมายลับเก่ากับใหม่รวมกันได้ หรือใช้แต่แบบใหม่ก็ได้</li>
+      </ul></div>
+      <div class="types">
+        <div class="type"><h3>เป้าหมายลับแบบใหม่ 6 ใบ</h3><p>แต่ละใบแรเงาช่องเฉพาะบนหน้าต่าง จบเกมได้คะแนน<b>ผลรวมแต้มลูกเต๋าในช่องที่แรเงา ไม่สนสี</b></p></div>
+        <div class="type"><h3>ตัวอย่างการ์ด Fence</h3><p>ช่องที่แรเงา B1, C1, B3, C3, B5, C5 · ลูกเต๋าได้ 3 + 5 + 0 + 0 + 2 + 3 = <b>13 คะแนน</b> (ช่องว่างหรือไม่มีลูกได้ 0)</p></div>
+        <div class="type"><h3>การ์ดหน้าต่างใหม่ 6 ใบ</h3><p>ใช้ปนกับการ์ดเกมหลักได้ตามปกติ</p></div>
+      </div>
+      <p class="note">ชื่อและตำแหน่งช่องของเป้าหมายลับใบอื่น ให้ดูจากการ์ดจริง (คู่มือยกตัวอย่างไว้ใบเดียว)</p>
+    </section>
+
+    <!-- PRIVATE POOL -->
+    <section id="pool">
+      <div class="sec-head"><span class="tag">กติกาเสริมของภาค 5-6 คน · 2–6 คน</span><h2>กองเต๋าส่วนตัว <span class="en">Private Dice Pool</span></h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 700 220" role="img" aria-label="บอร์ดกองเต๋าส่วนตัว มีลูกเต๋า 10 ลูก สีละ 2" id="pooldemo"></svg>
+        </div>
+        <figcaption>เริ่มเกมทุกคนได้ลูกเต๋าสีละ 2 ลูก (10 ลูก) ทอยแล้ววางบนบอร์ดของตัวเอง ใช้ได้ทั้งเกม ไม่มีการเติม</figcaption>
+      </figure>
+      <div class="callout blue">
+        <h3>ต่างจากกติกาปกติ 3 ข้อ</h3>
+        <ol>
+          <li>ทุกคนเล่นแค่ <b>1 ตาต่อรอบ</b> ตามเข็มนาฬิกา (ไม่มีแบบงู)</li>
+          <li>มีการกระทำเพิ่ม: <b>หยิบลูกเต๋า 1 ลูกจากกองส่วนตัว</b>มาวาง</li>
+          <li>กองกลางมีลูกเต๋าน้อยลง: <b>คน + 1</b> ลูก (2 คน 3 · 3 คน 4 · 4 คน 5 · 5 คน 6 · 6 คน 7)</li>
+        </ol>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>ตั้งถุงใหม่</h3><p>ทุกคนรับบอร์ดกองเต๋าส่วนตัว + ลูกเต๋าสีละ 2 ทอยแล้ววางในช่อง จากนั้นใส่ลูกเต๋าลงถุง: 2 คน สีละ 6 (30) · 3 คน สีละ 8 (40) · 4 คน สีละ 10 (50) · 5 คน สีละ 12 (60) · 6 คน สีละ 14 (70 ลูกที่เหลือทั้งหมด)</p></div></li>
+        <li><div class="body"><h3>ในตาเดียวของคุณ ทำได้อย่างละ 1 ครั้ง ลำดับไหนก็ได้</h3>
+          <ul><li>หยิบลูกจาก<b>กองส่วนตัว</b> 1 ลูกมาวาง</li><li>หยิบลูกจาก<b>กองกลาง</b> 1 ลูกมาวาง</li><li>ใช้การ์ดเครื่องมือ 1 ใบ</li></ul>
+          <p>ทำครบ 3 อย่าง ทำบางอย่าง หรือผ่านก็ได้ · ลูกจากกองส่วนตัวก็ต้องทำตามกฎวางทุกข้อ</p></div></li>
+        <li><div class="body"><h3>เรื่องการ์ดเครื่องมือ</h3>
+          <ul><li>เอา <b>Glazing Hammer (#7)</b> และ <b>Running Pliers (#8)</b> ออก ไม่ใช้กับกติกานี้</li><li>ใส่<b>เครื่องมือใหม่ 2 ใบ</b>ของภาคนี้ (ใช้เฉพาะกติกานี้)</li><li>เครื่องมือเกมหลักที่เขียนว่า “Draft Pool” หรือ “ลูกที่หยิบ (Drafted Die)” <b>ใช้กับลูกจากกองส่วนตัวไม่ได้</b></li><li>เล่นรอบละตาเดียว จึงใช้เครื่องมือได้รอบละครั้งเดียว</li></ul></div></li>
+      </ol>
+      <div class="types">
+        <div class="type"><h3>Strip Cutter <span class="en">#13</span></h3><p>หลังหยิบลูกจากกองกลาง <b>สลับ</b>ลูกนั้นกับลูกในกองส่วนตัวของคุณ</p></div>
+        <div class="type"><h3>เครื่องมือใหม่ใบที่ 2</h3><p>เป็นการ์ดที่เล่นกับกองส่วนตัวเช่นกัน <span class="flag">อ่านข้อความจากการ์ดจริง</span> คู่มือไม่ได้พิมพ์ข้อความไว้</p></div>
+      </div>
+    </section>
+
+    <!-- PASSION -->
+    <section id="passion">
+      <div class="xhead" style="--c:var(--d-r)"><span class="tag">ภาคเสริม · PASSION (THE GREAT FACADES ภาค 1) · ยังไม่เคยเล่น</span><h2>Passion</h2><p>มี 3 ส่วนแยกกัน เลือกใส่ทีละส่วนได้: <b>การ์ดแรงบันดาลใจ</b> (พลังประจำตัว), <b>กระจกหายาก</b> (ลูกเต๋าไร้สีที่ซื้อด้วยเหรียญ Favor) และ<b>เป้าหมายสมมาตร</b></p></div>
+
+      <h3>ส่วนที่ 1 · การ์ดแรงบันดาลใจ <span class="en">Inspiration</span></h3>
+      <div class="prose"><ul>
+        <li><b>ก่อนเลือกหน้าต่าง</b> สับการ์ดแรงบันดาลใจ แจกคนละ 1 ใบ หงายไว้ข้างบอร์ด</li>
+        <li>ใช้ได้ทุกเมื่อในตาของตัวเอง เว้นแต่การ์ดบอกเป็นอย่างอื่น</li>
+        <li>การ์ดที่ใช้ได้<b>รอบละครั้ง</b> หรือ<b>เกมละครั้ง</b>: ใช้แล้วคว่ำ · แบบรอบละครั้งหงายกลับตอนเริ่มรอบใหม่</li>
+      </ul></div>
+      <div class="types">
+        <div class="type"><h3>Luck <span class="en">โชค</span></h3><p>รอบละครั้ง <b>ทอยใหม่</b>ลูกที่หยิบมา ถ้าวางไม่ได้ ให้คืนลูกนั้นกลับที่เดิม</p></div>
+        <div class="type"><h3>Wisdom <span class="en">ปัญญา</span></h3><p>เริ่มเกม<b>เสียเหรียญ Favor 1</b> · รอบละครั้ง ใช้เครื่องมือ<b>จ่ายแค่ 1 เหรียญ</b> (แม้การ์ดจะมีเหรียญอยู่แล้ว)</p></div>
+        <div class="type"><h3>Resourcefulness <span class="en">ไหวพริบ</span></h3><p>รอบละครั้ง หลังหยิบลูกเต๋า จ่าย 1 เหรียญเพื่อ<b>สลับลูกนั้นกับลูกบนรางรอบ</b> <span class="flag">ข้อความในคู่มือถูกตัด ตรวจกับการ์ด</span></p></div>
+        <div class="type"><h3>การ์ดอื่นอีก 3 ใบ</h3><p>คู่มือไม่ได้พิมพ์ไว้ รีวิวหนึ่งพูดถึงใบที่ได้เหรียญ Favor เพิ่ม (สูงสุด 3) <span class="flag">อ่านจากการ์ดจริง</span></p></div>
+      </div>
+
+      <h3>ส่วนที่ 2 · กระจกหายาก <span class="en">Rare Glass</span></h3>
+      <ol class="steps">
+        <li><div class="body"><h3>ตั้งเกม (ก่อนเลือกเครื่องมือ)</h3><p>สุ่มบอร์ดกระจกหายาก 1 แผ่นวางกลางโต๊ะ ทอยลูกเต๋ากระจกหายากใส่ทุกช่องบนบอร์ด แล้ว<b>เปิดเครื่องมือแค่ 2 ใบ</b> (บอร์ดนี้นับแทนเครื่องมือใบที่ 3)</p></div></li>
+        <li><div class="body"><h3>ซื้อด้วยเหรียญ Favor</h3><p>เป็นการกระทำในตาของคุณ: จ่ายเหรียญตามที่บอร์ดกำหนด แล้วหยิบลูกกระจกหายาก 1 ลูกมาวางบนหน้าต่าง</p>
+          <ul><li>หน้าต่างหนึ่งมีกระจกหายากได้<b>แค่ 1 ลูก</b> มีแล้วใช้บอร์ดอีกไม่ได้</li><li>ระหว่างรอบ ถ้าบอร์ดไม่เหลือลูก ทอยใหม่ใส่ทุกช่อง</li></ul></div></li>
+      </ol>
+      <div class="types">
+        <div class="type"><h3>คุณสมบัติลูกกระจกหายาก</h3><ul>
+          <li><b>ไม่มีสี</b> จึงไม่ผิดกฎสีซ้ำชิดกันเลย แต่กฎ<b>แต้ม</b>ซ้ำชิดกันยังใช้</li>
+          <li>วางทับช่องสีอะไรก็ได้ แต่ต้องตรงช่องตัวเลข</li>
+          <li>นับเป็นช่องที่มีลูก ทำให้แถว/คอลัมน์/แนวทแยงเต็มได้</li>
+          <li>Row/Column Color Variety: นับเป็น<b>สีพิเศษที่ไม่ซ้ำ</b> แถวที่มีกระจกหายาก + 4 สีต่างกัน = ได้คะแนน</li>
+        </ul></div>
+        <div class="type"><h3>บอร์ดที่รู้ข้อความ</h3><ul>
+          <li><b>Iridescent Glass</b>: จ่ายเหรียญ = จำนวนช่องว่างใน<b>แถวบนสุด</b></li>
+          <li><b>Textured Glass</b>: จ่ายเหรียญ = จำนวน<b>มุม</b>ที่ยังว่าง</li>
+          <li><b>Architectural Glass</b>: จ่าย 2 เหรียญ วางลูกได้เลย</li>
+          <li><b>Glue Chip Glass</b>: ห้ามใช้ตอนเล่นคนเดียว</li>
+        </ul><p class="note">บอร์ดอื่น และค่าใช้ของ Glue Chip <span class="flag">อ่านจากบอร์ดจริง</span></p></div>
+        <div class="type"><h3>เป้าหมายลับกระจกหายาก (7 ใบ)</h3>
+          <p>ใช้<b>แทน</b>เป้าหมายลับแบบอื่นทั้งหมดเมื่อเล่นส่วนนี้ ตัวอย่างในคู่มือ:</p><ul>
+          <li>ทุกสีหรือแต้มที่ไม่ซ้ำ<b>รอบ</b>ลูกกระจกหายาก (3 คะแนน/อย่าง)</li>
+          <li>ทุกลูกที่<b>แต้มเท่า</b>ลูกกระจกหายาก (3 คะแนน/ลูก)</li>
+          <li>ผลรวมแต้ม<b>สูงสุดของแต่ละสี</b>ที่อยู่ติดลูกกระจกหายาก</li>
+        </ul><p class="note">ตัวเลข 3 อ่านจากภาพการ์ดในคู่มือ ใบที่เหลือดูการ์ดจริง</p></div>
+      </div>
+
+      <h3>ส่วนที่ 3 · เป้าหมายสมมาตร/สมดุล (6 ใบ)</h3>
+      <div class="types">
+        <div class="type"><h3>Horizontal Shade Symmetry</h3><p>คู่ลูกเต๋า<b>แต้มเดียวกัน</b>ที่อยู่ตำแหน่ง<b>สะท้อนกันข้ามคอลัมน์กลาง</b> (คอลัมน์ 1↔5, 2↔4 ในแถวเดียวกัน) · 3 คะแนน/คู่</p></div>
+        <div class="type"><h3>Vertical Color Balance</h3><p>คู่ลูกเต๋า<b>สีเดียวกัน</b>ในตำแหน่งเดียวกันของ<b>ครึ่งบน</b> (แถว A-B) กับ<b>ครึ่งล่าง</b> (แถว C-D) · 3 คะแนน/คู่</p></div>
+        <div class="type"><h3>อีก 4 ใบ</h3><p>เป็นแนวเดียวกัน (สมมาตร/สมดุลของสีหรือแต้ม) <span class="flag">อ่านจากการ์ดจริง</span></p></div>
+      </div>
+      <div class="callout red">
+        <h3>คู่ที่ไม่ควรเปิดพร้อมกัน (คู่มือแนะนำ)</h3>
+        <p>เป้าหมายสมมาตรบางใบขัดกับเกมหลักโดยตรง เช่น <b>Vertical Color Balance</b> กับ <b>Column Color Variety</b> หรือ <b>Horizontal Shade Symmetry</b> กับ <b>Row Shade Variety</b> สุ่มได้คู่แบบนี้ให้เปลี่ยนใบ</p>
+      </div>
+      <div class="callout">
+        <h3>เล่นคนเดียวกับ Passion</h3>
+        <ul>
+          <li>สุ่มบอร์ดกระจกหายากใช้แทนเครื่องมือ 1 ใบ (ได้ Glue Chip ให้สุ่มใหม่)</li>
+          <li>สุ่มเป้าหมายลับกระจกหายาก 1 ใบ เป็น 1 ใน 2 เป้าหมายลับ · สุ่มการ์ดแรงบันดาลใจ 1 ใบ</li>
+          <li><b>กลับมาใช้เหรียญ Favor</b> ได้ตามความยากหน้าต่าง ใช้ซื้อกระจกหายาก ใช้แรงบันดาลใจ และใช้เครื่องมือแบบเกมหลายคนได้ (นอกจากจ่ายด้วยลูกเต๋า)</li>
+          <li>เหรียญเหลือเหรียญละ 1 คะแนน</li>
+          <li>ได้กระจกหายากมา 1 ลูก = มีลูกเหลือลงรางรอบเพิ่ม 1 ลูก เป้าคะแนนจะสูงขึ้น</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MIX -->
+    <section id="mix">
+      <div class="sec-head"><span class="tag">ภาคเสริมทั้งหมด</span><h2>รวมทุกภาค</h2></div>
+      <div class="prose"><ul>
+        <li>ทั้งสองภาคเสียบเข้ากันได้ Passion มีการ์ดแรงบันดาลใจ 6 ใบ จึงแจกครบ 6 คน</li>
+        <li><b>กระจกหายาก + 6 คน</b>: ใช้เป้าหมายลับกระจกหายาก (7 ใบ) แทนแบบอื่น จึงไม่ต้องห่วงเรื่องเป้าหมายลับไม่พอ</li>
+        <li><b>กระจกหายาก + กองเต๋าส่วนตัว</b>: เปิดเครื่องมือ 2 ใบเหมือนเดิม และยังต้องตัด #7, #8 ออกจากกองสุ่ม</li>
+        <li>เกม 5–6 คนช้าลงตามจำนวนคน ถ้าวงเล่นเร็วไม่ได้ ลองกองเต๋าส่วนตัว (เล่นรอบละตาเดียว)</li>
+        <li>เกมแรกที่ใส่ Passion แนะนำใส่<b>ทีละส่วน</b> เริ่มจากการ์ดแรงบันดาลใจ เพราะเปลี่ยนกติกาน้อยที่สุด</li>
+      </ul></div>
+      <p class="note">ข้อแนะนำในหัวข้อนี้เป็นข้อสรุปจากกติกาของแต่ละภาค คู่มือทางการไม่ได้เขียนวิธีรวมไว้ตรง ๆ</p>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ตอนเตรียมเกม</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="h-players" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+          <div><span class="field-l">กติกา</span><div class="seg" id="h-mode" role="group" aria-label="กติกา">
+            <button type="button" data-v="std" aria-pressed="true">มาตรฐาน</button>
+            <button type="button" data-v="pool" aria-pressed="false">กองเต๋าส่วนตัว</button>
+          </div></div>
+        </div>
+        <div class="tool-row">
+          <label class="chk"><input type="checkbox" id="h-insp"> การ์ดแรงบันดาลใจ</label>
+          <label class="chk"><input type="checkbox" id="h-rare"> กระจกหายาก</label>
+          <label class="chk"><input type="checkbox" id="h-sym"> เป้าหมายสมมาตร</label>
+        </div>
+        <div class="calc-out" id="h-out"></div>
+        <ul class="notes" id="h-notes"></ul>
+      </div>
+    </section>
+
+    <!-- SCORER -->
+    <section id="scorer">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบเกม</span><h2>ตรวจหน้าต่าง และนับเป้าหมายส่วนกลาง</h2></div>
+      <p class="prose">ลอกหน้าต่างของผู้เล่นลงตาราง: เลือกสีและแต้ม แล้วแตะช่อง (แตะซ้ำด้วยค่าเดิม = ลบ) ตัวช่วยจะ<b>ทำเครื่องหมายแดง</b>ที่ลูกผิดกฎสี/แต้มซ้ำชิดกัน และคำนวณเป้าหมายส่วนกลางทั้ง 10 ใบ ติ๊กเลือก 3 ใบที่เปิดในเกมนี้ เปิดมาเป็นหน้าต่างตัวอย่าง</p>
+      <div class="tool">
+        <div class="ws">
+          <div style="display:grid;gap:10px;min-width:0">
+            <div><span class="field-l">สี</span><div class="pal" id="w-col" role="group" aria-label="เลือกสี"></div></div>
+            <div><span class="field-l">แต้ม</span><div class="pal" id="w-val" role="group" aria-label="เลือกแต้ม"></div></div>
+            <div class="wgrid" id="w-grid" role="grid" aria-label="หน้าต่าง 4 แถว 5 คอลัมน์"></div>
+            <div class="seg"><button type="button" class="btn" id="w-sample">หน้าต่างตัวอย่าง</button><button type="button" class="btn" id="w-clear">ล้างทั้งหมด</button></div>
+          </div>
+          <div style="display:grid;gap:12px;min-width:0">
+            <div class="res" id="w-res"></div>
+            <div class="tool-row">
+              <div><label class="field-l" for="w-priv">เป้าหมายลับ (สี)</label><select class="sel" id="w-priv"></select></div>
+              <div><label class="field-l" for="w-fav">เหรียญ Favor เหลือ</label><input class="numin" type="number" id="w-fav" min="0" value="2" inputmode="numeric"></div>
+              <label class="chk"><input type="checkbox" id="w-solo"> เล่นคนเดียว (ช่องว่าง −3)</label>
+            </div>
+            <div class="calc-out" id="w-out"></div>
+            <p class="warn" id="w-warn"></p>
+            <p class="note">ตรวจเฉพาะกฎสี/แต้มซ้ำชิดกัน ไม่รู้ลายการ์ดหน้าต่างของคุณ จึงไม่ตรวจข้อจำกัดของช่อง · “กระจกหายาก” (Passion) ไม่มีสี นับเป็นสีพิเศษใน Row/Column Color Variety แต่ไม่นับใน Color Variety และ Color Diagonals</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบเกม</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="p-players" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน"></div></div>
+          <label class="chk"><input type="checkbox" id="p-rare"> มีกระจกหายาก (เป้าหมายลับกระจกหายาก)</label>
+        </div>
+        <div class="sp-wrap"><table class="sp" id="p-table"></table></div>
+        <p class="note">ช่องว่างใส่เป็น<b>จำนวนช่อง</b> ระบบหักให้เอง (คนเดียวหักช่องละ 3 และเพิ่มแถวคะแนนเป้า) · เสมอกันระบบดูเป้าหมายลับ แล้วดูเหรียญเหลือ ถ้ายังเสมอดูลำดับรอบสุดท้ายเอง</p>
+        <p id="p-result" style="font-family:var(--font-display);font-weight:600"></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>ลูกสีเดียวกันวางทแยงมุมติดกันได้ไหม</summary><p>ได้ กฎห้ามซ้ำดูเฉพาะ<b>ด้านข้าง</b> (แถวหรือคอลัมน์เดียวกันติดกัน) ทแยงมุมไม่นับ และเป้าหมาย Color Diagonals ยังให้คะแนนกับแนวทแยงสีเดียวกันด้วย</p></details>
+        <details><summary>ค่าเครื่องมือ 1 หรือ 2 เหรียญ นับต่อคนหรือต่อการ์ด</summary><p><b>ต่อการ์ด</b> ถ้าบนการ์ดยังไม่มีเหรียญเลยจ่าย 1 ถ้ามีเหรียญอยู่แล้ว ไม่ว่าของใคร จ่าย 2 คนที่ใช้ก่อนจึงได้เปรียบ</p></details>
+        <details><summary>หยิบลูกเต๋ามาแล้วแต่ไม่มีที่วาง ทำอย่างไร</summary><p>คู่มือกำหนดว่าการกระทำคือ “หยิบ 1 ลูกแล้ววาง” จึงไม่ควรหยิบลูกที่วางไม่ได้ ถ้าวางไม่ได้ก็เลือกไม่หยิบ (ผ่านการหยิบ) · เครื่องมือบางใบเช่น Flux Brush, Flux Remover บอกไว้ว่าวางไม่ได้ให้<b>คืนกองกลาง</b></p></details>
+        <details><summary>แถวที่ยังไม่เต็มได้คะแนน Row Color Variety ไหม</summary><p>ไม่ได้ เป้าหมายแบบแถว/คอลัมน์นับเฉพาะแถว/คอลัมน์ที่<b>เต็มทุกช่อง</b></p></details>
+        <details><summary>Light Shades ต้องวาง 1 กับ 2 ติดกันไหม</summary><p>ไม่ต้อง “anywhere” คือที่ไหนในหน้าต่างก็ได้ จำนวนชุด = จำนวนของแต้มที่มีน้อยกว่า</p></details>
+        <details><summary>เครื่องมือย้ายลูกเต๋า (Eglomise, Copper Foil, Lathekin, Tap Wheel) ต้องทำตามกฎอะไรบ้าง</summary><p>ข้ามได้เฉพาะข้อที่การ์ดบอก (เช่นข้อจำกัดสี) ข้ออื่นต้องทำตามทั้งหมด รวมถึง<b>ต้องแตะลูกอื่น</b>และ<b>ห้ามซ้ำชิดด้านข้าง</b> ตัวการ์ดเองก็เขียนไว้ว่า “You must obey all other placement restrictions”</p></details>
+        <details><summary>ใช้ Running Pliers แล้วเสียอะไร</summary><p>ได้หยิบลูกที่สองทันทีหลังตาแรก แต่<b>ข้ามตาที่สอง</b>ของรอบนั้น และใช้ได้หลังตาแรกเท่านั้น ส่วน Glazing Hammer ใช้ได้เฉพาะ<b>ตาที่สองก่อนหยิบ</b></p></details>
+        <details><summary>ลูกเต๋าที่เหลือหลายลูก วางบนรางรอบอย่างไร</summary><p>วางทั้งหมดที่ช่องของรอบนั้นช่องเดียว ไม่ลามไปทับช่องรอบอื่น ลูกพวกนี้ยังใช้ได้กับ Lens Cutter (สลับ) และ Tap Wheel (ดูสี)</p></details>
+        <details><summary>กองเต๋าส่วนตัว: ใช้ Grozing Pliers กับลูกจากกองตัวเองได้ไหม</summary><p>ไม่ได้ เครื่องมือที่เขียนถึง Draft Pool หรือ Drafted Die ใช้กับลูกจากกองส่วนตัวไม่ได้</p></details>
+        <details><summary>กระจกหายากนับใน Color Variety หรือ Color Diagonals ไหม</summary><p>คู่มือ Passion ระบุชัดแค่ว่ากระจกหายาก “ไม่มีสี” และนับเป็นสีไม่ซ้ำใน Row/Column Color Variety เท่านั้น <span class="flag">ไม่มีคำตอบทางการ</span> ตัวช่วยในหน้านี้จึงไม่นับกระจกหายากใน Color Variety และ Color Diagonals ให้วงตกลงกันก่อนเริ่มเกม</p></details>
+        <details><summary>กระจกหายากชิดลูกแต้มเดียวกันได้ไหม</summary><p>ไม่ได้ กฎแต้มซ้ำชิดด้านข้างยังใช้ ที่ยกเว้นคือเรื่องสีเท่านั้น</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ้างอิง</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>Window Pattern</dt><dd>การ์ดหน้าต่าง ลายข้อจำกัดของ 20 ช่อง</dd>
+        <dt>Shade</dt><dd>ความเข้ม = แต้มลูกเต๋า (1 อ่อนสุด 6 เข้มสุด)</dd>
+        <dt>Draft Pool</dt><dd>กองลูกเต๋ากลางที่ทอยในรอบนั้น</dd>
+        <dt>Favor Token</dt><dd>เหรียญใช้จ่ายค่าเครื่องมือ (และกระจกหายาก) เหลือจบเกมเหรียญละ 1 คะแนน</dd>
+        <dt>Round Track</dt><dd>รางรอบ 1–10 ด้านหลังเป็นรางคะแนน</dd>
+        <dt>Public Objective</dt><dd>เป้าหมายส่วนกลาง 3 ใบ ทุกคนทำได้</dd>
+        <dt>Private Objective</dt><dd>เป้าหมายลับ เห็นคนเดียว</dd>
+        <dt>Private Dice Pool</dt><dd>กองเต๋าส่วนตัว (ภาค 5-6 คน)</dd>
+        <dt>Rare Glass</dt><dd>ลูกเต๋ากระจกหายาก ไม่มีสี (Passion)</dd>
+        <dt>Inspiration</dt><dd>การ์ดพลังประจำตัว (Passion)</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b> (สรุปและแปลเป็นไทย ไม่ได้คัดลอกข้อความ)</p>
+    <ul>
+      <li>คู่มือเกมหลัก Sagrada v1.2, Floodgate Games (<a href="https://cdn.1j1ju.com/medias/ec/47/7d-sagrada-rulebook.pdf" target="_blank" rel="noopener">PDF</a>)</li>
+      <li>คู่มือ Sagrada 5-6 Player Expansion, Floodgate Games (<a href="https://media.floodgate.games/rule-books/Sagrada-5-6-Player-Expansion-Rule-Book.pdf" target="_blank" rel="noopener">PDF</a>)</li>
+      <li>คู่มือ Sagrada: Passion และกติกาเล่นคนเดียว, Floodgate Games (<a href="https://cdn.1j1ju.com/medias/08/fb/73-sagrada-passion-rulebook.pdf" target="_blank" rel="noopener">PDF</a>, <a href="https://media.floodgate.games/rule-books/Sagrada-Passion-Solo-Play-Rule-Book.pdf" target="_blank" rel="noopener">Solo PDF</a>)</li>
+      <li>รีวิวประกอบ: <a href="https://whatsericplaying.com/2020/01/06/sagrada-passion/" target="_blank" rel="noopener">What's Eric Playing</a>, <a href="https://gigazine.net/gsc_news/en/20201227-sagrada-life-passion/" target="_blank" rel="noopener">GIGAZINE</a>, <a href="https://www.ultraboardgames.com/sagrada/the-great-facades-passion.php" target="_blank" rel="noopener">UltraBoardGames</a></li>
+    </ul>
+    <p style="margin-top:8px">ข้อความที่มีป้ายเหลือง = แหล่งข้อมูลไม่ครบหรือไม่มีคำตอบทางการ ให้ยึดการ์ดจริง · ภาพประกอบทั้งหมดวาดใหม่เพื่ออธิบาย ไม่ใช่ภาพจากเกม</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+const NS="http://www.w3.org/2000/svg";
+const COL={R:"var(--d-r)",Y:"var(--d-y)",G:"var(--d-g)",B:"var(--d-b)",P:"var(--d-p)",X:"var(--d-x)"};
+const SOFT={R:"var(--r-soft)",Y:"var(--y-soft)",G:"var(--g-soft)",B:"var(--b-soft)",P:"var(--p-soft)"};
+const CNAME={R:"แดง",Y:"เหลือง",G:"เขียว",B:"น้ำเงิน",P:"ม่วง",X:"กระจกหายาก"};
+const PIPS={1:[[.5,.5]],2:[[.27,.27],[.73,.73]],3:[[.27,.27],[.5,.5],[.73,.73]],4:[[.27,.27],[.73,.27],[.27,.73],[.73,.73]],5:[[.27,.27],[.73,.27],[.5,.5],[.27,.73],[.73,.73]],6:[[.27,.25],[.73,.25],[.27,.5],[.73,.5],[.27,.75],[.73,.75]]};
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function txt(p,x,y,s,a){const t=el("text",Object.assign({x:x,y:y},a||{}),p);t.textContent=s;return t}
+function die(p,x,y,s,c,v,o){
+  o=o||{};
+  const g=el("g",{},p);
+  el("rect",{x:x,y:y,width:s,height:s,rx:s*.18,style:"fill:"+COL[c]+(o.ghost?";opacity:.35":""),stroke:"rgba(0,0,0,.25)","stroke-width":1},g);
+  const pc=(c==="Y"||c==="X")?"#1b2230":"#fff";
+  (PIPS[v]||[]).forEach(q=>el("circle",{cx:x+q[0]*s,cy:y+q[1]*s,r:s*.085,fill:pc},g));
+  return g;
+}
+function pipsSpace(p,x,y,s,v){
+  el("rect",{x:x,y:y,width:s,height:s,rx:6,class:"s-surface2",style:"stroke:var(--line)"},p);
+  (PIPS[v]||[]).forEach(q=>el("circle",{cx:x+q[0]*s,cy:y+q[1]*s,r:s*.07,class:"s-muted"},p));
+}
+
+/* HERO: arched stained-glass window */
+(function(){
+  const s=document.getElementById("heroart");
+  el("path",{d:"M30 320 L30 120 Q30 20 160 14 Q290 20 290 120 L290 320Z",fill:"#05070c"},s);
+  const rose=el("g",{class:"glow"},s);
+  const rc=["#c8382f","#e0a91b","#2f8f52","#2d63b8","#7d43a8"];
+  for(let i=0;i<10;i++){const a=i*Math.PI/5;el("path",{d:`M160 82 L${160+52*Math.cos(a)} ${82+52*Math.sin(a)} A52 52 0 0 1 ${160+52*Math.cos(a+Math.PI/5)} ${82+52*Math.sin(a+Math.PI/5)}Z`,fill:rc[i%5],opacity:.85,stroke:"#05070c","stroke-width":3},rose)}
+  el("circle",{cx:160,cy:82,r:14,fill:"#f4cf6a",stroke:"#05070c","stroke-width":3},s);
+  const grid=[["R",1,"Y",3,"G",5,"B",2,"P",4],["G",2,"B",4,"P",6,"R",3,"Y",5],["P",3,"R",5,"Y",1,"G",4,"B",6],["Y",4,"G",6,"B",2,"P",5,"R",1]];
+  for(let r=0;r<4;r++)for(let c=0;c<5;c++){
+    const x=46+c*47,y=150+r*42;
+    if(r===3&&c===4){el("rect",{x:x,y:y,width:40,height:36,rx:5,fill:"#1a2440"},s);continue}
+    die(s,x+2,y,36,grid[r][c*2],grid[r][c*2+1]);
+  }
+})();
+
+/* WINDOW CARD demo */
+(function(){
+  const s=document.getElementById("windemo");
+  const pat=["R.3.Y",".5G.1","B..4.",".P2.6"];
+  el("rect",{x:20,y:16,width:330,height:268,rx:14,fill:"var(--lead)"},s);
+  for(let r=0;r<4;r++)for(let c=0;c<5;c++){
+    const ch=pat[r][c],x=40+c*60,y=34+r*52,sz=48;
+    if(ch==="."){el("rect",{x:x,y:y,width:sz,height:sz,rx:6,fill:"#f5f7fa"},s)}
+    else if(/\d/.test(ch)){pipsSpace(s,x,y,sz,+ch)}
+    else{el("rect",{x:x,y:y,width:sz,height:sz,rx:6,style:"fill:"+COL[ch]+";opacity:.55"},s)}
+  }
+  txt(s,40,262,"Ventana Ejemplo",{fill:"#eef2fa","font-size":14,class:"disp"});
+  for(let i=0;i<4;i++)el("circle",{cx:300+i*-12+0,cy:257,r:4,fill:"#f4cf6a"},s);
+  ["A","B","C","D"].forEach((L,i)=>txt(s,30,62+i*52,L,{fill:"#a1abbc","font-size":12,"text-anchor":"middle",class:"tagf"}));
+  [1,2,3,4,5].forEach((n,i)=>txt(s,64+i*60,30,n,{fill:"#a1abbc","font-size":12,"text-anchor":"middle",class:"tagf"}));
+  const L=[["ช่องสี (A1 แดง)",""],["ช่องตัวเลข (A3 = 3 แต้ม)",""],["ช่องขาว (A2)",""],["ความยาก 4 จุด = เหรียญ Favor 4",""],["20 ช่อง = วางได้สูงสุด 20 ลูก",""]];
+  L.forEach((t,i)=>txt(s,380,60+i*44,"• "+t[0],{class:"s-fg","font-size":15}));
+})();
+
+/* SNAKE draft */
+(function(){
+  const s=document.getElementById("snakedemo");
+  const names=["เอมิลี่ (ผู้เริ่ม)","เบน","มาริ"];
+  names.forEach((n,i)=>{const x=90+i*220;el("rect",{x:x-70,y:20,width:140,height:40,rx:10,class:"s-surface2",style:"stroke:var(--line)"},s);txt(s,x,46,n,{"text-anchor":"middle",class:"s-fg","font-size":15})});
+  const pts=[[90,100],[310,100],[530,100],[530,170],[310,170],[90,170]];
+  for(let i=0;i<5;i++){const a=pts[i],b=pts[i+1];el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:"s-stroke-muted","stroke-width":2,"stroke-dasharray":"5 5"},s)}
+  pts.forEach((p,i)=>{el("circle",{cx:p[0],cy:p[1],r:20,fill:i<3?"var(--d-b)":"var(--d-r)"},s);txt(s,p[0],p[1]+6,i+1,{"text-anchor":"middle",fill:"#fff","font-size":17,class:"tagf"})});
+  txt(s,600,104,"ตาแรก →",{class:"s-fg","font-size":14});
+  txt(s,600,174,"← ตาที่สอง",{class:"s-fg","font-size":14});
+})();
+
+/* PLACEMENT demo */
+(function(){
+  const s=document.getElementById("placedemo");
+  const ox=30,oy=30,sz=70,g=6;
+  for(let r=0;r<3;r++)for(let c=0;c<3;c++){el("rect",{x:ox+c*(sz+g),y:oy+r*(sz+g),width:sz,height:sz,rx:8,class:"s-surface2",style:"stroke:var(--line)"},s)}
+  const cell=(r,c)=>[ox+c*(sz+g)+8,oy+r*(sz+g)+8];
+  let p=cell(1,1);die(s,p[0],p[1],54,"R",3);
+  // up: red 5 ghost -> bad
+  p=cell(0,1);die(s,p[0],p[1],54,"R",5,{ghost:1});
+  p=cell(1,0);die(s,p[0],p[1],54,"B",3,{ghost:1});
+  p=cell(1,2);die(s,p[0],p[1],54,"G",6);
+  p=cell(0,0);die(s,p[0],p[1],54,"R",1);
+  p=cell(2,2);die(s,p[0],p[1],54,"Y",3);
+  function mark(r,c,ok){const x=ox+c*(sz+g)+sz-6,y=oy+r*(sz+g)+6;el("circle",{cx:x,cy:y,r:11,class:ok?"s-good":"s-bad"},s);
+    if(ok)el("path",{d:`M${x-5} ${y} l3 4 l6 -8`,stroke:"#fff","stroke-width":2.4,fill:"none"},s);else el("path",{d:`M${x-4} ${y-4} l8 8 M${x+4} ${y-4} l-8 8`,stroke:"#fff","stroke-width":2.4},s)}
+  mark(0,1,false);mark(1,0,false);mark(1,2,true);mark(0,0,true);mark(2,2,true);
+  const t=[["✗ A2 แดง 5: สีแดงซ้ำ ชิดด้านบน",0],["✗ B1 น้ำเงิน 3: แต้ม 3 ซ้ำ ชิดด้านซ้าย",0],["✓ B3 เขียว 6: ต่างทั้งสีและแต้ม",1],["✓ A1 แดง 1: แดงแต่อยู่ทแยงมุม",1],["✓ C3 เหลือง 3: แต้ม 3 แต่อยู่ทแยงมุม",1]];
+  t.forEach((q,i)=>txt(s,300,58+i*46,q[0],{"font-size":15,class:q[1]?"s-good":"s-bad"}));
+})();
+
+/* POOL demo */
+(function(){
+  const s=document.getElementById("pooldemo");
+  el("rect",{x:20,y:20,width:420,height:180,rx:16,class:"s-surface2",style:"stroke:var(--line)"},s);
+  txt(s,40,50,"กองเต๋าส่วนตัว",{class:"s-fg disp","font-size":16});
+  const d=[["R",2],["Y",5],["G",1],["B",6],["P",3],["R",4],["Y",1],["G",6],["B",3],["P",5]];
+  d.forEach((q,i)=>die(s,40+(i%5)*78,66+Math.floor(i/5)*64,52,q[0],q[1]));
+  ["ตาเดียวต่อรอบ","กองกลาง: คน + 1 ลูก","วางได้ 2 ลูกต่อตา","(กองกลาง 1 + ส่วนตัว 1)"].forEach((t,i)=>txt(s,470,62+i*36,t,{class:"s-fg","font-size":15}));
+})();
+
+/* TOOL table */
+(function(){
+  const T=[
+    ["P","Grozing Pliers","หลังหยิบ เพิ่มหรือลดแต้มลูกที่หยิบ 1 แต้ม (1 กลายเป็น 6 หรือ 6 กลายเป็น 1 ไม่ได้)"],
+    ["B","Eglomise Brush","ย้ายลูกเต๋า 1 ลูกบนหน้าต่าง <b>ไม่สนข้อจำกัดสี</b>ของช่อง"],
+    ["R","Copper Foil Burnisher","ย้ายลูกเต๋า 1 ลูกบนหน้าต่าง <b>ไม่สนข้อจำกัดแต้ม</b>ของช่อง"],
+    ["Y","Lathekin","ย้ายลูกเต๋า <b>2 ลูกพอดี</b> ทำตามกฎวางทุกข้อ"],
+    ["G","Lens Cutter","หลังหยิบ สลับลูกที่หยิบกับลูกบน<b>รางรอบ</b>"],
+    ["P","Flux Brush","หลังหยิบ ทอยลูกนั้นใหม่ วางไม่ได้ให้คืนกองกลาง"],
+    ["B","Glazing Hammer","ทอยลูกทั้งกองกลางใหม่ ใช้ได้เฉพาะ<b>ตาที่สองก่อนหยิบ</b>"],
+    ["R","Running Pliers","หลังตาแรก หยิบอีกลูกทันที แล้ว<b>ข้ามตาที่สอง</b>ของรอบนี้"],
+    ["Y","Cork-backed Straightedge","หลังหยิบ วางลงช่องที่<b>ไม่ติดลูกใดเลย</b>ได้ (กฎอื่นยังต้องทำตาม)"],
+    ["G","Grinding Stone","หลังหยิบ พลิกลูกไปด้านตรงข้าม (6↔1, 5↔2, 4↔3)"],
+    ["P","Flux Remover","หลังหยิบ คืนลูกลงถุง จั่วใหม่ 1 ลูก <b>เลือกแต้มเอง</b> แล้ววาง วางไม่ได้คืนกองกลาง"],
+    ["B","Tap Wheel","ย้ายลูกเต๋าได้สูงสุด 2 ลูกที่<b>สีเดียวกัน</b> และสีนั้นต้องมีบนรางรอบ ทำตามกฎวางทุกข้อ"]
+  ];
+  const tb=document.getElementById("tooltable");
+  T.forEach((t,i)=>{const tr=document.createElement("tr");tr.innerHTML=`<td class="num">${i+1}</td><td><span class="tc" style="background:${COL[t[0]]}"></span><b>${t[1]}</b></td><td>${t[2]}</td>`;tb.appendChild(tr)});
+})();
+
+/* SETUP HELPER */
+(function(){
+  let n=4,mode="std";
+  const pw=document.getElementById("h-players");
+  for(let i=1;i<=6;i++){const b=document.createElement("button");b.type="button";b.textContent=i+(i===1?" (คนเดียว)":" คน");b.dataset.v=i;b.setAttribute("aria-pressed",i===n);pw.appendChild(b)}
+  pw.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;n=+b.dataset.v;[...pw.children].forEach(x=>x.setAttribute("aria-pressed",x===b));calc()});
+  const mw=document.getElementById("h-mode");
+  mw.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;mode=b.dataset.v;[...mw.children].forEach(x=>x.setAttribute("aria-pressed",x===b));calc()});
+  ["h-insp","h-rare","h-sym"].forEach(id=>document.getElementById(id).addEventListener("change",calc));
+  function co(v,l,hl){return `<div class="co${hl?" hl":""}"><b>${v}</b><small>${l}</small></div>`}
+  function calc(){
+    const insp=document.getElementById("h-insp").checked,rare=document.getElementById("h-rare").checked,sym=document.getElementById("h-sym").checked;
+    const out=[],notes=[];
+    const pool=mode==="pool"&&n>=2;
+    if(n===1){
+      out.push(co("90","ลูกเต๋าในถุง"),co("4","ลูกต่อรอบ · เล่น 2 ตา",1),co(rare?"0–4":"1–5","การ์ดเครื่องมือ (ตามความยาก)"),co("2+2","เป้าหมายส่วนกลาง + ลับ"));
+      notes.push("คะแนนเป้า = ผลรวมแต้มลูกบนรางรอบตอนจบ · ช่องว่างหักช่องละ 3");
+      if(rare||insp)notes.push("มี Passion: กลับมาใช้เหรียญ Favor ตามความยากหน้าต่าง เหรียญเหลือได้เหรียญละ 1");
+      if(rare)notes.push("บอร์ดกระจกหายากแทนเครื่องมือ 1 ใบ (สุ่มได้ Glue Chip ให้สุ่มใหม่) · เป้าหมายลับใบหนึ่งเป็นแบบกระจกหายาก");
+      if(insp)notes.push("สุ่มการ์ดแรงบันดาลใจ 1 ใบ");
+      if(mode==="pool")notes.push("กองเต๋าส่วนตัวใช้ได้ 2–6 คนเท่านั้น");
+    }else if(pool){
+      const per=[0,0,6,8,10,12,14][n];
+      out.push(co(per*5,`ลูกในถุง (สีละ ${per})`),co(n*10,`ลูกในกองส่วนตัว (คนละ 10)`),co(n+1,"ลูกที่ทอยต่อรอบ",1),co("1","ตาต่อคนต่อรอบ"),co(rare?2:3,"การ์ดเครื่องมือ"));
+      notes.push("ตัด Glazing Hammer (#7) และ Running Pliers (#8) ออก ใส่เครื่องมือใหม่ 2 ใบของภาค 5-6 คนลงกองสุ่ม");
+      notes.push("แต่ละตา: วางจากกองส่วนตัว 1 + จากกองกลาง 1 + ใช้เครื่องมือ 1 ลำดับใดก็ได้");
+    }else{
+      const per=[0,0,10,14,18,22,26][n];
+      out.push(co(per*5,`ลูกในถุง (สีละ ${per})`),co(2*n+1,"ลูกที่ทอยต่อรอบ",1),co("2","ตาต่อคนต่อรอบ (แบบงู)"),co(rare?2:3,"การ์ดเครื่องมือ"));
+      if(n<=4)notes.push("เกมหลักอย่างเดียวใส่ครบ 90 ลูกได้ ตัวเลขนี้มาจากคู่มือภาค 5-6 คนที่ให้ใส่พอดีจำนวนคน");
+      if(mode==="pool")notes.push("กองเต๋าส่วนตัวใช้ได้ 2–6 คน");
+    }
+    if(n>=2){
+      out.push(co(3,"เป้าหมายส่วนกลาง"));
+      if(rare)notes.push("วางบอร์ดกระจกหายาก 1 แผ่น ทอยลูกกระจกหายากใส่ทุกช่อง · แจกเป้าหมายลับกระจกหายาก (แทนแบบอื่นทั้งหมด)");
+      else if(n===6)notes.push("6 คนต้องใส่เป้าหมายลับแบบใหม่ของภาค 5-6 คนด้วย (ของเกมหลักมีแค่ 5 สี)");
+      else if(n===5)notes.push("เป้าหมายลับ: สับแบบสีกับแบบใหม่ (ช่องแรเงา) รวมกันได้");
+      if(insp)notes.push("ก่อนเลือกหน้าต่าง แจกการ์ดแรงบันดาลใจคนละ 1 ใบ หงายไว้");
+      notes.push("เหรียญ Favor = ความยากของหน้าต่าง"+(insp?" (ได้ Wisdom ลดลง 1)":""));
+    }
+    if(sym)notes.push("สับเป้าหมายสมมาตรรวมกับของเกมหลัก · ถ้าออกคู่ที่ขัดกัน เช่น Vertical Color Balance + Column Color Variety ให้เปลี่ยนใบ");
+    document.getElementById("h-out").innerHTML=out.join("");
+    document.getElementById("h-notes").innerHTML=notes.map(x=>"<li>"+x+"</li>").join("");
+  }
+  calc();
+})();
+
+/* WINDOW SCORER */
+(function(){
+  const SAMPLE=[["R",1,"Y",3,"G",5,"B",2,"P",4],["G",2,"B",4,"P",6,"R",3,"Y",5],["P",3,"R",5,"Y",1,"G",4,"B",6],["Y",4,"G",6,"B",2,"P",5,null,0]];
+  let grid=[],selC="R",selV=1;
+  function loadSample(){grid=SAMPLE.map(r=>{const a=[];for(let c=0;c<5;c++)a.push(r[c*2]?{c:r[c*2],v:r[c*2+1]}:null);return a})}
+  loadSample();
+  const cw=document.getElementById("w-col"),vw=document.getElementById("w-val"),gw=document.getElementById("w-grid");
+  Object.keys(COL).forEach(k=>{const b=document.createElement("button");b.type="button";b.style.background=COL[k];b.dataset.c=k;b.title=CNAME[k];b.setAttribute("aria-label",CNAME[k]);b.setAttribute("aria-pressed",k===selC);if(k==="X"){b.textContent="◇";b.style.color="#1b2230"}cw.appendChild(b)});
+  for(let v=1;v<=6;v++){const b=document.createElement("button");b.type="button";b.className="vbtn";b.textContent=v;b.dataset.v=v;b.setAttribute("aria-pressed",v===selV);vw.appendChild(b)}
+  cw.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;selC=b.dataset.c;[...cw.children].forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  vw.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;selV=+b.dataset.v;[...vw.children].forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  const OBJ=[
+    ["rowC","Row Color Variety"],["colC","Column Color Variety"],["rowS","Row Shade Variety"],["colS","Column Shade Variety"],
+    ["light","Light Shades"],["med","Medium Shades"],["deep","Deep Shades"],["shade","Shade Variety"],["color","Color Variety"],["diag","Color Diagonals"]];
+  const on=new Set(["colC","light","color"]);
+  const ps=document.getElementById("w-priv");
+  ["R","Y","G","B","P"].forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent="Shades of "+CNAME[k];ps.appendChild(o)});
+  ps.value="P";
+  function score(){
+    const R=4,C=5,cell=(r,c)=>grid[r][c];
+    const bad=new Set();
+    for(let r=0;r<R;r++)for(let c=0;c<C;c++){const a=cell(r,c);if(!a)continue;[[0,1],[1,0]].forEach(d=>{const rr=r+d[0],cc=c+d[1];if(rr>=R||cc>=C)return;const b=cell(rr,cc);if(!b)return;const sameC=a.c!=="X"&&b.c!=="X"&&a.c===b.c;if(sameC||a.v===b.v){bad.add(r+"-"+c);bad.add(rr+"-"+cc)}})}
+    const lines=(isRow)=>{const out=[];const n=isRow?R:C,m=isRow?C:R;for(let i=0;i<n;i++){const L=[];for(let j=0;j<m;j++)L.push(isRow?cell(i,j):cell(j,i));out.push(L)}return out};
+    const full=L=>L.every(Boolean);
+    const uniq=(L,f)=>new Set(L.map(f)).size===L.length;
+    const s={};
+    s.rowC=lines(true).filter(L=>full(L)&&uniq(L,d=>d.c)).length*6;
+    s.colC=lines(false).filter(L=>full(L)&&uniq(L,d=>d.c)).length*5;
+    s.rowS=lines(true).filter(L=>full(L)&&uniq(L,d=>d.v)).length*5;
+    s.colS=lines(false).filter(L=>full(L)&&uniq(L,d=>d.v)).length*4;
+    const vc=[0,0,0,0,0,0,0],cc={R:0,Y:0,G:0,B:0,P:0};let empty=0;
+    for(let r=0;r<R;r++)for(let c=0;c<C;c++){const a=cell(r,c);if(!a){empty++;continue}vc[a.v]++;if(cc[a.c]!==undefined)cc[a.c]++}
+    s.light=Math.min(vc[1],vc[2])*2;s.med=Math.min(vc[3],vc[4])*2;s.deep=Math.min(vc[5],vc[6])*2;
+    s.shade=Math.min(...vc.slice(1))*5;s.color=Math.min(...Object.values(cc))*4;
+    let dg=0;for(let r=0;r<R;r++)for(let c=0;c<C;c++){const a=cell(r,c);if(!a||a.c==="X")continue;let hit=false;[[-1,-1],[-1,1],[1,-1],[1,1]].forEach(d=>{const b=grid[r+d[0]]&&grid[r+d[0]][c+d[1]];if(b&&b.c===a.c)hit=true});if(hit)dg++}
+    s.diag=dg;
+    let priv=0;const pc=ps.value;for(let r=0;r<R;r++)for(let c=0;c<C;c++){const a=cell(r,c);if(a&&a.c===pc)priv+=a.v}
+    return {s,bad,empty,priv};
+  }
+  function render(){
+    const {s,bad,empty,priv}=score();
+    gw.innerHTML="";
+    for(let r=0;r<4;r++)for(let c=0;c<5;c++){
+      const b=document.createElement("button");b.type="button";b.dataset.r=r;b.dataset.c=c;
+      const a=grid[r][c];const id="ABCD"[r]+(c+1);
+      b.setAttribute("aria-label",id+(a?" "+CNAME[a.c]+" "+a.v:" ว่าง"));
+      if(a){const sv=el("svg",{viewBox:"0 0 44 44"});die(sv,1,1,42,a.c,a.v);b.appendChild(sv)}else{b.innerHTML=`<span class="lab">${id}</span>`}
+      if(bad.has(r+"-"+c))b.classList.add("bad");
+      gw.appendChild(b);
+    }
+    const res=document.getElementById("w-res");res.innerHTML="";
+    let pub=0;
+    OBJ.forEach(o=>{const d=document.createElement("div");d.className="ri"+(on.has(o[0])?" on":"");d.innerHTML=`<label><input type="checkbox" data-k="${o[0]}" ${on.has(o[0])?"checked":""}><span>${o[1]}</span></label><b>${s[o[0]]}</b>`;res.appendChild(d);if(on.has(o[0]))pub+=s[o[0]]});
+    const fav=Math.max(0,parseInt(document.getElementById("w-fav").value)||0);
+    const solo=document.getElementById("w-solo").checked;
+    const pen=empty*(solo?3:1);
+    const tot=pub+priv+(solo?0:fav)-pen;
+    document.getElementById("w-out").innerHTML=
+      `<div class="co"><b>${pub}</b><small>ส่วนกลาง (${on.size} ใบที่ติ๊ก)</small></div><div class="co"><b>${priv}</b><small>เป้าหมายลับ</small></div><div class="co"><b>${solo?"–":fav}</b><small>เหรียญเหลือ</small></div><div class="co"><b>−${pen}</b><small>ช่องว่าง ${empty} ช่อง</small></div><div class="co hl"><b>${tot}</b><small>รวม</small></div>`;
+    const warn=[];if(bad.size)warn.push("มีลูกที่สีหรือแต้มซ้ำชิดด้านข้าง (กรอบแดง) ต้องเอาออกจนถูกกฎ");if(on.size!==3)warn.push(`ติ๊กเป้าหมายส่วนกลางไว้ ${on.size} ใบ ปกติเกมหลายคนใช้ 3 ใบ`);
+    let xs=0;grid.forEach(r=>r.forEach(a=>{if(a&&a.c==="X")xs++}));if(xs>1)warn.push("หน้าต่างหนึ่งมีกระจกหายากได้แค่ 1 ลูก");
+    document.getElementById("w-warn").textContent=warn.join(" · ");
+  }
+  gw.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const r=+b.dataset.r,c=+b.dataset.c;const a=grid[r][c];grid[r][c]=(a&&a.c===selC&&a.v===selV)?null:{c:selC,v:selV};render();const nb=gw.children[r*5+c];if(nb)nb.focus()});
+  document.getElementById("w-res").addEventListener("change",e=>{const k=e.target.dataset.k;if(!k)return;e.target.checked?on.add(k):on.delete(k);render()});
+  ["w-priv","w-fav","w-solo"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+  document.getElementById("w-sample").addEventListener("click",()=>{loadSample();render()});
+  document.getElementById("w-clear").addEventListener("click",()=>{grid=[0,1,2,3].map(()=>[null,null,null,null,null]);render()});
+  render();
+})();
+
+/* SCOREPAD */
+(function(){
+  let n=4;
+  const pw=document.getElementById("p-players");
+  for(let i=1;i<=6;i++){const b=document.createElement("button");b.type="button";b.textContent=i;b.dataset.v=i;b.setAttribute("aria-pressed",i===n);pw.appendChild(b)}
+  const vals={};
+  const names=["ผู้เล่น 1","ผู้เล่น 2","ผู้เล่น 3","ผู้เล่น 4","ผู้เล่น 5","ผู้เล่น 6"];
+  function rows(){
+    const solo=n===1,rare=document.getElementById("p-rare").checked;
+    const r=[["pub1","เป้าหมายส่วนกลาง 1",""],["pub2","เป้าหมายส่วนกลาง 2",""]];
+    if(!solo)r.push(["pub3","เป้าหมายส่วนกลาง 3",""]);
+    r.push(["priv",rare?"เป้าหมายลับกระจกหายาก":"เป้าหมายลับ",solo?"ใช้ 1 ใน 2 ใบ":"ผลรวมแต้มสีของคุณ"]);
+    if(!solo||rare)r.push(["fav","เหรียญ Favor เหลือ","×1"]);
+    r.push(["emp","ช่องว่าง (จำนวนช่อง)",solo?"×−3":"×−1"]);
+    if(solo)r.push(["target","คะแนนเป้า","ผลรวมแต้มบนรางรอบ"]);
+    return r;
+  }
+  const tbl=document.getElementById("p-table");
+  function build(){
+    const R=rows();
+    let h="<thead><tr><th>หมวด</th>";
+    for(let i=0;i<n;i++)h+=`<th><input type="text" id="pn-${i}" value="${names[i]}" aria-label="ชื่อผู้เล่น ${i+1}"></th>`;
+    h+="</tr></thead><tbody>";
+    R.forEach(row=>{h+=`<tr><td>${row[1]}${row[2]?`<span class="sub">${row[2]}</span>`:""}</td>`;for(let i=0;i<n;i++){if(row[0]==="target"&&i>0){h+="<td></td>";continue}const v=vals[row[0]+"-"+i]??"";h+=`<td><input type="number" inputmode="numeric" min="0" id="p-${row[0]}-${i}" data-k="${row[0]}-${i}" value="${v}" aria-label="${row[1]} ${names[i]}"></td>`}h+="</tr>"});
+    h+=`<tr class="tot"><td>รวม</td>${Array.from({length:n},(_,i)=>`<td id="pt-${i}">0</td>`).join("")}</tr></tbody>`;
+    tbl.innerHTML=h;total();
+  }
+  function g(k,i){return parseInt(vals[k+"-"+i])||0}
+  function total(){
+    const solo=n===1;const t=[];
+    for(let i=0;i<n;i++){const v=g("pub1",i)+g("pub2",i)+g("pub3",i)+g("priv",i)+g("fav",i)-g("emp",i)*(solo?3:1);t.push(v);const c=document.getElementById("pt-"+i);if(c)c.textContent=v}
+    const res=document.getElementById("p-result");
+    [...tbl.querySelectorAll("td.win")].forEach(c=>c.classList.remove("win"));
+    const any=Object.values(vals).some(v=>v!==""&&v!==undefined);
+    if(!any){res.textContent="";return}
+    if(solo){const tg=g("target",0);res.textContent=t[0]>tg?`ชนะ! ${t[0]} มากกว่าเป้า ${tg}`:`ยังไม่ผ่าน: ${t[0]} ต่อเป้า ${tg} (ต้องมากกว่า)`;return}
+    let best=[];for(let i=0;i<n;i++){if(!best.length||t[i]>t[best[0]])best=[i];else if(t[i]===t[best[0]])best.push(i)}
+    if(best.length>1){const mp=Math.max(...best.map(i=>g("priv",i)));best=best.filter(i=>g("priv",i)===mp)}
+    if(best.length>1){const mf=Math.max(...best.map(i=>g("fav",i)));best=best.filter(i=>g("fav",i)===mf)}
+    best.forEach(i=>{const c=document.getElementById("pt-"+i);if(c)c.classList.add("win")});
+    const nm=i=>(document.getElementById("pn-"+i)||{}).value||names[i];
+    res.textContent=best.length===1?`${nm(best[0])} ชนะด้วย ${t[best[0]]} คะแนน`:`ยังเสมอ: ${best.map(nm).join(", ")} ให้ดูลำดับย้อนกลับของรอบสุดท้าย`;
+  }
+  tbl.addEventListener("input",e=>{const k=e.target.dataset.k;if(k)vals[k]=e.target.value;else if(e.target.id.startsWith("pn-"))names[+e.target.id.slice(3)]=e.target.value;total()});
+  pw.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;n=+b.dataset.v;[...pw.children].forEach(x=>x.setAttribute("aria-pressed",x===b));build()});
+  document.getElementById("p-rare").addEventListener("change",build);
+  build();
+})();
+})();
+</script>
+
+</body></html>

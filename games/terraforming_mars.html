@@ -1,0 +1,1342 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Terraforming Mars ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: night-sky header with a half-terraformed Mars and its three gauges, then a reading column with a sticky chapter rail; diagrams are drawn SVG; parameter tracker, payment calculator, colony helper and scorepad near the end. */
+:root{
+  --bg:#f1edeb;
+  --surface:#ffffff;
+  --surface-2:#e8e1de;
+  --fg:#1f1716;
+  --muted:#655652;
+  --line:#d6cbc6;
+  --accent:#b23f1c;
+  --accent-soft:#f7e2d9;
+  --band-1:#0e0a12;
+  --band-2:#2b1410;
+  --band-fg:#f6eee9;
+  --spot:#ffb36b;
+  /* game colours */
+  --mc:#d9a514; --steel:#8b5a2b; --ti:#4b5160; --plant:#3c9440; --energy:#7c4ab3; --heat:#e0571c;
+  --ocean:#2b7cc0; --green:#3c9440; --city:#8e929c; --temp:#d4461d; --oxy:#2d9eac;
+  --tag-build:#7a4a22; --tag-space:#1b1b25; --tag-sci:#f2f2f2;
+  --mc-soft:#f7ecc8; --ocean-soft:#dce9f6; --green-soft:#dcefdc; --energy-soft:#ebe0f6; --heat-soft:#fbe2d4; --oxy-soft:#d7eff2;
+  --good:#2b7d3a; --bad:#bb2f22;
+  --font-display:"Kanit","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","IBM Plex Sans Thai","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141012;--surface:#1d1719;--surface-2:#2a2225;--fg:#f0e8e5;--muted:#b3a39e;--line:#3a3033;
+    --accent:#f08a5d;--accent-soft:#3a1d14;
+    --band-1:#07050a;--band-2:#22100c;--band-fg:#f6eee9;--spot:#ffb36b;
+    --mc:#f0c03a;--steel:#c08850;--ti:#9aa1b3;--plant:#5cbf5f;--energy:#a77ce0;--heat:#f47a40;
+    --ocean:#4d9de0;--green:#5cbf5f;--city:#a9adb7;--temp:#f06a3e;--oxy:#4cc3d1;
+    --mc-soft:#3a3010;--ocean-soft:#13283d;--green-soft:#15301a;--energy-soft:#2a1c3c;--heat-soft:#3c1d10;--oxy-soft:#10303a;
+    --good:#62cc76;--bad:#ff7466;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141012;--surface:#1d1719;--surface-2:#2a2225;--fg:#f0e8e5;--muted:#b3a39e;--line:#3a3033;
+  --accent:#f08a5d;--accent-soft:#3a1d14;
+  --band-1:#07050a;--band-2:#22100c;--band-fg:#f6eee9;--spot:#ffb36b;
+  --mc:#f0c03a;--steel:#c08850;--ti:#9aa1b3;--plant:#5cbf5f;--energy:#a77ce0;--heat:#f47a40;
+  --ocean:#4d9de0;--green:#5cbf5f;--city:#a9adb7;--temp:#f06a3e;--oxy:#4cc3d1;
+  --mc-soft:#3a3010;--ocean-soft:#13283d;--green-soft:#15301a;--energy-soft:#2a1c3c;--heat-soft:#3c1d10;--oxy-soft:#10303a;
+  --good:#62cc76;--bad:#ff7466;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.35;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 80% 20%,#5a2414 0%,transparent 55%),linear-gradient(170deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.6rem);margin-top:6px;letter-spacing:.01em;font-weight:700}
+.hero h1 span{display:block;font-size:.42em;color:var(--spot);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:36em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:420px;margin-inline:auto}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#fff}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:64px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal;font-weight:400}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:50em}
+.callout.mc{background:var(--mc-soft)} .callout.ocean{background:var(--ocean-soft)} .callout.green{background:var(--green-soft)} .callout.energy{background:var(--energy-soft)} .callout.heat{background:var(--heat-soft)} .callout.oxy{background:var(--oxy-soft)}
+.callout h3{font-size:1.08rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:50em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--mc-soft);color:var(--fg);border:1px solid var(--mc)}
+.new{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;color:#fff;background:var(--c,var(--accent))}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:600px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-bg{fill:var(--bg)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)}
+.s-good{fill:var(--good)} .s-bad{fill:var(--bad)} .s-acc{fill:var(--accent)}
+.k-good{stroke:var(--good)} .k-bad{stroke:var(--bad)} .k-acc{stroke:var(--accent)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* cards grid */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
+.sq{width:14px;height:14px;border-radius:3px;display:inline-block;flex:none}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.08rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+.tc{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:6px}
+
+/* expansion headers */
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.06em;opacity:.92}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)}
+.co.hl b{color:var(--accent)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+.numin{font:inherit;font-family:var(--font-tag);font-weight:600;width:76px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.sel{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 8px;min-height:38px}
+
+/* tracker */
+.trk{display:grid;gap:14px}
+.trk-row{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:center}
+.trk-row .lab b{display:block;font-family:var(--font-display);font-weight:600}
+.trk-row .lab small{color:var(--muted);font-size:.85rem}
+.pm{display:flex;gap:6px}
+.pm button{width:42px;height:42px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font-family:var(--font-tag);font-weight:600;font-size:1.2rem;cursor:pointer}
+.trk-row svg{width:100%;height:auto;display:block}
+.log{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.95rem}
+.log li{background:var(--mc-soft);border-radius:10px;padding:6px 12px}
+
+/* colony helper */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.col{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:8px;background:var(--surface);min-width:0}
+.col.off{opacity:.55}
+.col h4{margin:0;font-family:var(--font-display);font-weight:600;font-size:1.05rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.col .meta{font-size:.88rem;color:var(--muted);display:grid;gap:2px}
+.trackbtns{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.trackbtns button{font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:8px;min-height:36px;padding:2px 0;cursor:pointer;position:relative}
+.trackbtns button.cl{border-style:dashed}
+.trackbtns button[aria-pressed="true"]{background:var(--band-2);color:var(--spot);border-color:var(--band-2)}
+.trackbtns button:disabled{opacity:.4;cursor:not-allowed}
+.col .now{font-family:var(--font-tag);font-weight:600}
+
+/* scorepad */
+.sp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.sp{min-width:560px;font-size:.95rem}
+.sp th,.sp td{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;padding-left:12px}
+.sp input[type=text]{font:inherit;font-size:1rem;width:100%;min-width:70px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 8px;text-align:center}
+.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:66px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sp input::-webkit-outer-spin-button,.sp input::-webkit-inner-spin-button,.numin::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sp tr.tot td{font-family:var(--font-tag);font-weight:600;font-size:1.25rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.sp td.win{color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.sp .sub{font-size:.78rem;color:var(--muted);display:block;line-height:1.3}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:500}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.faq h3{margin-top:10px;font-size:1rem;color:var(--muted);font-family:var(--font-tag)}
+dl.gl{display:grid;grid-template-columns:minmax(140px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:54em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+  .trk-row{grid-template-columns:minmax(0,1fr) auto}
+  .trk-row svg{grid-column:1/-1;grid-row:2}
+}
+@media (prefers-reduced-motion:no-preference){
+  .glow{animation:glow 7s ease-in-out infinite alternate}
+  @keyframes glow{from{opacity:.45}to{opacity:.9}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + ปฐมบท (Prelude) + อาณานิคม (Colonies)</div>
+      <h1>Terraforming Mars<span>พลิกพิภพดาวอังคาร · บริษัทยักษ์แข่งกันเปลี่ยนดาวแดงให้คนอยู่ได้</span></h1>
+      <p class="lede">ปี 2315 สหประชาชาติให้ทุนบริษัทที่ช่วย<b>ปรับสภาพดาวอังคาร</b> คุณคือหนึ่งในบริษัทนั้น ใช้เงินและทรัพยากรเล่นการ์ดโปรเจกต์ สร้างเมือง ปลูกป่า ทำมหาสมุทร ดันค่าอุณหภูมิและออกซิเจน ทุกขั้นที่ดันได้คือคะแนน เกมจบเมื่อ<b>ดาวพร้อมให้มนุษย์อยู่</b> ใครสร้างผลงานได้มากสุดชนะ</p>
+      <div class="facts">
+        <div class="fact"><b>1–5</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>3</b><small>ค่าพารามิเตอร์ต้องดันให้สุด</small></div>
+        <div class="fact"><b>42</b><small>ขั้นรวมทั้งดาว</small></div>
+        <div class="fact"><b>~9–12</b><small>รอบ (generation)</small></div>
+        <div class="fact"><b>2–3</b><small>ชั่วโมง</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:#a2408a">ปฐมบท · เล่นประจำ</span>
+        <span class="xb" style="background:#2c6aa8">อาณานิคม · ยังไม่เคยเล่น</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 360 340" id="heroart"></svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#params">3 ค่าพารามิเตอร์ & TR</a></li>
+      <li><a href="#board">บอร์ดผู้เล่น</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#generation">หนึ่งรอบ (Generation)</a></li>
+      <li><a href="#actions">ทำอะไรได้ในตา</a></li>
+      <li><a href="#cards">อ่านการ์ด</a></li>
+      <li><a href="#tiles">วางแผ่นบนดาว</a></li>
+      <li><a href="#milestones">หลักชัย & รางวัล</a></li>
+      <li><a href="#end">จบเกม & นับคะแนน</a></li>
+      <li><a href="#corps">บริษัท</a></li>
+      <li><a href="#solo">เล่นคนเดียว</a></li>
+      <li class="sep">ภาคเสริม</li>
+      <li><a href="#prelude">ปฐมบท Prelude</a></li>
+      <li><a href="#colonies">อาณานิคม Colonies</a></li>
+      <li><a href="#colony-tiles">แผ่นอาณานิคม 11 ดวง</a></li>
+      <li><a href="#combo">รวม 3 กล่อง</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#tracker">กระดานค่าพารามิเตอร์</a></li>
+      <li><a href="#pay">คิดเงินจ่ายการ์ด</a></li>
+      <li><a href="#colony-tool">ตัวช่วยอาณานิคม</a></li>
+      <li><a href="#pad">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>เป้าหมาย</h3>
+        <p>ดัน 3 ค่าของดาวให้สุด: <b>อุณหภูมิ</b> −30 → +8 °C · <b>ออกซิเจน</b> 0 → 14% · <b>มหาสมุทร</b> 0 → 9 แผ่น ใครดันได้ 1 ขั้น ได้ <b>TR +1</b> (Terraform Rating) TR เป็นทั้ง<b>รายได้ทุกรอบ</b>และ<b>คะแนนตอนจบ</b> เมื่อครบทั้งสามค่า เล่นรอบนั้นให้จบแล้วนับคะแนน</p>
+      </div>
+      <div class="callout mc">
+        <h3>หนึ่งรอบ (Generation) มี 4 ช่วง</h3>
+        <ol>
+          <li><b>เปลี่ยนผู้เริ่ม</b> ส่งเครื่องหมายผู้เริ่มไปทางซ้าย</li>
+          <li><b>วิจัย</b> จั่วการ์ด 4 ใบ เก็บใบไหนต้องจ่ายใบละ 3 M€</li>
+          <li><b>ปฏิบัติการ</b> วนกันทำตาละ 1–2 การกระทำ จนทุกคน “ผ่าน”</li>
+          <li><b>ผลิต</b> พลังงานกลายเป็นความร้อน แล้วทุกคนได้ทรัพยากรตามกำลังผลิต + เงินเท่า TR</li>
+        </ol>
+      </div>
+      <div class="callout green">
+        <h3>คะแนนตอนจบ</h3>
+        <p>TR + หลักชัย (5 แต้ม/อัน) + รางวัล (5 / 2) + ป่า 1 แต้ม/แผ่น + เมือง 1 แต้มต่อป่าที่ติดเมือง + แต้มบนการ์ด · เสมอดูเงินเหลือ</p>
+      </div>
+      <p class="prose">หัวใจของเกมคือ<b>สร้างเครื่องจักรผลิต</b> (กำลังผลิตสูง ๆ ตั้งแต่ต้น) แล้วค่อยแปลงเป็นคะแนนตอนท้าย จะรีบดันค่าดาวให้เกมจบเร็ว หรือจะยืดเกมเพื่อเก็บของ เป็นการตัดสินใจที่ทุกคนต้องเลือก</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>กล่อง</th><th>ของสำคัญ</th></tr></thead>
+          <tbody>
+            <tr><td><b>เกมหลัก</b><br><span class="en">1–5 คน</span></td><td>บอร์ดดาวอังคาร (แผนที่ Tharsis), บอร์ดผู้เล่น 5, การ์ดโปรเจกต์ 208, การ์ดบริษัท 12 + บริษัทผู้เริ่มต้น (Beginner) 2, แผ่นมหาสมุทร 9, แผ่นป่า/เมือง/พิเศษ, ลูกบาศก์ทรัพยากร (ทองแดง 1 · เงิน 5 · ทอง 10), ลูกบาศก์ผู้เล่น 5 สี, ตัวบอกค่าพารามิเตอร์, เครื่องหมายผู้เริ่ม</td></tr>
+            <tr><td><b style="color:#a2408a">ปฐมบท</b><br><span class="en">Prelude</span></td><td>การ์ดปฐมบท 35 ใบ, บริษัทใหม่ 5, การ์ดโปรเจกต์ใหม่ 7</td></tr>
+            <tr><td><b style="color:#2c6aa8">อาณานิคม</b><br><span class="en">Colonies</span></td><td>แผ่นอาณานิคม 11 ดวง + ตัวบอกราง, ยานค้าขาย (Trade fleet) สีผู้เล่น, บริษัทใหม่ 5, การ์ดโปรเจกต์ใหม่ (การ์ดลอยฟ้า floater, การ์ดอาณานิคม, การ์ดเพิ่มกองยาน), บอร์ดวางยาน</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ลูกบาศก์ทรัพยากรใช้ร่วมกันทุกชนิด ความหมายดูจาก<b>ช่องที่วาง</b>บนบอร์ดผู้เล่น · การ์ดของภาคเสริมมีสัญลักษณ์ภาคที่มุมล่าง ใช้แยกเก็บกล่อง · ถ้าฉบับภาษาไทยในกล่องใช้ชื่อเรียกต่างจากคู่มือนี้ ให้ยึดชื่อบนการ์ด</p>
+    </section>
+
+    <!-- PARAMS -->
+    <section id="params">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>3 ค่าพารามิเตอร์ และ TR</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 330" role="img" aria-label="รางอุณหภูมิ −30 ถึง +8 มีโบนัสที่ −24 −20 และ 0 องศา รางออกซิเจน 0 ถึง 14 มีโบนัสที่ 8 เปอร์เซ็นต์ มหาสมุทร 9 แผ่น" id="paramdemo"></svg></div>
+        <figcaption>ช่องโบนัส (สีเหลือง) ให้ของกับ<b>คนที่ดันถึง</b>ช่องนั้น · ทุกขั้นที่ดันได้ = TR +1 · ครบทั้งสามรางรวม 19 + 14 + 9 = 42 ขั้น</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type" style="box-shadow:inset 4px 0 0 var(--temp)"><h3>อุณหภูมิ <span class="en">Temperature</span></h3>
+          <ul><li>ขั้นละ 2 °C จาก −30 ถึง +8 (19 ขั้น)</li><li>ดันด้วย<b>ความร้อน 8</b> (การกระทำ), โปรเจกต์มาตรฐาน “ดาวเคราะห์น้อย” 14 M€ หรือการ์ด</li><li>ถึง −24 และ −20: คนดันได้<b>กำลังผลิตความร้อน +1</b></li><li>ถึง 0 °C: คนดัน<b>วางมหาสมุทร 1 แผ่น</b> (ได้ TR อีก)</li></ul></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 var(--oxy)"><h3>ออกซิเจน <span class="en">Oxygen</span></h3>
+          <ul><li>ขั้นละ 1% จาก 0 ถึง 14%</li><li>ดันได้<b>เฉพาะตอนวางแผ่นป่า</b> (ป่า 1 แผ่น = ออกซิเจน +1) หรือการ์ดที่เขียนว่าดันออกซิเจน</li><li>ถึง 8%: คนดันได้<b>ดันอุณหภูมิ +1 ขั้น</b>ฟรี (ได้ TR อีก)</li></ul></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 var(--ocean)"><h3>มหาสมุทร <span class="en">Oceans</span></h3>
+          <ul><li>วางแผ่นมหาสมุทรได้ 9 แผ่น เฉพาะช่องที่<b>สงวนไว้</b> (ช่องขอบฟ้า)</li><li>วางด้วยโปรเจกต์มาตรฐาน “ชั้นน้ำใต้ดิน” 18 M€ หรือการ์ด</li><li>มหาสมุทรไม่เป็นของใคร แต่คนวางได้ TR และโบนัสช่อง</li></ul></div>
+      </div>
+      <div class="callout">
+        <h3>TR คืออะไร ทำไมสำคัญ</h3>
+        <ul>
+          <li>ทุกคนเริ่ม <b>TR 20</b> (เล่นคนเดียวเริ่ม 14)</li>
+          <li>ช่วงผลิตทุกรอบ ได้เงินเท่า <b>TR + กำลังผลิตเงิน</b> → TR คือรายได้</li>
+          <li>จบเกม TR เป็นคะแนนโดยตรง → TR คือแต้ม</li>
+          <li>ค่าที่ดันสุดแล้ว <b>ดันต่อไม่ได้ ไม่ได้ TR</b> แต่ยังเล่นการ์ดนั้นได้และได้ผลอื่นของการ์ด</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PLAYER BOARD -->
+    <section id="board">
+      <div class="sec-head"><span class="tag">ของในมือ</span><h2>บอร์ดผู้เล่น: ทรัพยากร 6 ชนิด</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 330" role="img" aria-label="บอร์ดผู้เล่น 6 ช่อง เงิน เหล็ก ไทเทเนียม พืช พลังงาน ความร้อน แต่ละช่องมีรางกำลังผลิตด้านบนและที่เก็บทรัพยากรด้านล่าง" id="boarddemo"></svg></div>
+        <figcaption>แต่ละช่องมี 2 ส่วน: <b>รางกำลังผลิต</b> (ด้านบน ได้ทุกช่วงผลิต) และ<b>คลังทรัพยากร</b> (ด้านล่าง ของที่มีตอนนี้) · กำลังผลิตเงินติดลบได้ถึง −5 ชนิดอื่นต่ำสุด 0</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ทรัพยากร</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tc" style="background:var(--mc)"></span><b>เงิน (M€)</b> <span class="en">MegaCredit</span></td><td>จ่ายทุกอย่าง: ซื้อการ์ด เล่นการ์ด โปรเจกต์มาตรฐาน หลักชัย รางวัล · ช่วงผลิตได้ <b>TR + กำลังผลิตเงิน</b></td></tr>
+            <tr><td><span class="tc" style="background:var(--steel)"></span><b>เหล็ก</b> <span class="en">Steel</span></td><td>ใช้แทนเงิน<b>ลูกละ 2 M€</b> เฉพาะจ่ายการ์ดที่มีแท็ก<b>อาคาร</b> (ทอนไม่ได้)</td></tr>
+            <tr><td><span class="tc" style="background:var(--ti)"></span><b>ไทเทเนียม</b> <span class="en">Titanium</span></td><td>ใช้แทนเงิน<b>ลูกละ 3 M€</b> เฉพาะจ่ายการ์ดที่มีแท็ก<b>อวกาศ</b></td></tr>
+            <tr><td><span class="tc" style="background:var(--plant)"></span><b>พืช</b> <span class="en">Plants</span></td><td><b>8 พืช → แผ่นป่า 1 แผ่น</b> (ดันออกซิเจน +1) เป็นการกระทำ</td></tr>
+            <tr><td><span class="tc" style="background:var(--energy)"></span><b>พลังงาน</b> <span class="en">Energy</span></td><td>จ่ายให้การ์ดที่ใช้พลังงาน · <b>ช่วงผลิต พลังงานที่เหลือทั้งหมดกลายเป็นความร้อน</b></td></tr>
+            <tr><td><span class="tc" style="background:var(--heat)"></span><b>ความร้อน</b> <span class="en">Heat</span></td><td><b>8 ความร้อน → อุณหภูมิ +1 ขั้น</b> เป็นการกระทำ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout energy">
+        <h3>พลังงานเก็บข้ามรอบไม่ได้</h3>
+        <p>ช่วงผลิตย้ายลูกบาศก์ในช่องพลังงานทั้งหมดไปช่องความร้อน<b>ก่อน</b>รับของรอบใหม่ จึงต้องใช้พลังงานให้หมดในรอบที่ได้มา ถ้าไม่ได้ใช้ ก็กลายเป็นความร้อนไปดันอุณหภูมิได้</p>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <div class="types">
+        <div class="type"><h3>เกมมาตรฐาน</h3><p>ไม่ใส่การ์ดยุคบริษัท (Corporate Era) · ทุกคนเริ่ม<b>กำลังผลิต 1 ทุกชนิด</b> · เหมาะเกมแรก ๆ</p></div>
+        <div class="type"><h3>ยุคบริษัท <span class="en">Corporate Era</span></h3><p>ใส่การ์ดที่มีสัญลักษณ์ยุคบริษัท (การ์ดเศรษฐกิจ/เทคโนโลยีเพิ่ม) · <b>เริ่มกำลังผลิต 0</b> มีเฉพาะที่บริษัทให้ · เกมยาวขึ้นและลึกขึ้น <b>แนะนำเมื่อเล่นกับปฐมบท</b></p></div>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>จัดบอร์ด</h3><p>วางบอร์ดดาวอังคาร ตั้งตัวบอกอุณหภูมิที่ −30 °C ออกซิเจน 0% ซ้อนแผ่นมหาสมุทร 9 แผ่นบนช่องของมัน ตัวบอกรอบที่ 1</p></div></li>
+        <li><div class="body"><h3>ผู้เล่นรับของ</h3><p>บอร์ดผู้เล่น + ลูกบาศก์สีตัวเอง วางลูกบาศก์ 1 ลูกบนราง TR ที่ <b>20</b> · เกมมาตรฐานวางกำลังผลิตที่ 1 ทุกช่อง (ยุคบริษัทวางที่ 0)</p></div></li>
+        <li><div class="body"><h3>สุ่มผู้เริ่ม</h3><p>ผู้เริ่มรับเครื่องหมายผู้เริ่ม (First player)</p></div></li>
+        <li><div class="body"><h3>แจกบริษัทและการ์ด</h3><p>แจกการ์ดบริษัท<b>คนละ 2 ใบ</b> และการ์ดโปรเจกต์<b>คนละ 10 ใบ</b> (ใส่ปฐมบท: แจกการ์ดปฐมบทคนละ 4 ใบด้วย)</p>
+          <ul><li>เกมแรกใช้บริษัทผู้เริ่มต้น (Beginner): ได้ 42 M€ และ<b>เก็บการ์ด 10 ใบฟรี</b></li></ul></div></li>
+        <li><div class="body"><h3>เลือกพร้อมกัน</h3><p>แต่ละคนเลือกบริษัท 1 ใบ เลือกการ์ดโปรเจกต์ที่จะเก็บ (ใส่ปฐมบทเลือกปฐมบท 2 ใบ) ทิ้งที่เหลือ</p></div></li>
+        <li><div class="body"><h3>เปิดบริษัท จ่ายค่าการ์ด</h3><p>เปิดบริษัทพร้อมกัน รับเงินเริ่มต้นและของตามบริษัท จากนั้น<b>จ่ายใบละ 3 M€</b> สำหรับการ์ดที่เก็บไว้</p></div></li>
+        <li><div class="body"><h3>(ปฐมบท) เล่นการ์ดปฐมบท</h3><p>ตามลำดับผู้เล่น แต่ละคนเล่นปฐมบท 2 ใบ ดู <a href="#prelude">ปฐมบท</a></p></div></li>
+        <li><div class="body"><h3>เริ่มรอบที่ 1</h3><p>รอบแรก<b>ข้ามช่วงเปลี่ยนผู้เริ่มและช่วงวิจัย</b> เข้าช่วงปฏิบัติการเลย (เพราะเพิ่งซื้อการ์ดมา)</p></div></li>
+      </ol>
+      <div class="callout mc">
+        <h3>บริษัทที่มี “การกระทำแรก” (First action)</h3>
+        <p>เช่น Tharsis Republic (วางเมือง) หรือ Inventrix (จั่ว 3 ใบ) ต้องใช้การกระทำแรกนั้นเป็น<b>การกระทำแรกของตัวเองในรอบที่ 1</b></p>
+      </div>
+    </section>
+
+    <!-- GENERATION -->
+    <section id="generation">
+      <div class="sec-head"><span class="tag">ทุกรอบ</span><h2>หนึ่งรอบ (Generation)</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 300" role="img" aria-label="วงจร 4 ช่วง เปลี่ยนผู้เริ่ม วิจัย ปฏิบัติการ ผลิต" id="gendemo"></svg></div>
+        <figcaption>รอบที่ 1 เริ่มที่ช่วงปฏิบัติการเลย · ช่วงอาณานิคม (เส้นประ) มีเฉพาะเมื่อเล่นกับ Colonies</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>เปลี่ยนผู้เริ่ม <span class="en">Player Order</span></h3><p>เครื่องหมายผู้เริ่มส่งไปทางซ้าย 1 คน เลื่อนตัวบอกรอบ +1</p></div></li>
+        <li><div class="body"><h3>วิจัย <span class="en">Research</span></h3><p>ทุกคนจั่วการ์ด 4 ใบ เลือกเก็บกี่ใบก็ได้ <b>จ่ายใบละ 3 M€</b> ที่ไม่เก็บทิ้ง ไม่มีจำกัดการ์ดในมือ</p>
+          <ul><li><b>กติกาดราฟต์</b> (แนะนำเมื่อคุ้นเกม): เลือก 1 ใบ ส่งที่เหลือให้คนข้าง ๆ จนได้ครบ 4 ใบ แล้วค่อยซื้อ สลับทิศส่งทุกรอบ</li></ul></div></li>
+        <li><div class="body"><h3>ปฏิบัติการ <span class="en">Action</span></h3><p>เริ่มจากผู้เริ่ม วนตามเข็มนาฬิกา ในตาของคุณทำ <b>1 หรือ 2 การกระทำ</b> หรือ<b>ผ่าน</b> วนไปเรื่อย ๆ จนทุกคนผ่าน</p>
+          <ul><li>ผ่านแล้ว = ออกจากรอบนี้ ทำอะไรไม่ได้อีกจนรอบหน้า</li><li>ถ้าทำ 1 การกระทำแล้วจบตา ยังไม่ถือว่าผ่าน</li><li>คนที่เหลือคนเดียวเล่นต่อได้หลายตาจนพอใจ</li></ul></div></li>
+        <li><div class="body"><h3>ผลิต <span class="en">Production</span></h3><p>ทุกคนทำพร้อมกัน ตามลำดับนี้:</p>
+          <ul><li>ย้าย<b>พลังงานทั้งหมด → ความร้อน</b></li><li>รับเงิน = <b>TR + กำลังผลิตเงิน</b> (ติดลบก็หักออก)</li><li>รับทรัพยากรอื่นตามกำลังผลิต</li><li>เก็บลูกบาศก์ผู้เล่นออกจากการ์ดสีน้ำเงินที่ใช้ไป (ใช้ได้อีกรอบหน้า)</li></ul></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 210" role="img" aria-label="ตัวอย่างช่วงผลิต TR 24 กำลังผลิตเงิน 3 ได้ 27 เงิน พลังงาน 2 ไปเป็นความร้อน" id="proddemo"></svg></div>
+        <figcaption>ตัวอย่าง: TR 24 + กำลังผลิตเงิน 3 = ได้ 27 M€ · พลังงานเหลือ 2 ย้ายไปความร้อนก่อน แล้วค่อยรับพลังงานใหม่ 2 จากกำลังผลิต</figcaption>
+      </figure>
+    </section>
+
+    <!-- ACTIONS -->
+    <section id="actions">
+      <div class="sec-head"><span class="tag">ช่วงปฏิบัติการ</span><h2>ทำอะไรได้ในตา (เลือก 1–2 อย่าง)</h2></div>
+      <p class="prose">ทำซ้ำชนิดเดียวกัน 2 ครั้งในตาเดียวได้ เช่นเล่นการ์ด 2 ใบ</p>
+      <div class="types">
+        <div class="type"><h3>1 · เล่นการ์ดโปรเจกต์</h3><p>จ่ายราคา (ใช้เหล็ก/ไทเทเนียมช่วยได้ตามแท็ก) ต้องผ่าน<b>เงื่อนไข</b>บนการ์ด แล้วทำผลทั้งหมด</p></div>
+        <div class="type"><h3>2 · โปรเจกต์มาตรฐาน</h3><p>มีให้ทุกคนตลอด ดูตารางด้านล่าง ทำได้หลายครั้งต่อรอบ</p></div>
+        <div class="type"><h3>3 · อ้างหลักชัย</h3><p>จ่าย 8 M€ ถ้าผ่านเงื่อนไข ได้ 5 แต้มตอนจบ (ทั้งเกมอ้างได้ 3 อัน)</p></div>
+        <div class="type"><h3>4 · ตั้งรางวัล</h3><p>จ่าย 8 / 14 / 20 M€ เปิดรางวัลให้แข่งกันตอนจบ (ทั้งเกม 3 อัน)</p></div>
+        <div class="type"><h3>5 · ใช้การกระทำบนการ์ดน้ำเงิน</h3><p>การ์ดที่มีคำว่า Action ใช้ได้<b>รอบละ 1 ครั้ง</b> วางลูกบาศก์ไว้บนการ์ดบอกว่าใช้แล้ว</p></div>
+        <div class="type"><h3>6 · พืช 8 → ป่า</h3><p>วางแผ่นป่า ดันออกซิเจน +1 (ถ้ายังไม่สุด) <span class="en">Ecoline ใช้ 7</span></p></div>
+        <div class="type"><h3>7 · ความร้อน 8 → อุณหภูมิ</h3><p>ดันอุณหภูมิ +1 ขั้น ได้ TR +1</p></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 #2c6aa8"><h3>8 · ค้าขาย <span class="new" style="--c:#2c6aa8">Colonies</span></h3><p>ส่งยานไปค้ากับดวงจันทร์/ดาว ดู <a href="#colonies">อาณานิคม</a></p></div>
+      </div>
+      <h3>โปรเจกต์มาตรฐาน <span class="en">Standard Projects</span></h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>โปรเจกต์</th><th class="num">ราคา</th><th>ได้อะไร</th></tr></thead>
+          <tbody>
+            <tr><td><b>ขายสิทธิบัตร</b> <span class="en">Sell Patents</span></td><td class="num">—</td><td>ทิ้งการ์ดจากมือกี่ใบก็ได้ ได้ใบละ 1 M€</td></tr>
+            <tr><td><b>โรงไฟฟ้า</b> <span class="en">Power Plant</span></td><td class="num">11</td><td>กำลังผลิตพลังงาน +1</td></tr>
+            <tr><td><b>ดาวเคราะห์น้อย</b> <span class="en">Asteroid</span></td><td class="num">14</td><td>อุณหภูมิ +1 ขั้น (TR +1)</td></tr>
+            <tr style="background:var(--ocean-soft)"><td><b>อาณานิคม</b> <span class="en">Build Colony</span> <span class="new" style="--c:#2c6aa8">Colonies</span></td><td class="num">17</td><td>วางอาณานิคม 1 อันบนแผ่นอาณานิคม รับโบนัสการวาง</td></tr>
+            <tr><td><b>ชั้นน้ำใต้ดิน</b> <span class="en">Aquifer</span></td><td class="num">18</td><td>วางมหาสมุทร 1 แผ่น (TR +1)</td></tr>
+            <tr><td><b>ป่า</b> <span class="en">Greenery</span></td><td class="num">23</td><td>วางแผ่นป่า ออกซิเจน +1 (TR +1)</td></tr>
+            <tr><td><b>เมือง</b> <span class="en">City</span></td><td class="num">25</td><td>วางแผ่นเมือง และกำลังผลิตเงิน +1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">โปรเจกต์มาตรฐานจ่ายด้วยเงินเท่านั้น เหล็ก/ไทเทเนียมใช้ไม่ได้ (เว้นแต่การ์ดบอก)</p>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">ภาษาของการ์ด</span><h2>อ่านการ์ดโปรเจกต์</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 420" role="img" aria-label="ส่วนต่าง ๆ ของการ์ด ราคา เงื่อนไข แท็ก ชื่อ กล่องกำลังผลิต ผลทันที แต้ม" id="carddemo"></svg></div>
+        <figcaption>การ์ดในภาพแต่งขึ้นเพื่ออธิบาย ไม่ใช่การ์ดจริง</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type" style="box-shadow:inset 4px 0 0 #3a8a3a"><h3>ขอบเขียว · อัตโนมัติ <span class="en">Automated</span></h3><p>ทำผลครั้งเดียวตอนเล่น แล้ว<b>วางซ้อน</b>ไว้หน้าตัวเอง ให้เห็นแค่แถบแท็ก (แท็กยังนับ)</p></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 #2c6aa8"><h3>ขอบน้ำเงิน · ใช้งาน <span class="en">Active</span></h3><p>วางให้เห็นข้อความด้านบน มี <b>Effect</b> (ทำงานอัตโนมัติตลอดเกม) หรือ <b>Action</b> (ใช้รอบละครั้ง) อยู่บนโต๊ะทั้งเกม</p></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 #b8352a"><h3>ขอบแดง · เหตุการณ์ <span class="en">Event</span></h3><p>ทำผลครั้งเดียวแล้ว<b>คว่ำ</b> แท็กบนการ์ด<b>ไม่นับ</b>หลังเล่น (ยกเว้นแท็กเหตุการณ์ตอนเล่น)</p></div>
+      </div>
+      <h3>สัญลักษณ์ที่ต้องรู้</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>สัญลักษณ์</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td><b>กรอบสีน้ำตาล</b></td><td>เปลี่ยน<b>กำลังผลิต</b> (ไม่ใช่ทรัพยากร) · ตัวเลขลบในกรอบนี้ ถ้าลดของตัวเองไม่ได้ จะเล่นการ์ดไม่ได้</td></tr>
+            <tr><td><b>ขอบแดงรอบไอคอน</b></td><td>เลือก<b>ผู้เล่นคนไหนก็ได้</b> (รวมตัวเอง) · ลบทรัพยากร: ลบ “ได้สูงสุด” ตามจำนวน · ลดกำลังผลิต: ต้องลดถ้ามีคนลดได้</td></tr>
+            <tr><td><b>เงื่อนไข</b> (กรอบมุมซ้ายบน)</td><td>ตรวจ<b>ตอนเล่นเท่านั้น</b> เช่น “ออกซิเจน 5%” = ต้องอย่างน้อย 5% · “max” = ต้องไม่เกิน · “แท็กวิทย์ 2” = ต้องมีแท็กวิทย์ในเล่นแล้ว 2</td></tr>
+            <tr><td><b>ไอคอนแต้ม</b> (มุมขวาล่าง)</td><td>แต้มตอนจบ บางใบเป็น “1 แต้มต่อ 2 สัตว์บนการ์ดนี้”</td></tr>
+            <tr><td><b>ช่องทรัพยากรบนการ์ด</b></td><td>สัตว์ จุลินทรีย์ วิทยาศาสตร์ ลอยฟ้า (floater) วางบน<b>การ์ด</b> ไม่ใช่บนบอร์ด ใช้ได้ตามที่การ์ดบอก</td></tr>
+            <tr><td><b>ลูกศร →</b></td><td>“จ่ายซ้าย ได้ขวา” ส่วนมากอยู่ใน Action</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>แท็ก <span class="en">Tags</span></h3>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 170" role="img" aria-label="แท็ก 11 ชนิด" id="tagdemo"></svg></div>
+        <figcaption>แท็กเป็นเงื่อนไขของการ์ดอื่น ได้ส่วนลด และใช้นับหลักชัย/รางวัล · แท็กอาคารจ่ายด้วยเหล็กได้ แท็กอวกาศจ่ายด้วยไทเทเนียมได้</figcaption>
+      </figure>
+    </section>
+
+    <!-- TILES -->
+    <section id="tiles">
+      <div class="sec-head"><span class="tag">แผนที่</span><h2>วางแผ่นบนดาวอังคาร</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 330" role="img" aria-label="ตัวอย่างการวางเมืองห้ามติดเมือง ป่าต้องติดแผ่นของตัวเอง และโบนัสติดมหาสมุทร" id="tiledemo"></svg></div>
+        <figcaption>ซ้าย: เมืองห้ามวางติดเมืองอื่น · ขวา: ป่าต้องติดแผ่นของคุณถ้าทำได้ และทุกแผ่นที่วางติดมหาสมุทรได้ 2 M€ ต่อมหาสมุทร 1 แผ่น</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type" style="box-shadow:inset 4px 0 0 var(--ocean)"><h3>มหาสมุทร</h3><ul><li>วางได้เฉพาะ<b>ช่องสงวนมหาสมุทร</b></li><li>ไม่มีเจ้าของ ไม่วางลูกบาศก์</li><li>วางครบ 9 แล้ววางเพิ่มไม่ได้</li></ul></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 var(--green)"><h3>ป่า <span class="en">Greenery</span></h3><ul><li>ต้องวาง<b>ติดแผ่นของคุณ</b> (ที่มีลูกบาศก์ของคุณ) ถ้ามีช่องแบบนั้น ถ้าไม่มีวางที่ไหนก็ได้</li><li>วางลูกบาศก์คุณบนแผ่น</li><li>ดันออกซิเจน +1 · จบเกม 1 แต้ม</li></ul></div>
+        <div class="type" style="box-shadow:inset 4px 0 0 var(--city)"><h3>เมือง</h3><ul><li><b>ห้ามวางติดเมือง</b>อื่น (ของใครก็ตาม)</li><li>วางที่ไหนก็ได้นอกช่องสงวนมหาสมุทร</li><li>จบเกม 1 แต้ม<b>ต่อป่าที่ติดกัน</b> (ป่าของใครก็ได้)</li></ul></div>
+        <div class="type"><h3>แผ่นพิเศษ</h3><ul><li>จากการ์ดบางใบ (เช่นเหมือง เขตอนุรักษ์) วางตามที่การ์ดบอก</li><li>นับเป็นแผ่นของคุณ ใช้ให้ป่าติดได้</li></ul></div>
+      </div>
+      <div class="callout mc">
+        <h3>โบนัสการวาง</h3>
+        <ul>
+          <li>ช่องที่พิมพ์ไอคอนเหล็ก ไทเทเนียม พืช หรือการ์ด: คนวางได้ของนั้นทันที</li>
+          <li><b>ติดมหาสมุทร</b>: แผ่นที่วางใหม่ (รวมถึงมหาสมุทรด้วยกันเอง) ได้ <b>2 M€ ต่อมหาสมุทรที่ติดกัน 1 แผ่น</b></li>
+          <li>ช่องที่มีชื่อ (เช่น Noctis City) สงวนไว้ให้การ์ดนั้น ๆ เท่านั้น · Phobos Space Haven และ Ganymede Colony เป็นเมืองนอกดาว ไม่ได้วางบนแผนที่</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MILESTONES -->
+    <section id="milestones">
+      <div class="sec-head"><span class="tag">เป้าหมายร่วม</span><h2>หลักชัย และรางวัล</h2></div>
+      <div class="types">
+        <div class="type"><h3>หลักชัย <span class="en">Milestones</span></h3><ul><li>เป็น<b>การกระทำ</b>: จ่าย <b>8 M€</b> ตอนผ่านเงื่อนไข</li><li>ได้ <b>5 แต้ม</b>ตอนจบ</li><li>ทั้งเกมอ้างได้แค่ <b>3 อัน</b> อันละคนเดียว</li><li>ผ่านเงื่อนไขแล้วไม่ได้อัตโนมัติ ต้องเสียการกระทำอ้าง</li></ul></div>
+        <div class="type"><h3>รางวัล <span class="en">Awards</span></h3><ul><li>เป็นการกระทำ: จ่าย <b>8 / 14 / 20 M€</b> (อันที่ 1/2/3 ของเกม)</li><li>ทั้งเกมตั้งได้ <b>3 อัน</b></li><li>นับตอนจบ: ที่ 1 ได้ <b>5</b> ที่ 2 ได้ <b>2</b> · ใครตั้งก็ได้ ไม่ต้องเป็นคนตั้ง</li><li>เล่น 2 คน ที่ 2 ไม่ได้แต้ม</li></ul></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>หลักชัย (Tharsis)</th><th>เงื่อนไข</th><th>รางวัล (Tharsis)</th><th>มากที่สุด</th></tr></thead>
+          <tbody>
+            <tr><td><b>Terraformer</b></td><td>TR 35</td><td><b>Landlord</b></td><td>จำนวนแผ่นของคุณบนดาว</td></tr>
+            <tr><td><b>Mayor</b></td><td>มีเมือง 3 แผ่น</td><td><b>Banker</b></td><td>กำลังผลิตเงิน</td></tr>
+            <tr><td><b>Gardener</b></td><td>มีป่า 3 แผ่น</td><td><b>Scientist</b></td><td>แท็กวิทยาศาสตร์ในเล่น</td></tr>
+            <tr><td><b>Builder</b></td><td>แท็กอาคาร 8 อันในเล่น</td><td><b>Thermalist</b></td><td>ความร้อน (ทรัพยากร) ที่มี</td></tr>
+            <tr><td><b>Planner</b></td><td>การ์ดในมือ 16 ใบ</td><td><b>Miner</b></td><td>เหล็ก + ไทเทเนียม (ทรัพยากร) ที่มี</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <h3>รางวัลเสมอกัน</h3>
+        <p>เสมอที่ 1: ทุกคนที่เสมอได้ 5 และ<b>ไม่มีที่ 2</b> · เสมอที่ 2: ทุกคนที่เสมอได้ 2</p>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และนับคะแนน</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ครบทั้ง 3 ค่า</h3><p>เมื่อ<b>อุณหภูมิ ออกซิเจน และมหาสมุทร</b>ถึงสุดทั้งหมด เล่นรอบนั้นให้จบตามปกติ (คนที่ยังไม่ผ่านเล่นต่อได้) รวมถึง<b>ช่วงผลิต</b></p></div></li>
+        <li><div class="body"><h3>ปลูกป่ารอบสุดท้าย</h3><p>หลังช่วงผลิต ทุกคนตามลำดับผู้เล่น<b>แปลงพืชเป็นป่า</b>ได้อีก (ไม่ได้ TR เพราะออกซิเจนสุดแล้ว แต่ได้แต้มป่าและแต้มเมือง) ทำอย่างอื่นไม่ได้</p></div></li>
+        <li><div class="body"><h3>นับคะแนน</h3>
+          <ul><li><b>TR</b> สุดท้าย</li><li><b>รางวัล</b> 5 / 2 · <b>หลักชัย</b> 5 ต่ออัน</li><li><b>ป่า</b> 1 แต้มต่อแผ่น</li><li><b>เมือง</b> 1 แต้มต่อป่าที่ติดเมือง (ป่าของใครก็ได้)</li><li><b>แต้มบนการ์ด</b> ที่เล่นแล้วทั้งหมด (รวมเหตุการณ์ที่คว่ำไว้)</li></ul></div></li>
+        <li><div class="body"><h3>เสมอ</h3><p>คนที่มี<b>เงิน M€ เหลือมากกว่า</b>ชนะ</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 300" role="img" aria-label="เมืองล้อมด้วยป่า 4 แผ่น ได้ 4 แต้ม" id="citydemo"></svg></div>
+        <figcaption>เมืองสีส้มติดป่า 4 แผ่น (3 แผ่นของตัวเอง 1 แผ่นของคนอื่น) = เมืองนี้ได้ 4 แต้ม · ป่าทุกแผ่นยังได้ 1 แต้มให้เจ้าของป่าด้วย</figcaption>
+      </figure>
+    </section>
+
+    <!-- CORPS -->
+    <section id="corps">
+      <div class="sec-head"><span class="tag">ตัวละคร</span><h2>บริษัท (เกมหลัก + ภาคเสริม)</h2></div>
+      <p class="prose">ทุกบริษัทมี<b>เงินเริ่มต้น</b> ของเริ่มต้น และความสามารถพิเศษ ตารางนี้สรุปเพื่อช่วยเลือกตอนเริ่ม ตัวเลขยึดตามการ์ดจริง</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>บริษัท</th><th class="num">M€</th><th>ของเริ่มต้น / ความสามารถ</th><th>สไตล์</th></tr></thead>
+          <tbody id="corptable"></tbody>
+        </table>
+      </div>
+      <p class="note">ตัวเลขในตารางเรียบเรียงจากการ์ด ถ้าฉบับที่มีพิมพ์ต่างไป ให้ยึดการ์ดในกล่อง <span class="flag">ตรวจกับการ์ดจริง</span></p>
+    </section>
+
+    <!-- SOLO -->
+    <section id="solo">
+      <div class="sec-head"><span class="tag">1 คน</span><h2>เล่นคนเดียว</h2></div>
+      <div class="types">
+        <div class="type"><h3>เป้าหมาย</h3><p>ดันทั้ง 3 ค่าให้สุด<b>ภายในจบรอบที่ 14</b> ทำไม่ได้ = แพ้ ทำได้ = ชนะ แล้วดูคะแนนเป็นสถิติตัวเอง</p></div>
+        <div class="type"><h3>ต่างจากปกติ</h3><ul><li>ใช้กติกายุคบริษัท</li><li>เริ่ม <b>TR 14</b></li><li>วาง<b>เมืองกลาง 2 เมือง</b> (คนละสี) พร้อมป่าติดกัน ตำแหน่งสุ่มจากราคาการ์ดที่จั่ว ตามคู่มือ</li><li>การ์ดที่ลดของ “คนอื่น” ใช้กับฝ่ายกลางได้ (ไม่มีผลจริง)</li></ul></div>
+        <div class="type"><h3>ใส่ภาคเสริม</h3><ul><li>ปฐมบท: เหลือ <b>12 รอบ</b></li><li>อาณานิคม: ใช้แผ่นอาณานิคม <b>4 ดวง</b></li></ul></div>
+      </div>
+    </section>
+
+    <!-- PRELUDE -->
+    <section id="prelude">
+      <div class="xhead" style="--c:#a2408a"><span class="tag">ภาคเสริม · PRELUDE · เล่นอยู่ประจำ</span><h2>ปฐมบท</h2><p>ช่วงเปิดเกมของ Terraforming Mars ช้า เพราะทุกคนยังไม่มีกำลังผลิต ปฐมบทให้ทุกคน<b>ออกตัวแรง</b>ตั้งแต่ก่อนรอบที่ 1 เกมสั้นลงราว 1–2 รอบ และแต่ละเกมเริ่มไม่เหมือนกัน</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>แจก 4 เก็บ 2</h3><p>ตอนเตรียมเกม แจกการ์ดปฐมบทคนละ 4 ใบ พร้อมการ์ดบริษัทและการ์ดโปรเจกต์ เลือกเก็บปฐมบท <b>2 ใบ</b> (ไม่ต้องจ่ายเงิน) ที่เหลือทิ้ง</p></div></li>
+        <li><div class="body"><h3>เปิดบริษัท ซื้อการ์ดก่อน</h3><p>ทำขั้นตอนบริษัทและจ่ายค่าการ์ดโปรเจกต์ตามปกติก่อน</p></div></li>
+        <li><div class="body"><h3>เล่นปฐมบท 2 ใบ</h3><p>ตามลำดับผู้เล่น เล่นปฐมบททั้ง 2 ใบ (ลำดับไหนก่อนก็ได้) ทำผลทันที แล้ววางไว้หน้าตัว · ดันค่าดาวจากปฐมบทได้ TR ตามปกติ</p></div></li>
+        <li><div class="body"><h3>เริ่มรอบที่ 1</h3><p>“การกระทำแรก” ของบริษัทยังทำตอนเริ่มรอบที่ 1 ตามปกติ</p></div></li>
+      </ol>
+      <div class="callout">
+        <h3>เล่นปฐมบทไม่ได้</h3>
+        <p>ถ้าปฐมบทใบไหนทำผลไม่ได้ (เช่น ต้องลดกำลังผลิตที่ไม่มี) ให้<b>ทิ้งใบนั้นแล้วรับ 15 M€</b> แทน (กติกาจาก FAQ ทางการรุ่นหลัง และเป็นวิธีที่เวอร์ชันออนไลน์ใช้ <span class="flag">คู่มือพิมพ์รุ่นแรกไม่ได้เขียน</span>)</p>
+      </div>
+      <div class="types">
+        <div class="type"><h3>ปฐมบทหน้าตาแบบไหน</h3><ul><li>เพิ่มกำลังผลิต (เช่น เงิน/พืช/ความร้อน)</li><li>ได้ทรัพยากรเยอะ ๆ หรือ M€ ก้อนใหญ่</li><li>ดันค่าดาวทันที / วางแผ่น</li><li>จั่วการ์ด หรือเป็นการ์ดน้ำเงินที่มีผลถาวร</li></ul></div>
+        <div class="type"><h3>เลือก 2 จาก 4 ยังไง</h3><ul><li>เลือกคู่ที่<b>เข้ากับบริษัท</b> เช่น บริษัทที่ชอบความร้อน + ปฐมบทกำลังผลิตความร้อน</li><li>กำลังผลิตเงินในรอบแรก ๆ คุ้มที่สุดเกือบทุกครั้ง</li><li>ดูการ์ดในมือด้วย ปฐมบทที่ช่วยผ่านเงื่อนไขการ์ดดี ๆ ในมือคุ้มมาก</li></ul></div>
+        <div class="type"><h3>การ์ดพิเศษ</h3><ul><li><b>Merger</b>: จั่วบริษัทอีก 4 ใบ เลือก 1 มาใช้<b>เพิ่ม</b> (จ่าย 42 M€)</li><li>บริษัทใหม่ <b>Valley Trust</b>: การกระทำแรกจั่วปฐมบท 3 เล่น 1</li></ul></div>
+      </div>
+      <p class="note">กำลังผลิตของบริษัท + ปฐมบทเป็นจุดตั้งต้น เกมกับปฐมบทจึงแนะนำ<b>ยุคบริษัท</b> (เริ่มกำลังผลิต 0) เพื่อไม่ให้แรงเกินไป</p>
+    </section>
+
+    <!-- COLONIES -->
+    <section id="colonies">
+      <div class="xhead" style="--c:#2c6aa8"><span class="tag">ภาคเสริม · COLONIES · ยังไม่เคยเล่น</span><h2>อาณานิคม</h2><p>ระบบสุริยะไม่ได้มีแค่ดาวอังคาร ภาคนี้เพิ่ม<b>ดวงจันทร์และดาวเคราะห์รอบนอก</b>ให้ไปตั้งอาณานิคมและส่ง<b>ยานค้าขาย</b>ไปรับของ เปิดทางเศรษฐกิจใหม่ที่ไม่ต้องแย่งพื้นที่บนดาวอังคาร และทำให้ทุกคน “ได้ประโยชน์” จากการค้าของคนอื่น</p></div>
+      <h3>ของที่เพิ่มเข้ามา</h3>
+      <div class="types">
+        <div class="type"><h3>แผ่นอาณานิคม</h3><p>แต่ละแผ่นคือ 1 ดวง มีโบนัสการวาง ช่องอาณานิคม 3 ช่อง และ<b>รางค้าขาย 7 ขั้น</b></p></div>
+        <div class="type"><h3>ยานค้าขาย</h3><p>เริ่มคนละ <b>1 ลำ</b> การ์ดบางใบเพิ่มยานได้ (สูงสุด 4)</p></div>
+        <div class="type"><h3>การกระทำใหม่ 2 อย่าง</h3><ul><li><b>สร้างอาณานิคม</b> (โปรเจกต์มาตรฐาน 17 M€ หรือการ์ด)</li><li><b>ค้าขาย</b> (9 M€ หรือพลังงาน 3 หรือไทเทเนียม 3)</li></ul></div>
+        <div class="type"><h3>ช่วงใหม่ท้ายรอบ</h3><p>หลังช่วงผลิต: ตัวบอกรางทุกดวง<b>เลื่อนขึ้น 1 ขั้น</b> ยานทั้งหมดกลับบ้าน</p></div>
+      </div>
+
+      <h3>อ่านแผ่นอาณานิคม</h3>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 300" role="img" aria-label="แผ่นอาณานิคม Luna โบนัสการวางกำลังผลิตเงิน 2 รางค้าขาย 1 2 4 7 10 13 17 โบนัสอาณานิคม 2 เงิน" id="colonydemo"></svg></div>
+        <figcaption>ตัวอย่างแผ่น Luna วาดใหม่ · ตัวเลขบนรางคือ<b>ของที่คนค้าได้</b>ถ้าตัวบอกอยู่ช่องนั้น · 3 ช่องแรกเป็นที่ตั้งอาณานิคม</figcaption>
+      </figure>
+
+      <h3>เตรียมเกม (เพิ่มจากปกติ)</h3>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกแผ่นอาณานิคม</h3><p>สุ่มแผ่นตามจำนวนคน: <b>2 คน = 5 · 3 คน = 5 · 4 คน = 6 · 5 คน = 7</b> (เล่นคนเดียว 4) ที่เหลือเก็บกล่อง หรือใช้ <a href="#colony-tool">ตัวช่วยอาณานิคม</a> สุ่ม</p></div></li>
+        <li><div class="body"><h3>วางตัวบอกราง</h3><p>วางตัวบอกที่<b>ช่องที่ 2 ของราง</b> (ช่องที่มีกรอบเด่น) ของทุกแผ่น</p>
+          <ul><li><b>Titan</b> (ลอยฟ้า) <b>Enceladus</b> (จุลินทรีย์) <b>Miranda</b> (สัตว์) ยัง<b>ไม่เปิดใช้</b>: ไม่วางตัวบอกจนกว่าจะมีคนเล่นการ์ดที่เก็บทรัพยากรชนิดนั้นได้ ระหว่างนั้นค้าขายและตั้งอาณานิคมที่นั่นไม่ได้</li></ul></div></li>
+        <li><div class="body"><h3>ยานและการ์ด</h3><p>ทุกคนรับยานค้าขาย 1 ลำ วางบนบอร์ดยาน สับการ์ดโปรเจกต์ Colonies และบริษัทใหม่เข้ากองตามปกติ</p></div></li>
+      </ol>
+
+      <h3>สร้างอาณานิคม</h3>
+      <ol class="steps">
+        <li><div class="body"><h3>จ่ายและเลือกดวง</h3><p>โปรเจกต์มาตรฐาน <b>17 M€</b> (หรือเล่นการ์ดที่ให้วางอาณานิคม) เลือกดวงที่เปิดใช้และยังมีช่องว่าง</p>
+          <ul><li>ดวงละ<b>ไม่เกิน 3 อาณานิคม</b> และ<b>คนละ 1 อาณานิคมต่อดวง</b> (เว้นแต่การ์ดอนุญาต)</li></ul></div></li>
+        <li><div class="body"><h3>วางลูกบาศก์ในช่องซ้ายสุดที่ว่าง</h3><p>รับ<b>โบนัสการวาง</b>ของดวงนั้นทันที (เช่น Luna กำลังผลิตเงิน +2, Europa วางมหาสมุทร)</p></div></li>
+        <li><div class="body"><h3>ดันตัวบอกถ้าจำเป็น</h3><p>ตัวบอกรางต้อง<b>ไม่อยู่ทางซ้าย</b>ของอาณานิคมทางขวาสุด ถ้าอยู่ ให้เลื่อนไปช่องถัดจากอาณานิคม</p></div></li>
+      </ol>
+
+      <h3>ค้าขาย</h3>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 330" role="img" aria-label="ขั้นตอนค้าขาย ก่อนค้าตัวบอกอยู่ช่อง 5 ค้าได้ 10 เงิน เจ้าของอาณานิคมได้ 2 เงินคนละครั้ง หลังค้าตัวบอกถอยไปช่องหลังอาณานิคม" id="tradedemo"></svg></div>
+        <figcaption>สีส้มค้ากับ Luna ตอนตัวบอกอยู่ช่องที่ 5 (10 M€) · ส้มและน้ำเงินมีอาณานิคมอยู่ จึงได้โบนัสอาณานิคมคนละ 2 M€ · จากนั้นตัวบอกถอยกลับไปช่องที่ 3 (ช่องถัดจากอาณานิคม 2 อัน)</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>จ่ายค่าค้าขาย</h3><p>เลือกจ่าย <b>9 M€</b> หรือ <b>พลังงาน 3</b> หรือ <b>ไทเทเนียม 3</b> แล้วส่งยานที่ว่างไปจอดที่ดวงที่<b>ยังไม่มียานลำไหนจอด</b> (รวมยานตัวเอง) และเปิดใช้แล้ว ไม่ต้องมีอาณานิคมที่นั่นก็ค้าได้</p></div></li>
+        <li><div class="body"><h3>(ถ้ามี) ดันรางก่อน</h3><p>การ์ดบางใบให้ “ค้าขาย +1 ขั้น” เลื่อนตัวบอกขึ้นก่อนรับของ</p></div></li>
+        <li><div class="body"><h3>คนค้ารับรายได้การค้า</h3><p>รับของตามตัวเลขในช่องที่ตัวบอกอยู่</p></div></li>
+        <li><div class="body"><h3>เจ้าของอาณานิคมรับโบนัส</h3><p><b>ทุกอาณานิคม</b>บนดวงนั้น (ของใครก็ตาม รวมของคนค้าเอง) ให้โบนัสอาณานิคม 1 ครั้งกับเจ้าของ</p></div></li>
+        <li><div class="body"><h3>ตัวบอกถอยกลับ</h3><p>เลื่อนตัวบอกไป<b>ช่องถัดจากอาณานิคมทางขวาสุด</b> (ไม่มีอาณานิคม = ช่องแรกสุด) ยานจอดอยู่จนจบรอบ</p></div></li>
+      </ol>
+      <div class="callout ocean">
+        <h3>ช่วงอาณานิคม (ท้ายทุกรอบ หลังผลิต)</h3>
+        <ul>
+          <li>ตัวบอกรางของ<b>ทุกดวงที่เปิดใช้</b>เลื่อนขึ้น 1 ขั้น (สูงสุดช่องที่ 7)</li>
+          <li>ยานทุกลำกลับบอร์ดยาน พร้อมใช้รอบหน้า</li>
+          <li>ดวงที่ไม่มีใครค้านาน ๆ จะ “สุก” ขึ้นเรื่อย ๆ คุ้มกว่า แต่คนอื่นก็เห็นและแย่งได้</li>
+        </ul>
+      </div>
+      <div class="types">
+        <div class="type"><h3>เคล็ดลับเกมแรก</h3><ul><li>อาณานิคมแรก<b>เร็ว</b>คุ้มที่สุด เพราะได้โบนัสทุกครั้งที่ใครค้า</li><li>ค้าขายรอบละครั้งต่อยาน เก็บไว้ใช้ตอนรางสูง ๆ</li><li>มีพลังงานเหลือ 3 ใช้ค้าแทน 9 M€ ได้</li><li>ดวงที่มีอาณานิคมคุณ คนอื่นค้าเมื่อไร คุณก็ได้ด้วย</li></ul></div>
+        <div class="type"><h3>สิ่งที่มักลืม</h3><ul><li>เลื่อนรางทุกดวงท้ายรอบ</li><li>ดันตัวบอกหลังสร้างอาณานิคม</li><li>เปิดใช้ Titan/Enceladus/Miranda เมื่อมีการ์ดชนิดนั้นออก</li><li>ยานจอดแล้วคนอื่นไปดวงนั้นไม่ได้จนจบรอบ</li></ul></div>
+      </div>
+    </section>
+
+    <!-- COLONY TILES -->
+    <section id="colony-tiles">
+      <div class="sec-head"><span class="tag">อาณานิคม · ข้อมูลอ้างอิง</span><h2>แผ่นอาณานิคม 11 ดวง</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ดวง</th><th>โบนัสการวาง</th><th>รางค้าขาย (ช่อง 1–7)</th><th>โบนัสอาณานิคม (ต่อการค้า)</th></tr></thead>
+          <tbody id="colonytable"></tbody>
+        </table>
+      </div>
+      <p class="note">ช่องที่ขีดเส้นใต้ = ช่องเริ่มต้นของตัวบอก · ทรัพยากรลอยฟ้า จุลินทรีย์ สัตว์ วางบน<b>การ์ดของคุณที่เก็บชนิดนั้นได้</b> · ตัวเลขตรวจกับข้อมูลเกมเวอร์ชันออนไลน์โอเพนซอร์ส</p>
+    </section>
+
+    <!-- COMBO -->
+    <section id="combo">
+      <div class="sec-head"><span class="tag">ทั้ง 3 กล่อง</span><h2>เล่นรวม เกมหลัก + ปฐมบท + อาณานิคม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>รวมกองการ์ด</h3><p>การ์ดโปรเจกต์ทุกกล่องรวมกองเดียว บริษัททุกกล่องรวมกอง แนะนำยุคบริษัท</p></div></li>
+        <li><div class="body"><h3>จัดอาณานิคม</h3><p>สุ่มแผ่นตามจำนวนคน วางตัวบอก แจกยาน</p></div></li>
+        <li><div class="body"><h3>แจก</h3><p>บริษัท 2 · ปฐมบท 4 · โปรเจกต์ 10 · เลือกบริษัท 1 ปฐมบท 2 และการ์ดที่จะซื้อ</p></div></li>
+        <li><div class="body"><h3>เปิด จ่าย เล่นปฐมบท</h3><p>เปิดบริษัท จ่ายค่าการ์ด แล้วเล่นปฐมบทตามลำดับ (ปฐมบทบางใบที่วางอาณานิคมหรือเกี่ยวกับยาน จะใช้ได้เมื่อมีภาคอาณานิคม)</p></div></li>
+        <li><div class="body"><h3>รอบละ 5 ช่วง</h3><p>เปลี่ยนผู้เริ่ม → วิจัย → ปฏิบัติการ → ผลิต → <b>อาณานิคม</b></p></div></li>
+      </ol>
+      <div class="callout ocean">
+        <h3>เกมแรกที่ใส่อาณานิคม</h3>
+        <ul>
+          <li>คุ้นปฐมบทแล้ว ใส่ทั้ง 3 กล่องได้เลย ความต่างหลักมีแค่ 2 การกระทำใหม่ + ช่วงท้ายรอบ</li>
+          <li>ให้คนหนึ่งเป็น “คนดูแลราง” คอยเลื่อนตัวบอกทุกท้ายรอบ</li>
+          <li>เกมจะยาวขึ้นเล็กน้อยเพราะมีทางทำเงินมากขึ้น แต่ปฐมบทช่วยชดเชย</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TRACKER -->
+    <section id="tracker">
+      <div class="sec-head"><span class="tag">ใช้กลางโต๊ะ</span><h2>กระดานค่าพารามิเตอร์</h2></div>
+      <p class="prose">กด + / − ตามที่ดันบนบอร์ดจริง ตัวช่วยจะ<b>เตือนโบนัส</b>ที่คนดันได้ และบอกว่าเหลืออีกกี่ขั้นจะจบเกม ค่าที่กรอกจำไว้ในเครื่องนี้</p>
+      <div class="tool">
+        <div class="trk" id="trk"></div>
+        <div class="tool-row">
+          <div><span class="field-l">รอบ (Generation)</span><div class="pm"><button type="button" id="gen-m" aria-label="ลดรอบ">−</button><input class="numin" id="gen" type="number" min="1" value="1" aria-label="รอบปัจจุบัน"><button type="button" id="gen-p" aria-label="เพิ่มรอบ">+</button></div></div>
+          <button type="button" class="btn" id="trk-reset">เริ่มเกมใหม่</button>
+        </div>
+        <div class="calc-out" id="trk-out"></div>
+        <ul class="log" id="trk-log" aria-live="polite"></ul>
+      </div>
+    </section>
+
+    <!-- PAY -->
+    <section id="pay">
+      <div class="sec-head"><span class="tag">ใช้ตอนเล่นการ์ด</span><h2>คิดเงินจ่ายการ์ด</h2></div>
+      <p class="prose">ใส่ราคาการ์ดและของที่มี ตัวช่วยหาวิธีจ่ายที่<b>ใช้เงินสดน้อยที่สุด</b>และทอนเสียน้อยที่สุด (เหล็ก/ไทเทเนียมจ่ายเกินได้แต่ไม่ได้เงินทอน)</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><label class="field-l" for="pc-cost">ราคาการ์ด (หลังส่วนลด)</label><input class="numin" id="pc-cost" type="number" min="0" value="23"></div>
+          <label class="chk"><input type="checkbox" id="pc-build" checked> แท็กอาคาร</label>
+          <label class="chk"><input type="checkbox" id="pc-space"> แท็กอวกาศ</label>
+        </div>
+        <div class="tool-row">
+          <div><label class="field-l" for="pc-mc">เงินที่มี</label><input class="numin" id="pc-mc" type="number" min="0" value="20"></div>
+          <div><label class="field-l" for="pc-st">เหล็ก</label><input class="numin" id="pc-st" type="number" min="0" value="5"></div>
+          <div><label class="field-l" for="pc-stv">ค่าเหล็ก</label><select class="sel" id="pc-stv"><option value="2">2 (ปกติ)</option><option value="3">3</option><option value="4">4</option></select></div>
+          <div><label class="field-l" for="pc-ti">ไทเทเนียม</label><input class="numin" id="pc-ti" type="number" min="0" value="0"></div>
+          <div><label class="field-l" for="pc-tiv">ค่าไทเทเนียม</label><select class="sel" id="pc-tiv"><option value="3">3 (ปกติ)</option><option value="4">4 (PhoboLog)</option><option value="5">5</option></select></div>
+          <div><label class="field-l" for="pc-heat">ความร้อน (Helion)</label><input class="numin" id="pc-heat" type="number" min="0" value="0"></div>
+        </div>
+        <div class="calc-out" id="pc-out"></div>
+        <p class="note">ส่วนลดจากการ์ด (เช่น แท็กอาคารลด 2) ให้หักออกจากราคาเองก่อน · ความร้อนใช้แทนเงินได้เฉพาะบริษัท Helion · การ์ด Advanced Alloys เพิ่มค่าเหล็กและไทเทเนียมอย่างละ 1</p>
+      </div>
+    </section>
+
+    <!-- COLONY TOOL -->
+    <section id="colony-tool">
+      <div class="sec-head"><span class="tag">ใช้กลางโต๊ะ · อาณานิคม</span><h2>ตัวช่วยอาณานิคม</h2></div>
+      <p class="prose">สุ่มแผ่นตามจำนวนคน แล้วใช้ติดตามรางระหว่างเกม: แตะช่องเพื่อย้ายตัวบอก กด “ค้าขาย” ตัวช่วยจะบอกว่าคนค้าได้อะไรแล้วถอยตัวบอกให้ “จบรอบ” เลื่อนทุกดวงขึ้น 1</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="ct-players" role="group" aria-label="จำนวนผู้เล่นอาณานิคม"></div></div>
+          <button type="button" class="btn" id="ct-deal">สุ่มแผ่นใหม่</button>
+          <button type="button" class="btn" id="ct-end">จบรอบ: เลื่อนทุกดวง +1</button>
+          <label class="chk"><input type="checkbox" id="ct-all"> แสดงทั้ง 11 ดวง</label>
+        </div>
+        <div class="cols" id="ct-cols"></div>
+        <p class="warn" id="ct-msg" aria-live="polite" style="font-family:var(--font-tag);font-weight:600"></p>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบเกม</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="p-players" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน"></div></div>
+          <button type="button" class="btn" id="p-clear">ล้างคะแนน</button>
+        </div>
+        <div class="sp-wrap"><table class="sp" id="p-table"></table></div>
+        <p id="p-result" style="font-family:var(--font-display);font-weight:600"></p>
+        <p class="note">เสมอกันระบบดูแถว “เงินเหลือ” ให้ · คะแนนจำไว้ในเครื่องนี้</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <h3>ค่าพารามิเตอร์และ TR</h3>
+        <details><summary>ค่าดาวสุดแล้ว ยังเล่นการ์ดที่ดันค่านั้นได้ไหม</summary><p>ได้ ทำผลส่วนอื่นของการ์ดได้ครบ แค่<b>ไม่ได้ดันและไม่ได้ TR</b> · มหาสมุทรครบ 9 แล้ววางเพิ่มไม่ได้ · ป่ายังวางได้เสมอ ได้แต้มป่า แต่ไม่ได้ออกซิเจน/TR</p></details>
+        <details><summary>เงื่อนไขการ์ดผ่านตอนเล่น แล้วค่าเปลี่ยนทีหลัง การ์ดหายไหม</summary><p>ไม่หาย เงื่อนไขตรวจ<b>ตอนเล่นครั้งเดียว</b> · เช่นเดียวกับ “max” ถ้าค่าดาวเกินไปแล้ว การ์ดนั้นเล่นไม่ได้อีกเลย จึงควรรีบเล่นการ์ดแบบ max</p></details>
+        <details><summary>ดันออกซิเจนถึง 8% แล้วอุณหภูมิขึ้นต่อ ได้ TR 2 เลยไหม</summary><p>ได้ ออกซิเจน +1 = TR +1 และโบนัสอุณหภูมิ +1 = TR +1 อีก ถ้าอุณหภูมิไปถึงช่องโบนัส (เช่น 0 °C) ก็ได้โบนัสนั้นต่อเป็นทอด ๆ</p></details>
+        <details><summary>โบนัสบนราง เป็นของใคร</summary><p>ของคนที่<b>ทำให้ค่าถึง</b>ช่องนั้น ไม่ว่าจะดันด้วยการ์ด ความร้อน หรือโปรเจกต์มาตรฐาน</p></details>
+        <h3>การ์ดและทรัพยากร</h3>
+        <details><summary>ลดของ “คนอื่น” (ขอบแดง) ถ้าไม่มีใครมีเลย เล่นได้ไหม</summary><p><b>ลบทรัพยากร</b> (เช่น “ลบพืชได้ถึง 3”): เล่นได้เสมอ ลบเท่าที่มี หรือไม่ลบเลยก็ได้ · <b>ลดกำลังผลิต</b>ของคนอื่น: ต้องลดถ้าทำได้ เลือกใครก็ได้รวมตัวเอง ถ้าไม่มีใครลดได้เลย เล่นการ์ดไม่ได้ (ยึด FAQ ทางการ)</p></details>
+        <details><summary>ลดกำลังผลิตตัวเอง (กรอบน้ำตาล ไม่มีขอบแดง) แต่มีไม่พอ</summary><p>เล่นการ์ด<b>ไม่ได้</b> ยกเว้นเงิน ซึ่งลดได้ถึง −5</p></details>
+        <details><summary>เหล็ก/ไทเทเนียมใช้กับอะไรได้บ้าง</summary><p>เหล็กเฉพาะการ์ดที่มีแท็ก<b>อาคาร</b> ไทเทเนียมเฉพาะแท็ก<b>อวกาศ</b> การ์ดที่มีทั้งสองแท็กใช้ปนกันได้ ใช้กับโปรเจกต์มาตรฐานหรือซื้อการ์ดไม่ได้ จ่ายเกินได้แต่ไม่ทอน</p></details>
+        <details><summary>เล่นการ์ดน้ำเงินแล้วใช้ Action ในรอบเดียวกันได้ไหม</summary><p>ได้ ทันทีในการกระทำถัดไป (ในตาเดียวกันก็ได้ถ้าเหลือการกระทำ) แต่ Action แต่ละใบใช้<b>รอบละครั้ง</b></p></details>
+        <details><summary>การ์ดเหตุการณ์ (แดง) นับแท็กไหม</summary><p>ไม่นับ หลังเล่นการ์ดคว่ำ แท็กหายจากการนับทั้งหมด แต่<b>แต้มบนการ์ด</b>ยังนับตอนจบ (และผลที่ “ตอนเล่นแท็กนี้” ยังทริกเกอร์ตอนเล่น)</p></details>
+        <details><summary>พลังงานเก็บไว้ใช้รอบหน้าได้ไหม</summary><p>ไม่ได้ ช่วงผลิตพลังงานทั้งหมดกลายเป็นความร้อนก่อนรับของใหม่</p></details>
+        <details><summary>ผ่านแล้วอยากกลับมาเล่นต่อในรอบเดียวกัน</summary><p>ไม่ได้ ผ่าน = ออกจากรอบ แต่ถ้าทำแค่ 1 การกระทำแล้วจบตา ยังไม่ใช่การผ่าน</p></details>
+        <h3>แผนที่</h3>
+        <details><summary>วางป่าติดแผ่นตัวเองไม่ได้ (ไม่มีช่องว่างติด) ทำยังไง</summary><p>ถ้าไม่มีช่องว่างที่ถูกกติกาติดแผ่นของคุณเลย หรือยังไม่มีแผ่นเลย วางที่ไหนก็ได้</p></details>
+        <details><summary>มหาสมุทรติดมหาสมุทร ได้ 2 M€ ไหม</summary><p>ได้ โบนัสติดมหาสมุทรใช้กับ<b>ทุกแผ่น</b>ที่วาง รวมมหาสมุทรด้วยกันเอง</p></details>
+        <details><summary>ป่าของคนอื่นที่ติดเมืองเรา นับแต้มให้เราไหม</summary><p>นับ เมืองได้ 1 แต้มต่อป่าที่ติดกัน<b>ไม่ว่าของใคร</b> ส่วนแต้มของแผ่นป่าเองยังเป็นของเจ้าของป่า</p></details>
+        <h3>หลักชัย รางวัล และจบเกม</h3>
+        <details><summary>ถึงเงื่อนไขหลักชัยแล้ว ได้เลยไหม</summary><p>ไม่ได้ ต้องเสีย 1 การกระทำ + 8 M€ อ้าง และต้องยังผ่านเงื่อนไข<b>ตอนอ้าง</b> ถ้ามีคนอ้างครบ 3 อันแล้ว อ้างอีกไม่ได้</p></details>
+        <details><summary>รางวัล Thermalist / Miner นับตอนไหน</summary><p>นับตอนจบเกม หลังช่วงผลิตสุดท้ายและหลังปลูกป่ารอบสุดท้าย ใช้ทรัพยากรที่มีตอนนั้น</p></details>
+        <details><summary>ค่าครบ 3 กลางรอบ ต้องหยุดเลยไหม</summary><p>ไม่ ทุกคนเล่นต่อจนผ่านครบ (เล่นการ์ดแต้ม อ้างหลักชัย ตั้งรางวัลได้) แล้วผลิต แล้วปลูกป่ารอบสุดท้าย แล้วนับ</p></details>
+        <h3>ปฐมบทและอาณานิคม</h3>
+        <details><summary>ปฐมบทนับแท็กไหม</summary><p>นับ ปฐมบทที่มีแท็กอยู่ในเล่นเหมือนการ์ดเขียว (แต่ปฐมบทไม่ใช่การ์ดโปรเจกต์ ส่วนลดราคาการ์ดใช้ไม่ได้เพราะไม่มีราคา)</p></details>
+        <details><summary>ค้าขายกับดวงที่ตัวเองมีอาณานิคมได้อะไร</summary><p>ได้ทั้ง<b>รายได้การค้า</b> (ตามรางทั้งหมด) และ<b>โบนัสอาณานิคม</b>ของตัวเอง</p></details>
+        <details><summary>มี 2 อาณานิคมบนดวงเดียวกันได้ไหม</summary><p>ปกติไม่ได้ คนละ 1 ต่อดวง เว้นแต่การ์ดบอกว่าวางได้แม้มีอาณานิคมของตัวเองอยู่แล้ว</p></details>
+        <details><summary>ยานคนอื่นจอดอยู่ ไปค้าดวงเดียวกันได้ไหม</summary><p>ไม่ได้ ดวงละ 1 ยานต่อรอบ ต้องเลือกดวงอื่นหรือรอรอบหน้า</p></details>
+        <details><summary>ค้าขายเป็นโปรเจกต์มาตรฐานไหม (ได้ส่วนลด/ผลของการ์ดที่เกี่ยวกับโปรเจกต์มาตรฐานไหม)</summary><p>ไม่ใช่ การค้าขายเป็นการกระทำแยก ส่วน “สร้างอาณานิคม 17 M€” เป็นโปรเจกต์มาตรฐาน</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>TR <span class="en">Terraform Rating</span></dt><dd>ระดับการปรับสภาพ เป็นทั้งรายได้และคะแนน</dd>
+        <dt>Generation</dt><dd>หนึ่งรอบเกม 4 ช่วง (5 ช่วงเมื่อมีอาณานิคม)</dd>
+        <dt>M€ <span class="en">MegaCredit</span></dt><dd>เงินในเกม</dd>
+        <dt>Production</dt><dd>กำลังผลิต ได้ทุกช่วงผลิต</dd>
+        <dt>Standard Project</dt><dd>โปรเจกต์มาตรฐาน มีให้ทุกคนเสมอ</dd>
+        <dt>Greenery</dt><dd>แผ่นป่า</dd>
+        <dt>Ocean</dt><dd>แผ่นมหาสมุทร</dd>
+        <dt>Milestone / Award</dt><dd>หลักชัย / รางวัล</dd>
+        <dt>Requirement</dt><dd>เงื่อนไขการเล่นการ์ด</dd>
+        <dt>Tag</dt><dd>สัญลักษณ์มุมขวาบนของการ์ด</dd>
+        <dt>Effect / Action</dt><dd>ผลถาวร / การกระทำรอบละครั้ง บนการ์ดน้ำเงิน</dd>
+        <dt>Corporate Era</dt><dd>ยุคบริษัท: การ์ดชุดเพิ่มและเริ่มกำลังผลิต 0</dd>
+        <dt>Prelude</dt><dd>ปฐมบท การ์ดออกตัวก่อนรอบที่ 1</dd>
+        <dt>Colony tile</dt><dd>แผ่นอาณานิคม (ดวงจันทร์/ดาว)</dd>
+        <dt>Trade fleet</dt><dd>ยานค้าขาย</dd>
+        <dt>Trade income</dt><dd>รายได้การค้า ของที่คนค้าได้จากราง</dd>
+        <dt>Colony bonus</dt><dd>โบนัสอาณานิคม เจ้าของได้ทุกครั้งที่มีคนค้า</dd>
+        <dt>Floater</dt><dd>ทรัพยากรลอยฟ้า วางบนการ์ด</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b> (สรุปและแปลเป็นไทย ไม่ได้คัดลอกข้อความ)</p>
+    <ul>
+      <li>คู่มือ Terraforming Mars, FryxGames / Stronghold Games (คู่มือเกมหลัก กติกาเล่นคนเดียว ยุคบริษัท และดราฟต์)</li>
+      <li>คู่มือ Terraforming Mars: Prelude และ Terraforming Mars: Colonies, FryxGames</li>
+      <li>ข้อมูลแผ่นอาณานิคม จำนวนแผ่นตามผู้เล่น ค่าค้าขาย และกติกาปฐมบทที่เล่นไม่ได้: ตรวจกับซอร์สโค้ดเกมเวอร์ชันออนไลน์ <a href="https://github.com/terraforming-mars/terraforming-mars" target="_blank" rel="noopener">terraforming-mars/terraforming-mars</a> (src/server/colonies, PreludesExpansion.ts)</li>
+      <li>FAQ ทางการบน <a href="https://boardgamegeek.com/boardgame/167791/terraforming-mars" target="_blank" rel="noopener">BoardGameGeek</a></li>
+    </ul>
+    <p style="margin-top:8px">ข้อความที่มีป้ายเหลือง = แหล่งข้อมูลไม่ครบหรือมีหลายฉบับ ให้ยึดการ์ดจริง · ภาพประกอบทั้งหมดวาดใหม่เพื่ออธิบาย ไม่ใช่ภาพจากเกม</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+function $(id){return document.getElementById(id)}
+function store(k,v){try{if(v===undefined){return JSON.parse(localStorage.getItem("tm-"+k))}localStorage.setItem("tm-"+k,JSON.stringify(v))}catch(e){return null}}
+function hexPts(cx,cy,r){var p=[];for(var i=0;i<6;i++){var a=Math.PI/180*(60*i-30);p.push((cx+r*Math.cos(a)).toFixed(1)+","+(cy+r*Math.sin(a)).toFixed(1))}return p.join(" ")}
+function hex(cx,cy,r,fill,extra){return '<polygon points="'+hexPts(cx,cy,r)+'" style="fill:'+fill+'" '+(extra||'')+'/>'}
+function txt(x,y,s,cls,extra){return '<text x="'+x+'" y="'+y+'" class="'+(cls||'s-fg')+'" '+(extra||'')+'>'+s+'</text>'}
+var C={mc:"var(--mc)",steel:"var(--steel)",ti:"var(--ti)",plant:"var(--plant)",energy:"var(--energy)",heat:"var(--heat)",ocean:"var(--ocean)",green:"var(--green)",city:"var(--city)",temp:"var(--temp)",oxy:"var(--oxy)"};
+var P={orange:"#e8762b",blue:"#2f6fd0",red:"#c8322a",green:"#2f9b4a"};
+
+/* ---------- HERO ---------- */
+(function(){
+  var s='';
+  s+='<defs><radialGradient id="mars" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#e2774a"/><stop offset=".6" stop-color="#b4431f"/><stop offset="1" stop-color="#5a1c0c"/></radialGradient>'+
+     '<clipPath id="disk"><circle cx="170" cy="175" r="130"/></clipPath></defs>';
+  // stars
+  var st=[[20,30],[60,90],[330,40],[300,300],[40,260],[345,180],[110,20],[250,18],[18,180],[320,110]];
+  st.forEach(function(p,i){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(i%3?1.2:1.8)+'" fill="#fff" opacity=".7"/>'});
+  s+='<circle cx="170" cy="175" r="146" fill="#ff8a4a" opacity=".18" class="glow"/>';
+  s+='<circle cx="170" cy="175" r="130" fill="url(#mars)"/>';
+  s+='<g clip-path="url(#disk)">';
+  // hex grid of terraformed region
+  var R=17,w=Math.sqrt(3)*R;
+  var tiles={"3,3":"o","3,4":"o","4,3":"o","4,4":"g","2,4":"g","3,5":"c","4,5":"g","5,4":"o","2,5":"g","5,5":"g","4,6":"g","3,6":"g","5,3":"g","6,4":"c","6,5":"g","2,3":"o"};
+  for(var r=0;r<10;r++){for(var c=0;c<9;c++){var x=40+c*w+(r%2?w/2:0),y=50+r*R*1.5;var k=r+","+c,t=tiles[k];
+    if(t==="o")s+=hex(x,y,R-1,"#2b7cc0",'stroke="#9fd0ff" stroke-width=".8" opacity=".95"');
+    else if(t==="g")s+=hex(x,y,R-1,"#3c9440",'stroke="#a6e3a0" stroke-width=".8"');
+    else if(t==="c"){s+=hex(x,y,R-1,"#8e929c",'stroke="#e6e6ea" stroke-width=".8"');s+='<rect x="'+(x-7)+'" y="'+(y-6)+'" width="5" height="11" fill="#e8ecf2"/><rect x="'+(x-1)+'" y="'+(y-10)+'" width="5" height="15" fill="#fff"/><rect x="'+(x+5)+'" y="'+(y-3)+'" width="4" height="8" fill="#e8ecf2"/>'}
+    else s+='<polygon points="'+hexPts(x,y,R-1)+'" fill="none" stroke="#ffd2b8" stroke-opacity=".16"/>';
+  }}
+  s+='</g>';
+  s+='<circle cx="170" cy="175" r="130" fill="none" stroke="#ffd0b0" stroke-opacity=".35"/>';
+  // gauges
+  s+='<g font-family="Chakra Petch,sans-serif" font-weight="600">';
+  s+='<rect x="304" y="40" width="14" height="250" rx="7" fill="#2a1a1a" stroke="#ffb36b" stroke-opacity=".4"/><rect x="304" y="150" width="14" height="140" rx="7" fill="#e0571c"/>';
+  s+='<text x="311" y="30" fill="#ffb36b" font-size="12" text-anchor="middle">°C</text><text x="311" y="306" fill="#f6eee9" font-size="11" text-anchor="middle">−6</text>';
+  s+='<rect x="330" y="40" width="14" height="250" rx="7" fill="#102a30" stroke="#4cc3d1" stroke-opacity=".4"/><rect x="330" y="165" width="14" height="125" rx="7" fill="#2d9eac"/>';
+  s+='<text x="337" y="30" fill="#4cc3d1" font-size="12" text-anchor="middle">O₂</text><text x="337" y="306" fill="#f6eee9" font-size="11" text-anchor="middle">7%</text>';
+  s+='<text x="40" y="330" fill="#9fd0ff" font-size="12">มหาสมุทร 5/9</text>';
+  s+='</g>';
+  $("heroart").innerHTML=s;
+})();
+
+/* ---------- PARAMS DIAGRAM ---------- */
+function paramSVG(t,o,oc,compact){
+  var s='',x0=150,x1=compact?700:740,W=x1-x0;
+  // temperature
+  var steps=19, dx=W/steps;
+  function tempRow(y){
+    var r='';
+    if(!compact) r+=txt(16,y+6,'อุณหภูมิ','s-fg','font-size="15" class="disp"')+txt(16,y+26,'−30 → +8 °C','s-muted','font-size="12"');
+    for(var i=0;i<=steps;i++){var v=-30+2*i,x=x0+i*dx;
+      var bonus=(v===-24||v===-20||v===0);
+      var filled=(t!==undefined&&v<=t);
+      r+='<rect x="'+(x-dx/2+1).toFixed(1)+'" y="'+(y-12)+'" width="'+(dx-2).toFixed(1)+'" height="24" rx="4" style="fill:'+(filled?C.temp:'var(--surface-2)')+';stroke:'+(bonus?'var(--mc)':'none')+';stroke-width:2.5"/>';
+      if(i%2===0||compact===false) r+='<text x="'+x.toFixed(1)+'" y="'+(y+28+10)+'" text-anchor="middle" class="s-muted tagf" font-size="'+(compact?9:10)+'">'+(v>0?'+'+v:v)+'</text>';
+    }
+    return r;
+  }
+  function oxyRow(y){
+    var r='',n=14,d=W/n;
+    if(!compact) r+=txt(16,y+6,'ออกซิเจน','s-fg','font-size="15" class="disp"')+txt(16,y+26,'0 → 14%','s-muted','font-size="12"');
+    for(var i=0;i<=n;i++){var x=x0+i*d,b=(i===8),f=(o!==undefined&&i<=o);
+      r+='<rect x="'+(x-d/2+1).toFixed(1)+'" y="'+(y-12)+'" width="'+(d-2).toFixed(1)+'" height="24" rx="4" style="fill:'+(f?C.oxy:'var(--surface-2)')+';stroke:'+(b?'var(--mc)':'none')+';stroke-width:2.5"/>';
+      r+='<text x="'+x.toFixed(1)+'" y="'+(y+38)+'" text-anchor="middle" class="s-muted tagf" font-size="10">'+i+'</text>';
+    }
+    return r;
+  }
+  function oceanRow(y){
+    var r='',R=16,gap=(W)/9;
+    if(!compact) r+=txt(16,y+6,'มหาสมุทร','s-fg','font-size="15" class="disp"')+txt(16,y+26,'9 แผ่น','s-muted','font-size="12"');
+    for(var i=0;i<9;i++){var x=x0+gap/2+i*gap,f=(oc!==undefined&&i<oc);
+      r+='<polygon points="'+hexPts(x,y,R)+'" style="stroke:var(--ocean);stroke-width:1.5;fill:'+(f?C.ocean:'var(--surface-2)')+'"/>';
+      r+='<text x="'+x+'" y="'+(y+4)+'" text-anchor="middle" class="tagf" font-size="11" style="fill:'+(f?'#fff':'var(--muted)')+'">'+(i+1)+'</text>';
+    }
+    return r;
+  }
+  return {temp:tempRow,oxy:oxyRow,ocean:oceanRow};
+}
+(function(){
+  var g=paramSVG(-30,0,0,false), s='';
+  // show sample state: temp -12, oxy 6, ocean 4
+  g=paramSVG(-12,6,4,false);
+  s+=g.temp(40)+g.oxy(150)+g.ocean(262);
+  // bonus callouts
+  var x0=150,W=590,dx=W/19;
+  function bx(v){return x0+((v+30)/2)*dx}
+  s+='<text x="'+bx(-22)+'" y="16" text-anchor="middle" class="s-fg" font-size="11">กำลังผลิตความร้อน +1 (ที่ −24 และ −20)</text>';
+  s+='<text x="'+bx(0)+'" y="16" text-anchor="middle" class="s-fg" font-size="11">วางมหาสมุทร</text>';
+  var ox=x0+8*(W/14);
+  s+='<text x="'+ox+'" y="126" text-anchor="middle" class="s-fg" font-size="11">อุณหภูมิ +1 ขั้น</text>';
+  s+='<text x="740" y="320" text-anchor="end" class="s-muted" font-size="11">ตัวอย่างกลางเกม: −12 °C · O₂ 6% · มหาสมุทร 4</text>';
+  $("paramdemo").innerHTML=s;
+})();
+
+/* ---------- PLAYER BOARD ---------- */
+(function(){
+  var res=[["เงิน M€","mc","TR + กำลังผลิต","−5 … +"],["เหล็ก","steel","= 2 M€ (แท็กอาคาร)","0 …"],["ไทเทเนียม","ti","= 3 M€ (แท็กอวกาศ)","0 …"],["พืช","plant","8 → ป่า","0 …"],["พลังงาน","energy","เหลือ → ความร้อน","0 …"],["ความร้อน","heat","8 → อุณหภูมิ +1","0 …"]];
+  var s='';
+  res.forEach(function(r,i){
+    var col=i%3,row=Math.floor(i/3),x=12+col*248,y=10+row*158;
+    s+='<rect x="'+x+'" y="'+y+'" width="236" height="148" rx="12" class="s-surface2"/>';
+    s+='<circle cx="'+(x+28)+'" cy="'+(y+28)+'" r="14" style="fill:'+C[r[1]]+'"/>';
+    s+=txt(x+50,y+33,r[0],'s-fg','font-size="15" class="disp"');
+    // production track
+    s+=txt(x+14,y+64,'กำลังผลิต','s-muted','font-size="11" class="tagf"');
+    for(var k=0;k<10;k++){var on=(k===(i===0?6:2));s+='<rect x="'+(x+72+k*15)+'" y="'+(y+53)+'" width="13" height="14" rx="2" style="fill:'+(on?C[r[1]]:'var(--surface)')+';stroke:var(--line)"/>'}
+    // storage
+    s+=txt(x+14,y+96,'คลัง','s-muted','font-size="11" class="tagf"');
+    s+='<rect x="'+(x+72)+'" y="'+(y+80)+'" width="148" height="30" rx="6" class="s-surface" style="stroke:var(--line)"/>';
+    for(var q=0;q<(i===0?6:3);q++){s+='<rect x="'+(x+80+q*18)+'" y="'+(y+88)+'" width="12" height="12" rx="2" style="fill:'+(q<2?'#c98b4a':'#d9d9df')+';stroke:#0003"/>'}
+    s+=txt(x+14,y+134,r[2],'s-fg','font-size="12"');
+  });
+  $("boarddemo").innerHTML=s;
+})();
+
+/* ---------- GENERATION CYCLE ---------- */
+(function(){
+  var ph=[["1","เปลี่ยนผู้เริ่ม","ผู้เริ่มส่งซ้าย · รอบ +1"],["2","วิจัย","จั่ว 4 ซื้อใบละ 3"],["3","ปฏิบัติการ","ตาละ 1–2 การกระทำ"],["4","ผลิต","พลังงาน→ความร้อน · รับของ"]];
+  var s='<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker></defs>';
+  ph.forEach(function(p,i){var x=14+i*176,y=70;
+    var hl=(i===2);
+    s+='<rect x="'+x+'" y="'+y+'" width="150" height="110" rx="14" style="fill:'+(hl?'var(--accent-soft)':'var(--surface-2)')+';stroke:'+(hl?'var(--accent)':'none')+';stroke-width:2"/>';
+    s+='<circle cx="'+(x+26)+'" cy="'+(y+26)+'" r="15" style="fill:var(--band-2)"/>'+'<text x="'+(x+26)+'" y="'+(y+31)+'" text-anchor="middle" font-size="14" class="tagf" style="fill:var(--spot)">'+p[0]+'</text>';
+    s+=txt(x+50,y+32,p[1],'s-fg','font-size="16" class="disp"');
+    s+=txt(x+14,y+70,p[2],'s-muted','font-size="12"');
+    if(i<3)s+='<line x1="'+(x+152)+'" y1="'+(y+55)+'" x2="'+(x+174)+'" y2="'+(y+55)+'" class="s-stroke-muted" stroke-width="2" marker-end="url(#arr)"/>';
+  });
+  // colony phase
+  s+='<rect x="580" y="214" width="150" height="62" rx="12" style="fill:none;stroke:#2c6aa8;stroke-width:2;stroke-dasharray:6 5"/>';
+  s+='<text x="596" y="240" font-size="14" class="disp" style="fill:#2c6aa8">5 · อาณานิคม</text><text x="596" y="262" font-size="11" class="s-muted">ราง +1 · ยานกลับ</text>';
+  s+='<path d="M 655 182 L 655 210" class="s-stroke-muted" stroke-width="2" fill="none" marker-end="url(#arr)"/>';
+  s+='<path d="M 578 245 L 89 245 L 89 184" class="s-stroke-muted" stroke-width="2" fill="none" stroke-dasharray="4 4" marker-end="url(#arr)"/>';
+  s+=txt(300,238,'รอบถัดไป (เช็กว่าครบ 3 ค่าหรือยัง)','s-muted','font-size="12"');
+  s+='<rect x="14" y="16" width="326" height="34" rx="8" style="fill:var(--mc-soft)"/>'+txt(26,38,'รอบที่ 1 ข้ามช่วง 1–2 เริ่มที่ช่วง 3 เลย','s-fg','font-size="13"');
+  s+='<path d="M 340 33 L 380 33 L 380 66" style="stroke:var(--mc);fill:none" stroke-width="2" marker-end="url(#arr)"/>';
+  $("gendemo").innerHTML=s;
+})();
+
+/* ---------- PRODUCTION EXAMPLE ---------- */
+(function(){
+  var s='<defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--fg)"/></marker></defs>';
+  function box(x,y,w,label,val,col){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="56" rx="10" class="s-surface2"/><circle cx="'+(x+20)+'" cy="'+(y+28)+'" r="10" style="fill:'+col+'"/>'+txt(x+38,y+24,label,'s-muted','font-size="12"')+txt(x+38,y+45,val,'s-fg','font-size="18" class="tagf"')}
+  s+=txt(14,22,'ขั้น ก · พลังงานทั้งหมดไปเป็นความร้อน','s-fg','font-size="14" class="disp"');
+  s+=box(14,36,150,'พลังงานที่เหลือ','2',C.energy)+box(250,36,150,'ความร้อน','3 → 5',C.heat);
+  s+='<line x1="168" y1="64" x2="244" y2="64" class="s-stroke-fg" stroke-width="2" marker-end="url(#arr2)"/>';
+  s+=txt(14,128,'ขั้น ข · รับรายได้','s-fg','font-size="14" class="disp"');
+  s+=box(14,142,110,'TR','24','var(--accent)')+txt(132,176,'+','s-fg','font-size="22"')+box(150,142,140,'กำลังผลิตเงิน','3',C.mc)+txt(300,176,'=','s-fg','font-size="22"')+box(322,142,120,'เงินได้','+27',C.mc);
+  s+=txt(470,128,'ขั้น ค · ทรัพยากรอื่นตามกำลังผลิต','s-fg','font-size="14" class="disp"');
+  s+=box(470,142,130,'กำลังผลิตพลังงาน','+2',C.energy)+box(610,142,130,'กำลังผลิตพืช','+3',C.plant);
+  $("proddemo").innerHTML=s;
+})();
+
+/* ---------- CARD ANATOMY ---------- */
+(function(){
+  var s='',x=250,y=20,w=260,h=380;
+  s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="16" style="fill:var(--surface);stroke:#3a8a3a;stroke-width:6"/>';
+  // cost
+  s+='<rect x="'+(x+12)+'" y="'+(y+12)+'" width="44" height="44" rx="6" style="fill:#e3b21a;stroke:#7a5a00"/>'+'<text x="'+(x+34)+'" y="'+(y+42)+'" text-anchor="middle" font-size="22" class="tagf" fill="#1f1716">18</text>';
+  // requirement
+  s+='<rect x="'+(x+64)+'" y="'+(y+18)+'" width="74" height="30" rx="6" style="fill:#e7a23a"/>'+'<text x="'+(x+101)+'" y="'+(y+39)+'" text-anchor="middle" font-size="13" class="tagf" fill="#1f1716">O₂ 4%</text>';
+  // tags
+  s+='<circle cx="'+(x+w-56)+'" cy="'+(y+34)+'" r="17" fill="#7a4a22"/><text x="'+(x+w-56)+'" y="'+(y+39)+'" text-anchor="middle" font-size="11" class="tagf" fill="#fff">อาคาร</text>';
+  s+='<circle cx="'+(x+w-20)+'" cy="'+(y+34)+'" r="17" fill="#3c9440"/><text x="'+(x+w-20)+'" y="'+(y+39)+'" text-anchor="middle" font-size="11" class="tagf" fill="#fff">พืช</text>';
+  // title
+  s+='<rect x="'+(x+6)+'" y="'+(y+72)+'" width="'+(w-12)+'" height="34" style="fill:#3a8a3a"/><text x="'+(x+w/2)+'" y="'+(y+95)+'" text-anchor="middle" font-size="15" class="disp" fill="#fff">โรงเพาะชำใต้โดม</text>';
+  // art placeholder
+  s+='<rect x="'+(x+20)+'" y="'+(y+118)+'" width="'+(w-40)+'" height="90" rx="6" class="s-surface2"/>';
+  s+='<path d="M '+(x+60)+' '+(y+200)+' q 40 -70 80 0 z" style="fill:#3c9440" opacity=".6"/><path d="M '+(x+120)+' '+(y+200)+' q 40 -60 80 0 z" style="fill:#3c9440" opacity=".8"/>';
+  // production box
+  s+='<rect x="'+(x+30)+'" y="'+(y+224)+'" width="'+(w-60)+'" height="48" rx="6" style="fill:#a86a3a"/>';
+  s+='<rect x="'+(x+46)+'" y="'+(y+236)+'" width="24" height="24" rx="4" style="fill:var(--energy)"/><text x="'+(x+80)+'" y="'+(y+254)+'" font-size="14" class="tagf" fill="#fff">−1</text>';
+  s+='<rect x="'+(x+120)+'" y="'+(y+236)+'" width="24" height="24" rx="4" style="fill:var(--plant)"/><text x="'+(x+152)+'" y="'+(y+254)+'" font-size="14" class="tagf" fill="#fff">+2</text>';
+  // immediate
+  s+='<rect x="'+(x+80)+'" y="'+(y+284)+'" width="22" height="22" rx="4" style="fill:var(--plant)"/><text x="'+(x+110)+'" y="'+(y+301)+'" font-size="14" class="tagf s-fg">3</text>';
+  s+='<text x="'+(x+24)+'" y="'+(y+336)+'" font-size="11" class="s-muted">ลดพลังงาน 1 เพิ่มพืช 2 (กำลังผลิต)</text><text x="'+(x+24)+'" y="'+(y+352)+'" font-size="11" class="s-muted">และรับพืช 3 ทันที</text>';
+  // VP
+  s+='<circle cx="'+(x+w-34)+'" cy="'+(y+h-34)+'" r="20" fill="#b8762e"/><text x="'+(x+w-34)+'" y="'+(y+h-28)+'" text-anchor="middle" font-size="16" class="tagf" fill="#fff">1</text>';
+  // labels
+  function lab(lx,ly,tx,ty,t1,t2,anchor){var a=anchor||'end';return '<line x1="'+lx+'" y1="'+ly+'" x2="'+tx+'" y2="'+ty+'" class="s-stroke-muted" stroke-width="1.2"/><circle cx="'+lx+'" cy="'+ly+'" r="3" class="s-fg"/>'+txt(tx+(a==='end'?-6:6),ty-2,t1,'s-fg','font-size="14" class="disp" text-anchor="'+a+'"')+txt(tx+(a==='end'?-6:6),ty+16,t2,'s-muted','font-size="12" text-anchor="'+a+'"')}
+  s+=lab(x+20,y+30,230,40,'ราคา','จ่าย M€ (เหล็ก/ไทเทเนียมช่วยได้)');
+  s+=lab(x+100,y+22,230,108,'เงื่อนไข','ออกซิเจนอย่างน้อย 4%');
+  s+=lab(x+30,y+248,230,250,'กล่องกำลังผลิต','กรอบน้ำตาล = เปลี่ยนกำลังผลิต');
+  s+=lab(x+91,y+295,230,330,'ผลทันที','ได้ของครั้งเดียว');
+  s+=lab(x+w-20,y+34,530,48,'แท็ก','นับเงื่อนไข/ส่วนลด/รางวัล','start');
+  s+=lab(x+w-12,y+88,530,118,'สีแถบชื่อ','บอกชนิดการ์ด เขียว/น้ำเงิน/แดง','start');
+  s+=lab(x+w-34,y+h-34,530,350,'แต้ม','นับตอนจบเกม','start');
+  $("carddemo").innerHTML=s;
+})();
+
+/* ---------- TAGS ---------- */
+(function(){
+  var tags=[["อาคาร","Building","#7a4a22","#fff"],["อวกาศ","Space","#1b1b25","#fff"],["พลังงาน","Power","#7c4ab3","#fff"],["วิทยาศาสตร์","Science","#f2f2f2","#1f1716"],["ดาวพฤหัส","Jovian","#d08a3a","#fff"],["โลก","Earth","#2b7cc0","#fff"],["พืช","Plant","#3c9440","#fff"],["จุลินทรีย์","Microbe","#7ab83a","#1f1716"],["สัตว์","Animal","#2f6b3a","#fff"],["เมือง","City","#8e929c","#1f1716"],["เหตุการณ์","Event","#c8322a","#fff"]];
+  var s='';
+  tags.forEach(function(t,i){var col=i%6,row=Math.floor(i/6),x=50+col*124,y=40+row*76;
+    s+='<circle cx="'+x+'" cy="'+y+'" r="22" style="fill:'+t[2]+';stroke:var(--line);stroke-width:1.5"/>';
+    s+='<text x="'+x+'" y="'+(y+5)+'" text-anchor="middle" font-size="12" class="tagf" fill="'+t[3]+'">'+t[1].slice(0,3).toUpperCase()+'</text>';
+    s+=txt(x+28,y-2,t[0],'s-fg','font-size="13" class="disp"')+txt(x+28,y+15,t[1],'s-muted','font-size="11"');
+  });
+  $("tagdemo").innerHTML=s;
+})();
+
+/* ---------- HEX MAPS ---------- */
+function hexmap(ox,oy,rows,cols,R,tiles,marks){
+  var w=Math.sqrt(3)*R,s='';
+  for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){
+    var x=ox+c*w+(r%2?w/2:0),y=oy+r*R*1.5,k=r+","+c,t=tiles[k],m=marks[k];
+    if(!t){s+='<polygon points="'+hexPts(x,y,R-1.5)+'" style="fill:var(--surface-2);stroke:var(--line)"/>'}
+    else if(t.type==="oceanres"){s+='<polygon points="'+hexPts(x,y,R-1.5)+'" style="fill:var(--ocean-soft);stroke:var(--ocean);stroke-dasharray:4 3;stroke-width:1.5"/>'}
+    else if(t.type==="ocean"){s+='<polygon points="'+hexPts(x,y,R-1.5)+'" style="fill:var(--ocean)"/><path d="M'+(x-10)+' '+(y+2)+' q5 -5 10 0 t10 0" stroke="#cfe6ff" fill="none" stroke-width="1.6"/>'}
+    else if(t.type==="green"){s+='<polygon points="'+hexPts(x,y,R-1.5)+'" style="fill:var(--green)"/>'+(t.p?'<rect x="'+(x-6)+'" y="'+(y-6)+'" width="12" height="12" rx="2" fill="'+t.p+'" stroke="#fff" stroke-width="1.5"/>':'')}
+    else if(t.type==="city"){s+='<polygon points="'+hexPts(x,y,R-1.5)+'" style="fill:var(--city)"/><rect x="'+(x-10)+'" y="'+(y-8)+'" width="6" height="14" fill="#f2f4f8"/><rect x="'+(x-3)+'" y="'+(y-13)+'" width="6" height="19" fill="#fff"/><rect x="'+(x+4)+'" y="'+(y-4)+'" width="6" height="10" fill="#f2f4f8"/>'+(t.p?'<rect x="'+(x-6)+'" y="'+(y+8)+'" width="12" height="9" rx="2" fill="'+t.p+'" stroke="#fff" stroke-width="1.5"/>':'')}
+    else if(t.type==="bonus"){s+='<polygon points="'+hexPts(x,y,R-1.5)+'" style="fill:var(--surface-2);stroke:var(--line)"/><rect x="'+(x-5)+'" y="'+(y-5)+'" width="10" height="10" fill="'+t.c+'"/>'}
+    if(m){
+      if(m==="x")s+='<path d="M'+(x-8)+' '+(y-8)+' L'+(x+8)+' '+(y+8)+' M'+(x+8)+' '+(y-8)+' L'+(x-8)+' '+(y+8)+'" class="k-bad" stroke-width="3.5" stroke-linecap="round"/>';
+      else if(m==="ok")s+='<polygon points="'+hexPts(x,y,R-4)+'" style="fill:none;stroke:var(--good);stroke-width:3"/>';
+      else s+='<text x="'+x+'" y="'+(y+5)+'" text-anchor="middle" font-size="13" class="tagf" style="fill:var(--fg)">'+m+'</text>';
+    }
+  }
+  return s;
+}
+function nb(r,c){return r%2===0?[[r,c-1],[r,c+1],[r-1,c-1],[r-1,c],[r+1,c-1],[r+1,c]]:[[r,c-1],[r,c+1],[r-1,c],[r-1,c+1],[r+1,c],[r+1,c+1]]}
+(function(){
+  var s='';
+  // left panel: city rule
+  var t1={"2,2":{type:"city",p:P.blue},"0,4":{type:"oceanres"},"1,4":{type:"oceanres"}},m1={};
+  nb(2,2).forEach(function(p){m1[p[0]+","+p[1]]="x"});
+  m1["2,5"]="ok";m1["0,1"]="ok";
+  s+=txt(14,22,'เมือง: ห้ามติดเมืองอื่น','s-fg','font-size="15" class="disp"');
+  s+=hexmap(40,62,5,6,26,t1,m1);
+  s+='<g font-size="12">'+'<path d="M 30 300 l 10 10 m 0 -10 l -10 10" class="k-bad" stroke-width="3"/>'+txt(48,310,'วางเมืองไม่ได้','s-fg')+'<polygon points="'+hexPts(170,305,9)+'" style="fill:none;stroke:var(--good);stroke-width:2.5"/>'+txt(184,310,'วางได้','s-fg')+'<polygon points="'+hexPts(250,305,9)+'" style="fill:var(--ocean-soft);stroke:var(--ocean);stroke-dasharray:3 2"/>'+txt(264,310,'สงวนมหาสมุทร','s-fg')+'</g>';
+  // right panel
+  var t2={"1,1":{type:"city",p:P.orange},"1,2":{type:"green",p:P.orange},"0,4":{type:"ocean"},"1,4":{type:"ocean"},"2,4":{type:"oceanres"},"3,1":{type:"bonus",c:"var(--plant)"}};
+  var m2={"0,1":"ok","0,2":"ok","2,1":"ok","2,2":"ok","1,0":"ok","2,3":"ok","1,3":"+4","0,3":"+2"};
+  s+=txt(400,22,'ป่า: ต้องติดแผ่นของคุณ · ติดมหาสมุทร = +2 M€','s-fg','font-size="15" class="disp"');
+  s+=hexmap(426,62,5,6,26,t2,m2);
+  s+='<g font-size="12">'+'<polygon points="'+hexPts(418,305,9)+'" style="fill:none;stroke:var(--good);stroke-width:2.5"/>'+txt(432,310,'ป่าของส้มวางได้','s-fg')+txt(560,310,'+4 = ติดมหาสมุทร 2 แผ่น','s-fg')+'</g>';
+  $("tiledemo").innerHTML=s;
+})();
+(function(){
+  var s='';
+  var t={"2,3":{type:"city",p:P.orange},"1,2":{type:"green",p:P.orange},"1,3":{type:"green",p:P.orange},"2,4":{type:"green",p:P.orange},"3,2":{type:"green",p:P.blue},"3,3":{type:"ocean"},"0,5":{type:"green",p:P.blue}};
+  s+=hexmap(150,60,5,6,30,t,{});
+  s+='<g font-size="13">';
+  s+='<rect x="520" y="50" width="226" height="200" rx="12" class="s-surface2"/>';
+  s+=txt(536,78,'นับแต้มภาพนี้','s-fg','font-size="15" class="disp"');
+  s+=txt(536,106,'เมืองส้ม: ป่าติดกัน 4 = 4 แต้ม','s-fg');
+  s+=txt(536,130,'ป่าส้ม 3 แผ่น = 3 แต้ม (ส้ม)','s-fg');
+  s+=txt(536,154,'ป่าน้ำเงิน 2 แผ่น = 2 แต้ม (น้ำเงิน)','s-fg');
+  s+=txt(536,178,'มหาสมุทร = 0 แต้ม','s-muted');
+  s+=txt(536,202,'ป่าน้ำเงินมุมขวาบนไม่ติดเมือง','s-muted');
+  s+=txt(536,222,'แต่ยังได้แต้มป่าตามปกติ','s-muted');
+  s+='</g>';
+  $("citydemo").innerHTML=s;
+})();
+
+/* ---------- COLONY DATA ---------- */
+var COL=[
+ {n:"Luna",th:"ดวงจันทร์",res:"M€",c:"#d9a514",track:[1,2,4,7,10,13,17],build:"กำลังผลิตเงิน +2",bonus:"+2 M€",unit:"M€"},
+ {n:"Ceres",th:"ดาวเคราะห์แคระ",res:"เหล็ก",c:"#8b5a2b",track:[1,2,3,4,6,8,10],build:"กำลังผลิตเหล็ก +1",bonus:"+2 เหล็ก",unit:"เหล็ก"},
+ {n:"Io",th:"ดวงจันทร์ดาวพฤหัส",res:"ความร้อน",c:"#e0571c",track:[2,3,4,6,8,10,13],build:"กำลังผลิตความร้อน +1",bonus:"+2 ความร้อน",unit:"ความร้อน"},
+ {n:"Ganymede",th:"ดวงจันทร์ดาวพฤหัส",res:"พืช",c:"#3c9440",track:[0,1,2,3,4,5,6],build:"กำลังผลิตพืช +1",bonus:"+1 พืช",unit:"พืช"},
+ {n:"Europa",th:"ดวงจันทร์ดาวพฤหัส",res:"กำลังผลิต",c:"#2b7cc0",track:["เงิน","เงิน","พลัง","พลัง","พืช","พืช","พืช"],build:"วางมหาสมุทร 1 แผ่น",bonus:"+1 M€",unit:"กำลังผลิต +1",prod:true},
+ {n:"Callisto",th:"ดวงจันทร์ดาวพฤหัส",res:"พลังงาน",c:"#7c4ab3",track:[0,2,3,5,7,10,13],build:"กำลังผลิตพลังงาน +1",bonus:"+3 พลังงาน",unit:"พลังงาน"},
+ {n:"Triton",th:"ดวงจันทร์ดาวเนปจูน",res:"ไทเทเนียม",c:"#4b5160",track:[0,1,1,2,3,4,5],build:"+3 ไทเทเนียม",bonus:"+1 ไทเทเนียม",unit:"ไทเทเนียม"},
+ {n:"Pluto",th:"ดาวเคราะห์แคระ",res:"การ์ด",c:"#7a6a8a",track:[0,1,2,2,3,3,4],build:"จั่วการ์ด 2 ใบ",bonus:"จั่ว 1 แล้วทิ้ง 1",unit:"การ์ด (จั่ว)"},
+ {n:"Titan",th:"ดวงจันทร์ดาวเสาร์",res:"ลอยฟ้า",c:"#c79a3a",track:[0,1,1,2,3,3,4],build:"+3 ลอยฟ้า (บนการ์ด)",bonus:"+1 ลอยฟ้า",unit:"ลอยฟ้า",need:"ลอยฟ้า"},
+ {n:"Enceladus",th:"ดวงจันทร์ดาวเสาร์",res:"จุลินทรีย์",c:"#7ab83a",track:[0,1,2,3,4,4,5],build:"+3 จุลินทรีย์ (บนการ์ด)",bonus:"+1 จุลินทรีย์",unit:"จุลินทรีย์",need:"จุลินทรีย์"},
+ {n:"Miranda",th:"ดวงจันทร์ดาวยูเรนัส",res:"สัตว์",c:"#2f6b3a",track:[0,1,1,2,2,3,3],build:"+1 สัตว์ (บนการ์ด)",bonus:"จั่วการ์ด 1 ใบ",unit:"สัตว์",need:"สัตว์"}
+];
+(function(){
+  var h='';
+  COL.forEach(function(c){
+    h+='<tr><td><span class="tc" style="background:'+c.c+'"></span><b>'+c.n+'</b><br><span class="en">'+c.th+'</span>'+(c.need?'<br><span class="flag">เปิดเมื่อมีการ์ด'+c.need+'</span>':'')+'</td><td>'+c.build+'</td><td class="num" style="text-align:left">'+c.track.map(function(v,i){return i===1?'<u>'+v+'</u>':v}).join(' · ')+(c.prod?'<br><span class="en" style="font-family:var(--font-body);font-weight:400">ได้กำลังผลิต +1 ของชนิดในช่อง</span>':'<br><span class="en" style="font-family:var(--font-body);font-weight:400">'+c.unit+'</span>')+'</td><td>'+c.bonus+'</td></tr>';
+  });
+  $("colonytable").innerHTML=h;
+})();
+
+/* ---------- COLONY TILE DIAGRAM ---------- */
+function colonyTile(ox,oy,c,marker,colonies,fleet,scale){
+  var s='',W=720,H=150;
+  s+='<rect x="'+ox+'" y="'+oy+'" width="'+W+'" height="'+H+'" rx="16" style="fill:var(--surface-2);stroke:var(--line)"/>';
+  s+='<circle cx="'+(ox+70)+'" cy="'+(oy+75)+'" r="50" fill="#c9c9cf"/><circle cx="'+(ox+52)+'" cy="'+(oy+60)+'" r="9" fill="#a9a9b0"/><circle cx="'+(ox+86)+'" cy="'+(oy+92)+'" r="12" fill="#a9a9b0"/><circle cx="'+(ox+80)+'" cy="'+(oy+50)+'" r="5" fill="#a9a9b0"/>';
+  s+='<text x="'+(ox+70)+'" y="'+(oy+142)+'" text-anchor="middle" class="disp s-fg" font-size="14">'+c.n+'</text>';
+  // build bonus
+  s+='<rect x="'+(ox+136)+'" y="'+(oy+14)+'" width="150" height="34" rx="8" style="fill:'+c.c+'"/><text x="'+(ox+211)+'" y="'+(oy+36)+'" text-anchor="middle" font-size="12" class="tagf" fill="#1f1716">วาง: '+c.build+'</text>';
+  // colony bonus
+  s+='<rect x="'+(ox+W-170)+'" y="'+(oy+14)+'" width="156" height="34" rx="8" style="fill:var(--surface);stroke:'+c.c+';stroke-width:2"/><text x="'+(ox+W-92)+'" y="'+(oy+36)+'" text-anchor="middle" font-size="12" class="tagf s-fg">โบนัสอาณานิคม '+c.bonus+'</text>';
+  // track
+  for(var i=0;i<7;i++){var x=ox+140+i*80,y=oy+64;
+    var isCol=i<3;
+    s+='<rect x="'+x+'" y="'+y+'" width="72" height="62" rx="10" style="fill:var(--surface);stroke:'+(i===1?'var(--fg)':'var(--line)')+';stroke-width:'+(i===1?2:1)+'"/>';
+    s+='<text x="'+(x+36)+'" y="'+(y+26)+'" text-anchor="middle" font-size="18" class="tagf s-fg">'+c.track[i]+'</text>';
+    if(isCol){var cp=colonies&&colonies[i];
+      s+='<rect x="'+(x+24)+'" y="'+(y+36)+'" width="24" height="18" rx="4" style="fill:'+(cp||'none')+';stroke:var(--muted);stroke-dasharray:'+(cp?'0':'3 2')+'"/>';}
+    if(i===marker){s+='<polygon points="'+(x+36)+','+(y-4)+' '+(x+26)+','+(y-16)+' '+(x+46)+','+(y-16)+'" style="fill:var(--accent)"/>'}
+    if(fleet&&i===marker){s+='<path d="M '+(x+56)+' '+(y+44)+' l 12 6 l -12 6 z" fill="'+fleet+'"/>'}
+  }
+  return s;
+}
+(function(){
+  var s=colonyTile(20,40,COL[0],1,[P.blue,null,null],null);
+  s+='<g font-size="12">';
+  s+=txt(160,24,'โบนัสการวาง: ได้ทันทีตอนสร้างอาณานิคม','s-fg');
+  s+=txt(740,24,'ทุกครั้งที่ใครค้า เจ้าของได้ต่ออาณานิคม','s-fg','text-anchor="end"');
+  s+='<path d="M 236 30 L 236 52" class="s-stroke-muted" stroke-width="1.5"/><path d="M 660 30 L 660 52" class="s-stroke-muted" stroke-width="1.5"/>';
+  s+=txt(160,226,'3 ช่องแรก = ที่ตั้งอาณานิคม (เติมจากซ้าย)','s-fg');
+  s+='<path d="M 160 214 L 160 178 M 400 214 L 400 178" class="s-stroke-muted" stroke-width="1.5"/><path d="M 160 214 L 400 214" class="s-stroke-muted" stroke-width="1.5"/>';
+  s+=txt(256,256,'▼ ตัวบอกราง เริ่มที่ช่องที่ 2 (กรอบเข้ม)','s-fg');
+  s+=txt(740,256,'ท้ายรอบเลื่อนขวา 1 ช่อง ค้าแล้วถอยกลับ','s-muted','text-anchor="end"');
+  s+=txt(20,288,'ตัวอย่าง: น้ำเงินมีอาณานิคม 1 อัน ถ้าตอนนี้ใครค้า จะได้ 2 M€ และน้ำเงินได้โบนัส 2 M€','s-muted');
+  s+='</g>';
+  $("colonydemo").innerHTML=s;
+})();
+(function(){
+  var s='';
+  s+=txt(20,22,'ก่อนค้า: ตัวบอกอยู่ช่องที่ 5 (10 M€) ส้มส่งยานไปจอด','s-fg','font-size="14" class="disp"');
+  s+=colonyTile(20,32,COL[0],4,[P.blue,P.orange,null],P.orange);
+  s+=txt(20,212,'ผล: ส้มได้ 10 M€ (รายได้การค้า) + 2 M€ (โบนัสอาณานิคมของตัวเอง) · น้ำเงินได้ 2 M€','s-fg','font-size="13"');
+  s+=txt(20,240,'หลังค้า: ตัวบอกถอยไปช่องที่ 3 (ช่องถัดจากอาณานิคม 2 อัน) ยานจอดจนจบรอบ','s-fg','font-size="14" class="disp"');
+  // mini track after
+  for(var i=0;i<7;i++){var x=160+i*80,y=256;s+='<rect x="'+x+'" y="'+y+'" width="72" height="48" rx="8" style="fill:var(--surface-2);stroke:'+(i===2?'var(--accent)':'var(--line)')+';stroke-width:'+(i===2?2.5:1)+'"/><text x="'+(x+36)+'" y="'+(y+30)+'" text-anchor="middle" font-size="16" class="tagf s-fg">'+COL[0].track[i]+'</text>';
+    if(i<2)s+='<rect x="'+(x+6)+'" y="'+(y+6)+'" width="12" height="10" rx="2" fill="'+(i===0?P.blue:P.orange)+'"/>';
+    if(i===2)s+='<polygon points="'+(x+36)+','+(y-2)+' '+(x+28)+','+(y-12)+' '+(x+44)+','+(y-12)+'" style="fill:var(--accent)"/>';
+  }
+  $("tradedemo").innerHTML=s;
+})();
+
+/* ---------- CORPS ---------- */
+(function(){
+  var X={b:"",p:'<span class="new" style="--c:#a2408a">Prelude</span> ',c:'<span class="new" style="--c:#2c6aa8">Colonies</span> '};
+  var rows=[
+   ["b","Beginner Corporation","42","เก็บการ์ดเริ่มต้น 10 ใบฟรี ไม่มีพลังพิเศษ","เกมแรก"],
+   ["b","CrediCor","57","ทุกครั้งที่เล่นการ์ด/โปรเจกต์มาตรฐานราคา 20 ขึ้นไป ได้คืน 4 M€","เงินหนา เล่นของแพง"],
+   ["b","Ecoline","36","กำลังผลิตพืช 2, พืช 3 · ใช้พืช<b>7</b>ทำป่า","ปลูกป่า ออกซิเจน"],
+   ["b","Helion","42","กำลังผลิตความร้อน 3 · ใช้ความร้อนแทน M€ ได้","อุณหภูมิ"],
+   ["b","Interplanetary Cinematics","30","เหล็ก 20 · เล่นเหตุการณ์ได้ 2 M€","การ์ดแดง สร้างอาคาร"],
+   ["b","Inventrix","45","การกระทำแรก: จั่ว 3 ใบ · เงื่อนไขค่าดาวยืดหยุ่น ±2","วิทยาศาสตร์ ยืดหยุ่น"],
+   ["b","Mining Guild","30","เหล็ก 5, กำลังผลิตเหล็ก 1 · ได้เหล็ก/ไทเทเนียมจากโบนัสช่อง = กำลังผลิตเหล็ก +1","สร้างอาคาร"],
+   ["b","PhoboLog","23","ไทเทเนียม 10 · ไทเทเนียมมีค่า +1 (= 4)","อวกาศ"],
+   ["b","Saturn Systems","42","กำลังผลิตไทเทเนียม 1 · ใครเล่นแท็กดาวพฤหัส = คุณได้กำลังผลิตเงิน +1","ดาวพฤหัส"],
+   ["b","Teractor","60","การ์ดแท็กโลกลด 3","โลก เงินหนา"],
+   ["b","Tharsis Republic","40","การกระทำแรก: วางเมือง · เมืองใครก็ตาม = กำลังผลิตเงิน +1 · เมืองตัวเอง = +3 M€","เมือง"],
+   ["b","Thorgate","48","กำลังผลิตพลังงาน 1 · การ์ดแท็กพลังงานและโรงไฟฟ้ามาตรฐานลด 3","พลังงาน"],
+   ["b","United Nations Mars Initiative","40","Action: ถ้ารอบนี้ TR เพิ่มแล้ว จ่าย 3 M€ ได้ TR +1","ดัน TR"],
+   ["p","Cheung Shing MARS","44","กำลังผลิตเงิน 3 · การ์ดแท็กอาคารลด 2","สร้างอาคาร"],
+   ["p","Point Luna","38","กำลังผลิตไทเทเนียม 1 · เล่นแท็กโลก = จั่ว 1 ใบ","โลก จั่วการ์ด"],
+   ["p","Robinson Industries","47","Action: จ่าย 4 M€ เพิ่มกำลังผลิตที่ต่ำสุดของคุณ 1 ขั้น","สมดุล"],
+   ["p","Valley Trust","37","การ์ดแท็กวิทย์ลด 2 · การกระทำแรก: จั่วปฐมบท 3 เล่น 1","วิทยาศาสตร์"],
+   ["p","Vitor","48","การกระทำแรก: ตั้งรางวัลฟรี · เล่นการ์ดที่มีแต้มไม่ติดลบ ได้ 3 M€","แต้มการ์ด"],
+   ["c","Aridor","40","การกระทำแรก: เพิ่มแผ่นอาณานิคม 1 ดวงเข้าเกม · ได้แท็กชนิดใหม่ = กำลังผลิตเงิน +1","แท็กหลากหลาย"],
+   ["c","Arklight","45","กำลังผลิตเงิน 2 · เล่นแท็กสัตว์/พืช = สัตว์ +1 บนการ์ดนี้ · 1 แต้มต่อ 2 สัตว์","สัตว์ พืช"],
+   ["c","Polyphemos","50","กำลังผลิตเงิน 5, ไทเทเนียม 5 · ซื้อการ์ดใบละ<b>5</b> M€","เงินต้นแรง"],
+   ["c","Poseidon","45","การกระทำแรก: วางอาณานิคม · ใครวางอาณานิคม = คุณได้กำลังผลิตเงิน +1","อาณานิคม"],
+   ["c","Stormcraft Incorporated","48","Action: วางลอยฟ้า 1 บนการ์ดใดก็ได้ · ลอยฟ้าบนการ์ดนี้ใช้เป็นความร้อน 2 ได้","ลอยฟ้า ความร้อน"]
+  ];
+  $("corptable").innerHTML=rows.map(function(r){return '<tr><td>'+X[r[0]]+'<b>'+r[1]+'</b></td><td class="num">'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>'}).join('');
+})();
+
+/* ---------- TRACKER ---------- */
+(function(){
+  var st=store("trk")||{t:-30,o:0,oc:0,gen:1,log:[]};
+  function save(){store("trk",st)}
+  var rows=[
+    {k:"t",name:"อุณหภูมิ",sub:"−30 → +8 °C",min:-30,max:8,step:2,fmt:function(v){return (v>0?"+":"")+v+" °C"}},
+    {k:"o",name:"ออกซิเจน",sub:"0 → 14%",min:0,max:14,step:1,fmt:function(v){return v+"%"}},
+    {k:"oc",name:"มหาสมุทร",sub:"0 → 9",min:0,max:9,step:1,fmt:function(v){return v+" / 9"}}
+  ];
+  var box=$("trk");
+  box.innerHTML=rows.map(function(r){return '<div class="trk-row"><div class="lab"><b id="lv-'+r.k+'"></b><small>'+r.name+' · '+r.sub+'</small></div><svg id="sv-'+r.k+'" viewBox="140 0 570 60" aria-hidden="true"></svg><div class="pm"><button type="button" data-k="'+r.k+'" data-d="-1" aria-label="ลด'+r.name+'">−</button><button type="button" data-k="'+r.k+'" data-d="1" aria-label="เพิ่ม'+r.name+'">+</button></div></div>'}).join('');
+  function addLog(m){st.log.unshift("รอบ "+st.gen+": "+m);st.log=st.log.slice(0,6)}
+  box.addEventListener("click",function(e){var b=e.target.closest("button[data-k]");if(!b)return;
+    var r=rows.filter(function(x){return x.k===b.dataset.k})[0],d=+b.dataset.d,old=st[r.k],nv=Math.max(r.min,Math.min(r.max,old+d*r.step));
+    if(nv===old)return; st[r.k]=nv;
+    if(d>0){
+      if(r.k==="t"&&(nv===-24||nv===-20))addLog("ถึง "+nv+" °C → คนดันได้กำลังผลิตความร้อน +1");
+      if(r.k==="t"&&nv===0)addLog(st.oc<9?"ถึง 0 °C → คนดันวางมหาสมุทร 1 แผ่น (กด + มหาสมุทรด้วย)":"ถึง 0 °C แต่มหาสมุทรครบแล้ว ไม่ได้วาง");
+      if(r.k==="o"&&nv===8)addLog(st.t<8?"ออกซิเจน 8% → คนดันได้อุณหภูมิ +1 (กด + อุณหภูมิด้วย)":"ออกซิเจน 8% แต่อุณหภูมิสุดแล้ว");
+      if(r.k==="o"&&nv===14)addLog("ออกซิเจนสุดแล้ว ป่าไม่ได้ TR อีก");
+      if(r.k==="t"&&nv===8)addLog("อุณหภูมิสุดแล้ว");
+      if(r.k==="oc"&&nv===9)addLog("มหาสมุทรครบ 9 แล้ว");
+    }
+    render();});
+  $("gen-m").onclick=function(){st.gen=Math.max(1,st.gen-1);render()};
+  $("gen-p").onclick=function(){st.gen++;render()};
+  $("gen").oninput=function(){st.gen=Math.max(1,+this.value||1);save();renderOut()};
+  $("trk-reset").onclick=function(){st={t:-30,o:0,oc:0,gen:1,log:[]};render()};
+  function renderOut(){
+    var left=(8-st.t)/2+(14-st.o)+(9-st.oc);
+    var done=(st.t===8)+(st.o===14)+(st.oc===9);
+    $("trk-out").innerHTML='<div class="co hl"><small>เหลืออีก</small><b>'+left+' ขั้น</b><small>จากทั้งหมด 42</small></div><div class="co"><small>ทำไปแล้ว</small><b>'+(42-left)+' ขั้น</b><small>= TR ที่แจกออกไปจากค่าดาว</small></div><div class="co"><small>ค่าที่สุดแล้ว</small><b>'+done+' / 3</b><small>'+(done===3?'จบรอบนี้แล้วนับคะแนน':'ยังไม่จบเกม')+'</small></div><div class="co"><small>รอบปัจจุบัน</small><b>'+st.gen+'</b><small>'+(st.gen>=14?'รอบสุดท้ายถ้าเล่นคนเดียว':'')+'</small></div>';
+  }
+  function render(){
+    var g=paramSVG(st.t,st.o,st.oc,true);
+    $("sv-t").innerHTML=g.temp(18);$("sv-o").innerHTML=g.oxy(18);$("sv-oc").innerHTML=g.ocean(26);
+    $("lv-t").textContent=rows[0].fmt(st.t);$("lv-o").textContent=rows[1].fmt(st.o);$("lv-oc").textContent=rows[2].fmt(st.oc);
+    $("gen").value=st.gen;
+    $("trk-log").innerHTML=st.log.map(function(m){return '<li>'+m+'</li>'}).join('');
+    renderOut();save();
+  }
+  render();
+})();
+
+/* ---------- PAYMENT ---------- */
+(function(){
+  var ids=["pc-cost","pc-build","pc-space","pc-mc","pc-st","pc-stv","pc-ti","pc-tiv","pc-heat"];
+  function v(id){var e=$(id);return e.type==="checkbox"?e.checked:Math.max(0,+e.value||0)}
+  function calc(){
+    var cost=v("pc-cost"),b=v("pc-build"),sp=v("pc-space"),mc=v("pc-mc"),S=b?v("pc-st"):0,sv=v("pc-stv"),T=sp?v("pc-ti"):0,tv=v("pc-tiv"),H=v("pc-heat");
+    var best=null;
+    for(var s=0;s<=Math.min(S,Math.ceil(cost/sv));s++)for(var t=0;t<=Math.min(T,Math.ceil(cost/tv));t++)for(var h=0;h<=Math.min(H,cost);h++){
+      var rest=cost-s*sv-t*tv-h, m=Math.max(0,rest), waste=Math.max(0,-rest);
+      if(m>mc)continue;
+      // don't allow pointless overpay: each resource must be needed
+      if(waste>0&&((s>0&&waste>=sv)||(t>0&&waste>=tv)||(h>0&&waste>=1)))continue;
+      var key=[m,waste,t,h,s];
+      if(!best||cmp(key,best.key)<0)best={s:s,t:t,h:h,m:m,waste:waste,key:key};
+    }
+    var out=$("pc-out");
+    if(!best){out.innerHTML='<div class="co"><small>ผล</small><b style="color:var(--bad)">จ่ายไม่พอ</b><small>ขาดอีก '+(cost-mc-S*sv-T*tv-H)+' M€</small></div>';return}
+    out.innerHTML='<div class="co hl"><small>จ่ายเงินสด</small><b>'+best.m+' M€</b><small>เหลือ '+(mc-best.m)+' M€</small></div>'+
+      (b?'<div class="co"><small>ใช้เหล็ก</small><b>'+best.s+'</b><small>= '+best.s*sv+' M€ · เหลือ '+(S-best.s)+'</small></div>':'')+
+      (sp?'<div class="co"><small>ใช้ไทเทเนียม</small><b>'+best.t+'</b><small>= '+best.t*tv+' M€ · เหลือ '+(T-best.t)+'</small></div>':'')+
+      (H?'<div class="co"><small>ใช้ความร้อน</small><b>'+best.h+'</b><small>Helion</small></div>':'')+
+      '<div class="co"><small>จ่ายเกิน (ไม่ทอน)</small><b>'+best.waste+'</b><small>M€</small></div>';
+  }
+  function cmp(a,b){for(var i=0;i<a.length;i++){if(a[i]!==b[i])return a[i]-b[i]}return 0}
+  ids.forEach(function(id){$(id).addEventListener("input",calc);$(id).addEventListener("change",calc)});
+  calc();
+})();
+
+/* ---------- COLONY TOOL ---------- */
+(function(){
+  var st=store("col")||{players:3,inplay:null,pos:{},cols:{},act:{}};
+  function count(n){return n+2+(n<=2?1:0)}
+  function save(){store("col",st)}
+  function deal(){var idx=COL.map(function(_,i){return i});for(var i=idx.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=idx[i];idx[i]=idx[j];idx[j]=t}
+    st.inplay=idx.slice(0,count(st.players)).sort(function(a,b){return a-b});st.pos={};st.cols={};st.act={};
+    COL.forEach(function(c,i){st.pos[i]=1;st.cols[i]=0;st.act[i]=!c.need});}
+  if(!st.inplay)deal();
+  var seg=$("ct-players");
+  seg.innerHTML=[1,2,3,4,5].map(function(n){return '<button type="button" data-v="'+n+'" aria-pressed="'+(n===st.players)+'">'+(n===1?'1 (เดี่ยว)':n)+'</button>'}).join('');
+  seg.onclick=function(e){var b=e.target.closest("button");if(!b)return;st.players=+b.dataset.v;[].forEach.call(seg.children,function(x){x.setAttribute("aria-pressed",x===b)});deal();render();msg("สุ่มแผ่น "+count(st.players)+" ดวงสำหรับ "+st.players+" คน")};
+  $("ct-deal").onclick=function(){deal();render();msg("สุ่มแผ่นใหม่ "+count(st.players)+" ดวง")};
+  $("ct-end").onclick=function(){st.inplay.forEach(function(i){if(st.act[i])st.pos[i]=Math.min(6,st.pos[i]+1)});render();msg("จบรอบ: ทุกดวงที่เปิดใช้เลื่อนขึ้น 1 · ยานทุกลำกลับบ้าน")};
+  $("ct-all").onchange=render;
+  function msg(m){$("ct-msg").textContent=m}
+  function val(c,p){return c.prod?("กำลังผลิต"+c.track[p]+" +1"):(c.track[p]+" "+c.unit)}
+  function render(){
+    var show=$("ct-all").checked?COL.map(function(_,i){return i}):st.inplay;
+    $("ct-cols").innerHTML=show.map(function(i){var c=COL[i],inp=st.inplay.indexOf(i)>=0,a=st.act[i],p=st.pos[i],n=st.cols[i];
+      var tb='';for(var k=0;k<7;k++){tb+='<button type="button" data-i="'+i+'" data-p="'+k+'" class="'+(k<3?'cl':'')+'" aria-pressed="'+(k===p)+'" '+((!a||k<n)?'disabled':'')+' aria-label="ย้ายตัวบอก '+c.n+' ไปช่อง '+(k+1)+'">'+c.track[k]+'</button>'}
+      return '<div class="col'+(inp?'':' off')+'"><h4><span class="sq" style="background:'+c.c+'"></span>'+c.n+' <span class="en">'+c.th+'</span>'+(inp?'':'<span class="flag">ไม่อยู่ในเกม</span>')+'</h4>'+
+        '<div class="meta"><span>วาง: '+c.build+'</span><span>โบนัสอาณานิคม: '+c.bonus+'</span></div>'+
+        (a?'<div class="trackbtns">'+tb+'</div><div class="now">ค้าตอนนี้ได้: '+val(c,p)+'</div>':'<p class="note">ยังไม่เปิด จนกว่ามีคนเล่นการ์ดที่เก็บ'+c.need+'ได้</p>')+
+        '<div class="tool-row">'+(a?'':'<button type="button" class="btn" data-act="'+i+'">เปิดใช้</button>')+
+        '<div><label class="field-l" for="cn-'+i+'">อาณานิคมบนดวง</label><select class="sel" id="cn-'+i+'" data-cn="'+i+'"'+(a?'':' disabled')+'>'+[0,1,2,3].map(function(x){return '<option'+(x===n?' selected':'')+'>'+x+'</option>'}).join('')+'</select></div>'+
+        (a?'<button type="button" class="btn" data-trade="'+i+'">ค้าขาย</button>':'')+'</div></div>'}).join('');
+    save();
+  }
+  $("ct-cols").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+    if(b.dataset.p!==undefined){st.pos[b.dataset.i]=+b.dataset.p;render();return}
+    if(b.dataset.act!==undefined){var i=+b.dataset.act;st.act[i]=true;st.pos[i]=Math.max(1,st.cols[i]);render();msg(COL[i].n+" เปิดใช้แล้ว ตัวบอกเริ่มช่องที่ 2");return}
+    if(b.dataset.trade!==undefined){var j=+b.dataset.trade,c=COL[j],p=st.pos[j];var got=val(c,p);st.pos[j]=st.cols[j];render();
+      msg("ค้ากับ "+c.n+": คนค้าได้ "+got+(st.cols[j]?" · เจ้าของอาณานิคมทั้ง "+st.cols[j]+" อันได้คนละ "+c.bonus:"")+" · ตัวบอกถอยไปช่องที่ "+(st.cols[j]+1));}
+  });
+  $("ct-cols").addEventListener("change",function(e){var s=e.target.closest("select[data-cn]");if(!s)return;var i=+s.dataset.cn,n=+s.value;st.cols[i]=n;if(st.pos[i]<n)st.pos[i]=n;render()});
+  render();
+})();
+
+/* ---------- SCOREPAD ---------- */
+(function(){
+  var st=store("pad")||{n:3,names:["","","","",""],v:{}};
+  var rows=[["tr","TR","ค่าสุดท้ายบนราง"],["ms","หลักชัย","5 ต่ออัน"],["aw","รางวัล","5 ที่ 1 · 2 ที่ 2"],["gr","ป่า","1 ต่อแผ่น"],["ci","เมือง","1 ต่อป่าที่ติด"],["cd","แต้มบนการ์ด","รวมทุกใบ"],["mc","เงินเหลือ","ใช้ตัดสินเสมอ เท่านั้น"]];
+  var seg=$("p-players");
+  seg.innerHTML=[1,2,3,4,5].map(function(n){return '<button type="button" data-v="'+n+'" aria-pressed="'+(n===st.n)+'">'+n+'</button>'}).join('');
+  seg.onclick=function(e){var b=e.target.closest("button");if(!b)return;st.n=+b.dataset.v;[].forEach.call(seg.children,function(x){x.setAttribute("aria-pressed",x===b)});build()};
+  $("p-clear").onclick=function(){st.v={};build()};
+  function save(){store("pad",st)}
+  function build(){
+    var h='<thead><tr><th>หมวด</th>';for(var p=0;p<st.n;p++)h+='<th><input type="text" id="pn-'+p+'" data-name="'+p+'" value="'+(st.names[p]||'').replace(/"/g,'&quot;')+'" placeholder="ผู้เล่น '+(p+1)+'" aria-label="ชื่อผู้เล่น '+(p+1)+'"></th>';h+='</tr></thead><tbody>';
+    rows.forEach(function(r){h+='<tr><td><b>'+r[1]+'</b><span class="sub">'+r[2]+'</span></td>';for(var p=0;p<st.n;p++){var k=r[0]+p;h+='<td><input type="number" inputmode="numeric" id="pv-'+k+'" data-k="'+k+'" value="'+(st.v[k]!=null?st.v[k]:(r[0]==="tr"?"":""))+'" aria-label="'+r[1]+' ผู้เล่น '+(p+1)+'"></td>'}h+='</tr>'});
+    h+='<tr class="tot"><td>รวม</td>';for(var p2=0;p2<st.n;p2++)h+='<td id="pt-'+p2+'">0</td>';h+='</tr></tbody>';
+    $("p-table").innerHTML=h;calc();
+  }
+  function num(k){var x=st.v[k];return x===""||x==null?0:+x}
+  function calc(){
+    var tot=[];for(var p=0;p<st.n;p++){var t=0;rows.forEach(function(r){if(r[0]!=="mc")t+=num(r[0]+p)});tot.push(t);$("pt-"+p).textContent=t;$("pt-"+p).classList.remove("win")}
+    var best=Math.max.apply(null,tot),c=[];tot.forEach(function(t,i){if(t===best)c.push(i)});
+    if(c.length>1){var bm=Math.max.apply(null,c.map(function(i){return num("mc"+i)}));c=c.filter(function(i){return num("mc"+i)===bm})}
+    var any=Object.keys(st.v).some(function(k){return st.v[k]!==""&&st.v[k]!=null});
+    c.forEach(function(i){$("pt-"+i).classList.add("win")});
+    $("p-result").textContent=any?(st.n===1?"คะแนน "+best+" (ชนะเมื่อดันค่าดาวครบภายในรอบที่ 14)":(c.length===1?"ผู้ชนะ: "+(st.names[c[0]]||"ผู้เล่น "+(c[0]+1))+" · "+best+" คะแนน":"เสมอทั้งคะแนนและเงิน: "+c.map(function(i){return st.names[i]||"ผู้เล่น "+(i+1)}).join(", "))):"";
+    save();
+  }
+  $("p-table").addEventListener("input",function(e){var t=e.target;if(t.dataset.k){st.v[t.dataset.k]=t.value}else if(t.dataset.name!==undefined){st.names[+t.dataset.name]=t.value}calc()});
+  build();
+})();
+})();
+</script>
+
+</body></html>

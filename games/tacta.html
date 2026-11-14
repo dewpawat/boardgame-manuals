@@ -1,0 +1,864 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Tacta ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap">
+<style>
+/* Layout: neon-on-black hero with a sprawl of overlapping cards, then a rulebook column with a sticky chapter rail.
+   Card art (black card, neon outline) is a physical look and stays the same in both themes. Tools (first player, timer, scorepad) near the end. */
+:root{
+  --bg:#f3f1f7;
+  --surface:#ffffff;
+  --surface-2:#e9e5f1;
+  --fg:#1d1a26;
+  --muted:#635d72;
+  --line:#d9d3e4;
+  --accent:#c2187a;
+  --accent-soft:#fbe1ef;
+  --cool-soft:#dff1fb;
+  --warn-soft:#fff1d6;
+  --good:#1d8a4a;
+  --bad:#c0263d;
+  --band-1:#0d0b16;
+  --band-2:#1b1430;
+  --band-fg:#f3f0ff;
+  --card:#121018;
+  --d-red:#ff3355; --d-purple:#a259ff; --d-orange:#ff8c1a; --d-green:#2ee66b; --d-pink:#ff4fc3; --d-blue:#27b4ff; --d-white:#f4f4f8;
+  --table:#c9a77a; --table-edge:#8a6440;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#100e17;--surface:#1a1724;--surface-2:#252133;--fg:#efecf7;--muted:#aaa3bd;--line:#342f45;
+    --accent:#ff6fbf;--accent-soft:#3a1730;--cool-soft:#13293a;--warn-soft:#3a2f14;--good:#5fd98d;--bad:#ff7085;
+    --table:#6b5238;--table-edge:#3f2d1c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#100e17;--surface:#1a1724;--surface-2:#252133;--fg:#efecf7;--muted:#aaa3bd;--line:#342f45;
+  --accent:#ff6fbf;--accent-soft:#3a1730;--cool-soft:#13293a;--warn-soft:#3a2f14;--good:#5fd98d;--bad:#ff7085;
+  --table:#6b5238;--table-edge:#3f2d1c;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:radial-gradient(120% 90% at 80% 20%,var(--band-2) 0%,var(--band-1) 70%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-family:var(--font-tag);font-weight:700;font-size:clamp(2.6rem,7vw,4.2rem);letter-spacing:.12em;margin-top:6px;line-height:1.1;color:#fff;text-shadow:0 0 6px rgba(255,79,195,.8),0 0 22px rgba(162,89,255,.55)}
+.hero h1 span{display:block;font-family:var(--font-display);font-weight:500;font-size:.34em;letter-spacing:0;color:#ffd1ee;margin-top:10px;text-shadow:none}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:#7fe0ff;font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.decks{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.decks span{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border:2px solid currentColor;border-radius:999px;padding:0 10px;background:rgba(0,0,0,.3)}
+.hero-art svg{width:100%;height:auto;display:block}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a.hot{color:var(--accent);font-weight:600}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.cool{background:var(--cool-soft)}
+.callout.warn{background:var(--warn-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.quote{border-left:4px solid var(--accent);padding:6px 14px;background:var(--surface);border-radius:0 10px 10px 0;max-width:46em}
+.quote small{display:block;font-family:var(--font-tag);font-size:.76rem;color:var(--muted);letter-spacing:.05em}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:56em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 170px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.1rem;font-variant-numeric:tabular-nums}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0;display:grid;gap:10px}
+.figure figcaption{font-size:.9rem;color:var(--muted)}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body)}
+.t-fg{fill:var(--fg)} .t-muted{fill:var(--muted)} .t-acc{fill:var(--accent)} .t-good{fill:var(--good)} .t-bad{fill:var(--bad)}
+.f-surf{fill:var(--surface-2)}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:#7fe0ff;box-shadow:0 0 0 2px #a259ff inset;z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+
+.dd{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.dd>div{border-radius:14px;padding:16px;display:grid;gap:8px;align-content:start;border:2px solid var(--line);background:var(--surface);min-width:0}
+.dd .do{border-color:var(--good)}
+.dd .dont{border-color:var(--bad)}
+.dd h3{font-size:1.1rem}
+.dd .do h3{color:var(--good)} .dd .dont h3{color:var(--bad)}
+.dd ul{margin:0;padding-left:1.2em;display:grid;gap:5px}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+.type .k{font-family:var(--font-tag);font-size:.74rem;border-radius:999px;padding:0 9px;background:var(--surface-2);color:var(--muted)}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details.big{border:2px solid var(--accent)}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+details .ans{display:grid;gap:6px}
+details .ans ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.verdict.no{color:var(--bad)}
+.verdict.grey{color:var(--muted)}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg>span{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;margin-right:4px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"],.btn.primary{background:var(--band-1);border-color:var(--band-1);color:#7fe0ff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.inrow{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.msg{background:var(--warn-soft);border-radius:10px;padding:10px 14px;font-size:.98rem;min-height:2.4em}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid rgba(0,0,0,.35);vertical-align:-2px;margin-right:6px;flex:none}
+.fp{display:grid;gap:6px}
+.fprow{display:grid;grid-template-columns:minmax(0,1fr) 84px 84px 64px;gap:8px;align-items:center;padding:6px 8px;border-radius:10px}
+.fprow.win{background:var(--accent-soft)}
+.fprow .nm{display:flex;align-items:center;min-width:0;font-weight:600}
+.fprow .nm input{font:inherit;font-weight:600;width:100%;min-width:0;border:1px dashed var(--line);background:transparent;color:var(--fg);border-radius:6px;padding:0 6px}
+.fprow input[type=number],.pad input{font:inherit;font-family:var(--font-tag);font-weight:600;width:100%;min-width:48px;height:36px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.fprow .lo{font-family:var(--font-tag);font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
+.fphead{font-family:var(--font-tag);font-size:.76rem;color:var(--muted);letter-spacing:.04em}
+.timer{display:grid;place-items:center;gap:4px;background:var(--band-1);color:#fff;border-radius:16px;padding:20px;min-height:170px}
+.timer b{font-family:var(--font-tag);font-size:clamp(3rem,12vw,5.5rem);line-height:1;font-variant-numeric:tabular-nums;color:#7fe0ff;text-shadow:0 0 18px rgba(39,180,255,.6)}
+.timer b.go{color:#ff4fc3;text-shadow:0 0 18px rgba(255,79,195,.7)}
+.timer b.late{color:#ff3355;text-shadow:0 0 18px rgba(255,51,85,.7)}
+.timer small{font-size:.92rem;opacity:.85}
+.pad{min-width:520px}
+.pad input.name{text-align:left;padding-inline:8px;font-family:var(--font-body)}
+.pad td,.pad th{padding:6px 8px;vertical-align:middle}
+.pad tr.total td{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;text-align:center;background:var(--surface-2)}
+.pad tr.total td.lead{color:var(--accent)}
+.pad th.rowh{white-space:nowrap}
+.pad .hint{display:block;font-family:var(--font-body);font-weight:400;font-size:.78rem;color:var(--muted)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:420px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  .fprow{grid-template-columns:minmax(0,1fr) 64px 64px 48px;gap:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .glow{animation:glow 3.2s ease-in-out infinite alternate}
+  @keyframes glow{from{opacity:.75}to{opacity:1}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<!-- shared card drawing: black card, neon outline in currentColor. 120 x 180 units.
+     Shapes: top-left corner triangle (1 dot), top-right corner square (1 dot), right-edge triangle (2 dots), bottom-left corner rectangle (hollow). Value 4 in a circle suit. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="card" viewBox="0 0 120 180" overflow="visible">
+      <rect x="0" y="0" width="120" height="180" rx="6" fill="#121018"/>
+      <path d="M0 0 H40 L0 40Z" fill="currentColor" fill-opacity=".3" stroke="currentColor" stroke-width="2"/>
+      <circle cx="11" cy="11" r="4" fill="currentColor"/>
+      <rect x="80" y="0" width="40" height="40" fill="currentColor" fill-opacity=".3" stroke="currentColor" stroke-width="2"/>
+      <circle cx="100" cy="20" r="4" fill="currentColor"/>
+      <path d="M120 78 V134.57 L91.72 106.28Z" fill="currentColor" fill-opacity=".3" stroke="currentColor" stroke-width="2"/>
+      <circle cx="111" cy="98" r="4" fill="currentColor"/><circle cx="111" cy="115" r="4" fill="currentColor"/>
+      <rect x="0" y="110" width="40" height="70" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="60" cy="88" r="16" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="60" y="95" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor" font-family="Chakra Petch,sans-serif">4</text>
+      <rect x="1.5" y="1.5" width="117" height="177" rx="6" fill="none" stroke="currentColor" stroke-width="3"/>
+    </symbol>
+    <symbol id="start" viewBox="0 0 120 180" overflow="visible">
+      <rect x="0" y="0" width="120" height="180" rx="6" fill="#121018"/>
+      <path d="M0 0 H40 L0 40Z" fill="none" stroke="#f4f4f8" stroke-width="2"/>
+      <rect x="80" y="0" width="40" height="40" fill="none" stroke="#f4f4f8" stroke-width="2"/>
+      <path d="M120 78 V134.57 L91.72 106.28Z" fill="none" stroke="#f4f4f8" stroke-width="2"/>
+      <rect x="0" y="110" width="40" height="70" fill="none" stroke="#f4f4f8" stroke-width="2"/>
+      <rect x="80" y="140" width="40" height="40" fill="none" stroke="#f4f4f8" stroke-width="2"/>
+      <path d="M0 62 V118" stroke="none"/>
+      <text x="60" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#f4f4f8" font-family="Chakra Petch,sans-serif">START</text>
+      <rect x="1.5" y="1.5" width="117" height="177" rx="6" fill="none" stroke="#f4f4f8" stroke-width="3"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · The Op Games · ออกแบบโดย Jason Tremblay</div>
+      <h1>TACTA<span>Connect, Cover, Conquer · ต่อการ์ด ทับจุดคู่แข่ง กันจุดตัวเอง</span></h1>
+      <p class="lede">ทุกคนถือการ์ดสีของตัวเองคนละกอง ผลัดกันวางการ์ดให้ <b>รูปทรงที่ขอบการ์ด</b> ทับรูปทรงเดียวกันบนการ์ดที่อยู่บนโต๊ะแล้ว<b>พอดีเป๊ะ</b> ทุกใบที่วางมีโอกาสปิดจุดของคนอื่น เมื่อทุกคนลงการ์ดหมดมือ ใครเหลือจุดสีตัวเองให้เห็นมากที่สุดชนะ</p>
+      <div class="facts">
+        <div class="fact"><b>2–6</b><small>ผู้เล่น (Team Up ได้มากกว่า)</small></div>
+        <div class="fact"><b>18</b><small>ใบต่อคน</small></div>
+        <div class="fact"><b>20+</b><small>นาที</small></div>
+        <div class="fact"><b>7+</b><small>ปีขึ้นไป</small></div>
+      </div>
+      <div class="decks" aria-label="สีของกองการ์ด 6 สี">
+        <span style="color:#ff3355">แดง</span><span style="color:#a259ff">ม่วง</span><span style="color:#ff8c1a">ส้ม</span><span style="color:#2ee66b">เขียว</span><span style="color:#ff4fc3">ชมพู</span><span style="color:#27b4ff">ฟ้า</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 380 340">
+        <g class="glow" transform="translate(20 85)">
+          <use href="#start" x="120" y="60" width="120" height="180"/>
+          <use href="#card" transform="translate(200 -80) rotate(180 60 90)" width="120" height="180" style="color:#ff4fc3"/>
+          <use href="#card" transform="translate(160 60) rotate(45) translate(-120 -78)" width="120" height="180" style="color:#27b4ff"/>
+          <use href="#card" transform="translate(-28 110) rotate(-8)" width="120" height="180" style="color:#ff8c1a" opacity=".85"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#cards">ในกล่องและหน้าตาการ์ด</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li class="sep">เล่น</li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#connect">ต่อและทับให้ถูก</a></li>
+      <li><a href="#dos">ทำได้ · ห้ามทำ</a></li>
+      <li><a href="#stuck">ไม่มีที่ลง · วางผิด</a></li>
+      <li><a href="#edge" class="hot">ขอบโต๊ะ</a></li>
+      <li><a href="#end">จบเกมและนับคะแนน</a></li>
+      <li><a href="#variants">แบบเล่นอื่น</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#tool-first">ตัวหาคนเริ่มก่อน</a></li>
+      <li><a href="#tool-timer">ตัวจับเวลา</a></li>
+      <li><a href="#tool-pad">สมุดคะแนน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ วางการ์ด 1 ใบ</h3>
+        <ol>
+          <li>เลือก<b>ใบนอกสุด</b>ของกองในมือ จะเป็นใบบนหรือใบล่างก็ได้ (ห้ามดูใบอื่นในกอง)</li>
+          <li>พลิกหน้าหรือหมุนการ์ดได้ตามใจ ให้<b>รูปทรงที่ขอบการ์ด</b>ของคุณ ทับรูปทรงแบบเดียวกันบนการ์ดใบอื่น<b>ตรงพอดี</b></li>
+          <li>แตะได้<b>ใบเดียว</b> ห้ามทับจุดหรือรูปทรงของใบที่สอง และห้ามล้น<b>ขอบโต๊ะ</b></li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="ภาพรวมการชนะ">
+        <div class="fm"><small>ได้แต้ม</small><b>จุดสีตัวเองที่ยังมองเห็น · จุดละ 1</b></div>
+        <div class="fm"><small>เสียแต้ม</small><b>จุดที่ถูกการ์ดใบอื่นทับ</b></div>
+        <div class="fm"><small>จบเกม</small><b>ทุกคนลงการ์ดหมดมือ</b></div>
+      </div>
+      <p class="note">การ์ดทุกใบจะทับสีไหนก็ได้ รวมถึงสีของตัวเอง (ยกเว้นแบบ Free Play) · เกมนี้มีข้อเถียงยอดฮิตเรื่อง<a href="#edge">การ์ดล้นขอบโต๊ะ</a> แยกอธิบายไว้เป็นบทเฉพาะ</p>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องและหน้าตาการ์ด</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td><b>การ์ดเล่น</b> <span class="en">Playing Cards</span></td><td class="num">108</td><td>6 สี สีละ 18 ใบ (แดง ม่วง ส้ม เขียว ชมพู ฟ้า) แต่ละสีมีสัญลักษณ์ประจำ ช่วยคนที่แยกสีได้ยาก</td></tr>
+            <tr><td><b>การ์ดเริ่มต้น</b> <span class="en">Starting Card</span></td><td class="num">1</td><td>สีขาว วางกลางโต๊ะตอนเริ่ม ไม่ใช่สีของใคร</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 250" role="img" aria-label="ส่วนต่าง ๆ ของการ์ด Tacta">
+          <use href="#card" x="230" y="30" width="120" height="180" style="color:#2ee66b"/>
+          <g font-size="13" class="t-fg">
+            <line x1="225" y1="40" x2="150" y2="40" stroke="var(--muted)"/>
+            <text x="10" y="36" font-weight="700">รูปทรงขอบ</text><text x="10" y="54" class="t-muted" font-size="11.5">สามเหลี่ยม สี่เหลี่ยมผืนผ้า สี่เหลี่ยมจัตุรัส</text>
+            <line x1="225" y1="160" x2="150" y2="160" stroke="var(--muted)"/>
+            <text x="10" y="156" font-weight="700">แบบโปร่ง (ไม่มีจุด)</text><text x="10" y="174" class="t-muted" font-size="11.5">ใช้ต่อและรับการทับได้เหมือนแบบมีจุด</text>
+            <line x1="355" y1="50" x2="420" y2="50" stroke="var(--muted)"/>
+            <text x="426" y="46" font-weight="700">จุด = 1 แต้ม</text><text x="426" y="64" class="t-muted" font-size="11.5">อยู่ในรูปทรงแบบทึบ</text>
+            <line x1="306" y1="118" x2="420" y2="118" stroke="var(--muted)"/>
+            <text x="426" y="114" font-weight="700">ค่าและชุด</text><text x="426" y="132" class="t-muted" font-size="11.5">เลข = จำนวนจุดทั้งใบ · กรอบรอบเลข</text><text x="426" y="148" class="t-muted" font-size="11.5">(วงกลม · สี่เหลี่ยม · สามเหลี่ยม) คือชุด</text>
+            <line x1="355" y1="106" x2="420" y2="190" stroke="var(--muted)"/>
+            <text x="426" y="196" font-weight="700">สามเหลี่ยมกลางขอบ</text><text x="426" y="214" class="t-muted" font-size="11.5">ต่อกับสามเหลี่ยมมุมได้ ด้วยการเอียง 45°</text>
+          </g>
+          <text x="290" y="236" text-anchor="middle" font-size="11.5" class="t-muted">ใบตัวอย่าง: จุด 1+1+2 = ค่า 4</text>
+        </svg></div>
+        <figcaption>ภาพจำลองแนวคิด ไม่ใช่ลายการ์ดจริง การ์ดแต่ละใบมีรูปทรงและตำแหน่งไม่เหมือนกัน · <b>การ์ดพิมพ์ 2 หน้า</b> ด้านหลังเป็นภาพกลับซ้ายขวาของด้านหน้า จะพลิกหน้าไหนลงก็ได้</figcaption>
+      </figure>
+      <div class="callout cool">
+        <h3>ชุด (Suit) ใช้เฉพาะแบบเล่นอื่น</h3>
+        <p>กรอบรอบเลขกลางการ์ดเป็นวงกลม สี่เหลี่ยม หรือสามเหลี่ยม เกมปกติไม่ได้ใช้ ใช้ในแบบ Limited Space, Quick Round และ Sabotage (ดู<a href="#variants">แบบเล่นอื่น</a>)</p>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกโต๊ะที่กว้างและเรียบ</h3><p><b>ขอบโต๊ะคือเส้นเขตของพื้นที่เล่น การ์ดห้ามเลยออกไป</b> ถ้าโต๊ะเล็กให้ใช้แบบ <a href="#variants">Limited Space</a> · ถ้าโต๊ะมีขอบมน ปูผ้า หรือเล่นบนพื้น ให้ตกลงเส้นเขตกันให้ชัดตอนนี้ (ดู<a href="#edge">บทขอบโต๊ะ</a>)</p></div></li>
+        <li><div class="body"><h3>วางการ์ดเริ่มต้นไว้กลางโต๊ะ</h3><p>การ์ดสีขาว เป็นจุดตั้งต้นที่ใบแรกต้องมาต่อ</p></div></li>
+        <li><div class="body"><h3>แยกสี เลือกกองของตัวเอง</h3><p>แยกการ์ดตามสีหรือสัญลักษณ์ประจำสี ถ้าเล่น <b>6 คนหรือน้อยกว่า</b> แต่ละคนเอากอง 18 ใบของสีตัวเอง 1 สี · มากกว่า 6 คนดู <a href="#variants">Team Up</a></p></div></li>
+        <li><div class="body"><h3>สับกอง ถือไว้เป็นตั้ง</h3><p>ถือการ์ดเป็นตั้งในมือ <b>ห้ามคลี่หรือเปิดดูทั้งกอง</b> ตลอดเกมเล่นได้เฉพาะ<b>ใบนอกสุด 2 ใบ</b> คือใบบนสุดกับใบล่างสุด</p></div></li>
+      </ol>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <div class="callout warn">
+        <h3>ใครเริ่มก่อน</h3>
+        <p>ทุกคนดูใบนอกสุดของตัวเอง (ใบบนและใบล่าง) คนที่มี<b>ค่าต่ำที่สุด</b>ในใบใดใบหนึ่งเริ่มก่อน · ถ้าเสมอ ดู<b>ผลรวมค่าใบนอกสุด 2 ใบ</b> ใครน้อยกว่าเริ่ม · ใช้<a href="#tool-first">ตัวหาคนเริ่มก่อน</a>คิดให้ได้</p>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือกใบนอกสุด 1 ใบ</h3><p>ใบบนหรือใบล่างของกองในมือก็ได้</p></div></li>
+        <li><div class="body"><h3>พลิก หมุน แล้ววาง</h3><p>คนแรกต้องต่อกับ<b>การ์ดเริ่มต้น</b> โดยเอารูปทรงบนการ์ดของคุณไปทับรูปทรงแบบเดียวกันบนการ์ดเริ่มต้น เมื่อวางตรง<b>เส้นขอบของการ์ดใบล่างจะดูต่อเนื่องเป็นเส้นเดียว</b></p></div></li>
+        <li><div class="body"><h3>เล่นต่อตามเข็มนาฬิกา</h3><p>จากนี้ทุกคนต่อหรือทับรูปทรงที่ตรงกันบน<b>การ์ดใบไหนก็ได้</b>บนโต๊ะ ไม่ว่าสีอะไร ตามข้อ<a href="#dos">ทำได้ · ห้ามทำ</a></p></div></li>
+      </ol>
+      <p class="note">หนึ่งตาวาง 1 ใบ ไม่มีแอ็กชันอื่น ทุกคนจึงลงการ์ดจำนวนเท่ากันจนหมดมือพร้อมกัน</p>
+    </section>
+
+    <!-- CONNECT -->
+    <section id="connect">
+      <div class="sec-head"><span class="tag">ทักษะหลัก</span><h2>ต่อและทับให้ถูก</h2></div>
+      <p class="prose">"ต่อ" <span class="en">Connect</span> กับ "ทับ" <span class="en">Cover</span> คือการวางแบบเดียวกัน คือเอารูปทรงบนการ์ดของคุณไปวาง<b>ซ้อนพอดี</b>บนรูปทรงที่<b>เหมือนกัน</b>ของการ์ดใบอื่น การ์ดสองใบจึงซ้อนกันแค่ตรงรูปทรงนั้น ส่วนที่เหลือของการ์ดใหม่ยื่นออกไปนอกการ์ดใบล่าง</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 360" role="img" aria-label="ตัวอย่างการต่อที่ถูก 2 แบบ: สี่เหลี่ยมทับมุม และสามเหลี่ยมเอียง 45 องศา">
+          <rect x="0" y="0" width="316" height="360" rx="12" class="f-surf"/>
+          <rect x="324" y="0" width="316" height="360" rx="12" class="f-surf"/>
+          <!-- panel 1 -->
+          <use href="#card" x="60" y="150" width="120" height="180" style="color:#2ee66b"/>
+          <use href="#card" transform="translate(140 10) rotate(180 60 90)" width="120" height="180" style="color:#ff4fc3"/>
+          <rect x="140" y="150" width="40" height="40" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="5 4"/>
+          <text x="20" y="30" font-size="14" font-weight="700" class="t-fg">สี่เหลี่ยมทับมุม</text>
+          <text x="20" y="50" font-size="12" class="t-muted">ชมพูหมุน 180° ให้มุมสี่เหลี่ยม</text>
+          <text x="20" y="66" font-size="12" class="t-muted">ซ้อนมุมสี่เหลี่ยมของเขียวพอดี</text>
+          <text x="196" y="230" font-size="12" class="t-fg" font-weight="700">✓ ซ้อนกันแค่</text>
+          <text x="196" y="246" font-size="12" class="t-fg" font-weight="700">ช่องเส้นประ</text>
+          <text x="196" y="266" font-size="11.5" class="t-muted">จุดเขียว 1 จุด</text>
+          <text x="196" y="282" font-size="11.5" class="t-muted">ถูกปิดแล้ว</text>
+          <!-- panel 2 -->
+          <use href="#card" x="480" y="150" width="120" height="180" style="color:#27b4ff"/>
+          <use href="#card" transform="translate(520 150) rotate(45) translate(-120 -78)" width="120" height="180" style="color:#ff8c1a"/>
+          <path d="M480 150 H520 L480 190Z" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="5 4"/>
+          <text x="340" y="250" font-size="14" font-weight="700" class="t-fg">สามเหลี่ยม</text>
+          <text x="340" y="268" font-size="14" font-weight="700" class="t-fg">เอียง 45°</text>
+          <text x="340" y="290" font-size="11.5" class="t-muted">สามเหลี่ยมกลางขอบ</text>
+          <text x="340" y="306" font-size="11.5" class="t-muted">ของส้ม ทับสามเหลี่ยม</text>
+          <text x="340" y="322" font-size="11.5" class="t-muted">มุมของฟ้าพอดี ✓</text>
+        </svg></div>
+        <figcaption>เส้นประขาวคือส่วนที่ซ้อนกัน ซึ่งต้องเท่ากับรูปทรงนั้นพอดี · การ์ดที่วางเอียงเป็นเรื่องปกติในเกมนี้ โต๊ะจึงขยายออกได้หลายทิศ</figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 250" role="img" aria-label="เทียบวางถูก 1 แบบ กับวางผิด 3 แบบ">
+          <g>
+            <rect x="0" y="0" width="154" height="250" rx="10" class="f-surf"/>
+            <g transform="translate(16 30) scale(.55)">
+              <use href="#card" x="0" y="150" width="120" height="180" style="color:#2ee66b"/>
+              <use href="#card" transform="translate(80 10) rotate(180 60 90)" width="120" height="180" style="color:#a259ff"/>
+            </g>
+            <text x="12" y="22" font-size="13" font-weight="700" class="t-good">✓ ตรงพอดี</text>
+            <text x="12" y="232" font-size="11" class="t-muted">เส้นขอบใบล่างต่อเนื่อง</text>
+          </g>
+          <g transform="translate(162 0)">
+            <rect x="0" y="0" width="154" height="250" rx="10" class="f-surf"/>
+            <g transform="translate(16 30) scale(.55)">
+              <use href="#card" x="0" y="150" width="120" height="180" style="color:#2ee66b"/>
+              <use href="#card" transform="translate(92 2) rotate(180 60 90)" width="120" height="180" style="color:#a259ff"/>
+            </g>
+            <text x="12" y="22" font-size="13" font-weight="700" class="t-bad">✗ เหลื่อม</text>
+            <text x="12" y="232" font-size="11" class="t-muted">ไม่ตรงพอดี เส้นขอบขาด</text>
+          </g>
+          <g transform="translate(324 0)">
+            <rect x="0" y="0" width="154" height="250" rx="10" class="f-surf"/>
+            <g transform="translate(6 30) scale(.55)">
+              <use href="#card" x="0" y="150" width="120" height="180" style="color:#2ee66b"/>
+              <use href="#card" x="130" y="150" width="120" height="180" style="color:#ff3355"/>
+              <use href="#card" transform="translate(80 10) rotate(180 60 90)" width="120" height="180" style="color:#a259ff"/>
+            </g>
+            <text x="12" y="22" font-size="13" font-weight="700" class="t-bad">✗ ทับ 2 ใบ</text>
+            <text x="12" y="232" font-size="11" class="t-muted">ไปทับสามเหลี่ยมของแดงด้วย</text>
+          </g>
+          <g transform="translate(486 0)">
+            <rect x="0" y="0" width="154" height="250" rx="10" class="f-surf"/>
+            <g transform="translate(16 30) scale(.55)">
+              <use href="#card" x="0" y="150" width="120" height="180" style="color:#2ee66b"/>
+              <use href="#card" x="80" y="40" width="120" height="180" style="color:#a259ff"/>
+            </g>
+            <text x="12" y="22" font-size="13" font-weight="700" class="t-bad">✗ รูปทรงไม่ตรง</text>
+            <text x="12" y="232" font-size="11" class="t-muted">ผืนผ้าใหญ่ทับจัตุรัสเล็ก</text>
+          </g>
+        </svg></div>
+        <figcaption>ม่วงพยายามปิดมุมสี่เหลี่ยมของเขียว มีแบบเดียวที่ถูก รูปทรงต้อง<b>ชนิดเดียวกันและขนาดเท่ากัน</b> สี่เหลี่ยมผืนผ้าใหญ่จะเอาไปทับสี่เหลี่ยมจัตุรัสเล็กไม่ได้</figcaption>
+      </figure>
+    </section>
+
+    <!-- DOS & DON'TS -->
+    <section id="dos">
+      <div class="sec-head"><span class="tag">ตามคู่มือหน้า 4–5</span><h2>ทำได้ · ห้ามทำ</h2></div>
+      <div class="dd">
+        <div class="do">
+          <h3>✓ ทำได้</h3>
+          <ul>
+            <li>พลิกหน้าหรือหมุนการ์ดเป็นมุมไหนก็ได้</li>
+            <li>ต่อหรือทับ<b>รูปทรงที่ตรงกัน</b> บนการ์ดสีไหนก็ได้</li>
+            <li>รูปทรงแบบมีจุดทับรูปทรงโปร่งได้ และรูปทรงโปร่งทับรูปทรงมีจุดได้ ขอแค่รูปทรงตรงกัน</li>
+            <li>ขอบการ์ด<b>แตะ</b>การ์ดใบอื่นได้เล็กน้อย แต่ห้ามไปทับรูปทรงหรือจุดของใบนั้น</li>
+            <li>ถ้ามีการ์ดที่วางถูกกติกาเลื่อนไปเพราะโต๊ะสะเทือน ค่อย ๆ ขยับกลับที่เดิมได้</li>
+            <li>ถ้าเห็นการ์ดที่วางผิดกติกา ให้เอาออกจากพื้นที่เล่น <b>เฉพาะเมื่อยังไม่มีใบไหนวางทับมัน</b></li>
+            <li>ถ้าถึงตาแล้วไม่มีที่ลงที่ถูกกติกาเลย วางการ์ดลงโต๊ะตรงไหนก็ได้ที่ไม่แตะใบไหน</li>
+          </ul>
+        </div>
+        <div class="dont">
+          <h3>✗ ห้ามทำ</h3>
+          <ul>
+            <li>ต่อหรือทับรูปทรงที่ไม่ตรงกันพอดี</li>
+            <li>ต่อรูปทรงที่ไม่ใช่ชนิดเดียวกัน</li>
+            <li>วางจนเส้นขอบของการ์ดใบล่างขาด</li>
+            <li>วางลงบนการ์ดมากกว่า 1 ใบในตาเดียว รวมถึงการทับรูปทรงที่ตรงกันมากกว่า 1 รูป</li>
+            <li>ย้ายหรือขยับการ์ดของคนอื่นที่วางถูกกติกาแล้ว เพื่อเปิดที่ให้ตัวเอง</li>
+            <li>จัดการ์ดใหม่หลังวางลงไปแล้ว</li>
+            <li>วางการ์ดให้เลยขอบโต๊ะ (คู่มือเขียนไว้ในขั้นเตรียมเกม)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUCK / ILLEGAL -->
+    <section id="stuck">
+      <div class="sec-head"><span class="tag">กรณีพิเศษ</span><h2>ไม่มีที่ลง · วางผิด</h2></div>
+      <div class="types">
+        <div class="type">
+          <h3>ไม่มีที่ลงที่ถูกกติกา</h3>
+          <ul>
+            <li>วางการ์ด 1 ใบลงพื้นที่เล่นตรงไหนก็ได้ <b>โดยไม่แตะใบไหนเลย</b></li>
+            <li>ทำได้เฉพาะตอนที่ไม่มีที่ลงจริง ๆ ควรดูทั้งใบบนและใบล่าง ทุกด้านทุกมุมก่อน</li>
+            <li>การ์ดที่วางลอยนี้ยังอยู่ในเขตขอบโต๊ะ และกลายเป็นที่ต่อใหม่ให้ทุกคน</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>เห็นการ์ดวางผิดระหว่างเกม</h3>
+          <ul>
+            <li>ถ้า<b>ยังไม่มีใบไหนวางทับ</b> เอาการ์ดใบนั้นออกจากพื้นที่เล่น</li>
+            <li>ถ้ามีใบอื่นวางทับแล้ว <b>ปล่อยไว้ก่อน</b> ห้ามรื้อ</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>เจอการ์ดวางผิดตอนนับคะแนน</h3>
+          <ul>
+            <li>เอาการ์ดใบที่วางผิดออกได้เลย</li>
+            <li>จุดที่มองเห็นบนการ์ดใบอื่นที่ต่ออยู่กับมัน <b>ยังนับแต้มตามปกติ</b></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">คู่มือไม่ได้บอกว่าการ์ดที่ถูกเอาออกต้องคืนเข้ากองหรือไม่ เล่มนี้ถือว่าออกจากเกมไปเลย ถ้าโต๊ะจะให้คืนกอง ให้ตกลงกันก่อนเริ่ม</p>
+    </section>
+
+    <!-- EDGE -->
+    <section id="edge">
+      <div class="sec-head"><span class="tag">ข้อเถียงอันดับ 1</span><h2>ขอบโต๊ะ: ล้นนิดเดียวได้ไหม</h2></div>
+      <div class="callout">
+        <h3>คำตอบ: ไม่ได้ ล้นแค่นิดเดียวก็ไม่ได้</h3>
+        <p>คู่มือเขียนไว้ในขั้นที่ 1 ของการเตรียมเกม ว่าขอบโต๊ะคือเส้นเขตของพื้นที่เล่น และการ์ด<b>เลยเส้นนี้ออกไปไม่ได้</b> ไม่มีการเผื่อระยะ ถ้าการ์ดส่วนไหนยื่นพ้นขอบโต๊ะ การวางนั้นผิดกติกา</p>
+      </div>
+      <div class="quote"><small>ที่มาของข้อนี้</small>คู่มือ Tacta หน้า 2 หัวข้อ Setup ข้อ 1 และในหน้าเดียวกันแนะนำว่า ถ้าพื้นที่เล็ก ให้ไปเล่นแบบ Limited Space ในหน้า 7 แทน</div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 270" role="img" aria-label="การ์ดชิดขอบโต๊ะพอดีวางได้ การ์ดที่ยื่นเลยขอบแม้นิดเดียววางไม่ได้">
+          <rect x="10" y="20" width="420" height="230" rx="4" fill="var(--table)"/>
+          <rect x="426" y="20" width="8" height="230" fill="var(--table-edge)"/>
+          <line x1="434" y1="10" x2="434" y2="262" stroke="var(--bad)" stroke-width="2" stroke-dasharray="6 5"/>
+          <text x="440" y="24" font-size="12" font-weight="700" class="t-bad">ขอบโต๊ะ = เส้นเขต</text>
+          <g transform="scale(.5)">
+            <use href="#start" x="240" y="140" width="120" height="180"/>
+            <use href="#card" transform="translate(320 -40) rotate(180 60 90)" width="120" height="180" style="color:#a259ff"/>
+            <use href="#card" x="748" y="70" width="120" height="180" style="color:#2ee66b"/>
+            <use href="#card" x="786" y="300" width="120" height="180" style="color:#ff3355"/>
+          </g>
+          <g font-size="12">
+            <path d="M372 46 L330 46" stroke="var(--good)" stroke-width="2"/>
+            <text x="200" y="40" font-weight="700" class="t-good">✓ ชิดขอบพอดี</text><text x="200" y="56" class="t-muted">ไม่เลยเส้น วางได้</text>
+            <path d="M440 190 L470 190" stroke="var(--bad)" stroke-width="2"/>
+            <text x="476" y="186" font-weight="700" class="t-bad">✗ ยื่นเลยขอบ</text><text x="476" y="202" class="t-muted">นิดเดียวก็ผิดกติกา</text>
+            <text x="476" y="230" class="t-muted">ต้องหาที่ลงอื่น</text>
+          </g>
+        </svg></div>
+        <figcaption>สีไม้คือพื้นโต๊ะ · แดงยื่นพ้นขอบไปเล็กน้อย ถือว่าวางไม่ได้ · เขียวชิดขอบพอดีโดยไม่เลยเส้น วางได้</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type">
+          <h3>ทำไมกฎนี้สำคัญ</h3>
+          <p>ขอบโต๊ะเป็นกำแพง ถ้าจุดของคุณอยู่ใกล้ขอบจนการ์ดใบไหนมาทับก็ต้องยื่นพ้นโต๊ะ จุดนั้นปลอดภัยถาวร ถ้ายอมให้ล้นนิดหน่อย กำแพงนี้หายไป และกลยุทธ์ "หนีไปขอบโต๊ะ" ก็ใช้ไม่ได้</p>
+        </div>
+        <div class="type">
+          <h3>คำว่า "แตะได้เล็กน้อย" คนละเรื่อง</h3>
+          <p>ข้อที่คู่มืออนุญาตให้แตะเล็กน้อย พูดถึง<b>ขอบการ์ดแตะการ์ดใบอื่น</b> ไม่เกี่ยวกับขอบโต๊ะ คนมักเอาสองข้อนี้มาปนกันจนเถียงกัน</p>
+        </div>
+        <div class="type">
+          <h3>ถ้าล้นไปแล้ว ทำยังไง</h3>
+          <ul>
+            <li>ใช้กติกาการ์ดวางผิด: ถ้ายังไม่มีใบไหนทับ เอาออก</li>
+            <li>ถ้ามีใบอื่นทับแล้ว ปล่อยไว้ก่อน แล้วเอาออกตอนนับคะแนน</li>
+            <li>ดูที่<a href="#stuck">ไม่มีที่ลง · วางผิด</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout cool">
+        <h3>กันเถียงก่อนเริ่ม (ข้อแนะนำ ไม่ใช่กติกาทางการ)</h3>
+        <ul>
+          <li><b>ตกลงเส้นเขตก่อนแจกการ์ด</b> โต๊ะขอบมน โต๊ะมีขอบยก ผ้าปูโต๊ะที่ห้อยลง หรือเล่นบนพื้น ให้ชี้ให้ชัดว่าเส้นเขตอยู่ตรงไหน ถ้าเล่นบนพื้นใช้เทปกาวแปะเป็นกรอบ</li>
+          <li><b>วิธีตัดสินตอนก้ำกึ่ง</b> เอาการ์ดอีกใบหรือไม้บรรทัดทาบตั้งฉากกับขอบโต๊ะ ถ้าการ์ดที่วางยื่นเลยแนวนั้น ถือว่าล้น</li>
+          <li><b>ของบนโต๊ะ</b> แก้วน้ำ กล่องเกม หรือโทรศัพท์ คู่มือไม่ได้พูดถึง ควรเก็บออกให้หมด หรือตกลงกันว่าของที่วางอยู่ถือเป็นขอบเขตด้วย</li>
+          <li><b>โต๊ะเล็ก</b> คู่มือแนะนำให้เล่นแบบ <a href="#variants">Limited Space</a> ซึ่งใช้การ์ดรอบละชุดเดียว การ์ดบนโต๊ะจึงน้อยลง</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและนับคะแนน</h2></div>
+      <p class="prose">เมื่อทุกคนลงการ์ดหมดกองแล้ว เกมจบ เริ่มนับคะแนน</p>
+      <ol class="steps">
+        <li><div class="body"><h3>นับจุดสีของตัวเอง</h3><p>นับเฉพาะจุดสีตัวเองที่<b>ยังมองเห็น</b> จุดละ 1 แต้ม จุดที่ถูกการ์ดใบอื่นทับไม่นับ</p></div></li>
+        <li><div class="body"><h3>ตรวจของคนทางขวา</h3><p>นับของตัวเองเสร็จแล้ว ช่วยนับทวนให้คนที่นั่งทางขวามือ</p></div></li>
+        <li><div class="body"><h3>จุดมากสุดชนะ</h3><p>ถ้าเสมอ จับมือกันแล้วชนะร่วมกัน · ถ้าต้องมีผู้ชนะคนเดียว เล่นใหม่อีกรอบ หรือให้<b>คนที่ลงใบสุดท้ายก่อน</b>ชนะ</p></div></li>
+      </ol>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ตัวอย่างจากคู่มือ</th><th class="num">แต้ม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dot" style="background:#2ee66b"></span>เขียว</td><td class="num">8</td></tr>
+            <tr><td><span class="dot" style="background:#ff3355"></span>แดง</td><td class="num">7</td></tr>
+            <tr><td><span class="dot" style="background:#a259ff"></span>ม่วง</td><td class="num">7</td></tr>
+            <tr><td><span class="dot" style="background:#27b4ff"></span>ฟ้า</td><td class="num">5</td></tr>
+            <tr><td><span class="dot" style="background:#ff4fc3"></span>ชมพู</td><td class="num">5</td></tr>
+            <tr><td><span class="dot" style="background:#ff8c1a"></span>ส้ม (โดนทับหมด)</td><td class="num">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout cool">
+        <h3>ยังสนุกอยู่? เล่นหลายรอบ</h3>
+        <ul>
+          <li>ตกลงกันว่าจะเล่นกี่รอบ แล้วรวมแต้มทุกรอบ</li>
+          <li>หรือตั้งเป้าแต้ม คู่มือแนะนำ <b>ใครถึง 100 ก่อนชนะ</b> · ใช้<a href="#tool-pad">สมุดคะแนน</a>บวกให้ได้</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- VARIANTS -->
+    <section id="variants">
+      <div class="sec-head"><span class="tag">ในกล่องมีให้</span><h2>แบบเล่นอื่น</h2></div>
+      <div class="types">
+        <div class="type">
+          <h3>Limited Space <span class="k">พื้นที่น้อย</span></h3>
+          <ul>
+            <li>แต่ละรอบใช้การ์ดแค่<b>ชุดเดียว</b> (วงกลม สี่เหลี่ยม หรือสามเหลี่ยม ดูจากกรอบรอบเลข)</li>
+            <li>เล่น 3 รอบ แล้วรวมจุดทุกรอบหาผู้ชนะ</li>
+            <li>เหมาะกับโต๊ะเล็ก การ์ดบนโต๊ะแต่ละรอบน้อยลง</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>Quick Round <span class="k">รอบเร็ว</span></h3>
+          <ul>
+            <li>เล่นตามกติกาปกติ แต่<b>เอาออก 1 หรือ 2 ชุด</b> เกมจะสั้นลง</li>
+            <li>นับคะแนนเหมือนเดิม</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>Team Up <span class="k">คนเยอะ</span></h3>
+          <ul>
+            <li>ทีมละ 2 คนต่อการ์ด 1 สี สับกองแล้วแจกคนละ <b>9 ใบ</b></li>
+            <li>เพื่อนร่วมทีม<b>ห้ามนั่งติดกัน</b></li>
+            <li>คู่มือแนะนำให้เล่นแบบ Free Play · ถ้าเล่นแบบผลัดตาปกติ พยายามให้แต่ละตาไม่เกิน <b>10 วินาที</b> (มี<a href="#tool-timer">ตัวจับเวลา</a>)</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>Free Play <span class="k">ไม่มีตา</span></h3>
+          <ul>
+            <li>นับ 3-2-1 เริ่ม! ทุกคนวางพร้อมกันได้เลย เร็วแค่ไหนก็ได้ ใครจะต่อการ์ดเริ่มต้นก่อนก็ได้</li>
+            <li>ยังต้องทำตามข้อทำได้ · ห้ามทำทุกข้อ</li>
+            <li><b>ห้ามวางบนการ์ดสีตัวเอง</b></li>
+            <li>มีคนลงใบสุดท้ายเมื่อไร เกมจบทันที แล้วนับคะแนน</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>Sabotage <span class="k">ป่วนเพื่อน</span></h3>
+          <ul>
+            <li>เล่นด้วย 2 ชุด เลือก 1 ชุดในกองตัวเอง ส่งให้คนทางซ้าย</li>
+            <li>สับรวมกับชุดที่ได้รับ กองใหม่จึงมีการ์ดตัวเอง 1 ชุดกับการ์ดเพื่อน 1 ชุด</li>
+            <li>เล่นทั้งสองสีตามปกติ แต่<b>ได้แต้มเฉพาะสีตัวเอง</b></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">คู่มือไม่ได้ระบุว่าแต่ละสีมีการ์ดชุดละกี่ใบ นับจากกองจริงก่อนเล่น Limited Space หรือ Sabotage</p>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินให้</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details class="big" open><summary>การ์ดล้นขอบโต๊ะนิดเดียว นับว่าได้ไหม?</summary><div class="ans"><p class="verdict no">ไม่ได้</p><p>คู่มือกำหนดว่าขอบโต๊ะคือเส้นเขต และการ์ดเลยออกไปไม่ได้ ไม่มีระยะผ่อนผัน ถ้าวางไปแล้วให้ใช้กติกาการ์ดวางผิด ดูเหตุผลและวิธีกันเถียงที่<a href="#edge">บทขอบโต๊ะ</a></p></div></details>
+        <details><summary>ชิดขอบโต๊ะพอดี ไม่เลยออกไป ได้ไหม?</summary><div class="ans"><p class="verdict">ได้</p><p>กติกาห้ามแค่ "เลย" ขอบโต๊ะ การ์ดที่ขอบตรงกับขอบโต๊ะพอดียังอยู่ในพื้นที่เล่น ถ้าดูด้วยตาไม่ออก ใช้วิธีทาบไม้บรรทัดในบทขอบโต๊ะ</p></div></details>
+        <details><summary>ขอบการ์ดแตะการ์ดใบที่สองนิดหน่อย ผิดไหม?</summary><div class="ans"><p class="verdict">ไม่ผิด ถ้าแค่แตะ</p><p>คู่มืออนุญาตให้ขอบการ์ดแตะกันได้เล็กน้อย แต่<b>ห้ามทับรูปทรงหรือจุด</b>ของใบที่สอง และห้ามต่อเข้ากับรูปทรงของใบที่สอง ถ้าทับเมื่อไรถือว่าวางบน 2 ใบ ผิดกติกา</p></div></details>
+        <details><summary>เอารูปทรงโปร่งไปทับรูปทรงที่มีจุดได้ไหม?</summary><div class="ans"><p class="verdict">ได้ ทั้งสองทาง</p><p>มีจุดทับโปร่งได้ โปร่งทับมีจุดได้ ขอแค่รูปทรงชนิดเดียวกันและซ้อนกันพอดี</p></div></details>
+        <details><summary>ทับการ์ดสีตัวเองได้ไหม?</summary><div class="ans"><p class="verdict">ได้ ในเกมปกติ</p><p>เกมปกติวางบนการ์ดสีไหนก็ได้ (บางทีจำเป็นเพราะไม่มีที่ลง แต่ก็ปิดจุดตัวเองด้วย) · ในแบบ <b>Free Play</b> ห้ามวางบนสีตัวเอง</p></div></details>
+        <details><summary>ทับรูปทรงที่ตรงกัน 2 รูปพร้อมกันในใบเดียวได้ไหม?</summary><div class="ans"><p class="verdict no">ไม่ได้</p><p>คู่มือห้ามต่อหรือทับรูปทรงที่ตรงกันมากกว่า 1 รูปในตาเดียว แม้จะอยู่บนการ์ดใบเดียวกัน</p></div></details>
+        <details><summary>ดูการ์ดใบอื่นในกองได้ไหม? ใบล่างสุดดูได้ไหม?</summary><div class="ans"><p class="verdict">ดูได้แค่ใบนอกสุด 2 ใบ</p><p>ถือกองเป็นตั้ง เห็นใบบนสุดกับใบล่างสุด เลือกเล่นใบไหนก็ได้ · ห้ามคลี่หรือเปิดดูใบตรงกลาง</p></div></details>
+        <details><summary>ไม่มีที่ลง แต่ไม่อยากเสียจุดตัวเอง วางลอยไปเลยได้ไหม?</summary><div class="ans"><p class="verdict no">ไม่ได้ ถ้ายังมีที่ลง</p><p>วางลอยแบบไม่แตะใครได้เฉพาะตอนที่<b>ไม่มีที่ลงที่ถูกกติกาเลย</b> ถ้ายังลงได้ ต้องลง แม้จะต้องปิดจุดตัวเอง เล่มนี้ถือว่าต้องเช็กทั้งใบบนและใบล่าง เพราะคุณเลือกเล่นใบไหนก็ได้</p></div></details>
+        <details><summary>จุดที่ถูกทับไปครึ่งเดียว นับไหม?</summary><div class="ans"><p class="verdict grey">คู่มือไม่ได้พูดถึง</p><p>ถ้าวางถูกกติกา จะไม่มีจุดโดนทับครึ่งเดียว เพราะรูปทรงต้องซ้อนพอดีและขอบการ์ดห้ามทับจุด จุดที่โดนทับครึ่งหนึ่งแปลว่ามีใบหนึ่งวางผิดหรือเลื่อน · ถ้าเลื่อนเพราะโต๊ะสะเทือน ขยับกลับที่เดิมก่อนนับ · ถ้าวางผิดตั้งแต่แรก ใช้กติกาการ์ดวางผิด</p></div></details>
+        <details><summary>การ์ดเริ่มต้นได้แต้มให้ใครไหม?</summary><div class="ans"><p class="verdict grey">ไม่ใช่ของใคร</p><p>แต่ละคนนับเฉพาะจุดสีของตัวเอง การ์ดเริ่มต้นเป็นสีขาว ไม่ใช่สีของผู้เล่นคนไหน</p></div></details>
+        <details><summary>คนข้าง ๆ ชนโต๊ะจนการ์ดเลื่อน ทำยังไง?</summary><div class="ans"><p class="verdict">ขยับกลับที่เดิม</p><p>การ์ดที่วางถูกกติกาแล้วเลื่อนไป ค่อย ๆ ดันกลับให้ตรงได้ · แต่ห้ามถือโอกาสขยับการ์ดเพื่อเปิดที่ให้ตัวเอง</p></div></details>
+        <details><summary>เสมอกันทำยังไง?</summary><div class="ans"><p class="verdict">ชนะร่วมกัน</p><p>ถ้าต้องมีผู้ชนะคนเดียว เล่นใหม่อีกรอบ หรือให้คนที่ลงใบสุดท้ายก่อนชนะ (ในเกมปกติคือคนที่อยู่ลำดับก่อนในรอบสุดท้าย)</p></div></details>
+      </div>
+    </section>
+
+    <!-- TOOL: FIRST PLAYER -->
+    <section id="tool-first">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวหาคนเริ่มก่อน</h2></div>
+      <div class="tool">
+        <div class="seg" id="fp-n" role="group" aria-label="จำนวนผู้เล่น"><span>ผู้เล่น</span></div>
+        <div class="fp" id="fp"></div>
+        <div class="msg" id="fp-msg" aria-live="polite"></div>
+        <p class="note">ใส่ค่า (เลขกลางการ์ด) ของใบบนและใบล่างของแต่ละคน ตัวเลขที่ใส่ไว้ตอนเปิดหน้าเป็นตัวอย่าง</p>
+      </div>
+    </section>
+
+    <!-- TOOL: TIMER -->
+    <section id="tool-timer">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวจับเวลา</h2></div>
+      <div class="tool">
+        <div class="timer" aria-live="polite"><b id="tm-big">10</b><small id="tm-sub">กด "จับเวลาตา" ตอนเริ่มตาของแต่ละคน</small></div>
+        <div class="inrow">
+          <button type="button" class="btn primary" id="tm-turn">จับเวลาตา 10 วินาที</button>
+          <button type="button" class="btn" id="tm-go">นับ 3-2-1 (Free Play)</button>
+          <button type="button" class="btn" id="tm-stop">หยุด</button>
+        </div>
+        <p class="note">10 วินาทีต่อตาเป็นคำแนะนำของคู่มือสำหรับ Team Up แบบผลัดตา ไม่ได้มีบทลงโทษ หมดเวลาแล้วหน้าจอจะเปลี่ยนเป็นสีแดงเฉย ๆ</p>
+      </div>
+    </section>
+
+    <!-- TOOL: SCOREPAD -->
+    <section id="tool-pad">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <div class="inrow">
+          <div class="seg" id="pd-n" role="group" aria-label="จำนวนผู้เล่น"><span>ผู้เล่น</span></div>
+          <div class="seg" id="pd-goal" role="group" aria-label="เป้าแต้ม"><span>เป้า</span></div>
+        </div>
+        <div class="tbl-wrap"><table class="pad" id="pad"></table></div>
+        <div class="msg" id="pd-msg" aria-live="polite"></div>
+        <div class="inrow">
+          <button type="button" class="btn primary" id="pd-add">เพิ่มรอบ</button>
+          <button type="button" class="btn" id="pd-del">ลบรอบสุดท้าย</button>
+          <button type="button" class="btn" id="pd-clear">ล้างแต้มทั้งหมด</button>
+        </div>
+        <p class="note">รอบที่ 1 ที่เห็นตอนเปิดหน้าเป็นตัวอย่างจากคู่มือ กด "ล้างแต้มทั้งหมด" ก่อนใช้จริง · ข้อมูลเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น</p>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ่านคู่มืออังกฤษได้</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>Edge Shape</dt><dd>รูปทรงขอบ สามเหลี่ยม สี่เหลี่ยมผืนผ้า หรือสี่เหลี่ยมจัตุรัส ที่อยู่ติดขอบหรือมุมการ์ด</dd>
+        <dt>Hollow / Filled</dt><dd>รูปทรงโปร่ง (ไม่มีจุด) / รูปทรงทึบที่มีจุด</dd>
+        <dt>Dot</dt><dd>จุด จุดละ 1 แต้ม</dd>
+        <dt>Connect</dt><dd>ต่อ วางการ์ดให้รูปทรงซ้อนรูปทรงเดียวกันบนการ์ดอีกใบ</dd>
+        <dt>Cover</dt><dd>ทับ การต่อที่ปิดจุดของคนอื่น (หรือของตัวเอง)</dd>
+        <dt>Outermost card</dt><dd>ใบนอกสุด คือใบบนสุดหรือใบล่างสุดของกองในมือ</dd>
+        <dt>Starting Card</dt><dd>การ์ดเริ่มต้นสีขาว วางกลางโต๊ะ</dd>
+        <dt>Value / Suit</dt><dd>ค่า (จำนวนจุดทั้งใบ) / ชุด (กรอบวงกลม สี่เหลี่ยม หรือสามเหลี่ยมรอบเลข)</dd>
+        <dt>Play area</dt><dd>พื้นที่เล่น มีขอบโต๊ะเป็นเส้นเขต</dd>
+        <dt>Outline</dt><dd>เส้นขอบของการ์ด ถ้าวางถูก เส้นขอบใบล่างจะดูต่อกันไม่ขาด</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b> เรียบเรียงจากคู่มือทางการ Tacta (The Op Games / USAopoly ปี 2025) ทุกหัวข้อ ส่วนเรื่องกลยุทธ์ขอบโต๊ะอ้างอิงรีวิว</p>
+    <ul>
+      <li><a href="https://cdn.shopify.com/s/files/1/0611/3958/3198/files/TACTA_RULES.pdf?v=1745612132" target="_blank" rel="noopener">คู่มือ Tacta ฉบับทางการ (PDF)</a></li>
+      <li><a href="https://rulespal.com/tacta/rulebook" target="_blank" rel="noopener">RulesPal: Tacta rulebook</a></li>
+      <li><a href="https://www.geekyhobbies.com/tacta-rules/" target="_blank" rel="noopener">Geeky Hobbies: Tacta rules</a></li>
+      <li><a href="https://letsplaygames.uk/tacta/" target="_blank" rel="noopener">Let's Play Games: Tacta review</a></li>
+      <li><a href="https://en.boardgamearena.com/gamepanel?game=tacta" target="_blank" rel="noopener">Board Game Arena: Tacta</a></li>
+    </ul>
+    <p style="margin-top:8px">ภาพการ์ดในเล่มเป็นภาพจำลองเพื่ออธิบายการวาง ไม่ใช่ลายการ์ดจริง ถ้าของในกล่องต่างจากเล่มนี้ ให้ยึดของในกล่อง · ข้อที่เขียนว่า "ข้อแนะนำ" หรือ "เล่มนี้ถือว่า" ไม่ใช่กติกาทางการ</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k)||"null");return v==null?d:v;}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+var COLORS=[
+  {n:"เขียว",c:"#2ee66b"},{n:"แดง",c:"#ff3355"},{n:"ม่วง",c:"#a259ff"},
+  {n:"ฟ้า",c:"#27b4ff"},{n:"ชมพู",c:"#ff4fc3"},{n:"ส้ม",c:"#ff8c1a"}
+];
+function segBtns(host,vals,cur,fn,fmt){
+  var lab=host.querySelector("span");host.innerHTML="";if(lab)host.appendChild(lab);
+  vals.forEach(function(v){var b=document.createElement("button");b.type="button";b.textContent=fmt?fmt(v):v;b.setAttribute("aria-pressed",v===cur?"true":"false");b.addEventListener("click",function(){fn(v);});host.appendChild(b);});
+}
+function num(v){var x=parseFloat(v);return isNaN(x)?null:x;}
+
+/* ---------- first player ---------- */
+var fp=load("tacta-first",null);
+if(!fp||!fp.p)fp={n:4,p:COLORS.map(function(c,i){return {name:c.n,a:[3,5,2,4,6,3][i],b:[6,2,5,4,3,7][i]};})};
+function renderFp(){
+  segBtns(document.getElementById("fp-n"),[2,3,4,5,6],fp.n,function(v){fp.n=v;save("tacta-first",fp);renderFp();});
+  var ps=fp.p.slice(0,fp.n);
+  var h='<div class="fprow fphead"><span>ผู้เล่น</span><span>ใบบน</span><span>ใบล่าง</span><span>ต่ำสุด</span></div>';
+  ps.forEach(function(p,i){
+    h+='<div class="fprow" id="fpr-'+i+'"><div class="nm"><span class="dot" style="background:'+COLORS[i].c+'"></span><input id="fp-name-'+i+'" data-i="'+i+'" data-k="name" value="'+esc(p.name)+'" aria-label="ชื่อผู้เล่น '+(i+1)+'"></div>'+
+      '<input type="number" inputmode="numeric" min="0" id="fp-a-'+i+'" data-i="'+i+'" data-k="a" value="'+(p.a!=null?esc(p.a):"")+'" aria-label="ค่าใบบน '+esc(p.name)+'">'+
+      '<input type="number" inputmode="numeric" min="0" id="fp-b-'+i+'" data-i="'+i+'" data-k="b" value="'+(p.b!=null?esc(p.b):"")+'" aria-label="ค่าใบล่าง '+esc(p.name)+'">'+
+      '<span class="lo" id="fp-lo-'+i+'"></span></div>';
+  });
+  document.getElementById("fp").innerHTML=h;
+  calcFp();
+}
+function calcFp(){
+  var ps=fp.p.slice(0,fp.n),rows=[],missing=false;
+  ps.forEach(function(p,i){
+    var a=num(p.a),b=num(p.b);
+    var el=document.getElementById("fp-lo-"+i);
+    if(a==null||b==null){missing=true;if(el)el.textContent="–";return;}
+    rows.push({i:i,lo:Math.min(a,b),sum:a+b});if(el)el.textContent=Math.min(a,b);
+  });
+  ps.forEach(function(_,i){var r=document.getElementById("fpr-"+i);if(r)r.className="fprow";});
+  var m=document.getElementById("fp-msg");
+  if(missing){m.innerHTML="ใส่ค่าใบบนและใบล่างให้ครบทุกคน";return;}
+  var lo=Math.min.apply(null,rows.map(function(r){return r.lo;}));
+  var t1=rows.filter(function(r){return r.lo===lo;});
+  var win,how;
+  if(t1.length===1){win=t1;how="ค่าต่ำสุด "+lo;}
+  else{
+    var s=Math.min.apply(null,t1.map(function(r){return r.sum;}));
+    win=t1.filter(function(r){return r.sum===s;});
+    how="ค่าต่ำสุดเสมอกันที่ "+lo+" จึงดูผลรวม 2 ใบ ได้ "+s;
+  }
+  win.forEach(function(r){var e=document.getElementById("fpr-"+r.i);if(e)e.className="fprow win";});
+  var names=win.map(function(r){return "<b>"+esc(ps[r.i].name)+"</b>";}).join(" กับ ");
+  m.innerHTML=win.length===1?names+" เริ่มก่อน ("+how+") แล้วเล่นตามเข็มนาฬิกา":names+" ยังเสมอกัน ("+how+") คู่มือไม่ได้บอกต่อ ให้ตกลงกันเอง เช่น เป่ายิ้งฉุบ";
+}
+document.getElementById("fp").addEventListener("input",function(e){
+  var i=e.target.dataset.i,k=e.target.dataset.k;if(i==null||!k)return;
+  fp.p[+i][k]=e.target.value;save("tacta-first",fp);calcFp();
+});
+
+/* ---------- timer ---------- */
+var tmH=null,tmEnd=0,tmMode="";
+var big=document.getElementById("tm-big"),sub=document.getElementById("tm-sub");
+function stopTm(){if(tmH){clearInterval(tmH);tmH=null;}}
+function tick(){
+  var left=Math.ceil((tmEnd-Date.now())/1000);
+  if(tmMode==="turn"){
+    if(left>0){big.textContent=left;big.className=left<=3?"late":"";sub.textContent="ตาของใครก็ตาม วางให้ทันใน 10 วินาที";}
+    else{big.textContent="หมดเวลา";big.className="late";sub.textContent="ส่งตาให้คนถัดไป แล้วกดจับเวลาใหม่";stopTm();}
+  }else{
+    if(left>0){big.textContent=left;big.className="";sub.textContent="เตรียมมือไว้ที่กอง";}
+    else{big.textContent="GO!";big.className="go";sub.textContent="วางพร้อมกันได้เลย ห้ามวางบนสีตัวเอง · ใครลงใบสุดท้ายเกมจบทันที";stopTm();}
+  }
+}
+function startTm(mode,sec){stopTm();tmMode=mode;tmEnd=Date.now()+sec*1000;tick();tmH=setInterval(tick,200);}
+document.getElementById("tm-turn").addEventListener("click",function(){startTm("turn",10);});
+document.getElementById("tm-go").addEventListener("click",function(){startTm("go",3);});
+document.getElementById("tm-stop").addEventListener("click",function(){stopTm();big.textContent="10";big.className="";sub.textContent="หยุดแล้ว";});
+
+/* ---------- scorepad ---------- */
+var pd=load("tacta-pad",null);
+if(!pd||!pd.p)pd={n:6,goal:100,p:COLORS.map(function(c){return {name:c.n};}),r:[[8,7,7,5,5,0]]};
+function padTotals(){var ps=pd.p.slice(0,pd.n);return ps.map(function(_,i){return pd.r.reduce(function(s,row){var v=num(row[i]);return s+(v==null?0:v);},0);});}
+function renderPad(){
+  segBtns(document.getElementById("pd-n"),[2,3,4,5,6],pd.n,function(v){pd.n=v;save("tacta-pad",pd);renderPad();});
+  segBtns(document.getElementById("pd-goal"),[0,50,100],pd.goal,function(v){pd.goal=v;save("tacta-pad",pd);renderPad();},function(v){return v?"ถึง "+v:"ไม่ตั้งเป้า";});
+  var ps=pd.p.slice(0,pd.n);
+  var h='<thead><tr><th>รอบ</th>'+ps.map(function(p,i){return '<th><span class="dot" style="background:'+COLORS[i].c+'"></span><input class="name" id="pd-name-'+i+'" data-i="'+i+'" data-k="name" value="'+esc(p.name||"")+'" aria-label="ชื่อผู้เล่น '+(i+1)+'"></th>';}).join("")+'</tr></thead><tbody>';
+  pd.r.forEach(function(row,ri){
+    h+='<tr><th class="rowh" scope="row">รอบ '+(ri+1)+'<span class="hint">จุดที่มองเห็น</span></th>'+ps.map(function(p,i){
+      return '<td><input type="number" inputmode="numeric" min="0" id="pd-'+ri+'-'+i+'" data-r="'+ri+'" data-i="'+i+'" value="'+(row[i]!=null?esc(row[i]):"")+'" aria-label="รอบ '+(ri+1)+' '+esc(p.name||"")+'"></td>';
+    }).join("")+'</tr>';
+  });
+  h+='<tr class="total"><td>รวม</td>'+ps.map(function(_,i){return '<td id="pd-tot-'+i+'"></td>';}).join("")+'</tr></tbody>';
+  document.getElementById("pad").innerHTML=h;
+  updPad();
+}
+function updPad(){
+  var ps=pd.p.slice(0,pd.n),tots=padTotals();
+  var mx=Math.max.apply(null,tots),any=tots.some(function(t){return t!==0;});
+  tots.forEach(function(t,i){var el=document.getElementById("pd-tot-"+i);if(!el)return;var lead=any&&t===mx;el.textContent=t+(lead?" ★":"");el.className=lead?"lead":"";});
+  var m=document.getElementById("pd-msg");
+  if(!any){m.innerHTML="ใส่จุดที่มองเห็นของแต่ละคนหลังจบรอบ";return;}
+  var leaders=ps.filter(function(_,i){return tots[i]===mx;}).map(function(p){return "<b>"+esc(p.name)+"</b>";});
+  if(pd.goal&&mx>=pd.goal){m.innerHTML=leaders.join(" กับ ")+" ถึง "+pd.goal+" แต้มแล้ว ("+mx+") จบเกม"+(leaders.length>1?" · เสมอกัน ชนะร่วมกัน":"");}
+  else{m.innerHTML="นำอยู่: "+leaders.join(" กับ ")+" "+mx+" แต้ม หลังรอบที่ "+pd.r.length+(pd.goal?" · ขาดอีก "+(pd.goal-mx)+" ถึงเป้า "+pd.goal:"");}
+}
+document.getElementById("pad").addEventListener("input",function(e){
+  var t=e.target,i=t.dataset.i;if(i==null)return;
+  if(t.dataset.k==="name"){pd.p[+i].name=t.value;}
+  else{var r=+t.dataset.r;pd.r[r][+i]=t.value===""?null:t.value;}
+  save("tacta-pad",pd);updPad();
+});
+document.getElementById("pd-add").addEventListener("click",function(){pd.r.push([]);save("tacta-pad",pd);renderPad();});
+document.getElementById("pd-del").addEventListener("click",function(){if(pd.r.length>1){pd.r.pop();}else{pd.r=[[]];}save("tacta-pad",pd);renderPad();});
+document.getElementById("pd-clear").addEventListener("click",function(){pd.r=[[]];save("tacta-pad",pd);renderPad();});
+
+renderFp();renderPad();
+})();
+</script>
+
+</body></html>

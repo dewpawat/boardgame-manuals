@@ -1,0 +1,1271 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Twisted Cryptids ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: night-forest header band with a flashlight beam, then a field-journal reading column with a sticky chapter rail; diagrams are hand-drawn SVG; the score keeper is a working tool near the end. */
+:root{
+  --bg:#f2f4ef;
+  --surface:#ffffff;
+  --surface-2:#e6ebe4;
+  --fg:#17211d;
+  --muted:#596862;
+  --line:#d2dad3;
+  --accent:#b86c0c;
+  --accent-strong:#d9861c;
+  --accent-soft:#f7e7cc;
+  --moth:#6a4fc2;
+  --moth-soft:#ece6fb;
+  --hiker:#3b8a3a;
+  --hunter:#df5f16;
+  --researcher:#2a6cbf;
+  --decoy:#8b5a2a;
+  --hoax:#76668c;
+  --silh:#3c3e92;
+  --real:#b5303a;
+  --cr-bigfoot:#8e5c2e;
+  --cr-mothman:#c2413a;
+  --cr-jackalope:#c88a12;
+  --cr-frog:#3e8f4a;
+  --cr-nessie:#1f8a8a;
+  --cr-chupa:#7a4fc2;
+  --band-1:#0d1d1a;
+  --band-2:#251a3d;
+  --band-fg:#f2efe4;
+  --good:#2d8744;
+  --bad:#bf3a2c;
+  --font-display:"Itim","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1513;--surface:#16201c;--surface-2:#1f2a26;--fg:#e7eee9;--muted:#9fb1a8;--line:#2c3a35;
+    --accent:#f0b04a;--accent-strong:#f0b04a;--accent-soft:#3a2b12;--moth:#ab90ff;--moth-soft:#28203f;
+    --hiker:#6cc56a;--hunter:#ff8b46;--researcher:#62a6f2;--decoy:#c99060;--hoax:#ad9fc6;--silh:#8f91ea;--real:#ff6b74;
+    --cr-bigfoot:#c48c58;--cr-mothman:#ff6f66;--cr-jackalope:#f0b440;--cr-frog:#6cc878;--cr-nessie:#4fc6c6;--cr-chupa:#ab90ff;
+    --band-1:#07110f;--band-2:#170f29;--band-fg:#f2efe4;--good:#5fcf78;--bad:#ff6b5e;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1513;--surface:#16201c;--surface-2:#1f2a26;--fg:#e7eee9;--muted:#9fb1a8;--line:#2c3a35;
+  --accent:#f0b04a;--accent-strong:#f0b04a;--accent-soft:#3a2b12;--moth:#ab90ff;--moth-soft:#28203f;
+  --hiker:#6cc56a;--hunter:#ff8b46;--researcher:#62a6f2;--decoy:#c99060;--hoax:#ad9fc6;--silh:#8f91ea;--real:#ff6b74;
+  --cr-bigfoot:#c48c58;--cr-mothman:#ff6f66;--cr-jackalope:#f0b440;--cr-frog:#6cc878;--cr-nessie:#4fc6c6;--cr-chupa:#ab90ff;
+  --band-1:#07110f;--band-2:#170f29;--band-fg:#f2efe4;--good:#5fcf78;--bad:#ff6b5e;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.9rem}
+h3{font-size:1.25rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(165deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:44px 40px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.6rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.48em;color:#f5c66f;margin-top:4px}
+.hero .lede{margin-top:14px;font-size:1.08rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.35rem;font-weight:600;color:#f5c66f;font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+.t{font-family:var(--font-tag);font-weight:600;font-size:.92em;letter-spacing:.01em}
+.kbd{font-family:var(--font-tag);background:var(--surface-2);border-radius:6px;padding:0 6px;font-size:.88em;white-space:nowrap}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:46em}
+.callout.moth{background:var(--moth-soft)}
+.callout h3{font-size:1.15rem;margin-bottom:6px}
+.note{font-size:.9rem;color:var(--muted);max-width:46em}
+.src{display:inline-block;font-family:var(--font-tag);font-size:.72rem;letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:0 8px;color:var(--muted);white-space:nowrap;vertical-align:middle}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-bg{fill:var(--bg)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)} .s-stroke-acc{stroke:var(--accent-strong)}
+.s-acc{fill:var(--accent-strong)} .s-accsoft{fill:var(--accent-soft)} .s-moth{fill:var(--moth)} .s-mothsoft{fill:var(--moth-soft)}
+.s-hiker{fill:var(--hiker)} .s-hunter{fill:var(--hunter)} .s-res{fill:var(--researcher)}
+.s-decoy{fill:var(--decoy)} .s-hoax{fill:var(--hoax)} .s-silh{fill:var(--silh)} .s-real{fill:var(--real)}
+.s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* grids of cards */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
+.cry{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.cr{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0;border-top:5px solid var(--c)}
+.cr .yr{font-family:var(--font-tag);font-size:.8rem;color:var(--muted)}
+.cr .stat{font-size:.86rem;color:var(--muted)}
+.cr .pw{background:var(--surface-2);border-radius:10px;padding:8px 12px;font-size:.95rem}
+.cr .pw b{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.05em;color:var(--muted);display:block}
+
+/* phases */
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ph{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface);display:grid;min-width:0}
+.ph .sky{height:64px;display:grid;place-items:center}
+.ph .sky svg{width:46px;height:46px}
+.ph .bd{padding:10px 12px;display:grid;gap:2px}
+.ph .bd b{font-family:var(--font-display);font-size:1.2rem;font-weight:400}
+.ph .bd small{font-size:.86rem;color:var(--muted);line-height:1.5}
+.sky.dawn{background:linear-gradient(180deg,#f4b183,#f7dcb6)}
+.sky.day{background:linear-gradient(180deg,#8cc4ef,#d4ebfb)}
+.sky.dusk{background:linear-gradient(180deg,#5b3b7a,#e0794b)}
+.sky.night{background:linear-gradient(180deg,#0b1430,#26305a)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:#f5c66f;z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.15rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+.phase-h{display:flex;align-items:center;gap:10px;margin-top:6px}
+.phase-h .chip{font-family:var(--font-tag);font-size:.75rem;letter-spacing:.06em;border-radius:999px;padding:2px 10px;color:#fff}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.05rem;padding-block:6px}
+.pill{display:inline-block;border-radius:999px;padding:1px 10px;font-size:.85rem;font-family:var(--font-tag);font-weight:600;white-space:nowrap}
+.pill.up{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+.pill.down{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.pill.sd{background:var(--surface-2);color:var(--fg)}
+.pill.gold{background:var(--accent-soft);color:var(--accent)}
+
+/* functions */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.fn{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:6px;min-width:0;align-content:start}
+.fn h3{font-size:1.1rem;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.fn .new{font-family:var(--font-tag);font-size:.7rem;background:var(--moth);color:#fff;border-radius:999px;padding:1px 8px;letter-spacing:.04em}
+.fn svg{width:100%;height:auto;display:block}
+.fn p{font-size:.92rem}
+
+/* example */
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:4px;min-width:0;align-content:start}
+.ex .who{font-family:var(--font-display);font-size:1.05rem}
+.ex .calc{font-size:.86rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.ex .total{font-family:var(--font-tag);font-weight:600;font-size:1.5rem;font-variant-numeric:tabular-nums;line-height:1.2}
+.ex.win{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
+.ex.lose{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+
+/* tools */
+.tools{display:grid;gap:16px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.88rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:4px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:#f5c66f}
+.btn.warn{border-color:var(--bad);color:var(--bad);background:transparent}
+.btn.warn.armed{background:var(--bad);color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.pc{border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:10px;min-width:0;border-left:5px solid var(--c);background:var(--bg)}
+.pc-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.pc input[type=text],.pc select{font:inherit;font-size:.95rem;width:100%;min-width:0;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:5px 9px}
+.myth-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.myth-big{font-family:var(--font-tag);font-weight:600;font-size:2rem;font-variant-numeric:tabular-nums;line-height:1;min-width:2.4em}
+.myth-big small{font-size:.8rem;color:var(--muted);font-weight:500}
+.tokens{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.quick{display:flex;gap:4px;flex-wrap:wrap}
+.quick button{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.85rem;min-width:42px;height:34px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:9px;cursor:pointer;font-variant-numeric:tabular-nums}
+.quick button.minus{color:var(--bad)}
+.quick button.plus{color:var(--good)}
+.endf{display:grid;gap:6px;border-top:1px dashed var(--line);padding-top:10px}
+.endf .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;font-size:.9rem}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.stepper button{font:inherit;width:32px;height:34px;border:0;background:var(--surface-2);color:var(--fg);cursor:pointer;font-size:1.05rem}
+.stepper input{font:inherit;font-family:var(--font-tag);font-weight:600;width:46px;height:34px;border:0;text-align:center;background:transparent;color:var(--fg);font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.result{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:8px;font-size:.95rem;min-width:0}
+.rank{display:grid;gap:6px}
+.rk{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border-radius:10px;padding:8px 10px;min-width:0}
+.rk .pos{font-family:var(--font-tag);font-weight:600;color:var(--muted);text-align:center}
+.rk .nm{font-family:var(--font-display);font-size:1.05rem;min-width:0;overflow-wrap:anywhere}
+.rk .br{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.rk .tt{font-family:var(--font-tag);font-weight:600;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.rk.win{box-shadow:inset 0 0 0 2px var(--accent-strong)}
+.legend{font-family:var(--font-display);font-size:1.3rem;color:var(--accent)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.calc-grid{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 10px;align-items:center;font-size:.92rem}
+.calc-grid .hd{font-family:var(--font-tag);font-size:.76rem;color:var(--muted);letter-spacing:.04em}
+.lab{display:flex;gap:6px;align-items:center;font-family:var(--font-display);font-size:1.02rem}
+.status{font-family:var(--font-tag);font-weight:600;font-size:1.2rem;font-variant-numeric:tabular-nums}
+.status.ok{color:var(--good)} .status.out{color:var(--bad)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.08rem}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:360px}
+  .phases{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:no-preference){
+  .blink{animation:blink 5s infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  .beam{animation:sweep 7s ease-in-out infinite alternate;transform-origin:20px 220px}
+  @keyframes sweep{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · กล่องหลัก + ภาคเสริม NESS IS MORE</div>
+      <h1>Twisted Cryptids<span>วิธีเล่นแบบละเอียด สำหรับ 5–6 คน</span></h1>
+      <p class="lede">ทุกคนเป็นสัตว์ลึกลับ (Cryptid) ที่อยากดังแต่ไม่อยากโดนจับได้ ล่อมนุษย์ไปที่ที่ซ่อนของตัวเอง เปิดเผยหุ่นล่อ เรื่องหลอก เงาลาง ๆ หรือตัวจริงให้ถูกคน แล้วสะสม Myth ให้มากที่สุดใน 5 รอบ เพื่อเป็น True Legend</p>
+      <div class="facts">
+        <div class="fact"><b>2–6</b><small>ผู้เล่น (รวมภาคเสริม)</small></div>
+        <div class="fact"><b>5</b><small>รอบ · รอบละ 4 ช่วง</small></div>
+        <div class="fact"><b>3</b><small>ตาต่อคนในช่วงกลางวัน</small></div>
+        <div class="fact"><b>+7</b><small>ต่อ Real Deal ที่ไม่เคยถูกเปิด</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 250">
+        <circle cx="285" cy="44" r="22" fill="#f4ecd0" opacity=".9"/>
+        <circle cx="276" cy="38" r="22" fill="#1b1631" opacity=".55"/>
+        <g fill="#f4ecd0" opacity=".7"><circle cx="40" cy="30" r="1.4"/><circle cx="120" cy="18" r="1.2"/><circle cx="190" cy="40" r="1.5"/><circle cx="230" cy="14" r="1"/><circle cx="320" cy="96" r="1.2"/><circle cx="78" cy="64" r="1"/></g>
+        <!-- flashlight beam -->
+        <g class="beam"><path d="M20 220 L250 96 L300 150 Z" fill="#f5c66f" opacity=".16"/><path d="M20 220 L262 112 L292 140 Z" fill="#f5c66f" opacity=".14"/></g>
+        <!-- pines -->
+        <g fill="#0a1714">
+          <path d="M0 250 L0 150 L18 120 L36 150 L28 150 L46 118 L64 150 L56 150 L72 124 L90 160 L90 250Z"/>
+          <path d="M300 250 L300 160 L316 128 L332 160 L326 160 L340 136 L340 250Z"/>
+          <path d="M210 250 L210 176 L226 140 L242 176 L236 176 L252 150 L268 190 L268 250Z"/>
+        </g>
+        <!-- lake + nessie humps -->
+        <ellipse cx="170" cy="232" rx="150" ry="18" fill="#163a44" opacity=".85"/>
+        <g fill="#2fa59a"><path d="M118 230 q10 -18 20 0 z"/><path d="M144 230 q8 -14 16 0 z"/><path d="M96 230 q2 -30 14 -30 q8 0 6 10 q-6 -4 -9 2 q-2 6 1 18 z"/></g>
+        <!-- glowing eyes in the beam -->
+        <g class="blink"><ellipse cx="236" cy="128" rx="5" ry="3.6" fill="#ffdd6b"/><ellipse cx="254" cy="128" rx="5" ry="3.6" fill="#ffdd6b"/></g>
+        <path d="M222 150 q22 -46 46 0 q-6 40 -23 60 q-17 -20 -23 -60z" fill="#0d1a17" opacity=".75"/>
+        <text x="8" y="244" font-family="Itim, sans-serif" font-size="13" fill="#f5c66f" opacity=".9">(เห็นแล้ว! …หรือแค่ตอไม้?)</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#area">พื้นที่ของผู้เล่น</a></li>
+      <li><a href="#cryptids">Cryptid ทั้ง 6 ตัว</a></li>
+      <li><a href="#cards">ประเภทการ์ด</a></li>
+      <li><a href="#wilderness">ป่า & มนุษย์</a></li>
+      <li><a href="#functions">วิธีย้ายมนุษย์</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#round">ลำดับ 1 รอบ</a></li>
+      <li><a href="#encounter">Encounter & Myth</a></li>
+      <li><a href="#five-six">กติกา 5–6 คน</a></li>
+      <li><a href="#endgame">จบเกม & คิดคะแนน</a></li>
+      <li><a href="#example">ตัวอย่าง 1 รอบ</a></li>
+      <li><a href="#helper">ตัวช่วยกลางโต๊ะ</a></li>
+      <li><a href="#glossary">ศัพท์ทั้งหมด</a></li>
+      <li><a href="#faq">คำถามที่เจอบ่อย</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>เล่น 5 รอบ ทุกรอบเป็นแบบนี้</h3>
+        <ol class="prose" style="padding-left:1.3em;margin:0">
+          <li><b>รุ่งเช้า</b> <span class="en">Dawn</span>: First Player เปิด<b>การ์ดเหตุการณ์</b> <span class="en">Event</span> 1 ใบ มนุษย์ในป่าขยับไปเองตามการ์ด</li>
+          <li><b>กลางวัน</b> <span class="en">Day</span>: เวียนกันคนละ <b>3 ตา</b> ตาละ 1 อย่าง: เล่นการ์ด Action, ทิ้งการ์ดเพื่อใช้พลัง Cryptid (รอบละครั้ง) หรือผ่าน</li>
+          <li><b>โพล้เพล้</b> <span class="en">Dusk</span>: เกิด <b>Encounter</b> ที่ Site ที่มีมนุษย์มากที่สุด (ต้องมีที่ซ่อนอย่างน้อย 1 อัน) ทุกคนที่ซ่อนอยู่ตรงนั้นเปิด Sighting ใบบนสุดของกองที่ตรงกัน ได้หรือเสีย Myth ตามมนุษย์ที่อยู่ตรงนั้น</li>
+          <li><b>กลางคืน</b> <span class="en">Night</span>: ย้ายที่ซ่อน ทิ้งการ์ดแล้วจั่วให้ครบ 5 ใบ ส่ง First Player token ไปทางซ้าย</li>
+        </ol>
+      </div>
+      <p class="prose">จบ 5 รอบ เปิดการ์ดที่เหลือทั้งหมด ได้ <b>+7 Myth ต่อ Real Deal ที่ไม่เคยถูกเปิด</b> บวกโบนัสจาก <b>Hidden Trait</b> ใครมี Myth มากสุดคือ <b>True Legend</b> (ผู้ชนะ)</p>
+      <p class="prose"><b>สิ่งเดียวที่เปลี่ยนเมื่อเล่น 5–6 คน:</b> ใน Site เดียวกันมีผู้เล่นวางที่ซ่อนได้ <b>ไม่เกิน 4 คน</b> (เล่น 4 คนคือไม่เกิน 3 คน) ส่วนกติกาอื่นเหมือนเดิมทั้งหมด</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th>กล่องหลัก</th><th>Ness is More</th><th>รวม (เล่น 6 คน)</th></tr></thead>
+          <tbody>
+            <tr><td>การ์ด Cryptid ขนาดไพ่ทาโรต์ <span class="en">Cryptid cards</span></td><td class="num">4</td><td class="num">2</td><td class="num">6</td></tr>
+            <tr><td>หมาก Cryptid <span class="en">Cryptid meeples</span></td><td class="num">4</td><td class="num">2</td><td class="num">6</td></tr>
+            <tr><td>การ์ดพบเห็น <span class="en">Sighting cards</span> (คนละ 9 ใบ)</td><td class="num">36</td><td class="num">18</td><td class="num">54</td></tr>
+            <tr><td>โทเคนที่ซ่อน <span class="en">Hiding Spot tokens</span> (คนละ 3 อัน)</td><td class="num">12</td><td class="num">6</td><td class="num">18</td></tr>
+            <tr><td>การ์ดแอ็กชัน <span class="en">Action cards</span></td><td class="num">52</td><td class="num">30</td><td class="num">82</td></tr>
+            <tr><td>การ์ดเหตุการณ์ <span class="en">Event cards</span></td><td class="num">12</td><td class="num">6</td><td class="num">18</td></tr>
+            <tr><td>การ์ดนิสัยลับ <span class="en">Hidden Trait cards</span></td><td class="num">10</td><td class="num">4</td><td class="num">14</td></tr>
+            <tr><td>โทเคนมนุษย์ <span class="en">Human tokens</span></td><td class="num">30</td><td class="num">6</td><td class="num">36</td></tr>
+            <tr><td>โทเคน Myth สองหน้า (10 / 30) <span class="en">Myth tokens</span></td><td class="num">12</td><td class="num">6</td><td class="num">18</td></tr>
+            <tr><td>บอร์ดป่า <span class="en">The Wilderness board</span></td><td class="num">1</td><td class="num">–</td><td class="num">1</td></tr>
+            <tr><td>โทเคนผู้เล่นคนแรก <span class="en">First Player token</span></td><td class="num">1</td><td class="num">–</td><td class="num">1</td></tr>
+            <tr><td>โทเคนหลุมยุบ <span class="en">Sinkhole token</span> (ใช้ตอนเล่น 2 คนเท่านั้น)</td><td class="num">1</td><td class="num">–</td><td class="num">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวเลขกล่องหลักมาจากคู่มือทางการ ตัวเลขรวมมาจากคู่มือ Kickstarter Exclusive Edition ที่รวม Ness is More ไว้แล้ว · กล่องหลักมี Cryptid 4 ตัวจึงเล่นได้ 2–4 คน ต้องมี Ness is More (เพิ่ม <b>Nessie</b> กับ <b>Chupacabra</b>) ถึงจะเล่น 5–6 คนได้</p>
+    </section>
+
+    <!-- PLAYER AREA -->
+    <section id="area">
+      <div class="sec-head"><span class="tag">ของแต่ละคน</span><h2>พื้นที่ของผู้เล่น</h2></div>
+      <p class="prose">ทุกคนได้ชุดเดียวกัน: การ์ด Cryptid 1 ใบ, หมาก 1 ตัว, การ์ด Sighting 9 ใบ (จัดเป็น 3 กอง กองละ 3 ใบ) และโทเคน Hiding Spot 3 อันที่มีเลข 1, 2, 3 แต่ละอันคู่กับกองของมัน</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 330" role="img" aria-label="แผนภาพการวางของหน้าผู้เล่น">
+          <rect x="8" y="8" width="664" height="250" rx="18" class="s-surface2"/>
+          <!-- hidden trait -->
+          <rect x="30" y="22" width="118" height="54" rx="8" class="s-moth"/>
+          <text x="89" y="47" text-anchor="middle" fill="#fff" class="disp" font-size="20">?</text>
+          <text x="89" y="66" text-anchor="middle" fill="#fff" font-size="11">Hidden Trait (คว่ำ)</text>
+          <!-- cryptid card -->
+          <rect x="30" y="86" width="118" height="160" rx="10" class="s-surface" style="stroke:var(--line)"/>
+          <g transform="translate(52 104)">
+            <path d="M18 92 Q8 40 38 22 Q60 10 72 34 Q86 64 70 92 Z" fill="var(--cr-bigfoot)"/>
+            <circle cx="36" cy="44" r="4" class="s-fg"/><circle cx="56" cy="44" r="4" class="s-fg"/>
+            <path d="M38 58 q8 6 16 0" class="s-stroke-fg" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="89" y="214" text-anchor="middle" class="s-fg disp" font-size="14">การ์ด Cryptid</text>
+          <text x="89" y="232" text-anchor="middle" class="s-muted" font-size="11">มี Cryptid Power</text>
+          <!-- stacks -->
+          <g id="stacks"></g>
+          <text x="186" y="40" class="s-fg disp" font-size="15">กอง Sighting 3 กอง (Stacks) · ใบบนสุดถูกเปิดก่อน</text>
+          <!-- arrow to wilderness -->
+          <text x="186" y="244" class="s-muted" font-size="12">ตอนเริ่มเกม โทเคน 1 · 2 · 3 ไปวางบน Site ในป่า หลังเปิด Sighting จะกลับมาวางบนกองของมันชั่วคราว</text>
+          <!-- hand -->
+          <text x="30" y="286" class="s-fg disp" font-size="14">มือ: การ์ด Action 5 ใบ</text>
+          <g id="hand"></g>
+          <text x="440" y="286" class="s-fg disp" font-size="14">หมากบน Myth Track เริ่มที่ 5</text>
+          <g id="mini-track"></g>
+        </svg>
+        </div>
+        <figcaption>ภาพจำลองเพื่ออธิบายตำแหน่งเท่านั้น หน้าตาการ์ดจริงต่างจากนี้ · กองซ้าย = Hiding Spot เลข 1, กองกลาง = เลข 2, กองขวา = เลข 3</figcaption>
+      </figure>
+      <div class="callout moth">
+        <h3>การจัดกองคือหัวใจของเกม</h3>
+        <p>ตอนเตรียมเกม คุณเลือกเองว่าการ์ด Sighting ใบไหนอยู่กองไหน และเรียงลำดับอย่างไร ใบบนสุดของแต่ละกองจะถูกเปิดก่อน เมื่อที่ซ่อนเลขนั้นโดน Encounter คุณจึงต้องคิดล่วงหน้าว่าจะพามนุษย์แบบไหนไปที่ที่ซ่อนแต่ละอัน · ดูการ์ดในกองของตัวเองได้ตลอด แต่คนอื่นห้ามดู</p>
+      </div>
+    </section>
+
+    <!-- CRYPTIDS -->
+    <section id="cryptids">
+      <div class="sec-head"><span class="tag">ตัวละคร</span><h2>Cryptid ทั้ง 6 ตัว</h2></div>
+      <p class="prose">แต่ละตัวมี <b>Cryptid Power</b> ของตัวเอง ใช้ได้ในช่วงกลางวัน <b>รอบละ 1 ครั้ง</b> โดยใช้ 1 ตา แล้ว<b>ทิ้งการ์ด Action 1 ใบ</b>จากมือ (ทิ้งใบไหนก็ได้) ถ้าพลังมีสองอย่างที่เชื่อมด้วยคำว่า <span class="kbd">and</span> ให้ทำแยกกันทีละอย่าง จะทำจากที่ซ่อนอันเดียวกันหรือคนละอันก็ได้</p>
+      <div class="cry">
+        <div class="cr" style="--c:var(--cr-bigfoot)"><h3>Bigfoot <span class="en">บิ๊กฟุต</span></h3><span class="yr">กล่องหลัก · พบครั้งแรก 1958</span><span class="stat">สูง 7 ฟุต · น้ำหนัก: หนัก</span><div class="pw"><b>CRYPTID POWER</b>Lure มนุษย์ 2 คน (ชนิดไหนก็ได้) เข้ามาที่ที่ซ่อน 1 อันของเรา</div></div>
+        <div class="cr" style="--c:var(--cr-mothman)"><h3>Mothman <span class="en">มนุษย์ผีเสื้อกลางคืน</span></h3><span class="yr">กล่องหลัก · พบครั้งแรก 1966</span><span class="stat">ปีกกว้าง 10 ฟุต · ตาสีแดง</span><div class="pw"><b>CRYPTID POWER</b>Attract มนุษย์ 1 คน <b>and</b> Scare มนุษย์ 2 คน</div></div>
+        <div class="cr" style="--c:var(--cr-jackalope)"><h3>Jackalope <span class="en">กระต่ายเขากวาง</span></h3><span class="yr">กล่องหลัก · พบครั้งแรก 1932</span><span class="stat">สูง 2 ฟุต 5 นิ้ว (รวมเขา 5 ฟุต 9 นิ้ว)</span><div class="pw"><b>CRYPTID POWER</b>Attract มนุษย์ 2 คนจาก Rest Area มาที่ที่ซ่อน 1 อันของเรา</div></div>
+        <div class="cr" style="--c:var(--cr-frog)"><h3>Loveland Frog <span class="en">กบเลิฟแลนด์</span></h3><span class="yr">กล่องหลัก · พบครั้งแรก 1955</span><span class="stat">สูง 4 ฟุต · รูปร่าง: กลม</span><div class="pw"><b>CRYPTID POWER</b>Lure มนุษย์ 1 คน <b>and</b> Extract มนุษย์ 2 คน</div></div>
+        <div class="cr" style="--c:var(--cr-nessie)"><h3>Nessie <span class="en">สัตว์ประหลาดล็อกเนสส์</span></h3><span class="yr">Ness is More · พบครั้งแรก 1934</span><span class="stat">ยาว 20 ฟุต (ว่ากันว่า) · ลอยน้ำ: เก่งมาก</span><div class="pw"><b>CRYPTID POWER</b>ใช้ Function ใหม่ระยะไกล (Strong Lure / Big Scare) อ่านข้อความเต็มบนการ์ด</div></div>
+        <div class="cr" style="--c:var(--cr-chupa)"><h3>Chupacabra <span class="en">ชูปาคาบรา</span></h3><span class="yr">Ness is More · พบครั้งแรก 1995</span><span class="stat">สูง 4 ฟุต · หนาม: เยอะ</span><div class="pw"><b>CRYPTID POWER</b>ใช้ Function ใหม่ระยะไกล (Strong Lure / Big Scare) อ่านข้อความเต็มบนการ์ด</div></div>
+      </div>
+      <p class="note">ปีที่พบและสถิติตัวละครมาจากหน้าแนะนำ Cryptid ในคู่มือ · พลังของ 4 ตัวในกล่องหลักสรุปจากแหล่งรอง (Geeky Hobbies) ส่วนพลังเต็มของ Nessie กับ Chupacabra ไม่มีในคู่มือฉบับที่หาได้ <b>ให้ยึดข้อความบนการ์ด Cryptid จริงเสมอ</b></p>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">การ์ด 4 แบบ</span><h2>ประเภทการ์ด</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 310" role="img" aria-label="ภาพจำลองหน้าตาการ์ด Action และ Sighting">
+          <!-- action card -->
+          <rect x="20" y="20" width="190" height="250" rx="14" class="s-surface" style="stroke:var(--line)" stroke-width="1.5"/>
+          <text x="115" y="50" text-anchor="middle" class="s-muted tagf" font-size="11">ACTION</text>
+          <circle cx="62" cy="96" r="24" class="s-res"/>
+          <text x="62" y="104" text-anchor="middle" fill="#fff" class="tagf" font-size="22">2</text>
+          <text x="98" y="92" class="s-fg disp" font-size="20">Lure</text>
+          <text x="98" y="112" class="s-muted" font-size="12">Researchers</text>
+          <line x1="40" y1="138" x2="190" y2="138" class="s-line" stroke-width="1.5"/>
+          <text x="115" y="160" text-anchor="middle" class="s-acc tagf" font-size="14">OR</text>
+          <circle cx="62" cy="200" r="24" class="s-hiker"/>
+          <text x="62" y="208" text-anchor="middle" fill="#fff" class="tagf" font-size="22">1</text>
+          <text x="98" y="196" class="s-fg disp" font-size="20">Attract</text>
+          <text x="98" y="216" class="s-muted" font-size="12">Hiker</text>
+          <text x="115" y="298" text-anchor="middle" class="s-fg disp" font-size="15">การ์ด Action แบบ OR</text>
+          <!-- arrows labels -->
+          <text x="232" y="96" class="s-muted" font-size="12">← จำนวน + ชนิด</text>
+          <text x="232" y="112" class="s-muted" font-size="12">   + Function</text>
+          <text x="232" y="164" class="s-muted" font-size="12">← เลือกทำอย่างเดียว</text>
+          <!-- sighting card -->
+          <rect x="400" y="20" width="200" height="250" rx="14" class="s-surface" style="stroke:var(--line)" stroke-width="1.5"/>
+          <rect x="400" y="20" width="200" height="36" rx="14" class="s-silh"/>
+          <rect x="400" y="40" width="200" height="16" class="s-silh"/>
+          <text x="500" y="44" text-anchor="middle" fill="#fff" class="tagf" font-size="13">SILHOUETTE</text>
+          <g class="tagf" font-size="15">
+            <circle cx="436" cy="88" r="15" class="s-hiker"/><text x="436" y="93" text-anchor="middle" fill="#fff" font-size="12">H</text><text x="436" y="124" text-anchor="middle" class="s-bad">−1</text>
+            <circle cx="500" cy="88" r="15" class="s-hunter"/><text x="500" y="93" text-anchor="middle" fill="#fff" font-size="12">Hu</text><text x="500" y="124" text-anchor="middle" class="s-bad">−1</text>
+            <circle cx="564" cy="88" r="15" class="s-res"/><text x="564" y="93" text-anchor="middle" fill="#fff" font-size="12">R</text><text x="564" y="124" text-anchor="middle" class="s-good">+2</text>
+          </g>
+          <text x="500" y="146" text-anchor="middle" class="s-muted" font-size="11">Myth ต่อมนุษย์ 1 คนที่ Site ของ Encounter</text>
+          <rect x="418" y="160" width="164" height="78" rx="8" class="s-surface2"/>
+          <text x="500" y="196" text-anchor="middle" class="s-muted" font-size="12">เอฟเฟกต์ที่ทำต่อ</text>
+          <text x="500" y="214" text-anchor="middle" class="s-muted" font-size="12">หลังได้/เสีย Myth</text>
+          <text x="500" y="298" text-anchor="middle" class="s-fg disp" font-size="15">การ์ด Sighting</text>
+        </svg>
+        </div>
+        <figcaption>ภาพจำลองโครงการ์ด ไม่ใช่ลายหรือค่าจริง · ตัวอย่าง Sighting นี้: ถ้ามี Hiker 2, Hunter 0, Researcher 3 คน ได้ −2 + 0 + 6 = <b>+4 Myth</b> (ตรงกับตัวอย่างในคู่มือ)</figcaption>
+      </figure>
+
+      <div class="types">
+        <div class="type">
+          <h3><span class="dot" style="background:var(--accent-strong)"></span>การ์ดแอ็กชัน <span class="en">Action</span></h3>
+          <p>อยู่ในมือ 5 ใบ เล่นในช่วงกลางวันเพื่อย้ายมนุษย์ แต่ละใบบอก <b>จำนวน</b>, <b>ชนิดมนุษย์</b> <span class="en">Flavor</span> และ <b>Function</b> (Lure, Scare, Attract, Extract …) เล่นแล้วทำตาม แล้วลงกองทิ้ง</p>
+          <p class="note"><b>OR card</b> เลือกทำ 1 อย่าง · <b>AND card</b> <span class="src">NESS IS MORE</span> ทำทุกอย่างทีละอย่าง เรียงตามที่เราเลือก จะทำจากที่ซ่อนอันเดียวกันหรือคนละอันก็ได้</p>
+        </div>
+        <div class="type">
+          <h3><span class="dot" style="background:var(--muted)"></span>การ์ดเหตุการณ์ <span class="en">Event</span></h3>
+          <p>เปิดรอบละ 1 ใบตอนรุ่งเช้า วางหงายบนกอง <span class="en">Current Event pile</span> แล้วทำตามจาก<b>บนลงล่าง</b> ทำให้มนุษย์เข้า ออก หรือย้ายในป่าเอง ไม่มีใครเป็นเจ้าของการ์ดนี้</p>
+        </div>
+        <div class="type">
+          <h3><span class="dot" style="background:var(--silh)"></span>การ์ดพบเห็น <span class="en">Sighting</span></h3>
+          <p>คนละ 9 ใบ อยู่ในกอง 3 กอง เปิดตอน Encounter ได้หรือเสีย Myth ตาม<b>จำนวนมนุษย์แต่ละชนิด</b>ที่ Site นั้น แล้วทำเอฟเฟกต์บนการ์ด เปิดแล้ววางหงายไว้ข้างตัว</p>
+        </div>
+        <div class="type">
+          <h3><span class="dot" style="background:var(--moth)"></span>การ์ดนิสัยลับ <span class="en">Hidden Trait</span></h3>
+          <p>เป้าหมายลับ 1 ใบ (แจก 2 เลือก 1) ทำได้มากก็ได้โบนัส Myth มากตอนจบเกม มี <b>3 ระดับ</b> <span class="en">levels of completion</span> ดูของตัวเองได้ตลอด แต่เปิดให้คนอื่นเห็นตอนจบเกมเท่านั้น</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:6px">Sighting มี 4 แบบ</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>แบบ</th><th>คืออะไร</th><th>เหมาะเปิดใส่ใคร</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dot" style="background:var(--decoy)"></span> <b>Decoy</b><br><span class="en">หุ่นล่อ</span></td><td>ของที่จัดให้ดูเหมือนเรา (จริง ๆ เป็นกองกิ่งไม้)</td><td><b style="color:var(--hunter)">Hunter</b> โดนหลอง่าย</td></tr>
+            <tr><td><span class="dot" style="background:var(--hoax)"></span> <b>Hoax</b><br><span class="en">เรื่องหลอก</span></td><td>ให้สัตว์ป่าช่วยแกล้งปลอมตัว (แรคคูน 3 ตัวใส่เสื้อโค้ท)</td><td><b style="color:var(--hiker)">Hiker</b> เชื่อง่าย</td></tr>
+            <tr><td><span class="dot" style="background:var(--silh)"></span> <b>Silhouette</b><br><span class="en">เงาลาง ๆ</span></td><td>โชว์แค่เงาให้เห็นแวบเดียว</td><td><b style="color:var(--researcher)">Researcher</b> ตื่นเต้นทุกครั้ง</td></tr>
+            <tr><td><span class="dot" style="background:var(--real)"></span> <b>Real Deal</b><br><span class="en">ตัวจริง</span></td><td>เราตัวจริงกำลังโจมตี นอน หรือทำกิจกรรมโปรด <b>เสี่ยงสูง ได้สูง</b> ถ้ามนุษย์ผิดชนิดอยู่ตรงนั้นอาจเสีย Myth หนัก</td><td>แล้วแต่ท่า: Hiker ไม่ยุ่งถ้าเจอเรานอน, Hunter กลัวตอนเราจะโจมตี, Researcher ดีใจมากถ้าเจอเราทำเรื่องธรรมดาหรือเรื่องตลก</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Real Deal ที่<b>ไม่เคยถูกเปิด</b>จนจบเกมได้ <b>+7 Myth</b> ต่อใบ คู่มือแนะนำว่าจะวาง Real Deal ไว้บนสุดเพื่อเปิดใส่มนุษย์ที่ถูกชนิด หรือฝังไว้ล่างสุดเพื่อเก็บ +7 ก็ได้</p>
+    </section>
+
+    <!-- WILDERNESS -->
+    <section id="wilderness">
+      <div class="sec-head"><span class="tag">กระดาน</span><h2>ป่า (The Wilderness) และมนุษย์</h2></div>
+      <p class="prose">บอร์ดมี <b>6 Site</b> และ <b>Myth Track</b> (ช่อง 0–9) ข้าง ๆ บอร์ดมี <b>Rest Area</b> 3 กอง กองละชนิดมนุษย์ ไว้เก็บมนุษย์ที่ยังไม่อยู่ในป่า</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชื่อ Site บนบอร์ด</th><th>อ่านว่า / แปล</th></tr></thead>
+          <tbody>
+            <tr><td><b>Crooked Chasm</b></td><td>หุบเหวคดเคี้ยว</td></tr>
+            <tr><td><b>Pinehill Park</b></td><td>สวนเนินสน (อยู่กลาง ติดกับ Site อื่นหลายแห่ง)</td></tr>
+            <tr><td><b>Crystal River</b></td><td>แม่น้ำคริสตัล</td></tr>
+            <tr><td><b>Witch Ridge</b></td><td>สันเขาแม่มด</td></tr>
+            <tr><td><b>Maple Lake</b></td><td>ทะเลสาบเมเปิล</td></tr>
+            <tr><td><b>Scenic Swamp</b></td><td>บึงวิวสวย (ตอนเล่น 2 คนวาง Sinkhole token ปิด Site นี้)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Site ไหน<b>ติดกัน</b> <span class="en">adjacent</span> ให้ดูเส้นทางเชื่อมบนบอร์ดจริง ชื่อ Site ยืนยันจากคู่มือ (Scenic Swamp) และแหล่งรอง</p>
+      <div class="types">
+        <div class="type"><h3><span class="dot" style="background:var(--hiker)"></span>Hiker <span class="en">นักเดินป่า</span></h3><p>มนุษย์ทั่วไป ไม่ได้ตามหาเรา แต่ถ้าเจอก็สงสัย ตอนรุ่งเช้ามักเดินเที่ยวไปทั่วป่า <b>โดน Hoax หลอกง่าย</b> และมักปล่อยเราไว้ถ้าเจอเรากำลังนอน</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--hunter)"></span>Hunter <span class="en">นักล่า</span></h3><p>ตามล่าเราจริงจัง ตอนรุ่งเช้ามักย้ายเป็นฝูงและย้ายไกล <b>แพ้ทางหุ่นล่อ (Decoy)</b> และกลัวเวลาเห็นเราตั้งท่าจะโจมตี</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--researcher)"></span>Researcher <span class="en">นักวิจัย</span></h3><p>อยากพิสูจน์ว่าเรามีจริง ตอนรุ่งเช้าย้ายช้า ๆ ไปที่ที่คนน้อย <b>ตื่นเต้นกับ Silhouette</b> และดีใจที่สุดถ้าจับได้ว่าเรากำลังทำเรื่องธรรมดาหรือเรื่องตลก</p></div>
+      </div>
+      <p class="note">บางเอฟเฟกต์ใช้สัญลักษณ์มนุษย์กลาง ๆ แทนชนิด แปลว่า <b>เลือกมนุษย์ชนิดไหนก็ได้</b> · คู่มือเรียกชนิดมนุษย์ว่า <b>Flavor</b> (รสชาติ) เพราะในสายตา Cryptid มนุษย์คืออาหาร</p>
+    </section>
+
+    <!-- FUNCTIONS -->
+    <section id="functions">
+      <div class="sec-head"><span class="tag">ภาษาบนการ์ด</span><h2>วิธีย้ายมนุษย์ (Functions)</h2></div>
+      <p class="prose">ทุกการ์ด Action และพลัง Cryptid ใช้คำเหล่านี้ ★ คือ Site ที่มีที่ซ่อนของเรา เส้นทึบคือทางหลัก เส้นประคือทางที่เลือกได้ด้วย</p>
+      <div class="fn-grid" id="fn-grid"></div>
+      <div class="callout">
+        <h3>เมื่อทำไม่ได้ครบ</h3>
+        <p>ถ้าทำเอฟเฟกต์ได้ไม่ครบ ให้<b>ทำเท่าที่ทำได้</b> <span class="en">partially resolve</span> เช่น การ์ดบอก Lure 2 Researchers แต่ Site ข้าง ๆ มี Researcher แค่ 1 คน ก็ยังเล่นการ์ดได้และ Lure 1 คน · แต่ถ้ามี 2 คน <b>ต้อง</b> Lure ทั้ง 2 คน กฎนี้ใช้กับการ์ด Event, Action, พลัง Cryptid และ Sighting ทั้งหมด</p>
+      </div>
+      <div class="prose">
+        <p><b>คำบนการ์ด Event</b></p>
+        <ul>
+          <li><span class="kbd">TO</span> ย้ายมนุษย์<b>ไปที่</b> Site นั้นโดยตรง</li>
+          <li><span class="kbd">TOWARD</span> ย้าย<b>เข้าใกล้</b> Site นั้น 1 ก้าว (ไป Site ที่ติดกันที่อยู่ทางนั้น) อาจถึงเลยหรือแค่ใกล้ขึ้น ถ้ามีสองทางที่ใกล้เท่ากัน เลือกเอง</li>
+          <li><span class="kbd">distribute</span> หยิบมนุษย์ที่ระบุออกจาก Site แล้ว<b>แจกไป Site ที่ติดกัน</b>ให้เท่า ๆ กันที่สุด ถ้าเศษ เลือกเองว่า Site ไหนได้เพิ่ม</li>
+          <li>ถ้ามีหลาย Site ตรงเงื่อนไข (เช่น มีมนุษย์มากสุดเท่ากัน) เลือกมา 1 Site แล้วทำจากที่นั่น</li>
+          <li>Site ที่มี<b>มนุษย์น้อยที่สุด</b> <span class="en">fewest</span> นับรวม Site ที่มี 0 คนด้วย</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม 5–6 คน</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>กางบอร์ด วาง Myth token</h3><p>วาง The Wilderness ไว้กลางโต๊ะ วาง Myth token ทั้งหมดไว้ข้าง Myth Track</p></div></li>
+        <li><div class="body"><h3>วางมนุษย์</h3><p>แยกมนุษย์เป็น 3 Rest Area ตามชนิด (ใส่ Human 6 อันจาก Ness is More รวมด้วย) แล้ววาง Hiker, Hunter, Researcher ลงบนทุก Site <b>ตามสัญลักษณ์ที่พิมพ์ไว้บน Site</b></p></div></li>
+        <li><div class="body"><h3>ผสมสำรับ</h3><p>สับการ์ด Action <b>ของกล่องหลักรวมกับ Ness is More</b> วางคว่ำ เว้นที่ไว้เป็นกองทิ้ง · สับการ์ด Event รวมทั้งสองกล่อง วางคว่ำ เว้นที่ไว้เป็น Current Event pile</p></div></li>
+        <li><div class="body"><h3>เลือก Cryptid</h3><p>แต่ละคนเลือก 1 ตัว รับการ์ด Cryptid, หมาก, Sighting 9 ใบ และ Hiding Spot 3 อันของตัวนั้น วางหมากที่ <b>5 Myth</b> บน Myth Track ตัวที่เหลือเก็บกล่องพร้อมของทั้งชุด</p></div></li>
+        <li><div class="body"><h3>เลือก Hidden Trait</h3><p>สับ Hidden Trait ของทั้งสองกล่องรวมกัน แจกคนละ 2 ใบ เลือกเก็บ 1 ใบคว่ำไว้เหนือการ์ด Cryptid ที่เหลือเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>จัด 3 กอง Sighting</h3><p>แอบเลือก Sighting 3 ใบ วางคว่ำซ้อนกันตามลำดับที่ต้องการ ทำซ้ำจนได้ 3 กอง กองละ 3 ใบ วางเรียงทางขวาของการ์ด Cryptid: <b>ซ้าย = ที่ซ่อนเลข 1, กลาง = 2, ขวา = 3</b></p></div></li>
+        <li><div class="body"><h3>เลือก First Player</h3><p>ให้ First Player token กับคนที่<b>ไปสวนสาธารณะล่าสุด</b></p></div></li>
+        <li><div class="body"><h3>วางที่ซ่อน 3 รอบ</h3><p>เริ่มจาก First Player วนตามเข็มนาฬิกา คนละ 1 อัน เมื่อครบทุกคน First Player ส่ง token ให้คน<b>ทางซ้าย</b> แล้วเริ่มวางอันที่ 2 จากคนใหม่ ทำซ้ำสำหรับอันที่ 3 วางครบแล้ว<b>ส่ง token ไปทางซ้ายอีกครั้ง</b></p>
+          <ul>
+            <li>ห้ามวางที่ซ่อนใน Site ที่<b>มีที่ซ่อนของเราอยู่แล้ว</b> (ที่ซ่อนทั้ง 3 อันต้องอยู่คนละ Site)</li>
+            <li><b>เล่น 5–6 คน: ใน 1 Site มีผู้เล่นวางที่ซ่อนได้ไม่เกิน 4 คน</b></li>
+          </ul></div></li>
+        <li><div class="body"><h3>แจกการ์ด แล้วเริ่ม</h3><p>แจก Action คนละ <b>5 ใบ</b> เริ่มเล่นจาก First Player ตามลำดับผู้เล่น</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 380" role="img" aria-label="การจัดโต๊ะสำหรับ 6 คน">
+          <ellipse cx="340" cy="190" rx="250" ry="140" class="s-surface2"/>
+          <rect x="250" y="120" width="180" height="120" rx="12" class="s-surface" style="stroke:var(--line)"/>
+          <text x="340" y="150" text-anchor="middle" class="s-fg disp" font-size="15">The Wilderness</text>
+          <g id="mini-sites"></g>
+          <rect x="150" y="135" width="48" height="66" rx="7" class="s-acc"/>
+          <text x="174" y="172" text-anchor="middle" fill="#fff" class="tagf" font-size="11">Action</text>
+          <rect x="150" y="210" width="48" height="66" rx="7" class="s-stroke-muted" fill="none" stroke-dasharray="5 4" stroke-width="1.5"/>
+          <text x="174" y="247" text-anchor="middle" class="s-muted" font-size="11">ทิ้ง</text>
+          <rect x="482" y="135" width="48" height="66" rx="7" class="s-muted"/>
+          <text x="506" y="172" text-anchor="middle" fill="#fff" class="tagf" font-size="11">Event</text>
+          <rect x="482" y="210" width="48" height="66" rx="7" class="s-stroke-muted" fill="none" stroke-dasharray="5 4" stroke-width="1.5"/>
+          <text x="506" y="240" text-anchor="middle" class="s-muted" font-size="10">Current</text>
+          <text x="506" y="254" text-anchor="middle" class="s-muted" font-size="10">Event</text>
+          <g id="seats"></g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่างการจัดโต๊ะ 6 คน: บอร์ดอยู่กลาง สำรับ Action และ Event อยู่สองข้าง Rest Area ทั้ง 3 กองวางข้างบอร์ด ทุกคนวางการ์ด Cryptid และ 3 กองของตัวเองไว้ตรงหน้า</figcaption>
+      </figure>
+    </section>
+
+    <!-- ROUND -->
+    <section id="round">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ลำดับการเล่น 1 รอบ</h2></div>
+      <p class="prose">เล่นทั้งหมด <b>5 รอบ</b> แต่ละรอบมี 4 ช่วงตามลำดับ ลำดับผู้เล่นเริ่มจาก First Player แล้ววน<b>ตามเข็มนาฬิกา</b>เสมอ</p>
+      <div class="phases" aria-hidden="true">
+        <div class="ph"><div class="sky dawn"><svg viewBox="0 0 46 46"><circle cx="23" cy="34" r="12" fill="#fff4d6"/><rect x="0" y="34" width="46" height="12" fill="#f7dcb6"/></svg></div><div class="bd"><b>Dawn รุ่งเช้า</b><small>เปิด Event มนุษย์ขยับเอง</small></div></div>
+        <div class="ph"><div class="sky day"><svg viewBox="0 0 46 46"><circle cx="23" cy="23" r="11" fill="#ffe27a"/></svg></div><div class="bd"><b>Day กลางวัน</b><small>คนละ 3 ตา ย้ายมนุษย์</small></div></div>
+        <div class="ph"><div class="sky dusk"><svg viewBox="0 0 46 46"><circle cx="23" cy="30" r="10" fill="#ffb36b"/><path d="M4 30 h38" stroke="#fff" stroke-width="2" opacity=".6"/></svg></div><div class="bd"><b>Dusk โพล้เพล้</b><small>Encounter เปิด Sighting</small></div></div>
+        <div class="ph"><div class="sky night"><svg viewBox="0 0 46 46"><circle cx="24" cy="22" r="11" fill="#f4ecd0"/><circle cx="29" cy="18" r="10" fill="#1a2350"/></svg></div><div class="bd"><b>Night กลางคืน</b><small>ย้ายที่ซ่อน จั่วการ์ด</small></div></div>
+      </div>
+
+      <div class="phase-h"><span class="chip" style="background:#d9864c">DAWN</span><h3>รุ่งเช้า</h3></div>
+      <div class="prose"><p>First Player เปิดการ์ด Event ใบบนสุด วางหงายบน Current Event pile แล้วทำตามข้อความ<b>จากบนลงล่าง</b> จากนั้นไปช่วงกลางวัน</p></div>
+
+      <div class="phase-h"><span class="chip" style="background:#3f86c8">DAY</span><h3>กลางวัน</h3></div>
+      <div class="prose">
+        <p>ตามลำดับผู้เล่น ในตาของคุณให้เลือกทำ <b>1 อย่าง</b>:</p>
+        <ul>
+          <li><b>เล่นการ์ด Action</b> 1 ใบจากมือ ทำตาม แล้วลงกองทิ้ง</li>
+          <li><b>ทิ้งการ์ด Action 1 ใบเพื่อใช้ Cryptid Power</b> ทำได้แค่รอบละ 1 ครั้ง</li>
+          <li><b>ผ่าน</b> <span class="en">Pass</span> ให้คนถัดไป</li>
+        </ul>
+        <p>วนแบบนี้จนทุกคนเล่นครบ <b>3 ตา</b> (เล่น 6 คน = 18 ตาต่อรอบ) แล้วไปช่วงโพล้เพล้ · การ์ดในมือเหลือมาใช้รอบหน้าได้</p>
+      </div>
+
+      <div class="phase-h"><span class="chip" style="background:#8a4d8f">DUSK</span><h3>โพล้เพล้</h3></div>
+      <ol class="steps">
+        <li><div class="body"><h3>หาที่เกิด Encounter</h3><p>ดู Site ที่<b>มีมนุษย์มากที่สุด</b> (นับทุกชนิดรวมกัน) <b>และมีที่ซ่อนอย่างน้อย 1 อัน</b> ถ้าเสมอกันหลาย Site ให้ First Player เลือก · Site ที่ไม่มีใครซ่อนไม่นับ</p></div></li>
+        <li><div class="body"><h3>เปิดทีละคน ตามลำดับผู้เล่น</h3><p>ทุกคนที่มีที่ซ่อนอยู่ตรงนั้น เปิด Sighting ใบบนสุดของ<b>กองที่เลขตรงกับที่ซ่อนอันนั้น</b></p>
+          <ul>
+            <li>ได้หรือเสีย Myth ตามจำนวนมนุษย์แต่ละชนิดที่อยู่ตรงนั้น<b>ตอนที่เปิด</b></li>
+            <li>ทำเอฟเฟกต์ของ Sighting (อาจย้ายมนุษย์ ซึ่งมีผลกับคนที่เปิดต่อจากเรา)</li>
+            <li>วางการ์ดหงายไว้ข้างตัว</li>
+            <li>ยกที่ซ่อนออกจาก Site ไปวาง<b>บนกองของมัน</b> แล้วคนถัดไปเปิด</li>
+          </ul></div></li>
+        <li><div class="body"><h3>กองหมด = ที่ซ่อนหาย</h3><p>ถ้าเปิดใบสุดท้ายของกองนั้นแล้วกองว่าง ให้<b>เก็บโทเคนที่ซ่อนเลขนั้นลงกล่อง</b> ใช้ไม่ได้อีกตลอดเกม</p></div></li>
+      </ol>
+
+      <div class="phase-h"><span class="chip" style="background:#1d2a5c">NIGHT</span><h3>กลางคืน</h3></div>
+      <div class="prose">
+        <p>ตามลำดับผู้เล่น แต่ละคนทำดังนี้</p>
+        <ul>
+          <li><b>ไม่ได้โดน Encounter</b> (ไม่มีที่ซ่อนอยู่บนกอง): จะย้ายที่ซ่อน 1 อันในป่าไป Site ใหม่ก็ได้ ไม่บังคับ</li>
+          <li><b>โดน Encounter</b> (มีที่ซ่อนอยู่บนกอง): <b>ต้อง</b>วางที่ซ่อนอันนั้นกลับลงป่า ใน Site ที่<b>ไม่ใช่</b> Site ที่เพิ่งเกิด Encounter</li>
+          <li>ทุกครั้งที่วางหรือย้ายที่ซ่อน ยังต้องทำตามกฎเดิม: ห้ามซ้อน Site กับที่ซ่อนของตัวเอง และ 5–6 คน ห้ามเกิน 4 ผู้เล่นต่อ Site</li>
+          <li>ทิ้งการ์ดในมือกี่ใบก็ได้ แล้ว<b>จั่วให้ครบ 5 ใบ</b> · <b>รอบที่ 5 ข้ามข้อนี้</b> และทิ้งการ์ดที่เหลือในมือทั้งหมด</li>
+          <li>สำรับ Action หมด: จั่วที่เหลือก่อน แล้วสับกองทิ้งมาเป็นสำรับใหม่ จั่วต่อจนครบ</li>
+        </ul>
+        <p>ทุกคนทำครบแล้ว First Player <b>ส่ง token ให้คนทางซ้าย</b> เริ่มรอบใหม่</p>
+      </div>
+    </section>
+
+    <!-- ENCOUNTER / MYTH -->
+    <section id="encounter">
+      <div class="sec-head"><span class="tag">ตัวเลข</span><h2>Encounter และการนับ Myth</h2></div>
+      <p class="prose"><b>Myth</b> คือคะแนนของเกม ทุกคนเริ่มที่ 5 Myth บนการ์ด Sighting จะบอกว่ามนุษย์แต่ละชนิด <b>1 คน</b> ให้กี่ Myth เอาจำนวนคูณค่าแล้วรวมกัน</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 150" role="img" aria-label="สูตรคิด Myth จาก Sighting">
+          <g class="tagf">
+            <rect x="10" y="26" width="140" height="76" rx="12" class="s-surface2"/>
+            <circle cx="40" cy="52" r="11" class="s-hiker"/><circle cx="64" cy="52" r="11" class="s-hiker"/>
+            <text x="80" y="90" text-anchor="middle" class="s-fg" font-size="15">2 × (−1) = −2</text>
+            <text x="164" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="186" y="26" width="140" height="76" rx="12" class="s-surface2"/>
+            <circle cx="256" cy="52" r="11" fill="none" class="s-stroke-muted" stroke-dasharray="3 3" stroke-width="1.5"/>
+            <text x="256" y="90" text-anchor="middle" class="s-fg" font-size="15">0 × (−1) = 0</text>
+            <text x="340" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="362" y="26" width="160" height="76" rx="12" class="s-surface2"/>
+            <circle cx="406" cy="52" r="11" class="s-res"/><circle cx="430" cy="52" r="11" class="s-res"/><circle cx="454" cy="52" r="11" class="s-res"/>
+            <text x="442" y="90" text-anchor="middle" class="s-fg" font-size="15">3 × (+2) = +6</text>
+            <text x="536" y="72" class="s-fg" font-size="22">=</text>
+            <circle cx="612" cy="64" r="38" class="s-acc"/>
+            <text x="612" y="74" text-anchor="middle" fill="#fff" font-size="26">+4</text>
+          </g>
+          <text x="10" y="132" class="s-muted" font-size="12.5">Hiker · Hunter · Researcher ตามลำดับ (ค่าตัวอย่างเดียวกับในคู่มือ: −2 จาก Hiker, 0 จาก Hunter, +6 จาก Researcher = ได้ 4 Myth)</text>
+        </svg>
+        </div>
+      </figure>
+      <h3>Myth Track กับ Myth token</h3>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 170" role="img" aria-label="Myth Track 0 ถึง 9 และโทเคน 10 กับ 30">
+          <g id="myth-track"></g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่างนี้มี Myth = 30 (token) + 2 (บน Track) = <b>32 Myth</b></figcaption>
+      </figure>
+      <div class="prose">
+        <ul>
+          <li>Myth Track มีช่อง <b>0–9</b> ได้ Myth จน<b>เลย 9</b>: หยิบ token ด้าน <b>10</b> มา 1 อัน แล้วนับต่อจาก 0</li>
+          <li>เสีย Myth จน<b>เลย 0</b>: คืน token 10 หนึ่งอัน (ถ้ามี) แล้วนับถอยจาก 9</li>
+          <li>มี token ด้าน 10 ครบ 3 อัน: คืน 2 อัน แล้วพลิกอันที่เหลือเป็นด้าน <b>30</b></li>
+          <li><b>Myth ติดลบไม่ได้</b> ต่ำสุดคือ 0</li>
+        </ul>
+        <p class="note">ไม่อยากนับ token? ใช้ <a href="#helper">ตัวช่วยกลางโต๊ะ</a> ด้านล่าง ระบบบอกให้ว่าควรมี token กี่อันและหมากอยู่ช่องไหน</p>
+      </div>
+    </section>
+
+    <!-- 5-6 -->
+    <section id="five-six">
+      <div class="sec-head"><span class="tag">ภาคเสริม</span><h2>กติกาเฉพาะ 5–6 คน</h2></div>
+      <div class="callout">
+        <h3>ข้อเปลี่ยนหลักมีข้อเดียว</h3>
+        <p>เล่น 5–6 คน <b>ใน Site เดียวกัน มีผู้เล่นวางที่ซ่อนได้ไม่เกิน 4 คน</b> ใช้ทั้งตอนวางที่ซ่อนตอนเริ่มเกมและตอนย้ายหรือวางกลับในช่วงกลางคืน กติกาอื่นเหมือนกล่องหลักทั้งหมด: 5 รอบ, คนละ 3 ตา, มือ 5 ใบ</p>
+      </div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 210" role="img" aria-label="ใน 1 Site มีผู้เล่นวางที่ซ่อนได้สูงสุด 4 คน">
+          <ellipse cx="200" cy="105" rx="170" ry="80" class="s-surface2"/>
+          <text x="200" y="52" text-anchor="middle" class="s-fg disp" font-size="16">Witch Ridge</text>
+          <g id="cap-tokens"></g>
+          <text x="420" y="70" class="s-good tagf" font-size="15">✓ 4 คน = เต็ม</text>
+          <text x="420" y="92" class="s-muted" font-size="12.5">คนที่ 5 ต้องไปวาง Site อื่น</text>
+          <text x="420" y="132" class="s-bad tagf" font-size="15">✕ ห้ามซ้อน Site ตัวเอง</text>
+          <text x="420" y="154" class="s-muted" font-size="12.5">ที่ซ่อนทั้ง 3 ของเรา</text>
+          <text x="420" y="172" class="s-muted" font-size="12.5">ต้องอยู่คนละ Site เสมอ</text>
+        </svg>
+        </div>
+        <figcaption>สีแต่ละวงคือผู้เล่นคนละคน · เล่น 4 คนเพดานคือ 3 คนต่อ Site · กติกาสำหรับ 2–3 คนไม่มีเพดานนี้ (2 คนใช้ Sinkhole ปิด Scenic Swamp แทน)</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนผู้เล่น</th><th>ผู้เล่นสูงสุดต่อ 1 Site</th><th>ที่ซ่อนทั้งหมดในป่า</th><th>ข้อพิเศษ</th></tr></thead>
+          <tbody>
+            <tr><td>2 คน</td><td class="num">–</td><td class="num">6</td><td>วาง Sinkhole token บน Scenic Swamp ห้ามมีมนุษย์หรือที่ซ่อนที่นั่น</td></tr>
+            <tr><td>3 คน</td><td class="num">–</td><td class="num">9</td><td>–</td></tr>
+            <tr><td>4 คน</td><td class="num">3</td><td class="num">12</td><td>–</td></tr>
+            <tr><td><b>5 คน</b></td><td class="num">4</td><td class="num">15</td><td>ต้องมี Ness is More</td></tr>
+            <tr><td><b>6 คน</b></td><td class="num">4</td><td class="num">18</td><td>ต้องมี Ness is More · ที่ซ่อนเฉลี่ย 3 อันต่อ Site</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>สิ่งที่ Ness is More เพิ่มเข้ามา</h3>
+      <div class="types">
+        <div class="type"><h3>Cryptid ใหม่ 2 ตัว</h3><p><b>Nessie</b> และ <b>Chupacabra</b> แต่ละตัวมาพร้อมหมาก, Sighting 9 ใบ และ Hiding Spot 3 อัน ทำให้มีของครบ 6 ชุด</p></div>
+        <div class="type"><h3>Function ใหม่</h3><p><b>Strong Lure</b> ล่อมนุษย์จาก Site ที่ห่างได้ถึง 2 Site · <b>Big Scare</b> ไล่มนุษย์ออกไปไกลได้ถึง 2 Site</p></div>
+        <div class="type"><h3>AND card</h3><p>การ์ด Action ที่ต้องทำ<b>ทุกเอฟเฟกต์</b> เรียงตามที่เราเลือก ทำจากที่ซ่อนเดียวกันหรือคนละอันก็ได้ (ต่างจาก OR ที่เลือกทำอย่างเดียว)</p></div>
+        <div class="type"><h3>การ์ดเพิ่มในสำรับ</h3><p>Action 30, Event 6, Hidden Trait 4 ผสมรวมกับกล่องหลัก บวก Human 6 และ Myth token 6 อันใส่กองกลาง</p></div>
+      </div>
+      <div class="callout moth">
+        <h3>สิ่งที่ต่างไปในวงใหญ่</h3>
+        <ul class="prose" style="margin:0;padding-left:1.2em">
+          <li>Encounter แต่ละครั้งมักมีหลายคนเปิดพร้อมกัน (สูงสุด 4) เอฟเฟกต์ของคนที่เปิดก่อนอาจย้ายมนุษย์จนคนที่เปิดทีหลังได้หรือเสียต่างไปจากที่คิด</li>
+          <li>ตาในช่วงกลางวันมีถึง 18 ตา มนุษย์ถูกย้ายไปมาเยอะ แผนที่วางไว้ตอนต้นรอบอาจพังก่อนถึงตาเรา เก็บการ์ดดี ๆ ไว้ใช้ตาท้าย ๆ</li>
+          <li>ตอนเริ่มเกม First Player token ถูกส่งไปทางซ้ายแล้ว 3 ครั้ง และเกมมีแค่ 5 รอบ เล่น 6 คนจึงมีคนหนึ่งไม่ได้เป็น First Player เลย เป็นเรื่องปกติของกติกา</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- END GAME -->
+    <section id="endgame">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และคิดคะแนน</h2></div>
+      <p class="prose">เมื่อครบ 5 รอบ ทุกคนเปิด Sighting ที่ยังเหลือในกอง และเปิด Hidden Trait แล้วบวก Myth ดังนี้</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 150" role="img" aria-label="ตัวอย่างการคิดคะแนนจบเกมจากคู่มือ">
+          <g class="tagf">
+            <rect x="10" y="24" width="130" height="80" rx="12" class="s-surface2"/>
+            <text x="75" y="62" text-anchor="middle" class="s-fg" font-size="26">32</text>
+            <text x="75" y="88" text-anchor="middle" class="s-muted" font-size="11.5">Myth ระหว่างเกม</text>
+            <text x="150" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="172" y="24" width="96" height="80" rx="12" class="s-real" opacity=".9"/>
+            <text x="220" y="62" text-anchor="middle" fill="#fff" font-size="26">7</text>
+            <text x="220" y="88" text-anchor="middle" fill="#fff" font-size="11">Real Deal</text>
+            <text x="278" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="300" y="24" width="96" height="80" rx="12" class="s-real" opacity=".9"/>
+            <text x="348" y="62" text-anchor="middle" fill="#fff" font-size="26">7</text>
+            <text x="348" y="88" text-anchor="middle" fill="#fff" font-size="11">Real Deal</text>
+            <text x="406" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="428" y="24" width="110" height="80" rx="12" class="s-moth"/>
+            <text x="483" y="62" text-anchor="middle" fill="#fff" font-size="26">14</text>
+            <text x="483" y="88" text-anchor="middle" fill="#fff" font-size="11">Hidden Trait</text>
+            <text x="548" y="72" class="s-fg" font-size="22">=</text>
+            <circle cx="620" cy="64" r="40" class="s-acc"/>
+            <text x="620" y="74" text-anchor="middle" fill="#fff" font-size="26">60</text>
+          </g>
+          <text x="10" y="134" class="s-muted" font-size="12.5">ตัวอย่างจากคู่มือ: token 30 + หมากช่อง 2 = 32 · Real Deal ไม่เคยถูกเปิด 2 ใบ = 14 · Hidden Trait = 14 · รวม 60 Myth</text>
+        </svg>
+        </div>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>+7 ต่อ Real Deal</h3><p>Real Deal ที่ยังอยู่ในกองตอนจบเกม (ไม่เคยถูกเปิดตอน Encounter) ได้ใบละ <b>7 Myth</b> Real Deal ที่เปิดไปแล้วไม่ได้โบนัสนี้</p></div>
+        <div class="type"><h3>โบนัส Hidden Trait</h3><p>ได้ตาม<b>ระดับที่ทำสำเร็จ</b> (มี 3 ระดับ) ค่าที่พิมพ์อยู่บนการ์ด เช่น <b>Crafty</b> (ห้ามเปิด Hoax และ Silhouette): ไม่เปิดเลย 21, เปิด 1 ใบ 14, เปิด 2 ใบ 7 <span class="src">แหล่งรอง</span></p></div>
+        <div class="type"><h3>ผู้ชนะ = True Legend</h3><p>Myth รวมมากที่สุดชนะ · <b>เสมอ:</b> นับมนุษย์ทั้งหมดใน Site ที่ตัวเองมีที่ซ่อนอยู่ ใครมากกว่าชนะ · ยังเสมออีก: ทั้งคู่เป็นตำนานร่วม (แล้วไปเล่นอีกตา)</p></div>
+      </div>
+      <p class="note">ตัวอย่าง Hidden Trait อื่นที่แหล่งรองกล่าวถึง: <b>Famous</b> (เปิด Sighting ให้ได้มากที่สุด), <b>Honest</b> (ไม่เปิด Hoax), <b>Twisted</b> (เปิด Real Deal) ค่าแต่ละระดับให้ดูบนการ์ด</p>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section id="example">
+      <div class="sec-head"><span class="tag">ลองดูของจริง</span><h2>ตัวอย่าง Dusk 1 รอบ (6 คน)</h2></div>
+      <p class="prose">ผู้เล่น 6 คนตามลำดับที่นั่ง: <b>บี</b> (Mothman, First Player รอบนี้) → ซี (Jackalope) → ดาว (Loveland Frog) → เอ็ม (Nessie) → ฟ้า (Chupacabra) → ต้น (Bigfoot)</p>
+      <div class="prose">
+        <ol>
+          <li><b>หาที่เกิด Encounter:</b> หลังจบกลางวัน <b>Witch Ridge</b> กับ <b>Maple Lake</b> มีมนุษย์ 6 คนเท่ากัน มากที่สุดทั้งคู่ และมีที่ซ่อนทั้งสองที่ บีเป็น First Player จึงเลือก Witch Ridge</li>
+          <li><b>ที่ Witch Ridge มี:</b> Hiker 2, Hunter 1, Researcher 3 และมีที่ซ่อนของ ดาว, เอ็ม, ฟ้า, ต้น (4 คน เต็มเพดานพอดี)</li>
+          <li><b>เปิดตามลำดับผู้เล่นเริ่มจากบี</b> บีกับซีไม่มีที่ซ่อนตรงนี้ จึงเริ่มที่ดาว</li>
+        </ol>
+      </div>
+      <div class="ex-grid">
+        <div class="ex"><span class="who">① ดาว · Hoax</span><span class="calc">Hiker +2, Hunter −1, Researcher 0<br>2×2 − 1×1 + 0 = +3</span><span class="total">+3</span><span class="en">เอฟเฟกต์: Scare Hunter 1 คนออกไป Site ข้าง ๆ → Hunter เหลือ 0</span></div>
+        <div class="ex win"><span class="who">② เอ็ม · Silhouette</span><span class="calc">Hiker 0, Hunter −1, Researcher +2<br>0 − 0 + 3×2 = +6</span><span class="total">+6</span><span class="en">Hunter ถูกไล่ไปแล้ว เลยไม่โดนหัก</span></div>
+        <div class="ex lose"><span class="who">③ ฟ้า · Decoy</span><span class="calc">Hiker −1, Hunter +3, Researcher −1<br>−2 + 0 − 3 = −5</span><span class="total">−5</span><span class="en">หุ่นล่อไม่มี Hunter ให้หลอก เสียหนัก</span></div>
+        <div class="ex win"><span class="who">④ ต้น · Real Deal</span><span class="calc">Hiker +1, Hunter −4, Researcher +4<br>2 + 0 + 12 = +14</span><span class="total">+14</span><span class="en">กล้าเปิดตัวจริง ได้คุ้ม แต่เสียโบนัส +7 ของใบนี้ตอนจบเกม</span></div>
+      </div>
+      <div class="prose">
+        <ol start="4">
+          <li><b>หลังเปิดแต่ละใบ</b> แต่ละคนยกที่ซ่อนออกจาก Witch Ridge ไปวางบนกองของตัวเอง</li>
+          <li><b>กลางคืน:</b> ดาว เอ็ม ฟ้า ต้น ต้องวางที่ซ่อนกลับลงป่าใน Site ที่ไม่ใช่ Witch Ridge (และต้องไม่ซ้ำ Site กับที่ซ่อนอื่นของตัวเอง และไม่เกิน 4 ผู้เล่นต่อ Site) · บีกับซีย้ายที่ซ่อน 1 อันได้ถ้าอยากย้าย · ทุกคนทิ้งการ์ดแล้วจั่วครบ 5 ใบ · บีส่ง First Player token ให้ซี</li>
+        </ol>
+      </div>
+      <p class="note">ค่าบนการ์ด Sighting ในตัวอย่างนี้สมมุติขึ้นเพื่ออธิบายลำดับการเปิดและการนับ ไม่ใช่ค่าจริงของการ์ดใบใด · ประเด็นสำคัญ: เปิด<b>ทีละคน</b> และเอฟเฟกต์ของคนก่อนหน้าเปลี่ยนผลของคนถัดไปได้</p>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น</span><h2>ตัวช่วยกลางโต๊ะ</h2></div>
+      <p class="prose">ตัวนับ Myth ใช้ได้ทั้งเกม: ระหว่างเกมใช้ปุ่ม + − แทนการนับ token พอจบเกมสลับเป็นโหมด “จบเกม” แล้วใส่ Real Deal กับ Hidden Trait ระบบจะหาผู้ชนะและตัดสินเสมอให้ ข้อมูลบันทึกไว้ในเครื่องนี้ ปิดหน้าแล้วเปิดใหม่ก็ยังอยู่</p>
+      <div class="tools">
+        <div class="tool">
+          <div class="tool-top">
+            <h3>ตัวนับ Myth & คะแนนจบเกม</h3>
+            <div class="seg" role="group" aria-label="โหมด" id="mode"></div>
+          </div>
+          <div class="tool-top">
+            <div class="seg" role="group" aria-label="จำนวนผู้เล่น" id="pc"></div>
+            <button type="button" class="btn warn" id="reset">เริ่มเกมใหม่</button>
+          </div>
+          <p class="note" id="sample-note" style="margin:0">ค่าที่เห็นตอนนี้เป็นตัวอย่าง (ต้นกับเอ็มเสมอที่ 60 แล้วตัดสินด้วยจำนวนมนุษย์) กด “เริ่มเกมใหม่” เพื่อรีเซ็ตทุกคนเป็น 5 Myth</p>
+          <div class="pgrid" id="players"></div>
+          <div class="result" id="board" aria-live="polite"></div>
+        </div>
+        <div class="two">
+          <div class="tool">
+            <h3>คิด Myth จาก Sighting</h3>
+            <p class="note" style="margin:0">ใส่จำนวนมนุษย์ที่ Site ของ Encounter <b>ตอนที่เปิด</b> และค่าต่อคนที่พิมพ์บนการ์ด</p>
+            <div class="calc-grid" id="sight"></div>
+            <div class="result" id="sight-out" aria-live="polite"></div>
+          </div>
+          <div class="tool">
+            <h3>วางที่ซ่อนตรงนี้ได้ไหม</h3>
+            <p class="note" style="margin:0">ใช้ตอนวางที่ซ่อนเริ่มเกมหรือตอนกลางคืน</p>
+            <div class="calc-grid" id="place"></div>
+            <div class="result" id="place-out" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ่านคู่มือและการ์ดภาษาอังกฤษ</span><h2>ศัพท์ทั้งหมดของเกม</h2></div>
+      <p class="prose">เรียงตามหมวด คำในคอลัมน์แรกสะกดตามคู่มือทางการ คู่มือนี้ใช้คำอังกฤษเดิมเป็นหลักเพื่อให้ตรงกับการ์ด</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th style="width:28%">คำบนการ์ด / คู่มือ</th><th style="width:20%">คำไทย</th><th>ความหมายในเกม</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="3">ผู้เล่นและคะแนน</td></tr>
+            <tr><td><b>Cryptid</b></td><td>สัตว์ลึกลับ</td><td>ตัวละครของผู้เล่น สิ่งมีชีวิตในตำนานที่ไม่มีใครพิสูจน์ได้</td></tr>
+            <tr><td><b>Cryptid card</b></td><td>การ์ด Cryptid</td><td>การ์ดขนาดไพ่ทาโรต์ของตัวละคร มี Cryptid Power</td></tr>
+            <tr><td><b>Cryptid Power</b></td><td>พลัง Cryptid</td><td>ความสามารถเฉพาะตัว ใช้ในช่วงกลางวันรอบละครั้ง โดยทิ้งการ์ด Action 1 ใบ</td></tr>
+            <tr><td><b>Cryptid meeple</b></td><td>หมาก Cryptid</td><td>หมากไม้ไว้บอก Myth บน Myth Track</td></tr>
+            <tr><td><b>Myth</b></td><td>แต้มตำนาน</td><td>คะแนนของเกม เริ่มที่ 5 ติดลบไม่ได้</td></tr>
+            <tr><td><b>Myth Track</b></td><td>รางนับ Myth</td><td>แถบช่อง 0–9 บนบอร์ด</td></tr>
+            <tr><td><b>Myth token</b></td><td>โทเคน Myth</td><td>โทเคนสองหน้า 10 / 30 ใช้นับ Myth ที่เกิน 9</td></tr>
+            <tr><td><b>True Legend</b></td><td>ตำนานตัวจริง</td><td>ฉายาของผู้ชนะ</td></tr>
+            <tr><td><b>First Player / First Player token</b></td><td>ผู้เล่นคนแรก</td><td>คนที่เปิด Event, เริ่มลำดับในรอบนั้น และเลือก Site ถ้า Encounter เสมอ</td></tr>
+            <tr><td><b>player order / clockwise</b></td><td>ลำดับผู้เล่น / ตามเข็มนาฬิกา</td><td>เริ่มจาก First Player แล้ววนตามเข็มนาฬิกา</td></tr>
+            <tr><td><b>to the left</b></td><td>ทางซ้าย</td><td>ทิศที่ส่ง First Player token ตอนจบรอบ</td></tr>
+            <tr class="grp"><td colspan="3">กระดานและมนุษย์</td></tr>
+            <tr><td><b>The Wilderness</b></td><td>ป่า</td><td>บอร์ดกลาง มี 6 Site</td></tr>
+            <tr><td><b>Site</b></td><td>จุด / สถานที่</td><td>ช่องบนบอร์ดที่มนุษย์และที่ซ่อนอยู่</td></tr>
+            <tr><td><b>adjacent</b></td><td>ติดกัน</td><td>Site ที่มีเส้นเชื่อมกันโดยตรง</td></tr>
+            <tr><td><b>up to two Sites away</b></td><td>ห่างได้ถึง 2 Site</td><td>Site ที่ติดกัน หรือ Site ถัดไปอีก 1 ช่อง (ใช้กับ Strong Lure / Big Scare)</td></tr>
+            <tr><td><b>Rest Area</b></td><td>จุดพัก</td><td>กองมนุษย์นอกบอร์ด แยก 3 กองตามชนิด</td></tr>
+            <tr><td><b>Human</b></td><td>มนุษย์</td><td>โทเคนที่ถูกย้ายไปมา เป็นตัวกำหนด Myth ตอน Encounter</td></tr>
+            <tr><td><b>Flavor</b></td><td>ชนิด (รสชาติ)</td><td>ชนิดของมนุษย์: Hiker, Hunter, Researcher</td></tr>
+            <tr><td><b>Hiker</b></td><td>นักเดินป่า</td><td>หลงเชื่อ Hoax ง่าย</td></tr>
+            <tr><td><b>Hunter</b></td><td>นักล่า</td><td>แพ้ทาง Decoy ย้ายเป็นฝูง</td></tr>
+            <tr><td><b>Researcher</b></td><td>นักวิจัย</td><td>ชอบ Silhouette ย้ายช้า</td></tr>
+            <tr><td><b>Sinkhole token</b></td><td>โทเคนหลุมยุบ</td><td>เล่น 2 คนเท่านั้น วางปิด Scenic Swamp</td></tr>
+            <tr class="grp"><td colspan="3">การ์ดและกอง</td></tr>
+            <tr><td><b>Action card / Action deck</b></td><td>การ์ดแอ็กชัน / สำรับแอ็กชัน</td><td>การ์ดในมือ ใช้ย้ายมนุษย์ช่วงกลางวัน</td></tr>
+            <tr><td><b>hand</b></td><td>มือ</td><td>การ์ด Action ที่ถืออยู่ ปกติ 5 ใบ</td></tr>
+            <tr><td><b>discard pile</b></td><td>กองทิ้ง</td><td>ที่วางการ์ด Action ที่ใช้หรือทิ้งแล้ว</td></tr>
+            <tr><td><b>OR card</b></td><td>การ์ดแบบ “หรือ”</td><td>เลือกทำเอฟเฟกต์ 1 อย่าง</td></tr>
+            <tr><td><b>AND card</b> <span class="src">NESS</span></td><td>การ์ดแบบ “และ”</td><td>ทำทุกเอฟเฟกต์ทีละอย่าง ลำดับตามที่เลือก</td></tr>
+            <tr><td><b>Event card / Event deck</b></td><td>การ์ดเหตุการณ์</td><td>เปิดรอบละใบตอนรุ่งเช้า ย้ายมนุษย์เอง</td></tr>
+            <tr><td><b>Current Event pile</b></td><td>กองเหตุการณ์ปัจจุบัน</td><td>ที่วางการ์ด Event ที่เปิดแล้ว (หงาย)</td></tr>
+            <tr><td><b>Sighting card</b></td><td>การ์ดพบเห็น</td><td>สิ่งที่มนุษย์เห็นตอน Encounter ทำให้ได้หรือเสีย Myth</td></tr>
+            <tr><td><b>Stack</b></td><td>กอง</td><td>กอง Sighting 3 ใบ คนละ 3 กอง แต่ละกองคู่กับที่ซ่อน 1 อัน</td></tr>
+            <tr><td><b>Decoy</b></td><td>หุ่นล่อ</td><td>Sighting ที่ได้ดีกับ Hunter</td></tr>
+            <tr><td><b>Hoax</b></td><td>เรื่องหลอก</td><td>Sighting ที่ได้ดีกับ Hiker</td></tr>
+            <tr><td><b>Silhouette</b></td><td>เงาลาง ๆ</td><td>Sighting ที่ได้ดีกับ Researcher</td></tr>
+            <tr><td><b>Real Deal</b></td><td>ตัวจริง</td><td>Sighting เสี่ยงสูง ได้สูง ไม่เคยถูกเปิดจนจบเกม = +7</td></tr>
+            <tr><td><b>Hidden Trait</b></td><td>นิสัยลับ</td><td>เป้าหมายลับสำหรับโบนัสจบเกม</td></tr>
+            <tr><td><b>level of completion</b></td><td>ระดับความสำเร็จ</td><td>Hidden Trait มี 3 ระดับ ระดับสูงได้ Myth มาก</td></tr>
+            <tr><td><b>Hiding Spot token</b></td><td>โทเคนที่ซ่อน</td><td>คนละ 3 อัน มีเลข 1–3 วางบน Site เพื่อบอกว่าเราซ่อนอยู่ตรงนั้น</td></tr>
+            <tr class="grp"><td colspan="3">รอบและช่วงเวลา</td></tr>
+            <tr><td><b>round</b></td><td>รอบ</td><td>เกมมี 5 รอบ</td></tr>
+            <tr><td><b>phase</b></td><td>ช่วง</td><td>รอบละ 4 ช่วง</td></tr>
+            <tr><td><b>Dawn</b></td><td>รุ่งเช้า</td><td>เปิดและทำตาม Event</td></tr>
+            <tr><td><b>Day</b></td><td>กลางวัน</td><td>คนละ 3 ตา</td></tr>
+            <tr><td><b>Dusk</b></td><td>โพล้เพล้</td><td>เกิด Encounter</td></tr>
+            <tr><td><b>Night</b></td><td>กลางคืน</td><td>ย้ายที่ซ่อน จั่วการ์ด ส่ง First Player token</td></tr>
+            <tr><td><b>turn</b></td><td>ตา</td><td>โอกาสทำ 1 อย่างในช่วงกลางวัน</td></tr>
+            <tr><td><b>Action</b> (ในตา)</td><td>การกระทำ</td><td>เล่นการ์ด / ทิ้งการ์ดเพื่อใช้พลัง / ผ่าน</td></tr>
+            <tr><td><b>Pass</b></td><td>ผ่าน</td><td>ไม่ทำอะไรในตานั้น</td></tr>
+            <tr><td><b>Encounter</b></td><td>การเผชิญหน้า</td><td>Site ที่มนุษย์มากที่สุดและมีที่ซ่อน ทุกคนที่ซ่อนตรงนั้นต้องเปิด Sighting</td></tr>
+            <tr><td><b>reveal</b></td><td>เปิด</td><td>พลิก Sighting ให้ทุกคนเห็น</td></tr>
+            <tr><td><b>resolve / partially resolve</b></td><td>ทำตาม / ทำเท่าที่ทำได้</td><td>ทำเอฟเฟกต์บนการ์ด ถ้าทำไม่ครบให้ทำเท่าที่ได้</td></tr>
+            <tr><td><b>refresh the Action deck</b></td><td>สับสำรับใหม่</td><td>สำรับหมด สับกองทิ้งเป็นสำรับใหม่</td></tr>
+            <tr class="grp"><td colspan="3">Function และคำย้ายมนุษย์</td></tr>
+            <tr><td><b>Function</b></td><td>วิธีย้าย</td><td>คำสั่งบนการ์ดว่าจะย้ายมนุษย์อย่างไร</td></tr>
+            <tr><td><b>Lure</b></td><td>ล่อเข้า</td><td>จาก Site ที่ติดกัน → Site ที่ซ่อนของเรา</td></tr>
+            <tr><td><b>Scare</b></td><td>ไล่ออก</td><td>จาก Site ที่ซ่อนของเรา → Site ที่ติดกัน</td></tr>
+            <tr><td><b>Attract</b></td><td>เรียกมา</td><td>จาก Rest Area ชนิดนั้น → Site ที่ซ่อนของเรา</td></tr>
+            <tr><td><b>Extract</b></td><td>ดึงออก</td><td>จาก Site ที่ซ่อนของเรา หรือ Site ที่ติดกัน → กลับ Rest Area</td></tr>
+            <tr><td><b>Strong Lure</b> <span class="src">NESS</span></td><td>ล่อไกล</td><td>จาก Site ที่ห่างได้ถึง 2 Site → Site ที่ซ่อนของเรา</td></tr>
+            <tr><td><b>Big Scare</b> <span class="src">NESS</span></td><td>ไล่ไกล</td><td>จาก Site ที่ซ่อนของเรา → Site ที่ห่างได้ถึง 2 Site</td></tr>
+            <tr><td><b>TO</b></td><td>ไปที่</td><td>ย้ายตรงไปที่ Site นั้น</td></tr>
+            <tr><td><b>TOWARD</b></td><td>เข้าใกล้</td><td>ย้ายไป Site ที่ติดกันในทิศของ Site นั้น 1 ก้าว</td></tr>
+            <tr><td><b>distribute</b></td><td>แจกจ่าย</td><td>แบ่งมนุษย์ไป Site ที่ติดกันให้เท่ากันที่สุด</td></tr>
+            <tr><td><b>most / fewest</b></td><td>มากที่สุด / น้อยที่สุด</td><td>“น้อยที่สุด” นับ Site ที่มี 0 ด้วย</td></tr>
+            <tr><td><b>any Human</b> (สัญลักษณ์กลาง)</td><td>มนุษย์ชนิดใดก็ได้</td><td>เลือกเองว่าจะย้ายชนิดไหน</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ถามบ่อย</span><h2>คำถามที่เจอบ่อย & เทคนิค</h2></div>
+      <div class="faq">
+        <details open><summary>Site ที่มีมนุษย์เยอะที่สุดไม่มีใครซ่อนอยู่ จะเกิด Encounter ไหม</summary><p>ไม่เกิดที่นั่น Encounter ต้องเกิดที่ Site ที่มีที่ซ่อนอย่างน้อย 1 อัน ให้ดู Site ที่มีมนุษย์มากที่สุด<b>ในบรรดา Site ที่มีที่ซ่อน</b></p></details>
+        <details><summary>วางที่ซ่อน 2 อันของตัวเองใน Site เดียวกันได้ไหม</summary><p>ไม่ได้ ทั้งตอนเริ่มเกมและตอนย้ายกลางคืน ดังนั้นแต่ละ Encounter เราเปิด Sighting ได้มากสุด 1 ใบ</p></details>
+        <details><summary>ใช้ Cryptid Power ไปแล้ว ยังเล่นการ์ด Action ได้ไหม</summary><p>ได้ ตาอื่นของรอบนั้นยังเล่นการ์ดได้ตามปกติ แค่ใช้พลังซ้ำในรอบเดียวกันไม่ได้</p></details>
+        <details><summary>ดูการ์ด Sighting ในกองของตัวเองได้ไหม สลับลำดับได้ไหม</summary><p>ดูได้ตลอด และดู Hidden Trait ของตัวเองได้ตลอดเช่นกัน แต่คู่มือไม่ได้ให้สลับลำดับหลังจัดกองแล้ว ลำดับที่จัดตอนเริ่มเกมใช้ไปจนจบ</p></details>
+        <details><summary>เปิด Sighting แล้ว Myth ไม่พอหัก</summary><p>Myth ลดลงต่ำสุดแค่ 0 ไม่ติดลบ</p></details>
+        <details><summary>กองหมดแล้ว ที่ซ่อนเลขนั้นทำไง</summary><p>เก็บโทเคนที่ซ่อนเลขนั้นลงกล่อง ใช้ไม่ได้อีก จากนั้นเราจะมีที่ซ่อนในป่าน้อยลง</p></details>
+        <details><summary>ถ้าเล่น 6 คนแล้วทุก Site เต็ม 4 คน จะย้ายที่ซ่อนไปไหน</summary><p>มีที่ซ่อน 18 อันกับ 6 Site เพดาน 4 คนต่อ Site จึงรับได้ 24 ช่อง เกินพอ แต่บางครั้ง Site ที่อยากไปอาจเต็มหรือมีที่ซ่อนของเราอยู่แล้ว ก็ต้องเลือก Site อื่นที่ยังวางได้</p></details>
+        <details><summary>รอบที่ 5 ช่วงกลางคืนยังต้องย้ายที่ซ่อนไหม</summary><p>ยังทำตามขั้นตอนปกติ ยกเว้นไม่จั่วการ์ด (ทิ้งที่เหลือทั้งหมด) ตำแหน่งที่ซ่อนสุดท้ายมีผลตอนตัดสินเสมอ เพราะนับมนุษย์ใน Site ที่เรามีที่ซ่อน</p></details>
+        <details><summary>Lure 2 Hunters แต่ Site ข้าง ๆ มีแค่ 1</summary><p>เล่นได้ และ Lure แค่ 1 คน (ทำเท่าที่ทำได้) แต่ถ้ามีครบ 2 คนต้อง Lure ทั้งสอง</p></details>
+      </div>
+      <div class="callout moth">
+        <h3>เทคนิคสำหรับวง 5–6 คน</h3>
+        <ul class="prose" style="margin:0;padding-left:1.2em">
+          <li>จำว่าที่ซ่อนเลขไหนมี Sighting อะไรอยู่บนสุด แล้วพามนุษย์ชนิดที่เข้าทางไปที่ Site นั้น</li>
+          <li>ถ้า Sighting บนสุดเสียเปรียบ ให้ไล่มนุษย์ออก (Scare, Extract) หรือทำให้ Site อื่นคนเยอะกว่า Encounter จะได้ไปเกิดที่อื่น</li>
+          <li>ดูว่าใครเปิดก่อนเราใน Encounter เดียวกัน เอฟเฟกต์ของเขาอาจย้ายมนุษย์ก่อนถึงตาเรา</li>
+          <li>Real Deal ที่ฝังไว้ล่างสุดคือ +7 ที่ค่อนข้างแน่นอน เพราะโดน Encounter ที่ซ่อนเดียวกันครบ 3 ครั้งใน 5 รอบได้ยาก</li>
+          <li>เก็บการ์ด Strong Lure / Big Scare ไว้ใช้ตาท้าย ๆ ของกลางวัน ตอนที่คนอื่นแก้เกมไม่ทันแล้ว</li>
+          <li>ทำ Hidden Trait ให้ถึงระดับสูงสุดได้โบนัสเยอะ ตัดสินใจเรื่องจะเปิดหรือไม่เปิด Sighting โดยดู Hidden Trait ของตัวเองไปด้วย</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    เรียบเรียงเป็นภาษาไทยจากคู่มือทางการของ Unstable Games (Twisted Cryptids และฉบับ Kickstarter Exclusive Edition ที่รวม Ness is More) ส่วนพลัง Cryptid 4 ตัว ชื่อ Site และตัวอย่าง Hidden Trait มาจากแหล่งรอง ให้ยึดข้อความบนการ์ดจริงเมื่อไม่ตรงกัน ภาพทั้งหมดเป็นภาพจำลองเพื่ออธิบาย แหล่งอ้างอิง:
+    <ul>
+      <li><a href="https://cdn.svc.asmodee.net/production-asmodeeca/uploads/2025/11/Twisted_Cryptids_Retail_Rules_V4.pdf" target="_blank" rel="noopener">คู่มือกล่องหลัก Retail Rules V4 (PDF ภาษาอังกฤษ, Asmodee)</a></li>
+      <li><a href="https://zestolu.cz/files/60/4360.pdf" target="_blank" rel="noopener">คู่มือ Kickstarter Exclusive Edition รวม Ness is More (PDF ภาษาอังกฤษ)</a></li>
+      <li><a href="https://www.gamenerdz.com/twisted-cryptids-ness-is-more-expansion" target="_blank" rel="noopener">รายการของในกล่อง Ness is More (GameNerdz)</a></li>
+      <li><a href="https://www.geekyhobbies.com/twisted-cryptids-rules/" target="_blank" rel="noopener">Geeky Hobbies: ชื่อ Site, พลัง Cryptid และตัวอย่าง Hidden Trait</a></li>
+      <li>FAQ และวิดีโอสอนเล่นทางการ: unstablegames.com/twistedcryptids</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const NS="http://www.w3.org/2000/svg";
+  function el(tag,attrs,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
+  function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+  const CR=[
+    {k:"bigfoot",n:"Bigfoot",c:"var(--cr-bigfoot)"},
+    {k:"mothman",n:"Mothman",c:"var(--cr-mothman)"},
+    {k:"jackalope",n:"Jackalope",c:"var(--cr-jackalope)"},
+    {k:"frog",n:"Loveland Frog",c:"var(--cr-frog)"},
+    {k:"nessie",n:"Nessie",c:"var(--cr-nessie)"},
+    {k:"chupa",n:"Chupacabra",c:"var(--cr-chupa)"}
+  ];
+  const crOf=k=>CR.find(c=>c.k===k)||CR[0];
+
+  /* ---------- player area diagram ---------- */
+  const stacks=document.getElementById("stacks");
+  if(stacks){
+    const sx=[200,350,500], types=["s-hoax","s-silh","s-real"];
+    sx.forEach((x,i)=>{
+      for(let j=2;j>=0;j--){
+        const r=el("rect",{x:x+j*6,y:66+j*6,width:110,height:130,rx:9,class:"s-surface"});
+        r.setAttribute("style","stroke:var(--line)");stacks.appendChild(r);
+      }
+      const top=el("rect",{x:x,y:66,width:110,height:130,rx:9,class:"s-silh",opacity:".9"});
+      stacks.appendChild(top);
+      stacks.appendChild(el("text",{x:x+55,y:136,"text-anchor":"middle",fill:"#fff",class:"disp","font-size":"14"},"Sighting"));
+      stacks.appendChild(el("text",{x:x+55,y:154,"text-anchor":"middle",fill:"#fff","font-size":"11",opacity:".8"},"(คว่ำ)"));
+      stacks.appendChild(el("circle",{cx:x+55,cy:222,r:15,class:"s-acc"}));
+      stacks.appendChild(el("text",{x:x+55,y:228,"text-anchor":"middle",fill:"#fff",class:"tagf","font-size":"15"},String(i+1)));
+    });
+  }
+  const hand=document.getElementById("hand");
+  if(hand){for(let i=0;i<5;i++){hand.appendChild(el("rect",{x:30+i*42,y:296,width:36,height:28,rx:5,class:"s-acc",opacity:String(.55+i*.09)}));}}
+  const mt=document.getElementById("mini-track");
+  if(mt){
+    for(let i=0;i<10;i++){const r=el("rect",{x:440+i*22,y:296,width:20,height:24,rx:4,class:i===5?"s-accsoft":"s-surface2"});mt.appendChild(r);
+      mt.appendChild(el("text",{x:450+i*22,y:313,"text-anchor":"middle",class:"s-muted tagf","font-size":"10"},String(i)));}
+    mt.appendChild(el("circle",{cx:550,cy:292,r:6,fill:"var(--cr-bigfoot)"}));
+  }
+
+  /* ---------- function mini diagrams ---------- */
+  const FN=[
+    {n:"Lure",th:"ล่อเข้า",d:"ย้ายมนุษย์จาก Site ที่ติดกัน เข้ามาที่ Site ที่ซ่อนของเรา",a:[["adj","me",1]]},
+    {n:"Scare",th:"ไล่ออก",d:"ย้ายมนุษย์จาก Site ที่ซ่อนของเรา ออกไป Site ที่ติดกัน",a:[["me","adj",1]]},
+    {n:"Attract",th:"เรียกมา",d:"หยิบมนุษย์จาก Rest Area ของชนิดนั้น มาวางที่ Site ที่ซ่อนของเรา",a:[["rest","me",1]]},
+    {n:"Extract",th:"ดึงออก",d:"เอามนุษย์จาก Site ที่ซ่อนของเรา หรือ Site ที่ติดกัน กลับไป Rest Area",a:[["me","rest",1],["adj","rest",0]]},
+    {n:"Strong Lure",th:"ล่อไกล",nw:1,d:"ย้ายมนุษย์จาก Site ที่ห่างได้ถึง 2 Site เข้ามาที่ Site ที่ซ่อนของเรา",a:[["far","me",1],["adj","me",0]]},
+    {n:"Big Scare",th:"ไล่ไกล",nw:1,d:"ย้ายมนุษย์จาก Site ที่ซ่อนของเรา ออกไป Site ที่ห่างได้ถึง 2 Site",a:[["me","far",1],["me","adj",0]]}
+  ];
+  const P={me:[40,46],adj:[120,46],far:[200,46],rest:[120,104]};
+  const fg=document.getElementById("fn-grid");
+  if(fg){
+    FN.forEach((f,i)=>{
+      const card=document.createElement("div");card.className="fn";
+      card.innerHTML='<h3>'+f.n+' <span class="en">'+f.th+'</span>'+(f.nw?'<span class="new">NESS IS MORE</span>':'')+'</h3>';
+      const s=el("svg",{viewBox:"0 0 240 128",role:"img","aria-label":f.n});
+      const defs=el("defs",{});
+      const mk=el("marker",{id:"ah"+i,viewBox:"0 0 10 10",refX:"8",refY:"5",markerWidth:"6",markerHeight:"6",orient:"auto-start-reverse"});
+      mk.appendChild(el("path",{d:"M0 0 L10 5 L0 10z",class:"s-acc"}));defs.appendChild(mk);s.appendChild(defs);
+      s.appendChild(el("line",{x1:40,y1:46,x2:200,y2:46,class:"s-line","stroke-width":"3"}));
+      [["me","ที่ซ่อนเรา"],["adj","ติดกัน"],["far","ห่าง 2"]].forEach(([k,l])=>{
+        const [x,y]=P[k];
+        s.appendChild(el("circle",{cx:x,cy:y,r:17,class:k==="me"?"s-accsoft":"s-surface2"}));
+        if(k==="me") s.appendChild(el("text",{x:x,y:y+5,"text-anchor":"middle",class:"s-acc tagf","font-size":"14"},"★"));
+        s.appendChild(el("text",{x:x,y:y-23,"text-anchor":"middle",class:"s-muted","font-size":"10.5"},l));
+      });
+      const rr=el("rect",{x:88,y:92,width:64,height:24,rx:6,class:"s-surface2"});s.appendChild(rr);
+      s.appendChild(el("text",{x:120,y:108,"text-anchor":"middle",class:"s-muted","font-size":"10.5"},"Rest Area"));
+      f.a.forEach(([from,to,solid])=>{
+        let [x1,y1]=P[from],[x2,y2]=P[to];
+        const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len;
+        const r1=from==="rest"?14:19,r2=to==="rest"?14:20;
+        x1+=ux*r1;y1+=uy*r1;x2-=ux*r2;y2-=uy*r2;
+        let d;
+        if(from==="far"||to==="far"){const my=solid?20:30;d="M"+x1+" "+(y1-6)+" Q"+((x1+x2)/2)+" "+(my-24)+" "+x2+" "+(y2-6);}
+        else if(from==="adj"&&to==="me"||from==="me"&&to==="adj"){d="M"+x1+" "+(y1+(solid?8:0))+" L"+x2+" "+(y2+(solid?8:0));}
+        else d="M"+x1+" "+y1+" L"+x2+" "+y2;
+        const p=el("path",{d:d,fill:"none",class:"s-stroke-acc","stroke-width":solid?"3":"2","marker-end":"url(#ah"+i+")"});
+        if(!solid)p.setAttribute("stroke-dasharray","4 4");
+        s.appendChild(p);
+      });
+      card.appendChild(s);
+      const p=document.createElement("p");p.textContent=f.d;card.appendChild(p);
+      fg.appendChild(card);
+    });
+  }
+
+  /* ---------- table seats ---------- */
+  const seats=document.getElementById("seats");
+  if(seats){
+    const cx=340,cy=190,rx=300,ry=160,angles=[-90,-30,30,90,150,210];
+    angles.forEach((a,i)=>{
+      const t=a*Math.PI/180,x=cx+rx*Math.cos(t),y=cy+ry*Math.sin(t)*0.95,bw=124,bh=40;
+      const bx=Math.max(4,Math.min(680-bw-4,x-bw/2)),by=Math.max(4,Math.min(380-bh-4,y-bh/2));
+      const r=el("rect",{x:bx,y:by,width:bw,height:bh,rx:10,class:"s-surface"});r.setAttribute("style","stroke:var(--line)");seats.appendChild(r);
+      seats.appendChild(el("circle",{cx:bx+18,cy:by+bh/2,r:9,fill:CR[i].c}));
+      seats.appendChild(el("text",{x:bx+33,y:by+bh/2+5,class:"s-fg","font-size":"12"},CR[i].n+(i>=4?" ★":"")));
+    });
+    seats.appendChild(el("text",{x:676,y:374,"text-anchor":"end",class:"s-muted","font-size":"11"},"★ Cryptid จาก Ness is More"));
+  }
+  const ms=document.getElementById("mini-sites");
+  if(ms){
+    const pts=[[290,180],[340,170],[390,180],[290,215],[340,222],[390,215]];
+    [[0,1],[1,2],[0,3],[1,4],[2,5],[3,4],[4,5],[1,3],[1,5]].forEach(([a,b])=>ms.appendChild(el("line",{x1:pts[a][0],y1:pts[a][1],x2:pts[b][0],y2:pts[b][1],class:"s-line","stroke-width":"2"})));
+    pts.forEach(([x,y])=>ms.appendChild(el("circle",{cx:x,cy:y,r:9,class:"s-surface2"})));
+  }
+
+  /* ---------- myth track figure ---------- */
+  const mtr=document.getElementById("myth-track");
+  if(mtr){
+    for(let i=0;i<10;i++){
+      const r=el("rect",{x:14+i*46,y:30,width:42,height:48,rx:6,class:i===2?"s-accsoft":"s-surface2"});mtr.appendChild(r);
+      mtr.appendChild(el("text",{x:35+i*46,y:62,"text-anchor":"middle",class:"s-fg tagf","font-size":"17"},String(i)));
+    }
+    mtr.appendChild(el("circle",{cx:127,cy:22,r:8,fill:"var(--cr-nessie)"}));
+    mtr.appendChild(el("path",{d:"M480 54 q30 0 30 -24",fill:"none",class:"s-stroke-muted","stroke-width":"1.5","stroke-dasharray":"4 3"}));
+    mtr.appendChild(el("text",{x:14,y:104,class:"s-muted","font-size":"12.5"},"เลย 9 → หยิบ token 10 แล้วนับต่อจาก 0 · ครบ 10 สามอัน → แลกเป็น 30 หนึ่งอัน"));
+    [[540,"30","s-acc"],[600,"10","s-surface2"]].forEach(([x,v,c],i)=>{
+      mtr.appendChild(el("circle",{cx:x,cy:54,r:24,class:c,opacity:i?".7":"1"}));
+      const ta={x:x,y:61,"text-anchor":"middle",class:"tagf "+(i?"s-muted":""),"font-size":"18"};if(!i)ta.fill="#fff";
+      mtr.appendChild(el("text",ta,v));
+    });
+    mtr.appendChild(el("text",{x:570,y:96,"text-anchor":"middle",class:"s-muted","font-size":"11"},"token สองหน้า"));
+    mtr.appendChild(el("text",{x:14,y:144,class:"s-fg disp","font-size":"15"},"มี token 30 × 1 + หมากช่อง 2 = 32 Myth"));
+  }
+
+  /* ---------- 5-6 cap figure ---------- */
+  const cap=document.getElementById("cap-tokens");
+  if(cap){
+    const pos=[[110,100],[170,128],[230,100],[290,128]];
+    pos.forEach(([x,y],i)=>{
+      cap.appendChild(el("circle",{cx:x,cy:y,r:18,fill:CR[i].c}));
+      cap.appendChild(el("text",{x:x,y:y+5,"text-anchor":"middle",fill:"#fff",class:"tagf","font-size":"13"},String((i%3)+1)));
+    });
+    cap.appendChild(el("circle",{cx:384,cy:170,r:18,fill:CR[4].c,opacity:".45"}));
+    cap.appendChild(el("text",{x:384,y:176,"text-anchor":"middle",fill:"#fff",class:"tagf","font-size":"16"},"✕"));
+    cap.appendChild(el("circle",{cx:200,cy:150,r:6,class:"s-hiker"}));cap.appendChild(el("circle",{cx:216,cy:156,r:6,class:"s-hunter"}));cap.appendChild(el("circle",{cx:140,cy:150,r:6,class:"s-res"}));
+  }
+
+  /* ---------- score keeper ---------- */
+  const KEY="tc-th-score-v1";
+  const SAMPLE={count:6,mode:"end",sample:true,players:[
+    {name:"ต้น",cr:"bigfoot",myth:32,rd:2,ht:14,tb:9},
+    {name:"บี",cr:"mothman",myth:27,rd:0,ht:7,tb:5},
+    {name:"ซี",cr:"jackalope",myth:24,rd:2,ht:21,tb:6},
+    {name:"ดาว",cr:"frog",myth:30,rd:1,ht:14,tb:8},
+    {name:"เอ็ม",cr:"nessie",myth:39,rd:1,ht:14,tb:7},
+    {name:"ฟ้า",cr:"chupa",myth:21,rd:3,ht:7,tb:4}
+  ]};
+  function fresh(){return {count:S.count||6,mode:"game",sample:false,players:CR.map((c,i)=>({name:"ผู้เล่น "+(i+1),cr:c.k,myth:5,rd:0,ht:0,tb:0}))};}
+  let S=JSON.parse(JSON.stringify(SAMPLE));
+  try{const raw=localStorage.getItem(KEY);if(raw){const o=JSON.parse(raw);if(o&&Array.isArray(o.players)&&o.players.length===6)S=o;}}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+  const modeBox=document.getElementById("mode"),pcBox=document.getElementById("pc"),pBox=document.getElementById("players"),board=document.getElementById("board"),note=document.getElementById("sample-note"),resetBtn=document.getElementById("reset");
+  [["game","ระหว่างเกม"],["end","จบเกม"]].forEach(([k,l])=>{
+    const b=document.createElement("button");b.type="button";b.id="mode-"+k;b.textContent=l;
+    b.addEventListener("click",()=>{S.mode=k;save();renderAll();});modeBox.appendChild(b);
+  });
+  [2,3,4,5,6].forEach(n=>{
+    const b=document.createElement("button");b.type="button";b.id="pc-"+n;b.textContent=n+" คน";
+    b.addEventListener("click",()=>{S.count=n;save();renderAll();});pcBox.appendChild(b);
+  });
+  let armed=false,armT=null;
+  resetBtn.addEventListener("click",()=>{
+    if(!armed){armed=true;resetBtn.classList.add("armed");resetBtn.textContent="กดอีกครั้งเพื่อรีเซ็ต";clearTimeout(armT);armT=setTimeout(()=>{armed=false;resetBtn.classList.remove("armed");resetBtn.textContent="เริ่มเกมใหม่";},3500);return;}
+    armed=false;clearTimeout(armT);resetBtn.classList.remove("armed");resetBtn.textContent="เริ่มเกมใหม่";
+    S=fresh();save();renderAll();
+  });
+
+  function tokens(m){const t30=Math.floor(m/30),r=m%30,t10=Math.floor(r/10);return "token 30×"+t30+" · 10×"+t10+" · หมากช่อง "+(r%10);}
+  function total(p){return p.myth+p.rd*7+p.ht;}
+
+  function stepper(id,val,min,onSet,label){
+    const st=document.createElement("div");st.className="stepper";
+    const m=document.createElement("button");m.type="button";m.textContent="−";m.setAttribute("aria-label","ลด "+label);
+    const inp=document.createElement("input");inp.type="number";inp.id=id;inp.value=val;inp.inputMode="numeric";inp.setAttribute("aria-label",label);if(min!=null)inp.min=String(min);
+    const p=document.createElement("button");p.type="button";p.textContent="+";p.setAttribute("aria-label","เพิ่ม "+label);
+    const set=v=>{if(min!=null&&v<min)v=min;inp.value=v;onSet(v);};
+    m.addEventListener("click",()=>set((parseInt(inp.value,10)||0)-1));
+    p.addEventListener("click",()=>set((parseInt(inp.value,10)||0)+1));
+    inp.addEventListener("input",()=>{const n=parseInt(inp.value,10);onSet(isNaN(n)?0:(min!=null&&n<min?min:n));});
+    st.append(m,inp,p);return st;
+  }
+
+  function renderPlayers(){
+    pBox.innerHTML="";
+    for(let i=0;i<S.count;i++){
+      const p=S.players[i];
+      const card=document.createElement("div");card.className="pc";card.style.setProperty("--c",crOf(p.cr).c);
+      const head=document.createElement("div");head.className="pc-head";
+      const nm=document.createElement("input");nm.type="text";nm.id="pn-"+i;nm.value=p.name;nm.setAttribute("aria-label","ชื่อผู้เล่น "+(i+1));
+      nm.addEventListener("input",()=>{p.name=nm.value;dirty();renderBoard();});
+      const sel=document.createElement("select");sel.id="pcr-"+i;sel.setAttribute("aria-label","Cryptid ของผู้เล่น "+(i+1));
+      CR.forEach(c=>{const o=document.createElement("option");o.value=c.k;o.textContent=c.n;if(c.k===p.cr)o.selected=true;sel.appendChild(o);});
+      sel.addEventListener("change",()=>{p.cr=sel.value;card.style.setProperty("--c",crOf(p.cr).c);dirty();renderBoard();});
+      head.append(nm,sel);card.appendChild(head);
+
+      const row=document.createElement("div");row.className="myth-row";
+      const big=document.createElement("div");big.className="myth-big";
+      const tk=document.createElement("div");tk.className="tokens";
+      const paint=()=>{big.innerHTML=p.myth+' <small>Myth</small>';tk.textContent=tokens(p.myth);};
+      paint();
+      const q=document.createElement("div");q.className="quick";
+      [-5,-1,1,5].forEach(d=>{const b=document.createElement("button");b.type="button";b.className=d<0?"minus":"plus";b.id="pq-"+i+"-"+d;b.textContent=(d>0?"+":"−")+Math.abs(d);b.setAttribute("aria-label",(d>0?"เพิ่ม ":"ลด ")+Math.abs(d)+" Myth");
+        b.addEventListener("click",()=>{p.myth=Math.max(0,p.myth+d);paint();dirty();renderBoard();});q.appendChild(b);});
+      const left=document.createElement("div");left.style.display="grid";left.style.gap="2px";left.append(big,tk);
+      row.append(left,q);card.appendChild(row);
+
+      const ef=document.createElement("div");ef.className="endf";ef.hidden=S.mode!=="end";
+      [["rd","Real Deal ที่ไม่เคยถูกเปิด (×7)"],["ht","โบนัส Hidden Trait"],["tb","มนุษย์ใน Site ที่ซ่อน (ใช้ตอนเสมอ)"]].forEach(([k,l])=>{
+        const r=document.createElement("div");r.className="row";
+        const lab=document.createElement("label");lab.htmlFor="pe-"+k+"-"+i;lab.textContent=l;
+        r.append(lab,stepper("pe-"+k+"-"+i,p[k],0,v=>{p[k]=v;dirty();renderBoard();},l));
+        ef.appendChild(r);
+      });
+      card.appendChild(ef);
+      pBox.appendChild(card);
+    }
+  }
+  function dirty(){if(S.sample){S.sample=false;note.hidden=true;}save();}
+
+  function renderBoard(){
+    const list=S.players.slice(0,S.count).map((p,i)=>Object.assign({i},p,{t:total(p)}));
+    let h="";
+    if(S.mode==="game"){
+      const sorted=list.slice().sort((a,b)=>b.myth-a.myth);
+      const top=sorted[0].myth;
+      h+='<div class="rank">'+sorted.map((p,ix)=>'<div class="rk'+(p.myth===top?' win':'')+'"><span class="pos">'+(ix+1)+'</span><span><span class="nm">'+esc(p.name||("ผู้เล่น "+(p.i+1)))+'</span><br><span class="br">'+crOf(p.cr).n+' · '+tokens(p.myth)+'</span></span><span class="tt">'+p.myth+'</span></div>').join("")+'</div>';
+      h+='<div class="note">Myth ระหว่างเกม ยังไม่รวม Real Deal และ Hidden Trait · จบรอบ 5 แล้วกด “จบเกม”</div>';
+    }else{
+      const sorted=list.slice().sort((a,b)=>b.t-a.t||b.tb-a.tb);
+      const best=sorted[0].t;
+      const tied=sorted.filter(p=>p.t===best);
+      const bestTb=Math.max(...tied.map(p=>p.tb));
+      const winners=tied.filter(p=>p.tb===bestTb);
+      const nm=p=>esc(p.name||("ผู้เล่น "+(p.i+1)));
+      if(winners.length===1){
+        h+='<div class="legend">'+nm(winners[0])+' คือ True Legend · '+best+' Myth</div>';
+        if(tied.length>1)h+='<div class="note">Myth เสมอกันที่ '+best+' ('+tied.map(nm).join(", ")+') ตัดสินด้วยจำนวนมนุษย์ใน Site ที่มีที่ซ่อน: '+tied.map(p=>nm(p)+' '+p.tb).join(" · ")+'</div>';
+      }else{
+        h+='<div class="legend">ตำนานร่วม: '+winners.map(nm).join(" & ")+' · '+best+' Myth</div><div class="note">เสมอทั้ง Myth และจำนวนมนุษย์ ('+bestTb+' คน) คู่มือบอกให้ high five กัน แล้วเล่นอีกตา</div>';
+      }
+      h+='<div class="rank">'+sorted.map((p,ix)=>{
+        const w=winners.includes(p);
+        return '<div class="rk'+(w?' win':'')+'"><span class="pos">'+(ix+1)+'</span><span><span class="nm">'+nm(p)+'</span><br><span class="br">'+p.myth+' + Real Deal '+p.rd+'×7 + Trait '+p.ht+(tied.length>1&&p.t===best?' · มนุษย์ '+p.tb:'')+'</span></span><span class="tt">'+p.t+'</span></div>';
+      }).join("")+'</div>';
+    }
+    board.innerHTML=h;
+  }
+  function renderAll(){
+    modeBox.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.id==="mode-"+S.mode)));
+    pcBox.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b.id==="pc-"+S.count)));
+    note.hidden=!S.sample;
+    renderPlayers();renderBoard();
+  }
+  renderAll();
+
+  /* ---------- sighting calculator ---------- */
+  const sg=document.getElementById("sight"),so=document.getElementById("sight-out");
+  const SF=[{k:"h",n:"Hiker",c:"var(--hiker)",cnt:2,val:-1},{k:"u",n:"Hunter",c:"var(--hunter)",cnt:0,val:-1},{k:"r",n:"Researcher",c:"var(--researcher)",cnt:3,val:2}];
+  sg.innerHTML='<span class="hd">ชนิด</span><span class="hd">จำนวนที่ Site</span><span class="hd">Myth ต่อคน</span>';
+  SF.forEach(f=>{
+    const lab=document.createElement("span");lab.className="lab";lab.innerHTML='<span class="dot" style="background:'+f.c+'"></span>'+f.n;
+    const a=stepper("sc-"+f.k,f.cnt,0,v=>{f.cnt=v;calcS();},"จำนวน "+f.n);
+    const b=stepper("sv-"+f.k,f.val,null,v=>{f.val=v;calcS();},"Myth ต่อ "+f.n);
+    a.style.justifySelf="start";sg.append(lab,a,b);
+  });
+  function calcS(){
+    const parts=SF.map(f=>f.cnt*f.val),sum=parts.reduce((x,y)=>x+y,0);
+    const fmt=v=>(v>0?"+":v<0?"−":"")+Math.abs(v);
+    so.innerHTML='<div class="status '+(sum>=0?'ok':'out')+'">'+(sum>=0?'ได้ ':'เสีย ')+Math.abs(sum)+' Myth</div><div class="note">'+SF.map((f,i)=>f.cnt+'×('+fmt(f.val)+')').join(" + ")+' = '+fmt(sum)+' · ถ้าเสียจน Myth ต่ำกว่า 0 ให้หยุดที่ 0 · อย่าลืมทำเอฟเฟกต์บนการ์ดต่อ</div>';
+  }
+  calcS();
+
+  /* ---------- placement checker ---------- */
+  const pl=document.getElementById("place"),po=document.getElementById("place-out");
+  const PS={n:6,here:3,mine:false};
+  pl.innerHTML='<span class="hd">ข้อมูล</span><span class="hd"></span><span class="hd"></span>';
+  const l1=document.createElement("span");l1.className="lab";l1.textContent="จำนวนผู้เล่นในเกม";
+  const s1=stepper("pl-n",PS.n,2,v=>{PS.n=Math.min(6,v);document.getElementById("pl-n").value=PS.n;calcP();},"จำนวนผู้เล่นในเกม");
+  const l2=document.createElement("span");l2.className="lab";l2.textContent="ผู้เล่นอื่นที่ซ่อนใน Site นี้แล้ว";
+  const s2=stepper("pl-h",PS.here,0,v=>{PS.here=v;calcP();},"ผู้เล่นอื่นที่ซ่อนใน Site นี้");
+  const l3=document.createElement("span");l3.className="lab";l3.textContent="มีที่ซ่อนของเราที่นี่แล้ว";
+  const cbw=document.createElement("label");cbw.style.display="flex";cbw.style.gap="6px";cbw.style.alignItems="center";
+  const cb=document.createElement("input");cb.type="checkbox";cb.id="pl-mine";cb.addEventListener("change",()=>{PS.mine=cb.checked;calcP();});
+  cbw.append(cb,document.createTextNode("ใช่"));
+  pl.append(l1,document.createElement("span"),s1,l2,document.createElement("span"),s2,l3,document.createElement("span"),cbw);
+  const l4=document.createElement("span");l4.className="lab";l4.textContent="เพิ่งเกิด Encounter ที่นี่ (กลางคืน)";
+  const cb2w=document.createElement("label");cb2w.style.display="flex";cb2w.style.gap="6px";cb2w.style.alignItems="center";
+  const cb2=document.createElement("input");cb2.type="checkbox";cb2.id="pl-enc";cb2.addEventListener("change",calcP);
+  cb2w.append(cb2,document.createTextNode("ใช่"));
+  pl.append(l4,document.createElement("span"),cb2w);
+  function calcP(){
+    const cap=PS.n>=5?4:PS.n===4?3:null;
+    const why=[];
+    if(PS.mine)why.push("ห้ามวางใน Site ที่มีที่ซ่อนของเราอยู่แล้ว");
+    if(cap!==null&&PS.here>=cap)why.push("Site นี้มีผู้เล่น "+PS.here+" คนแล้ว เพดานของวง "+PS.n+" คนคือ "+cap+" คน");
+    if(cb2.checked)why.push("ที่ซ่อนที่เพิ่งโดน Encounter ต้องวางที่ Site อื่น");
+    if(PS.n===2)why.push("(ถ้า Site นี้คือ Scenic Swamp ที่มี Sinkhole ก็วางไม่ได้)");
+    const ok=why.filter(w=>!w.startsWith("(")).length===0;
+    po.innerHTML='<div class="status '+(ok?'ok':'out')+'">'+(ok?'วางได้':'วางไม่ได้')+'</div>'+(why.length?'<div class="note">'+why.join("<br>")+'</div>':'<div class="note">'+(cap?'เพดานวงนี้: '+cap+' ผู้เล่นต่อ Site':'วงนี้ไม่มีเพดานผู้เล่นต่อ Site')+'</div>');
+  }
+  calcP();
+})();
+</script>
+
+</body></html>

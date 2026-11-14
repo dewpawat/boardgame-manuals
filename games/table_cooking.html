@@ -1,0 +1,895 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Table Cooking ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: checkered-tablecloth hero with a plated table, then a rulebook column with a sticky chapter rail.
+   Ingredient colours are physical token colours and stay the same in both themes. Tools (setup, market tracker, scorepad) near the end.
+   Edition note: this guide covers the FIRST edition (white price beads on the central board, no safe). */
+:root{
+  --bg:#f6f0e6;
+  --surface:#fffcf6;
+  --surface-2:#efe5d4;
+  --fg:#2c201a;
+  --muted:#6f5f52;
+  --line:#dfd0bb;
+  --accent:#b8321f;
+  --accent-soft:#f7ddd4;
+  --herb:#3f7a3a;
+  --herb-soft:#e2eed8;
+  --butter:#f5c85a;
+  --butter-soft:#fbefcb;
+  --band-1:#7c1d14;
+  --band-2:#4a120d;
+  --band-fg:#fff6ea;
+  --good:#2f7d3d;
+  --bad:#b8322a;
+  --bead:#ffffff;
+  --track:#3a2a22;
+  --i-sea:#e0745a; --i-chk:#e9a83c; --i-flr:#efe3c8; --i-egg:#f4d23f; --i-meat:#9c3b2b; --i-six:#6aa84f;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17110e;--surface:#211915;--surface-2:#2d231d;--fg:#f2e8dc;--muted:#b9a897;--line:#3d3029;
+    --accent:#ff8a6e;--accent-soft:#3c1d16;--herb:#8fcf84;--herb-soft:#1d2a19;--butter-soft:#3a2f14;
+    --band-1:#4a110c;--band-2:#260907;--good:#6fd086;--bad:#ff7a6b;--track:#120d0a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17110e;--surface:#211915;--surface-2:#2d231d;--fg:#f2e8dc;--muted:#b9a897;--line:#3d3029;
+  --accent:#ff8a6e;--accent-soft:#3c1d16;--herb:#8fcf84;--herb-soft:#1d2a19;--butter-soft:#3a2f14;
+  --band-1:#4a110c;--band-2:#260907;--good:#6fd086;--bad:#ff7a6b;--track:#120d0a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden;position:relative}
+.hero::before{content:"";position:absolute;inset:0;opacity:.08;background-image:linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%),linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%);background-size:36px 36px;background-position:0 0,18px 18px;pointer-events:none}
+.hero .wrap{position:relative;padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--butter);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--butter);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.edition{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--butter);color:#2c201a;border-radius:999px;padding:4px 14px;font-family:var(--font-tag);font-weight:600;font-size:.88rem}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.green{background:var(--herb-soft)}
+.callout.yellow{background:var(--butter-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:56em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 170px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.fm.neg b{color:var(--bad)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0;display:grid;gap:10px}
+.figure figcaption{font-size:.9rem;color:var(--muted)}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body)}
+.t-fg{fill:var(--fg)} .t-muted{fill:var(--muted)} .t-acc{fill:var(--accent)} .t-good{fill:var(--good)} .t-bad{fill:var(--bad)}
+.s-line{stroke:var(--line)} .f-surf{fill:var(--surface-2)} .f-card{fill:var(--surface)}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.92rem}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:16px;height:16px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.35)}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--butter);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+.type .k{font-family:var(--font-tag);font-size:.74rem;border-radius:999px;padding:0 9px;background:var(--surface-2);color:var(--muted)}
+.type.free{border-color:var(--herb);background:var(--herb-soft)}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;max-width:56em}
+.ed{border-radius:14px;padding:16px;display:grid;gap:6px;border:2px solid var(--line);background:var(--surface)}
+.ed.mine{border-color:var(--accent)}
+.ed h3{font-size:1.08rem}
+.ed .pill{justify-self:start;font-family:var(--font-tag);font-size:.76rem;font-weight:600;border-radius:999px;padding:0 10px;background:var(--accent);color:#fff}
+.ed .pill.off{background:var(--surface-2);color:var(--muted)}
+.ed ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+details .ans{display:grid;gap:6px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"],.btn.primary{background:var(--band-1);border-color:var(--band-1);color:var(--butter)}
+.btn.sm{font-size:.8rem;padding:2px 10px;min-height:30px}
+.btn.lower{background:var(--herb);border-color:var(--herb);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center}
+.outgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:grid;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.25}
+.co small{font-size:.84rem;color:var(--muted)}
+.ing-dot{display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.35);vertical-align:-3px;margin-right:6px;flex:none}
+.mkt{display:grid;gap:6px}
+.mrow{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr) 44px auto;gap:10px;align-items:center;padding:6px 8px;border-radius:10px}
+.mrow.bought{background:var(--accent-soft)}
+.mrow .nm{display:flex;align-items:center;font-weight:600;min-width:0}
+.mrow .nm input{font:inherit;font-weight:600;width:100%;min-width:0;border:1px dashed var(--line);background:transparent;color:var(--fg);border-radius:6px;padding:0 6px}
+.mrow .px{font-family:var(--font-tag);font-weight:600;font-size:1.3rem;text-align:center;font-variant-numeric:tabular-nums}
+.mrow .acts{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.beads{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:3px;background:var(--track);border-radius:999px;padding:4px 6px}
+.beads span{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;font-family:var(--font-tag);font-size:.62rem;color:rgba(255,255,255,.45);min-width:0}
+.beads span.on{background:var(--bead);color:#2c201a;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.4);font-weight:600}
+.msg{background:var(--butter-soft);border-radius:10px;padding:8px 12px;font-size:.95rem;min-height:2.4em}
+.pad{min-width:540px}
+.pad input{font:inherit;font-family:var(--font-tag);font-weight:600;width:100%;min-width:52px;height:36px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.pad input.name{text-align:left;padding-inline:8px;font-family:var(--font-body)}
+.pad input[type=checkbox]{width:22px;height:22px;min-width:0;accent-color:var(--accent)}
+.pad td,.pad th{padding:6px 8px;vertical-align:middle}
+.pad td.c{text-align:center}
+.pad tr.total td{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;text-align:center;background:var(--surface-2)}
+.pad tr.total td.lead{color:var(--accent)}
+.pad tr.tb td,.pad tr.tb th{background:var(--bg);font-size:.88rem}
+.pad th.rowh{white-space:nowrap}
+.pad .hint{display:block;font-family:var(--font-body);font-weight:400;font-size:.78rem;color:var(--muted)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:420px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  .mrow{grid-template-columns:minmax(0,1fr) 40px;grid-template-areas:"nm px" "bd bd" "ac ac"}
+  .mrow .nm{grid-area:nm}.mrow .px{grid-area:px}.mrow .beads{grid-area:bd}.mrow .acts{grid-area:ac;justify-content:flex-start}
+}
+@media (prefers-reduced-motion:no-preference){
+  .steam{animation:steam 3s ease-in-out infinite}
+  .steam:nth-child(2){animation-delay:.8s}.steam:nth-child(3){animation-delay:1.6s}
+  @keyframes steam{0%{opacity:0;transform:translateY(6px)}40%{opacity:.7}100%{opacity:0;transform:translateY(-12px)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · บอร์ดเกมไทย · ฉบับพิมพ์แรก</div>
+      <h1>Table Cooking<span>Enjoy Your Meal · ช้อปวัตถุดิบ รับออเดอร์ อัปเกรดครัว แล้วปรุงให้ครบ 7 จาน</span></h1>
+      <p class="lede">ทุกคนเป็นหัวหน้าเชฟ ในตาของคุณเลือกทำ 1 อย่าง คือ<b>ซื้อวัตถุดิบ</b> <b>รับเมนู</b> <b>อัปเกรดครัว</b> หรือ<b>รับรายได้</b> แล้วจะ<b>ปรุงอาหาร</b>ฟรีอีก 1 จานก็ได้ ราคาวัตถุดิบกลางโต๊ะขึ้นลงตามที่ทุกคนซื้อ ใครปรุงครบ 7 จานก่อน เล่นจนจบรอบแล้วนับแต้ม</p>
+      <div class="facts">
+        <div class="fact"><b>2–4</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>7</b><small>จานที่ทำให้เกมจบ</small></div>
+        <div class="fact"><b>50</b><small>การ์ดเมนู 4 ประเภท</small></div>
+        <div class="fact"><b>2–10</b><small>ราคาวัตถุดิบบนราง</small></div>
+      </div>
+      <div class="edition">เล่มนี้เป็นฉบับแรก · ไม่มีเซฟ · ตลาดใช้เม็ดขาว</div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 360 250">
+        <ellipse cx="180" cy="226" rx="170" ry="18" fill="rgba(0,0,0,.25)"/>
+        <g fill="none" stroke="#fff6ea" stroke-width="3" stroke-linecap="round" opacity=".7">
+          <path class="steam" d="M150 60 q-8 -12 0 -24 q8 -12 0 -24"/>
+          <path class="steam" d="M180 56 q-8 -12 0 -24 q8 -12 0 -24"/>
+          <path class="steam" d="M210 60 q-8 -12 0 -24 q8 -12 0 -24"/>
+        </g>
+        <ellipse cx="180" cy="120" rx="96" ry="40" fill="#fff6ea"/>
+        <ellipse cx="180" cy="116" rx="74" ry="28" fill="#f0e3cc"/>
+        <ellipse cx="180" cy="112" rx="58" ry="20" fill="#e9a83c"/>
+        <circle cx="160" cy="108" r="9" fill="#9c3b2b"/><circle cx="196" cy="104" r="8" fill="#e0745a"/><circle cx="182" cy="118" r="7" fill="#6aa84f"/><circle cx="208" cy="116" r="6" fill="#f4d23f"/>
+        <path d="M60 128 l14 -60 M70 128 l10 -58" stroke="#d9c6a6" stroke-width="5" stroke-linecap="round"/>
+        <path d="M290 70 v58 M300 70 v58" stroke="#d9c6a6" stroke-width="5" stroke-linecap="round"/>
+        <rect x="40" y="170" width="280" height="34" rx="17" fill="#3a2a22"/>
+        <g font-family="Chakra Petch,sans-serif" font-size="10" fill="rgba(255,255,255,.5)" text-anchor="middle">
+          <text x="66" y="191">2</text><text x="96" y="191">3</text><text x="126" y="191">4</text><text x="156" y="191">5</text><text x="186" y="191">6</text><text x="216" y="191">7</text><text x="246" y="191">8</text><text x="276" y="191">9</text><text x="300" y="191">10</text>
+        </g>
+        <circle cx="156" cy="187" r="11" fill="#fff" stroke="#000" stroke-opacity=".4"/>
+        <circle cx="216" cy="187" r="11" fill="#fff" stroke="#000" stroke-opacity=".4"/>
+        <circle cx="96" cy="187" r="11" fill="#fff" stroke="#000" stroke-opacity=".4"/>
+        <g transform="rotate(-10 300 40)"><rect x="276" y="14" width="52" height="70" rx="6" fill="#fff6ea" stroke="#2c201a" stroke-opacity=".3"/><path d="M314 14 h14 v18 l-7 -5 l-7 5z" fill="#b8321f"/><circle cx="302" cy="52" r="12" fill="#f4d23f"/><rect x="284" y="70" width="36" height="5" rx="2" fill="#d9c6a6"/></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#edition">ฉบับแรก ต่างจากฉบับ 2 ยังไง</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li class="sep">เล่น</li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#market">ตลาดและราคา</a></li>
+      <li><a href="#menu">การ์ดเมนูและการปรุง</a></li>
+      <li><a href="#kitchen">ครัวและการอัปเกรด</a></li>
+      <li><a href="#mission">ภารกิจลับ</a></li>
+      <li><a href="#end">จบเกมและนับแต้ม</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#tool-setup">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#tool-market">ตัวคุมราคาตลาด</a></li>
+      <li><a href="#tool-pad">สมุดคะแนน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ เลือก 1 แอ็กชัน</h3>
+        <ol>
+          <li><b>ซื้อวัตถุดิบ</b> ชนิดเดียว ได้สูงสุด 2 ชิ้น ซื้อชิ้นไหนราคาชนิดนั้นขึ้น 1 แล้วกดราคาวัตถุดิบอื่นลง 1</li>
+          <li><b>รับเมนู</b> 1 ใบ จากแถวเมนูที่เปิดอยู่หรือจากกอง (ถือได้สูงสุด 5 ใบ)</li>
+          <li><b>อัปเกรดครัว</b> จ่าย 10 TC รับไทล์ครัว 1 แผ่น ได้ความสามารถใหม่และแต้มท้ายเกม</li>
+          <li><b>รับรายได้</b> รับ 10 TC</li>
+        </ol>
+        <p style="margin-top:8px">และ<b>ก่อนหรือหลัง</b>แอ็กชันนั้น <b>ปรุงอาหารฟรี 1 จาน</b> ได้ ถ้ามีวัตถุดิบในตู้เย็นและระดับครัวครบตามการ์ด ปรุงเสร็จได้เงินตามริบบิ้นแดงบนการ์ด</p>
+      </div>
+      <div class="formula" aria-label="แหล่งแต้มทั้งหมด">
+        <div class="fm"><small>เมนูที่ปรุงแล้ว</small><b>แต้มตามการ์ด</b></div>
+        <div class="fm"><small>ครบ 4 ประเภท</small><b>+10</b></div>
+        <div class="fm"><small>ไทล์ครัวที่อัปเกรด</small><b>แต้มตามไทล์</b></div>
+        <div class="fm"><small>วัตถุดิบเหลือในตู้เย็น</small><b>1 / ชิ้น</b></div>
+        <div class="fm"><small>ภารกิจลับ</small><b>ตามการ์ด</b></div>
+        <div class="fm neg"><small>เมนูค้างในมือ</small><b>−2 / ใบ</b></div>
+      </div>
+      <p class="note">เงิน (TC) ที่เหลือ<b>ไม่ใช่แต้ม</b> ใช้แค่ตัดสินตอนเสมอ · ใครปรุงจานที่ 7 ก่อน เล่นต่อจนทุกคนได้จำนวนตาเท่ากันแล้วจบเกม</p>
+    </section>
+
+    <!-- EDITION -->
+    <section id="edition">
+      <div class="sec-head"><span class="tag">อ่านก่อนเปิดกล่อง</span><h2>ฉบับแรก ต่างจากฉบับ 2 ยังไง</h2></div>
+      <p class="prose">Table Cooking ที่วางขายตอนนี้เป็น<b>ฉบับพิมพ์ที่ 2 (2nd Edition)</b> ซึ่งเปลี่ยนอุปกรณ์บางชิ้น คู่มือเล่มนี้เขียนตาม<b>ฉบับแรก</b> ถ้าเปิดคลิปสอนเล่นหรือคู่มือฉบับ 2 อาจเจอของที่ไม่มีในกล่องนี้</p>
+      <div class="compare">
+        <div class="ed mine">
+          <span class="pill">กล่องนี้</span>
+          <h3>ฉบับแรก</h3>
+          <ul>
+            <li>บอร์ดตลาดกลางโต๊ะใช้<b>เม็ดสีขาว</b> วางบนรางตัวเลข บอกราคาวัตถุดิบแต่ละชนิด เลื่อนเม็ดขึ้นลงทีละช่อง</li>
+            <li><b>ไม่มีเซฟ</b> เงินทุกคนวางเปิดหน้าตัวเอง ใครจะนับเงินคนอื่นก็ได้</li>
+            <li>กติกาส่วนอื่นในเล่มนี้อิงฉบับแรกทั้งหมด</li>
+          </ul>
+        </div>
+        <div class="ed">
+          <span class="pill off">ไม่ใช่กล่องนี้</span>
+          <h3>ฉบับ 2 (ที่ขายตอนนี้)</h3>
+          <ul>
+            <li>ราคาบนบอร์ดกลางเปลี่ยนเป็น<b>เข็มหมุน</b>แทนเม็ด</li>
+            <li>มี<b>เซฟ</b>เพิ่มเข้ามา</li>
+            <li>ถ้าดูคลิปที่พูดถึงเข็มหรือเซฟ ข้ามส่วนนั้นไปได้เลย</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">เม็ดขาวกับเข็มบอกราคาแบบเดียวกัน ต่างกันที่หน้าตา วิธีขึ้นลงราคาในบท <a href="#market">ตลาดและราคา</a> ใช้กับเม็ดขาวได้ตรง ๆ</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td><b>บอร์ดตลาด</b> <span class="en">Market Board</span></td><td class="num">1</td><td>วางกลางโต๊ะ มีช่องเก็บวัตถุดิบและรางราคาของวัตถุดิบ 6 ชนิด</td></tr>
+            <tr><td><b>เม็ดราคาสีขาว</b></td><td class="num">6</td><td>ชนิดละ 1 เม็ด วางบนรางราคา (ฉบับ 2 เปลี่ยนเป็นเข็ม)</td></tr>
+            <tr><td><b>โทเคนวัตถุดิบ</b> <span class="en">Ingredients</span></td><td class="num">42</td><td>6 ชนิด ชนิดละ 7 ชิ้น เช่น อาหารทะเล ไก่ แป้ง ไข่ เนื้อ</td></tr>
+            <tr><td><b>การ์ดเมนู</b> <span class="en">Menu</span></td><td class="num">50</td><td>ของว่าง 11 · ซุป 11 · จานหลัก 17 · ของหวาน 11</td></tr>
+            <tr><td><b>การ์ดภารกิจลับ</b> <span class="en">Secret Mission</span></td><td class="num">18</td><td>แจกคนละ 3 เก็บไว้ 1</td></tr>
+            <tr><td><b>ครัวเริ่มต้น</b> <span class="en">Starter Kitchen</span></td><td class="num">4</td><td>ระดับ 1 คนละแผ่น</td></tr>
+            <tr><td><b>ไทล์ครัวระดับ 2</b></td><td class="num">12</td><td>3 แบบ แบบละ 4 แผ่น</td></tr>
+            <tr><td><b>ไทล์ครัวระดับ 3</b></td><td class="num">8</td><td>2 แบบ แบบละ 4 แผ่น</td></tr>
+            <tr><td><b>เหรียญ TC</b></td><td class="num">–</td><td>หลายมูลค่า (1 · 5 · 10 · 15)</td></tr>
+            <tr><td><b>การ์ดสรุป</b></td><td class="num">4</td><td>คนละใบ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend" aria-label="สีวัตถุดิบในรูปประกอบ">
+        <span><i style="background:var(--i-sea)"></i>อาหารทะเล</span>
+        <span><i style="background:var(--i-chk)"></i>ไก่</span>
+        <span><i style="background:var(--i-flr)"></i>แป้ง</span>
+        <span><i style="background:var(--i-egg)"></i>ไข่</span>
+        <span><i style="background:var(--i-meat)"></i>เนื้อ</span>
+        <span><i style="background:var(--i-six)"></i>ชนิดที่ 6</span>
+      </div>
+      <p class="note">สีในรูปประกอบใช้แยกชนิดเท่านั้น อาจไม่ตรงกับสีโทเคนจริง ส่วนเม็ดขาวในรูปคือเม็ดราคาบนบอร์ดตลาด</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>วางบอร์ดตลาด</h3><p>วางกลางโต๊ะ ใส่โทเคนวัตถุดิบลงช่องของแต่ละชนิด <b>ชนิดละ (จำนวนคน + 2) ชิ้น</b> เช่น 3 คนใส่ชนิดละ 5 ที่เหลือเก็บข้างบอร์ดเป็นกองสำรอง</p></div></li>
+        <li><div class="body"><h3>วางเม็ดขาวที่ราคา 5</h3><p>วางเม็ดขาวของวัตถุดิบทั้ง 6 ชนิดไว้ที่ช่อง <b>5</b> บนรางราคา</p></div></li>
+        <li><div class="body"><h3>แจกครัวเริ่มต้น</h3><p>คนละแผ่น แยกไทล์ครัวระดับ 2 และ 3 ไว้ข้างโต๊ะ (ซื้อได้ด้วยแอ็กชันอัปเกรดครัว)</p></div></li>
+        <li><div class="body"><h3>ภารกิจลับ</h3><p>สับการ์ดภารกิจ แจกคนละ 3 ใบ <b>เลือกเก็บ 1</b> คว่ำไว้ ที่เหลือเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>เมนูในมือ</h3><p>สับการ์ดเมนู แจกคนละ 3 ใบ เลือกเก็บไว้<b>อย่างน้อย 1 ใบ</b> ใบที่ไม่เอาสับคืนกอง</p></div></li>
+        <li><div class="body"><h3>เปิดแถวเมนู 4 ใบ</h3><p>เปิดการ์ดเมนู 4 ใบเรียงข้างกอง นี่คือ<b>แถวเมนู</b> <span class="en">Menu row</span></p></div></li>
+        <li><div class="body"><h3>ปรับราคาเริ่มต้น</h3>
+          <ul>
+            <li>ดูวัตถุดิบ<b>ตัวแรก</b>ของเมนู 3 ใบแรกในแถวเมนู เลื่อนเม็ดขาวของวัตถุดิบนั้น<b>ขึ้น 1</b></li>
+            <li>ถ้าชนิดนั้นถูกเลื่อนขึ้นไปแล้ว ดูวัตถุดิบตัวที่ 2 หรือ 3 ของการ์ดแทน จนเลื่อนขึ้นครบ 3 ชนิด</li>
+            <li>อีก 3 ชนิดที่เหลือ เลื่อน<b>ลง 1</b> · ผลคือราคาเริ่มเป็น 6 สามชนิด และ 4 สามชนิด</li>
+          </ul></div></li>
+        <li><div class="body"><h3>แจกเงิน</h3><p>คนละ <b>30 TC</b> ตกลงกันว่าใครเล่นก่อน แล้วเล่นตามเข็มนาฬิกา</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 210" role="img" aria-label="ตัวอย่างปรับราคาเริ่มต้นจากแถวเมนู">
+          <g font-size="12">
+            <!-- three menu cards -->
+            <g transform="translate(10 10)">
+              <rect width="110" height="150" rx="8" class="f-card" stroke="var(--line)"/><path d="M80 0 h22 v26 l-11 -7 l-11 7z" fill="#b8321f"/>
+              <text x="10" y="22" class="t-fg" font-weight="700">เมนู 1</text>
+              <circle cx="24" cy="120" r="11" fill="var(--i-sea)" stroke="#000" stroke-opacity=".35"/><circle cx="50" cy="120" r="11" fill="var(--i-egg)" stroke="#000" stroke-opacity=".35"/>
+              <rect x="12" y="105" width="24" height="30" rx="6" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+            </g>
+            <g transform="translate(130 10)">
+              <rect width="110" height="150" rx="8" class="f-card" stroke="var(--line)"/><path d="M80 0 h22 v26 l-11 -7 l-11 7z" fill="#b8321f"/>
+              <text x="10" y="22" class="t-fg" font-weight="700">เมนู 2</text>
+              <circle cx="24" cy="120" r="11" fill="var(--i-sea)" stroke="#000" stroke-opacity=".35"/><circle cx="50" cy="120" r="11" fill="var(--i-flr)" stroke="#000" stroke-opacity=".35"/>
+              <line x1="14" y1="130" x2="34" y2="110" stroke="var(--bad)" stroke-width="3"/>
+              <rect x="38" y="105" width="24" height="30" rx="6" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+            </g>
+            <g transform="translate(250 10)">
+              <rect width="110" height="150" rx="8" class="f-card" stroke="var(--line)"/><path d="M80 0 h22 v26 l-11 -7 l-11 7z" fill="#b8321f"/>
+              <text x="10" y="22" class="t-fg" font-weight="700">เมนู 3</text>
+              <circle cx="24" cy="120" r="11" fill="var(--i-meat)" stroke="#000" stroke-opacity=".35"/>
+              <rect x="12" y="105" width="24" height="30" rx="6" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+            </g>
+            <text x="10" y="186" class="t-muted">เมนู 2 ตัวแรกเป็นอาหารทะเล ซ้ำกับเมนู 1 จึงใช้ตัวที่ 2 (แป้ง) แทน</text>
+            <!-- price result -->
+            <g transform="translate(390 14)">
+              <text x="0" y="0" class="t-fg" font-weight="700">ราคาเริ่ม</text>
+              <g transform="translate(0 14)"><circle cx="10" cy="10" r="9" fill="var(--i-sea)" stroke="#000" stroke-opacity=".35"/><text x="28" y="15" class="t-fg">อาหารทะเล</text><text x="150" y="15" class="t-good" font-weight="700">5 → 6</text></g>
+              <g transform="translate(0 40)"><circle cx="10" cy="10" r="9" fill="var(--i-flr)" stroke="#000" stroke-opacity=".35"/><text x="28" y="15" class="t-fg">แป้ง</text><text x="150" y="15" class="t-good" font-weight="700">5 → 6</text></g>
+              <g transform="translate(0 66)"><circle cx="10" cy="10" r="9" fill="var(--i-meat)" stroke="#000" stroke-opacity=".35"/><text x="28" y="15" class="t-fg">เนื้อ</text><text x="150" y="15" class="t-good" font-weight="700">5 → 6</text></g>
+              <g transform="translate(0 92)"><circle cx="10" cy="10" r="9" fill="var(--i-chk)" stroke="#000" stroke-opacity=".35"/><text x="28" y="15" class="t-fg">ไก่</text><text x="150" y="15" class="t-bad" font-weight="700">5 → 4</text></g>
+              <g transform="translate(0 118)"><circle cx="10" cy="10" r="9" fill="var(--i-egg)" stroke="#000" stroke-opacity=".35"/><text x="28" y="15" class="t-fg">ไข่</text><text x="150" y="15" class="t-bad" font-weight="700">5 → 4</text></g>
+              <g transform="translate(0 144)"><circle cx="10" cy="10" r="9" fill="var(--i-six)" stroke="#000" stroke-opacity=".35"/><text x="28" y="15" class="t-fg">ชนิดที่ 6</text><text x="150" y="15" class="t-bad" font-weight="700">5 → 4</text></g>
+            </g>
+          </g>
+        </svg></div>
+        <figcaption>กรอบแดงคือวัตถุดิบที่ใช้ปรับราคา · ไข่ในเมนู 1 ไม่นับ เพราะดูแค่ตัวแรกก่อน · <a href="#tool-setup">ตัวช่วยเตรียมเกม</a> คิดให้ได้</figcaption>
+      </figure>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <p class="prose">เลือก<b>แอ็กชันหลัก 1 อย่าง</b>จาก 4 อย่าง และจะปรุงอาหารฟรี 1 จานก่อนหรือหลังแอ็กชันหลักก็ได้ (ไม่บังคับ)</p>
+      <div class="types">
+        <div class="type">
+          <h3>ซื้อวัตถุดิบ <span class="k">Shopping</span></h3>
+          <ul>
+            <li>เลือกวัตถุดิบ<b>ชนิดเดียว</b> ซื้อได้สูงสุด 2 ชิ้น ซื้อทีละชิ้น</li>
+            <li>แต่ละชิ้น: จ่ายตามราคาตอนนั้น → ใส่ตู้เย็น → เลื่อนราคาชนิดนั้นขึ้น 1 → เลือกวัตถุดิบ<b>ชนิดอื่น</b> 1 ชนิด เลื่อนลง 1</li>
+            <li>ดูรายละเอียดที่ <a href="#market">ตลาดและราคา</a></li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>รับเมนู <span class="k">Reserve a Menu</span></h3>
+          <ul>
+            <li>หยิบ 1 ใบจากแถวเมนู <b>หรือ</b> จั่วใบบนสุดของกอง</li>
+            <li><b>หรือ</b>จ่าย 3 TC ล้างแถวเมนูทั้ง 4 ใบไปไว้ใต้กอง เปิดใหม่ 4 ใบ แล้วหยิบ 1</li>
+            <li>เติมแถวเมนูให้ครบ 4 ทันที</li>
+            <li>ถือเมนูในมือได้<b>สูงสุด 5 ใบ</b> ถ้าเต็มแล้วทำแอ็กชันนี้ไม่ได้</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>อัปเกรดครัว <span class="k">Upgrade Kitchen</span></h3>
+          <ul>
+            <li>จ่าย <b>10 TC</b> (เกมแรกแนะนำให้ลดเหลือ 5 TC)</li>
+            <li>เลือกไทล์ครัว 1 แผ่น วางลงช่องที่ตรงกันบนครัวของตัวเอง</li>
+            <li>ดู <a href="#kitchen">ครัวและการอัปเกรด</a></li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>รับรายได้ <span class="k">Income</span></h3>
+          <ul>
+            <li>รับ <b>10 TC</b> จากธนาคาร</li>
+            <li>ทำได้ทุกตา ไม่จำกัดจำนวนครั้ง</li>
+          </ul>
+        </div>
+        <div class="type free">
+          <h3>ปรุงอาหาร <span class="k">ฟรี · Cooking</span></h3>
+          <ul>
+            <li>ทำได้ 1 ครั้งต่อตา <b>ก่อนหรือหลัง</b>แอ็กชันหลัก</li>
+            <li>ปรุงเมนูจาก<b>ในมือ</b>หรือจาก<b>แถวเมนู</b>ก็ได้</li>
+            <li>ดู <a href="#menu">การ์ดเมนูและการปรุง</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout green">
+        <h3>ลำดับที่ใช้บ่อย</h3>
+        <ul>
+          <li><b>ปรุงก่อน แล้วซื้อ</b> ตู้เย็นว่างขึ้นก่อน ซื้อเข้าได้มากขึ้น</li>
+          <li><b>ซื้อก่อน แล้วปรุง</b> ขาดวัตถุดิบอีก 1–2 ชิ้นก็ซื้อแล้วปรุงได้ในตาเดียว</li>
+          <li><b>ปรุงจากแถวเมนู</b> ไม่ต้องเสียแอ็กชันรับเมนูก่อน ถ้ามีของพร้อม</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MARKET -->
+    <section id="market">
+      <div class="sec-head"><span class="tag">บอร์ดกลาง · เม็ดขาว</span><h2>ตลาดและราคา</h2></div>
+      <p class="prose">วัตถุดิบแต่ละชนิดมีเม็ดขาว 1 เม็ดบนรางราคา <b>2 ถึง 10</b> ราคาไม่คงที่ ใครซื้ออะไร ของนั้นแพงขึ้น และคนซื้อเป็นคนเลือกว่าจะทำให้อะไรถูกลง</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 230" role="img" aria-label="ซื้ออาหารทะเล 2 ชิ้น ราคาขึ้นทีละ 1 และกดราคาวัตถุดิบอื่นลง">
+          <defs>
+            <g id="bead"><circle r="10" fill="#fff" stroke="#000" stroke-opacity=".45"/><ellipse cx="-3" cy="-4" rx="3" ry="2" fill="#fff" opacity=".9"/></g>
+          </defs>
+          <g font-size="12">
+            <text x="10" y="18" class="t-fg" font-weight="700">ก่อนซื้อ</text>
+            <text x="340" y="18" class="t-fg" font-weight="700">หลังซื้ออาหารทะเล 2 ชิ้น</text>
+            <!-- left board -->
+            <g transform="translate(10 30)">
+              <g><circle cx="10" cy="14" r="9" fill="var(--i-sea)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="128" y="14"/><text x="128" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">5</text></g>
+              <g transform="translate(0 30)"><circle cx="10" cy="14" r="9" fill="var(--i-chk)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="98" y="14"/><text x="98" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">4</text></g>
+              <g transform="translate(0 60)"><circle cx="10" cy="14" r="9" fill="var(--i-egg)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="68" y="14"/><text x="68" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">3</text></g>
+              <g transform="translate(0 90)"><circle cx="10" cy="14" r="9" fill="var(--i-meat)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="188" y="14"/><text x="188" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">7</text></g>
+            </g>
+            <!-- right board -->
+            <g transform="translate(340 30)">
+              <g><circle cx="10" cy="14" r="9" fill="var(--i-sea)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="188" y="14"/><text x="188" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">7</text><text x="250" y="18" fill="#ff9d86" font-weight="700">▲▲</text></g>
+              <g transform="translate(0 30)"><circle cx="10" cy="14" r="9" fill="var(--i-chk)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="68" y="14"/><text x="68" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">3</text><text x="250" y="18" fill="#9fe08f" font-weight="700">▼</text></g>
+              <g transform="translate(0 60)"><circle cx="10" cy="14" r="9" fill="var(--i-egg)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="38" y="14"/><text x="38" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">2</text><text x="250" y="18" fill="#9fe08f" font-weight="700">▼ +1 TC</text></g>
+              <g transform="translate(0 90)"><circle cx="10" cy="14" r="9" fill="var(--i-meat)" stroke="#000" stroke-opacity=".35"/><rect x="26" y="4" width="270" height="20" rx="10" fill="var(--track)"/><use href="#bead" x="188" y="14"/><text x="188" y="18" text-anchor="middle" font-size="10" fill="#2c201a" font-weight="700">7</text></g>
+            </g>
+            <g transform="translate(10 166)">
+              <rect width="620" height="56" rx="10" class="f-surf"/>
+              <text x="14" y="22" class="t-fg"><tspan font-weight="700">ชิ้นที่ 1:</tspan> จ่าย 5 · อาหารทะเลขึ้นเป็น 6 · เลือกกดไก่ลง 4 → 3</text>
+              <text x="14" y="44" class="t-fg"><tspan font-weight="700">ชิ้นที่ 2:</tspan> จ่าย 6 · อาหารทะเลขึ้นเป็น 7 · เลือกกดไข่ลง 3 → 2 ได้โบนัส 1 TC · <tspan font-weight="700">รวมจ่าย 11 ได้คืน 1</tspan></text>
+            </g>
+          </g>
+        </svg></div>
+        <figcaption>ซื้อชนิดเดียวกัน 2 ชิ้น ชิ้นที่ 2 แพงกว่าชิ้นแรก 1 TC เสมอ (ยกเว้นราคาชนสูงสุด 10) และได้กดราคาชนิดอื่นลง 2 ครั้ง จะกดชนิดเดิมซ้ำ 2 ครั้งก็ได้</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>สถานการณ์</th><th>ทำยังไง</th></tr></thead>
+          <tbody>
+            <tr><td>ซื้อของที่ราคา 10 อยู่แล้ว</td><td>จ่าย 10 เม็ดขาว<b>ไม่ขยับ</b> (สูงสุดแล้ว) แต่ยังต้องกดราคาชนิดอื่นลง 1 ตามปกติ</td></tr>
+            <tr><td>กดราคาลงไปถึง <b>2</b></td><td>คนที่กดได้ <b>1 TC</b> จากธนาคาร</td></tr>
+            <tr><td>ราคาที่ 2 อยู่แล้ว</td><td>ต่ำกว่า 2 ไม่ได้ ต้องเลือกกดชนิดอื่น</td></tr>
+            <tr><td>กดราคาของที่เพิ่งซื้อ</td><td><b>ไม่ได้</b> ต้องเลือกชนิดอื่น</td></tr>
+            <tr><td>ของในช่องตลาดหมด</td><td>ซื้อชนิดนั้นไม่ได้จนกว่าจะมีคนปรุงอาหารแล้วคืนวัตถุดิบเข้าตลาด</td></tr>
+            <tr><td>ตู้เย็นเต็ม</td><td>คืนวัตถุดิบในตู้เย็นชิ้นไหนก็ได้กลับตลาด เพื่อให้มีที่ใส่ของใหม่ (ไม่ได้เงินคืน)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu">
+      <div class="sec-head"><span class="tag">ออเดอร์</span><h2>การ์ดเมนูและการปรุง</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 250" role="img" aria-label="ส่วนต่าง ๆ ของการ์ดเมนู">
+          <g font-size="13">
+            <rect x="200" y="10" width="170" height="230" rx="12" class="f-card" stroke="var(--line)" stroke-width="2"/>
+            <rect x="214" y="58" width="142" height="90" rx="8" fill="var(--butter-soft)"/>
+            <ellipse cx="285" cy="110" rx="44" ry="18" fill="#fff6ea" stroke="#d9c6a6"/>
+            <ellipse cx="285" cy="106" rx="30" ry="10" fill="#e9a83c"/>
+            <path d="M330 10 h28 v34 l-14 -9 l-14 9z" fill="#b8321f"/>
+            <text x="344" y="30" text-anchor="middle" fill="#fff" font-weight="700" font-family="Chakra Petch,sans-serif">6</text>
+            <g transform="translate(214 22)"><rect width="38" height="22" rx="11" fill="var(--band-1)"/><text x="19" y="16" text-anchor="middle" fill="var(--butter)" font-weight="700" font-size="11" font-family="Chakra Petch,sans-serif">UP 1</text></g>
+            <circle cx="232" cy="176" r="12" fill="var(--i-meat)" stroke="#000" stroke-opacity=".35"/>
+            <text x="214" y="214" class="t-fg" font-weight="700">ข้าวแกงกะหรี่</text>
+            <text x="214" y="232" class="t-muted" font-size="11">จานหลัก</text>
+            <!-- labels -->
+            <g class="t-fg">
+              <line x1="380" y1="27" x2="440" y2="27" stroke="var(--muted)"/><text x="446" y="31"><tspan font-weight="700">ริบบิ้นแดง</tspan> เงินที่ได้ตอนปรุง และแต้มท้ายเกม</text>
+              <line x1="190" y1="33" x2="130" y2="33" stroke="var(--muted)"/><text x="10" y="30" font-weight="700">ระดับครัวขั้นต่ำ</text><text x="10" y="47" class="t-muted" font-size="11">ต้องมีไทล์อัปเกรดอย่างน้อยเท่านี้</text>
+              <line x1="190" y1="176" x2="130" y2="176" stroke="var(--muted)"/><text x="10" y="172" font-weight="700">วัตถุดิบที่ใช้</text><text x="10" y="189" class="t-muted" font-size="11">ต้องมีในตู้เย็นครบ</text>
+              <line x1="380" y1="226" x2="440" y2="226" stroke="var(--muted)"/><text x="446" y="222" font-weight="700">ชื่อเมนูและประเภท</text><text x="446" y="239" class="t-muted" font-size="11">ของว่าง · ซุป · จานหลัก · ของหวาน</text>
+            </g>
+          </g>
+        </svg></div>
+        <figcaption>ตัวอย่างจากคู่มือ: ข้าวแกงกะหรี่ญี่ปุ่น ต้องมีครัวอัปเกรดอย่างน้อย 1 แผ่นและเนื้อ 1 ชิ้น ปรุงแล้วคืนเนื้อเข้าตลาด รับ 6 TC</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>เช็กเงื่อนไข</h3><p>วัตถุดิบตามการ์ดต้องอยู่ใน<b>ตู้เย็นของคุณ</b>ครบ และจำนวนไทล์ครัวที่อัปเกรดแล้วต้องไม่น้อยกว่าเลข UP บนการ์ด (การ์ดที่ไม่มี UP ปรุงด้วยครัวเริ่มต้นได้เลย)</p></div></li>
+        <li><div class="body"><h3>คืนวัตถุดิบเข้าตลาด</h3><p>วางวัตถุดิบที่ใช้กลับลงช่องของมันบนบอร์ดตลาด <b>ราคาไม่ขยับ</b></p></div></li>
+        <li><div class="body"><h3>เสิร์ฟ</h3><p>วางการ์ดเมนูหงายไว้หน้าตัวเอง รับเงินเท่าเลขบนริบบิ้นแดง ถ้าปรุงจากแถวเมนูให้เติมแถวให้ครบ 4</p></div></li>
+      </ol>
+      <div class="callout yellow">
+        <h3>เมนูให้ของ 2 ต่อ</h3>
+        <ul>
+          <li>ตอนปรุง: ได้<b>เงิน</b>เท่าริบบิ้นแดง เอาไปซื้อของและอัปเกรดต่อ</li>
+          <li>ตอนจบเกม: ได้<b>แต้ม</b>ตามการ์ดอีกครั้ง และนับว่าครบ 4 ประเภทหรือยัง (+10)</li>
+          <li>แต่เมนูที่<b>ค้างในมือ</b>ตอนจบเกมโดน −2 ต่อใบ อย่ารับเมนูมากเกินที่จะทำทัน</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- KITCHEN -->
+    <section id="kitchen">
+      <div class="sec-head"><span class="tag">เอนจินของคุณ</span><h2>ครัวและการอัปเกรด</h2></div>
+      <p class="prose">ครัวเริ่มต้นมี 3 โซน คือ<b>ตู้เย็น</b> (เก็บวัตถุดิบ) <b>ซื้อของ</b> และ<b>รับเมนู</b> ไทล์อัปเกรดวางทับโซนที่ตรงกัน ได้ความสามารถเพิ่ม และทุกแผ่นมีแต้มพิมพ์ไว้สำหรับนับท้ายเกม</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 200" role="img" aria-label="ครัวเริ่มต้น 3 โซน และไทล์อัปเกรดระดับ 2 และ 3">
+          <g font-size="12">
+            <rect x="10" y="10" width="620" height="180" rx="14" fill="var(--surface-2)" stroke="var(--line)"/>
+            <text x="26" y="34" class="t-fg" font-weight="700">ครัวของคุณ</text>
+            <g transform="translate(26 48)">
+              <rect width="180" height="126" rx="10" class="f-card" stroke="var(--line)"/>
+              <rect x="12" y="12" width="60" height="80" rx="6" fill="#dbe7ee" stroke="#8aa6b4"/><line x1="12" y1="44" x2="72" y2="44" stroke="#8aa6b4"/>
+              <circle cx="30" cy="66" r="6" fill="var(--i-sea)"/><circle cx="48" cy="66" r="6" fill="var(--i-egg)"/><circle cx="30" cy="28" r="6" fill="var(--i-meat)"/>
+              <text x="84" y="34" class="t-fg" font-weight="700">ตู้เย็น</text><text x="84" y="52" class="t-muted" font-size="11">เก็บวัตถุดิบ</text>
+              <text x="12" y="112" class="t-muted" font-size="11">อัปเกรด: ตู้เย็นใหญ่ขึ้น</text>
+            </g>
+            <g transform="translate(222 48)">
+              <rect width="180" height="126" rx="10" class="f-card" stroke="var(--line)"/>
+              <path d="M24 30 h50 l-6 34 h-38z" fill="none" stroke="var(--accent)" stroke-width="3"/><circle cx="34" cy="74" r="5" fill="var(--accent)"/><circle cx="62" cy="74" r="5" fill="var(--accent)"/>
+              <text x="88" y="34" class="t-fg" font-weight="700">ซื้อของ</text><text x="88" y="52" class="t-muted" font-size="11">ปกติชนิดเดียว</text>
+              <text x="12" y="112" class="t-muted" font-size="11">อัปเกรด: ซื้อได้ 2 ชนิดต่างกัน</text>
+            </g>
+            <g transform="translate(418 48)">
+              <rect width="196" height="126" rx="10" class="f-card" stroke="var(--line)"/>
+              <rect x="18" y="20" width="30" height="42" rx="4" fill="var(--butter-soft)" stroke="var(--line)"/><rect x="40" y="26" width="30" height="42" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+              <text x="86" y="34" class="t-fg" font-weight="700">รับเมนู</text><text x="86" y="52" class="t-muted" font-size="11">ปกติตาละ 1 ใบ</text>
+              <text x="12" y="104" class="t-muted" font-size="11">อัปเกรด: รับเมนูได้ 2 ครั้งต่อตา</text>
+              <text x="12" y="120" class="t-muted" font-size="11">หรือปรุงอาหารได้ 2 ครั้งต่อตา</text>
+            </g>
+          </g>
+        </svg></div>
+        <figcaption>แผนผังนี้เป็นภาพจำลอง ตำแหน่งจริงของแต่ละโซนดูจากบอร์ดครัวในกล่อง</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ความสามารถจากไทล์ครัว</th><th>ผล</th></tr></thead>
+          <tbody>
+            <tr><td><b>ตู้เย็นใหญ่ขึ้น</b></td><td>เก็บวัตถุดิบได้มากกว่าครัวเริ่มต้น ตามจำนวนช่องที่พิมพ์บนไทล์</td></tr>
+            <tr><td><b>ซื้อ 2 ชนิด</b></td><td>ตอนซื้อของ ซื้อวัตถุดิบ 2 ชนิดที่ต่างกันได้ <b>รวม 2 ชิ้น</b> (ไม่ใช่ 4) และ 2 ชนิดที่เพิ่งซื้อ<b>กดราคาลงไม่ได้</b>ในตานั้น</td></tr>
+            <tr><td><b>รับเมนู 2 ครั้ง</b></td><td>แอ็กชันรับเมนูทำได้ 2 ครั้งในตาเดียว (ยังติดลิมิตถือ 5 ใบ)</td></tr>
+            <tr><td><b>ปรุง 2 ครั้ง</b></td><td>ปรุงอาหารฟรีได้ 2 จานต่อตา</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <h3>กติกาอัปเกรด</h3>
+        <ul>
+          <li>จ่าย 10 TC ต่อแผ่น ไม่ว่าระดับไหน</li>
+          <li>ไทล์แต่ละแบบ<b>มีได้คนละ 1 แผ่น</b></li>
+          <li>ไทล์<b>ระดับ 3</b> วางได้เมื่อวาง<b>ระดับ 2 ครบทุกแบบ</b>แล้วเท่านั้น</li>
+          <li>จำนวนไทล์อัปเกรดที่มีคือ "ระดับครัว" ที่การ์ดเมนูใช้เช็กเลข UP</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission">
+      <div class="sec-head"><span class="tag">ลับ</span><h2>ภารกิจลับ</h2></div>
+      <p class="prose">แต่ละคนมีภารกิจลับ 1 ใบ คว่ำไว้จนจบเกม ทำสำเร็จได้แต้มตามการ์ด ตัวอย่างภารกิจในกล่อง:</p>
+      <div class="types">
+        <div class="type"><h3>คนจบเกม</h3><p>เป็นคนแรกที่ปรุงจานที่ 7 และทำให้เกมจบ</p></div>
+        <div class="type"><h3>ครัวเต็มขั้น</h3><p>อัปเกรดไทล์ครัวครบทุกแบบ</p></div>
+        <div class="type"><h3>เงินเหลือ</h3><p>จบเกมโดยมีเงินมากกว่า หรือน้อยกว่า จำนวนที่การ์ดกำหนด</p></div>
+        <div class="type"><h3>วัตถุดิบหลัก</h3><p>ปรุงเมนูที่ใช้วัตถุดิบชนิดหนึ่ง เช่น แป้ง อย่างน้อย 4 จาน</p></div>
+      </div>
+      <p class="note">การ์ดภารกิจมีเงื่อนไขและแต้มพิมพ์ไว้ ใช้ตามการ์ด ภารกิจเรื่องเงินนับเงินตอนจบเกม<b>ก่อน</b>คิดอย่างอื่น</p>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและนับแต้ม</h2></div>
+      <p class="prose">เมื่อมีคนปรุง<b>จานที่ 7</b> เกมยังไม่จบทันที เล่นต่อ<b>จนจบรอบ</b> ให้ทุกคนได้จำนวนตาเท่ากัน (คนที่นั่งก่อนคนเล่นคนแรกเป็นคนเล่นตาสุดท้าย) แล้วนับแต้ม</p>
+      <ol class="steps">
+        <li><div class="body"><h3>เมนูที่ปรุงแล้ว</h3><p>รวมเลขบนริบบิ้นแดงของทุกเมนูที่หงายหน้าคุณ</p></div></li>
+        <li><div class="body"><h3>ครบ 4 ประเภท +10</h3><p>มีของว่าง ซุป จานหลัก และของหวาน อย่างละอย่างน้อย 1 จาน ได้ 10 แต้ม (ได้ครั้งเดียว)</p></div></li>
+        <li><div class="body"><h3>ไทล์ครัว</h3><p>รวมแต้มที่พิมพ์บนไทล์อัปเกรดทุกแผ่น</p></div></li>
+        <li><div class="body"><h3>วัตถุดิบเหลือ</h3><p>ในตู้เย็น ชิ้นละ 1 แต้ม</p></div></li>
+        <li><div class="body"><h3>ภารกิจลับ</h3><p>เปิดการ์ด ทำสำเร็จได้แต้มตามการ์ด</p></div></li>
+        <li><div class="body"><h3>เมนูค้างมือ −2</h3><p>เมนูที่ยังอยู่ในมือ ใบละ −2</p></div></li>
+      </ol>
+      <div class="callout green">
+        <h3>แต้มเท่ากัน</h3>
+        <ol>
+          <li>ใครปรุงเมนูได้<b>มากจาน</b>กว่าชนะ</li>
+          <li>ยังเท่า ใครมี<b>เงินเหลือ</b>มากกว่าชนะ</li>
+          <li>ยังเท่าอีก ชนะร่วมกัน</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ใช้ตอนเล่น</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>ซื้อ 2 ชิ้น ชิ้นที่ 2 จ่ายราคาเดิมหรือราคาใหม่?</summary><div class="ans"><p class="verdict">ราคาใหม่</p><p>ซื้อทีละชิ้น ชิ้นแรกทำให้ราคาขึ้น 1 แล้ว ชิ้นที่ 2 จึงจ่ายแพงขึ้น 1 · ถ้าราคาเป็น 10 อยู่แล้ว ทั้ง 2 ชิ้นจ่าย 10</p></div></details>
+        <details><summary>ซื้อ 2 ชิ้น ต้องกดราคาลงกี่ครั้ง?</summary><div class="ans"><p class="verdict">2 ครั้ง (ชิ้นละครั้ง)</p><p>กดชนิดเดียวกันซ้ำก็ได้ หรือคนละชนิดก็ได้ แต่ห้ามกดชนิดที่กำลังซื้อ ถ้ามีไทล์ "ซื้อ 2 ชนิด" แล้วใช้ความสามารถนั้น ห้ามกดทั้ง 2 ชนิดที่ซื้อ</p></div></details>
+        <details><summary>กดราคาลงถึง 2 ได้เงินกี่ TC?</summary><div class="ans"><p class="verdict">1 TC ต่อครั้งที่กดลงไปถึง 2</p><p>ถ้ากดลงถึง 2 สองครั้งในตาเดียว (2 ชนิด) ได้ 2 TC · ราคาที่อยู่ 2 แล้วกดต่อไม่ได้ จึงไม่ได้โบนัสซ้ำจากชนิดเดิม</p></div></details>
+        <details><summary>ปรุงอาหารแล้ว ราคาวัตถุดิบที่คืนเปลี่ยนไหม?</summary><div class="ans"><p class="verdict">ไม่เปลี่ยน</p><p>ราคาขยับเฉพาะตอนซื้อ (ขึ้น) และตอนคนซื้อเลือกกดลง ของที่คืนเข้าตลาดแค่เพิ่มจำนวนในช่อง</p></div></details>
+        <details><summary>ปรุงเมนูในแถวเมนูโดยไม่รับก่อนได้ไหม?</summary><div class="ans"><p class="verdict">ได้</p><p>การปรุงเลือกจากในมือหรือจากแถวเมนูก็ได้ ปรุงแล้วเติมแถวให้ครบ 4 · วิธีนี้ไม่ติดลิมิตถือ 5 ใบ</p></div></details>
+        <details><summary>ทั้งตาไม่ทำแอ็กชันหลัก แค่ปรุงอย่างเดียวได้ไหม?</summary><div class="ans"><p class="verdict">ต้องทำแอ็กชันหลัก 1 อย่าง</p><p>ถ้าไม่มีอะไรอยากทำ เลือกรับรายได้ 10 TC ซึ่งทำได้เสมอ</p></div></details>
+        <details><summary>ซื้อไทล์ระดับ 3 แล้ว ความสามารถระดับ 2 หายไหม?</summary><div class="ans"><p class="verdict">ไม่หาย (อ่านตามคู่มือ)</p><p>ไทล์ระดับ 3 วางได้หลังมีระดับ 2 ครบทุกแบบ และคู่มือไม่ได้บอกให้เอาไทล์ระดับ 2 ออก ทุกแผ่นจึงยังทำงานและนับแต้มท้ายเกม · มีคนถามข้อนี้ในกระทู้ BoardGameGeek ถ้าโต๊ะตกลงแบบอื่นให้ตกลงก่อนเริ่ม</p></div></details>
+        <details><summary>เมนูต้องการ UP 2 แต่มีไทล์อัปเกรดแค่ 1 ปรุงได้ไหม?</summary><div class="ans"><p class="verdict">ไม่ได้</p><p>ต้องมีไทล์อัปเกรด<b>ไม่น้อยกว่า</b>เลข UP · ครัวเริ่มต้นนับเป็น 0</p></div></details>
+        <details><summary>ตู้เย็นเต็ม ซื้อต่อได้ไหม?</summary><div class="ans"><p class="verdict">ได้ ถ้าคืนของเดิม</p><p>คืนวัตถุดิบชิ้นไหนก็ได้กลับตลาดเพื่อเปิดที่ ไม่ได้เงินคืน · ท้ายเกมวัตถุดิบในตู้เย็นยังได้ชิ้นละ 1 แต้ม เต็มไว้ก็ไม่เสียเปล่า</p></div></details>
+        <details><summary>ครบ 4 ประเภท ได้ +10 สองรอบถ้ามี 8 จานครบ 2 ชุดไหม?</summary><div class="ans"><p class="verdict">ไม่ ได้ครั้งเดียว</p><p>โบนัสนี้ได้ 10 แต้มครั้งเดียวต่อคน</p></div></details>
+      </div>
+    </section>
+
+    <!-- TOOL: SETUP -->
+    <section id="tool-setup">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div>
+          <span class="field-l">จำนวนผู้เล่น</span>
+          <div class="seg" id="su-players" role="group" aria-label="จำนวนผู้เล่น"></div>
+        </div>
+        <div>
+          <span class="field-l">วัตถุดิบที่เลื่อนราคาขึ้น (ดูจากเมนู 3 ใบแรกในแถวเมนู เลือกให้ครบ 3 ชนิด)</span>
+          <div class="inrow" id="su-up"></div>
+        </div>
+        <div class="outgrid" id="su-out"></div>
+        <div class="inrow"><button type="button" class="btn primary" id="su-send">ส่งราคาเริ่มไปตัวคุมราคาตลาด</button><span class="note" id="su-note"></span></div>
+      </div>
+    </section>
+
+    <!-- TOOL: MARKET -->
+    <section id="tool-market">
+      <div class="sec-head"><span class="tag">เครื่องมือ · วางกลางโต๊ะ</span><h2>ตัวคุมราคาตลาด</h2></div>
+      <p class="prose">ใช้แทนการจำ หรือใช้ตรวจเม็ดขาวบนบอร์ดว่าตรงไหม กด<b>ซื้อ</b>ที่วัตถุดิบ ราคาขึ้นให้ แล้วกด<b>ลดราคา</b>ที่ชนิดอื่น 1 ชนิด ชื่อชนิดที่ 6 แก้ได้</p>
+      <div class="tool">
+        <div class="mkt" id="mkt"></div>
+        <div class="msg" id="mkt-msg" aria-live="polite">กดซื้อวัตถุดิบเพื่อเริ่ม</div>
+        <div class="inrow">
+          <button type="button" class="btn" id="mkt-undo">ย้อนกลับ</button>
+          <button type="button" class="btn" id="mkt-reset">รีเซ็ตเป็น 5 ทุกชนิด</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOL: SCOREPAD -->
+    <section id="tool-pad">
+      <div class="sec-head"><span class="tag">เครื่องมือ · ท้ายเกม</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <div class="inrow">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="pd-players" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน"></div></div>
+          <button type="button" class="btn" id="pd-clear">ล้างคะแนน</button>
+        </div>
+        <div class="tbl-wrap"><table class="pad" id="pad"></table></div>
+        <p class="note">จำนวนจานและเงินเหลือใช้ตัดสินตอนแต้มเท่ากันเท่านั้น ไม่รวมในแต้ม · ข้อมูลเก็บไว้ในเครื่องนี้ ปิดหน้าแล้วกลับมายังอยู่</p>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ศัพท์</span><h2>ศัพท์ในเกม</h2></div>
+      <dl class="gl">
+        <dt>TC</dt><dd>เงินในเกม ได้จากรายได้ การปรุงอาหาร และโบนัสกดราคาถึง 2</dd>
+        <dt>Menu row</dt><dd>แถวเมนู การ์ดเมนูหงาย 4 ใบข้างกอง หยิบหรือปรุงจากตรงนี้ได้</dd>
+        <dt>Refrigerator</dt><dd>ตู้เย็น ที่เก็บวัตถุดิบบนครัวของคุณ</dd>
+        <dt>UP</dt><dd>สัญลักษณ์บนการ์ดเมนู บอกจำนวนไทล์ครัวอัปเกรดขั้นต่ำที่ต้องมี</dd>
+        <dt>Cooking points</dt><dd>เลขบนริบบิ้นแดง เป็นทั้งเงินตอนปรุงและแต้มตอนจบ</dd>
+        <dt>Secret Mission</dt><dd>ภารกิจลับ คนละ 1 ใบ เปิดตอนจบเกม</dd>
+        <dt>เม็ดขาว</dt><dd>ตัวบอกราคาบนรางของบอร์ดตลาด ในฉบับแรก (ฉบับ 2 เป็นเข็ม)</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b> เรียบเรียงจากคู่มือ Table Cooking: Enjoy Your Meal (บอร์ดเกมไทย ฉบับแรก ปี 2023) ผ่านสรุปกติกาภาษาอังกฤษ และข้อมูลเกมจาก BoardGameGeek</p>
+    <ul>
+      <li><a href="https://rulespal.com/table-cooking-enjoy-your-meal/rulebook" target="_blank" rel="noopener">RulesPal: Table Cooking: Enjoy Your Meal rulebook</a></li>
+      <li><a href="https://boardgamegeek.com/boardgame/406612/table-cooking-enjoy-your-meal" target="_blank" rel="noopener">BoardGameGeek: Table Cooking: Enjoy Your Meal</a></li>
+    </ul>
+    <p style="margin-top:8px">ถ้าตัวเลขบนการ์ดหรือบอร์ดในกล่องต่างจากเล่มนี้ ให้ยึดของในกล่อง · แผนผังครัวในเล่มเป็นภาพจำลอง</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+var ING=[
+  {id:"sea",n:"อาหารทะเล",c:"#e0745a"},
+  {id:"chk",n:"ไก่",c:"#e9a83c"},
+  {id:"flr",n:"แป้ง",c:"#efe3c8"},
+  {id:"egg",n:"ไข่",c:"#f4d23f"},
+  {id:"meat",n:"เนื้อ",c:"#9c3b2b"},
+  {id:"six",n:"ชนิดที่ 6",c:"#6aa84f",edit:true}
+];
+var MIN=2,MAX=10;
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k)||"null");return v==null?d:v;}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+var sixName=load("tc-six","ชนิดที่ 6");ING[5].n=sixName;
+
+/* ---------- setup helper ---------- */
+var su={p:3,up:[]};
+function segBtns(host,vals,cur,fn){
+  host.innerHTML="";
+  vals.forEach(function(v){var b=document.createElement("button");b.type="button";b.textContent=v+" คน";b.setAttribute("aria-pressed",String(v===cur));b.addEventListener("click",function(){fn(v);});host.appendChild(b);});
+}
+function suPrices(){return ING.map(function(i){return su.up.length===3?(su.up.indexOf(i.id)>-1?6:4):5;});}
+function renderSetup(){
+  segBtns(document.getElementById("su-players"),[2,3,4],su.p,function(v){su.p=v;renderSetup();});
+  var up=document.getElementById("su-up");
+  up.innerHTML=ING.map(function(i){var on=su.up.indexOf(i.id)>-1;var dis=!on&&su.up.length>=3;
+    return '<label class="chk"><input type="checkbox" data-id="'+i.id+'"'+(on?" checked":"")+(dis?" disabled":"")+'><span class="ing-dot" style="background:'+i.c+'"></span>'+esc(i.n)+'</label>';}).join("");
+  var pr=suPrices();
+  var out='<div class="co"><b>'+(su.p+2)+'</b><small>วัตถุดิบในตลาด ชนิดละ</small></div><div class="co"><b>30</b><small>TC ต่อคน</small></div><div class="co"><b>3 → 1</b><small>ภารกิจ แจก 3 เก็บ 1</small></div><div class="co"><b>3</b><small>เมนูในมือ เก็บอย่างน้อย 1</small></div>';
+  out+=ING.map(function(i,k){return '<div class="co"><b><span class="ing-dot" style="background:'+i.c+'"></span>'+pr[k]+'</b><small>ราคาเริ่ม '+esc(i.n)+'</small></div>';}).join("");
+  document.getElementById("su-out").innerHTML=out;
+  document.getElementById("su-note").textContent=su.up.length===3?"":"เลือกให้ครบ 3 ชนิด (ตอนนี้ "+su.up.length+")";
+  document.getElementById("su-send").disabled=su.up.length!==3;
+}
+document.getElementById("su-up").addEventListener("change",function(e){
+  var id=e.target.dataset.id;if(!id)return;
+  if(e.target.checked){if(su.up.indexOf(id)<0&&su.up.length<3)su.up.push(id);}else{su.up=su.up.filter(function(x){return x!==id;});}
+  renderSetup();
+});
+document.getElementById("su-send").addEventListener("click",function(){
+  pushHist();mk.p=suPrices();mk.pending=null;saveMk();renderMkt("ตั้งราคาเริ่มจากตัวช่วยเตรียมเกมแล้ว");
+  document.getElementById("tool-market").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+});
+
+/* ---------- market tracker ---------- */
+var mk=load("tc-market",null);
+if(!mk||!mk.p||mk.p.length!==6)mk={p:[5,5,5,5,5,5],pending:null};
+mk.pending=null;
+var hist=[];
+function pushHist(){hist.push(JSON.stringify(mk));if(hist.length>40)hist.shift();}
+function saveMk(){save("tc-market",{p:mk.p});}
+function renderMkt(msg){
+  var host=document.getElementById("mkt");
+  host.innerHTML=ING.map(function(i,k){
+    var beads="";for(var v=MIN;v<=MAX;v++)beads+='<span class="'+(v===mk.p[k]?"on":"")+'">'+v+'</span>';
+    var acts;
+    if(mk.pending!=null){
+      acts=k===mk.pending?'<span class="note">เพิ่งซื้อ</span>':'<button type="button" class="btn sm lower" data-lo="'+k+'"'+(mk.p[k]<=MIN?" disabled":"")+'>ลดราคา</button>';
+    }else{
+      acts='<button type="button" class="btn sm primary" data-buy="'+k+'">ซื้อ</button><button type="button" class="btn sm" data-dn="'+k+'" aria-label="ปรับ'+esc(i.n)+'ลง 1">−</button><button type="button" class="btn sm" data-upx="'+k+'" aria-label="ปรับ'+esc(i.n)+'ขึ้น 1">+</button>';
+    }
+    var nm=i.edit?'<span class="ing-dot" style="background:'+i.c+'"></span><input type="text" id="six-name" value="'+esc(i.n)+'" aria-label="ชื่อวัตถุดิบชนิดที่ 6">':'<span class="ing-dot" style="background:'+i.c+'"></span>'+esc(i.n);
+    return '<div class="mrow'+(k===mk.pending?" bought":"")+'"><div class="nm">'+nm+'</div><div class="beads" aria-label="ราคา '+mk.p[k]+'">'+beads+'</div><div class="px">'+mk.p[k]+'</div><div class="acts">'+acts+'</div></div>';
+  }).join("");
+  if(msg!=null)document.getElementById("mkt-msg").innerHTML=msg;
+  var six=document.getElementById("six-name");
+  if(six)six.addEventListener("change",function(){ING[5].n=six.value.trim()||"ชนิดที่ 6";save("tc-six",ING[5].n);renderSetup();renderMkt();});
+}
+document.getElementById("mkt").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  if(b.dataset.buy!=null){
+    var k=+b.dataset.buy;pushHist();var paid=mk.p[k];
+    var capped=mk.p[k]>=MAX;if(!capped)mk.p[k]++;
+    mk.pending=k;saveMk();
+    renderMkt('ซื้อ'+esc(ING[k].n)+' จ่าย <b>'+paid+' TC</b> · '+(capped?'ราคาเต็ม 10 แล้ว ไม่ขยับ':'ราคาขึ้นเป็น '+mk.p[k])+' · <b>เลือกวัตถุดิบชนิดอื่น 1 ชนิดเพื่อลดราคา</b>');
+  }else if(b.dataset.lo!=null){
+    var j=+b.dataset.lo;mk.p[j]--;var bonus=mk.p[j]===MIN;mk.pending=null;saveMk();
+    renderMkt('ลดราคา'+esc(ING[j].n)+'เป็น '+mk.p[j]+(bonus?' · <b>ถึง 2 ได้โบนัส 1 TC</b>':'')+' · จะซื้อชิ้นที่ 2 กดซื้อชนิดเดิมอีกครั้ง');
+  }else if(b.dataset.dn!=null){
+    var a=+b.dataset.dn;if(mk.p[a]>MIN){pushHist();mk.p[a]--;saveMk();renderMkt("ปรับมือ: "+esc(ING[a].n)+" เป็น "+mk.p[a]);}
+  }else if(b.dataset.upx!=null){
+    var c=+b.dataset.upx;if(mk.p[c]<MAX){pushHist();mk.p[c]++;saveMk();renderMkt("ปรับมือ: "+esc(ING[c].n)+" เป็น "+mk.p[c]);}
+  }
+});
+document.getElementById("mkt-undo").addEventListener("click",function(){if(!hist.length){renderMkt("ไม่มีอะไรให้ย้อน");return;}mk=JSON.parse(hist.pop());saveMk();renderMkt("ย้อนกลับ 1 ขั้นแล้ว");});
+document.getElementById("mkt-reset").addEventListener("click",function(){pushHist();mk={p:[5,5,5,5,5,5],pending:null};saveMk();renderMkt("รีเซ็ตเป็น 5 ทุกชนิดแล้ว");});
+
+/* ---------- scorepad ---------- */
+var ROWS=[
+  {k:"menu",l:"แต้มเมนูที่ปรุง",h:"รวมริบบิ้นแดง",t:"n",m:1},
+  {k:"all4",l:"ครบ 4 ประเภท",h:"ติ๊ก = +10",t:"c",m:10},
+  {k:"kit",l:"ไทล์ครัว",h:"รวมแต้มบนไทล์",t:"n",m:1},
+  {k:"ing",l:"วัตถุดิบเหลือ",h:"ชิ้นละ 1",t:"n",m:1},
+  {k:"mis",l:"ภารกิจลับ",h:"แต้มตามการ์ด",t:"n",m:1},
+  {k:"hand",l:"เมนูค้างมือ",h:"ใบละ −2",t:"n",m:-2}
+];
+var TB=[{k:"dish",l:"จำนวนจานที่ปรุง",h:"ตัดสินเสมอ 1"},{k:"cash",l:"เงินเหลือ (TC)",h:"ตัดสินเสมอ 2"}];
+var pd=load("tc-pad",null);
+if(!pd||!pd.players)pd={n:3,players:[{},{},{},{}].map(function(_,i){return {name:"เชฟ "+(i+1)};})};
+function num(v){var x=parseFloat(v);return isNaN(x)?0:x;}
+function total(p){return ROWS.reduce(function(s,r){return s+(r.t==="c"?(p[r.k]?r.m:0):num(p[r.k])*r.m);},0);}
+function renderPad(){
+  segBtns(document.getElementById("pd-players"),[2,3,4],pd.n,function(v){pd.n=v;save("tc-pad",pd);renderPad();});
+  var ps=pd.players.slice(0,pd.n);
+  var h='<thead><tr><th>หมวด</th>'+ps.map(function(p,i){return '<th><input class="name" data-i="'+i+'" data-k="name" value="'+esc(p.name||"")+'" aria-label="ชื่อผู้เล่น '+(i+1)+'"></th>';}).join("")+'</tr></thead><tbody>';
+  ROWS.forEach(function(r){
+    h+='<tr><th class="rowh" scope="row">'+r.l+'<span class="hint">'+r.h+'</span></th>'+ps.map(function(p,i){
+      if(r.t==="c")return '<td class="c"><input type="checkbox" data-i="'+i+'" data-k="'+r.k+'"'+(p[r.k]?" checked":"")+' aria-label="'+r.l+' '+esc(p.name||"")+'"></td>';
+      return '<td><input type="number" inputmode="numeric" min="0" data-i="'+i+'" data-k="'+r.k+'" value="'+(p[r.k]!=null?esc(p[r.k]):"")+'" aria-label="'+r.l+' '+esc(p.name||"")+'"></td>';
+    }).join("")+'</tr>';
+  });
+  var tots=ps.map(total);
+  var best=winner(ps,tots);
+  h+='<tr class="total"><td>รวม</td>'+tots.map(function(t,i){return '<td class="'+(best.indexOf(i)>-1?"lead":"")+'" id="tot-'+i+'">'+t+(best.indexOf(i)>-1?" ★":"")+'</td>';}).join("")+'</tr>';
+  TB.forEach(function(r){
+    h+='<tr class="tb"><th class="rowh" scope="row">'+r.l+'<span class="hint">'+r.h+'</span></th>'+ps.map(function(p,i){return '<td><input type="number" inputmode="numeric" min="0" data-i="'+i+'" data-k="'+r.k+'" value="'+(p[r.k]!=null?esc(p[r.k]):"")+'" aria-label="'+r.l+' '+esc(p.name||"")+'"></td>';}).join("")+'</tr>';
+  });
+  document.getElementById("pad").innerHTML=h+'</tbody>';
+}
+function winner(ps,tots){
+  var any=ps.some(function(p,i){return tots[i]!==0;});if(!any)return [];
+  var idx=ps.map(function(_,i){return i;});
+  idx.sort(function(a,b){return tots[b]-tots[a]||num(ps[b].dish)-num(ps[a].dish)||num(ps[b].cash)-num(ps[a].cash);});
+  var f=idx[0];
+  return idx.filter(function(i){return tots[i]===tots[f]&&num(ps[i].dish)===num(ps[f].dish)&&num(ps[i].cash)===num(ps[f].cash);});
+}
+function updTotals(){
+  var ps=pd.players.slice(0,pd.n);var tots=ps.map(total);var best=winner(ps,tots);
+  tots.forEach(function(t,i){var el=document.getElementById("tot-"+i);if(el){el.textContent=t+(best.indexOf(i)>-1?" ★":"");el.className=best.indexOf(i)>-1?"lead":"";}});
+}
+document.getElementById("pad").addEventListener("input",function(e){
+  var i=e.target.dataset.i,k=e.target.dataset.k;if(i==null||!k)return;
+  pd.players[+i][k]=e.target.type==="checkbox"?e.target.checked:e.target.value;
+  save("tc-pad",pd);updTotals();
+});
+document.getElementById("pd-clear").addEventListener("click",function(){
+  pd.players=pd.players.map(function(p){return {name:p.name};});save("tc-pad",pd);renderPad();
+});
+
+renderSetup();renderMkt();renderPad();
+})();
+</script>
+
+</body></html>

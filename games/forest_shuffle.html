@@ -1,0 +1,1058 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Forest Shuffle ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: canopy header band with layered SVG trees, then a field-guide reading column with a sticky chapter rail; card diagrams are drawn SVG; setup calculator + scorepad are working tools near the end. */
+:root{
+  --bg:#f1f3ea;
+  --surface:#ffffff;
+  --surface-2:#e4e9db;
+  --fg:#1c2618;
+  --muted:#5b6852;
+  --line:#d0d8c6;
+  --accent:#8a5a1c;          /* acorn bark */
+  --accent-strong:#b8741f;
+  --accent-soft:#f3e4c8;
+  --moss:#3f7a34;
+  --moss-soft:#dfecd5;
+  --sky:#2f6f9a;
+  --sky-soft:#dcebf5;
+  --alp:#7a62b0;
+  --alp-soft:#ebe5f6;
+  --edge:#2f8a7a;
+  --edge-soft:#d9efe9;
+  --exp:#b4562d;
+  --exp-soft:#f6e1d6;
+  --winter:#5a8fb8;
+  --t-linden:#c7a73a; --t-oak:#8d6b3a; --t-fir:#3f7a6a; --t-birch:#9aa59a;
+  --t-beech:#c4772e; --t-syc:#a43f3a; --t-doug:#2f5a3a; --t-chest:#7a4a2a;
+  --t-larch:#7b5cb4; --t-pine:#c0628f;
+  --band-1:#16301f;
+  --band-2:#2c4a26;
+  --band-fg:#f3f1e3;
+  --gold:#f0c869;
+  --good:#2f8744;
+  --bad:#bf3a2c;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10160f;--surface:#182117;--surface-2:#212c1f;--fg:#e8eee2;--muted:#a3b298;--line:#2e3a2b;
+    --accent:#e7b064;--accent-strong:#e7b064;--accent-soft:#3a2c16;
+    --moss:#7cc46c;--moss-soft:#22351e;--sky:#6fb0dd;--sky-soft:#17293a;
+    --alp:#b29ce8;--alp-soft:#2a2240;--edge:#5fd0bc;--edge-soft:#15322d;--exp:#f0956a;--exp-soft:#3a2217;
+    --winter:#8cc0e6;
+    --t-linden:#e0c45a;--t-oak:#c49a5e;--t-fir:#6cb39e;--t-birch:#c3ccc2;--t-beech:#e9a05a;--t-syc:#e27670;--t-doug:#6fae7d;--t-chest:#c08460;--t-larch:#a98be6;--t-pine:#ec8fbb;
+    --band-1:#0b170e;--band-2:#18301a;--band-fg:#f3f1e3;--gold:#f0c869;--good:#62cf7c;--bad:#ff6b5e;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10160f;--surface:#182117;--surface-2:#212c1f;--fg:#e8eee2;--muted:#a3b298;--line:#2e3a2b;
+  --accent:#e7b064;--accent-strong:#e7b064;--accent-soft:#3a2c16;
+  --moss:#7cc46c;--moss-soft:#22351e;--sky:#6fb0dd;--sky-soft:#17293a;
+  --alp:#b29ce8;--alp-soft:#2a2240;--edge:#5fd0bc;--edge-soft:#15322d;--exp:#f0956a;--exp-soft:#3a2217;
+  --winter:#8cc0e6;
+  --t-linden:#e0c45a;--t-oak:#c49a5e;--t-fir:#6cb39e;--t-birch:#c3ccc2;--t-beech:#e9a05a;--t-syc:#e27670;--t-doug:#6fae7d;--t-chest:#c08460;--t-larch:#a98be6;--t-pine:#ec8fbb;
+  --band-1:#0b170e;--band-2:#18301a;--band-fg:#f3f1e3;--gold:#f0c869;--good:#62cf7c;--bad:#ff6b5e;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(170deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#fff}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+.kbd{font-family:var(--font-tag);background:var(--surface-2);border-radius:6px;padding:0 6px;font-size:.88em;white-space:nowrap}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.moss{background:var(--moss-soft)}
+.callout.sky{background:var(--sky-soft)}
+.callout.alp{background:var(--alp-soft)}
+.callout.edge{background:var(--edge-soft)}
+.callout.exp{background:var(--exp-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.src{display:inline-block;font-family:var(--font-tag);font-size:.72rem;letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:0 8px;color:var(--muted);white-space:nowrap;vertical-align:middle}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-bg{fill:var(--bg)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)} .s-stroke-acc{stroke:var(--accent-strong)}
+.s-acc{fill:var(--accent-strong)} .s-accsoft{fill:var(--accent-soft)} .s-moss{fill:var(--moss)} .s-mosssoft{fill:var(--moss-soft)}
+.s-sky{fill:var(--sky)} .s-skysoft{fill:var(--sky-soft)} .s-alp{fill:var(--alp)} .s-edge{fill:var(--edge)} .s-exp{fill:var(--exp)}
+.s-winter{fill:var(--winter)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+.s-cardline{stroke:var(--line);fill:var(--surface)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* card grids */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
+.trees{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tr{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 12px;align-items:start;min-width:0}
+.tr svg{width:44px;height:56px;grid-row:span 3}
+.tr b{font-family:var(--font-display);font-size:1.05rem;font-weight:600;line-height:1.3}
+.tr .en{display:block;line-height:1.3}
+.tr small{font-size:.88rem;color:var(--fg);line-height:1.5}
+.tr .from{font-family:var(--font-tag);font-size:.7rem;color:var(--muted);letter-spacing:.04em}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+/* two actions */
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.act{border-radius:16px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0;border:2px solid var(--c);background:var(--surface)}
+.act .lbl{display:flex;align-items:center;gap:10px}
+.act .big{font-family:var(--font-tag);font-weight:600;font-size:1.4rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--c);color:#fff;flex:none}
+.act ul{margin:0;padding-left:1.2em;display:grid;gap:5px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+
+/* expansion sections */
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.btn.warn{border-color:var(--bad);color:var(--bad);background:transparent}
+.btn.warn.armed{background:var(--bad);color:#fff}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.9rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)}
+.co.hl b{color:var(--accent)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--moss)}
+.sp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.sp{min-width:520px;font-size:.95rem}
+.sp th,.sp td{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;padding-left:12px}
+.sp input[type=text]{font:inherit;font-family:var(--font-display);font-size:1rem;width:100%;min-width:70px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 8px;text-align:center}
+.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:64px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sp input::-webkit-outer-spin-button,.sp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sp tr.tot td{font-family:var(--font-tag);font-weight:600;font-size:1.25rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.sp td.win{color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent-strong)}
+.rowlab{display:flex;align-items:center;gap:8px}
+.rowlab svg{width:26px;height:26px;flex:none}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(120px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:380px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sway{animation:sway 6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+  .flake{animation:fall 9s linear infinite}
+  @keyframes fall{from{transform:translateY(-20px)}to{transform:translateY(240px)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + ภาคเสริม 3 ภาค</div>
+      <h1>Forest Shuffle<span>ฟอเรสต์ ชัฟเฟิล · ปลูกป่าของคุณให้มีชีวิต</span></h1>
+      <p class="lede">ทุกคนปลูกป่าของตัวเองจากการ์ดในมือ วางต้นไม้ แล้วชวนสัตว์ พืช และเห็ดมาอยู่รอบต้นไม้ทั้ง 4 ด้าน ยิ่งจับคู่สายพันธุ์ได้เข้ากัน ยิ่งได้คะแนน เกมจบทันทีเมื่อเปิดเจอการ์ดฤดูหนาวใบที่ 3 ใครได้คะแนนป่ามากสุดชนะ</p>
+      <div class="facts">
+        <div class="fact"><b>2–5</b><small>ผู้เล่น (เล่นคนเดียวได้ด้วย การสำรวจ)</small></div>
+        <div class="fact"><b>6</b><small>ใบในมือตอนเริ่ม</small></div>
+        <div class="fact"><b>10</b><small>ใบในมือสูงสุด</small></div>
+        <div class="fact"><b>3</b><small>ฤดูหนาว = จบเกม</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:var(--edge)">ชายป่า · Woodland Edge</span>
+        <span class="xb" style="background:var(--alp)">เทือกเขาแอลป์ · Alpine</span>
+        <span class="xb" style="background:var(--exp)">การสำรวจ · Exploration</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 250">
+        <defs><linearGradient id="hz" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8fbf9a" stop-opacity=".25"/><stop offset="1" stop-color="#8fbf9a" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0 120 L60 70 L110 100 L170 40 L230 95 L280 60 L340 100 L340 250 L0 250Z" fill="#3a5a46" opacity=".55"/>
+        <path d="M150 58 L170 40 L190 58 L180 56 L170 50 L160 57Z" fill="#f3f1e3" opacity=".8"/>
+        <rect x="0" y="100" width="340" height="150" fill="url(#hz)"/>
+        <g fill="#f3f1e3" opacity=".75">
+          <circle class="flake" cx="40" cy="10" r="2"/><circle class="flake" cx="120" cy="-4" r="1.6" style="animation-delay:-3s"/><circle class="flake" cx="210" cy="4" r="2" style="animation-delay:-6s"/><circle class="flake" cx="300" cy="0" r="1.5" style="animation-delay:-1.5s"/>
+        </g>
+        <!-- trees -->
+        <g class="sway"><rect x="62" y="150" width="10" height="70" fill="#5b3c22"/><path d="M67 70 L102 150 L32 150Z" fill="#1f4a2c"/><path d="M67 96 L96 160 L38 160Z" fill="#245734"/></g>
+        <g class="sway" style="animation-delay:-2s"><rect x="160" y="140" width="14" height="84" fill="#6a4628"/><circle cx="167" cy="118" r="44" fill="#4f8a3a"/><circle cx="140" cy="132" r="26" fill="#5c9a44"/><circle cx="196" cy="130" r="28" fill="#447d33"/></g>
+        <g class="sway" style="animation-delay:-4s"><rect x="268" y="150" width="9" height="70" fill="#d9d4c4"/><path d="M272 150 l0 -10" stroke="#3a3a30" stroke-width="2"/><ellipse cx="272" cy="118" rx="26" ry="40" fill="#c7a73a"/></g>
+        <rect x="0" y="216" width="340" height="34" fill="#1a3320"/>
+        <!-- deer -->
+        <g fill="#b9844f"><ellipse cx="226" cy="204" rx="17" ry="9"/><rect x="214" y="208" width="3" height="14"/><rect x="236" y="208" width="3" height="14"/><path d="M240 200 l8 -14 l6 3 l-6 14z"/><path d="M250 186 l-4 -10 M252 186 l6 -9" stroke="#8a5a2c" stroke-width="2"/></g>
+        <!-- bird -->
+        <path d="M150 74 q8 -8 16 0 q8 -8 16 0" stroke="#f3f1e3" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <!-- mushroom -->
+        <g><rect x="110" y="210" width="5" height="9" fill="#efe6d4"/><path d="M104 212 q8 -14 17 0z" fill="#c4382f"/><circle cx="110" cy="207" r="1.4" fill="#fff"/></g>
+        <!-- acorn -->
+        <g transform="translate(18 196)"><ellipse cx="10" cy="14" rx="8" ry="10" fill="#c48a3a"/><path d="M1 8 q9 -9 18 0 q-9 4 -18 0z" fill="#6a4628"/><rect x="9" y="-1" width="2" height="5" fill="#6a4628"/></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#cards">อ่านการ์ดให้เป็น</a></li>
+      <li><a href="#forest">ป่าของเรา</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#pay">จ่ายค่าการ์ด & โบนัส</a></li>
+      <li><a href="#clearing">ลานโล่ง</a></li>
+      <li><a href="#end">จบเกม & คิดคะแนน</a></li>
+      <li><a href="#trees">ต้นไม้ทุกชนิด</a></li>
+      <li class="sep">ภาคเสริม</li>
+      <li><a href="#edge">ชายป่า</a></li>
+      <li><a href="#alpine">เทือกเขาแอลป์</a></li>
+      <li><a href="#explore">การสำรวจ</a></li>
+      <li><a href="#mix">รวมทุกภาคในเกมเดียว</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#helper">ตัวช่วยกลางโต๊ะ</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+      <li><a href="#faq">คำถามที่เจอบ่อย</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ เลือกทำ 1 อย่าง</h3>
+        <ol>
+          <li><b>จั่ว 2 ใบ</b> <span class="en">Draw 2 cards</span>: หยิบทีละใบ จะเอาจากกองจั่ว (คว่ำ) หรือจากลานโล่ง (หงาย) ก็ได้ ในมือมีได้ไม่เกิน 10 ใบ</li>
+          <li><b>เล่นการ์ด 1 ใบ</b> <span class="en">Play a card</span>: จ่ายค่าการ์ดด้วยการทิ้งการ์ดอื่นจากมือลงลานโล่ง แล้ววางเข้าป่าของตัวเอง
+            <ul>
+              <li><b>ต้นไม้</b> วางเป็นต้นใหม่ในป่า แล้วเปิดการ์ดใบบนสุดของกองจั่วลงลานโล่ง 1 ใบ</li>
+              <li><b>สัตว์ พืช เห็ด</b> (การ์ดผ่าครึ่ง) เลือกครึ่งเดียว วางติดด้านที่ตรงกันของต้นไม้ที่ยังว่าง</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+      <p class="prose">จ่ายด้วยการ์ดที่มี <b>สัญลักษณ์ต้นไม้เดียวกัน</b>กับการ์ดที่เล่นทั้งหมด จะได้ <b>โบนัส</b> เพิ่ม · จบตาแล้วถ้าลานโล่งมี <b>10 ใบขึ้นไป</b> ให้เก็บทั้งหมดลงกล่อง · เมื่อเปิดเจอ <b>การ์ดฤดูหนาวใบที่ 3</b> เกมจบทันที นับคะแนนจากการ์ดที่มองเห็นในป่า (บวกการ์ดในถ้ำ ใบละ 1) ใครมากสุดชนะ</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>กล่อง</th><th>ของในกล่อง</th><th>สัญลักษณ์ประจำภาค</th></tr></thead>
+          <tbody>
+            <tr><td><b>เกมหลัก</b><br><span class="en">Forest Shuffle</span></td><td>การ์ด 180 ใบ (ต้นไม้, การ์ดผ่าครึ่งบน/ล่าง, การ์ดผ่าครึ่งซ้าย/ขวา และการ์ดฤดูหนาว 3 ใบ), บอร์ดลานโล่ง 1, การ์ดสรุปกติกา 14, การ์ดถ้ำ 5, สมุดจดคะแนน</td><td>–</td></tr>
+            <tr><td><b style="color:var(--edge)">ชายป่า</b><br><span class="en">Woodland Edge</span></td><td>การ์ด 36 ใบ: <b>พุ่มไม้ 12</b>, ผ่าบน/ล่าง 12, ผ่าซ้าย/ขวา 12</td><td>ภาพชายป่ามีต้นไม้ครึ่งต้น</td></tr>
+            <tr><td><b style="color:var(--alp)">เทือกเขาแอลป์</b><br><span class="en">Alpine</span></td><td>การ์ด 36 ใบ: <b>ต้นไม้ 14</b>, ผ่าบน/ล่าง 12, ผ่าซ้าย/ขวา 10</td><td>ภาพยอดเขาสีม่วง</td></tr>
+            <tr><td><b style="color:var(--exp)">การสำรวจ</b><br><span class="en">Exploration</span></td><td>การ์ด 55 ใบ: การ์ดบอท (Automa) 20, การ์ดคั่น 3 (ทอง/เงิน/ทองแดง), <b>การ์ดใหม่และหายาก 15</b>, การ์ดภารกิจ 12, <b>ถ้ำพิเศษ 5</b></td><td>–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">การ์ดของภาคเสริมชายป่าและแอลป์มี<b>สัญลักษณ์ประเภท</b>ของภาคพิมพ์อยู่ ใช้แยกเก็บหลังเล่นได้ · การ์ดเกมหลักฉบับปรับปรุงล่าสุดของสำนักพิมพ์ (ก.พ. 2026) ระบุว่าเอากติกาถ้ำออกแล้ว แต่ถ้าในกล่องไทยมีการ์ดถ้ำ ก็เล่นตามคู่มือนี้ได้เลย ถ้ำให้คะแนนใบละ 1 เท่านั้น</p>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">การ์ด 3 แบบ</span><h2>อ่านการ์ดให้เป็น</h2></div>
+      <p class="prose">การ์ดทุกใบเป็นได้แค่ 2 แบบ: <b>ต้นไม้ 1 ต้น</b> หรือ <b>สิ่งมีชีวิต 2 ชนิดในใบเดียว</b> (ผ่าครึ่งบน/ล่าง หรือซ้าย/ขวา) ตอนเล่นการ์ดผ่าครึ่ง คุณเลือกใช้ครึ่งเดียว และจ่ายเฉพาะค่าของครึ่งนั้น</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 380" role="img" aria-label="โครงการ์ดต้นไม้ การ์ดผ่าบนล่าง และการ์ดผ่าซ้ายขวา">
+          <!-- TREE CARD -->
+          <g transform="translate(20 20)">
+            <rect width="180" height="260" rx="14" class="s-cardline" stroke-width="1.5"/>
+            <rect x="12" y="12" width="26" height="32" rx="6" class="s-acc"/><text x="25" y="34" text-anchor="middle" fill="#fff" class="tagf" font-size="17">1</text>
+            <circle cx="156" cy="28" r="14" style="fill:var(--t-oak)"/><text x="156" y="33" text-anchor="middle" fill="#fff" class="tagf" font-size="12">โอ๊ก</text>
+            <rect x="84" y="150" width="12" height="54" fill="#6a4628"/>
+            <circle cx="90" cy="118" r="44" class="s-moss"/>
+            <rect x="0" y="206" width="180" height="54" rx="0" class="s-surface2"/>
+            <path d="M0 206 h180 v40 a14 14 0 0 1 -14 14 h-152 a14 14 0 0 1 -14 -14z" class="s-surface2"/>
+            <path d="M12 220 l18 0 l8 10 l-8 10 l-18 0z" class="s-acc"/>
+            <text x="46" y="236" class="s-fg" font-size="11">โบนัส</text>
+            <text x="168" y="240" text-anchor="end" class="s-fg tagf" font-size="16">10</text>
+            <text x="90" y="296" text-anchor="middle" class="s-fg disp" font-size="15">การ์ดต้นไม้</text>
+          </g>
+          <!-- TOP/BOTTOM -->
+          <g transform="translate(260 20)">
+            <rect width="180" height="260" rx="14" class="s-cardline" stroke-width="1.5"/>
+            <line x1="0" y1="130" x2="180" y2="130" class="s-stroke-fg" stroke-width="2"/>
+            <rect x="12" y="12" width="26" height="32" rx="6" class="s-acc"/><text x="25" y="34" text-anchor="middle" fill="#fff" class="tagf" font-size="17">2</text>
+            <circle cx="156" cy="28" r="12" style="fill:var(--t-beech)"/>
+            <path d="M70 70 q20 -26 40 0 q-20 10 -40 0z" class="s-sky"/><path d="M108 66 l16 -6 l-6 12z" class="s-sky"/>
+            <text x="90" y="104" text-anchor="middle" class="s-fg" font-size="12">นก (ครึ่งบน)</text>
+            <text x="168" y="122" text-anchor="end" class="s-fg tagf" font-size="13">คะแนน</text>
+            <rect x="12" y="142" width="26" height="32" rx="6" class="s-acc"/><text x="25" y="164" text-anchor="middle" fill="#fff" class="tagf" font-size="17">1</text>
+            <circle cx="156" cy="158" r="12" style="fill:var(--t-birch)"/>
+            <rect x="86" y="196" width="8" height="20" fill="#efe6d4"/><path d="M72 200 q18 -30 36 0z" fill="#c4382f"/>
+            <text x="90" y="236" text-anchor="middle" class="s-fg" font-size="12">เห็ด (ครึ่งล่าง)</text>
+            <text x="90" y="296" text-anchor="middle" class="s-fg disp" font-size="15">ผ่าบน / ล่าง</text>
+          </g>
+          <!-- LEFT/RIGHT -->
+          <g transform="translate(500 20)">
+            <rect width="180" height="260" rx="14" class="s-cardline" stroke-width="1.5"/>
+            <line x1="90" y1="0" x2="90" y2="260" class="s-stroke-fg" stroke-width="2"/>
+            <rect x="10" y="12" width="24" height="30" rx="6" class="s-acc"/><text x="22" y="33" text-anchor="middle" fill="#fff" class="tagf" font-size="16">2</text>
+            <rect x="100" y="12" width="24" height="30" rx="6" class="s-acc"/><text x="112" y="33" text-anchor="middle" fill="#fff" class="tagf" font-size="16">1</text>
+            <circle cx="72" cy="26" r="10" style="fill:var(--t-linden)"/>
+            <circle cx="162" cy="26" r="10" style="fill:var(--t-fir)"/>
+            <g fill="#b9844f"><ellipse cx="45" cy="140" rx="24" ry="13"/><rect x="28" y="148" width="4" height="22"/><rect x="58" y="148" width="4" height="22"/><path d="M64 134 l10 -18 l7 4 l-7 18z"/></g>
+            <g fill="#9a8a78"><ellipse cx="135" cy="150" rx="18" ry="12"/><ellipse cx="149" cy="134" rx="6" ry="14"/></g>
+            <text x="45" y="200" text-anchor="middle" class="s-fg" font-size="12">กวาง</text>
+            <text x="135" y="200" text-anchor="middle" class="s-fg" font-size="12">กระต่าย</text>
+            <text x="90" y="296" text-anchor="middle" class="s-fg disp" font-size="15">ผ่าซ้าย / ขวา</text>
+          </g>
+          <!-- labels -->
+          <g font-size="12" class="s-muted">
+            <text x="20" y="330">ซ้ายบน = <tspan class="s-fg" font-weight="600">ค่าการ์ด</tspan> (จำนวนการ์ดที่ต้องทิ้งจ่าย)</text>
+            <text x="20" y="350">ขวาบน = <tspan class="s-fg" font-weight="600">สัญลักษณ์ต้นไม้</tspan> (สีการ์ด) ใช้เช็กโบนัส</text>
+            <text x="370" y="330">ลูกศรสี = <tspan class="s-fg" font-weight="600">โบนัส</tspan> · ข้อความ/ไอคอน = <tspan class="s-fg" font-weight="600">เอฟเฟกต์</tspan></text>
+            <text x="370" y="350">มุมล่าง = <tspan class="s-fg" font-weight="600">คะแนน</tspan> หรือเงื่อนไขการได้คะแนน</text>
+            <text x="20" y="372">การ์ดผ่าครึ่ง แต่ละครึ่งมีค่า สัญลักษณ์ต้นไม้ และคะแนนของตัวเอง</text>
+          </g>
+        </svg>
+        </div>
+        <figcaption>ภาพจำลองเพื่อบอกตำแหน่งเท่านั้น ลายและตัวเลขบนการ์ดจริงต่างจากนี้</figcaption>
+      </figure>
+
+      <div class="types">
+        <div class="type"><h3><span class="dot" style="background:var(--moss)"></span>ต้นไม้ <span class="en">Tree</span></h3><p>วางเป็นต้นใหม่ในป่า ต้นไม้ 1 ต้นมีช่องให้วางการ์ด <b>4 ด้าน</b> (บน ล่าง ซ้าย ขวา) ด้านละ 1 ใบ เกมหลักมีต้นไม้ 8 ชนิด</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--sky)"></span>ผ่าบน / ล่าง <span class="en">Top / Bottom</span></h3><p>ครึ่งบนวางเหนือต้นไม้ (เช่น นก ค้างคาว ผีเสื้อ) ครึ่งล่างวางใต้ต้นไม้ (เช่น เห็ด พืชคลุมดิน สัตว์เล็ก)</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--accent-strong)"></span>ผ่าซ้าย / ขวา <span class="en">Left / Right</span></h3><p>วางข้างซ้ายหรือข้างขวาของต้นไม้ มักเป็นสัตว์ใหญ่ เช่น กวาง หมูป่า หมี จิ้งจอก กระต่าย</p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--winter)"></span>ฤดูหนาว <span class="en">Winter</span></h3><p>มี 3 ใบ ซ่อนอยู่ในส่วนล่างของกองจั่ว เปิดเจอใบไหนวางข้างลานโล่ง แล้วจั่วใบใหม่แทน <b>ใบที่ 3 โผล่ = เกมจบทันที</b></p></div>
+      </div>
+
+      <h3>เอฟเฟกต์ กับ โบนัส ต่างกันยังไง</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th></th><th>เอฟเฟกต์ <span class="en">Effect</span></th><th>โบนัส <span class="en">Bonus</span></th></tr></thead>
+          <tbody>
+            <tr><td><b>หน้าตา</b></td><td>ไอคอนหรือข้อความสั้น ๆ</td><td>ลูกศรสีมีรูปกล้องส่องทางไกล</td></tr>
+            <tr><td><b>ได้เมื่อไร</b></td><td>ทุกครั้งที่เล่นการ์ดนั้น</td><td>เฉพาะเมื่อ<b>จ่ายด้วยการ์ดสัญลักษณ์ต้นไม้เดียวกัน</b>กับการ์ดที่เล่นทั้งหมด</td></tr>
+            <tr><td><b>ลำดับ</b></td><td colspan="2">ถ้าได้ทั้งคู่ ทำ<b>เอฟเฟกต์ก่อน แล้วค่อยโบนัส</b> · จะใช้หรือไม่ใช้ก็ได้ ไม่บังคับ</td></tr>
+            <tr><td><b>เห็ด</b></td><td colspan="2">เอฟเฟกต์ของเห็ดเป็น<b>แบบถาวร</b> ทำงานไปตลอดเกมตั้งแต่ตาถัดไปของคุณ เช่น ได้ผลทุกครั้งที่คุณวางการ์ดบางแบบลงป่า</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FOREST -->
+    <section id="forest">
+      <div class="sec-head"><span class="tag">ตรงหน้าคุณ</span><h2>ป่าของเรา</h2></div>
+      <p class="prose">การ์ดที่คุณเล่นทั้งหมดคือ <b>ป่า</b> ของคุณ วางต้นไม้เรียงกันเป็นแถว แล้วเสียบการ์ดสิ่งมีชีวิตเข้า 4 ด้านของแต่ละต้น ครึ่งที่ไม่ได้ใช้ให้<b>สอดไว้ใต้ต้นไม้</b> ให้เห็นแค่ครึ่งที่ใช้</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 360" role="img" aria-label="ต้นไม้ 1 ต้นมีช่อง 4 ด้าน และการสอดครึ่งที่ไม่ใช้ไว้ใต้ต้นไม้">
+          <rect x="8" y="8" width="684" height="344" rx="18" class="s-surface2"/>
+          <!-- tree 1 with 4 slots -->
+          <g transform="translate(120 40)">
+            <!-- top slot -->
+            <rect x="10" y="0" width="100" height="70" rx="8" class="s-skysoft" style="stroke:var(--sky)" stroke-width="1.5"/>
+            <path d="M40 40 q20 -24 40 0 q-20 8 -40 0z" class="s-sky"/>
+            <text x="60" y="62" text-anchor="middle" class="s-fg" font-size="11">บน: นก</text>
+            <!-- tree -->
+            <rect x="0" y="70" width="120" height="150" rx="10" class="s-surface" style="stroke:var(--moss)" stroke-width="2"/>
+            <rect x="54" y="150" width="12" height="54" fill="#6a4628"/><circle cx="60" cy="130" r="38" class="s-moss"/>
+            <!-- left slot -->
+            <rect x="-90" y="90" width="80" height="110" rx="8" class="s-accsoft" style="stroke:var(--accent-strong)" stroke-width="1.5"/>
+            <g fill="#b9844f"><ellipse cx="-52" cy="146" rx="20" ry="11"/><rect x="-66" y="152" width="3" height="18"/><rect x="-42" y="152" width="3" height="18"/></g>
+            <text x="-50" y="190" text-anchor="middle" class="s-fg" font-size="11">ซ้าย: กวาง</text>
+            <!-- right slot empty -->
+            <rect x="130" y="90" width="80" height="110" rx="8" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+            <text x="170" y="142" text-anchor="middle" class="s-muted" font-size="11">ขวา</text>
+            <text x="170" y="158" text-anchor="middle" class="s-muted" font-size="11">ยังว่าง</text>
+            <!-- bottom slot -->
+            <rect x="10" y="220" width="100" height="70" rx="8" class="s-mosssoft" style="stroke:var(--moss)" stroke-width="1.5"/>
+            <rect x="56" y="240" width="7" height="16" fill="#efe6d4"/><path d="M46 244 q14 -24 28 0z" fill="#c4382f"/>
+            <text x="60" y="282" text-anchor="middle" class="s-fg" font-size="11">ล่าง: เห็ด</text>
+          </g>
+          <!-- tree 2: sapling -->
+          <g transform="translate(400 110)">
+            <rect x="0" y="0" width="110" height="150" rx="10" class="s-surface" style="stroke:var(--muted)" stroke-width="2" stroke-dasharray="6 4"/>
+            <path d="M55 110 v-30" class="s-stroke-fg" stroke-width="3"/>
+            <path d="M55 86 q-18 -10 -22 -26 q18 4 22 22z M55 80 q16 -12 24 -26 q-16 2 -24 22z" class="s-moss"/>
+            <text x="55" y="132" text-anchor="middle" class="s-fg disp" font-size="13">ต้นกล้า</text>
+            <text x="55" y="176" text-anchor="middle" class="s-muted" font-size="11">การ์ดใบไหนก็ได้</text>
+            <text x="55" y="192" text-anchor="middle" class="s-muted" font-size="11">วางคว่ำ = ต้นกล้า</text>
+          </g>
+          <!-- slide under note -->
+          <g transform="translate(560 120)">
+            <rect x="0" y="20" width="90" height="130" rx="8" class="s-surface" style="stroke:var(--line)"/>
+            <rect x="0" y="0" width="90" height="70" rx="8" class="s-skysoft" style="stroke:var(--sky)"/>
+            <text x="45" y="40" text-anchor="middle" class="s-fg" font-size="11">ครึ่งที่ใช้</text>
+            <text x="45" y="110" text-anchor="middle" class="s-muted" font-size="11">ครึ่งที่ไม่ใช้</text>
+            <text x="45" y="126" text-anchor="middle" class="s-muted" font-size="11">สอดใต้ต้นไม้</text>
+          </g>
+          <text x="24" y="340" class="s-muted" font-size="12">1 ด้าน = 1 ใบ (ยกเว้นการ์ดที่เขียนว่าวางซ้อนช่องเดียวกันได้) · ต้นที่วางครบ 4 ด้านเรียกว่า “เต็ม”</text>
+        </svg>
+        </div>
+        <figcaption>การ์ดผ่าครึ่งต้องวาง<b>ด้านที่ตรงกับครึ่งที่เลือก</b> ถ้าในป่าไม่มีต้นไม้ที่ด้านนั้นว่างเลย ก็เล่นครึ่งนั้นไม่ได้</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ต้นกล้า <span class="en">Tree Sapling</span></h3><p>แทนที่จะเล่นต้นไม้ คุณ<b>วางการ์ดใบไหนก็ได้จากมือแบบคว่ำ</b>เป็นต้นกล้า ไม่ต้องจ่ายค่า มีช่อง 4 ด้านเหมือนต้นไม้ แต่<b>ไม่นับเป็นต้นไม้ชนิดไหน</b>เลย (ไม่ช่วยการ์ดที่นับชนิดต้นไม้) ไม่มีคะแนนในตัว</p></div>
+        <div class="type"><h3>วางซ้อนช่องเดียวกัน</h3><p>การ์ดบางใบเขียนไว้ว่าวาง<b>ช่องเดียวกับตัวชนิดเดียวกัน</b>ได้ เช่น กระต่ายยุโรป <span class="en">European Hare</span> หลายตัวซ้อนช่องเดียวกันได้ ให้ทำตามข้อความบนการ์ดใบนั้น</p></div>
+        <div class="type"><h3>สิ่งที่นับเป็น “ในป่า”</h3><p>นับเฉพาะ<b>ครึ่งที่มองเห็น</b>เท่านั้น ทั้งตอนใช้เอฟเฟกต์และตอนคิดคะแนน ครึ่งที่สอดไว้ใต้ต้นไม้ไม่มีผลใด ๆ</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม (เกมหลัก)</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>วางลานโล่ง</h3><p>วางบอร์ดลานโล่ง <span class="en">Clearing</span> ไว้กลางโต๊ะให้ทุกคนเอื้อมถึง วางการ์ดสรุปกติกาไว้ข้าง ๆ</p></div></li>
+        <li><div class="body"><h3>แจกถ้ำ</h3><p>ทุกคนรับการ์ดถ้ำ <span class="en">Cave</span> 1 ใบวางตรงหน้า (การ์ดที่เข้าถ้ำได้ใบละ 1 คะแนนตอนจบ)</p></div></li>
+        <li><div class="body"><h3>เอาการ์ดออกตามจำนวนผู้เล่น</h3><p>แยกการ์ดฤดูหนาว 3 ใบไว้ก่อน สับที่เหลือ แล้วเอาการ์ดออก<b>แบบไม่ดู</b>คืนกล่อง</p>
+          <ul><li>2 คน 30 ใบ · 3 คน 20 ใบ · 4 คน 10 ใบ · 5 คน ไม่ต้องเอาออก</li><li>ใส่ภาคเสริมด้วย ใช้ <a href="#helper">ตัวคำนวณ</a> ด้านล่าง</li></ul></div></li>
+        <li><div class="body"><h3>ทำกองจั่วพร้อมฤดูหนาว</h3><p>แบ่งการ์ดเป็น <b>3 กองเท่า ๆ กัน</b> สับฤดูหนาว 2 ใบเข้ากองหนึ่ง แล้ววางฤดูหนาวใบที่ 3 ไว้<b>บนสุด</b>ของกองนั้น วางอีก 2 กองทับข้างบน กลายเป็นกองจั่วกองเดียว วางทางซ้ายของลานโล่ง</p></div></li>
+        <li><div class="body"><h3>แจกการ์ดในมือ</h3><p>ทุกคนจั่ว <b>6 ใบ</b> ถ้าไม่มีต้นไม้เลย ขอเปลี่ยนมือได้ <b>1 ครั้ง</b>: ทิ้งทั้ง 6 ใบคืนกล่อง แล้วจั่วใหม่ 6 ใบ</p></div></li>
+        <li><div class="body"><h3>เลือกคนเริ่ม</h3><p>คนที่<b>เดินเล่นในป่าล่าสุด</b>ได้เริ่มก่อน แล้ววนตามเข็มนาฬิกา</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 250" role="img" aria-label="การวางการ์ดฤดูหนาวในกองจั่ว">
+          <g id="deckpiles"></g>
+          <text x="20" y="236" class="s-muted" font-size="12.5">ฤดูหนาวทั้ง 3 ใบอยู่ใน 1/3 ล่างของกองเสมอ เกมจึงไม่จบเร็วเกินไป แต่ก็เดาไม่ได้ว่าจะจบตอนไหน</text>
+        </svg>
+        </div>
+      </figure>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <p class="prose">เล่นตามเข็มนาฬิกา ทุกตา<b>ต้อง</b>ทำ 1 อย่างจาก 2 อย่างนี้ (ผ่านไม่ได้)</p>
+      <div class="acts">
+        <div class="act" style="--c:var(--sky)">
+          <div class="lbl"><span class="big">A</span><h3>จั่วการ์ด 2 ใบ</h3></div>
+          <ul>
+            <li>จั่ว<b>ทีละใบ</b> แต่ละใบเลือกได้ว่าจะเอา<b>ใบบนสุดของกองจั่ว</b> (คว่ำ) หรือ<b>ใบไหนก็ได้ในลานโล่ง</b> (หงาย)</li>
+            <li>ผสมได้ เช่น ลานโล่ง 1 + กองจั่ว 1</li>
+            <li><b>ในมือมีได้สูงสุด 10 ใบ</b> มี 9 ใบจั่วได้แค่ 1 ใบ มี 10 ใบจั่วไม่ได้ (รวมการจั่วจากเอฟเฟกต์ด้วย)</li>
+            <li>จั่วเจอฤดูหนาว: วางหงายข้างลานโล่ง แล้วจั่วใบใหม่แทนทันที</li>
+          </ul>
+        </div>
+        <div class="act" style="--c:var(--moss)">
+          <div class="lbl"><span class="big">B</span><h3>เล่นการ์ด 1 ใบ</h3></div>
+          <ul>
+            <li><b>จ่ายค่า</b>: ทิ้งการ์ดอื่นจากมือ<b>หงาย</b>ลงลานโล่ง ตามจำนวนที่เขียนมุมซ้ายบน</li>
+            <li><b>ต้นไม้</b>: วางเป็นต้นใหม่ในป่า แล้ว<b>เปิดการ์ดบนสุดของกองจั่ว 1 ใบลงลานโล่ง</b> (บนบอร์ดมีสัญลักษณ์เตือน) ใบนี้อาจเป็นฤดูหนาวได้</li>
+            <li><b>การ์ดผ่าครึ่ง</b>: เลือกครึ่งเดียว วางในช่องว่างด้านที่ตรงกันของต้นไม้ในป่า</li>
+            <li>ใช้เอฟเฟกต์ แล้วใช้โบนัส (ถ้าได้)</li>
+            <li><b>เช็กลานโล่ง</b> ตอนจบตา</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout sky">
+        <h3>ลำดับเต็มของการเล่นการ์ด</h3>
+        <ol>
+          <li>เลือกการ์ด (และครึ่งที่จะใช้ ถ้าเป็นการ์ดผ่าครึ่ง)</li>
+          <li>จ่ายค่า: ทิ้งการ์ดลงลานโล่ง</li>
+          <li>วางการ์ดลงป่า (ต้นไม้ → เปิดการ์ดกองจั่วลงลานโล่ง 1 ใบ)</li>
+          <li>ทำเอฟเฟกต์ (ถ้าอยากทำ)</li>
+          <li>ทำโบนัส ถ้าจ่ายด้วยสัญลักษณ์ต้นไม้ตรงกันทั้งหมด</li>
+          <li>จบตา: ลานโล่งมี 10 ใบขึ้นไป → เก็บทั้งหมดลงกล่อง</li>
+        </ol>
+      </div>
+      <p class="note">เอฟเฟกต์หรือโบนัสบางอย่างให้ <b>เล่นเพิ่มอีกตา</b> หรือ <b>เล่นการ์ดฟรี</b> ทำตามข้อความบนการ์ดใบนั้น</p>
+    </section>
+
+    <!-- PAY / BONUS -->
+    <section id="pay">
+      <div class="sec-head"><span class="tag">ตัวเลข</span><h2>จ่ายค่าการ์ด และการได้โบนัส</h2></div>
+      <p class="prose">ปกติจะทิ้งการ์ดใบไหนจ่ายก็ได้ แต่ถ้า<b>ทุกใบที่จ่าย</b>มีสัญลักษณ์ต้นไม้ (สีการ์ด) <b>เหมือนกับการ์ดที่เล่น</b> คุณได้โบนัสด้วย สำหรับการ์ดผ่าครึ่งที่ใช้จ่าย ขอแค่<b>ครึ่งใดครึ่งหนึ่ง</b>มีสัญลักษณ์ที่ตรงก็พอ</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 260" role="img" aria-label="ตัวอย่างการจ่ายด้วยสัญลักษณ์ต้นไม้เดียวกันแล้วได้โบนัส">
+          <g id="paydemo"></g>
+        </svg>
+        </div>
+        <figcaption>แถวบน: จ่าย 2 ใบที่มีสัญลักษณ์บีชทั้งคู่ → <b>ได้โบนัส</b> · แถวล่าง: ใบหนึ่งเป็นสัญลักษณ์ลินเดน → จ่ายครบ เล่นได้ แต่<b>ไม่ได้โบนัส</b> (เอฟเฟกต์ยังได้ตามปกติ)</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>ทำไมต้องสนใจสีการ์ด</h3>
+        <p>โบนัสมักเป็นสิ่งที่คุ้มมาก เช่น จั่วการ์ดเพิ่ม เล่นอีกตา หรือเอาการ์ดเข้าถ้ำ การเก็บการ์ดสีเดียวกันไว้ในมือหลาย ๆ ใบช่วยให้ “จ่ายแล้วได้โบนัส” บ่อยขึ้น แต่การ์ดที่ทิ้งจ่ายจะไปอยู่ในลานโล่ง <b>ให้คนอื่นหยิบไปใช้ได้</b></p>
+      </div>
+    </section>
+
+    <!-- CLEARING -->
+    <section id="clearing">
+      <div class="sec-head"><span class="tag">กองกลาง</span><h2>ลานโล่ง</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 220" role="img" aria-label="เมื่อลานโล่งมี 10 ใบขึ้นไปตอนจบตา ให้เก็บทั้งหมดลงกล่อง">
+          <g id="clearingdemo"></g>
+        </svg>
+        </div>
+        <figcaption>เช็กเฉพาะ<b>ตอนจบตา</b> ระหว่างตาลานโล่งเกิน 10 ใบได้ชั่วคราว</figcaption>
+      </figure>
+      <div class="prose">
+        <ul>
+          <li>การ์ดเข้าลานโล่งได้ 2 ทาง: <b>การ์ดที่ทิ้งจ่าย</b> และ<b>การ์ดที่เปิดจากกองจั่วหลังเล่นต้นไม้</b> (รวมเอฟเฟกต์บางใบ)</li>
+          <li>ทุกคนจั่วจากลานโล่งได้ในการกระทำ A เลือกใบไหนก็ได้</li>
+          <li>จบตาของใครก็ตาม ถ้าลานโล่งมี <b>10 ใบขึ้นไป</b> → เก็บ<b>ทั้งหมด</b>คืนกล่อง (ออกจากเกม)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และคิดคะแนน</h2></div>
+      <div class="callout sky">
+        <h3>เปิดเจอฤดูหนาวใบที่ 3 = จบทันที</h3>
+        <p>ไม่ว่าจะเปิดจากการจั่ว การเปิดลงลานโล่งหลังเล่นต้นไม้ หรือเอฟเฟกต์ไหน <b>เกมจบตรงนั้นเลย</b> คนที่เปิดเจอทำตาของตัวเองต่อไม่ได้</p>
+      </div>
+      <div class="prose">
+        <ul>
+          <li>นับคะแนนจาก<b>การ์ดที่มองเห็นทุกใบในป่า</b>ของตัวเอง (ต้นไม้ + ครึ่งที่ใช้)</li>
+          <li>บวก<b>การ์ดในถ้ำ ใบละ 1 คะแนน</b></li>
+          <li>ใช้สมุดคะแนนจดทีละหมวด: ต้นไม้ / ด้านบน / ด้านล่าง / ด้านซ้าย / ด้านขวา / ถ้ำ</li>
+          <li>คะแนนมากสุดชนะ · <b>เสมอ = ชนะร่วมกัน</b> ไม่มีกติกาตัดสินเสมอ</li>
+        </ul>
+      </div>
+      <h3>การ์ดที่คิดเป็นชุด กับคิดทีละใบ</h3>
+      <div class="types">
+        <div class="type"><h3>คิดเป็นชุด (ตาราง)</h3><p>การ์ดที่มี<b>ตารางคะแนน</b>พิมพ์อยู่ เช่น <b>ผีเสื้อ</b> (นับจำนวนชนิดที่ต่างกัน), <b>เกาลัดม้า</b>, <b>ซาลาแมนเดอร์ไฟ</b>, <b>หิ่งห้อย</b> ให้ดูตารางครั้งเดียวจากจำนวนที่มีทั้งหมด ไม่ใช่คิดทีละใบ</p></div>
+        <div class="type"><h3>คิดทีละใบ</h3><p>การ์ดอื่น ๆ คิดคะแนน<b>แยกทุกใบ</b> ถ้ามี 2 ใบชนิดเดียวกันก็ได้ 2 รอบ เช่น กระต่ายยุโรปแต่ละตัวได้คะแนนตามจำนวนกระต่ายทั้งหมด</p></div>
+        <div class="type"><h3>ค้างคาว</h3><p>ค้างคาวแต่ละตัวได้คะแนนก็ต่อเมื่อในป่ามีค้างคาว<b>อย่างน้อย 3 ชนิดที่ต่างกัน</b> ถ้าไม่ถึงไม่ได้สักตัว</p></div>
+      </div>
+      <p class="note">เงื่อนไขละเอียดของการ์ดแต่ละชนิดอยู่บนการ์ดและการ์ดสรุปกติกาในกล่อง <b>ให้ยึดข้อความบนการ์ดจริงเสมอ</b> · ข้อการ์ดชุด/ค้างคาวมาจากคำถามที่พบบ่อยของ RulesPal</p>
+    </section>
+
+    <!-- TREES -->
+    <section id="trees">
+      <div class="sec-head"><span class="tag">10+1 ชนิด</span><h2>ต้นไม้ทุกชนิด</h2></div>
+      <p class="prose">สีวงกลมคือ<b>สัญลักษณ์ต้นไม้</b>ของแต่ละชนิด ใช้ทั้งการเช็กโบนัส และการ์ดที่นับจำนวนชนิดต้นไม้ ต้นกล้าไม่นับเป็นชนิดใด</p>
+      <div class="trees" id="treegrid"></div>
+      <p class="note">คะแนนต้นไม้ในตารางนี้สรุปจากการ์ดฉบับภาษาอังกฤษ ชื่อไทยในกล่องอาจสะกดต่างไป <b>ถ้าตรงไหนต่างกัน ให้ยึดการ์ดจริง</b> · ภาคแอลป์เพิ่มต้นไม้ 2 ชนิด (รวม 10) แต่ <b>โอ๊ก</b> และ<b>สตรอว์เบอร์รี</b>ยังต้องการแค่ <b>8 ชนิดที่ต่างกัน</b> เหมือนเดิม</p>
+    </section>
+
+    <!-- EDGE -->
+    <section id="edge">
+      <div class="xhead" style="--c:var(--edge)"><span class="tag">ภาคเสริม · WOODLAND EDGE</span><h2>ชายป่า</h2><p>รอยต่อระหว่างป่ากับทุ่งหญ้าเป็นที่หลบภัยของสัตว์หลายชนิด ภาคนี้เพิ่มการ์ด 36 ใบ ไฮไลต์คือ <b>พุ่มไม้</b> <span lang="en">(Shrubs)</span> แบบใหม่</p></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 300" role="img" aria-label="พุ่มไม้มีช่อง 4 ด้านแบบต้นไม้และมีเอฟเฟกต์ถาวรแบบเห็ด">
+          <rect x="8" y="8" width="684" height="284" rx="18" class="s-surface2"/>
+          <g transform="translate(70 30)">
+            <rect x="30" y="0" width="90" height="56" rx="8" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+            <rect x="30" y="184" width="90" height="56" rx="8" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+            <rect x="-50" y="70" width="70" height="100" rx="8" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+            <rect x="130" y="70" width="70" height="100" rx="8" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+            <rect x="20" y="56" width="110" height="128" rx="10" class="s-surface" style="stroke:var(--edge)" stroke-width="2"/>
+            <g class="s-edge"><circle cx="58" cy="122" r="22"/><circle cx="86" cy="112" r="26"/><circle cx="100" cy="132" r="18"/><circle cx="70" cy="140" r="18"/></g>
+            <g fill="#f3f1e3"><circle cx="80" cy="100" r="4"/><circle cx="90" cy="96" r="3"/><circle cx="72" cy="94" r="3"/></g>
+            <text x="75" y="174" text-anchor="middle" class="s-fg disp" font-size="13">พุ่มไม้</text>
+          </g>
+          <g font-size="13">
+            <text x="330" y="70" class="s-fg disp" font-size="16">พุ่มไม้ = ครึ่งต้นไม้ ครึ่งเห็ด</text>
+            <text x="330" y="102" class="s-good tagf">✓ มีช่อง 4 ด้าน วางการ์ดได้แบบต้นไม้</text>
+            <text x="330" y="128" class="s-good tagf">✓ มีเอฟเฟกต์ถาวรแบบเห็ด</text>
+            <text x="346" y="148" class="s-muted" font-size="12">ใช้ได้ตั้งแต่ตอนใช้โบนัสของพุ่มไม้ใบนั้นเอง</text>
+            <text x="330" y="180" class="s-bad tagf">✕ ไม่ใช่ต้นไม้ และไม่ใช่เห็ด</text>
+            <text x="346" y="200" class="s-muted" font-size="12">ไม่นับในการ์ดที่นับต้นไม้หรือนับเห็ด</text>
+          </g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่างพุ่มไม้ในภาค: เอลเดอร์เบอร์รี <span class="en">Elderberry</span> มีเอฟเฟกต์ถาวรแบบ “ทุกครั้งที่คุณเล่นการ์ดที่มีสัญลักษณ์… ได้ …” ให้อ่านบนการ์ด</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ฝูงผึ้ง <span class="en">Bee Swarm</span></h3><p>ทำเอฟเฟกต์<b>หลังจ่ายค่า</b>การ์ดใบนี้แล้ว</p></div>
+        <div class="type"><h3>นกกางเขนยุโรป <span class="en">Eurasian Magpie</span></h3><p>ทำโบนัส<b>หลังจ่ายค่า</b>แล้ว ถ้าลานโล่งเหลือแค่ 1 ใบ ก็หยิบได้แค่ใบนั้น</p></div>
+        <div class="type"><h3>ตำแย <span class="en">Stinging Nettle</span></h3><p>เอฟเฟกต์ใช้กับ<b>ต้นไม้หรือพุ่มไม้ที่ตำแยติดอยู่</b></p></div>
+        <div class="type"><h3>หนูน้ำ <span class="en">Water Vole</span></h3><p>ทุกต้นกล้าที่เล่นจากเอฟเฟกต์นี้ ให้เปิดการ์ดกองจั่ว 1 ใบลงลานโล่ง (ตามกติกาปกติของการเล่นต้นไม้)</p></div>
+        <div class="type"><h3>ผีเสื้อ</h3><p>ภาคนี้เพิ่มผีเสื้อแผนที่ <span class="en">Map Butterfly</span> · ผีเสื้อจะมีครบ <b>7 ชนิด</b> ต่อเมื่อเล่นกับ<b>ทั้งชายป่าและแอลป์</b></p></div>
+        <div class="type"><h3>สัญลักษณ์ใหม่</h3><p><b>“1 จากลานโล่ง”</b> = หยิบการ์ด 1 ใบจากลานโล่งขึ้นมือ · มีสัญลักษณ์ประเภท<b>ชายป่า</b>และ<b>พุ่มไม้</b></p></div>
+      </div>
+      <p class="note">ตัวอย่างสัตว์ในภาค: พังพอนยุโรป <span class="en">European Polecat</span>, ลูกหมูป่า <span class="en">Squeaker</span>, ตั๊กแตนพุ่มไม้เขียว <span class="en">Great Green Bush-Cricket</span> · ที่มา: คู่มือทางการ Woodland Edge (EN, 2024)</p>
+    </section>
+
+    <!-- ALPINE -->
+    <section id="alpine">
+      <div class="xhead" style="--c:var(--alp)"><span class="tag">ภาคเสริม · ALPINE</span><h2>เทือกเขาแอลป์</h2><p>ป่าผสมบนภูเขาจนเลยแนวต้นไม้ขึ้นไป ภาคนี้เพิ่มการ์ด 36 ใบ รวม<b>ต้นไม้ใหม่ 2 ชนิด</b> และสัตว์ภูเขา เช่น อินทรีทอง มาร์มอต ชามัวส์ นิวต์แอลป์</p></div>
+      <div class="types">
+        <div class="type"><h3><span class="dot" style="background:var(--t-larch)"></span>ต้นไม้ใหม่ 2 ชนิด</h3><p><b>ลาร์ชแอลป์</b> <span class="en">Alpine / European Larch</span> และ <b>สนสวิส</b> <span class="en">Swiss Pine</span> แต่ละชนิดมีสัญลักษณ์ต้นไม้ของตัวเอง (ม่วง / ชมพู) รวมเป็น 10 ชนิด</p></div>
+        <div class="type"><h3>แร้งเครา <span class="en">Bearded Vulture</span></h3><p>การ์ดใบที่ 3 ที่<b>เอาการ์ดเข้าถ้ำได้</b> (นอกจากหมีสีน้ำตาลและแรคคูน) ใช้เอฟเฟกต์หลังจ่ายค่าแล้ว แร้งเคราแต่ละตัวได้คะแนน<b>เท่ากับจำนวนการ์ดในถ้ำ</b></p></div>
+        <div class="type"><h3>ผีเสื้อ</h3><p>เพิ่มผีเสื้ออพอลโล <span class="en">Phoebus Apollo</span> ผีเสื้อมีได้ถึง <b>6 ชนิด</b> (7 ชนิดถ้ามีชายป่าด้วย)</p></div>
+        <div class="type"><h3>โอ๊ก & สตรอว์เบอร์รี</h3><p>แม้จะมีต้นไม้ 10 ชนิดแล้ว ก็ยังต้องการแค่ <b>8 ชนิดที่ต่างกัน</b></p></div>
+      </div>
+      <h3>กระต่ายภูเขา (Mountain Hare)</h3>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 230" role="img" aria-label="กระต่ายยุโรปซ้อนช่องเดียวกันได้ แต่กระต่ายภูเขาไม่ซ้อน และนับรวมกันตอนคิดคะแนน">
+          <g id="hares"></g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่างจากคู่มือ: กระต่ายยุโรป 4 + กระต่ายภูเขา 2 = กระต่าย 6 ตัว ได้รวม <b>36 คะแนน</b> (ตัวละ 6) · กระต่ายภูเขานับเป็นกระต่ายยุโรปตอนคิดคะแนน แต่<b>ไม่ซ้อนช่อง</b>กับกระต่ายตัวไหนเลย</figcaption>
+      </figure>
+      <p class="note">ที่มา: คู่มือทางการ Alpine (EN, ม.ค. 2024)</p>
+    </section>
+
+    <!-- EXPLORATION -->
+    <section id="explore">
+      <div class="xhead" style="--c:var(--exp)"><span class="tag">ภาคเสริม · EXPLORATION</span><h2>การสำรวจ</h2><p>กล่องนี้มี <b>3 โมดูล</b> แยกกัน เลือกใส่ทีละอย่างหรือรวมกันก็ได้: เล่นคนเดียวกับบอท “แอนนา”, ถ้ำพิเศษ และการ์ดใหม่จากทั่วโลก</p></div>
+
+      <h3>โมดูล 1 · ลำพังในป่า <span class="en">Alone in the Forest</span> (เล่นคนเดียว)</h3>
+      <ol class="steps">
+        <li><div class="body"><h3>เอาการ์ดออกเหมือนเล่น 2 คน</h3><p>เกมหลัก 30 ใบ · มีภาคเสริม 1 ภาค 55 ใบ · มีชายป่า + แอลป์ 90 ใบ</p></div></li>
+        <li><div class="body"><h3>ใช้ฤดูหนาวแค่ 1 ใบ</h3><p>สับฤดูหนาว 1 ใบเข้ากับ <b>10 ใบสุดท้าย</b>ของกองจั่ว</p></div></li>
+        <li><div class="body"><h3>มือ 6 ใบ ลานโล่ง 5 ใบ</h3><p>จั่ว 6 ใบขึ้นมือ แล้วเปิด 5 ใบหงายลงลานโล่ง</p></div></li>
+        <li><div class="body"><h3>เตรียมแอนนา</h3><p>สับการ์ดบอท 20 ใบเป็นกองคว่ำ</p></div></li>
+        <li><div class="body"><h3>เลือกภารกิจและระดับ</h3><p>เลือกการ์ดภารกิจ 1 ใบ และระดับ <b>ทองแดง (1 ดาว) / เงิน (2 ดาว) / ทอง (3 ดาว)</b> ซึ่งบอกเป้าหมายและคะแนนขั้นต่ำ คุณเริ่มเล่นก่อนเสมอ</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 250" role="img" aria-label="ตาของแอนนา 3 ขั้น">
+          <g id="annademo"></g>
+        </svg>
+        </div>
+        <figcaption>ตาของแอนนา: เปิดการ์ดบอทใบบน แล้วทำ 3 อย่างตามลำดับ · ทุกครั้งที่ลานโล่งมีช่องว่าง ให้เลื่อนปิดช่องโดยไม่สลับลำดับ · การ์ดบอทหมด สับกองทิ้งเป็นกองใหม่</figcaption>
+      </figure>
+      <div class="prose">
+        <ul>
+          <li>เกมจบทันทีเมื่อจั่วเจอฤดูหนาว นับคะแนนเฉพาะป่าของคุณ แอนนาไม่มีคะแนน</li>
+          <li>ทำเป้าหมายของภารกิจได้ <b>และ</b> คะแนนถึงขั้นต่ำของระดับ = ผ่าน เช่น ป่าค้างคาว ระดับทองแดง: มีค้างคาว 4 ตัวขึ้นไป และได้อย่างน้อย 200 คะแนน</li>
+          <li>ภารกิจที่ผ่านแล้ว เก็บไว้หลังการ์ดคั่นสีที่ได้ ใช้ดูความคืบหน้า</li>
+          <li><b>คะแนนที่เปลี่ยนตอนเล่นคนเดียว:</b> ลินเดนได้ 3 คะแนนต่อต้นเมื่อมี<b>อย่างน้อย 3 ต้น</b> · นกหัวขวานใหญ่ได้ 10 คะแนนเมื่อมีต้นไม้<b>อย่างน้อย 10 ต้น</b></li>
+          <li>ภารกิจ “ปลูกป่าใหม่” <span class="en">Reforestation</span> ที่เล่นกับทั้งสองภาค: ใส่หนูน้ำ 1 ใบ (สุ่ม) ไว้ในมือก่อนเอาการ์ดออก แล้วจั่วเพิ่มแค่ 5 ใบ</li>
+        </ul>
+      </div>
+
+      <h3>โมดูล 2 · ถ้ำพิเศษ <span class="en">Special Caves</span></h3>
+      <p class="prose">ใช้แทนถ้ำธรรมดา หลังแจกการ์ด 6 ใบแล้ว วางถ้ำพิเศษ 5 ใบกลางโต๊ะ ให้เลือกคนละใบ<b>ย้อนลำดับการเล่น</b> (คนเล่นท้ายสุดเลือกก่อน) ที่เหลือเก็บกล่อง ทุกถ้ำยังได้ใบละ 1 คะแนนเหมือนเดิม บวกความสามารถของถ้ำ</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ถ้ำ</th><th>ความสามารถ</th></tr></thead>
+          <tbody>
+            <tr><td><b>ถ้ำนักสะสม</b><br><span class="en">Collectors' Cave</span></td><td>การ์ดในถ้ำได้ใบละ <b>2</b> คะแนนแทน 1</td></tr>
+            <tr><td><b>ถ้ำค้างคาว</b><br><span class="en">Bat Cave</span></td><td>ค้างคาวทุกตัวในป่าได้เพิ่ม <b>+3</b> คะแนน แม้จะมีค้างคาวไม่ครบ 3 ชนิด</td></tr>
+            <tr><td><b>ถ้ำสันโดษ</b><br><span class="en">Lonely Cave</span></td><td>จบเกมแล้วถ้ำ<b>ว่าง</b> ได้ <b>5</b> คะแนน ถ้ามีการ์ดก็นับใบละ 1 ตามปกติ</td></tr>
+            <tr><td><b>ถ้ำคลังเสบียง</b><br><span class="en">Storage Cave</span></td><td>ตาละครั้ง เมื่อใส่การ์ดเข้าถ้ำอย่างน้อย 1 ใบ จั่วการ์ดจากกองจั่วทันที 1 ใบ</td></tr>
+            <tr><td><b>ถ้ำของเถื่อน</b><br><span class="en">Smugglers' Cave</span></td><td>ทุกครั้งที่ได้โบนัส เอาการ์ดใบหนึ่งที่ใช้จ่าย<b>ใส่ถ้ำนี้</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">คะแนนขั้นต่ำของภารกิจเล่นคนเดียวคิดแบบไม่มีถ้ำพิเศษ ถ้าใส่ด้วยคะแนนจะสูงขึ้น (ง่ายขึ้น)</p>
+
+      <h3>โมดูล 3 · รอบโลก <span class="en">Around the Globe</span> (การ์ดใหม่และหายาก 15 ใบ)</h3>
+      <div class="types">
+        <div class="type"><h3>วิธีใส่</h3><p>ใช้บางใบหรือทั้ง 15 ใบก็ได้ กับเกมหลักหรือภาคเสริมใดก็ได้ สับเข้ากองจั่ว แล้วเอาการ์ดออกตามปกติ <b>บวกอีก 1 ใบต่อการ์ดใหม่ 1 ใบที่ใส่</b></p></div>
+        <div class="type"><h3>แบบแจกเท่ากัน</h3><p>แจกการ์ดใหม่แบบสุ่ม<b>คนละ 2 ใบ</b>ตอนเริ่ม ทุกคนจึงเริ่มด้วยการ์ด 8 ใบในมือ</p></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>ข้อควรรู้</th></tr></thead>
+          <tbody>
+            <tr><td><b>มิสเซิลโท</b> <span class="en">Mistletoe</span></td><td>วางบนต้นไม้แล้ว ให้<b>พลิกต้นไม้นั้นคว่ำ</b> กลายเป็นต้นกล้าไปตลอดเกม ถ้าวางบนต้นกล้าก็ยังเป็นต้นกล้า</td></tr>
+            <tr><td><b>เบิร์ชพรุ, โอ๊กตุรกี, ต้นคริสต์มาส</b><br><span class="en">Moor Birch, Turkey Oak, O Christmas Tree</span></td><td>ไม่ใช่ชนิดใหม่ นับเป็น <b>เบิร์ช, โอ๊ก, เฟอร์เงิน</b> ตามลำดับ แต่คะแนนอาจต่างจากใบปกติ</td></tr>
+            <tr><td><b>ต้นปาล์ม</b> <span class="en">Palm Tree</span></td><td>ต้นไม้<b>ชนิดใหม่</b> มีสัญลักษณ์ต้นไม้ของตัวเอง</td></tr>
+            <tr><td><b>แพนด้าแดง</b> <span class="en">Red Panda</span></td><td>ไผ่ไม่ใช่ต้นไม้ สัญลักษณ์ต้นไม้บนการ์ดใบนี้จึงไม่มีผล</td></tr>
+            <tr><td><b>ผีเสื้อกำมะถัน</b> <span class="en">Brimstone</span></td><td>มีผีเสื้อครบ <b>8 ชนิด</b> ได้ก็ต่อเมื่อใส่ทั้ง 3 ภาค</td></tr>
+            <tr><td><b>ซาลาแมนเดอร์ไฟ</b> <span class="en">Fire Salamander</span></td><td>มี 4 ตัวในป่า ก็ยังได้รวมแค่ 25 คะแนน</td></tr>
+            <tr><td><b>หิ่งห้อยของเซย์</b> <span class="en">Say's Firefly</span></td><td>นับเป็นหิ่งห้อย มี 5 ตัวก็ยังได้รวมแค่ 20 คะแนน</td></tr>
+            <tr><td><b>มาร์ชซิงก์ฟอยล์</b> <span class="en">Marsh Cinquefoil</span></td><td>สัญลักษณ์พื้นที่และสัญลักษณ์วงกลมสีฟ้าบนการ์ดไม่มีผล</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ที่มา: คู่มือ Exploration ฉบับถอดความของ RulesPal (เว็บสำนักพิมพ์ไม่เปิดให้โหลด) · รายชื่อภารกิจ 12 ใบและเกณฑ์คะแนนแต่ละระดับ ให้ดูบนการ์ดภารกิจในกล่อง</p>
+    </section>
+
+    <!-- MIX -->
+    <section id="mix">
+      <div class="sec-head"><span class="tag">ตั้งค่า</span><h2>รวมทุกภาคในเกมเดียว</h2></div>
+      <p class="prose">ใส่ชายป่าและ/หรือแอลป์: สับรวมกับเกมหลัก <b>เอาออก 10 ใบก่อน</b> แล้วเอาออก<b>เพิ่ม</b>ตามตาราง (ไม่ดูการ์ด) ที่เหลือเตรียมเกมเหมือนเดิม</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ผู้เล่น</th><th class="num">เกมหลักอย่างเดียว</th><th class="num">+ ภาคเสริม 1 ภาค<br><small>(10 + เพิ่ม)</small></th><th class="num">+ ชายป่า และ แอลป์<br><small>(10 + เพิ่ม)</small></th></tr></thead>
+          <tbody>
+            <tr><td>1 คน (การสำรวจ)</td><td class="num">30</td><td class="num">55</td><td class="num">90</td></tr>
+            <tr><td>2 คน</td><td class="num">30</td><td class="num">10 + 45</td><td class="num">10 + 80</td></tr>
+            <tr><td>3 คน</td><td class="num">20</td><td class="num">10 + 30</td><td class="num">10 + 50</td></tr>
+            <tr><td>4 คน</td><td class="num">10</td><td class="num">10 + 15</td><td class="num">10 + 35</td></tr>
+            <tr><td>5 คน</td><td class="num">0</td><td class="num">10 + 0</td><td class="num">10 + 20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout edge">
+        <h3>ทางลัดตอนใส่ 2 ภาค</h3>
+        <p>ไม่อยากนับการ์ด: สับทั้งหมดแล้วแบ่งเป็นกองเท่า ๆ กัน · <b>2 คน</b> แบ่ง 5 กอง เอาออก 2 กอง · <b>3 คน</b> แบ่ง 4 กอง เอาออก 1 กอง</p>
+      </div>
+      <p class="note">ใส่การ์ดใหม่จากการสำรวจ (โมดูลรอบโลก) แบบสับเข้ากอง: เอาออกเพิ่มอีก 1 ใบต่อการ์ดใหม่ 1 ใบ · ตัวเลขจากคู่มือทางการ Woodland Edge และ Alpine</p>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น</span><h2>ตัวช่วยกลางโต๊ะ</h2></div>
+      <div class="tool">
+        <div class="tool-top"><h3>คำนวณการ์ดที่ต้องเอาออก</h3></div>
+        <div>
+          <span class="field-l">จำนวนผู้เล่น</span>
+          <div class="seg" role="group" aria-label="จำนวนผู้เล่น" id="cp"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 22px">
+          <label class="chk"><input type="checkbox" id="x-edge" checked> ชายป่า</label>
+          <label class="chk"><input type="checkbox" id="x-alp" checked> เทือกเขาแอลป์</label>
+          <label class="chk"><input type="checkbox" id="x-rare"> การ์ดใหม่ (การสำรวจ) สับเข้ากอง</label>
+        </div>
+        <div id="rare-row" hidden>
+          <span class="field-l">ใส่การ์ดใหม่กี่ใบ</span>
+          <div class="seg" role="group" aria-label="จำนวนการ์ดใหม่" id="rarecount"></div>
+        </div>
+        <div class="calc-out" id="calcout" aria-live="polite"></div>
+        <p class="note" id="calcnote" style="margin:0"></p>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top">
+          <h3>สมุดจดคะแนน</h3>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <div class="seg" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน" id="sp-n"></div>
+            <button type="button" class="btn warn" id="sp-reset">ล้างคะแนน</button>
+          </div>
+        </div>
+        <p class="note" id="sp-note" style="margin:0">ตัวเลขที่เห็นเป็นตัวอย่าง กด “ล้างคะแนน” ก่อนเริ่มจดเกมจริง · ข้อมูลเก็บไว้ในเครื่องนี้ ปิดหน้าแล้วเปิดใหม่ยังอยู่</p>
+        <div class="sp-wrap"><table class="sp" id="sp"></table></div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ศัพท์</span><h2>ศัพท์ทั้งหมด</h2></div>
+      <dl class="gl">
+        <dt>ป่า <span class="en">Forest</span></dt><dd>การ์ดทั้งหมดที่คุณเล่นวางไว้ตรงหน้า</dd>
+        <dt>ลานโล่ง <span class="en">Clearing</span></dt><dd>กองการ์ดหงายกลางโต๊ะ ทุกคนหยิบได้ เต็ม 10 ใบตอนจบตาเก็บทิ้ง</dd>
+        <dt>กองจั่ว <span class="en">Deck / Draw pile</span></dt><dd>การ์ดคว่ำที่มีฤดูหนาวซ่อนอยู่ใน 1/3 ล่าง</dd>
+        <dt>ค่าการ์ด <span class="en">Cost</span></dt><dd>จำนวนการ์ดอื่นจากมือที่ต้องทิ้งลงลานโล่งเพื่อเล่นการ์ดนี้</dd>
+        <dt>สัญลักษณ์ต้นไม้ <span class="en">Tree symbol</span></dt><dd>วงกลมสีมุมขวาบน บอกว่าการ์ดนี้เป็น “สี” ของต้นไม้ชนิดไหน</dd>
+        <dt>สัญลักษณ์ประเภท <span class="en">Type symbol</span></dt><dd>ไอคอนบอกประเภท เช่น นก ค้างคาว ผีเสื้อ เห็ด พุ่มไม้ ภาคชายป่า ภาคแอลป์</dd>
+        <dt>เอฟเฟกต์ <span class="en">Effect</span></dt><dd>ได้ทุกครั้งที่เล่นการ์ด ทำก่อนโบนัส</dd>
+        <dt>โบนัส <span class="en">Bonus</span></dt><dd>ได้เมื่อจ่ายด้วยการ์ดสัญลักษณ์ต้นไม้เดียวกันทั้งหมด</dd>
+        <dt>เอฟเฟกต์ถาวร</dt><dd>ของเห็ดและพุ่มไม้ ทำงานไปตลอดเกม</dd>
+        <dt>ต้นกล้า <span class="en">Sapling</span></dt><dd>การ์ดใบไหนก็ได้วางคว่ำ ใช้เป็นต้นไม้ที่มี 4 ช่อง ไม่มีชนิด ไม่มีคะแนน</dd>
+        <dt>ถ้ำ <span class="en">Cave</span></dt><dd>การ์ดที่ถูกเอาเข้าถ้ำ (จากหมี แรคคูน แร้งเครา ฯลฯ) ใบละ 1 คะแนน</dd>
+        <dt>ฤดูหนาว <span class="en">Winter</span></dt><dd>ใบที่ 3 โผล่ = จบเกมทันที</dd>
+        <dt>แอนนา <span class="en">Anna</span></dt><dd>บอทในโหมดเล่นคนเดียว ไม่มีคะแนน มีหน้าที่ปั่นลานโล่งและกองจั่ว</dd>
+      </dl>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ถาม-ตอบ</span><h2>คำถามที่เจอบ่อย</h2></div>
+      <div class="faq">
+        <details><summary>ในมือมี 9 ใบ เลือกจั่ว 2 ใบได้ไหม</summary><p>ไม่ได้ จั่วได้แค่ 1 ใบ เพดาน 10 ใบเข้มงวดเสมอ รวมถึงการจั่วจากเอฟเฟกต์และโบนัส</p></details>
+        <details><summary>เล่นการ์ดผ่าครึ่งที่ไม่มีช่องว่างด้านนั้นได้ไหม</summary><p>ไม่ได้ ต้องมีต้นไม้ (หรือต้นกล้า/พุ่มไม้) ในป่าที่ด้านนั้นยังว่างอยู่ก่อน ลองเล่นต้นกล้าเพื่อเปิดช่องใหม่</p></details>
+        <details><summary>ต้นกล้าต้องจ่ายค่าไหม ได้เปิดการ์ดลงลานโล่งไหม</summary><p>ต้นกล้าไม่ต้องจ่าย มันเล่นแทนต้นไม้ ตามกติกาหนูน้ำในภาคชายป่า ทุกต้นกล้าที่เล่นให้เปิดการ์ดลงลานโล่งตามกติกาปกติ จึงถือว่าต้นกล้าก็เปิดการ์ดลงลานโล่งเหมือนต้นไม้</p></details>
+        <details><summary>จ่ายด้วยการ์ดผ่าครึ่ง ต้องให้ครึ่งไหนตรงสี</summary><p>ครึ่งไหนก็ได้ ขอให้มีสัญลักษณ์ต้นไม้ที่ตรงกับการ์ดที่เล่นอยู่บนการ์ดใบนั้น</p></details>
+        <details><summary>การ์ดค่า 0 ได้โบนัสไหม</summary><p>คู่มือไม่ได้พูดถึงตรง ๆ เงื่อนไขคือ “การ์ดที่จ่ายทุกใบต้องสีตรง” ถ้าไม่ได้จ่ายเลย ให้ตกลงกันในวงก่อนเริ่มเกม และยึดข้อความบนการ์ดสรุปกติกาถ้ามีเขียนไว้</p></details>
+        <details><summary>ลานโล่งเกิน 10 ใบกลางตา ต้องเก็บทันทีไหม</summary><p>ไม่ต้อง เช็กแค่ตอนจบตา ระหว่างตายังหยิบจากลานโล่งด้วยเอฟเฟกต์ได้ตามปกติ</p></details>
+        <details><summary>เปิดฤดูหนาวใบที่ 3 ตอนเล่นต้นไม้ ต้นไม้นั้นนับไหม</summary><p>นับ ต้นไม้วางลงป่าแล้วก่อนเปิดการ์ด แต่เกมจบทันที ใช้เอฟเฟกต์หรือโบนัสต่อไม่ได้</p></details>
+        <details><summary>ค้างคาว 2 ชนิดได้คะแนนไหม</summary><p>ไม่ได้ ต้องมีอย่างน้อย 3 ชนิดที่ต่างกัน (เว้นแต่มีถ้ำค้างคาวจากภาคการสำรวจ ซึ่งให้ +3 ต่อตัวเสมอ)</p></details>
+        <details><summary>พุ่มไม้นับเป็นต้นไม้ของโอ๊กไหม</summary><p>ไม่นับ พุ่มไม้ไม่ใช่ทั้งต้นไม้และเห็ด</p></details>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งข้อมูล</b></p>
+    <ul>
+      <li>คู่มือทางการ Forest Shuffle: Woodland Edge (EN, เม.ย. 2024) และ Alpine (EN, ม.ค. 2024) จาก Lookout Games</li>
+      <li>กติกาเกมหลักและการสำรวจ จากฉบับถอดความของ RulesPal เพราะเว็บสำนักพิมพ์บล็อกการดาวน์โหลดไฟล์เกมหลัก</li>
+      <li>คะแนนต้นไม้แต่ละชนิดสรุปจากการ์ดฉบับภาษาอังกฤษ</li>
+    </ul>
+    <p style="margin-top:10px">คู่มือนี้แปลและเรียบเรียงเพื่อใช้ในวงเล่นเอง ภาพทั้งหมดเป็นภาพวาดจำลอง ไม่ใช่ภาพการ์ดจริง · Forest Shuffle ออกแบบโดย Kosch จัดพิมพ์โดย Lookout Games</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs){e.setAttribute(k,attrs[k]);}if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+  function card(p,x,y,w,h,opt){opt=opt||{};var g=el("g",{transform:"translate("+x+" "+y+")"},p);el("rect",{width:w,height:h,rx:Math.min(10,w/6),"class":opt.cls||"s-cardline","stroke-width":1.5,style:opt.style||""},g);return g;}
+
+  /* deck piles with winter */
+  var dp=document.getElementById("deckpiles");
+  if(dp){
+    var labels=["กอง 1","กอง 2","กอง 3 (ล่างสุด)"];
+    for(var i=0;i<3;i++){
+      var x=30+i*150;
+      for(var k=4;k>=0;k--){card(dp,x+k*3,40+k*3,90,120,{cls:"s-surface2",style:"stroke:var(--line)"});}
+      el("text",{x:x+48,y:190,"text-anchor":"middle","class":"s-fg disp","font-size":13},dp,labels[i]);
+      if(i===2){
+        var w1=card(dp,x+12,62,90,120,{cls:"s-winter"});
+        el("text",{x:45,y:56,"text-anchor":"middle",fill:"#fff","class":"tagf","font-size":12},w1,"ฤดูหนาว");
+        el("text",{x:45,y:76,"text-anchor":"middle",fill:"#fff","font-size":20},w1,"❄");
+        el("text",{x:x+48,y:210,"text-anchor":"middle","class":"s-muted","font-size":11.5},dp,"สับ 2 ใบเข้าไป + 1 ใบวางบนสุด");
+      }
+    }
+    // arrow to final deck
+    el("path",{d:"M480 100 h46",stroke:"var(--muted)","stroke-width":2,fill:"none","marker-end":"url(#ar1)"},dp);
+    var defs=el("defs",{},dp);var m=el("marker",{id:"ar1",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto"},defs);el("path",{d:"M0 0 L10 5 L0 10z",fill:"var(--muted)"},m);
+    var fx=550;
+    var layers=[["var(--surface-2)","กอง 1"],["var(--surface-2)","กอง 2"],["var(--winter)","ฤดูหนาว"],["var(--surface-2)","กอง 3"]];
+    var rows=[{y:40,h:44,c:"var(--surface-2)",t:"กอง 1 (บน)"},{y:86,h:44,c:"var(--surface-2)",t:"กอง 2"},{y:132,h:12,c:"var(--winter)",t:""},{y:146,h:44,c:"var(--surface-2)",t:"กอง 3 + ❄❄"}];
+    rows.forEach(function(r){el("rect",{x:fx,y:r.y,width:110,height:r.h,rx:6,style:"fill:"+r.c+";stroke:var(--line)"},dp);if(r.t)el("text",{x:fx+55,y:r.y+r.h/2+5,"text-anchor":"middle","class":"s-fg","font-size":12},dp,r.t);});
+    el("text",{x:fx+118,y:142,"class":"s-muted","font-size":11},dp,"❄");
+    el("text",{x:fx+55,y:210,"text-anchor":"middle","class":"s-fg disp","font-size":13},dp,"กองจั่วพร้อมเล่น");
+  }
+
+  /* payment demo */
+  var pd=document.getElementById("paydemo");
+  if(pd){
+    function payRow(y,c2,ok){
+      var g=card(pd,20,y,80,104,{});
+      el("circle",{cx:62,cy:18,r:10,style:"fill:var(--t-beech)"},g);
+      el("rect",{x:8,y:8,width:20,height:24,rx:5,"class":"s-acc"},g);el("text",{x:18,y:25,"text-anchor":"middle",fill:"#fff","class":"tagf","font-size":13},g,"2");
+      el("text",{x:40,y:72,"text-anchor":"middle","class":"s-fg disp","font-size":12},g,"เล่นใบนี้");
+      el("text",{x:40,y:90,"text-anchor":"middle","class":"s-muted","font-size":10},g,"สีบีช");
+      el("text",{x:122,y:y+60,"class":"s-fg disp","font-size":14},pd,"จ่าย");
+      var a=card(pd,170,y,80,104,{});el("circle",{cx:62,cy:18,r:10,style:"fill:var(--t-beech)"},a);el("text",{x:40,y:64,"text-anchor":"middle","class":"s-muted","font-size":11},a,"การ์ด A");
+      var b=card(pd,262,y,80,104,{});el("circle",{cx:62,cy:18,r:10,style:"fill:"+c2},b);el("text",{x:40,y:64,"text-anchor":"middle","class":"s-muted","font-size":11},b,"การ์ด B");
+      el("path",{d:"M360 "+(y+52)+" h40",stroke:"var(--muted)","stroke-width":2,"marker-end":"url(#ar2)"},pd);
+      var r=el("g",{transform:"translate(420 "+(y+16)+")"},pd);
+      el("rect",{width:250,height:72,rx:12,style:"fill:"+(ok?"color-mix(in srgb,var(--good) 16%,var(--surface))":"var(--surface-2)")},r);
+      el("text",{x:16,y:30,"class":ok?"s-good tagf":"s-muted tagf","font-size":15},r,ok?"✓ เอฟเฟกต์ + โบนัส":"✓ เอฟเฟกต์  ✕ โบนัส");
+      el("text",{x:16,y:54,"class":"s-muted","font-size":12},r,ok?"ทุกใบที่จ่ายเป็นสีบีช":"มีใบหนึ่งสีไม่ตรง");
+    }
+    var d2=el("defs",{},pd);var m2=el("marker",{id:"ar2",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto"},d2);el("path",{d:"M0 0 L10 5 L0 10z",fill:"var(--muted)"},m2);
+    payRow(14,"var(--t-beech)",true);
+    payRow(140,"var(--t-linden)",false);
+  }
+
+  /* clearing demo */
+  var cd=document.getElementById("clearingdemo");
+  if(cd){
+    el("rect",{x:10,y:10,width:430,height:180,rx:16,"class":"s-surface2"},cd);
+    el("text",{x:24,y:36,"class":"s-fg disp","font-size":14},cd,"ลานโล่งตอนจบตา: 10 ใบ");
+    var cols=["var(--t-oak)","var(--t-beech)","var(--t-linden)","var(--t-fir)","var(--t-birch)","var(--t-syc)","var(--t-doug)","var(--t-chest)","var(--t-oak)","var(--t-beech)"];
+    for(var i=0;i<10;i++){var cx=24+(i%5)*82,cy=50+Math.floor(i/5)*66;var g=card(cd,cx,cy,70,58,{});el("circle",{cx:56,cy:14,r:7,style:"fill:"+cols[i]},g);el("text",{x:35,y:42,"text-anchor":"middle","class":"s-muted tagf","font-size":12},g,String(i+1));}
+    var d3=el("defs",{},cd);var m3=el("marker",{id:"ar3",viewBox:"0 0 10 10",refX:8,refY:5,markerWidth:7,markerHeight:7,orient:"auto"},d3);el("path",{d:"M0 0 L10 5 L0 10z",fill:"var(--bad)"},m3);
+    el("path",{d:"M452 100 h60",stroke:"var(--bad)","stroke-width":2.5,"marker-end":"url(#ar3)"},cd);
+    var bx=el("g",{transform:"translate(530 50)"},cd);
+    el("path",{d:"M0 30 h140 l-12 92 h-116z","class":"s-accsoft",style:"stroke:var(--accent-strong)","stroke-width":2},bx);
+    el("rect",{x:-6,y:18,width:152,height:16,rx:4,"class":"s-acc"},bx);
+    el("text",{x:70,y:78,"text-anchor":"middle","class":"s-fg disp","font-size":14},bx,"คืนกล่อง");
+    el("text",{x:70,y:98,"text-anchor":"middle","class":"s-muted","font-size":11},bx,"ทั้ง 10 ใบ ออกจากเกม");
+  }
+
+  /* hares */
+  var hr=document.getElementById("hares");
+  if(hr){
+    function hare(g,x,y,c){el("ellipse",{cx:x,cy:y,rx:16,ry:11,style:"fill:"+c},g);el("ellipse",{cx:x+12,cy:y-14,rx:4,ry:12,style:"fill:"+c},g);el("ellipse",{cx:x+6,cy:y-14,rx:4,ry:12,style:"fill:"+c},g);el("circle",{cx:x+14,cy:y-4,r:1.8,"class":"s-fg"},g);}
+    // tree A with stacked european hares on left
+    var tA=card(hr,140,40,90,130,{style:"stroke:var(--moss)"});el("circle",{cx:45,cy:56,r:30,"class":"s-moss"},tA);el("rect",{x:40,y:80,width:10,height:36,fill:"#6a4628"},tA);
+    for(var i=3;i>=0;i--){var c=card(hr,30+i*6,60+i*6,80,90,{cls:"s-accsoft",style:"stroke:var(--accent-strong)"});if(i===0)hare(c,38,60,"#9a8a78");}
+    el("text",{x:70,y:190,"text-anchor":"middle","class":"s-fg","font-size":12},hr,"กระต่ายยุโรป 4 ตัว");
+    el("text",{x:70,y:206,"text-anchor":"middle","class":"s-good tagf","font-size":12},hr,"✓ ซ้อนช่องเดียวกันได้");
+    // tree B and C with mountain hare each
+    [[400,"ภูเขา 1"],[560,"ภูเขา 2"]].forEach(function(t){
+      var tb=card(hr,t[0],40,90,130,{style:"stroke:var(--moss)"});el("circle",{cx:45,cy:56,r:30,style:"fill:var(--t-larch)"},tb);el("rect",{x:40,y:80,width:10,height:36,fill:"#6a4628"},tb);
+      var c=card(hr,t[0]-86,60,80,90,{cls:"s-surface",style:"stroke:var(--alp)"});hare(c,38,60,"#e8e6ee");
+    });
+    el("text",{x:440,y:190,"text-anchor":"middle","class":"s-fg","font-size":12},hr,"กระต่ายภูเขา คนละช่อง");
+    el("text",{x:440,y:206,"text-anchor":"middle","class":"s-bad tagf","font-size":12},hr,"✕ ไม่ซ้อนกับกระต่ายตัวไหน");
+    el("text",{x:262,y:118,"text-anchor":"middle","class":"s-fg tagf","font-size":22},hr,"+");
+  }
+
+  /* anna */
+  var an=document.getElementById("annademo");
+  if(an){
+    var steps=[["1","เปิดการ์ดกองจั่ว","ลงลานโล่งตามจำนวน","วางต่อทางขวาเสมอ","var(--sky)"],["2","เอาการ์ดออกจากลานโล่ง","ตามจำนวนบนการ์ด","← เอาจากขวา · → เอาจากซ้าย","var(--bad)"],["3","ดูใบบนสุดของกองจั่ว","แล้วเก็บคืนกล่อง","(ไม่เข้ามือใคร)","var(--accent-strong)"]];
+    steps.forEach(function(s,i){
+      var g=el("g",{transform:"translate("+(20+i*226)+" 30)"},an);
+      el("rect",{width:206,height:170,rx:14,"class":"s-surface2"},g);
+      el("circle",{cx:30,cy:32,r:18,style:"fill:"+s[4]},g);el("text",{x:30,y:38,"text-anchor":"middle",fill:"#fff","class":"tagf","font-size":16},g,s[0]);
+      el("text",{x:16,y:82,"class":"s-fg disp","font-size":14},g,s[1]);
+      el("text",{x:16,y:106,"class":"s-fg","font-size":12.5},g,s[2]);
+      el("text",{x:16,y:130,"class":"s-muted","font-size":12},g,s[3]);
+      if(i<2)el("text",{x:212,y:94,"class":"s-muted","font-size":18},g,"›");
+    });
+    el("text",{x:20,y:228,"class":"s-muted","font-size":12},an,"ถ้าลานโล่งมีน้อยกว่าที่ต้องเอาออก ก็เอาออกเท่าที่มี");
+  }
+
+  /* tree grid */
+  var TREES=[
+    ["ลินเดน","Linden","--t-linden","1 คะแนน หรือ 3 คะแนน ถ้าคุณมีลินเดนมากที่สุด (เสมอได้ 3 ทุกคน)","เกมหลัก"],
+    ["โอ๊ก","Oak","--t-oak","10 คะแนน ถ้าในป่ามีต้นไม้ 8 ชนิดที่ต่างกัน","เกมหลัก"],
+    ["เฟอร์เงิน","Silver Fir","--t-fir","2 คะแนน ต่อการ์ด 1 ใบที่ติดอยู่กับต้นนี้","เกมหลัก"],
+    ["เบิร์ช","Birch","--t-birch","1 คะแนน","เกมหลัก"],
+    ["บีช","Beech","--t-beech","5 คะแนน ถ้าคุณมีบีชอย่างน้อย 4 ต้น","เกมหลัก"],
+    ["ซิกามอร์","Sycamore","--t-syc","1 คะแนน ต่อต้นไม้ 1 ต้นในป่า","เกมหลัก"],
+    ["ดักลาสเฟอร์","Douglas Fir","--t-doug","5 คะแนน","เกมหลัก"],
+    ["เกาลัดม้า","Horse Chestnut","--t-chest","คิดเป็นชุดตามตาราง: 1/4/9/16/25/36/49 สำหรับ 1–7 ต้น","เกมหลัก"],
+    ["ลาร์ชแอลป์","Alpine Larch","--t-larch","ดูเงื่อนไขบนการ์ด","เทือกเขาแอลป์"],
+    ["สนสวิส","Swiss Pine","--t-pine","ดูเงื่อนไขบนการ์ด","เทือกเขาแอลป์"],
+    ["ต้นปาล์ม","Palm Tree","--exp","ดูเงื่อนไขบนการ์ด (การ์ดหายาก)","การสำรวจ"]
+  ];
+  var tg=document.getElementById("treegrid");
+  if(tg){TREES.forEach(function(t){
+    var d=document.createElement("div");d.className="tr";
+    var svg='<svg viewBox="0 0 44 56" aria-hidden="true"><rect x="19" y="34" width="6" height="20" fill="#6a4628"/>'+(t[1]==="Douglas Fir"||t[1]==="Silver Fir"||t[1]==="Alpine Larch"||t[1]==="Swiss Pine"?'<path d="M22 4 L38 40 L6 40Z" style="fill:var('+t[2]+')"/>':(t[1]==="Palm Tree"?'<path d="M22 14 q-14 -6 -20 4 M22 14 q14 -6 20 4 M22 14 q-6 -12 -16 -10 M22 14 q6 -12 16 -10" stroke="var('+t[2]+')" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="20" y="14" width="4" height="40" fill="#8a6a3a"/>':'<circle cx="22" cy="22" r="18" style="fill:var('+t[2]+')"/>'))+'</svg>';
+    d.innerHTML=svg+'<b>'+t[0]+' <span class="en">'+t[1]+'</span></b><small>'+t[3]+'</small><span class="from">'+t[4]+'</span>';
+    tg.appendChild(d);
+  });}
+
+  /* storage helpers */
+  function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+  /* setup calculator */
+  var st=load("fs-calc",{p:4,edge:true,alp:true,rare:false,rc:15});
+  var cp=document.getElementById("cp"),rc=document.getElementById("rarecount");
+  [1,2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n===1?"1 (เล่นคนเดียว)":n+" คน";b.dataset.n=n;b.addEventListener("click",function(){st.p=n;calc();});cp.appendChild(b);});
+  [2,4,6,10,15].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" ใบ";b.dataset.n=n;b.addEventListener("click",function(){st.rc=n;calc();});rc.appendChild(b);});
+  var xe=document.getElementById("x-edge"),xa=document.getElementById("x-alp"),xr=document.getElementById("x-rare");
+  xe.checked=st.edge;xa.checked=st.alp;xr.checked=st.rare;
+  [xe,xa,xr].forEach(function(c){c.addEventListener("change",function(){st.edge=xe.checked;st.alp=xa.checked;st.rare=xr.checked;calc();});});
+  function calc(){
+    var n=(st.edge?1:0)+(st.alp?1:0);var p=st.p;
+    var base={1:30,2:30,3:20,4:10,5:0}, one={1:45,2:45,3:30,4:15,5:0}, two={1:80,2:80,3:50,4:35,5:20};
+    var pre=n?10:0, extra=n===0?base[p]:(n===1?one[p]:two[p]);
+    var rare=st.rare?st.rc:0;
+    var removed=pre+extra+rare;
+    var total=177+36*n+rare;
+    var left=total-removed;
+    Array.prototype.forEach.call(cp.children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===p));});
+    Array.prototype.forEach.call(rc.children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===st.rc));});
+    document.getElementById("rare-row").hidden=!st.rare;
+    var out=document.getElementById("calcout");
+    out.innerHTML='<div class="co hl"><small>เอาออกทั้งหมด (ไม่ดู)</small><b>'+removed+'</b><small>'+(n?('10 + '+extra):extra)+(rare?' + '+rare+' (การ์ดใหม่)':'')+'</small></div>'+
+      '<div class="co"><small>การ์ดทั้งหมดก่อนเอาออก</small><b>'+total+'</b><small>ไม่รวมฤดูหนาว 3 ใบ</small></div>'+
+      '<div class="co"><small>เหลือทำกองจั่ว</small><b>'+left+'</b><small>'+(p===1?'+ ฤดูหนาว 1 ใบใน 10 ใบสุดท้าย':'แบ่ง 3 กอง กองละ ~'+Math.round(left/3)+' + ฤดูหนาว 3 ใบ')+'</small></div>';
+    var note="";
+    if(p===1)note="เล่นคนเดียว: ต้องมีกล่องการสำรวจ (การ์ดบอทแอนนา) · คู่มือระบุตัวเลขไว้สำหรับเกมหลัก, แอลป์ และแอลป์ + ชายป่า";
+    else if(n===2&&(p===2||p===3))note="ทางลัด: สับทั้งหมดแล้วแบ่ง "+(p===2?"5 กอง เอาออก 2 กอง":"4 กอง เอาออก 1 กอง")+" แทนการนับก็ได้";
+    else note="จำนวนการ์ดเกมหลักคิดจาก 180 ใบ ลบฤดูหนาว 3 ใบ · ภาคเสริมละ 36 ใบ";
+    document.getElementById("calcnote").textContent=note;
+    save("fs-calc",st);
+  }
+  calc();
+
+  /* scorepad */
+  var ROWS=[["ต้นไม้ / พุ่มไม้","var(--moss)"],["ด้านบน","var(--sky)"],["ด้านล่าง","var(--accent-strong)"],["ด้านซ้าย","var(--t-beech)"],["ด้านขวา","var(--t-syc)"],["ถ้ำ","var(--muted)"]];
+  var SAMPLE={n:4,names:["เดียร์","มด","แบม","ต้น"],v:[[42,38,51,30],[24,31,18,40],[19,22,27,15],[30,18,24,36],[26,20,14,33],[4,7,2,5]],sample:true};
+  var sp=load("fs-score",null)||JSON.parse(JSON.stringify(SAMPLE));
+  var spn=document.getElementById("sp-n"),tbl=document.getElementById("sp"),noteEl=document.getElementById("sp-note");
+  [2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.dataset.n=n;b.addEventListener("click",function(){sp.n=n;ensure();render();save("fs-score",sp);});spn.appendChild(b);});
+  function ensure(){while(sp.names.length<5)sp.names.push("ผู้เล่น "+(sp.names.length+1));sp.v.forEach(function(r){while(r.length<5)r.push(0);});}
+  ensure();
+  function totals(){var t=[];for(var j=0;j<sp.n;j++){var s=0;for(var i=0;i<ROWS.length;i++)s+=(+sp.v[i][j]||0);t.push(s);}return t;}
+  function render(){
+    Array.prototype.forEach.call(spn.children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===sp.n));});
+    noteEl.hidden=!sp.sample;
+    var h='<thead><tr><th>หมวด</th>';
+    for(var j=0;j<sp.n;j++)h+='<th><input type="text" id="sp-name-'+j+'" data-j="'+j+'" value="'+String(sp.names[j]).replace(/"/g,"&quot;")+'" aria-label="ชื่อผู้เล่น '+(j+1)+'"></th>';
+    h+='</tr></thead><tbody>';
+    ROWS.forEach(function(r,i){h+='<tr><td><span class="rowlab"><span class="dot" style="background:'+r[1]+'"></span>'+r[0]+'</span></td>';for(var j=0;j<sp.n;j++)h+='<td><input type="number" inputmode="numeric" id="sp-'+i+'-'+j+'" data-i="'+i+'" data-j="'+j+'" value="'+(sp.v[i][j]||0)+'" aria-label="'+r[0]+' ของผู้เล่น '+(j+1)+'"></td>';h+='</tr>';});
+    h+='<tr class="tot"><td>รวม</td>';for(var j=0;j<sp.n;j++)h+='<td id="sp-t-'+j+'"></td>';h+='</tr></tbody>';
+    tbl.innerHTML=h;updTot();
+  }
+  function updTot(){var t=totals(),mx=Math.max.apply(null,t);t.forEach(function(v,j){var c=document.getElementById("sp-t-"+j);c.textContent=v;c.className=(mx>0&&v===mx)?"win":"";});}
+  tbl.addEventListener("input",function(e){var x=e.target;if(x.dataset.i!=null){sp.v[+x.dataset.i][+x.dataset.j]=parseInt(x.value,10)||0;updTot();}else if(x.dataset.j!=null){sp.names[+x.dataset.j]=x.value;}sp.sample=false;noteEl.hidden=true;save("fs-score",sp);});
+  tbl.addEventListener("focusin",function(e){if(e.target.type==="number")e.target.select();});
+  var rb=document.getElementById("sp-reset"),armed=false,tm;
+  rb.addEventListener("click",function(){
+    if(!armed){armed=true;rb.classList.add("armed");rb.textContent="กดอีกครั้งเพื่อยืนยัน";tm=setTimeout(function(){armed=false;rb.classList.remove("armed");rb.textContent="ล้างคะแนน";},3000);return;}
+    clearTimeout(tm);armed=false;rb.classList.remove("armed");rb.textContent="ล้างคะแนน";
+    sp.v=ROWS.map(function(){return [0,0,0,0,0];});sp.names=["ผู้เล่น 1","ผู้เล่น 2","ผู้เล่น 3","ผู้เล่น 4","ผู้เล่น 5"];sp.sample=false;save("fs-score",sp);render();
+  });
+  render();
+})();
+</script>
+
+</body></html>

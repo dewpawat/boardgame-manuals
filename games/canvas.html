@@ -1,0 +1,1106 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Canvas ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pridi:wght@500;600&family=Anuphan:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap">
+<style>
+/* Layout: gallery-night header with stacked translucent cards, then a reading column with a sticky chapter rail; diagrams are drawn SVG; setup helper, painting checker and scorepad live near the end. */
+:root{
+  --bg:#f3f2f7;
+  --surface:#ffffff;
+  --surface-2:#e8e6f0;
+  --fg:#1d1a27;
+  --muted:#5f5a6e;
+  --line:#d5d1df;
+  --accent:#5b3fae;
+  --accent-soft:#e9e3f8;
+  --sw-red:#cf4338; --sw-yellow:#d99a1c; --sw-green:#3c955a; --sw-blue:#2f6db5; --sw-violet:#8a4db8;
+  --red-soft:#f7e0dd; --yellow-soft:#f8ecd2; --green-soft:#dcefe2; --blue-soft:#dde8f6; --violet-soft:#ece0f5;
+  --silver:#8b939f; --gold:#bf8d22; --plat:#4f97a6;
+  --band-1:#16142a; --band-2:#2a2350; --band-fg:#f2eff9; --spot:#f3d98a;
+  --good:#2c8746; --bad:#bf3a2c;
+  --font-display:"Pridi","Leelawadee UI","Tahoma",serif;
+  --font-body:"Anuphan","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"IBM Plex Sans Thai","Anuphan","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121019;--surface:#1b1824;--surface-2:#252131;--fg:#ebe8f3;--muted:#a6a0b8;--line:#332e42;
+    --accent:#b39cf0;--accent-soft:#2b2343;
+    --sw-red:#f07a6f;--sw-yellow:#f0c053;--sw-green:#6cc68a;--sw-blue:#6fa6ea;--sw-violet:#c08ef0;
+    --red-soft:#3a1d1a;--yellow-soft:#382c13;--green-soft:#17301f;--blue-soft:#172539;--violet-soft:#2c1d3a;
+    --silver:#b5bcc7;--gold:#e5b850;--plat:#7cc6d6;
+    --band-1:#0c0b17;--band-2:#1d1838;--band-fg:#f2eff9;--spot:#f3d98a;
+    --good:#62cf7c;--bad:#ff6b5e;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121019;--surface:#1b1824;--surface-2:#252131;--fg:#ebe8f3;--muted:#a6a0b8;--line:#332e42;
+  --accent:#b39cf0;--accent-soft:#2b2343;
+  --sw-red:#f07a6f;--sw-yellow:#f0c053;--sw-green:#6cc68a;--sw-blue:#6fa6ea;--sw-violet:#c08ef0;
+  --red-soft:#3a1d1a;--yellow-soft:#382c13;--green-soft:#17301f;--blue-soft:#172539;--violet-soft:#2c1d3a;
+  --silver:#b5bcc7;--gold:#e5b850;--plat:#7cc6d6;
+  --band-1:#0c0b17;--band-2:#1d1838;--band-fg:#f2eff9;--spot:#f3d98a;
+  --good:#62cf7c;--bad:#ff6b5e;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.35;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.18rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 75% 0%,#3b3270 0%,transparent 60%),linear-gradient(170deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.5rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.44em;color:var(--spot);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#fff}
+.xb.played{box-shadow:0 0 0 2px var(--spot)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.red{background:var(--red-soft)} .callout.yellow{background:var(--yellow-soft)} .callout.green{background:var(--green-soft)} .callout.blue{background:var(--blue-soft)} .callout.violet{background:var(--violet-soft)}
+.callout h3{font-size:1.1rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--yellow-soft);color:var(--fg);border:1px solid var(--sw-yellow)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)}
+.s-cardline{stroke:var(--line);fill:var(--surface)}
+.s-acc{fill:var(--accent)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+.sw-r{fill:var(--sw-red)} .sw-y{fill:var(--sw-yellow)} .sw-g{fill:var(--sw-green)} .sw-b{fill:var(--sw-blue)} .sw-v{fill:var(--sw-violet)}
+.c-silver{fill:var(--silver)} .c-gold{fill:var(--gold)} .c-plat{fill:var(--plat)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+.ico{color:var(--fg)}
+
+/* chips */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type svg.el{width:30px;height:30px;flex:none}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.1rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+/* two actions */
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.act{border-radius:16px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0;border:2px solid var(--c);background:var(--surface)}
+.act .lbl{display:flex;align-items:center;gap:10px}
+.act .big{font-family:var(--font-tag);font-weight:600;font-size:1.4rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--c);color:#fff;flex:none}
+.act ul{margin:0;padding-left:1.2em;display:grid;gap:5px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+.set{font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:6px;padding:0 6px;color:#fff;white-space:nowrap}
+.set.b{background:var(--muted)} .set.r{background:var(--sw-blue)} .set.f{background:var(--sw-red)}
+
+/* expansion headers */
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.92}
+
+/* ribbons */
+.ribbons{display:flex;flex-wrap:wrap;gap:10px}
+.rb{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px;min-width:0}
+.rb svg{width:22px;height:30px;flex:none}
+.rb b{font-family:var(--font-tag);font-weight:600}
+.rb small{color:var(--muted);font-size:.85rem}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.btn.warn{border-color:var(--bad);color:var(--bad);background:transparent}
+.btn.warn.armed{background:var(--bad);color:#fff}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)}
+.co.hl b{color:var(--accent)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.picked{display:flex;flex-wrap:wrap;gap:8px}
+.pc{border-radius:10px;padding:6px 12px;font-family:var(--font-display);font-weight:600;color:#fff;display:grid;line-height:1.3}
+.pc small{font-family:var(--font-tag);font-weight:500;font-size:.75rem;opacity:.9}
+
+/* painting checker */
+.slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.slot{border-radius:12px;padding:8px;display:grid;gap:6px;background:var(--surface-2);border-top:6px solid var(--c);min-width:0}
+.slot span{font-family:var(--font-tag);font-size:.75rem;color:var(--muted)}
+.slot select{font:inherit;font-size:.86rem;width:100%;min-width:0;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 4px}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.ri{display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:10px;padding:8px 12px;background:var(--surface-2);min-width:0}
+.ri b{font-family:var(--font-tag);font-weight:600;font-variant-numeric:tabular-nums}
+.ri.ok{box-shadow:inset 4px 0 0 var(--good)}
+.ri.no{opacity:.7}
+.ri .why{display:block;font-size:.8rem;color:var(--muted);line-height:1.4}
+
+/* scorepad */
+.sp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.sp{min-width:560px;font-size:.95rem}
+.sp th,.sp td{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;padding-left:12px}
+.sp input[type=text]{font:inherit;font-family:var(--font-display);font-size:1rem;width:100%;min-width:70px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 8px;text-align:center}
+.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:64px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sp input::-webkit-outer-spin-button,.sp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sp tr.tot td{font-family:var(--font-tag);font-weight:600;font-size:1.25rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.sp td.win{color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.sp .sub{font-size:.78rem;color:var(--muted);display:block;line-height:1.3}
+.rowlab{display:flex;align-items:center;gap:8px}
+.rowlab i{width:12px;height:18px;border-radius:2px 2px 0 0;flex:none;clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(120px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:380px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (max-width:560px){
+  .slots{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:no-preference){
+  .lift{animation:lift 7s ease-in-out infinite alternate}
+  @keyframes lift{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<!-- shared element icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ic-hue" viewBox="0 0 24 24"><path d="M12 2.5 C16 8 19 11.5 19 15 a7 7 0 0 1 -14 0 C5 11.5 8 8 12 2.5z" fill="currentColor"/></symbol>
+    <symbol id="ic-shape" viewBox="0 0 24 24"><path d="M3 20 L10 5 L17 20z" fill="currentColor"/><rect x="13" y="11" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+    <symbol id="ic-texture" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 9 L9 3 M3 15 L15 3 M3 21 L21 3 M9 21 L21 9 M15 21 L21 15" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="ic-tone" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3 a9 9 0 0 1 0 18z" fill="currentColor"/></symbol>
+    <symbol id="ic-ribbon" viewBox="0 0 22 30"><circle cx="11" cy="9" r="8"/><path d="M5 14 L3 29 L8 25 L11 29 L11 16z M17 14 L19 29 L14 25 L11 29 L11 16z"/></symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + Reflections + Finishing Touch + KS Mini</div>
+      <h1>Canvas<span>แคนวาส · ซ้อนการ์ดใสให้เป็นภาพวาด แล้วเก็บริบบิ้นจากกรรมการ</span></h1>
+      <p class="lede">ทุกคนเป็นจิตรกรที่ต้องส่งภาพเข้าประกวด 3 ภาพ แต่ละภาพทำจาก<b>การ์ดใส 3 ใบซ้อนกัน</b>บนการ์ดพื้นหลัง ไอคอนที่แถบล่างของภาพตัดสินว่าภาพผ่านเกณฑ์ของการ์ดคะแนนข้อไหน ผ่านข้อไหนได้ริบบิ้นสีนั้น ส่งครบคนละ 3 ภาพแล้วรวมคะแนนริบบิ้น ใครมากสุดชนะ</p>
+      <div class="facts">
+        <div class="fact"><b>1–5</b><small>ผู้เล่น (มีโหมดเล่นคนเดียว)</small></div>
+        <div class="fact"><b>3</b><small>ภาพต่อคน = จบเกม</small></div>
+        <div class="fact"><b>3</b><small>การ์ดใสต่อ 1 ภาพ</small></div>
+        <div class="fact"><b>5</b><small>การ์ดในมือสูงสุด</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb played" style="background:var(--sw-blue)">Reflections · เล่นแล้ว</span>
+        <span class="xb" style="background:var(--sw-red)">Finishing Touch(es)</span>
+        <span class="xb" style="background:var(--sw-violet)">KS Mini Expansion</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 270">
+        <defs>
+          <linearGradient id="hsky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f3a46b"/><stop offset="1" stop-color="#f7d58a"/></linearGradient>
+          <radialGradient id="hspot" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#f3d98a" stop-opacity=".35"/><stop offset="1" stop-color="#f3d98a" stop-opacity="0"/></radialGradient>
+        </defs>
+        <path d="M120 0 L220 0 L320 270 L20 270Z" fill="url(#hspot)"/>
+        <!-- frame -->
+        <rect x="62" y="20" width="216" height="232" rx="6" fill="#3a2a1a"/>
+        <rect x="72" y="30" width="196" height="212" rx="3" fill="#fbf7ee"/>
+        <!-- layer 1 background card (sky) -->
+        <g class="lift"><rect x="80" y="38" width="180" height="166" fill="url(#hsky)" opacity=".95"/><circle cx="205" cy="82" r="20" fill="#fff4d6" opacity=".9"/></g>
+        <!-- layer 2 (hills, translucent) -->
+        <g class="lift" style="animation-delay:-2s"><path d="M80 150 Q130 104 170 140 T260 128 L260 204 L80 204Z" fill="#3c955a" opacity=".78"/></g>
+        <!-- layer 3 (figure + tree) -->
+        <g class="lift" style="animation-delay:-4s">
+          <path d="M80 204 L80 176 Q170 160 260 182 L260 204Z" fill="#2f6db5" opacity=".8"/>
+          <rect x="124" y="120" width="5" height="48" fill="#3a2a1a"/><circle cx="126" cy="112" r="18" fill="#1f5a36" opacity=".9"/>
+          <path d="M184 172 q4 -22 10 -22 q6 0 10 22z" fill="#cf4338"/><circle cx="194" cy="144" r="6" fill="#3a2a1a"/>
+        </g>
+        <!-- icon strip -->
+        <rect x="80" y="206" width="180" height="30" fill="#efe9dc"/>
+        <g>
+          <rect x="80" y="206" width="36" height="5" fill="#cf4338"/><rect x="116" y="206" width="36" height="5" fill="#d99a1c"/><rect x="152" y="206" width="36" height="5" fill="#3c955a"/><rect x="188" y="206" width="36" height="5" fill="#2f6db5"/><rect x="224" y="206" width="36" height="5" fill="#8a4db8"/>
+          <use href="#ic-hue" x="89" y="213" width="18" height="18" style="color:#2a2340"/>
+          <use href="#ic-shape" x="125" y="213" width="18" height="18" style="color:#2a2340"/>
+          <use href="#ic-texture" x="161" y="213" width="18" height="18" style="color:#2a2340"/>
+          <use href="#ic-tone" x="197" y="213" width="18" height="18" style="color:#2a2340"/>
+          <use href="#ic-shape" x="233" y="213" width="18" height="18" style="color:#2a2340"/>
+        </g>
+        <!-- ribbons -->
+        <use href="#ic-ribbon" x="18" y="150" width="30" height="40" fill="#cf4338"/>
+        <use href="#ic-ribbon" x="292" y="70" width="30" height="40" fill="#bf8d22"/>
+        <use href="#ic-ribbon" x="292" y="176" width="30" height="40" fill="#9aa2ae"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#cards">อ่านการ์ดใส</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#take">หยิบการ์ดจากแถว</a></li>
+      <li><a href="#paint">ซ้อนภาพ & ส่งประกวด</a></li>
+      <li><a href="#scoring">การ์ดคะแนน & ริบบิ้น</a></li>
+      <li><a href="#end">จบเกม & นับคะแนน</a></li>
+      <li><a href="#solo">เล่นคนเดียว</a></li>
+      <li class="sep">ภาคเสริม</li>
+      <li><a href="#reflections">Reflections</a></li>
+      <li><a href="#finishing">Finishing Touch</a></li>
+      <li><a href="#ksmini">KS Mini</a></li>
+      <li><a href="#mix">รวมทุกภาค</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#helper">ตัวช่วยกลางโต๊ะ</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ เลือกทำ 1 อย่าง</h3>
+        <ol>
+          <li><b>หยิบการ์ดภาพ 1 ใบ</b> <span class="en">Take an Art Card</span>: ใบที่อยู่ไกลกองการ์ดที่สุดหยิบฟรี ถ้าจะข้ามไปหยิบใบถัดไป ต้องวาง<b>เหรียญแรงบันดาลใจ 1 เหรียญบนทุกใบที่ข้าม</b> ใบที่หยิบมีเหรียญอยู่ก็ได้เหรียญนั้นด้วย</li>
+          <li><b>ส่งภาพประกวด</b> <span class="en">Complete a Painting</span>: เลือกการ์ดในมือ <b>3 ใบพอดี</b> ซ้อนลงซองพร้อมการ์ดพื้นหลัง เรียงลำดับได้ตามใจ แล้วเช็กการ์ดคะแนนทั้ง 4 ใบ ผ่านเงื่อนไขไหนรับริบบิ้นสีนั้น</li>
+        </ol>
+      </div>
+      <p class="prose">นับเฉพาะไอคอนที่<b>มองเห็น</b>ในแถบล่างของภาพ ไอคอนที่ถูกใบอื่นบังไม่นับ · ในมือถือการ์ดได้ไม่เกิน <b>5 ใบ</b> · เกมจบเมื่อ<b>ทุกคนส่งภาพครบ 3 ภาพ</b> นับคะแนนริบบิ้นแต่ละสีตามตารางบนการ์ดคะแนน บวกริบบิ้นเงินใบละ 2 คะแนน ใครมากสุดชนะ เสมอกันดูเหรียญแรงบันดาลใจที่เหลือ</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>กล่อง</th><th>ของในกล่อง</th><th>สัญลักษณ์บนการ์ด</th></tr></thead>
+          <tbody>
+            <tr><td><b>เกมหลัก</b><br><span class="en">Canvas</span></td><td>แผ่นแคนวาส (บอร์ดกลาง) 1, การ์ดคะแนน 12, การ์ดภาพใส 60 + กล่องใส่การ์ด, การ์ดพื้นหลังในซอง 20, เหรียญแรงบันดาลใจ 20, ริบบิ้นสีละ 20 (แดง เขียว น้ำเงิน ม่วง เงิน)</td><td>–</td></tr>
+            <tr><td><b style="color:var(--sw-blue)">Reflections</b><br><span class="en">ภาคเสริม 1</span></td><td>บอร์ดใหม่ใช้<b>แทน</b>แผ่นแคนวาส (บอร์ดที่มีภาพสระน้ำ), การ์ดภาพใหม่รวม<b>การ์ดกระจก</b>ที่พลิกกลับด้านได้, ไอคอนโบนัสทอง + ริบบิ้นทอง, การ์ดคะแนนใหม่, เหรียญเพิ่ม (เล่นคนละ 6)</td><td>ตัว <b>R</b> เล็ก ๆ</td></tr>
+            <tr><td><b style="color:var(--sw-red)">Finishing Touches</b><br><span class="en">ภาคเสริม 2</span></td><td><b>กรอบรูป</b>ตั้งโต๊ะ, <b>แผ่นต่อขยายบอร์ด</b>, การ์ดภาพใหม่ที่มีไอคอนสร้างสรรค์ (ไวลด์) และไอคอนผสม, ริบบิ้นแพลทินัม, การ์ดคะแนนใหม่</td><td>ตัว <b>F</b> เล็ก ๆ</td></tr>
+            <tr><td><b style="color:var(--sw-violet)">KS Mini Expansion</b><br><span class="en">ของแถม Kickstarter</span></td><td>การ์ดภาพใหม่ 10 ใบ (มีไอคอน <b>x2</b> และไอคอนริบบิ้นแต้มตรง) + <b>การ์ดรางวัล</b> <span class="en">Award</span> 8 ใบ + การ์ดกติกา</td><td>–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">จำนวนชิ้นของภาคเสริมไม่ได้ระบุในคู่มือฉบับถอดความที่ใช้อ้างอิง ให้นับจากของในกล่องจริง · ตัวอักษร R/F บนการ์ดใช้แยกการ์ดกลับกล่องหลังเล่น</p>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>อ่านการ์ดใส</h2></div>
+      <p class="prose">การ์ดภาพทำจาก<b>พลาสติกใส</b> มีภาพวาดแค่บางส่วน พอซ้อน 3 ใบบนการ์ดพื้นหลังจะกลายเป็นภาพเต็ม แถบด้านล่างของการ์ดแบ่งเป็น <b>5 ช่องสี</b> (แดง เหลือง เขียว น้ำเงิน ม่วง เรียงจากซ้าย ช่องแดงอยู่ซ้ายสุดเสมอ) การ์ดแต่ละใบพิมพ์ไอคอนไว้บางช่อง</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 270" role="img" aria-label="แถบไอคอน 5 ช่องสีใต้การ์ดใส">
+          <g transform="translate(20 16)">
+            <rect width="360" height="196" rx="12" class="s-surface2" style="stroke:var(--line)" stroke-width="1.5"/>
+            <text x="180" y="80" text-anchor="middle" class="s-muted" font-size="13">ส่วนภาพ (ใส มีลายวาดบางส่วน)</text>
+            <path d="M40 130 q60 -50 120 0 t120 0" fill="none" class="s-stroke-muted" stroke-width="2" stroke-dasharray="6 5"/>
+            <g id="stripdemo" transform="translate(0 150)"></g>
+          </g>
+          <g font-size="13">
+            <text x="410" y="40" class="s-fg disp" font-size="16">แถบล่าง = ที่มาของคะแนน</text>
+            <text x="410" y="70" class="s-fg">• 5 ช่องสี ตำแหน่งตายตัวทุกใบ</text>
+            <text x="410" y="94" class="s-fg">• บางช่องมีไอคอน บางช่องว่าง (ใส)</text>
+            <text x="410" y="118" class="s-fg">• ช่องหนึ่งมีไอคอนได้มากกว่า 1 ตัว</text>
+            <text x="410" y="142" class="s-fg">• ซ้อนแล้ว ใบหน้าบังไอคอนตำแหน่ง</text>
+            <text x="422" y="162" class="s-fg">เดียวกันของใบหลัง</text>
+            <text x="410" y="190" class="s-fg">• ตำแหน่งช่องสำคัญ เพราะการ์ดคะแนน</text>
+            <text x="422" y="210" class="s-fg">หลายใบดูว่า “อยู่ติดกัน” หรือ “สมมาตร”</text>
+          </g>
+          <text x="20" y="252" class="s-muted" font-size="12">ภาพจำลองเพื่อบอกตำแหน่งเท่านั้น ลายไอคอนบนการ์ดจริงต่างจากนี้</text>
+        </svg>
+        </div>
+      </figure>
+
+      <h3>ธาตุศิลปะ 4 แบบ <span class="en">Elements</span></h3>
+      <div class="types">
+        <div class="type"><h3><svg class="el ico"><use href="#ic-hue"/></svg>สี <span class="en">Hue</span></h3><p>ไอคอนรูปหยดสี</p></div>
+        <div class="type"><h3><svg class="el ico"><use href="#ic-shape"/></svg>รูปทรง <span class="en">Shape</span></h3><p>ไอคอนรูปเรขาคณิต</p></div>
+        <div class="type"><h3><svg class="el ico"><use href="#ic-texture"/></svg>พื้นผิว <span class="en">Texture</span></h3><p>ไอคอนลายขีด</p></div>
+        <div class="type"><h3><svg class="el ico"><use href="#ic-tone"/></svg>น้ำหนัก <span class="en">Tone</span></h3><p>ไอคอนวงกลมครึ่งมืดครึ่งสว่าง</p></div>
+      </div>
+      <h3>ไอคอนโบนัส <span class="en">Bonus Icons</span></h3>
+      <div class="types">
+        <div class="type"><h3><span class="dot" style="background:var(--silver)"></span>โบนัสเงิน <span class="en">Silver</span></h3><p>เขียนว่า <b>PER</b> เหนือธาตุ 1 แบบ ได้<b>ริบบิ้นเงิน 1 เส้นต่อธาตุนั้น 1 ตัว</b>ในภาพ เช่น “PER พื้นผิว” + ภาพมีพื้นผิว 2 ตัว = เงิน 2 เส้น · ริบบิ้นเงินเส้นละ <b>2 คะแนน</b></p></div>
+        <div class="type"><h3><span class="dot" style="background:var(--gold)"></span>โบนัสทอง <span class="en">Gold · Reflections</span></h3><p>มีลูกศรชี้ช่องข้าง ๆ ได้<b>ริบบิ้นทอง</b>ต่อธาตุที่ตรงกันในช่องที่ชี้ ริบบิ้นทองเส้นละ <b>3 คะแนน</b></p></div>
+        <div class="type"><h3>ไม่ใช่ธาตุ</h3><p>ไอคอนโบนัส<b>ไม่นับเป็นธาตุ</b> ไม่ช่วยผ่านเงื่อนไขที่นับธาตุ แต่ยัง “เติมช่อง” ให้การ์ดที่ดูว่าช่องว่างไหม เช่น Composition</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม (เกมหลัก)</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>วางแผ่นแคนวาส</h3><p>วางแผ่นแคนวาสกลางโต๊ะ (เล่นกับ Reflections ใช้บอร์ดใหม่แทน)</p></div></li>
+        <li><div class="body"><h3>เลือกการ์ดคะแนน 4 ใบ</h3><p>วางการ์ดคะแนน 4 ใบลงช่องสี <b>แดง เขียว น้ำเงิน ม่วง</b> บนบอร์ด <b>สีของช่องคือสีริบบิ้น</b>ที่การ์ดใบนั้นให้ เลือกเองหรือสุ่มก็ได้ หรือใช้ <a href="#scenarios">ฉากกำหนด</a> ที่เหลือเก็บกล่อง</p>
+          <ul><li>เกมแรกแนะนำ: <b>Variety</b>, <b>Repetition</b>, <b>Emphasis</b>, <b>Composition</b></li></ul></div></li>
+        <li><div class="body"><h3>วางริบบิ้น</h3><p>แยกริบบิ้นเป็นกองตามสี วางข้างไอคอนริบบิ้นสีเดียวกันบนบอร์ด</p></div></li>
+        <li><div class="body"><h3>เปิดแถวการ์ดภาพ</h3><p>สับการ์ดภาพ 60 ใบใส่กล่องการ์ด วางบนช่องกองการ์ด แล้วเปิด <b>5 ใบ</b> หงายเรียงไปทาง<b>ซ้าย</b>ของกอง</p></div></li>
+        <li><div class="body"><h3>แจกของให้ผู้เล่น</h3><p>ทุกคนรับ<b>การ์ดพื้นหลังในซอง 3 ใบ</b> และ<b>เหรียญแรงบันดาลใจ 4 เหรียญ</b> (มี Reflections = 6 เหรียญ) ที่เหลือเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>เลือกคนเริ่ม</h3><p>คนที่<b>วาดรูปล่าสุด</b>ได้เริ่มก่อน แล้ววนตามเข็มนาฬิกา</p></div></li>
+      </ol>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">ทุกตา</span><h2>ในตาของคุณ</h2></div>
+      <p class="prose">ทุกตา<b>ต้อง</b>ทำ 1 อย่างจาก 2 อย่างนี้ ผ่านตาไม่ได้</p>
+      <div class="acts">
+        <div class="act" style="--c:var(--sw-blue)">
+          <div class="lbl"><span class="big">A</span><h3>หยิบการ์ดภาพ 1 ใบ</h3></div>
+          <ul>
+            <li>ทำได้เฉพาะตอนในมือมี<b>น้อยกว่า 5 ใบ</b></li>
+            <li>ใบไกลกองสุดฟรี ใบอื่นจ่ายเหรียญ 1 เหรียญต่อใบที่ข้าม (ดู <a href="#take">หยิบการ์ดจากแถว</a>)</li>
+            <li>เหรียญบนใบที่หยิบเป็นของคุณ</li>
+          </ul>
+        </div>
+        <div class="act" style="--c:var(--sw-red)">
+          <div class="lbl"><span class="big">B</span><h3>ส่งภาพประกวด</h3></div>
+          <ul>
+            <li>ต้องมีการ์ดในมือ<b>อย่างน้อย 3 ใบ</b></li>
+            <li>ใช้การ์ด <b>3 ใบพอดี</b> + การ์ดพื้นหลัง 1 ใบ การ์ดที่เหลือในมือเก็บไว้ใช้ต่อ</li>
+            <li>มี 5 ใบในมือ ตาถัดไป<b>ต้อง</b>ส่งภาพ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAKE -->
+    <section id="take">
+      <div class="sec-head"><span class="tag">การกระทำ A</span><h2>หยิบการ์ดจากแถว</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 250" role="img" aria-label="แถวการ์ด 5 ใบ ใบซ้ายสุดฟรี ข้ามใบไหนวางเหรียญบนใบนั้น">
+          <g id="rowdemo"></g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่างจากคู่มือ: แอบบี้อยากได้ใบที่ 3 จึงวางเหรียญบนใบ 1 และ 2 ใบละเหรียญ · ตาถัดมาชาร์ลอตต์ข้ามใบ 1 (วางเหรียญของตัวเอง) แล้วหยิบใบ 2 พร้อม<b>เหรียญที่แอบบี้ทิ้งไว้</b></figcaption>
+      </figure>
+      <div class="prose">
+        <ul>
+          <li>ใบที่อยู่<b>ไกลกองการ์ดที่สุด</b> (ซ้ายสุด) หยิบฟรี</li>
+          <li>ข้ามกี่ใบ วางเหรียญของตัวเอง<b>บนใบที่ข้ามใบละ 1</b></li>
+          <li>หยิบแล้ว เลื่อนการ์ดที่เหลือ (พร้อมเหรียญบนการ์ด) ไปทางซ้ายปิดช่องว่าง แล้วจั่วใบใหม่เติมช่องที่ติดกองการ์ด</li>
+          <li>ไม่มีเหรียญ = หยิบได้แค่ใบซ้ายสุด ดังนั้นการ์ดที่ไม่มีใครเอานาน ๆ จะสะสมเหรียญจนน่าหยิบ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PAINT -->
+    <section id="paint">
+      <div class="sec-head"><span class="tag">การกระทำ B</span><h2>ซ้อนภาพ และส่งประกวด</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 300" role="img" aria-label="ซ้อนการ์ด 3 ใบ ไอคอนใบหน้าบังไอคอนใบหลังในตำแหน่งเดียวกัน">
+          <g id="layerdemo"></g>
+        </svg>
+        </div>
+        <figcaption>ใบหลังมีสีในช่องแดง แต่ใบกลางมีรูปทรงอยู่ตำแหน่งเดียวกันจึง<b>บังสีไว้</b> ภาพนี้จึงนับได้: รูปทรง 2 · น้ำหนัก 1 · พื้นผิว 1 · ช่องม่วงว่าง · สลับลำดับซ้อนแล้วผลจะเปลี่ยน</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>เลือก 3 ใบ เรียงชั้นตามใจ</h3><p>ใส่ลงซองที่มีการ์ดพื้นหลังอยู่แล้ว ลองสลับลำดับเพื่อเปิด/บังไอคอนให้ได้ผลดีสุด</p></div></li>
+        <li><div class="body"><h3>อวดภาพ และตั้งชื่อ</h3><p>คู่มือให้โชว์ภาพแล้วอ่านชื่อภาพ (ชื่อพิมพ์รวมจากการ์ด 3 ใบ) ส่วนนี้ไม่มีผลกับคะแนน แต่สนุกที่สุดของเกม</p></div></li>
+        <li><div class="body"><h3>เช็กการ์ดคะแนนทั้ง 4 ใบ</h3><p>ผ่านเงื่อนไขกี่ครั้ง รับริบบิ้นสีนั้นเท่านั้นเส้น บวก<b>ริบบิ้นเงิน</b>ตามไอคอนโบนัส</p>
+          <ul><li>ธาตุ 1 ตัวนับได้ครั้งเดียวต่อเงื่อนไขหนึ่ง</li><li>รับริบบิ้นเกินจำนวนที่การ์ดแสดงไม่ได้</li><li>ริบบิ้นหมดกอง ใช้ของอื่นแทนได้</li></ul></div></li>
+        <li><div class="body"><h3>วางภาพไว้หน้าตัวเอง</h3><p>ภาพที่ส่งแล้วแก้ไม่ได้ ส่งครบ 3 ภาพแล้วข้ามตาของคุณไปจนจบเกม</p></div></li>
+      </ol>
+    </section>
+
+    <!-- SCORING -->
+    <section id="scoring">
+      <div class="sec-head"><span class="tag">กรรมการ</span><h2>การ์ดคะแนน และริบบิ้น</h2></div>
+      <p class="prose">การ์ดคะแนนแต่ละใบมี<b>เงื่อนไข</b> (ด้านหน้า) <b>ตารางคะแนนตามจำนวนริบบิ้น</b> และ<b>คำชี้แจง</b> (ด้านหลัง) ตอนจบเกมจะนับริบบิ้นแต่ละสีรวมกันแล้วเปิดตาราง <b>ไม่ใช่คิดทีละเส้น</b> ยิ่งสะสมสีเดียวกันมากยิ่งคุ้ม</p>
+      <div class="ribbons">
+        <div class="rb"><svg><use href="#ic-ribbon" style="fill:var(--sw-red)"/></svg><div><b>แดง เขียว น้ำเงิน ม่วง</b><br><small>ตามตารางบนการ์ดคะแนน</small></div></div>
+        <div class="rb"><svg><use href="#ic-ribbon" style="fill:var(--silver)"/></svg><div><b>เงิน 2</b><br><small>ต่อเส้น · เกมหลัก</small></div></div>
+        <div class="rb"><svg><use href="#ic-ribbon" style="fill:var(--gold)"/></svg><div><b>ทอง 3</b><br><small>ต่อเส้น · Reflections</small></div></div>
+        <div class="rb"><svg><use href="#ic-ribbon" style="fill:var(--plat)"/></svg><div><b>แพลทินัม 4</b><br><small>ต่อเส้น · Finishing Touches</small></div></div>
+      </div>
+
+      <h3>ชุดเกมแรก (ตัวเลขจากคู่มือ)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>เงื่อนไข (ต่อ 1 ภาพ)</th><th class="num">1 เส้น</th><th class="num">2 เส้น</th><th class="num">3 เส้น</th><th class="num">4 เส้น</th></tr></thead>
+          <tbody>
+            <tr><td><b>Variety</b><br><span class="en">ความหลากหลาย</span></td><td>มีครบทั้ง สี + รูปทรง + พื้นผิว + น้ำหนัก</td><td class="num">4</td><td class="num">8</td><td class="num">13</td><td class="num">–</td></tr>
+            <tr><td><b>Repetition</b><br><span class="en">การซ้ำ</span></td><td>รูปทรง + รูปทรง (ได้ 1 เส้นต่อ<b>รูปทรง 1 คู่</b>)</td><td class="num">3</td><td class="num">7</td><td class="num">11</td><td class="num">16</td></tr>
+            <tr><td><b>Emphasis</b><br><span class="en">การเน้น</span></td><td>มีสี<b>พอดี 1</b> ตัว</td><td class="num">1</td><td class="num">4</td><td class="num">11</td><td class="num">–</td></tr>
+            <tr><td><b>Composition</b><br><span class="en">องค์ประกอบ</span></td><td>ทั้ง 5 ช่องสีมีไอคอน (ไอคอนโบนัสก็นับเติมช่อง)</td><td class="num">1</td><td class="num">3</td><td class="num">9</td><td class="num">–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวอย่างนับคะแนนในคู่มือ: แดง 2 เส้น (8) + เขียว 3 (11) + น้ำเงิน 1 (1) + ม่วง 2 (3) + เงิน 3 (6) = <b>29 คะแนน</b> · สีของการ์ดขึ้นกับช่องที่วาง ตารางนี้สมมติว่าวางตามลำดับในคู่มือ</p>
+
+      <h3>การ์ดคะแนนทั้งหมด</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th>ชุด</th><th>เงื่อนไขย่อ</th></tr></thead>
+          <tbody id="cardtable"></tbody>
+        </table>
+      </div>
+      <p class="note">ช่องที่เขียนว่า “ดูการ์ด” คือหาข้อความเต็มจากแหล่งที่เชื่อถือได้ไม่เจอ <b>ให้อ่านจากหน้า-หลังการ์ดจริง</b> ไม่เดาเอง · ส่วนที่มีเงื่อนไขมาจากคำชี้แจงในคู่มือและคำตอบของผู้ออกแบบ</p>
+
+      <h3 id="scenarios">ฉากกำหนด (เกมหลัก)</h3>
+      <p class="prose">ฉากคือชุดการ์ดคะแนนที่ผู้ออกแบบจัดไว้ พร้อม<b>คะแนนเป้าหมาย</b> ใช้ได้ทั้งเล่นหลายคนและเล่นคนเดียว บางฉากใช้การ์ด<b>ไม่ครบ 4 ใบ</b> (ผู้ออกแบบยืนยัน) ก็วางเท่าที่ฉากบอก</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ฉาก</th><th>การ์ดคะแนน</th><th class="num">เป้า</th></tr></thead>
+          <tbody>
+            <tr><td>Family Game</td><td>Composition, Variety</td><td class="num">18</td></tr>
+            <tr><td>Chill Mode</td><td>สุ่ม 3 ใบ</td><td class="num">25</td></tr>
+            <tr><td>Synergy</td><td>Proximity, Space, Variety</td><td class="num">28</td></tr>
+            <tr><td>First Time Playing</td><td>Composition, Emphasis, Repetition, Variety</td><td class="num">32</td></tr>
+            <tr><td>Balanced</td><td>Consistency, Emphasis, Hierarchy, Proportion</td><td class="num">33</td></tr>
+            <tr><td>No Elements</td><td>Composition, Consistency, Proportion, Symmetry</td><td class="num">35</td></tr>
+            <tr><td>All Elements</td><td>Emphasis, Hierarchy, Repetition, Style</td><td class="num">36</td></tr>
+            <tr><td>Spatial</td><td>Movement, Proximity, Space, Symmetry</td><td class="num">37</td></tr>
+            <tr><td>Bonus</td><td>Hierarchy, Movement, Proportion, Style</td><td class="num">40</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ช่องสีที่แต่ละการ์ดต้องวาง ดูจากภาพฉากในคู่มือ</p>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และนับคะแนน</h2></div>
+      <div class="callout red">
+        <h3>จบเมื่อทุกคนส่งภาพครบ 3 ภาพ</h3>
+        <p>ใครส่งภาพที่ 3 แล้ว ตาของคนนั้นถูก<b>ข้าม</b> คนอื่นเล่นต่อจนครบ เพดาน 5 ใบในมือทำให้รอไม่นาน</p>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>ริบบิ้นสี</h3><p>นับริบบิ้นแต่ละสี แล้วเปิดตารางของการ์ดคะแนนสีนั้น</p></div></li>
+        <li><div class="body"><h3>ริบบิ้นพิเศษ</h3><p>เงิน ×2 · ทอง ×3 (Reflections) · แพลทินัม ×4 และกรอบรูปที่ถือ ×2 (Finishing Touches) · การ์ดรางวัล (KS Mini)</p></div></li>
+        <li><div class="body"><h3>ตัดสินเสมอ</h3><p>คะแนนเท่ากัน คนที่มี<b>เหรียญแรงบันดาลใจเหลือมากกว่า</b>ชนะ ยังเสมออีก ให้คนกลางตัดสินว่าภาพใครสวยกว่า</p></div></li>
+      </ol>
+      <details>
+        <summary>ความท้าทาย (Achievements) ในคู่มือ</summary>
+        <ul>
+          <li>ภาพเดียวผ่านการ์ดคะแนนครบ 4 ใบ</li>
+          <li>ภาพเดียวได้ริบบิ้นเงิน 4 เส้น / ได้ริบบิ้น 7 เส้นขึ้นไป</li>
+          <li>ภาพเดียวมีธาตุชนิดเดียวกัน 5 ตัว</li>
+          <li>ได้ริบบิ้นเต็มทุกการ์ดคะแนน · เงินรวม 7+ · ริบบิ้นรวม 14+</li>
+          <li>ผ่านทุกฉาก · ทำได้ 40+ · ชนะสถิติผู้ออกแบบ <b>47</b> คะแนน</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- SOLO -->
+    <section id="solo">
+      <div class="sec-head"><span class="tag">1–2 คน</span><h2>เล่นคนเดียว</h2></div>
+      <div class="types">
+        <div class="type"><h3>วินเซนต์ <span class="en">Painting with Vincent</span></h3>
+          <p>บอทสำหรับ 1–2 คน ช่วยให้แถวการ์ดหมุนเร็ว เริ่มด้วยเหรียญ 4 เหรียญ เล่นเป็นคนสุดท้าย</p>
+          <ul>
+            <li>โยนเหรียญทั้งหมด เหรียญที่หงายใช้ข้ามการ์ด (สูงสุด 4)</li>
+            <li>ไม่มีเหรียญหงาย = ทิ้งใบซ้ายสุด</li>
+            <li>ใบที่ทิ้ง<b>ออกจากเกม</b> วินเซนต์ได้เหรียญบนใบนั้น</li>
+            <li>วินเซนต์ไม่ส่งภาพ ถึงคุณส่งภาพ วินเซนต์ก็ยังได้เล่นตา</li>
+          </ul></div>
+        <div class="type"><h3>ปริศนาคนเดียว <span class="en">Solo Puzzle</span></h3>
+          <p>คุณเริ่มด้วย 4 เหรียญ และตั้ง<b>กองเหรียญสำรอง 4 เหรียญ</b>ข้างใบซ้ายสุด</p>
+          <ul>
+            <li>เหรียญที่จ่ายข้าม เข้ากองสำรอง (ไม่วางบนการ์ด) ใบที่ข้ามถูก<b>ทิ้งออกจากเกม</b></li>
+            <li>หยิบใบซ้ายสุด หรือส่งภาพ = รับ 1 เหรียญจากกองสำรอง (ถ้ายังมี)</li>
+          </ul></div>
+        <div class="type"><h3>เป้าคะแนน</h3><p>ประกาศระดับก่อนเริ่ม: <b>ง่าย 25+</b> · <b>ปกติ 30+</b> · <b>ยาก 35+</b> · <b>มาสเตอร์ 40+</b> · ถ้าเล่นฉาก ใช้เป้าของฉากนั้น</p></div>
+      </div>
+      <p class="note">กติกาเล่นคนเดียวที่เปลี่ยนตามภาคเสริม อยู่ในหัวข้อของแต่ละภาค</p>
+    </section>
+
+    <!-- REFLECTIONS -->
+    <section id="reflections">
+      <div class="xhead" style="--c:var(--sw-blue)"><span class="tag">ภาคเสริม 1 · REFLECTIONS · วงคุณเล่นแล้ว</span><h2>Reflections</h2><p>เปลี่ยนแถวการ์ดเป็น <b>2 แถว</b> บนบอร์ดใหม่ (บอร์ดภาพสระน้ำ) เพิ่ม<b>การ์ดกระจก</b>ที่พลิกกลับด้านได้ และ<b>ไอคอนโบนัสทอง</b></p></div>
+      <h3>เตรียมเกมที่เปลี่ยนไป</h3>
+      <div class="prose"><ul>
+        <li>ใช้<b>บอร์ด Reflections แทนแผ่นแคนวาส</b> ริบบิ้นวางข้างไอคอนบนบอร์ด</li>
+        <li>สับการ์ดภาพเกมหลัก + Reflections รวมกัน ใส่กล่องการ์ดให้เต็ม (ราว <b>70 ใบ</b>) ที่เหลือเก็บกล่อง</li>
+        <li>เปิดการ์ด <b>8 ใบ</b> เป็น <b>2 แถว × 4 คอลัมน์</b></li>
+        <li>ทุกคนเริ่มด้วยเหรียญ <b>6 เหรียญ</b></li>
+        <li>การ์ดคะแนน 4 ใบ เลือกจากเกมหลักและ Reflections ปนกันได้</li>
+      </ul></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 270" role="img" aria-label="แถวการ์ด 2 แถว 4 คอลัมน์ คอลัมน์ซ้ายสุดฟรีทั้ง 2 ใบ">
+          <g id="refrow"></g>
+        </svg>
+        </div>
+        <figcaption>หยิบใบไหนก็ได้ใน<b>คอลัมน์ซ้ายสุด</b>ฟรี ถ้าจะหยิบคอลัมน์อื่น วางเหรียญบน<b>ทุกใบในคอลัมน์ทางซ้าย</b> (2 แถว = ข้าม 1 คอลัมน์จ่าย 2 เหรียญ) หยิบแล้วเลื่อนทั้งสองแถวไปทางซ้าย และเติมการ์ดใหม่</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>การ์ดกระจก <span class="en">Mirror Cards</span></h3><p>การ์ดที่มีไอคอนกระจก<b>พลิกกลับด้านได้</b> ด้านหลังมีไอคอนชุดเดิมแต่ตำแหน่งช่องกลับซ้าย-ขวา พลิกได้<b>ฟรี ตลอดเวลา</b> ทั้งบนแถวและในมือ จึงเปลี่ยนว่าไอคอนตกช่องสีไหน</p></div>
+        <div class="type"><h3>โบนัสทอง <span class="en">Gold Bonus</span></h3><p>ได้<b>ริบบิ้นทอง</b>ต่อธาตุที่ตรงกันในช่องที่ลูกศรชี้ (ช่องติดกัน) เส้นละ <b>3 คะแนน</b> ไม่นับเป็นธาตุ <span class="flag">อ่านแบบนี้ดีสุด แต่ยังไม่มีคำยืนยัน</span> ช่องที่ชี้ว่างก็ไม่ได้อะไร</p></div>
+        <div class="type"><h3>คำชี้แจง Focus</h3><p>Focus ผ่านเมื่อมีธาตุ (ชนิดไหนก็ได้) รวม<b>พอดี 3 ตัว</b>ในช่อง<b>เหลือง เขียว น้ำเงิน</b></p></div>
+        <div class="type"><h3>ภาพชิ้นเอก <span class="en">Masterpiece</span></h3><p>กติกาเสริม: คนคะแนนสูงสุดได้ Best in Show แล้วทุกคนเลือกภาพตัวเองมาเล่าคนละ 1 ภาพ วงโหวตภาพชิ้นเอก <b>เจ้าของภาพชิ้นเอกชนะร่วม</b>กับคนได้ Best in Show</p></div>
+      </div>
+      <div class="callout blue">
+        <h3>เล่นคนเดียวกับ Reflections</h3>
+        <ul>
+          <li><b>วินเซนต์:</b> เริ่มคนละ 6 เหรียญ (รวมวินเซนต์) เหรียญหงายเป็น<b>เลขคู่</b> หยิบจากแถวบน <b>เลขคี่</b> หยิบจากแถวล่างและเก็บเหรียญหงายไว้ 1 เหรียญ ใช้ข้ามได้สูงสุด 6</li>
+          <li><b>ปริศนาคนเดียว:</b> เริ่ม 6 เหรียญ กองสำรอง 6 การ์ดที่ข้ามทั้ง 2 แถวทิ้งออก เติมแถวบนก่อน หยิบใบซ้ายสุดแถวไหนก็ได้รับ 1 เหรียญ</li>
+        </ul>
+      </div>
+      <p class="note">ฉบับ Deluxe มี<b>การ์ดสไตล์ประจำตัว</b> <span class="en">Signature Style</span> เพิ่ม แต่กล่องธรรมดาไม่มี ข้ามได้</p>
+    </section>
+
+    <!-- FINISHING -->
+    <section id="finishing">
+      <div class="xhead" style="--c:var(--sw-red)"><span class="tag">ภาคเสริม 2 · FINISHING TOUCHES · ยังไม่เคยเล่น</span><h2>Finishing Touch</h2><p>เพิ่ม<b>กรอบรูป</b>ที่ทุกคนแย่งกันใส่ภาพ, ไอคอน<b>สร้างสรรค์</b>ที่เป็นธาตุอะไรก็ได้ และไอคอน<b>ผสม</b>ที่ก๊อปช่องข้าง ๆ</p></div>
+      <h3>เตรียมเกมที่เปลี่ยนไป</h3>
+      <div class="prose"><ul>
+        <li>ตั้ง<b>กรอบรูป</b>ไว้ข้างบอร์ด และวาง<b>แผ่นต่อขยาย</b>ชิดขอบบอร์ด (ใช้ได้ทั้งแผ่นแคนวาสและบอร์ด Reflections)</li>
+        <li>สับการ์ดภาพ F รวมกับเกมหลัก (และ R ถ้ามี) ใส่กล่องให้เต็ม (ราว 70 ใบ) เปิดการ์ด 1 ใบต่อ 1 ช่องการ์ดบนบอร์ด</li>
+        <li>เหรียญ: <b>6 เหรียญถ้าใส่ Reflections ด้วย</b> ไม่ใส่ = 4 เหรียญ</li>
+        <li>เลือกการ์ดคะแนน 4 ใบจากทุกภาค <b>หลังการ์ดภาคนี้บอกคู่ที่ไม่ควรใช้ด้วยกัน</b></li>
+      </ul></div>
+      <div class="types">
+        <div class="type"><h3>ไอคอนสร้างสรรค์ <span class="en">Creativity</span></h3><p>ธาตุ<b>ไวลด์</b> ตอนส่งภาพ เลือกว่าเป็น สี / รูปทรง / พื้นผิว / น้ำหนัก ตัวละ 1 ธาตุ</p></div>
+        <div class="type"><h3>ไอคอนผสม <span class="en">Blend</span></h3><p><b>ก๊อป</b>ไอคอนในช่องที่ติดกัน (รวมธาตุ โบนัส และไอคอนสร้างสรรค์) สำเนาของไอคอนสร้างสรรค์เลือกเป็นธาตุคนละแบบกับต้นฉบับได้</p></div>
+        <div class="type"><h3>คำชี้แจง Abstraction</h3><p>ผ่านเมื่อภาพมีไอคอนโบนัส<b>พอดี 1 ตัว</b> เงินหรือทองก็ได้ ไม่สนว่าโบนัสนั้นให้กี่เส้น</p></div>
+      </div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 700 260" role="img" aria-label="ภาพที่ส่งแล้วถ้ามีธาตุตรงกับกรอบ ใส่กรอบและรับริบบิ้นแพลทินัม">
+          <g id="framedemo"></g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่าง: กรอบ “พื้นผิว” มีภาพของเพื่อนที่นับได้ 2 · ภาพใหม่ของคุณมีพื้นผิว 2 + ไอคอนสร้างสรรค์ 1 = 3 มากกว่า จึงแย่งกรอบได้ ภาพเดิมคืนเจ้าของ</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>ส่งภาพและรับริบบิ้นตามปกติ</h3><p>แล้วค่อยเช็กกรอบรูป</p></div></li>
+        <li><div class="body"><h3>กรอบว่าง</h3><p>ใส่ภาพลงกรอบได้ถ้าภาพมี<b>ธาตุที่กรอบระบุ หรือไอคอนสร้างสรรค์ อย่างน้อย 1</b> ตั้งกรอบไว้หน้าตัวเองหันภาพออก</p></div></li>
+        <li><div class="body"><h3>กรอบมีภาพอยู่แล้ว</h3><p>แย่งได้ถ้า (ธาตุตรง + ไอคอนสร้างสรรค์) ของคุณ<b>มากกว่า</b> ภาพในกรอบ ภาพเดิมคืนเจ้าของ คุณรับกรอบไป</p>
+          <ul><li>เท่ากัน: แย่งได้เฉพาะถ้าธาตุตรง (ไม่นับไอคอนสร้างสรรค์) มากกว่า</li><li>ไอคอนสร้างสรรค์นับให้กรอบเสมอ ไม่ว่าตอนส่งภาพจะเลือกเป็นธาตุอะไร</li><li>ผ่านหลายกรอบ เลือกได้ 1 กรอบ · แทนภาพของตัวเองได้ และยังได้แพลทินัม</li></ul></div></li>
+        <li><div class="body"><h3>รับรางวัล</h3><p>ใส่ภาพลงกรอบ (รวมการแย่ง) ได้<b>ริบบิ้นแพลทินัม 4 คะแนน</b> ทุกครั้ง · จบเกม <b>กรอบที่ถืออยู่กรอบละ 2</b> · โดนแย่งกรอบ แพลทินัมที่ได้ไปแล้วไม่ต้องคืน</p></div></li>
+      </ol>
+      <div class="callout red">
+        <h3>เล่นคนเดียวกับ Finishing Touches</h3>
+        <ul>
+          <li>ใส่กรอบได้ต้องมี (ธาตุตรง + สร้างสรรค์) <b>อย่างน้อย 3</b> กรอบนั้นได้ 2 คะแนนตอนจบ</li>
+          <li>ได้แพลทินัมเฉพาะเมื่อนับได้ <b>อย่างน้อย 4</b></li>
+          <li>ใช้ระดับความยากหรือฉากจากคู่มือเล่มก่อน ให้<b>บวกเป้าอีก 10</b></li>
+        </ul>
+      </div>
+      <h3>ฉากของ Finishing Touches</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ระดับ</th><th>ฉาก</th><th>การ์ดคะแนน</th><th class="num">เป้า</th></tr></thead>
+          <tbody>
+            <tr><td>ง่าย</td><td>Family Game 3</td><td>Abstraction, Proportion</td><td class="num">28</td></tr>
+            <tr><td>ง่าย</td><td>What're the Odds?</td><td>Emphasis, Focus (R), Irregularity</td><td class="num">35</td></tr>
+            <tr><td>ง่าย</td><td>3's the Magic Number</td><td>Harmony, Movement, Style</td><td class="num">38</td></tr>
+            <tr><td>มาตรฐาน</td><td>1st Time Playing 3</td><td>Composition, Motif, Proximity, Saturation</td><td class="num">42</td></tr>
+            <tr><td>มาตรฐาน</td><td>What's New</td><td>Abstraction, Continuation, Harmony, Motif</td><td class="num">43</td></tr>
+            <tr><td>มาตรฐาน</td><td>Designers Recommend</td><td>Irregularity, Proximity, Repetition, Saturation</td><td class="num">45</td></tr>
+            <tr><td>ยาก</td><td>Minimalism</td><td>Abstraction, Balance, Emphasis, Motif</td><td class="num">45</td></tr>
+            <tr><td>ยาก</td><td>No Elements 2</td><td>Abstraction, Continuation, Harmony, Irregularity</td><td class="num">47</td></tr>
+            <tr><td>ยาก</td><td>Spatial 3</td><td>Adjacency, Impasto, Shading, Space</td><td class="num">50</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">คู่มือไม่ได้บอกจำนวนกรอบและธาตุของแต่ละกรอบ ให้ดูจากกรอบในกล่อง · ภาคนี้ชื่อทางการคือ <i>Finishing Touches</i> ร้านในไทยมักเขียน Finishing Touch</p>
+    </section>
+
+    <!-- KS MINI -->
+    <section id="ksmini">
+      <div class="xhead" style="--c:var(--sw-violet)"><span class="tag">ของแถม KICKSTARTER · ยังไม่เคยเล่น</span><h2>KS Mini Expansion</h2><p>ชุดเล็กที่ใส่เพิ่มได้ทันที: <b>การ์ดภาพ 10 ใบ</b> ที่มีไอคอนแบบใหม่ 2 แบบ และ<b>การ์ดรางวัล 8 ใบ</b> สำหรับคะแนนพิเศษตอนจบเกม</p></div>
+      <div class="types">
+        <div class="type"><h3>ไอคอน x2</h3><p><b>ทำสำเนา</b>ไอคอนในช่องที่ x2 ชี้ สำเนาอยู่<b>ในช่องเดียวกับต้นฉบับ</b> (ต่างจากไอคอนผสมของ Finishing Touches ที่สำเนาอยู่ในช่องของตัวมันเอง) เรื่องนี้มีผลกับการ์ดที่ดูตำแหน่ง</p></div>
+        <div class="type"><h3>ไอคอนริบบิ้นแต้มตรง</h3><p>ให้<b>คะแนนตรง ๆ</b> แต่<b>ไม่ช่วย</b>ผ่านเงื่อนไขการ์ดคะแนน ค่าคะแนนดูที่ไอคอนบนการ์ด</p></div>
+        <div class="type"><h3>การ์ดรางวัล <span class="en">Award Cards</span></h3><p>แต่ละเกม<b>เปิดการ์ดรางวัล 1 ใบ</b> ใบนั้นมีกติกาคิดคะแนนพิเศษตอนจบเกม ทุกคนเห็นตั้งแต่เริ่มจึงวางแผนไว้ได้ · ผู้ออกแบบยืนยัน: การ์ดรางวัล<b>ไม่นับไอคอนสร้างสรรค์</b></p></div>
+      </div>
+      <div class="callout violet">
+        <h3>วิธีใส่</h3>
+        <ol>
+          <li>สับการ์ดภาพ 10 ใบเข้ากองการ์ดภาพตอนเตรียมเกม</li>
+          <li>สุ่มหรือเลือกการ์ดรางวัล 1 ใบ วางหงายข้างบอร์ด</li>
+          <li>ตอนนับคะแนน บวกคะแนนจากการ์ดรางวัลตามข้อความบนการ์ด</li>
+        </ol>
+      </div>
+      <p class="note">ไม่พบรายชื่อและข้อความของการ์ดรางวัล 8 ใบในแหล่งที่เชื่อถือได้ ให้ยึดการ์ดกติกาที่มากับชุด · <b>อย่าสับสนกับ Trilogy Booster Pack</b> (2025) ซึ่งเป็นชุดใหม่อีกชุด มีการ์ดภาพ 10, การ์ดคะแนน 4, การ์ดรางวัล 4, Signature Style 1 และการ์ดจิตรกร 4 ต้องใช้ครบทั้ง 3 กล่อง · ไอคอนริบบิ้น “สีดำ” บนการ์ด Deluxe ล็อตแรก คือโบนัสเงินที่พิมพ์สีเข้มเกิน ไม่ใช่ไอคอนใหม่</p>
+    </section>
+
+    <!-- MIX -->
+    <section id="mix">
+      <div class="sec-head"><span class="tag">ตั้งค่า</span><h2>รวมทุกภาคในเกมเดียว</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>เรื่อง</th><th>เกมหลัก</th><th>+ Reflections</th><th>+ Finishing Touches</th><th>+ KS Mini</th></tr></thead>
+          <tbody>
+            <tr><td><b>บอร์ด</b></td><td>แผ่นแคนวาส</td><td>บอร์ด Reflections แทน</td><td>+ แผ่นต่อขยาย, กรอบรูป</td><td>–</td></tr>
+            <tr><td><b>เหรียญต่อคน</b></td><td class="num">4</td><td class="num">6</td><td class="num">6 (ไม่มี R = 4)</td><td>–</td></tr>
+            <tr><td><b>แถวการ์ด</b></td><td>5 ใบ 1 แถว</td><td>8 ใบ 2 แถว</td><td>1 ใบต่อช่องการ์ด</td><td>–</td></tr>
+            <tr><td><b>กองการ์ดภาพ</b></td><td>60 ใบ</td><td colspan="2">สับรวม ใส่กล่องให้เต็ม (~70) ที่เหลือเก็บ</td><td>สับ 10 ใบเข้ากอง</td></tr>
+            <tr><td><b>ริบบิ้น</b></td><td>4 สี + เงิน</td><td>+ ทอง</td><td>+ แพลทินัม</td><td>+ การ์ดรางวัล</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout green">
+        <h3>แนะนำสำหรับวงที่เล่นแต่หลัก + Reflections</h3>
+        <ol>
+          <li><b>ใส่ KS Mini ก่อน</b> เปลี่ยนกติกาน้อยที่สุด มีแค่ x2, ริบบิ้นแต้มตรง และการ์ดรางวัล 1 ใบ</li>
+          <li>เกมถัดไปใส่ <b>Finishing Touches</b> ใช้ฉาก <i>Family Game 3</i> หรือ <i>What's New</i> จะได้เจอการ์ดคะแนนใหม่ทีละน้อย</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น</span><h2>ตัวช่วยกลางโต๊ะ</h2></div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>ตัวช่วยเตรียมเกม</h3></div>
+        <div>
+          <span class="field-l">จำนวนผู้เล่น</span>
+          <div class="seg" role="group" aria-label="จำนวนผู้เล่น" id="cp"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 22px">
+          <label class="chk"><input type="checkbox" id="x-r" checked> Reflections</label>
+          <label class="chk"><input type="checkbox" id="x-f"> Finishing Touches</label>
+          <label class="chk"><input type="checkbox" id="x-k"> KS Mini</label>
+        </div>
+        <div class="calc-out" id="calcout" aria-live="polite"></div>
+        <p class="note" id="calcnote" style="margin:0"></p>
+        <div class="tool-top"><span class="field-l" style="margin:0">การ์ดคะแนนรอบนี้</span><button type="button" class="btn" id="draw">สุ่มการ์ดคะแนน 4 ใบ</button></div>
+        <div class="picked" id="picked" aria-live="polite"></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>ตรวจภาพก่อนส่ง</h3><button type="button" class="btn" id="pc-clear">ล้างช่อง</button></div>
+        <p class="note" style="margin:0">ใส่ไอคอนที่<b>มองเห็น</b>ในแต่ละช่อง (ช่องละไม่เกิน 2) แล้วดูว่าภาพผ่านการ์ดคะแนนใบไหน ตัวอย่างเริ่มต้นคือภาพในหัวข้อซ้อนภาพ · ตรวจเฉพาะการ์ดที่เงื่อนไขชัดเจน ใบอื่นให้อ่านจากการ์ดจริง</p>
+        <div class="slots" id="slots"></div>
+        <div class="res" id="pcres" aria-live="polite"></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top">
+          <h3>สมุดจดคะแนน</h3>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <div class="seg" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน" id="sp-n"></div>
+            <button type="button" class="btn warn" id="sp-reset">ล้างคะแนน</button>
+          </div>
+        </div>
+        <p class="note" id="sp-note" style="margin:0">ตัวเลขที่เห็นเป็นตัวอย่าง กด “ล้างคะแนน” ก่อนจดเกมจริง · ริบบิ้นสี: ใส่<b>คะแนน</b>ที่เปิดจากตาราง · ริบบิ้นพิเศษและกรอบ: ใส่<b>จำนวน</b> ระบบคูณให้ · ข้อมูลเก็บไว้ในเครื่องนี้</p>
+        <div class="sp-wrap"><table class="sp" id="sp"></table></div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ศัพท์</span><h2>ศัพท์ทั้งหมด</h2></div>
+      <dl class="gl">
+        <dt>การ์ดภาพ <span class="en">Art Card</span></dt><dd>การ์ดพลาสติกใส มีลายวาดบางส่วนและไอคอนที่แถบล่าง</dd>
+        <dt>การ์ดพื้นหลัง <span class="en">Background</span></dt><dd>การ์ดทึบในซอง คนละ 3 ใบ = ส่งได้ 3 ภาพ</dd>
+        <dt>ภาพ <span class="en">Painting</span></dt><dd>การ์ดภาพ 3 ใบซ้อนบนพื้นหลังในซองเดียว</dd>
+        <dt>ช่องสี <span class="en">Color Swatch</span></dt><dd>5 ช่องที่แถบล่าง แดง เหลือง เขียว น้ำเงิน ม่วง ใช้บอกตำแหน่ง</dd>
+        <dt>ธาตุ <span class="en">Element</span></dt><dd>สี รูปทรง พื้นผิว น้ำหนัก</dd>
+        <dt>ไอคอนโบนัส</dt><dd>เงิน (PER) และทอง (ลูกศร) ให้ริบบิ้นพิเศษ ไม่ใช่ธาตุ</dd>
+        <dt>เหรียญแรงบันดาลใจ <span class="en">Inspiration</span></dt><dd>ใช้จ่ายข้ามการ์ดในแถว และใช้ตัดสินเสมอ</dd>
+        <dt>การ์ดคะแนน <span class="en">Scoring Card</span></dt><dd>เงื่อนไขของกรรมการ 4 ใบ สีริบบิ้นขึ้นกับช่องที่วาง</dd>
+        <dt>ฉาก <span class="en">Scenario</span></dt><dd>ชุดการ์ดคะแนนที่จัดไว้ พร้อมคะแนนเป้าหมาย</dd>
+        <dt>การ์ดกระจก <span class="en">Mirror</span></dt><dd>การ์ด Reflections ที่พลิกกลับด้านได้ฟรีตลอดเวลา</dd>
+        <dt>กรอบรูป <span class="en">Frame</span></dt><dd>Finishing Touches: ใส่ภาพที่มีธาตุตรง แย่งกันได้</dd>
+        <dt>ไอคอนสร้างสรรค์ / ผสม</dt><dd>Finishing Touches: ไวลด์ / ก๊อปช่องข้าง ๆ</dd>
+        <dt>วินเซนต์ <span class="en">Vincent</span></dt><dd>บอทเล่นคนเดียว ทิ้งการ์ดจากแถว ไม่ส่งภาพ</dd>
+      </dl>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ถาม-ตอบ</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>Hierarchy นับพื้นผิวหรือน้ำหนักมากสุด</summary><p>แหล่งข้อมูลขัดกัน: คำตอบของผู้ออกแบบ (2020) ที่ RulesPal รวบรวมไว้บอกว่า<b>น้ำหนัก</b>มากที่สุดหรือเสมออันดับหนึ่งก็ผ่าน ส่วนเว็บสรุปกติกาอีกแห่งเขียนว่าพื้นผิว และเสมอไม่ผ่าน <b>ให้ดูไอคอนบนการ์ด Hierarchy ในกล่องคุณ</b> แล้วตกลงเรื่อง “เสมอ” ก่อนเริ่มเกม (แนะนำตามผู้ออกแบบ: เสมอก็ผ่าน)</p></details>
+        <details><summary>รูปทรง 4 ตัว ได้ Repetition กี่เส้น</summary><p>2 เส้น เพราะนับเป็นคู่ และธาตุ 1 ตัวใช้ได้ครั้งเดียวต่อเงื่อนไข รูปทรง 3 ตัวยังได้แค่ 1 เส้น</p></details>
+        <details><summary>ไอคอนโบนัสช่วย Variety หรือ Emphasis ไหม</summary><p>ไม่ช่วย โบนัสไม่ใช่ธาตุ แต่ช่วยเติมช่องให้ Composition ได้ และ Abstraction (Finishing Touches) นับโบนัสโดยตรง</p></details>
+        <details><summary>ไอคอนที่ถูกบังครึ่งเดียว นับไหม</summary><p>กติกานับเฉพาะไอคอนที่มองเห็น ถ้ามองไม่ออกว่าเป็นไอคอนอะไรให้ถือว่าถูกบัง และตกลงกันในวงก่อนเริ่ม</p></details>
+        <details><summary>คนส่งภาพที่ 3 แล้ว เกมจบเลยไหม</summary><p>ไม่จบ คนนั้นถูกข้ามตา คนอื่นเล่นต่อจนทุกคนครบ 3 ภาพ</p></details>
+        <details><summary>มีการ์ด 5 ใบ ยังหยิบเพิ่มได้ไหม</summary><p>ไม่ได้ ต้องส่งภาพ (ใช้ 3 ใบ เหลือ 2 ใบเก็บไว้)</p></details>
+        <details><summary>เหรียญหมด ทำอะไรได้บ้าง</summary><p>หยิบใบไกลกองสุดซึ่งฟรีเสมอ (Reflections: ใบใดก็ได้ในคอลัมน์ซ้ายสุด) ใบที่มีเหรียญกองอยู่มักอยู่ทางซ้าย ช่วยเติมเหรียญคืน</p></details>
+        <details><summary>ริบบิ้นเงิน 2 คะแนน หรือ 1 คะแนนต่อธาตุ</summary><p>คู่มือฉบับปัจจุบัน: ได้<b>ริบบิ้นเงิน 1 เส้นต่อธาตุที่ตรง</b> เส้นละ <b>2 คะแนน</b> เว็บสรุปบางแห่งเขียนเป็น 1 แต้มต่อธาตุ ให้ใช้ 2 ตามคู่มือ</p></details>
+        <details><summary>พลิกการ์ดกระจกตอนไหนได้บ้าง</summary><p>ได้ตลอด ฟรี ทั้งบนแถวและในมือ จนกว่าจะใส่ซองส่งภาพ</p></details>
+        <details><summary>โบนัสทองชี้ไปช่องว่าง</summary><p>ไม่ได้ริบบิ้น อ่านแบบนี้จากคำตอบในชุมชน ยังไม่มีคำยืนยันจากผู้ออกแบบ</p></details>
+        <details><summary>x2 กับไอคอนผสม ต่างกันยังไง</summary><p>ทั้งคู่ทำสำเนา แต่ x2 วางสำเนาไว้<b>ช่องของต้นฉบับ</b> ส่วนผสมวางสำเนาไว้<b>ช่องของตัวผสมเอง</b> มีผลกับการ์ดที่ดูตำแหน่ง เช่น Proximity, Symmetry (ความเห็นชุมชน)</p></details>
+        <details><summary>ไอคอนสร้างสรรค์นับให้การ์ดรางวัลไหม</summary><p>ไม่นับ ผู้ออกแบบตอบไว้ (ธ.ค. 2025) ไอคอนสร้างสรรค์นับให้กรอบรูปเท่านั้นนอกจากเงื่อนไขการ์ดคะแนน</p></details>
+        <details><summary>ใครตัดสินภาพตอนเสมอ</summary><p>คู่มือให้คนกลางที่ไม่ได้เล่นตัดสิน ถ้าไม่มี ตกลงกันในวงได้ (บางแหล่งให้คนที่ได้อันดับถัดไปเป็นกรรมการ)</p></details>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งข้อมูล</b></p>
+    <ul>
+      <li>กติกาเกมหลัก Reflections และ Finishing Touches จากคู่มือฉบับถอดความของ RulesPal (rulespal.com) และคำถามที่พบบ่อยที่รวบรวมคำตอบของผู้ออกแบบ</li>
+      <li>คำชี้แจงการ์ดคะแนนบางใบ จาก UltraBoardGames และ BoardGameGeek</li>
+      <li>เนื้อหา KS Mini Expansion จากคำอธิบายสินค้าของร้านเกม (การ์ดภาพ 10, การ์ดรางวัล 8)</li>
+      <li>จุดที่แหล่งข้อมูลขัดกันหรือยังไม่มีคำยืนยัน มีป้ายเหลืองหรือหมายเหตุกำกับไว้ ให้ยึดการ์ดและคู่มือในกล่องเสมอ</li>
+    </ul>
+    <p style="margin-top:10px">คู่มือนี้แปลและเรียบเรียงเพื่อใช้ในวงเล่นเอง ภาพทั้งหมดเป็นภาพวาดจำลอง ไม่ใช่ภาพการ์ดจริง · Canvas ออกแบบโดย Jeff Chin และ Andrew Nerger จัดพิมพ์โดย Road to Infamy Games</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs){e.setAttribute(k,attrs[k]);}if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+  var SW=["sw-r","sw-y","sw-g","sw-b","sw-v"];
+  var ICON={hue:"#ic-hue",shape:"#ic-shape",texture:"#ic-texture",tone:"#ic-tone"};
+  function strip(g,x,y,w,icons,opt){
+    opt=opt||{};var sw=w/5;
+    for(var i=0;i<5;i++){
+      el("rect",{x:x+i*sw,y:y,width:sw,height:6,"class":SW[i]},g);
+      el("rect",{x:x+i*sw,y:y+6,width:sw,height:opt.h||32,"class":"s-surface",style:"stroke:var(--line)","stroke-width":.8,"fill-opacity":opt.fade||1},g);
+      var ic=icons[i];
+      if(ic&&ICON[ic]){
+        var s=Math.min(22,sw-10);
+        var u=el("use",{href:ICON[ic],x:x+i*sw+(sw-s)/2,y:y+10,width:s,height:s,"class":"ico"},g);
+        u.style.color=opt.dim&&opt.dim[i]?"var(--line)":"var(--fg)";
+        if(opt.dim&&opt.dim[i]){el("line",{x1:x+i*sw+6,y1:y+30,x2:x+i*sw+sw-6,y2:y+12,stroke:"var(--bad)","stroke-width":2},g);}
+      }
+    }
+  }
+
+  /* strip demo */
+  var sd=document.getElementById("stripdemo");
+  if(sd){strip(sd,0,0,360,["hue",null,"texture","tone",null],{h:38});}
+
+  /* row demo */
+  var rd=document.getElementById("rowdemo");
+  if(rd){
+    var cx=[30,140,250,360,470];
+    var labels=["ใบ 1 · ฟรี","ใบ 2","ใบ 3 ← หยิบ","ใบ 4","ใบ 5"];
+    cx.forEach(function(x,i){
+      var g=el("g",{transform:"translate("+x+" 40)"},rd);
+      el("rect",{width:96,height:132,rx:10,"class":i===2?"s-surface":"s-surface2",style:"stroke:"+(i===2?"var(--accent)":"var(--line)"),"stroke-width":i===2?3:1.5},g);
+      el("path",{d:"M10 90 q38 -40 76 0",fill:"none",stroke:"var(--muted)","stroke-width":2,"stroke-dasharray":"5 4"},g);
+      for(var k=0;k<5;k++){el("rect",{x:k*19.2,y:120,width:19.2,height:12,"class":SW[k]},g);}
+      el("text",{x:48,y:156,"text-anchor":"middle","class":i===0?"s-good tagf":(i===2?"s-acc tagf":"s-fg"),"font-size":12},g,labels[i]);
+      if(i<2){
+        el("circle",{cx:48,cy:40,r:15,fill:"var(--gold)"},g);
+        el("text",{x:48,y:45,"text-anchor":"middle",fill:"#fff","class":"tagf","font-size":13},g,"+1");
+      }
+    });
+    // deck
+    var d=el("g",{transform:"translate(590 40)"},rd);
+    for(var k=3;k>=0;k--){el("rect",{x:k*3,y:k*3,width:90,height:126,rx:10,"class":"s-surface2",style:"stroke:var(--line)"},d);}
+    el("text",{x:48,y:72,"text-anchor":"middle","class":"s-fg disp","font-size":14},d,"กองการ์ด");
+    el("text",{x:48,y:156,"text-anchor":"middle","class":"s-muted","font-size":11.5},d,"เติมใบใหม่ช่องนี้");
+    el("text",{x:30,y:226,"class":"s-muted","font-size":12.5},rd,"ข้าม 2 ใบ = จ่าย 2 เหรียญ (วางบนใบที่ข้าม) · ใบที่หยิบมีเหรียญอยู่ ได้เหรียญด้วย · เลื่อนแถวไปทางซ้าย แล้วเติมใบใหม่ติดกอง");
+    el("text",{x:30,y:22,"class":"s-muted tagf","font-size":12},rd,"← ไกลกอง (ถูก)");
+    el("text",{x:560,y:22,"class":"s-muted tagf","font-size":12,"text-anchor":"end"},rd,"ใกล้กอง (แพง) →");
+  }
+
+  /* layer demo */
+  var ld=document.getElementById("layerdemo");
+  if(ld){
+    var cards=[
+      {t:"ใบหลัง",icons:["hue",null,null,"texture",null],dim:[1,0,0,0,0]},
+      {t:"ใบกลาง",icons:["shape",null,"tone",null,null]},
+      {t:"ใบหน้า",icons:[null,"shape",null,null,null]}
+    ];
+    cards.forEach(function(c,i){
+      var g=el("g",{transform:"translate("+(20+i*150)+" 30)"},ld);
+      el("rect",{width:130,height:170,rx:10,"class":"s-surface",style:"stroke:var(--line)","stroke-width":1.5,"fill-opacity":.6},g);
+      el("text",{x:65,y:24,"text-anchor":"middle","class":"s-fg disp","font-size":14},g,c.t);
+      if(i===0)el("path",{d:"M0 60 h130 v20 h-130z",fill:"var(--sw-yellow)","fill-opacity":.35},g);
+      if(i===1)el("path",{d:"M10 120 q30 -40 55 -10 t55 -5 v20 h-110z",fill:"var(--sw-green)","fill-opacity":.45},g);
+      if(i===2)el("circle",{cx:80,cy:80,r:16,fill:"var(--sw-red)","fill-opacity":.6},g);
+      strip(g,0,128,130,c.icons,{h:30,dim:c.dim});
+    });
+    el("text",{x:476,y:120,"class":"s-muted","font-size":26},ld,"=");
+    var r=el("g",{transform:"translate(505 30)"},ld);
+    el("rect",{width:175,height:230,rx:10,fill:"#3a2a1a"},r);
+    el("rect",{x:8,y:8,width:159,height:150,"class":"s-surface"},r);
+    el("path",{d:"M8 50 h159 v20 h-159z",fill:"var(--sw-yellow)","fill-opacity":.35},r);
+    el("path",{d:"M14 140 q40 -50 75 -12 t75 -6 v28 h-150z",fill:"var(--sw-green)","fill-opacity":.45},r);
+    el("circle",{cx:110,cy:76,r:20,fill:"var(--sw-red)","fill-opacity":.6},r);
+    strip(r,8,166,159,["shape","shape","tone","texture",null],{h:34});
+    el("text",{x:87,y:254,"text-anchor":"middle","class":"s-fg disp","font-size":14},ld,"");
+    el("text",{x:592,y:282,"text-anchor":"middle","class":"s-fg disp","font-size":14},ld,"ภาพที่ส่ง");
+    el("text",{x:20,y:230,"class":"s-muted","font-size":12},ld,"เส้นแดงขีด = ไอคอนที่ถูกใบด้านหน้าบัง ไม่นับ");
+  }
+
+  /* reflections 2x4 row */
+  var rr=document.getElementById("refrow");
+  if(rr){
+    for(var row=0;row<2;row++){
+      for(var col=0;col<4;col++){
+        var x=30+col*120,y=20+row*100;
+        var free=col===0, take=(col===2&&row===1);
+        el("rect",{x:x,y:y,width:100,height:86,rx:8,"class":free?"s-surface":"s-surface2",style:"stroke:"+(take?"var(--accent)":(free?"var(--good)":"var(--line)")),"stroke-width":take||free?3:1.5},rr);
+        for(var k=0;k<5;k++){el("rect",{x:x+k*20,y:y+76,width:20,height:10,"class":SW[k]},rr);}
+        if(col<2&&!(take)){el("circle",{cx:x+50,cy:y+38,r:14,fill:"var(--gold)"},rr);el("text",{x:x+50,y:y+43,"text-anchor":"middle",fill:"#fff","class":"tagf","font-size":12},rr,"+1");}
+        if(take)el("text",{x:x+50,y:y+44,"text-anchor":"middle","class":"s-acc tagf","font-size":13},rr,"หยิบ");
+      }
+    }
+    el("text",{x:80,y:228,"text-anchor":"middle","class":"s-good tagf","font-size":12},rr,"คอลัมน์ฟรี");
+    el("text",{x:200,y:228,"text-anchor":"middle","class":"s-muted","font-size":12},rr,"วางเหรียญทุกใบ");
+    el("text",{x:200,y:244,"text-anchor":"middle","class":"s-muted","font-size":12},rr,"ใน 2 คอลัมน์แรก");
+    el("text",{x:320,y:228,"text-anchor":"middle","class":"s-acc tagf","font-size":12},rr,"= จ่าย 4 เหรียญ");
+    var d2=el("g",{transform:"translate(530 60)"},rr);
+    for(var k2=3;k2>=0;k2--){el("rect",{x:k2*3,y:k2*3,width:90,height:110,rx:10,"class":"s-surface2",style:"stroke:var(--line)"},d2);}
+    el("text",{x:48,y:64,"text-anchor":"middle","class":"s-fg disp","font-size":14},d2,"กองการ์ด");
+  }
+
+  /* frame demo */
+  var fd=document.getElementById("framedemo");
+  if(fd){
+    function framed(x,label,icons,cnt,win){
+      var g=el("g",{transform:"translate("+x+" 20)"},fd);
+      el("rect",{width:170,height:170,rx:6,fill:"#3a2a1a"},g);
+      el("rect",{x:10,y:10,width:150,height:110,"class":"s-surface"},g);
+      el("path",{d:"M10 100 q40 -50 75 -10 t75 -8 v28 h-150z",fill:win?"var(--sw-blue)":"var(--sw-green)","fill-opacity":.45},g);
+      strip(g,10,124,150,icons,{h:30});
+      el("text",{x:85,y:196,"text-anchor":"middle","class":win?"s-good tagf":"s-fg tagf","font-size":13},g,label);
+      el("text",{x:85,y:214,"text-anchor":"middle","class":"s-muted","font-size":12},g,cnt);
+    }
+    framed(20,"ในกรอบตอนนี้",[null,"texture","hue","texture",null],"พื้นผิว 2 = 2",false);
+    el("text",{x:236,y:110,"class":"s-muted","font-size":13},fd,"แย่ง →");
+    framed(290,"ภาพใหม่ของคุณ",["texture",null,"texture","shape","star"],"พื้นผิว 2 + สร้างสรรค์ 1 = 3",true);
+    // star icon manual (creativity)
+    var st=el("g",{transform:"translate(290 20)"},fd);
+    el("path",{d:"M145 147 l3.2 7 7.6 .8 -5.7 5.1 1.6 7.5 -6.7 -3.9 -6.7 3.9 1.6 -7.5 -5.7 -5.1 7.6 -.8z",fill:"var(--sw-red)"},st);
+    var rbox=el("g",{transform:"translate(500 40)"},fd);
+    el("use",{href:"#ic-ribbon",x:0,y:0,width:44,height:60,style:"fill:var(--plat)"},rbox);
+    el("text",{x:56,y:26,"class":"s-fg disp","font-size":15},rbox,"แพลทินัม +4");
+    el("text",{x:56,y:48,"class":"s-muted","font-size":12},rbox,"ทุกครั้งที่ใส่กรอบ");
+    el("text",{x:0,y:100,"class":"s-fg disp","font-size":15},rbox,"กรอบที่ถือ +2");
+    el("text",{x:0,y:122,"class":"s-muted","font-size":12},rbox,"นับตอนจบเกม");
+  }
+
+  /* scoring cards table */
+  var CARDS=[
+    ["Variety","b","มีครบ 4 ธาตุ"],
+    ["Repetition","b","รูปทรง 1 คู่ = 1 เส้น"],
+    ["Emphasis","b","มีสีพอดี 1 ตัว"],
+    ["Composition","b","ทั้ง 5 ช่องมีไอคอน (โบนัสเติมช่องได้)"],
+    ["Proximity","b","พื้นผิวอยู่ช่องติดกับน้ำหนัก (ช่องเดียวกันไม่นับว่าติด)"],
+    ["Space","b","สีกับรูปทรงที่ไม่อยู่ติดกัน (มีคู่ติดกันด้วยก็ได้ ขอให้มีคู่ไม่ติดกัน 1 คู่)"],
+    ["Movement","b","ธาตุเดียวกันเรียง 3 ช่องติดกัน (4 ช่องก็ยังได้ครั้งเดียว)"],
+    ["Symmetry","b","ธาตุคู่หนึ่งอยู่ช่องสมมาตร: แดง–ม่วง หรือ เหลือง–น้ำเงิน (บน/ล่างในช่องไม่สำคัญ)"],
+    ["Hierarchy","b","ธาตุที่การ์ดกำหนดมีมากที่สุด (ดูข้อถกเถียงด้านล่าง)"],
+    ["Proportion","b","ดูการ์ด (เกี่ยวกับธาตุชุด 3 กับ 2)"],
+    ["Consistency","b","ดูการ์ด"],
+    ["Style","b","ดูการ์ด"],
+    ["Unity","r","ดูการ์ด"],
+    ["Focus","r","ธาตุพอดี 3 ตัวในช่องเหลือง เขียว น้ำเงิน"],
+    ["Alignment","r","ดูการ์ด"],["Adjacency","r","ดูการ์ด"],["Balance","r","ดูการ์ด"],["Brushwork","r","ดูการ์ด"],["Rhythm","r","ดูการ์ด"],["Tint","r","ดูการ์ด"],
+    ["Abstraction","f","มีไอคอนโบนัสพอดี 1 ตัว (เงินหรือทอง)"],
+    ["Continuation","f","ดูการ์ด"],["Harmony","f","ดูการ์ด"],["Impasto","f","ดูการ์ด"],["Irregularity","f","ดูการ์ด"],["Motif","f","ดูการ์ด"],["Saturation","f","ดูการ์ด"],["Shading","f","ดูการ์ด"]
+  ];
+  var SETN={b:"เกมหลัก",r:"Reflections",f:"Finishing"};
+  var ct=document.getElementById("cardtable");
+  if(ct){CARDS.forEach(function(c){var tr=document.createElement("tr");tr.innerHTML="<td><b>"+c[0]+"</b></td><td><span class=\"set "+c[1]+"\">"+SETN[c[1]]+"</span></td><td"+(c[2]==="ดูการ์ด"?" style=\"color:var(--muted)\"":"")+">"+c[2]+"</td>";ct.appendChild(tr);});}
+
+  /* setup helper */
+  var st={n:3,r:true,f:false,k:false};
+  var cp=document.getElementById("cp");
+  [1,2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.setAttribute("aria-pressed",n===st.n);b.onclick=function(){st.n=n;Array.prototype.forEach.call(cp.children,function(x){x.setAttribute("aria-pressed",x===b);});calc();};cp.appendChild(b);});
+  ["r","f","k"].forEach(function(k){var i=document.getElementById("x-"+k);i.onchange=function(){st[k]=i.checked;calc();};});
+  function co(v,l,hl){return "<div class=\"co"+(hl?" hl":"")+"\"><b>"+v+"</b><small>"+l+"</small></div>";}
+  function calc(){
+    var tok=(st.r||st.f)&&!( st.f&&!st.r)?6:4;
+    if(st.r)tok=6;
+    var row=st.r?"8 ใบ":"5 ใบ";var rowl=st.r?"2 แถว × 4 คอลัมน์":"1 แถว ทางซ้ายของกอง";
+    if(st.f&&!st.r){row="1 ใบ/ช่อง";rowl="ตามช่องการ์ดบนบอร์ด";}
+    var deck=(st.r||st.f)?"~70":(st.k?"70":"60");
+    var deckl=(st.r||st.f)?"สับรวมแล้วใส่กล่องให้เต็ม"+(st.k?" (รวม KS 10 ใบ)":""):(st.k?"60 + KS Mini 10":"การ์ดภาพทั้งหมด");
+    var rib="แดง เขียว น้ำเงิน ม่วง เงิน"+(st.r?" ทอง":"")+(st.f?" แพลทินัม":"");
+    var h=co(tok,"เหรียญแรงบันดาลใจต่อคน",true)+co(row,rowl)+co(deck,"การ์ดในกล่องการ์ด · "+deckl)+co(st.n*3,"การ์ดพื้นหลังที่ใช้ (คนละ 3)");
+    if(st.n<=2)h+=co(st.r?"6 / 6":"4 / 4","วินเซนต์: เหรียญเริ่ม / ข้ามสูงสุด");
+    document.getElementById("calcout").innerHTML=h;
+    var note="ริบบิ้นที่ต้องวาง: "+rib+".";
+    if(st.f)note+=" ตั้งกรอบรูปข้างบอร์ด + แผ่นต่อขยาย.";
+    if(st.k)note+=" เปิดการ์ดรางวัล 1 ใบ.";
+    if(st.n===1)note+=" เล่นคนเดียว: เลือกวินเซนต์หรือปริศนาคนเดียว แล้วประกาศเป้าคะแนน"+(st.f?" (บวก 10 ถ้าใช้เป้าจากเล่มก่อน)":"")+".";
+    document.getElementById("calcnote").textContent=note;
+  }
+  calc();
+  var picked=document.getElementById("picked");
+  var COLS=[["แดง","var(--sw-red)"],["เขียว","var(--sw-green)"],["น้ำเงิน","var(--sw-blue)"],["ม่วง","var(--sw-violet)"]];
+  function draw(){
+    var pool=CARDS.filter(function(c){return c[1]==="b"||(c[1]==="r"&&st.r)||(c[1]==="f"&&st.f);});
+    var p=pool.slice();for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}
+    picked.innerHTML=p.slice(0,4).map(function(c,i){return "<div class=\"pc\" style=\"background:"+COLS[i][1]+"\">"+c[0]+"<small>ช่อง"+COLS[i][0]+" · "+SETN[c[1]]+"</small></div>";}).join("");
+  }
+  document.getElementById("draw").onclick=draw;
+  picked.innerHTML=["Variety","Repetition","Emphasis","Composition"].map(function(n,i){return "<div class=\"pc\" style=\"background:"+COLS[i][1]+"\">"+n+"<small>ช่อง"+COLS[i][0]+" · ชุดเกมแรก</small></div>";}).join("");
+
+  /* painting checker */
+  var OPTS=[["","—"],["hue","สี"],["shape","รูปทรง"],["texture","พื้นผิว"],["tone","น้ำหนัก"],["s-hue","เงิน PER สี"],["s-shape","เงิน PER รูปทรง"],["s-texture","เงิน PER พื้นผิว"],["s-tone","เงิน PER น้ำหนัก"]];
+  var SN=[["แดง","var(--sw-red)"],["เหลือง","var(--sw-yellow)"],["เขียว","var(--sw-green)"],["น้ำเงิน","var(--sw-blue)"],["ม่วง","var(--sw-violet)"]];
+  var SAMPLE=[["shape",""],["shape",""],["tone",""],["texture",""],["",""]];
+  var slotsEl=document.getElementById("slots");var sels=[];
+  SN.forEach(function(s,i){
+    var d=document.createElement("div");d.className="slot";d.style.setProperty("--c",s[1]);
+    d.innerHTML="<span>ช่อง"+s[0]+"</span>";
+    for(var j=0;j<2;j++){var se=document.createElement("select");se.id="pc-"+i+"-"+j;se.setAttribute("aria-label","ช่อง"+s[0]+" ไอคอนที่ "+(j+1));OPTS.forEach(function(o){var op=document.createElement("option");op.value=o[0];op.textContent=o[1];se.appendChild(op);});se.value=SAMPLE[i][j];se.onchange=check;d.appendChild(se);sels.push(se);}
+    slotsEl.appendChild(d);
+  });
+  document.getElementById("pc-clear").onclick=function(){sels.forEach(function(s){s.value="";});check();};
+  function check(){
+    var slot=[[],[],[],[],[]];sels.forEach(function(s,idx){if(s.value)slot[Math.floor(idx/2)].push(s.value);});
+    var cnt={hue:0,shape:0,texture:0,tone:0},silver=0,bonus=[];
+    slot.forEach(function(a){a.forEach(function(v){if(cnt[v]!=null)cnt[v]++;else bonus.push(v.slice(2));});});
+    bonus.forEach(function(b){silver+=cnt[b];});
+    var has=function(i,e){return slot[i].indexOf(e)>=0;};
+    var prox=false;for(var i=0;i<4;i++){if((has(i,"texture")&&has(i+1,"tone"))||(has(i,"tone")&&has(i+1,"texture")))prox=true;}
+    var mov=false;["hue","shape","texture","tone"].forEach(function(e){for(var i=0;i<3;i++){if(has(i,e)&&has(i+1,e)&&has(i+2,e))mov=true;}});
+    var sym=false;["hue","shape","texture","tone"].forEach(function(e){if((has(0,e)&&has(4,e))||(has(1,e)&&has(3,e)))sym=true;});
+    var R=[
+      ["Variety",(cnt.hue&&cnt.shape&&cnt.texture&&cnt.tone)?1:0,"ครบ 4 ธาตุ"],
+      ["Repetition",Math.floor(cnt.shape/2),"รูปทรง "+cnt.shape+" ตัว"],
+      ["Emphasis",cnt.hue===1?1:0,"สี "+cnt.hue+" ตัว (ต้องพอดี 1)"],
+      ["Composition",slot.every(function(a){return a.length>0;})?1:0,"ช่องที่มีไอคอน "+slot.filter(function(a){return a.length;}).length+"/5"],
+      ["Proximity",prox?1:0,"พื้นผิวติดกับน้ำหนัก"],
+      ["Movement",mov?1:0,"ธาตุเดียวกัน 3 ช่องเรียง"],
+      ["Symmetry",sym?1:0,"แดง–ม่วง หรือ เหลือง–น้ำเงิน"],
+      ["ริบบิ้นเงิน",silver,"= "+(silver*2)+" คะแนน"]
+    ];
+    document.getElementById("pcres").innerHTML=R.map(function(r){return "<div class=\"ri "+(r[1]?"ok":"no")+"\"><span>"+r[0]+"<span class=\"why\">"+r[2]+"</span></span><b>"+(r[1]?r[1]+" เส้น":"—")+"</b></div>";}).join("");
+  }
+  check();
+
+  /* scorepad */
+  var ROWS=[
+    {k:"red",l:"ริบบิ้นแดง",c:"var(--sw-red)",m:0,s:"คะแนน"},
+    {k:"green",l:"ริบบิ้นเขียว",c:"var(--sw-green)",m:0,s:"คะแนน"},
+    {k:"blue",l:"ริบบิ้นน้ำเงิน",c:"var(--sw-blue)",m:0,s:"คะแนน"},
+    {k:"violet",l:"ริบบิ้นม่วง",c:"var(--sw-violet)",m:0,s:"คะแนน"},
+    {k:"silver",l:"ริบบิ้นเงิน",c:"var(--silver)",m:2,s:"จำนวน ×2"},
+    {k:"gold",l:"ริบบิ้นทอง",c:"var(--gold)",m:3,s:"จำนวน ×3"},
+    {k:"plat",l:"ริบบิ้นแพลทินัม",c:"var(--plat)",m:4,s:"จำนวน ×4"},
+    {k:"frame",l:"กรอบรูปที่ถือ",c:"var(--muted)",m:2,s:"จำนวน ×2"},
+    {k:"award",l:"การ์ดรางวัล",c:"var(--accent)",m:0,s:"คะแนน"},
+    {k:"tok",l:"เหรียญเหลือ",c:"var(--line)",m:-1,s:"ใช้ตัดสินเสมอ"}
+  ];
+  var KEY="canvas-th-scorepad-v1";
+  var EX={n:3,names:["ผู้เล่น 1","ผู้เล่น 2","ผู้เล่น 3","ผู้เล่น 4","ผู้เล่น 5"],v:{red:[8,4,13],green:[11,7,3],blue:[1,4,1],violet:[3,1,9],silver:[3,2,4],gold:[1,2,0],tok:[2,5,1]},example:true};
+  var sp;try{sp=JSON.parse(localStorage.getItem(KEY));}catch(e){sp=null;}
+  if(!sp||!sp.v)sp=JSON.parse(JSON.stringify(EX));
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(sp));}catch(e){}}
+  var spn=document.getElementById("sp-n");
+  [2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.onclick=function(){sp.n=n;save();render();};spn.appendChild(b);});
+  var tbl=document.getElementById("sp");
+  function val(k,i){var a=sp.v[k];return a&&a[i]?+a[i]:0;}
+  function total(i){var t=0;ROWS.forEach(function(r){if(r.m<0)return;t+=val(r.k,i)*(r.m||1);});return t;}
+  function render(){
+    Array.prototype.forEach.call(spn.children,function(b,ix){b.setAttribute("aria-pressed",(ix+2)===sp.n);});
+    var h="<thead><tr><th>หมวด</th>";
+    for(var i=0;i<sp.n;i++){h+="<th><input type=\"text\" id=\"spn-"+i+"\" data-i=\""+i+"\" value=\""+(sp.names[i]||"").replace(/"/g,"&quot;")+"\" aria-label=\"ชื่อผู้เล่น "+(i+1)+"\"></th>";}
+    h+="</tr></thead><tbody>";
+    ROWS.forEach(function(r){
+      h+="<tr><td><div class=\"rowlab\"><i style=\"background:"+r.c+"\"></i><div>"+r.l+"<span class=\"sub\">"+r.s+"</span></div></div></td>";
+      for(var i=0;i<sp.n;i++){var v=val(r.k,i);h+="<td><input type=\"number\" inputmode=\"numeric\" min=\"0\" id=\"sp-"+r.k+"-"+i+"\" data-k=\""+r.k+"\" data-i=\""+i+"\" value=\""+(v||"")+"\" aria-label=\""+r.l+" ผู้เล่น "+(i+1)+"\"></td>";}
+      h+="</tr>";
+    });
+    h+="<tr class=\"tot\"><td>รวม</td>";
+    for(var i2=0;i2<sp.n;i2++)h+="<td id=\"tot-"+i2+"\"></td>";
+    h+="</tr></tbody>";
+    tbl.innerHTML=h;
+    tbl.querySelectorAll("input[type=number]").forEach(function(inp){inp.oninput=function(){var k=inp.dataset.k,i=+inp.dataset.i;if(!sp.v[k])sp.v[k]=[];sp.v[k][i]=inp.value===""?0:+inp.value;sp.example=false;save();totals();};});
+    tbl.querySelectorAll("input[type=text]").forEach(function(inp){inp.oninput=function(){sp.names[+inp.dataset.i]=inp.value;save();};});
+    totals();
+    document.getElementById("sp-note").style.fontWeight=sp.example?"600":"400";
+  }
+  function totals(){
+    var best=-1,bt=-1,ts=[];
+    for(var i=0;i<sp.n;i++){ts.push(total(i));}
+    ts.forEach(function(t,i){var tk=val("tok",i);if(t>best||(t===best&&tk>bt)){best=t;bt=tk;}});
+    ts.forEach(function(t,i){var c=document.getElementById("tot-"+i);c.textContent=t;c.className=(t===best&&val("tok",i)===bt&&t>0)?"win":"";});
+  }
+  var rs=document.getElementById("sp-reset"),armed=false,timer;
+  rs.onclick=function(){
+    if(!armed){armed=true;rs.classList.add("armed");rs.textContent="กดอีกครั้งเพื่อยืนยัน";timer=setTimeout(function(){armed=false;rs.classList.remove("armed");rs.textContent="ล้างคะแนน";},3000);return;}
+    clearTimeout(timer);armed=false;rs.classList.remove("armed");rs.textContent="ล้างคะแนน";
+    sp={n:sp.n,names:sp.names,v:{},example:false};save();render();
+  };
+  render();
+})();
+</script>
+
+</body></html>

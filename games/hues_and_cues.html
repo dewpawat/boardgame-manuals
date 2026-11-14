@@ -1,0 +1,778 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hues and Cues ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: black game-box band with the 480-square color board drawn live, then a rulebook column with a sticky chapter rail.
+   The board colors come from one function (boardColor) shared by the hero, the figures and the practice board tool. */
+:root{
+  --bg:#f2f1ee;
+  --surface:#fffefb;
+  --surface-2:#e6e4de;
+  --fg:#1d1b19;
+  --muted:#5f5b55;
+  --line:#d6d2ca;
+  --accent:#c2265a;          /* magenta from the board's top row */
+  --accent-soft:#f8dde6;
+  --blue:#1f6fae;
+  --blue-soft:#dcebf6;
+  --green:#3d7d2a;
+  --green-soft:#e2efd6;
+  --band-1:#0b0b0c;
+  --band-2:#1b1b1e;
+  --band-fg:#f4f2ee;
+  --gold:#f2d23a;
+  --good:#2f7d3d;
+  --bad:#bb2f26;
+  --warn:#9a6a00;
+  --warn-soft:#f6ebc8;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121214;--surface:#1b1b1f;--surface-2:#26262b;--fg:#efede8;--muted:#aaa59c;--line:#36363c;
+    --accent:#ff7fa8;--accent-soft:#3a1824;--blue:#8cc2ee;--blue-soft:#172634;--green:#9fd27f;--green-soft:#1c2a16;
+    --band-1:#060607;--band-2:#121214;--gold:#f2d23a;--good:#6fd086;--bad:#ff6f61;--warn:#f0c860;--warn-soft:#3a2f12;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121214;--surface:#1b1b1f;--surface-2:#26262b;--fg:#efede8;--muted:#aaa59c;--line:#36363c;
+  --accent:#ff7fa8;--accent-soft:#3a1824;--blue:#8cc2ee;--blue-soft:#172634;--green:#9fd27f;--green-soft:#1c2a16;
+  --band-1:#060607;--band-2:#121214;--gold:#f2d23a;--good:#6fd086;--bad:#ff6f61;--warn:#f0c860;--warn-soft:#3a2f12;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-board{background:#000;border-radius:10px;padding:8px;box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
+.hero-board svg{display:block;width:100%;height:auto}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:block;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout.warn{background:var(--warn-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.callout p+ul,.callout p+p{margin-top:6px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 170px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.giver{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:520px}
+svg text{font-family:var(--font-body)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-line{stroke:var(--line)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{font-size:1.08rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.type.no h3{color:var(--bad)} .type.ok h3{color:var(--good)} .type.maybe h3{color:var(--warn)}
+.words{display:flex;flex-wrap:wrap;gap:6px}
+.w{font-family:var(--font-tag);font-weight:600;font-size:.86rem;border-radius:999px;padding:1px 11px;background:var(--surface-2);white-space:nowrap}
+.type.no .w{text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.dir{font-family:var(--font-tag);font-size:.78rem;font-weight:600;border-radius:999px;padding:1px 10px;background:var(--blue-soft);color:var(--blue);white-space:nowrap;vertical-align:2px}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.total td{background:var(--surface-2);font-weight:600}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.txt{font:inherit;font-size:1rem;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:10px;padding:8px 12px;min-width:0;width:min(360px,100%)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.btn,.seg button{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;gap:7px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.cone{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,.55);flex:none;display:inline-block}
+.verdict-box{border-radius:12px;padding:12px 16px;display:grid;gap:4px;background:var(--surface-2)}
+.verdict-box b{font-family:var(--font-display);font-size:1.25rem}
+.verdict-box.no{background:var(--accent-soft)} .verdict-box.no b{color:var(--bad)}
+.verdict-box.ok{background:var(--green-soft)} .verdict-box.ok b{color:var(--good)}
+.verdict-box.maybe{background:var(--warn-soft)} .verdict-box.maybe b{color:var(--warn)}
+.verdict-box small{color:var(--muted)}
+
+.board-scroll{overflow-x:auto;border-radius:10px;background:#000;padding:8px}
+.pboard{display:grid;grid-template-columns:18px repeat(30,24px);grid-auto-rows:24px;gap:2px;width:max-content}
+.pboard .lab{font-family:var(--font-tag);font-size:.66rem;color:#bdb8ae;display:grid;place-items:center}
+.pboard button{border:0;padding:0;margin:0;border-radius:2px;cursor:pointer;position:relative;display:grid;place-items:center}
+.pboard button:focus-visible{outline:2px solid #fff;outline-offset:1px;z-index:2}
+.pboard button.f2{box-shadow:inset 0 0 0 2px #fff}
+.pboard button.f1{box-shadow:inset 0 0 0 1px rgba(255,255,255,.55)}
+.pboard button.tgt::after{content:"";position:absolute;inset:3px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1.5px #000}
+.pboard .pc{width:14px;height:14px;border-radius:50%;border:1.5px solid #000;box-shadow:0 1px 0 rgba(255,255,255,.4);position:relative;z-index:1}
+.status{font-size:.92rem;color:var(--muted);min-height:1.6em}
+.status.err{color:var(--bad);font-weight:600}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start}
+.sheet td input{font:inherit;width:100%;min-width:90px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;padding:3px 8px}
+.sheet tr.giver td{background:var(--warn-soft)}
+.pill{font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--band-1);color:var(--gold);white-space:nowrap;margin-left:6px}
+.roundinfo{font-family:var(--font-tag);font-weight:600;font-size:.95rem}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.verdict.no{color:var(--bad)}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + ตัวแปรสำหรับเด็ก · อิงคู่มือทางการ (The Op / USAopoly)</div>
+      <h1>Hues and Cues<span>สีสันบันเทิง · ใบ้สีด้วยคำ ให้เพื่อนจิ้มให้ตรงช่อง</span></h1>
+      <p class="lede">ผู้ให้คำใบ้แอบเลือก 1 สีจากการ์ด แล้วพูดคำใบ้ <b>1 คำ</b> ทุกคนวางกรวยเดาว่าเป็นช่องไหนบนกระดาน 480 สี จากนั้นใบ้เพิ่มอีก <b>ไม่เกิน 2 คำ</b> ให้เดารอบสอง แล้ววางกรอบคะแนนรอบสีจริง ใกล้มากได้มาก และผู้ให้คำใบ้ก็ได้แต้มจากทุกกรวยที่เข้ากรอบ</p>
+      <div class="facts">
+        <div class="fact"><b>3–10</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>30</b><small>นาที</small></div>
+        <div class="fact"><b>480</b><small>ช่องสี (A–P × 1–30)</small></div>
+        <div class="fact"><b>8+</b><small>ปี</small></div>
+      </div>
+    </div>
+    <div class="hero-board" aria-hidden="true"><svg id="heroBoard" viewBox="0 0 310 166"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#round">หนึ่งรอบเล่น</a></li>
+      <li><a href="#cues">กฎคำใบ้</a></li>
+      <li><a href="#thai">คำไหนนับเป็นชื่อสี (ภาษาไทย)</a></li>
+      <li><a href="#score">นับคะแนน</a></li>
+      <li><a href="#example">ตัวอย่างรอบเต็ม</a></li>
+      <li><a href="#end">จบเกม</a></li>
+      <li><a href="#more">กติกาเพิ่มเติม & ตัวแปร</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#checker">ตัวเช็กคำใบ้</a></li>
+      <li><a href="#practice">เครื่องคิดคะแนน & สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>หนึ่งรอบ มีผู้ให้คำใบ้ 1 คน ที่เหลือเป็นผู้เดา</h3>
+        <ol>
+          <li><b>เลือกสี</b> ผู้ให้คำใบ้จั่วการ์ด แอบเลือก 1 ใน 4 สีบนการ์ด</li>
+          <li><b>ใบ้ 1 คำ</b> แล้วผู้เดาวางกรวยอันแรก <b>ตามเข็มนาฬิกา</b></li>
+          <li><b>ใบ้อีกไม่เกิน 2 คำ</b> (หรือข้ามไปเลย) แล้วผู้เดาวางกรวยอันที่สอง <b>ทวนเข็มนาฬิกา</b></li>
+          <li><b>วางกรอบคะแนน</b> ให้สีจริงอยู่ตรงกลาง แล้วนับแต้ม</li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="สูตรคะแนน">
+        <div class="fm"><small>กรวยตรงช่องพอดี</small><b>3 แต้ม</b></div>
+        <div class="fm"><small>กรวยในกรอบ (8 ช่องรอบ ๆ)</small><b>2 แต้ม</b></div>
+        <div class="fm"><small>กรวยติดขอบนอกกรอบ</small><b>1 แต้ม</b></div>
+        <div class="fm giver"><small>ผู้ให้คำใบ้</small><b>1 แต้ม / กรวยในกรอบ</b></div>
+      </div>
+      <p class="note">ห้ามใบ้ด้วย<b>ชื่อสีสามัญ</b> (แดง เขียว น้ำเงิน ฯลฯ) ห้ามอ้างตำแหน่งหรือพิกัดบนกระดาน และห้ามอ้างของในห้อง · ส่วน<b>ชื่อสีเฉพาะ</b>อย่าง ทอง คราม ลาเวนเดอร์ ใช้ได้ ดู <a href="#thai">คำไหนนับเป็นชื่อสี</a></p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชิ้นส่วน</th><th class="num">จำนวน</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr><td><b>กระดานเกม</b><br><span class="en">Game Board</span></td><td class="num">1</td><td>ช่องสี 480 ช่อง แถว A–P (16 แถว) × คอลัมน์ 1–30 มีแถบคะแนนอยู่ด้านบน</td></tr>
+            <tr><td><b>การ์ดสี</b><br><span class="en">Color Cards</span></td><td class="num">100</td><td>ใบละ 4 สี แต่ละสีมีพิกัดกำกับ เช่น K25 ใช้ตอนวางกรอบคะแนน</td></tr>
+            <tr><td><b>กรวยผู้เล่น</b><br><span class="en">Player Pieces</span></td><td class="num">30</td><td>10 สี สีละ 3 อัน: 1 อันเป็นตัวนับคะแนน อีก 2 อันใช้เดา</td></tr>
+            <tr><td><b>กรอบคะแนน</b><br><span class="en">Scoring Frame</span></td><td class="num">1</td><td>ประกอบจาก 4 ชิ้น (A–D) ครอบ 3×3 ช่องรอบสีจริง</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ประกอบกรอบครั้งแรก: เสียบชิ้น A และ B เข้ากับ C และ D ให้ด้านเลข 1 หันออกนอก ด้านเลข 2 หันเข้าใน ประกอบแล้วเก็บลงกล่องทั้งชิ้นได้เลย</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>วางกระดาน</h3><p>วางกระดานไว้กลางวงให้ทุกคนเอื้อมถึง</p></div></li>
+        <li><div class="body"><h3>แจกกรวย</h3><p>ทุกคนเลือกสี รับกรวย <b>3 อัน</b> วาง 1 อันไว้ทางซ้ายของแถบคะแนน (จุดเริ่ม 0) อีก 2 อันเก็บไว้ในมือ</p></div></li>
+        <li><div class="body"><h3>สับการ์ด</h3><p>สับการ์ดสี คว่ำเป็นกองจั่ว</p></div></li>
+        <li><div class="body"><h3>กรอบคะแนนไว้ข้าง ๆ</h3><p>ยังไม่ต้องวางบนกระดาน</p></div></li>
+        <li><div class="body"><h3>ใครให้คำใบ้ก่อน</h3><p>คนที่<b>แต่งตัวสีสันสดใสที่สุด</b>เป็นผู้ให้คำใบ้รอบแรก</p></div></li>
+      </ol>
+    </section>
+
+    <!-- ROUND -->
+    <section id="round">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>หนึ่งรอบเล่น</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>จั่วการ์ด เลือกสี <span class="en">Draw a card</span></h3><p>ผู้ให้คำใบ้จั่วการ์ดใบบนสุด ดูคนเดียว แล้วเลือก 1 ใน 4 สีบนการ์ดที่จะใบ้ จำพิกัดไว้ (ใช้ตอนนับคะแนน)</p></div></li>
+        <li><div class="body"><h3>คำใบ้ 1 คำ <span class="en">One-word cue</span></h3><p>พูดคำใบ้ <b>1 คำ</b> ตาม<a href="#cues">กฎคำใบ้</a></p></div></li>
+        <li><div class="body"><h3>เดารอบแรก <span class="dir">↻ ตามเข็มนาฬิกา</span></h3>
+          <ul>
+            <li>เริ่มจากคนทางซ้ายของผู้ให้คำใบ้ วนตามเข็มนาฬิกา</li>
+            <li>แต่ละคนวางกรวย 1 อันบนช่องที่คิดว่าใช่</li>
+            <li><b>ช่องหนึ่งเดาได้ครั้งเดียว</b> ช่องที่มีกรวยของใครอยู่แล้ว วางซ้ำไม่ได้</li>
+          </ul></div></li>
+        <li><div class="body"><h3>คำใบ้รอบสอง <span class="en">Two-word cue</span></h3><p>พอทุกคนวางครบ ผู้ให้คำใบ้เลือกได้ 3 แบบ</p>
+          <ul>
+            <li>ใบ้ <b>2 คำ</b> ตามกฎเดิม</li>
+            <li>ใบ้อีก <b>1 คำ</b></li>
+            <li><b>ข้าม</b> ไม่ใบ้ต่อ ถ้าพอใจกับที่ทุกคนวางแล้ว ผู้เดาจะไม่ได้วางกรวยอันที่สอง และ<b>นับคะแนนทันที</b></li>
+          </ul></div></li>
+        <li><div class="body"><h3>เดารอบสอง <span class="dir">↺ ทวนเข็มนาฬิกา</span></h3><p>รอบนี้วนกลับทางกัน ทุกคนวางกรวยอันที่สองบน<b>ช่องว่างช่องไหนก็ได้</b></p></div></li>
+        <li><div class="body"><h3>นับคะแนน แล้วเปลี่ยนคนใบ้</h3><p>ผู้ให้คำใบ้วางกรอบคะแนนให้สีจริงอยู่ตรงกลาง นับแต้ม (ดู <a href="#score">นับคะแนน</a>) แล้วคืนกรวยเดาทั้งหมดให้เจ้าของ คนถัดไป<b>ตามเข็มนาฬิกา</b>เป็นผู้ให้คำใบ้รอบต่อไป</p></div></li>
+      </ol>
+      <div class="callout blue">
+        <h3>ทำไมรอบสองถึงวนทวนเข็ม</h3>
+        <p>คนที่ได้วางก่อนในรอบแรกจะได้เลือกช่องดี ๆ ก่อน รอบสองจึงกลับทางให้คนท้ายแถวได้วางก่อนบ้าง ช่องที่ถูกจองไปแล้วจึงมีผลกับทุกคนพอ ๆ กัน</p>
+      </div>
+    </section>
+
+    <!-- CUES -->
+    <section id="cues">
+      <div class="sec-head"><span class="tag">ห้ามพลาด</span><h2>กฎคำใบ้</h2></div>
+      <p class="prose">คำใบ้เป็นคำอะไรก็ได้ <b>ยกเว้น</b> 3 อย่างนี้ (ใช้ทั้งคำใบ้รอบแรกและรอบสอง)</p>
+      <div class="types">
+        <div class="type no"><h3>✕ ชื่อสีสามัญ</h3><p>คู่มือยกตัวอย่าง orange, blue, green, yellow ภาษาไทยก็คือ ส้ม น้ำเงิน เขียว เหลือง และพวกพ้อง</p></div>
+        <div class="type no"><h3>✕ ตำแหน่งบนกระดาน</h3><p>ห้ามอ้างตำแหน่งของสีบนกระดาน หรือตัวอักษรและตัวเลขพิกัด เช่น "มุมขวา" "แถว K" "สิบห้า"</p></div>
+        <div class="type no"><h3>✕ ของในห้อง</h3><p>ห้ามอ้างสิ่งของที่อยู่ในห้องตอนเล่น เช่น "เสื้อนาย" "ผ้าม่าน" "แก้วตรงนั้น"</p></div>
+        <div class="type ok"><h3>✓ ชื่อสีเฉพาะได้</h3><p>คู่มือเขียนไว้ชัดว่า<b>ชื่อสีแบบเฉพาะ</b>ใช้ได้ ยกตัวอย่าง chartreuse, golden, lavender</p></div>
+      </div>
+    </section>
+
+    <!-- THAI -->
+    <section id="thai">
+      <div class="sec-head"><span class="tag">เล่นเป็นภาษาไทย</span><h2>คำไหนนับเป็นชื่อสี</h2></div>
+      <p class="prose">คู่มือภาษาอังกฤษแบ่งชื่อสีเป็น 2 กลุ่ม คือ <b>ชื่อสีสามัญ</b> ที่ห้าม กับ <b>ชื่อสีเฉพาะ</b> ที่ใช้ได้ แต่ไม่ได้ให้รายชื่อครบ เวลาเล่นภาษาไทยจึงต้องเทียบเอง ตารางข้างล่างเทียบตามหลักของคู่มือ ส่วนข้อที่ระบุว่า "กฎบ้าน" เป็นข้อเสนอของคู่มือฉบับนี้ ตกลงกันในวงก่อนเล่น</p>
+      <div class="types">
+        <div class="type no"><h3>✕ ห้าม · ชื่อสีสามัญ</h3>
+          <div class="words"><span class="w">แดง</span><span class="w">ส้ม</span><span class="w">เหลือง</span><span class="w">เขียว</span><span class="w">ฟ้า</span><span class="w">น้ำเงิน</span><span class="w">ม่วง</span><span class="w">ชมพู</span><span class="w">น้ำตาล</span><span class="w">ดำ</span><span class="w">ขาว</span><span class="w">เทา</span></div>
+          <p>รวมคำทับศัพท์ของชื่อสีสามัญภาษาอังกฤษด้วย เช่น พิงก์ บลู เรด เพราะเท่ากับพูด pink, blue, red</p></div>
+        <div class="type ok"><h3>✓ ได้ · ชื่อสีเฉพาะ</h3>
+          <div class="words"><span class="w">คราม</span><span class="w">ทอง</span><span class="w">ลาเวนเดอร์</span><span class="w">มรกต</span><span class="w">ทับทิม</span><span class="w">บานเย็น</span><span class="w">แสด</span><span class="w">กรมท่า</span><span class="w">ครีม</span><span class="w">เลือดหมู</span><span class="w">หงชาด</span><span class="w">งาช้าง</span></div>
+          <p>เทียบได้กับ golden, lavender ในคู่มือ คือเป็นสีที่เจาะจงกว่าสีพื้นฐาน 12 สี</p></div>
+        <div class="type maybe"><h3>? ตกลงกันก่อน · กฎบ้าน</h3>
+          <div class="words"><span class="w">เขียวขี้ม้า</span><span class="w">ฟ้าคราม</span><span class="w">แดงเลือดนก</span><span class="w">ทองแดง</span><span class="w">เงิน</span></div>
+          <p>แนะนำว่า<b>ชื่อสีที่มีชื่อสีสามัญซ้อนอยู่ ให้ห้าม</b> (เขียวขี้ม้า ฟ้าคราม) เพราะเท่ากับบอกกลุ่มสีไปครึ่งหนึ่ง ส่วนคำที่เป็นชื่อสิ่งของ เช่น ทองแดง (โลหะ) ส้มตำ ท้องฟ้า ให้ใช้ได้</p></div>
+      </div>
+
+      <div class="callout warn">
+        <h3>กรณี "คราม" และ "สีคราม"</h3>
+        <ul>
+          <li><b>คราม ใช้ได้</b> คราม (indigo) เป็นชื่อสีเฉพาะ ระดับเดียวกับ lavender ที่คู่มือยกตัวอย่างว่าใช้ได้ ไม่ได้อยู่ในกลุ่มสีพื้นฐานอย่างน้ำเงิน</li>
+          <li><b>สีคราม ก็ใช้ได้</b> คำว่า "สี" นำหน้าไม่ได้ทำให้ผิดกติกา สิ่งที่ห้ามคือชื่อสีสามัญ เช่น "สีแดง" ห้ามเพราะ "แดง" ไม่ใช่เพราะ "สี" · ถ้ากลัวเถียงเรื่องนับคำ ในรอบแรกพูดแค่ "คราม" คำเดียวจะชัดกว่า</li>
+          <li><b>ฟ้าคราม ห้าม</b> (ตามกฎบ้านข้างบน) เพราะมีคำว่า "ฟ้า" ที่เป็นชื่อสีสามัญซ้อนอยู่</li>
+          <li>ถ้าอยากเลี่ยงคำว่าครามเลย ลองใบ้ <b>หม้อห้อม</b> (ผ้าย้อมครามของแพร่) <b>ยีนส์</b> หรือ <b>ทะเลลึก</b></li>
+        </ul>
+      </div>
+
+      <div class="callout blue">
+        <h3>นับ "1 คำ" ในภาษาไทยยังไง (กฎบ้าน)</h3>
+        <p>ภาษาไทยไม่เว้นวรรคระหว่างคำ แนะนำให้นับตาม<b>คำที่มีในพจนานุกรม</b> คำประสมที่เป็นชื่อสิ่งเดียวนับเป็น 1 คำ</p>
+        <ul>
+          <li><b>1 คำ</b> ใช้ได้ทั้งสองรอบ: ท้องฟ้า · ส้มตำ · หม้อห้อม · ใบเตย</li>
+          <li><b>2 คำ</b> ใช้ได้แค่รอบสอง: มะม่วง + สุก · ทะเล + ลึก · ใบเตย + คั้น</li>
+          <li><b>3 คำขึ้นไป</b> ใช้ไม่ได้เลย: ฟ้า + หลัง + ฝน</li>
+          <li>ถ้าเถียงกันว่ากี่คำ ให้ผู้เดาคนอื่นโหวต เสียงข้างมากชนะ</li>
+        </ul>
+      </div>
+      <p class="note">ลองพิมพ์คำใบ้ที่ <a href="#checker">ตัวเช็กคำใบ้</a> เพื่อเทียบกับตารางนี้ได้เลย</p>
+    </section>
+
+    <!-- SCORE -->
+    <section id="score">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>นับคะแนน</h2></div>
+      <p class="prose">หลังทุกคนวางกรวยอันที่สอง (หรือหลังผู้ให้คำใบ้ข้ามคำใบ้รอบสอง) ผู้ให้คำใบ้เปิดเฉลยโดย<b>วางกรอบคะแนนให้สีจริงอยู่ช่องกลาง</b> ใช้พิกัดบนการ์ดจัดให้ตรง</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="figScore" viewBox="0 0 560 300" role="img" aria-label="แผนผังคะแนน ช่องกลาง 3 แต้ม ในกรอบ 2 แต้ม ติดขอบนอกกรอบ 1 แต้ม ไกลกว่านั้น 0"></svg></div>
+        <figcaption>ช่องกลาง = สีจริง · กรอบสีขาวครอบ 3×3 ช่อง · วงนอกกรอบ<b>รวมแนวทแยง</b>ได้ 1 แต้ม · ไกลกว่านั้นได้ 0</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ใคร</th><th>ได้อะไร</th><th class="num">สูงสุดต่อรอบ</th></tr></thead>
+          <tbody>
+            <tr><td><b>ผู้เดา</b> · กรวยตรงสีจริงพอดี</td><td>3 แต้ม</td><td class="num" rowspan="3">5</td></tr>
+            <tr><td><b>ผู้เดา</b> · กรวยในกรอบแต่ไม่ตรง</td><td>2 แต้มต่อกรวย</td></tr>
+            <tr><td><b>ผู้เดา</b> · กรวยติดขอบนอกกรอบ (รวมทแยง)</td><td>1 แต้มต่อกรวย</td></tr>
+            <tr><td><b>ผู้ให้คำใบ้</b></td><td>1 แต้มต่อกรวยทุกอันที่อยู่<b>ในกรอบ</b> (รวมช่องกลาง) ไม่ว่าของใคร</td><td class="num">9</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="prose">
+        <li>ผู้เดาได้สูงสุด 5 แต้ม คือ 3 จากกรวยที่ตรงพอดี + 2 จากอีกกรวยในกรอบ</li>
+        <li>ผู้ให้คำใบ้ได้สูงสุด 9 เพราะในกรอบมี 9 ช่อง และช่องหนึ่งมีกรวยได้อันเดียว</li>
+        <li>เดินกรวยตัวนับของแต่ละคนบนแถบคะแนนตามแต้มที่ได้</li>
+        <li>สีอยู่<b>ขอบกระดาน</b> นับแบบเดิม แค่ช่องที่ได้แต้มมีน้อยลง</li>
+      </ul>
+      <p class="note">ตัวเลขในหัวข้อนี้ตรวจจากคู่มือทางการและเว็บสรุปกติกาแล้วตรงกัน ถ้ากล่องฉบับไทยพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section id="example">
+      <div class="sec-head"><span class="tag">ลองดูของจริง</span><h2>ตัวอย่างรอบเต็ม</h2></div>
+      <p class="prose">ผู้เล่นเทาเป็นผู้ให้คำใบ้ สีจริงอยู่ที่ <b>H12</b> ทุกคนวางกรวยครบ 2 อันแล้ว ภาพนี้คือกระดานจำลองส่วนที่ล้อมสีจริง</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" id="figExample" viewBox="0 0 600 330" role="img" aria-label="ตัวอย่างการนับคะแนนรอบสีจริง H12"></svg></div>
+        <figcaption>สีบนกระดานในภาพเป็นสีจำลอง ไม่ใช่สีจริงของกระดานในกล่อง</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ผู้เล่น</th><th>กรวยอันแรก</th><th>กรวยอันที่สอง</th><th class="num">รวม</th></tr></thead>
+          <tbody>
+            <tr><td><span class="cone" style="background:#d8342b"></span> แดง</td><td>H12 ตรงพอดี · 3</td><td>J13 ติดขอบนอก · 1</td><td class="num">4</td></tr>
+            <tr><td><span class="cone" style="background:#2d64c8"></span> น้ำเงิน</td><td>G11 ในกรอบ · 2</td><td>H13 ในกรอบ · 2</td><td class="num">4</td></tr>
+            <tr><td><span class="cone" style="background:#f2cf2c"></span> เหลือง</td><td>F14 ติดขอบนอก (ทแยง) · 1</td><td>I11 ในกรอบ · 2</td><td class="num">3</td></tr>
+            <tr><td><span class="cone" style="background:#2f9a4c"></span> เขียว</td><td>E9 ไกลเกิน · 0</td><td>K12 ไกลเกิน · 0</td><td class="num">0</td></tr>
+            <tr class="total"><td><span class="cone" style="background:#9a9a9a"></span> เทา (ผู้ให้คำใบ้)</td><td colspan="2">ในกรอบมีกรวย 4 อัน: H12, G11, H13, I11</td><td class="num">4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ใครชนะ</span><h2>จบเกม</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนผู้เล่น</th><th>แต่ละคนเป็นผู้ให้คำใบ้</th><th class="num">จำนวนรอบทั้งเกม</th></tr></thead>
+          <tbody>
+            <tr><td>4–6 คน</td><td>คนละ <b>2 ครั้ง</b></td><td class="num">8–12</td></tr>
+            <tr><td>7–10 คน</td><td>คนละ <b>1 ครั้ง</b></td><td class="num">7–10</td></tr>
+            <tr><td>3 คน</td><td>คู่มือไม่ได้ระบุ แนะนำคนละ <b>2 ครั้ง</b> (กฎบ้าน)</td><td class="num">6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="prose">
+        <li>ครบรอบแล้ว ใครคะแนนรวมมากสุดชนะ</li>
+        <li><b>เสมอกัน</b> คนที่เป็นผู้ให้คำใบ้<b>ล่าสุด</b>ชนะ</li>
+      </ul>
+    </section>
+
+    <!-- MORE -->
+    <section id="more">
+      <div class="sec-head"><span class="tag">เพิ่มเติม</span><h2>กติกาเพิ่มเติม และตัวแปร</h2></div>
+      <div class="types">
+        <div class="type"><h3>ข้ามคำใบ้รอบสอง</h3><p>หลังเดารอบแรก ถ้าผู้ให้คำใบ้เห็นว่ากรวยกระจุกใกล้สีจริงพอแล้ว ข้ามคำใบ้รอบสองได้ ผู้เดาจะไม่ได้วางกรวยอันที่สอง และนับคะแนนทันที เป็นการกันไม่ให้คำใบ้รอบสองดึงกรวยออกนอกกรอบ</p></div>
+        <div class="type"><h3>สีอยู่ขอบกระดาน</h3><p>นับคะแนนแบบเดิม ช่องที่อยู่นอกกระดานไม่มี จึงมีช่องให้แต้มน้อยลง</p></div>
+        <div class="type"><h3>ตัวแปรสำหรับเด็ก</h3><p>ให้ผู้ให้คำใบ้<b>เลือกสีไหนบนกระดานก็ได้</b> ไม่ต้องจั่วการ์ด ก่อนใบ้ให้จดพิกัด (ตัวอักษร + ตัวเลข) แอบไว้ เหมาะกับคนที่ยังคิดคำใบ้บางสียาก</p></div>
+      </div>
+    </section>
+
+    <!-- CHECKER -->
+    <section id="checker">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวเช็กคำใบ้</h2></div>
+      <div class="tool">
+        <div class="inrow">
+          <div style="flex:1 1 260px;min-width:0"><label class="field-l" for="cueIn">พิมพ์คำใบ้ (เว้นวรรคระหว่างคำ ถ้ามี 2 คำ)</label><input class="txt" id="cueIn" type="text" value="สีคราม" autocomplete="off"></div>
+          <div class="seg" role="group" aria-label="รอบคำใบ้" id="cueRound"><button type="button" data-r="1" aria-pressed="true">รอบแรก (1 คำ)</button><button type="button" data-r="2" aria-pressed="false">รอบสอง (≤ 2 คำ)</button></div>
+        </div>
+        <div class="verdict-box" id="cueOut" aria-live="polite"></div>
+        <p class="note">ตัวเช็กเทียบคำกับตารางในหัวข้อ <a href="#thai">คำไหนนับเป็นชื่อสี</a> เท่านั้น ยังเช็กไม่ได้ว่าคำนั้นเป็นของในห้องหรือเปล่า และถ้าพิมพ์ติดกันไม่เว้นวรรคจะนับเป็น 1 คำ</p>
+      </div>
+    </section>
+
+    <!-- PRACTICE -->
+    <section id="practice">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>เครื่องคิดคะแนน & สมุดคะแนน</h2></div>
+      <p class="prose">เปิดไว้กลางโต๊ะ ใส่ชื่อผู้เล่น แตะช่องบนกระดานจำลองให้ตรงกับที่ทุกคนวางกรวยจริง หน้านี้คิดแต้มให้ แล้วกด "บันทึกรอบนี้" เพื่อรวมลงสมุดและเปลี่ยนผู้ให้คำใบ้ · ตอนเปิดหน้าครั้งแรกจะมีตัวอย่างจากหัวข้อ <a href="#example">ตัวอย่างรอบเต็ม</a> วางไว้ให้</p>
+      <div class="tool">
+        <div class="inrow">
+          <div style="flex:1 1 320px;min-width:0"><label class="field-l" for="names">ชื่อผู้เล่นเรียงตามที่นั่ง (คั่นด้วยจุลภาค 3–10 คน)</label><input class="txt" id="names" type="text" value="เทา, แดง, น้ำเงิน, เหลือง, เขียว" style="width:100%"></div>
+          <button type="button" class="btn" id="newGame">เริ่มเกมใหม่</button>
+        </div>
+        <div class="roundinfo" id="roundInfo"></div>
+        <div>
+          <span class="field-l">แตะเพื่อเลือก แล้วแตะช่องบนกระดาน</span>
+          <div class="seg" id="modeSeg" role="group" aria-label="เลือกสิ่งที่จะวาง"></div>
+        </div>
+        <div class="board-scroll"><div class="pboard" id="pboard" role="grid" aria-label="กระดานจำลอง"></div></div>
+        <div class="status" id="pStatus" aria-live="polite"></div>
+        <div class="split">
+          <div class="tbl-wrap"><table style="min-width:0"><thead><tr><th>รอบนี้</th><th>กรวย</th><th class="num">แต้ม</th></tr></thead><tbody id="roundRows"></tbody></table></div>
+          <div class="tbl-wrap"><table class="sheet" style="min-width:0"><thead><tr><th>สมุดคะแนน</th><th class="num">ใบ้แล้ว</th><th class="num">รวม</th></tr></thead><tbody id="sheetRows"></tbody></table></div>
+        </div>
+        <div class="inrow">
+          <button type="button" class="btn primary" id="commit">บันทึกรอบนี้</button>
+          <button type="button" class="btn" id="clearBoard">ล้างกระดาน</button>
+          <button type="button" class="btn" id="undo">ย้อนรอบล่าสุด</button>
+        </div>
+        <p class="note">สีบนกระดานจำลองเป็นสีโดยประมาณ ใช้ดูตำแหน่งเท่านั้น · หน้านี้จำชื่อและคะแนนไว้ในเบราว์เซอร์เครื่องนี้ ปิดแล้วเปิดใหม่ยังอยู่</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details open><summary>ใบ้ว่า "คราม" หรือ "สีคราม" ผิดกติกาไหม?</summary><p><span class="verdict">ไม่ผิด</span> คู่มือห้ามแค่ชื่อสีสามัญ และยกตัวอย่างว่าชื่อสีเฉพาะอย่าง golden, lavender ใช้ได้ คราม (indigo) อยู่กลุ่มเดียวกัน คำว่า "สี" นำหน้าก็ไม่ได้ทำให้ผิด · แต่ "ฟ้าคราม" แนะนำให้ห้าม เพราะมี "ฟ้า" ซ้อนอยู่</p></details>
+        <details><summary>"ทอง" ใช้ได้ไหม?</summary><p><span class="verdict">ได้</span> คู่มือยก golden เป็นตัวอย่างชื่อสีที่ใช้ได้ตรง ๆ</p></details>
+        <details><summary>"ส้มตำ" มีคำว่าส้ม ผิดไหม?</summary><p><span class="verdict">ไม่ผิด (กฎบ้าน)</span> ส้มตำเป็นชื่ออาหาร ไม่ได้ใช้ "ส้ม" ในฐานะชื่อสี เหมือน ท้องฟ้า ทองแดง · ต่างจาก "เขียวขี้ม้า" ที่เป็นชื่อสีและมีคำว่าเขียวซ้อนอยู่</p></details>
+        <details><summary>ช่องที่เพื่อนวางกรวยไปแล้ว ผมวางทับได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> ช่องหนึ่งเดาได้ครั้งเดียว ทั้งรอบแรกและรอบสอง ต้องเลือกช่องว่าง</p></details>
+        <details><summary>รอบสองต้องวางใกล้กรวยแรกของตัวเองไหม?</summary><p><span class="verdict">ไม่ต้อง</span> วางช่องว่างช่องไหนบนกระดานก็ได้</p></details>
+        <details><summary>คำใบ้รอบสองให้แค่คำเดียวได้ไหม?</summary><p><span class="verdict">ได้</span> ให้ 2 คำ 1 คำ หรือข้ามไปเลยก็ได้ ถ้าข้าม ผู้เดาไม่ได้วางกรวยอันที่สอง</p></details>
+        <details><summary>บอกว่า "ขอบ ๆ" "ตรงกลาง" ได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> เป็นการอ้างตำแหน่งบนกระดาน ห้ามเหมือนพูดพิกัด</p></details>
+        <details><summary>ใบ้ด้วยสิ่งที่อยู่ในห้องได้ไหม เช่น "โซฟา"?</summary><p><span class="verdict no">ไม่ได้</span> ถ้าโซฟานั้นอยู่ในห้องที่เล่นอยู่ · ถ้าไม่ได้อยู่ในห้อง พูดได้</p></details>
+        <details><summary>ผู้ให้คำใบ้ได้แต้มจากกรวยที่ติดขอบนอกกรอบไหม?</summary><p><span class="verdict no">ไม่ได้</span> ผู้ให้คำใบ้นับเฉพาะกรวยที่อยู่<b>ในกรอบ</b> 9 ช่อง (รวมช่องกลาง) ช่องรอบนอกให้แต้มเฉพาะผู้เดา</p></details>
+        <details><summary>คะแนนเสมอกันตอนจบ ใครชนะ?</summary><p>คนที่เป็นผู้ให้คำใบ้<b>ล่าสุด</b>ในบรรดาคนที่เสมอ</p></details>
+        <details><summary>เล่น 3 คน ใบ้กี่รอบ?</summary><p>คู่มือเขียนไว้แค่ 4–6 คน (คนละ 2 ครั้ง) และ 7 คนขึ้นไป (คนละ 1 ครั้ง) · 3 คนแนะนำคนละ 2 ครั้ง ไม่งั้นเกมจะสั้นมาก · บางเว็บสรุปว่าเล่น 3 คนผู้ให้คำใบ้ได้ 2 แต้มต่อกรวยในกรอบ แต่คู่มือทางการที่ใช้อ้างอิงไม่มีข้อนี้ จึงยังไม่ยืนยัน ถ้าคู่มือในกล่องมีข้อนี้ให้ใช้ตามกล่อง</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>ผู้ให้คำใบ้ <span class="en">Cue giver</span></dt><dd>คนที่เลือกสีและพูดคำใบ้ในรอบนั้น เวียนตามเข็มนาฬิกา</dd>
+        <dt>ผู้เดา <span class="en">Guesser</span></dt><dd>ทุกคนที่เหลือ วางกรวยเดารอบละ 1 อัน</dd>
+        <dt>คำใบ้ <span class="en">Cue</span></dt><dd>คำที่ใช้บอกสี รอบแรก 1 คำ รอบสองไม่เกิน 2 คำ</dd>
+        <dt>กรวย <span class="en">Player piece</span></dt><dd>หมากรูปกรวย คนละ 3 อัน (ตัวนับคะแนน 1 + ใช้เดา 2)</dd>
+        <dt>พิกัด <span class="en">Coordinates</span></dt><dd>ตัวอักษรแถว A–P กับเลขคอลัมน์ 1–30 เช่น K25</dd>
+        <dt>กรอบคะแนน <span class="en">Scoring frame</span></dt><dd>กรอบ 3×3 ช่องที่วางให้สีจริงอยู่ตรงกลางตอนนับแต้ม</dd>
+        <dt>ชื่อสีสามัญ <span class="en">Common color name</span></dt><dd>ชื่อสีพื้นฐานที่ห้ามใช้ เช่น แดง เขียว น้ำเงิน</dd>
+        <dt>ชื่อสีเฉพาะ <span class="en">Abstract color name</span></dt><dd>ชื่อสีที่เจาะจงกว่า ใช้ได้ เช่น ทอง คราม ลาเวนเดอร์</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยจาก<b>คู่มือ Hues and Cues ภาษาอังกฤษของ The Op (USAopoly, 2020)</b> ออกแบบเกมโดย Scott Brady ภาพกระดานในหน้านี้วาดใหม่ด้วยสีโดยประมาณ ไม่ใช่สีจริงบนกระดาน หัวข้อที่ระบุว่า "กฎบ้าน" (การเทียบชื่อสีภาษาไทย การนับคำ และการเล่น 3 คน) เป็นข้อเสนอของคู่มือฉบับนี้ ไม่ได้อยู่ในคู่มือทางการ ถ้าตรงไหนต่างจากคู่มือในกล่องฉบับไทยของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="https://cdn.shopify.com/s/files/1/0024/8617/3749/files/Hue_and_Cues_Rules.pdf" target="_blank" rel="noopener">Hues and Cues Rules (EN, PDF) · The Op</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var ROWS="ABCDEFGHIJKLMNOP".split("");
+function lerp(a,b,t){return a+(b-a)*t}
+/* approximate board: top row runs red→magenta→purple, bottom row yellow→green→teal→blue, paler toward the middle */
+function boardColor(r,c){
+  var x=c/29, y=r/15;
+  var hTop=lerp(8,285,x), hBot=lerp(62,205,x);
+  var h=lerp(hTop,hBot,y);
+  var mid=1-Math.abs(x-.5)*2, bump=Math.sin(Math.PI*y);
+  var l=lerp(34,50,y)+bump*mid*26+bump*6;
+  var s=lerp(72,78,y)-bump*mid*12;
+  return "hsl("+h.toFixed(1)+" "+s.toFixed(1)+"% "+Math.min(l,86).toFixed(1)+"%)";
+}
+function pts(t,p){var m=Math.max(Math.abs(t.r-p.r),Math.abs(t.c-p.c));return m===0?3:m===1?2:m===2?1:0}
+function coord(p){return ROWS[p.r]+(p.c+1)}
+function parse(s){var m=/^([A-P])(\d{1,2})$/.exec(s);return {r:ROWS.indexOf(m[1]),c:+m[2]-1}}
+var NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e}
+
+/* hero board */
+(function(){
+  var svg=document.getElementById("heroBoard");
+  for(var r=0;r<16;r++)for(var c=0;c<30;c++)el("rect",{x:4+c*10.13,y:4+r*9.9,width:8.9,height:8.7,rx:1,fill:boardColor(r,c)},svg);
+  var t={r:9,c:24};
+  el("rect",{x:4+(t.c-1)*10.13-1.2,y:4+(t.r-1)*9.9-1.2,width:30.4+1.4,height:29.7+1.2,fill:"none",stroke:"#fff","stroke-width":1.6,rx:1.5},svg);
+  [[9,24,"#f2cf2c"],[8,25,"#d8342b"],[11,22,"#2d64c8"],[4,7,"#2f9a4c"]].forEach(function(p){
+    el("circle",{cx:4+p[1]*10.13+4.45,cy:4+p[0]*9.9+4.35,r:3.2,fill:p[2],stroke:"#000","stroke-width":1},svg);
+  });
+})();
+
+/* scoring diagram */
+(function(){
+  var svg=document.getElementById("figScore"), S=34, ox=20, oy=26;
+  for(var r=0;r<7;r++)for(var c=0;c<7;c++){
+    var m=Math.max(Math.abs(r-3),Math.abs(c-3)), v=m===0?3:m===1?2:m===2?1:0;
+    var fill=boardColor(5+r,14+c);
+    el("rect",{x:ox+c*S,y:oy+r*S,width:S-3,height:S-3,rx:3,fill:fill},svg);
+    el("circle",{cx:ox+c*S+(S-3)/2,cy:oy+r*S+(S-3)/2,r:10,fill:v?"#fff":"rgba(255,255,255,.55)",stroke:"#000","stroke-width":1},svg);
+    el("text",{x:ox+c*S+(S-3)/2,y:oy+r*S+(S-3)/2+4.5,"text-anchor":"middle","font-size":13,"class":"tagf",fill:"#111"},svg,v);
+  }
+  el("rect",{x:ox+2*S-4,y:oy+2*S-4,width:3*S+5,height:3*S+5,rx:4,fill:"none",stroke:"#111","stroke-width":5},svg);
+  el("rect",{x:ox+2*S-4,y:oy+2*S-4,width:3*S+5,height:3*S+5,rx:4,fill:"none",stroke:"#fff","stroke-width":2.5},svg);
+  el("text",{x:ox,y:16,"font-size":13,"class":"s-muted tagf"},svg,"แต้มของผู้เดา ตามตำแหน่งกรวย");
+  var lx=290, rows=[["3","ตรงสีจริงพอดี"],["2","ในกรอบ 8 ช่องรอบ ๆ"],["1","ติดขอบนอกกรอบ รวมทแยง"],["0","ไกลกว่านั้น"]];
+  rows.forEach(function(row,i){
+    var y=50+i*44;
+    el("circle",{cx:lx+12,cy:y,r:12,fill:"#fff",stroke:"#000","stroke-width":1},svg);
+    el("text",{x:lx+12,y:y+5,"text-anchor":"middle","font-size":14,"class":"tagf",fill:"#111"},svg,row[0]);
+    el("text",{x:lx+34,y:y+5,"font-size":15,"class":"s-fg"},svg,row[1]);
+  });
+  el("rect",{x:lx,y:222,width:250,height:50,rx:10,"class":"s-surface2"},svg);
+  el("text",{x:lx+14,y:243,"font-size":14,"class":"s-fg tagf"},svg,"ผู้ให้คำใบ้");
+  el("text",{x:lx+14,y:262,"font-size":13.5,"class":"s-muted"},svg,"1 แต้ม ต่อกรวยทุกอันในกรอบ 3×3");
+})();
+
+/* example figure: target H12 */
+var EX={target:"H12",giver:0,pieces:{1:["H12","J13"],2:["G11","H13"],3:["F14","I11"],4:["E9","K12"]}};
+var EXCOL=["#9a9a9a","#d8342b","#2d64c8","#f2cf2c","#2f9a4c"];
+(function(){
+  var svg=document.getElementById("figExample"), S=32, t=parse(EX.target), r0=t.r-4, c0=t.c-4, ox=36, oy=28;
+  for(var i=0;i<9;i++){
+    el("text",{x:ox-14,y:oy+i*S+20,"text-anchor":"middle","font-size":12,"class":"s-muted tagf"},svg,ROWS[r0+i]);
+    el("text",{x:ox+i*S+14.5,y:oy-8,"text-anchor":"middle","font-size":12,"class":"s-muted tagf"},svg,c0+i+1);
+    for(var j=0;j<9;j++)el("rect",{x:ox+j*S,y:oy+i*S,width:S-3,height:S-3,rx:3,fill:boardColor(r0+i,c0+j)},svg);
+  }
+  el("rect",{x:ox+3*S-4,y:oy+3*S-4,width:3*S+5,height:3*S+5,rx:4,fill:"none",stroke:"#111","stroke-width":5},svg);
+  el("rect",{x:ox+3*S-4,y:oy+3*S-4,width:3*S+5,height:3*S+5,rx:4,fill:"none",stroke:"#fff","stroke-width":2.5},svg);
+  for(var k in EX.pieces)EX.pieces[k].forEach(function(s){
+    var p=parse(s), cx=ox+(p.c-c0)*S+14.5, cy=oy+(p.r-r0)*S+14.5;
+    el("circle",{cx:cx,cy:cy,r:10,fill:EXCOL[k],stroke:"#000","stroke-width":1.5},svg);
+    el("text",{x:cx,y:cy+4.5,"text-anchor":"middle","font-size":12,"class":"tagf",fill:k==3?"#111":"#fff"},svg,pts(t,p));
+  });
+  var lx=350;
+  el("text",{x:lx,y:40,"font-size":15,"class":"s-fg tagf"},svg,"สีจริง H12");
+  el("text",{x:lx,y:62,"font-size":13.5,"class":"s-muted"},svg,"ใบ้ \"ใบเตย\" แล้ว \"ขนมชั้น\"");
+  [["แดง","3 + 1 = 4"],["น้ำเงิน","2 + 2 = 4"],["เหลือง","1 + 2 = 3"],["เขียว","0 + 0 = 0"],["เทา (ผู้ใบ้)","4 กรวยในกรอบ = 4"]].forEach(function(row,i){
+    var y=104+i*36, col=EXCOL[(i+1)%5];
+    el("circle",{cx:lx+9,cy:y-5,r:8,fill:col,stroke:"#000","stroke-width":1.2},svg);
+    el("text",{x:lx+26,y:y,"font-size":14.5,"class":"s-fg"},svg,row[0]);
+    el("text",{x:lx+112,y:y,"font-size":14.5,"class":"s-fg tagf"},svg,row[1]);
+  });
+})();
+
+/* ---------- cue checker ---------- */
+var COMMON=["แดง","ส้ม","เหลือง","เขียว","ฟ้า","น้ำเงิน","ม่วง","ชมพู","น้ำตาล","ดำ","ขาว","เทา"];
+var LOAN={"พิงก์":"pink","พิ้งค์":"pink","พิงค์":"pink","บลู":"blue","เรด":"red","กรีน":"green","เยลโล่":"yellow","เยลโลว์":"yellow","ออเรนจ์":"orange","ไวท์":"white","แบล็ก":"black","แบล็ค":"black","เพอร์เพิล":"purple","บราวน์":"brown","เกรย์":"gray","red":"red","blue":"blue","green":"green","yellow":"yellow","orange":"orange","purple":"purple","pink":"pink","brown":"brown","black":"black","white":"white","gray":"gray","grey":"grey"};
+var SPECIFIC=["คราม","ทอง","ลาเวนเดอร์","มรกต","ทับทิม","บานเย็น","แสด","กรมท่า","ครีม","เลือดหมู","หงชาด","งาช้าง","golden","gold","lavender","chartreuse","indigo","turquoise","teal","navy","maroon","crimson","magenta","cyan","beige","ไพลิน","เทอร์ควอยซ์","มัสตาร์ด","ชาด","ม่วงคราม"];
+var OBJECT_OK=["มะม่วง","ไฟฟ้า","ท้องฟ้า","ส้มตำ","ส้มโอ","ทองแดง","ขาวมันไก่","ดำน้ำ","ดำนา","น้ำตาลทราย","น้ำตาลปี๊บ","ชมพู่","ฟ้าผ่า","ฟ้าร้อง","ม่วงหิน"];
+var POS=["มุม","ขอบ","ขอบๆ","ตรงกลาง","กลางกระดาน","แถว","คอลัมน์","ซ้าย","ขวา","บน","ล่าง","บนสุด","ล่างสุด"];
+var cueRound=1;
+function checkCue(){
+  var raw=document.getElementById("cueIn").value.trim(), out=document.getElementById("cueOut");
+  if(!raw){out.className="verdict-box";out.innerHTML="<b>พิมพ์คำใบ้ก่อน</b><small>เช่น คราม · ท้องฟ้า · ทะเลลึก</small>";return}
+  var words=raw.split(/\s+/), limit=cueRound===1?1:2, issues=[], maybes=[], oks=[];
+  if(words.length>limit)issues.push("รอบนี้ใบ้ได้ไม่เกิน "+limit+" คำ แต่พิมพ์มา "+words.length+" คำ");
+  words.forEach(function(w0){
+    var w=w0.toLowerCase(), core=w.replace(/^สี(?=.)/,"");
+    if(/^[a-p]\s?\d{1,2}$/i.test(w)||/^\d+$/.test(w)||/^[a-p]$/i.test(w)){issues.push("\""+w0+"\" เป็นพิกัดหรือตัวเลขบนกระดาน");return}
+    if(POS.indexOf(w)>=0){issues.push("\""+w0+"\" เป็นการอ้างตำแหน่งบนกระดาน");return}
+    if(COMMON.indexOf(core)>=0){issues.push("\""+w0+"\" เป็นชื่อสีสามัญ");return}
+    if(LOAN[core]){issues.push("\""+w0+"\" คือชื่อสีสามัญ "+LOAN[core]);return}
+    if(SPECIFIC.indexOf(core)>=0){oks.push("\""+w0+"\" เป็นชื่อสีเฉพาะ คู่มือให้ใช้ได้ (เทียบ golden, lavender)");return}
+    if(OBJECT_OK.indexOf(core)>=0){oks.push("\""+w0+"\" เป็นชื่อสิ่งของ ไม่ได้ใช้เป็นชื่อสี (กฎบ้าน)");return}
+    var hit=COMMON.filter(function(c){return core.indexOf(c)>=0});
+    if(hit.length){maybes.push("\""+w0+"\" มีคำว่า \""+hit[0]+"\" ซ้อนอยู่ ถ้าเป็นชื่อสี (เช่น เขียวขี้ม้า) แนะนำให้ห้าม ถ้าเป็นชื่อสิ่งของ (เช่น ส้มตำ) ใช้ได้ ให้วงตัดสิน");return}
+    if(/^สี/.test(w)&&w.length>2){maybes.push("\""+w0+"\" ขึ้นต้นด้วย \"สี\" ถ้าเป็นชื่อสีเฉพาะใช้ได้ ถ้าเป็นชื่อสีสามัญห้าม");return}
+    oks.push("\""+w0+"\" ไม่ใช่ชื่อสีหรือพิกัด");
+  });
+  var cls,head;
+  if(issues.length){cls="no";head="ใช้ไม่ได้"}else if(maybes.length){cls="maybe";head="ตกลงกันในวงก่อน"}else{cls="ok";head="ใช้ได้"}
+  var lines=issues.concat(maybes,oks);
+  if(!issues.length)lines.push("อย่าลืม: ถ้าเป็นของที่อยู่ในห้องตอนเล่น ห้ามใช้");
+  out.className="verdict-box "+cls;
+  out.innerHTML="<b>"+head+"</b>"+lines.map(function(s){return "<small>"+s.replace(/</g,"&lt;")+"</small>"}).join("");
+}
+document.getElementById("cueIn").addEventListener("input",checkCue);
+document.getElementById("cueRound").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;cueRound=+b.dataset.r;
+  this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});checkCue();
+});
+checkCue();
+
+/* ---------- practice board + scoresheet ---------- */
+var PCOL=["#9a9a9a","#d8342b","#2d64c8","#f2cf2c","#2f9a4c","#ef7f1a","#8a46c0","#f06fae","#f4f4f0","#2a2a2a"];
+var KEY="hnc-th-v1", st;
+function fresh(names){
+  return {players:names.map(function(n,i){return {name:n,total:0,gave:0,color:PCOL[i]}}),giver:0,history:[],target:null,pieces:{},mode:"target"};
+}
+function exampleState(){
+  var s=fresh(["เทา","แดง","น้ำเงิน","เหลือง","เขียว"]);
+  s.target=parse(EX.target);
+  for(var k in EX.pieces)s.pieces[k]=EX.pieces[k].map(parse);
+  s.mode=1;return s;
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+try{st=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){st=null}
+if(!st||!st.players||st.players.length<3)st=exampleState();
+document.getElementById("names").value=st.players.map(function(p){return p.name}).join(", ");
+
+var board=document.getElementById("pboard"), cells=[];
+(function(){
+  board.appendChild(document.createElement("span"));
+  for(var c=0;c<30;c++){var s=document.createElement("span");s.className="lab";s.textContent=c+1;board.appendChild(s)}
+  for(var r=0;r<16;r++){
+    var lab=document.createElement("span");lab.className="lab";lab.textContent=ROWS[r];board.appendChild(lab);
+    cells[r]=[];
+    for(var c2=0;c2<30;c2++){
+      var b=document.createElement("button");b.type="button";b.style.background=boardColor(r,c2);
+      b.dataset.r=r;b.dataset.c=c2;b.setAttribute("aria-label",ROWS[r]+(c2+1));
+      board.appendChild(b);cells[r][c2]=b;
+    }
+  }
+})();
+function guessers(){var g=[];st.players.forEach(function(p,i){if(i!==st.giver)g.push(i)});return g}
+function owner(r,c){for(var k in st.pieces){var a=st.pieces[k];for(var i=0;i<a.length;i++)if(a[i].r===r&&a[i].c===c)return +k}return -1}
+function setStatus(msg,err){var s=document.getElementById("pStatus");s.textContent=msg||"";s.className="status"+(err?" err":"")}
+board.addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  var r=+b.dataset.r,c=+b.dataset.c,who=owner(r,c);
+  if(st.mode==="target"){st.target={r:r,c:c};setStatus("ตั้งสีจริงที่ "+coord(st.target));}
+  else{
+    var m=st.mode, arr=st.pieces[m]||(st.pieces[m]=[]);
+    if(who===m){arr.splice(arr.findIndex(function(p){return p.r===r&&p.c===c}),1);setStatus("เอากรวยของ"+st.players[m].name+"ออกจาก "+ROWS[r]+(c+1));}
+    else if(who>=0){setStatus("ช่อง "+ROWS[r]+(c+1)+" มีกรวยของ"+st.players[who].name+"แล้ว ช่องหนึ่งเดาได้ครั้งเดียว",true);return}
+    else{
+      if(arr.length>=2)arr.shift();
+      arr.push({r:r,c:c});setStatus(st.players[m].name+" วางที่ "+ROWS[r]+(c+1));
+      if(arr.length===2){var g=guessers(),nx=g[(g.indexOf(m)+1)%g.length];if(!(st.pieces[nx]&&st.pieces[nx].length>=2))st.mode=nx;}
+    }
+  }
+  save();render();
+});
+document.getElementById("modeSeg").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;st.mode=b.dataset.m==="target"?"target":+b.dataset.m;save();render();
+});
+function render(){
+  /* mode buttons */
+  var seg=document.getElementById("modeSeg"),h='<button type="button" data-m="target" aria-pressed="'+(st.mode==="target")+'"><span class="cone" style="background:#fff;border-radius:2px"></span>สีจริง'+(st.target?" · "+coord(st.target):"")+'</button>';
+  guessers().forEach(function(i){var p=st.players[i],n=(st.pieces[i]||[]).length;h+='<button type="button" data-m="'+i+'" aria-pressed="'+(st.mode===i)+'"><span class="cone" style="background:'+p.color+'"></span>'+esc(p.name)+' '+n+'/2</button>'});
+  seg.innerHTML=h;
+  /* board */
+  var t=st.target;
+  for(var r=0;r<16;r++)for(var c=0;c<30;c++){
+    var b=cells[r][c],m=t?Math.max(Math.abs(t.r-r),Math.abs(t.c-c)):9;
+    b.className=(m===0?"tgt ":"")+(m===1?"f2":m===2?"f1":"");
+    var w=owner(r,c);
+    b.innerHTML=w>=0?'<span class="pc" style="background:'+st.players[w].color+'"></span>':"";
+  }
+  /* round scores */
+  var rows="",giverPts=0,res=roundScores();
+  guessers().forEach(function(i){
+    var arr=st.pieces[i]||[];
+    rows+="<tr><td><span class=\"cone\" style=\"background:"+st.players[i].color+"\"></span> "+esc(st.players[i].name)+"</td><td>"+(arr.map(function(p){return coord(p)+(t?" ("+pts(t,p)+")":"")}).join(" · ")||"–")+"</td><td class=\"num\">"+(t?res[i]:"–")+"</td></tr>";
+  });
+  rows+="<tr class=\"total\"><td><span class=\"cone\" style=\"background:"+st.players[st.giver].color+"\"></span> "+esc(st.players[st.giver].name)+" <span class=\"pill\">ผู้ใบ้</span></td><td>กรวยในกรอบ</td><td class=\"num\">"+(t?res[st.giver]:"–")+"</td></tr>";
+  document.getElementById("roundRows").innerHTML=rows;
+  /* sheet */
+  var n=st.players.length,per=n>=7?1:2,totalRounds=n*per,done=st.history.length;
+  var sh="";st.players.forEach(function(p,i){sh+="<tr"+(i===st.giver?" class=\"giver\"":"")+"><td><span class=\"cone\" style=\"background:"+p.color+"\"></span> "+esc(p.name)+(i===st.giver?" <span class=\"pill\">ใบ้รอบนี้</span>":"")+"</td><td class=\"num\">"+p.gave+"/"+per+"</td><td class=\"num\">"+p.total+"</td></tr>"});
+  document.getElementById("sheetRows").innerHTML=sh;
+  var info=document.getElementById("roundInfo");
+  if(done>=totalRounds){
+    var best=Math.max.apply(null,st.players.map(function(p){return p.total}));
+    var tied=st.players.map(function(p,i){return i}).filter(function(i){return st.players[i].total===best});
+    var win=tied[0];
+    if(tied.length>1){for(var h2=st.history.length-1;h2>=0;h2--){if(tied.indexOf(st.history[h2].giver)>=0){win=st.history[h2].giver;break}}}
+    info.textContent="จบเกมแล้ว · "+st.players[win].name+" ชนะด้วย "+best+" แต้ม"+(tied.length>1?" (เสมอ ตัดสินด้วยผู้ใบ้ล่าสุด)":"");
+  }else info.textContent="รอบที่ "+(done+1)+" จาก "+totalRounds+" · ผู้ให้คำใบ้: "+st.players[st.giver].name+(n===3?" · 3 คนใช้กฎบ้านคนละ 2 ครั้ง":"");
+}
+function roundScores(){
+  var t=st.target,res={};if(!t)return res;var g=0;
+  guessers().forEach(function(i){var s=0;(st.pieces[i]||[]).forEach(function(p){var v=pts(t,p);s+=v;if(v>=2)g++});res[i]=s});
+  res[st.giver]=g;return res;
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]})}
+document.getElementById("commit").addEventListener("click",function(){
+  if(!st.target){setStatus("เลือกช่องสีจริงก่อน (ปุ่ม \"สีจริง\")",true);return}
+  var n=st.players.length,per=n>=7?1:2;
+  if(st.history.length>=n*per){setStatus("ครบทุกรอบแล้ว กด \"เริ่มเกมใหม่\" เพื่อเล่นต่อ",true);return}
+  var res=roundScores();
+  for(var k in res)st.players[k].total+=res[k];
+  st.players[st.giver].gave++;
+  st.history.push({giver:st.giver,res:res});
+  st.giver=(st.giver+1)%n;st.target=null;st.pieces={};st.mode="target";
+  setStatus("บันทึกแล้ว ผู้ให้คำใบ้คนต่อไปคือ "+st.players[st.giver].name);save();render();
+});
+document.getElementById("undo").addEventListener("click",function(){
+  var h=st.history.pop();if(!h){setStatus("ยังไม่มีรอบที่บันทึก",true);return}
+  for(var k in h.res)st.players[k].total-=h.res[k];
+  st.players[h.giver].gave--;st.giver=h.giver;st.target=null;st.pieces={};st.mode="target";
+  setStatus("ย้อนรอบล่าสุดแล้ว คะแนนรอบนั้นถูกหักออก");save();render();
+});
+document.getElementById("clearBoard").addEventListener("click",function(){st.target=null;st.pieces={};st.mode="target";setStatus("ล้างกระดานแล้ว");save();render()});
+document.getElementById("newGame").addEventListener("click",function(){
+  var names=document.getElementById("names").value.split(/[,，]/).map(function(s){return s.trim()}).filter(Boolean);
+  if(names.length<3||names.length>10){setStatus("ใส่ชื่อ 3–10 คน คั่นด้วยจุลภาค",true);return}
+  st=fresh(names);setStatus("เริ่มเกมใหม่ "+names.length+" คน · "+names[0]+" ให้คำใบ้ก่อน");save();render();
+});
+render();
+})();
+</script>
+
+</body></html>

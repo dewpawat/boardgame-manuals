@@ -1,0 +1,825 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Azul Chocolatier ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pridi:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: cocoa-dark hero with a drawn chocolate box, reading column with sticky chapter rail; board, factories and scoring are drawn SVG; setup helper, placement scorer and scorepad near the end. */
+:root{
+  --bg:#f5efe6;
+  --surface:#fffcf7;
+  --surface-2:#ece2d4;
+  --fg:#2a1c14;
+  --muted:#6d5a4b;
+  --line:#dccdb9;
+  --accent:#8a3f1e;
+  --accent-soft:#f3e0d0;
+  --teal:#2f8c82;
+  --teal-soft:#d8eeea;
+  --gold:#c8952f;
+  --gold-soft:#f6ead0;
+  --t-k:#3b2418; --t-m:#94603a; --t-w:#f3e8d2; --t-t:#3ea79b; --t-p:#d97a95;
+  --band-1:#1e120b; --band-2:#3d2316; --band-fg:#f6ecdc; --spot:#e9c27a;
+  --good:#2a7f4a; --bad:#b8352a;
+  --font-display:"Pridi","Leelawadee UI","Tahoma",serif;
+  --font-body:"IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","IBM Plex Sans Thai","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#140e0a;--surface:#1e1611;--surface-2:#2a1f18;--fg:#f1e6d8;--muted:#b6a391;--line:#3c2e24;
+    --accent:#f0a274;--accent-soft:#3a2216;--teal:#6fd0c3;--teal-soft:#15302c;--gold:#e9c27a;--gold-soft:#33280f;
+    --band-1:#0b0705;--band-2:#2b180e;
+    --good:#62cc8a;--bad:#ff7466;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#140e0a;--surface:#1e1611;--surface-2:#2a1f18;--fg:#f1e6d8;--muted:#b6a391;--line:#3c2e24;
+  --accent:#f0a274;--accent-soft:#3a2216;--teal:#6fd0c3;--teal-soft:#15302c;--gold:#e9c27a;--gold-soft:#33280f;
+  --band-1:#0b0705;--band-2:#2b180e;
+  --good:#62cc8a;--bad:#ff7466;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75;margin:0}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.75rem}
+h3{font-size:1.15rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:radial-gradient(ellipse at 80% 0%,#6b3a22 0%,transparent 60%),linear-gradient(170deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.42em;color:var(--spot);margin-top:4px}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:400px;margin-inline:auto}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#1d130c}
+
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.85em;color:var(--muted);font-weight:400}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.teal{background:var(--teal-soft)} .callout.gold{background:var(--gold-soft)}
+.callout h3{font-size:1.08rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--gold-soft);color:var(--fg);border:1px solid var(--gold)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body);fill:var(--fg)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+svg .mut{fill:var(--muted)}
+.s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-line{stroke:var(--line)}
+.s-bad{fill:var(--bad)} .s-good{fill:var(--good)} .s-acc{fill:var(--accent)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.sf-num{font-family:var(--font-tag);font-weight:600;font-size:.85rem;background:var(--gold);color:#1d130c;border-radius:8px;padding:1px 9px}
+.chipc{width:16px;height:16px;border-radius:4px;display:inline-block;flex:none;border:1px solid rgba(0,0,0,.25);vertical-align:middle}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.08rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.06em;opacity:.92}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)} .co.hl b{color:var(--accent)}
+.co.bad b{color:var(--bad)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+
+.ps{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:22px;align-items:start}
+.box5{display:grid;grid-template-columns:repeat(5,54px);gap:6px;background:var(--band-2);padding:10px;border-radius:14px;width:max-content;max-width:100%}
+.box5 button{width:54px;height:54px;border-radius:10px;border:0;cursor:pointer;padding:0;position:relative;background:var(--c);opacity:.42;box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
+.box5 button.on{opacity:1;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),inset 0 3px 0 rgba(255,255,255,.3)}
+.box5 button.last{outline:3px solid var(--spot);outline-offset:2px}
+.box5 button span{font-family:var(--font-tag);font-weight:600;font-size:.95rem;color:#1d130c}
+.box5 button.dk span{color:#f3e8d2}
+.flr{display:flex;gap:4px;flex-wrap:wrap}
+.flr button{width:44px;height:52px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);cursor:pointer;font-family:var(--font-tag);font-weight:600;display:grid;place-items:center;line-height:1.1;padding:2px}
+.flr button small{font-size:.72rem;color:var(--muted)}
+.flr button.on{background:var(--band-2);color:var(--spot);border-color:var(--band-2)}
+.flr button.on small{color:var(--spot)}
+.log{margin:0;padding-left:1.2em;font-size:.92rem;display:grid;gap:2px;max-height:180px;overflow:auto}
+
+.sp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.sp{min-width:520px;font-size:.95rem}
+.sp th,.sp td{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;padding-left:12px}
+.sp input[type=text]{font:inherit;width:100%;min-width:70px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 8px;text-align:center}
+.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:64px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;-moz-appearance:textfield}
+.sp input::-webkit-outer-spin-button,.sp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sp tr.tot td{font-family:var(--font-tag);font-weight:600;font-size:1.25rem;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.sp td.win{color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.sp .sub{font-size:.78rem;color:var(--muted);display:block;line-height:1.3}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .ps{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (max-width:420px){
+  .box5{grid-template-columns:repeat(5,minmax(0,1fr));width:100%}
+  .box5 button{width:auto;height:auto;aspect-ratio:1}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · Azul ฉบับสะสมพิเศษ (Limited Edition) ปี 2022</div>
+      <h1>Azul: Master Chocolatier<span>อาซูล มาสเตอร์ช็อกโกลาติเยร์ · ดราฟต์ช็อกโกแลตจากโรงงานมาจัดลงกล่อง</span></h1>
+      <p class="lede">ทุกคนเป็นช็อกโกลาติเยร์ที่แข่งกันจัดกล่องช็อกโกแลตให้สวยที่สุด ผลัดกันหยิบชิ้นช็อกโกแลต<b>สีเดียวกันทั้งหมด</b>จากโรงงาน (วงกลมกลางโต๊ะ) มาเรียงในแถวรูปแบบ แถวไหนเต็ม จบรอบย้าย 1 ชิ้นลงกล่องแล้วได้แต้มตามชิ้นที่ติดกัน ชิ้นที่ล้นตกลงแถวโรงหล่อ (Foundry) โดนหักแต้ม ใครทำแถวนอนในกล่องครบ 5 ช่องก่อน เกมจบหลังรอบนั้น</p>
+      <div class="facts">
+        <div class="fact"><b>2–4</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>30–45</b><small>นาที</small></div>
+        <div class="fact"><b>100</b><small>ชิ้น · 5 สี สีละ 20</small></div>
+        <div class="fact"><b>8+</b><small>ปี</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:var(--spot)">เกมหลัก = กติกา Azul ภาคแรก</span>
+        <span class="xb" style="background:#7fd1c7">+ ตัวแปรโรงงานพิเศษ 5 แบบ</span>
+        <span class="xb" style="background:#d9b48a">+ บอร์ดฝั่งน้ำตาล</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 320 300" id="heroart"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#board">อ่านบอร์ดผู้เล่น</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#offer">A · หยิบจากโรงงาน</a></li>
+      <li><a href="#lines">กฎวางแถวรูปแบบ</a></li>
+      <li><a href="#confection">B · จัดลงกล่อง</a></li>
+      <li><a href="#scoring">นับแต้มชิ้นที่วาง</a></li>
+      <li><a href="#foundry">แถวโรงหล่อ (หักแต้ม)</a></li>
+      <li><a href="#next">C · เตรียมรอบใหม่</a></li>
+      <li><a href="#end">จบเกม & โบนัส</a></li>
+      <li class="sep">ตัวแปรในกล่อง</li>
+      <li><a href="#brown">บอร์ดฝั่งน้ำตาล</a></li>
+      <li><a href="#special">โรงงานพิเศษ</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#helper">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#scorer">คิดแต้มกล่องช็อกโกแลต</a></li>
+      <li><a href="#pad">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>แต่ละรอบมี 3 ระยะ</h3>
+        <ol>
+          <li><b>A · หยิบจากโรงงาน</b> ผลัดกันหยิบชิ้นสีเดียวกัน<b>ทั้งหมด</b>จากโรงงาน 1 วง (ที่เหลือปัดเข้ากลางโต๊ะ) หรือหยิบสีเดียวกันทั้งหมดจากกลางโต๊ะ แล้ววางลงแถวรูปแบบ 1 แถว จนโรงงานและกลางโต๊ะว่าง</li>
+          <li><b>B · จัดลงกล่อง</b> แถวรูปแบบที่เต็ม ย้ายชิ้นขวาสุด 1 ชิ้นลงช่องสีเดียวกันในกล่อง ได้แต้มทันทีตามชิ้นที่ต่อกันแนวนอนและแนวตั้ง ส่วนที่เหลือในแถวนั้นทิ้งฝากล่อง แล้วหักแต้มชิ้นในแถวโรงหล่อ</li>
+          <li><b>C · เตรียมรอบใหม่</b> เติมโรงงานวงละ 4 ชิ้นจากถุง</li>
+        </ol>
+      </div>
+      <div class="callout teal">
+        <h3>จบเกม</h3>
+        <p>จบหลังระยะ B ของรอบที่มีคนทำ<b>แถวนอนในกล่องครบ 5 ช่อง</b> แล้วบวกโบนัส: แถวนอนครบ <b>+2</b> · แนวตั้งครบ <b>+7</b> · สีครบ 5 ชิ้น <b>+10</b> · แต้มสูงสุดชนะ</p>
+      </div>
+      <p class="note">ถ้าเคยเล่น Azul ภาคแรกมาแล้ว: กติกาเหมือนกันทุกข้อ ต่างแค่ธีมและชื่อเรียก (กำแพง = กล่องช็อกโกแลต, แถวพื้น = แถวโรงหล่อ, ปูกระเบื้อง = จัดลงกล่อง) ของใหม่จริง ๆ มีอย่างเดียวคือ <a href="#special">โรงงานพิเศษ</a> ด้านทองของแผ่นโรงงาน</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชิ้นส่วน</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td><b>ชิ้นช็อกโกแลต</b> <span class="en">tiles</span></td><td class="num">100</td><td>5 สี สีละ 20 ชิ้น (กินไม่ได้นะ) · คู่มือเอ่ยชื่อสี<span class="chipc" style="background:var(--t-k);margin:0 4px"></span>ดำ <span class="chipc" style="background:var(--t-m);margin:0 4px"></span>น้ำตาล <span class="chipc" style="background:var(--t-w);margin:0 4px"></span>ขาว <span class="chipc" style="background:var(--t-t);margin:0 4px"></span>เขียวอมฟ้า (teal)</td></tr>
+            <tr><td><b>แผ่นโรงงาน</b> <span class="en">Factory displays</span></td><td class="num">9</td><td>สองหน้า: <b>ด้านฟ้า</b> = โรงงานธรรมดา · <b>ด้านทอง</b> = โรงงานพิเศษ (SF)</td></tr>
+            <tr><td><b>บอร์ดผู้เล่น</b> <span class="en">player boards</span></td><td class="num">4</td><td>สองหน้า: <b>ด้านกล่องช็อกโกแลตสี</b> (เกมปกติ) · <b>ด้านน้ำตาล</b> (ตัวแปร)</td></tr>
+            <tr><td><b>ตัวนับคะแนน</b> <span class="en">scoring markers</span></td><td class="num">4</td><td>คนละ 1 วางบนรางคะแนนของบอร์ดตัวเอง</td></tr>
+            <tr><td><b>ตัวบอกผู้เริ่ม</b> <span class="en">starting player marker</span></td><td class="num">1</td><td>ใครหยิบกลางโต๊ะคนแรกในรอบได้ไป พร้อมโดนหักแต้มเหมือนชิ้นตก</td></tr>
+            <tr><td><b>ถุงผ้า</b></td><td class="num">1</td><td>ใส่ชิ้นทั้งหมด · <b>ฝากล่องเกม</b>ใช้เก็บชิ้นที่ทิ้งแล้ว</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ภาพประกอบในหน้านี้ใช้สีชมพูแทน<b>สีที่ 5</b> เพราะคู่มือไม่ได้เอ่ยชื่อสีนี้ไว้ ให้ดูสีจริงจากชิ้นในกล่อง · ตำแหน่งสีในกล่องช็อกโกแลตในภาพวาดเรียงแบบทแยงตาม Azul ภาคแรก ให้เทียบกับบอร์ดจริงอีกครั้ง</p>
+    </section>
+
+    <!-- BOARD -->
+    <section id="board">
+      <div class="sec-head"><span class="tag">ทำความรู้จัก</span><h2>อ่านบอร์ดผู้เล่น</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 380" role="img" aria-label="บอร์ดผู้เล่น: รางคะแนนด้านบน แถวรูปแบบ 5 แถวด้านซ้าย กล่องช็อกโกแลต 5x5 ด้านขวา แถวโรงหล่อ 7 ช่องด้านล่าง" id="boarddemo"></svg></div>
+        <figcaption>บอร์ดด้านกล่องช็อกโกแลตสี · แถวรูปแบบแถวที่ 1 จุ 1 ชิ้น ถึงแถวที่ 5 จุ 5 ชิ้น วางชิ้นจาก<b>ขวาไปซ้าย</b> · แถวรูปแบบแต่ละแถวจับคู่กับแถวนอนเดียวกันในกล่อง</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>รางคะแนน <span class="en">Score track</span></h3><p>เดินตัวนับทุกครั้งที่ได้หรือเสียแต้ม คะแนนไม่มีวันต่ำกว่า 0</p></div>
+        <div class="type"><h3>แถวรูปแบบ <span class="en">Pattern lines</span></h3><p>พักชิ้นที่หยิบมา 5 แถว จุ 1–5 ชิ้น แถวหนึ่งมีได้สีเดียว เต็มเมื่อไรจึงย้ายลงกล่องได้ตอนจบรอบ</p></div>
+        <div class="type"><h3>กล่องช็อกโกแลต <span class="en">Chocolate box</span></h3><p>ตาราง 5×5 แต่ละช่องพิมพ์สีไว้แล้ว ทุกแถวนอนและแนวตั้งมีครบ 5 สี สีละ 1 ช่อง</p></div>
+        <div class="type"><h3>แถวโรงหล่อ <span class="en">Foundry line</span></h3><p>ชิ้นที่ “ตกพื้น” เรียงจากซ้ายไปขวา 7 ช่อง หักแต้มตามเลขเหนือช่อง: <b>−1 −1 −2 −2 −2 −3 −3</b></p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>แจกบอร์ด</h3><p>คนละ 1 แผ่น พลิกเป็น<b>ด้านกล่องช็อกโกแลตสี</b> ทุกคนต้องใช้ด้านเดียวกัน (อยากเล่นด้านน้ำตาล ดู <a href="#brown">บอร์ดฝั่งน้ำตาล</a>)</p></div></li>
+        <li><div class="body"><h3>ตัวนับคะแนน</h3><p>วางบนช่อง <b>0</b> ของรางคะแนน</p></div></li>
+        <li><div class="body"><h3>วางโรงงานเป็นวงกลมกลางโต๊ะ (ด้านฟ้าขึ้น)</h3>
+          <ul><li>2 คน = <b>5</b> วง</li><li>3 คน = <b>7</b> วง</li><li>4 คน = <b>9</b> วง</li></ul></div></li>
+        <li><div class="body"><h3>เตรียมถุง</h3><p>ใส่ชิ้นช็อกโกแลตทั้ง <b>100</b> ชิ้นลงถุง (สีละ 20)</p></div></li>
+        <li><div class="body"><h3>เลือกผู้เริ่ม แล้วเติมโรงงาน</h3><p>คนที่<b>กินช็อกโกแลตล่าสุด</b>รับตัวบอกผู้เริ่ม แล้วสุ่มชิ้นจากถุงเติมโรงงาน<b>วงละ 4 ชิ้นพอดี</b></p></div></li>
+      </ol>
+      <p class="note">บอร์ด ตัวนับ และโรงงานที่ไม่ได้ใช้ เก็บลงกล่อง · ถ้าจะเล่นโรงงานพิเศษ ขั้นที่ 3 เปลี่ยนเล็กน้อย ดู <a href="#special">โรงงานพิเศษ</a></p>
+    </section>
+
+    <!-- OFFER -->
+    <section id="offer">
+      <div class="sec-head"><span class="tag">ระยะ A</span><h2>หยิบจากโรงงาน <span class="en">Factory offer</span></h2></div>
+      <p class="prose">ผู้เริ่มวาง<b>ตัวบอกผู้เริ่มไว้กลางโต๊ะ</b> แล้วเล่นตาแรก วนตามเข็มนาฬิกา ในตาของคุณต้องหยิบแบบใดแบบหนึ่ง:</p>
+      <div class="types">
+        <div class="type"><h3>แบบ ก · จากโรงงาน</h3><p>หยิบชิ้น<b>สีเดียวกันทั้งหมด</b>จากโรงงาน 1 วง แล้ว<b>ปัดชิ้นที่เหลือ</b>ของวงนั้นไปกลางโต๊ะ</p></div>
+        <div class="type"><h3>แบบ ข · จากกลางโต๊ะ</h3><p>หยิบชิ้น<b>สีเดียวกันทั้งหมด</b>จากกลางโต๊ะ ถ้าเป็น<b>คนแรกของรอบ</b>ที่หยิบกลางโต๊ะ ต้องรับตัวบอกผู้เริ่มไปด้วย วางลงช่องว่างซ้ายสุดของแถวโรงหล่อ</p></div>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 260" role="img" aria-label="ตัวอย่างสามตาแรก พอลหยิบดำ 2 ชิ้นจากโรงงาน แม็กซ์หยิบน้ำตาล 1 ชิ้น ส่วนขาว 3 ชิ้นไปกลางโต๊ะ จูเลียหยิบขาว 3 ชิ้นจากกลางโต๊ะพร้อมตัวบอกผู้เริ่ม" id="offerdemo"></svg></div>
+        <figcaption>ตัวอย่างจากคู่มือ: ① พอลหยิบดำ 2 ชิ้น ที่เหลือไปกลางโต๊ะ ② แม็กซ์หยิบน้ำตาล 1 ชิ้น ขาว 3 ชิ้นไปกลางโต๊ะ ③ จูเลียหยิบขาว 3 ชิ้นจากกลางโต๊ะ เป็นคนแรกที่หยิบกลางโต๊ะจึงได้ตัวบอกผู้เริ่มไปไว้ช่องซ้ายสุดของแถวโรงหล่อ</figcaption>
+      </figure>
+      <p class="prose">ระยะนี้จบเมื่อ<b>กลางโต๊ะและโรงงานทุกวงว่างหมด</b> แล้วไประยะ B</p>
+    </section>
+
+    <!-- LINES -->
+    <section id="lines">
+      <div class="sec-head"><span class="tag">ระยะ A · ต่อ</span><h2>กฎวางแถวรูปแบบ</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ลงแถวเดียว ขวาไปซ้าย</h3><p>ชิ้นที่หยิบมาทั้งหมดต้องลง<b>แถวรูปแบบแถวเดียว</b> วางทีละชิ้นจากช่องขวาสุดไปซ้าย</p></div></li>
+        <li><div class="body"><h3>แถวหนึ่ง สีเดียว</h3><p>ถ้าแถวมีชิ้นอยู่แล้ว เติมได้เฉพาะสีเดียวกัน</p></div></li>
+        <li><div class="body"><h3>ห้ามซ้ำสีกับแถวในกล่อง</h3><p>ห้ามวางสีใดลงแถวรูปแบบ ถ้า<b>แถวนอนคู่กันในกล่อง</b>มีสีนั้นแล้ว (มีผลตั้งแต่รอบที่ 2 เพราะรอบแรกกล่องยังว่าง)</p></div></li>
+        <li><div class="body"><h3>ล้นแล้วตก</h3><p>แถวเต็มแล้วยังเหลือชิ้น ชิ้นที่เกินลงแถวโรงหล่อ · จะเลือกเทลงโรงหล่อทั้งหมดเลยก็ได้ แม้มีแถวรับได้</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 300" role="img" aria-label="ตัวอย่างจูเลียถือน้ำตาล 2 ชิ้น วางได้ที่แถว 1 พร้อมตก 1 ชิ้น หรือแถว 5 หรือโรงหล่อทั้งหมด" id="linesdemo"></svg></div>
+        <figcaption>ตัวอย่างจากคู่มือ: จูเลียหยิบน้ำตาล 2 ชิ้น · แถว 2 และ 3 <b>ไม่ได้</b> เพราะแถวนั้นในกล่องมีน้ำตาลแล้ว · แถว 4 <b>ไม่ได้</b> เพราะมีเขียวอมฟ้าอยู่ · ทางที่เลือกได้: (A) แถว 1 หนึ่งชิ้น อีกชิ้นตก (B) ลงแถว 5 ทั้งคู่ (C) เทลงโรงหล่อทั้งคู่</figcaption>
+      </figure>
+    </section>
+
+    <!-- CONFECTION -->
+    <section id="confection">
+      <div class="sec-head"><span class="tag">ระยะ B</span><h2>จัดลงกล่อง <span class="en">Box confection</span></h2></div>
+      <p class="prose">ทุกคนทำพร้อมกันได้</p>
+      <ol class="steps">
+        <li><div class="body"><h3>ไล่จากแถวบนลงล่าง</h3><p>แถวรูปแบบที่<b>เต็ม</b> ย้ายชิ้น<b>ขวาสุด</b> 1 ชิ้นไปช่องสีเดียวกันในแถวนอนคู่กันของกล่อง แล้ว<b>นับแต้มทันที</b> (ดู <a href="#scoring">นับแต้ม</a>) · แถวที่ไม่เต็มข้ามไป</p></div></li>
+        <li><div class="body"><h3>เคลียร์แถวที่ย้ายแล้ว</h3><p>แถวรูปแบบที่ช่องขวาสุดว่างแล้ว เอาชิ้นที่เหลือทั้งหมดใส่<b>ฝากล่อง</b> · แถวที่ยังไม่เต็มค้างไว้รอบหน้า</p></div></li>
+        <li><div class="body"><h3>หักแต้มแถวโรงหล่อ</h3><p>ดู <a href="#foundry">แถวโรงหล่อ</a> แล้วเก็บชิ้นในโรงหล่อใส่ฝากล่อง (ตัวบอกผู้เริ่มวางไว้หน้าตัวเอง)</p></div></li>
+      </ol>
+      <div class="callout gold">
+        <h3>ตัวอย่างจากคู่มือ (พอล)</h3>
+        <ul>
+          <li>แถว 2 เต็มด้วยขาว 2 ชิ้น → ย้ายขาว 1 ชิ้นลงกล่อง ได้ 1 แต้ม</li>
+          <li>แถว 3 ไม่เต็ม → ข้าม</li>
+          <li>แถว 4 เต็มด้วยเขียวอมฟ้า → ย้าย 1 ชิ้นลงกล่อง ได้ 1 แต้ม</li>
+          <li>แถว 5 ไม่เต็ม → ข้าม</li>
+          <li>เก็บชิ้นที่เหลือของแถว 2 และ 4 ใส่ฝากล่อง แถว 3 และ 5 ค้างบนบอร์ด</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SCORING -->
+    <section id="scoring">
+      <div class="sec-head"><span class="tag">ระยะ B · ต่อ</span><h2>นับแต้มชิ้นที่วางลงกล่อง</h2></div>
+      <div class="callout">
+        <h3>สูตร</h3>
+        <ul>
+          <li>ไม่มีชิ้นใด<b>ติดด้านข้าง</b> (บน ล่าง ซ้าย ขวา) เลย = <b>1 แต้ม</b></li>
+          <li>มีชิ้นต่อกัน<b>แนวนอน</b> → นับทั้งแถบที่ต่อกัน (รวมชิ้นใหม่) ได้เท่านั้นแต้ม</li>
+          <li>มีชิ้นต่อกัน<b>แนวตั้ง</b> → นับทั้งแถบที่ต่อกัน (รวมชิ้นใหม่) ได้เท่านั้นแต้ม <b>บวกเพิ่ม</b></li>
+          <li>ทแยงมุมไม่นับ · ต้องต่อกันไม่ขาดช่วง</li>
+        </ul>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 250" role="img" aria-label="สี่ตัวอย่างนับแต้ม: ไม่มีชิ้นติดได้ 1 แต้ม, แนวนอน 3 ชิ้นได้ 3, แนวตั้ง 3 ชิ้นได้ 3, แนวนอน 4 กับแนวตั้ง 3 ได้ 7" id="scoredemo"></svg></div>
+        <figcaption>ชิ้นที่มีขอบทองคือชิ้นที่เพิ่งวาง · ตัวอย่างขวาสุด: แนวนอน 4 + แนวตั้ง 3 = 7 แต้ม (ชิ้นใหม่ถูกนับทั้งสองทาง)</figcaption>
+      </figure>
+      <p class="note">ลำดับย้ายสำคัญ: ไล่<b>บนลงล่าง</b>และนับทันทีทีละชิ้น ชิ้นแถว 1 ที่วางก่อนจะไปช่วยให้ชิ้นแถว 2 ที่วางทีหลังได้แต้มแนวตั้งเพิ่ม แต่ไม่ย้อนกลับมาเพิ่มให้ชิ้นแถว 1</p>
+    </section>
+
+    <!-- FOUNDRY -->
+    <section id="foundry">
+      <div class="sec-head"><span class="tag">ระยะ B · ท้าย</span><h2>แถวโรงหล่อ <span class="en">Foundry line</span></h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 150" role="img" aria-label="แถวโรงหล่อ 7 ช่อง มีตัวบอกผู้เริ่ม 1 กับชิ้น 4 ชิ้น หัก 8 แต้ม" id="foundrydemo"></svg></div>
+        <figcaption>ตัวอย่างจากคู่มือ: พอลมีชิ้น 4 ชิ้นกับตัวบอกผู้เริ่มในโรงหล่อ = 1+1+2+2+2 = เสีย <b>8 แต้ม</b></figcaption>
+      </figure>
+      <div class="prose"><ul>
+        <li>ทุกชิ้นในโรงหล่อหักแต้มตามเลข<b>เหนือช่อง</b>ที่ชิ้นนั้นอยู่ เติมจากซ้ายไปขวาเสมอ</li>
+        <li>ตัวบอกผู้เริ่มในโรงหล่อ<b>นับเหมือนชิ้นปกติ</b> แต่ตอนเก็บ ให้วางไว้หน้าตัวเอง (รอบหน้าคุณเป็นผู้เริ่ม)</li>
+        <li>โรงหล่อเต็ม 7 ช่องแล้ว ชิ้นที่ตกเพิ่มใส่ฝากล่องเลย <b>ไม่หักเพิ่ม</b></li>
+        <li>คะแนนติดลบไม่ได้ ต่ำสุด 0</li>
+      </ul></div>
+      <p class="note">เลข −1 −1 −2 −2 −2 ตรงกับตัวอย่างในคู่มือ (รวม 8) · สองช่องสุดท้าย −3 −3 เป็นค่ามาตรฐานของ Azul ดูเลขบนบอร์ดประกอบ</p>
+    </section>
+
+    <!-- NEXT -->
+    <section id="next">
+      <div class="sec-head"><span class="tag">ระยะ C</span><h2>เตรียมรอบใหม่</h2></div>
+      <div class="prose"><ul>
+        <li>ถ้ายังไม่มีใครทำแถวนอนในกล่องครบ 5 ช่อง คนที่ถือตัวบอกผู้เริ่ม<b>เติมโรงงานวงละ 4 ชิ้น</b>จากถุง</li>
+        <li>ถุงหมดระหว่างเติม เทชิ้นจาก<b>ฝากล่อง</b>ทั้งหมดกลับลงถุง แล้วเติมต่อ</li>
+        <li>กรณีหายาก: ถุงหมดอีกและฝากล่องก็ว่าง เริ่มรอบใหม่ทั้งที่โรงงานบางวงไม่เต็ม</li>
+      </ul></div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และโบนัสท้ายเกม</h2></div>
+      <p class="prose">เกมจบ<b>ทันทีหลังระยะ B</b> ของรอบที่มีผู้เล่นอย่างน้อย 1 คนทำแถวนอนในกล่องครบ 5 ช่องติดกัน (เล่นรอบนั้นให้จบก่อน ไม่ใช่หยุดกลางรอบ) แล้วบวกโบนัส:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>เงื่อนไข</th><th class="num">โบนัส</th></tr></thead>
+          <tbody>
+            <tr><td>แถว<b>นอน</b>ในกล่องครบ 5 ช่อง</td><td class="num">+2 / แถว</td></tr>
+            <tr><td>แนว<b>ตั้ง</b>ในกล่องครบ 5 ช่อง</td><td class="num">+7 / แนว</td></tr>
+            <tr><td>วางสีเดียวกันครบทั้ง <b>5 ชิ้น</b>ในกล่อง</td><td class="num">+10 / สี</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <h3>เสมอกัน</h3>
+        <p>คนที่มี<b>แถวนอนครบมากกว่า</b>ชนะ ถ้ายังเสมอ ชนะร่วมกัน</p>
+      </div>
+    </section>
+
+    <!-- BROWN -->
+    <section id="brown">
+      <div class="xhead" style="--c:#6b4426"><span class="tag">ตัวแปร · VARIANT PLAY</span><h2>บอร์ดฝั่งน้ำตาล</h2><p>พลิกบอร์ดเป็นด้านน้ำตาล กล่องช็อกโกแลตไม่ได้พิมพ์สีไว้ คุณเลือกเองว่าแต่ละสีจะไปช่องไหน กติกาอื่นเหมือนเดิมทุกข้อ</p></div>
+      <div class="prose"><ul>
+        <li>ย้ายชิ้นจากแถวรูปแบบลงกล่อง วางได้<b>ทุกช่อง</b>ในแถวนอนคู่กัน</li>
+        <li>แต่ละ<b>แนวตั้ง</b>ห้ามมีสีซ้ำ และแต่ละ<b>แถวนอน</b>ห้ามมีสีซ้ำเช่นกัน</li>
+        <li><b>กรณีพิเศษ:</b> ถ้าชิ้นขวาสุดของแถวรูปแบบที่เต็ม<b>ไม่มีช่องให้วางถูกกฎ</b> ต้องเทชิ้นทั้งแถวนั้นลงแถวโรงหล่อทันที</li>
+      </ul></div>
+      <div class="callout gold">
+        <h3>คำแนะนำ</h3>
+        <p>วางแผนตำแหน่งตั้งแต่ต้น ถ้ากระจายสีไม่ดี ช่วงท้ายเกมจะเหลือช่องที่ใส่สีที่ต้องการไม่ได้ และโดนเทลงโรงหล่อทั้งแถว · ไม่ควรเล่นฝั่งนี้เกมแรก</p>
+      </div>
+    </section>
+
+    <!-- SPECIAL -->
+    <section id="special">
+      <div class="xhead" style="--c:#8a6418"><span class="tag">ตัวแปร · SPECIAL FACTORIES VARIANT</span><h2>โรงงานพิเศษ (ด้านทอง)</h2><p>ของใหม่เฉพาะฉบับช็อกโกแลต แผ่นโรงงานด้านทองมี 5 แบบ บางแบบเปลี่ยนการเติมชิ้นตอนตั้งรอบ บางแบบเปลี่ยนสิ่งที่เกิดเมื่อมีคนหยิบจากวงนั้น</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ตอนเริ่มเกม และทุกครั้งที่เริ่มระยะ C</h3><p>สับแผ่นโรงงานทั้ง <b>9</b> แผ่น (ด้านฟ้าขึ้น) วางตามจำนวนคน (5/7/9 วง)</p></div></li>
+        <li><div class="body"><h3>พลิกเป็นด้านทอง</h3><p>สุ่มพลิกโรงงาน<b>เท่าจำนวนผู้เล่น</b> ให้เป็นด้านทอง (2 คน = 2 วง · 3 คน = 3 · 4 คน = 4) แผ่นที่ไม่ใช้วางพักไว้</p></div></li>
+        <li><div class="body"><h3>เติมชิ้นตามปกติ แล้วทำผลของ SF</h3><p>ผู้เริ่มเติมทุกวงวงละ 4 ชิ้น จากนั้นทำผลของ SF 1 และ SF 2 (ผลตอนตั้งรอบ) · SF 3–5 มีผลเมื่อมีคนหยิบจากวงนั้น</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 210" role="img" aria-label="โรงงานพิเศษ 5 แบบ" id="sfdemo"></svg></div>
+        <figcaption>ภาพแทนผลของโรงงานพิเศษแต่ละแบบ ไม่ใช่สัญลักษณ์จริงบนแผ่น · ดูไอคอนจริงที่ด้านทองของแผ่น</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3><span class="sf-num">SF 1</span> เติมเพิ่ม 1</h3><p><b>ตอนตั้งรอบ</b> หลังเติมโรงงานเสร็จ จั่วชิ้นจากถุงเพิ่ม <b>1 ชิ้น</b> วางบนวงนี้ (รวม 5 ชิ้น)</p></div>
+        <div class="type"><h3><span class="sf-num">SF 2</span> ดูดจากข้างเคียง</h3><p><b>ตอนตั้งรอบ</b> หลังเติมเสร็จ หยิบชิ้น<b>สีตามที่พิมพ์บนแผ่น</b> 1 ชิ้นจากวงที่อยู่ติด<b>ซ้าย</b>และติด<b>ขวา</b> (ถ้ามี) มาวางบนวงนี้ · วงข้างเคียงไม่มีสีนั้น = ไม่ต้องหยิบจากวงนั้น</p></div>
+        <div class="type"><h3><span class="sf-num">SF 3</span> ของเหลืออยู่ที่เดิม</h3><p>เมื่อมีคนหยิบจากวงนี้ ชิ้นที่เหลือ<b>ไม่ปัดเข้ากลางโต๊ะ</b> ค้างอยู่บนวงนี้ให้คนต่อไปหยิบได้</p></div>
+        <div class="type"><h3><span class="sf-num">SF 4</span> แจกให้วงข้าง ๆ</h3><p>เมื่อมีคนหยิบจากวงนี้ ชิ้นที่เหลือไม่เข้ากลางโต๊ะ คนที่หยิบเป็นคน<b>แบ่งไปวางบนวงที่ติดซ้ายและ/หรือขวา</b> (ฟ้าหรือทองก็ได้) ข้อห้ามเดียวคือ<b>ห้ามแยกสีเดียวกัน</b>ไปคนละวง</p></div>
+        <div class="type"><h3><span class="sf-num">SF 5</span> ช่องรองรับพิเศษ</h3><p>เมื่อมีคนหยิบจากวงนี้ ชิ้นที่เหลือเข้ากลางโต๊ะตามปกติ แล้วคนนั้น<b>เอาแผ่น SF นี้ไปต่อข้างแถวโรงหล่อ</b>จนจบรอบ ชิ้น<b>ถัดไป 1 ชิ้น</b>ที่ต้องลงโรงหล่อ วางบนแผ่นนี้แทน <b>ไม่โดนหักแต้ม</b></p></div>
+      </div>
+      <div class="callout teal">
+        <h3>ใช้ให้เป็น</h3>
+        <ul>
+          <li><b>SF 3</b> ทำให้วงนั้นไม่ป้อนกลางโต๊ะ กลางโต๊ะจะเล็กลง และตัวบอกผู้เริ่มจะถูกหยิบช้าลง</li>
+          <li><b>SF 4</b> เป็นอาวุธ: แบ่งชิ้นให้วงข้าง ๆ กลายเป็นวงที่มีสีเดียวกันเยอะเกินไป บังคับให้คนต่อไปต้องหยิบแล้วตก</li>
+          <li><b>SF 5</b> คุ้มที่สุดเมื่อคุณรู้ว่ารอบนี้ต้องตกแน่ ๆ อยู่แล้ว ช่องนี้ใช้ได้แค่ 1 ชิ้น</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ตอนเตรียมเกม</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="h-players" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+          <label class="chk"><input type="checkbox" id="h-sf"> โรงงานพิเศษ</label>
+          <label class="chk"><input type="checkbox" id="h-brown"> บอร์ดฝั่งน้ำตาล</label>
+        </div>
+        <div class="calc-out" id="h-out"></div>
+        <ul class="notes" id="h-notes"></ul>
+        <div class="tool-row" id="h-sfdraw-row" hidden>
+          <button type="button" class="btn" id="h-sfdraw">สุ่มตำแหน่งโรงงานพิเศษรอบนี้</button>
+          <span id="h-sfres" class="note"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCORER -->
+    <section id="scorer">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น & จบเกม</span><h2>คิดแต้มกล่องช็อกโกแลต</h2></div>
+      <p class="prose">ลอกกล่องของผู้เล่นคนหนึ่งลงตาราง โหมด <b>“วางแล้วนับแต้ม”</b> แตะช่องว่างทีละช่องตามลำดับบนลงล่าง ระบบนับแต้มให้ทันที · โหมด <b>“แก้ตาราง”</b> แตะเพื่อใส่/เอาออกโดยไม่นับแต้ม (ใช้ลอกสภาพกล่องเดิม) · ช่องสรุปคำนวณโบนัสท้ายเกมจากตารางให้อัตโนมัติ</p>
+      <div class="tool">
+        <div class="ps">
+          <div style="display:grid;gap:12px;min-width:0">
+            <div class="seg" id="s-mode" role="group" aria-label="โหมด">
+              <button type="button" data-v="place" aria-pressed="true">วางแล้วนับแต้ม</button>
+              <button type="button" data-v="edit" aria-pressed="false">แก้ตาราง</button>
+            </div>
+            <div class="box5" id="s-grid" role="grid" aria-label="กล่องช็อกโกแลต 5 แถว 5 แนว"></div>
+            <div><span class="field-l">ชิ้นในแถวโรงหล่อรอบนี้ (รวมตัวบอกผู้เริ่ม)</span><div class="flr" id="s-floor"></div></div>
+            <div class="seg"><button type="button" class="btn" id="s-endround">จบรอบ: หักโรงหล่อ</button><button type="button" class="btn" id="s-clear">ล้างทั้งหมด</button></div>
+          </div>
+          <div style="display:grid;gap:12px;min-width:0">
+            <div class="calc-out" id="s-out"></div>
+            <div><span class="field-l">บันทึก</span><ol class="log" id="s-log"></ol></div>
+            <p class="note">ตารางใช้สีเรียงแบบทแยงเหมือนภาพประกอบ ถ้าบอร์ดจริงเรียงต่างไป แต้มวางและโบนัสแถว/แนวยังถูกต้อง เพราะดูแค่ตำแหน่ง ส่วนโบนัสสีให้นับตามตำแหน่งสีจริง · ฝั่งน้ำตาลใช้ได้เฉพาะแต้มวาง แถวนอน และแนวตั้ง</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบเกม</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="p-players" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน"></div></div>
+        <div class="sp-wrap"><table class="sp" id="p-table"></table></div>
+        <p id="p-result" style="font-family:var(--font-display);font-weight:600"></p>
+        <p class="note">ใส่คะแนนบนรางตอนจบรอบสุดท้าย แล้วใส่<b>จำนวน</b>แถวนอนครบ แนวตั้งครบ และสีครบ ระบบคูณ 2 / 7 / 10 ให้ · เสมอกันระบบดูจำนวนแถวนอนครบให้เอง</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>หยิบมาแล้วเทลงโรงหล่อทั้งหมด ทั้งที่มีแถวว่างรับได้ ทำได้ไหม</summary><p>ได้ คู่มือยกตัวอย่างจูเลียเลือกเทน้ำตาล 2 ชิ้นลงโรงหล่อทั้งคู่ (ทาง C) ชิ้นที่ “ไม่ต้องการวาง” ก็ลงโรงหล่อได้</p></details>
+        <details><summary>แบ่งชิ้นที่หยิบมาลงสองแถวได้ไหม</summary><p>ไม่ได้ ทั้งหมดต้องลงแถวรูปแบบแถวเดียว ส่วนที่ล้นลงโรงหล่อเท่านั้น</p></details>
+        <details><summary>หยิบกลางโต๊ะคนแรก ตัวบอกผู้เริ่มโดนหักแต้มจริงเหรอ</summary><p>จริง มันลงช่องซ้ายสุดที่ว่างของโรงหล่อและนับเหมือนชิ้นปกติ (−1 ถ้าเป็นชิ้นแรก) แลกกับการได้เริ่มรอบหน้า</p></details>
+        <details><summary>มีแค่ตัวบอกผู้เริ่มเหลือกลางโต๊ะ หยิบตัวนั้นอย่างเดียวได้ไหม</summary><p>ไม่ได้ ต้องหยิบชิ้นช็อกโกแลตเสมอ ตัวบอกผู้เริ่มติดมากับการหยิบกลางโต๊ะครั้งแรกของรอบ ถ้าตอนนั้นกลางโต๊ะไม่มีชิ้นแล้ว ระยะ A ก็จบแล้ว</p></details>
+        <details><summary>ชิ้นใหม่ต่อทั้งแนวนอนและแนวตั้ง นับชิ้นใหม่สองครั้งไหม</summary><p>นับ ตัวอย่างในคู่มือ: แนวนอน 4 + แนวตั้ง 3 = 7 แต้ม ชิ้นใหม่อยู่ในทั้งสองแถบ</p></details>
+        <details><summary>ทำแถวนอนครบแล้ว เกมจบทันทีเลยไหม</summary><p>ไม่ ทำระยะ B ของรอบนั้นให้ครบทุกคน (ทุกคนย้ายชิ้น นับแต้ม หักโรงหล่อ) แล้วจึงนับโบนัส ไม่มีระยะ C</p></details>
+        <details><summary>โรงหล่อเต็ม 7 ช่อง ชิ้นที่ตกเพิ่มหักเท่าไร</summary><p>ไม่หักเพิ่ม ชิ้นที่ตกเกินลงฝากล่องเลย ถ้าตัวบอกผู้เริ่มต้องลงตอนโรงหล่อเต็ม คู่มือไม่ได้เขียนไว้ วงส่วนใหญ่วางไว้ข้างหน้าตัวเองโดยไม่หักเพิ่ม <span class="flag">กฎบ้าน</span></p></details>
+        <details><summary>คะแนนติดลบได้ไหม</summary><p>ไม่ได้ ต่ำสุด 0</p></details>
+        <details><summary>ห้ามซ้ำสีกับแถวในกล่อง ใช้กับแถวรูปแบบที่มีชิ้นค้างอยู่ด้วยไหม</summary><p>กฎตรวจตอน<b>วาง</b>ชิ้นใหม่ลงแถวรูปแบบ แถวที่ค้างสีหนึ่งอยู่แล้วเติมได้เฉพาะสีนั้น และถ้าสีนั้นอยู่ในแถวกล่องคู่กันแล้ว ก็จะวางสีนั้นเพิ่มไม่ได้ · ในทางปฏิบัติไม่เกิดปัญหา เพราะการย้ายลงกล่องจะเคลียร์แถวรูปแบบนั้นเสมอ</p></details>
+        <details><summary>SF 2 ถ้าวงข้างเคียงไม่มีสีที่พิมพ์ไว้ หรือวงข้างเคียงเป็นโรงงานพิเศษ</summary><p>คู่มือเขียนว่า “ถ้าทำได้” ไม่มีสีนั้นก็ไม่ต้องหยิบจากวงนั้น วงข้างเคียงเป็นด้านฟ้าหรือทองก็หยิบได้ตามปกติ</p></details>
+        <details><summary>SF 3 ชิ้นที่ค้างบนวง ต้องหยิบจากวงนั้นก่อนจบระยะ A ไหม</summary><p>ต้อง ระยะ A จบเมื่อโรงงานทุกวงและกลางโต๊ะว่าง ชิ้นที่ค้างบน SF 3 ต้องถูกหยิบออกให้หมด และทุกครั้งที่หยิบจากวงนี้ ชิ้นที่เหลือก็ค้างต่อ</p></details>
+        <details><summary>SF 4 ถ้าเลือกวางชิ้นที่เหลือทั้งหมดไปวงเดียวได้ไหม</summary><p>ได้ คู่มือใช้คำว่า “ซ้ายและ/หรือขวา” ข้อห้ามมีข้อเดียวคือห้ามแยกสีเดียวกันไปคนละวง ถ้าวงข้างเคียงว่างแล้วก็วางลงได้ (คู่มือไม่ได้ห้าม)</p></details>
+        <details><summary>SF 5 ใช้รับตัวบอกผู้เริ่มได้ไหม</summary><p>คู่มือเขียนว่า “ชิ้นถัดไปที่ต้องลงโรงหล่อ” ไม่ได้แยกตัวบอกผู้เริ่มไว้ ตกลงกันก่อนเล่น วงส่วนใหญ่ให้รับเฉพาะชิ้นช็อกโกแลต <span class="flag">กฎบ้าน</span> · ชิ้นบน SF 5 จบรอบเอาไปฝากล่องตามปกติ</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ภาษาในคู่มือ</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>Factory display</dt><dd>โรงงาน · แผ่นวงกลมกลางโต๊ะ เติมวงละ 4 ชิ้น (ใน Azul ภาคแรกเรียกเหมือนกัน)</dd>
+        <dt>Center of the table</dt><dd>กลางโต๊ะ · ที่รวมชิ้นที่ถูกปัดออกจากโรงงาน</dd>
+        <dt>Pattern lines</dt><dd>แถวรูปแบบ · 5 แถวพักชิ้นทางซ้ายของบอร์ด</dd>
+        <dt>Chocolate box</dt><dd>กล่องช็อกโกแลต · ตาราง 5×5 (ภาคแรกเรียก wall/กำแพง)</dd>
+        <dt>Foundry line</dt><dd>แถวโรงหล่อ · แถวหักแต้ม (ภาคแรกเรียก floor line)</dd>
+        <dt>Box confection</dt><dd>จัดลงกล่อง · ระยะ B (ภาคแรกเรียก wall-tiling)</dd>
+        <dt>Starting player marker</dt><dd>ตัวบอกผู้เริ่ม</dd>
+        <dt>Special Factory (SF)</dt><dd>โรงงานพิเศษ · ด้านทองของแผ่นโรงงาน</dd>
+        <dt>Lid of the game box</dt><dd>ฝากล่อง · ที่พักชิ้นที่ใช้แล้ว เทกลับลงถุงเมื่อถุงหมด</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b></p>
+    <ul>
+      <li>คู่มือทางการ Azul – Master Chocolatier (Plan B Games / Next Move Games, 2022) ฉบับภาษาอังกฤษ V2 · เผยแพร่ที่ <a href="https://www.nextmove-games.com/en/azul/editions-speciales-azul/" target="_blank" rel="noopener">nextmove-games.com</a></li>
+      <li>ข้อมูลเกม: <a href="https://boardgamegeek.com/video/381410/azul-master-chocolatier/azul-master-chocolatier-announcement-plan-b-games" target="_blank" rel="noopener">BoardGameGeek</a> · ออกแบบโดย Michael Kiesling</li>
+      <li>หัวข้อ “ใช้ให้เป็น” “คำแนะนำ” และคำตอบที่มีป้าย <span class="flag">กฎบ้าน</span> เป็นข้อสรุปของผู้เรียบเรียง ไม่ใช่ข้อความในคู่มือ</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var NS="http://www.w3.org/2000/svg";
+var COL={k:"var(--t-k)",m:"var(--t-m)",w:"var(--t-w)",t:"var(--t-t)",p:"var(--t-p)"};
+var NAME={k:"ดำ",m:"น้ำตาล",w:"ขาว",t:"เขียวอมฟ้า",p:"สีที่ 5"};
+var ORDER=["t","k","m","w","p"];
+function wallColor(r,c){return ORDER[(c-r+5)%5];}
+/* one chocolate piece */
+function tile(x,y,s,c,opt){
+  opt=opt||{};
+  var o='<g'+(opt.ghost?' opacity=".25"':'')+'><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="'+(s*.2)+'" fill="'+COL[c]+'" stroke="rgba(0,0,0,.35)" stroke-width="1"/>';
+  if(!opt.ghost){o+='<rect x="'+(x+s*.18)+'" y="'+(y+s*.18)+'" width="'+(s*.64)+'" height="'+(s*.64)+'" rx="'+(s*.14)+'" fill="none" stroke="'+(c==="k"?"rgba(255,255,255,.25)":"rgba(0,0,0,.18)")+'" stroke-width="1.5"/>';}
+  if(opt.hl)o+='<rect x="'+(x-3)+'" y="'+(y-3)+'" width="'+(s+6)+'" height="'+(s+6)+'" rx="'+(s*.25)+'" fill="none" stroke="var(--gold)" stroke-width="3"/>';
+  return o+'</g>';
+}
+function txt(x,y,t,cls,anchor,size){return '<text x="'+x+'" y="'+y+'" class="'+(cls||"")+'" text-anchor="'+(anchor||"start")+'" font-size="'+(size||13)+'">'+t+'</text>';}
+function slot(x,y,s){return '<rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="'+(s*.2)+'" class="s-surface2" stroke="var(--line)"/>';}
+function marker(x,y,s){return '<g><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="'+(s*.2)+'" fill="var(--gold)" stroke="rgba(0,0,0,.35)"/><text x="'+(x+s/2)+'" y="'+(y+s*.68)+'" text-anchor="middle" font-size="'+(s*.5)+'" class="tagf" style="fill:#1d130c">1</text></g>';}
+function factory(cx,cy,r,tiles,gold){
+  var o='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+(gold?"#c8952f":"#3a6fa8")+'" stroke="rgba(0,0,0,.3)"/><circle cx="'+cx+'" cy="'+cy+'" r="'+(r-5)+'" fill="none" stroke="rgba(255,255,255,.35)" stroke-dasharray="3 4"/>';
+  var s=r*.62,pos=[[-1,-1],[0,-1],[-1,0],[0,0]];
+  tiles.forEach(function(c,i){if(c&&pos[i])o+=tile(cx+pos[i][0]*s+(pos[i][0]?-2:2),cy+pos[i][1]*s+(pos[i][1]?-2:2),s,c);});
+  return o;
+}
+function set(id,html){var e=document.getElementById(id);if(e)e.innerHTML=html;}
+
+/* HERO */
+(function(){
+  var o='<rect x="40" y="70" width="240" height="210" rx="16" fill="#5a3420" stroke="#2a160c" stroke-width="3"/><rect x="52" y="82" width="216" height="186" rx="10" fill="#2a160c"/>';
+  for(var r=0;r<5;r++)for(var c=0;c<5;c++){var on=(r*5+c)%3!==1||r===2;o+=tile(60+c*41,90+r*35.5,32,wallColor(r,c),{ghost:!on});}
+  o+='<path d="M40 70 L160 30 L280 70" fill="none" stroke="#e9c27a" stroke-width="3"/><path d="M160 30 q-14 -22 -30 -6 q16 4 30 6 q14 -2 30 -6 q-16 -16 -30 6z" fill="#c8952f"/>';
+  o+=factory(30,40,26,["m","w","t","k"],false)+factory(292,36,24,["p","p","k","w"],true);
+  set("heroart",o);
+})();
+
+/* BOARD */
+(function(){
+  var o='<rect x="10" y="10" width="680" height="360" rx="18" fill="#6b4426"/><rect x="20" y="20" width="660" height="340" rx="12" fill="#f3e6cf"/>';
+  /* score track */
+  o+=txt(34,44,"รางคะแนน","tagf","start",13).replace('class="tagf"','class="tagf" style="fill:#3b2418"');
+  for(var i=0;i<20;i++){o+='<rect x="'+(110+i*28)+'" y="30" width="24" height="20" rx="4" fill="#fffaf0" stroke="#c9b08a"/><text x="'+(122+i*28)+'" y="45" text-anchor="middle" font-size="10" class="tagf" style="fill:#6d5a4b">'+i+'</text>';}
+  o+='<circle cx="122" cy="40" r="7" fill="#b8352a"/>';
+  /* pattern lines */
+  var s=36,g=4,top=72;
+  for(var r=0;r<5;r++){
+    for(var k=0;k<=r;k++){var x=250-(k+1)*(s+g);o+='<rect x="'+x+'" y="'+(top+r*(s+g))+'" width="'+s+'" height="'+s+'" rx="7" fill="#e5d3b6" stroke="#c9b08a"/>';}
+    o+='<text x="28" y="'+(top+r*(s+g)+24)+'" font-size="12" class="tagf" style="fill:#6d5a4b">'+(r+1)+'</text>';
+  }
+  /* sample contents */
+  o+=tile(214,72,s,"m");
+  o+=tile(214,112,s,"w")+tile(174,112,s,"w");
+  o+=tile(214,152,s,"t");
+  o+='<path d="M256 '+(top+18)+' h20" stroke="#6d5a4b" stroke-width="2" marker-end="url(#ar)"/>';
+  o+='<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#6d5a4b"/></marker></defs>';
+  /* wall */
+  for(r=0;r<5;r++)for(var c=0;c<5;c++){var on=(r===0&&c===1)||(r===1&&(c===1||c===2))||(r===3&&c===0);o+=tile(286+c*(s+g),top+r*(s+g),s,wallColor(r,c),{ghost:!on});}
+  o+='<text x="384" y="290" text-anchor="middle" font-size="13" class="tagf" style="fill:#3b2418">กล่องช็อกโกแลต 5×5</text>';
+  o+='<text x="150" y="290" text-anchor="middle" font-size="13" class="tagf" style="fill:#3b2418">แถวรูปแบบ (ขวา→ซ้าย)</text>';
+  /* foundry */
+  var pen=[-1,-1,-2,-2,-2,-3,-3];
+  for(i=0;i<7;i++){o+='<text x="'+(56+i*44)+'" y="314" text-anchor="middle" font-size="12" class="tagf" style="fill:#b8352a">'+pen[i]+'</text><rect x="'+(38+i*44)+'" y="320" width="36" height="32" rx="7" fill="#e5d3b6" stroke="#c9b08a"/>';}
+  o+='<text x="360" y="342" font-size="13" class="tagf" style="fill:#3b2418">← แถวโรงหล่อ (ซ้าย→ขวา)</text>';
+  /* side notes */
+  o+='<text x="506" y="96" font-size="13" style="fill:#3b2418">แถว 1 → แถวนอน 1</text><text x="506" y="116" font-size="12" style="fill:#6d5a4b">แต่ละแถวรูปแบบส่งชิ้น</text><text x="506" y="132" font-size="12" style="fill:#6d5a4b">ไปแถวนอนเดียวกันในกล่อง</text>';
+  o+='<text x="506" y="176" font-size="13" style="fill:#3b2418">ช่องจาง = ยังว่าง</text><text x="506" y="194" font-size="12" style="fill:#6d5a4b">สีพิมพ์ไว้บนบอร์ดแล้ว</text><text x="506" y="210" font-size="12" style="fill:#6d5a4b">ชิ้นต้องลงช่องสีตรงกัน</text>';
+  set("boarddemo",o);
+})();
+
+/* OFFER */
+(function(){
+  var o=factory(90,90,48,["k","k","m","t"])+factory(240,90,48,["m","w","w","w"])+factory(390,90,48,[null,null,null,null]);
+  o+=txt(90,160,"① พอลหยิบดำ 2","tagf","middle",13)+txt(240,160,"② แม็กซ์หยิบน้ำตาล 1","tagf","middle",13)+txt(390,160,"โรงงานวงอื่น","mut","middle",12);
+  o+='<rect x="480" y="30" width="200" height="130" rx="14" class="s-surface2" stroke="var(--line)"/>'+txt(580,52,"กลางโต๊ะ","tagf","middle",13);
+  o+=marker(496,66,28)+tile(532,66,28,"m")+tile(566,66,28,"t")+tile(600,66,28,"w",{hl:1})+tile(634,66,28,"w",{hl:1})+tile(600,104,28,"w",{hl:1});
+  o+='<path d="M140 74 Q300 10 492 60" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="5 4"/><path d="M290 96 Q400 160 520 110" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="5 4"/>';
+  o+=txt(580,190,"③ จูเลียหยิบขาว 3 + ตัวบอกผู้เริ่ม","tagf","middle",13);
+  o+='<rect x="440" y="206" width="250" height="44" rx="10" class="s-surface" stroke="var(--line)"/>'+txt(452,232,"โรงหล่อของจูเลีย","mut","start",12);
+  o+=marker(560,214,28);for(var i=1;i<4;i++)o+=slot(560+i*32,214,28);
+  set("offerdemo",o);
+})();
+
+/* LINES */
+(function(){
+  var s=34,g=4,o='';
+  function row(y,n,fill){var r='';for(var k=0;k<n;k++){var x=250-(k+1)*(s+g);r+=fill&&fill[k]?tile(x,y,s,fill[k]):slot(x,y,s);}return r;}
+  var Y=[20,58,96,134,172];
+  var fills=[[],[],[],["t"],[]];
+  for(var r=0;r<5;r++){o+=row(Y[r],r+1,fills[r]);o+=txt(20,Y[r]+22,String(r+1),"tagf","start",13);}
+  for(r=0;r<5;r++)for(var c=0;c<5;c++){var on=(r===1||r===2)&&wallColor(r,c)==="m";o+=tile(266+c*(s+g),Y[r],s,wallColor(r,c),{ghost:!on});}
+  o+='<path d="M250 '+(Y[1]+17)+' h12" stroke="var(--bad)" stroke-width="3"/><path d="M250 '+(Y[2]+17)+' h12" stroke="var(--bad)" stroke-width="3"/>';
+  o+=txt(470,80,"✕ แถว 2, 3 กล่องมีน้ำตาลแล้ว","","start",13).replace('class=""','class="s-bad"');
+  o+=txt(470,152,"✕ แถว 4 มีเขียวอมฟ้าค้าง","","start",13).replace('class=""','class="s-bad"');
+  o+=txt(470,40,"✓ (A) แถว 1 + ตก 1","","start",13).replace('class=""','class="s-good"');
+  o+=txt(470,190,"✓ (B) แถว 5 ทั้งคู่","","start",13).replace('class=""','class="s-good"');
+  o+=txt(470,228,"✓ (C) โรงหล่อทั้งคู่","","start",13).replace('class=""','class="s-good"');
+  o+=txt(20,240,"ถือน้ำตาล 2 ชิ้น:","tagf","start",13)+tile(140,220,30,"m")+tile(174,220,30,"m");
+  o+='<rect x="20" y="258" width="300" height="36" rx="8" class="s-surface" stroke="var(--line)"/>'+txt(30,281,"โรงหล่อ","mut","start",12);
+  for(var i=0;i<6;i++)o+=slot(90+i*36,262,28);
+  set("linesdemo",o);
+})();
+
+/* SCORE EXAMPLES */
+(function(){
+  var s=26,g=3,o='';
+  function grid(ox,cells,nw,title,pts){
+    var r='';for(var y=0;y<5;y++)for(var x=0;x<5;x++){var k=y+","+x;var c=wallColor(y,x);if(k===nw)r+=tile(ox+x*(s+g),20+y*(s+g),s,c,{hl:1});else if(cells.indexOf(k)>-1)r+=tile(ox+x*(s+g),20+y*(s+g),s,c);else r+=tile(ox+x*(s+g),20+y*(s+g),s,c,{ghost:1});}
+    r+=txt(ox+72,184,title,"mut","middle",12)+txt(ox+72,212,pts,"tagf","middle",17);return r;
+  }
+  o+=grid(10,["0,3","3,0"],"1,1","ไม่มีชิ้นติด","+1");
+  o+=grid(185,["2,0","2,1"],"2,2","แนวนอน 3 ชิ้น","+3");
+  o+=grid(360,["0,3","1,3"],"2,3","แนวตั้ง 3 ชิ้น","+3");
+  o+=grid(535,["2,0","2,1","2,3","1,2","3,2"],"2,2","นอน 4 + ตั้ง 3","+7");
+  set("scoredemo",o);
+})();
+
+/* FOUNDRY */
+(function(){
+  var pen=[-1,-1,-2,-2,-2,-3,-3],o='';
+  for(var i=0;i<7;i++){var x=40+i*70;o+=txt(x+26,30,String(pen[i]),"tagf","middle",16).replace('class="tagf"','class="tagf s-bad"');
+    if(i===0)o+=marker(x,40,52);else if(i<5)o+=tile(x,40,52,["k","w","w","p"][i-1]);else o+=slot(x,40,52);}
+  o+=txt(40,128,"1 + 1 + 2 + 2 + 2 =","tagf","start",16)+txt(230,128,"−8 แต้ม","tagf","start",18).replace('class="tagf"','class="tagf s-bad"');
+  set("foundrydemo",o);
+})();
+
+/* SPECIAL FACTORIES */
+(function(){
+  var o='',xs=[70,210,350,490,630];
+  o+=factory(xs[0],70,44,["k","w","t","m"],true)+tile(xs[0]+20,104,24,"p",{hl:1});
+  o+=factory(xs[1],70,44,["m","w","t","k"],true)+'<path d="M'+(xs[1]-70)+' 70 h18 M'+(xs[1]+52)+' 70 h18" stroke="var(--fg)" stroke-width="2.5"/><path d="M'+(xs[1]-56)+' 64 l6 6 l-6 6 M'+(xs[1]+56)+' 64 l-6 6 l6 6" fill="none" stroke="var(--fg)" stroke-width="2.5"/>';
+  o+=factory(xs[2],70,44,[null,"w","t",null],true)+txt(xs[2],136,"เหลือค้างบนวง","mut","middle",11);
+  o+=factory(xs[3],70,44,[null,"w","t",null],true)+'<path d="M'+(xs[3]-50)+' 70 h-18 M'+(xs[3]+50)+' 70 h18" stroke="var(--fg)" stroke-width="2.5"/><path d="M'+(xs[3]-62)+' 64 l-6 6 l6 6 M'+(xs[3]+62)+' 64 l6 6 l-6 6" fill="none" stroke="var(--fg)" stroke-width="2.5"/>';
+  o+=factory(xs[4],70,44,[null,null,null,null],true)+tile(xs[4]-13,57,26,"k")+'<path d="M'+(xs[4]-30)+' 112 l60 0" stroke="var(--good)" stroke-width="3"/>'+txt(xs[4],136,"ตกฟรี 1 ชิ้น","mut","middle",11);
+  var t=["SF 1 · +1 จากถุง","SF 2 · ดูดจากข้าง","SF 3 · ไม่ปัดเข้ากลาง","SF 4 · แจกให้วงข้าง","SF 5 · ช่องรองรับ"];
+  xs.forEach(function(x,i){o+=txt(x,170,t[i],"tagf","middle",13);});
+  o+=txt(140,198,"ผลตอนตั้งรอบ","mut","middle",12)+txt(490,198,"ผลเมื่อมีคนหยิบจากวงนี้","mut","middle",12);
+  o+='<path d="M20 186 H260 M300 186 H680" stroke="var(--line)" stroke-width="2"/>';
+  set("sfdemo",o);
+})();
+
+/* ===== SETUP HELPER ===== */
+var hp=3;
+var hpEl=document.getElementById("h-players");
+[2,3,4].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.dataset.v=n;b.addEventListener("click",function(){hp=n;helper();});hpEl.appendChild(b);});
+document.getElementById("h-sf").addEventListener("change",helper);
+document.getElementById("h-brown").addEventListener("change",helper);
+function helper(){
+  Array.prototype.forEach.call(hpEl.children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.v===hp));});
+  var sf=document.getElementById("h-sf").checked,br=document.getElementById("h-brown").checked;
+  var disp={2:5,3:7,4:9}[hp],tiles=disp*4;
+  var cards=[["โรงงาน",disp+" วง","วงละ 4 ชิ้น"],["ชิ้นต่อรอบ",tiles+(sf?"+":""),"ถุง 100 ชิ้นพอราว "+(100/tiles).toFixed(1)+" รอบ"],["บอร์ด",br?"ด้านน้ำตาล":"ด้านสี","ทุกคนใช้ด้านเดียวกัน"]];
+  if(sf)cards.push(["โรงงานพิเศษ",hp+" วง","สุ่มพลิกด้านทองทุกรอบ"]);
+  set("h-out",cards.map(function(c,i){return '<div class="co'+(i===0?" hl":"")+'"><small>'+c[0]+'</small><b>'+c[1]+'</b><small>'+c[2]+'</small></div>';}).join(""));
+  var n=["คนที่กินช็อกโกแลตล่าสุดเป็นผู้เริ่ม เติมโรงงานวงละ 4 ชิ้นพอดี","บอร์ด ตัวนับ และโรงงานที่ไม่ได้ใช้ เก็บลงกล่อง"];
+  if(sf)n.push("สับแผ่นโรงงานทั้ง 9 แผ่น (ด้านฟ้า) วาง "+disp+" วง แล้วสุ่มพลิก "+hp+" วงเป็นด้านทอง ทำซ้ำตอนเริ่มระยะ C ทุกรอบ","เติมครบแล้ว ทำผล SF 1 (จั่วเพิ่ม 1) และ SF 2 (ดูดสีที่พิมพ์ไว้จากวงข้างเคียง)");
+  if(br)n.push("ฝั่งน้ำตาล: แถวนอนและแนวตั้งในกล่องห้ามมีสีซ้ำ วางไม่ได้ = เทแถวนั้นลงโรงหล่อ");
+  set("h-notes",n.map(function(t){return "<li>"+t+"</li>";}).join(""));
+  document.getElementById("h-sfdraw-row").hidden=!sf;
+  if(!sf)set("h-sfres","");
+}
+document.getElementById("h-sfdraw").addEventListener("click",function(){
+  var disp={2:5,3:7,4:9}[hp],idx=[];for(var i=1;i<=disp;i++)idx.push(i);
+  for(i=idx.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=idx[i];idx[i]=idx[j];idx[j]=t;}
+  var pick=idx.slice(0,hp).sort(function(a,b){return a-b;});
+  set("h-sfres","นับวงตามเข็มนาฬิกาจากวงหน้าผู้เริ่ม พลิกวงที่ <b>"+pick.join(", ")+"</b> เป็นด้านทอง");
+});
+helper();
+
+/* ===== BOX SCORER ===== */
+var grid=[],mode="place",score=0,floorN=0,last=null,logs=[];
+for(var r=0;r<5;r++){grid.push([0,0,0,0,0]);}
+var gEl=document.getElementById("s-grid");
+for(r=0;r<5;r++)for(var c=0;c<5;c++){(function(r,c){
+  var b=document.createElement("button");b.type="button";var wc=wallColor(r,c);b.style.setProperty("--c",COL[wc]);if(wc==="k"||wc==="m")b.className="dk";
+  b.setAttribute("aria-label","แถว "+(r+1)+" แนว "+(c+1)+" สี"+NAME[wc]);b.innerHTML="<span></span>";
+  b.addEventListener("click",function(){cell(r,c);});gEl.appendChild(b);})(r,c);}
+var fEl=document.getElementById("s-floor"),PEN=[0,1,2,4,6,8,11,14];
+for(var i=0;i<=7;i++){(function(i){var b=document.createElement("button");b.type="button";b.innerHTML=i+"<small>"+(i?"−"+PEN[i]:"0")+"</small>";b.setAttribute("aria-label",i+" ชิ้น หัก "+PEN[i]);b.addEventListener("click",function(){floorN=i;draw();});fEl.appendChild(b);})(i);}
+Array.prototype.forEach.call(document.querySelectorAll("#s-mode button"),function(b){b.addEventListener("click",function(){mode=b.dataset.v;draw();});});
+function run(r,c,dr,dc){var n=0;r+=dr;c+=dc;while(r>=0&&r<5&&c>=0&&c<5&&grid[r][c]){n++;r+=dr;c+=dc;}return n;}
+function cell(r,c){
+  if(mode==="edit"){grid[r][c]=grid[r][c]?0:1;last=null;draw();return;}
+  if(grid[r][c]){return;}
+  grid[r][c]=1;
+  var h=1+run(r,c,0,-1)+run(r,c,0,1),v=1+run(r,c,-1,0)+run(r,c,1,0);
+  var pts=(h===1&&v===1)?1:(h>1?h:0)+(v>1?v:0);
+  score+=pts;last=[r,c];
+  logs.unshift("แถว "+(r+1)+" ("+NAME[wallColor(r,c)]+"): "+((h===1&&v===1)?"ไม่มีชิ้นติด":(h>1?"นอน "+h:"")+(h>1&&v>1?" + ":"")+(v>1?"ตั้ง "+v:""))+" = <b>+"+pts+"</b>");
+  draw();
+}
+document.getElementById("s-endround").addEventListener("click",function(){
+  if(!floorN)return;var before=score;score=Math.max(0,score-PEN[floorN]);
+  logs.unshift("จบรอบ: โรงหล่อ "+floorN+" ชิ้น = <b>−"+(before-score)+"</b>"+(before-score<PEN[floorN]?" (ไม่ต่ำกว่า 0)":""));floorN=0;draw();
+});
+document.getElementById("s-clear").addEventListener("click",function(){for(var r=0;r<5;r++)grid[r]=[0,0,0,0,0];score=0;floorN=0;last=null;logs=[];draw();});
+function bonus(){
+  var rows=0,cols=0,cols5=0;
+  for(var r=0;r<5;r++){if(grid[r].every(Boolean))rows++;}
+  for(var c=0;c<5;c++){var f=true;for(r=0;r<5;r++)if(!grid[r][c])f=false;if(f)cols++;}
+  ORDER.forEach(function(k){var n=0;for(var r=0;r<5;r++)for(var c=0;c<5;c++)if(grid[r][c]&&wallColor(r,c)===k)n++;if(n===5)cols5++;});
+  return {rows:rows,cols:cols,colors:cols5};
+}
+function draw(){
+  Array.prototype.forEach.call(document.querySelectorAll("#s-mode button"),function(b){b.setAttribute("aria-pressed",String(b.dataset.v===mode));});
+  var btns=gEl.children;
+  for(var r=0;r<5;r++)for(var c=0;c<5;c++){var b=btns[r*5+c];b.classList.toggle("on",!!grid[r][c]);b.classList.toggle("last",!!(last&&last[0]===r&&last[1]===c));}
+  Array.prototype.forEach.call(fEl.children,function(b,i){b.classList.toggle("on",i===floorN);b.setAttribute("aria-pressed",String(i===floorN));});
+  var B=bonus(),bon=B.rows*2+B.cols*7+B.colors*10;
+  set("s-out",
+    '<div class="co hl"><small>แต้มบนราง</small><b>'+score+'</b><small>จากการวาง − โรงหล่อ</small></div>'+
+    '<div class="co'+(floorN?" bad":"")+'"><small>โรงหล่อรอบนี้</small><b>'+(floorN?"−"+PEN[floorN]:"0")+'</b><small>กดจบรอบเพื่อหัก</small></div>'+
+    '<div class="co"><small>โบนัสท้ายเกม</small><b>+'+bon+'</b><small>นอน '+B.rows+'×2 · ตั้ง '+B.cols+'×7 · สี '+B.colors+'×10</small></div>'+
+    '<div class="co hl"><small>ถ้าจบเกมตอนนี้</small><b>'+(score+bon)+'</b><small>'+(B.rows?"มีแถวนอนครบ เกมจบหลังรอบนี้":"ยังไม่มีแถวนอนครบ")+'</small></div>');
+  set("s-log",logs.length?logs.slice(0,30).map(function(t){return "<li>"+t+"</li>";}).join(""):'<li class="note">ยังไม่มีการวาง</li>');
+}
+draw();
+
+/* ===== SCOREPAD ===== */
+var pp=2,data=[];
+for(i=0;i<4;i++)data.push({n:"ผู้เล่น "+(i+1),s:"",r:"",c:"",k:""});
+try{var sv=JSON.parse(localStorage.getItem("azulchoc-pad")||"null");if(sv&&sv.data&&sv.data.length===4){data=sv.data;pp=sv.pp||2;}}catch(e){}
+var ppEl=document.getElementById("p-players");
+[2,3,4].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.dataset.v=n;b.addEventListener("click",function(){pp=n;pad();});ppEl.appendChild(b);});
+var ROWS=[["s","คะแนนบนราง","ตอนจบรอบสุดท้าย",1],["r","แถวนอนครบ","× 2",2],["c","แนวตั้งครบ","× 7",7],["k","สีครบ 5 ชิ้น","× 10",10]];
+function save(){try{localStorage.setItem("azulchoc-pad",JSON.stringify({pp:pp,data:data}));}catch(e){}}
+function pad(){
+  Array.prototype.forEach.call(ppEl.children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.v===pp));});
+  var h='<thead><tr><th></th>';for(var p=0;p<pp;p++)h+='<th><input type="text" data-p="'+p+'" data-f="n" value="'+String(data[p].n).replace(/"/g,"&quot;")+'" aria-label="ชื่อผู้เล่น '+(p+1)+'"></th>';h+='</tr></thead><tbody>';
+  ROWS.forEach(function(R){h+='<tr><td>'+R[1]+'<span class="sub">'+R[2]+'</span></td>';for(var p=0;p<pp;p++)h+='<td><input type="number" min="0" inputmode="numeric" data-p="'+p+'" data-f="'+R[0]+'" value="'+data[p][R[0]]+'" aria-label="'+R[1]+' '+data[p].n+'"></td>';h+='</tr>';});
+  h+='<tr class="tot"><td>รวม</td>';for(p=0;p<pp;p++)h+='<td id="pt-'+p+'">0</td>';h+='</tr></tbody>';
+  document.getElementById("p-table").innerHTML=h;
+  Array.prototype.forEach.call(document.querySelectorAll("#p-table input"),function(inp){inp.addEventListener("input",function(){data[+inp.dataset.p][inp.dataset.f]=inp.value;save();tot();});});
+  save();tot();
+}
+function num(v){v=parseInt(v,10);return isNaN(v)||v<0?0:v;}
+function tot(){
+  var t=[];for(var p=0;p<pp;p++){var s=0;ROWS.forEach(function(R){s+=num(data[p][R[0]])*R[3];});t.push(s);var e=document.getElementById("pt-"+p);e.textContent=s;}
+  var best=Math.max.apply(null,t),top=[];t.forEach(function(v,p){if(v===best)top.push(p);});
+  if(top.length>1){var br=Math.max.apply(null,top.map(function(p){return num(data[p].r);}));top=top.filter(function(p){return num(data[p].r)===br;});}
+  for(p=0;p<pp;p++)document.getElementById("pt-"+p).classList.toggle("win",best>0&&top.indexOf(p)>-1);
+  var res=document.getElementById("p-result");
+  if(best<=0){res.textContent="";return;}
+  res.textContent=top.length===1?"ผู้ชนะ: "+data[top[0]].n+" ("+best+" แต้ม)":"ชนะร่วมกัน: "+top.map(function(p){return data[p].n;}).join(", ")+" ("+best+" แต้ม แถวนอนครบเท่ากัน)";
+}
+pad();
+})();
+</script>
+
+</body></html>

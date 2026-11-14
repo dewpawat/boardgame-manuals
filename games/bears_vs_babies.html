@@ -1,0 +1,838 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Bears vs Babies ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: a patchwork "stitched felt" hero with a hand-drawn monster facing three baby armies, then a reading column with a sticky chapter rail. Land/Sea/Sky army colors (green/blue/red) code every rule that depends on type. Battle judge + scorebook sit near the end. */
+:root{
+  --bg:#f3efe8;
+  --surface:#fffdf9;
+  --surface-2:#e9e2d6;
+  --fg:#2a211b;
+  --muted:#6c5f53;
+  --line:#d9cdbd;
+  --accent:#b5452b;
+  --accent-soft:#f6dfd6;
+  --felt:#3b2a3f;
+  --felt-2:#241a28;
+  --thread:#f2d27a;
+  --band-fg:#fbf4e8;
+  --land:#3f8a3c; --sea:#2f6fb3; --sky:#c2413a; --bear:#8a5a2f;
+  --land-soft:#dcefd8; --sea-soft:#dbe7f5; --sky-soft:#f6dcd9; --bear-soft:#efe0cd;
+  --good:#2f7d46; --bad:#b8352a;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171315;--surface:#201b1e;--surface-2:#2c2529;--fg:#f0e8df;--muted:#b4a79b;--line:#3d3438;
+    --accent:#f08a6a;--accent-soft:#3c221c;--felt:#2a1e2d;--felt-2:#140f16;--thread:#f2d27a;--band-fg:#fbf4e8;
+    --land:#6cbf68;--sea:#6aa6ea;--sky:#ef6e66;--bear:#c99460;
+    --land-soft:#1e3320;--sea-soft:#1a2a3d;--sky-soft:#3a1d1c;--bear-soft:#33261a;
+    --good:#66c886;--bad:#ff7b6e;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171315;--surface:#201b1e;--surface-2:#2c2529;--fg:#f0e8df;--muted:#b4a79b;--line:#3d3438;
+  --accent:#f08a6a;--accent-soft:#3c221c;--felt:#2a1e2d;--felt-2:#140f16;--thread:#f2d27a;--band-fg:#fbf4e8;
+  --land:#6cbf68;--sea:#6aa6ea;--sky:#ef6e66;--bear:#c99460;
+  --land-soft:#1e3320;--sea-soft:#1a2a3d;--sky-soft:#3a1d1c;--bear-soft:#33261a;
+  --good:#66c886;--bad:#ff7b6e;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.35;text-wrap:balance;margin:0}
+h2{font-size:1.7rem}
+h3{font-size:1.12rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:radial-gradient(ellipse at 85% 20%,#5a3a52 0%,transparent 55%),linear-gradient(160deg,var(--felt),var(--felt-2));color:var(--band-fg);overflow:hidden;position:relative}
+.hero::after{content:"";position:absolute;left:10px;right:10px;bottom:10px;border-bottom:3px dashed var(--thread);opacity:.5}
+.hero .wrap{padding-block:40px 40px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.4rem,6vw,3.7rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.4em;color:var(--thread);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1.5px dashed rgba(242,210,122,.45);border-radius:10px;padding:8px 14px}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--thread);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:380px;margin-inline:auto}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.85em;color:var(--muted)}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em;border:1.5px dashed var(--accent)}
+.callout.plain{background:var(--surface-2);border-color:var(--line)}
+.callout h3{font-size:1.06rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+/* formula chips (same pattern as Carcassonne Big Box) */
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:580px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)}
+.s-acc{fill:var(--accent)} .s-land{fill:var(--land)} .s-sea{fill:var(--sea)} .s-sky{fill:var(--sky)} .s-bear{fill:var(--bear)}
+.s-landsoft{fill:var(--land-soft)} .s-seasoft{fill:var(--sea-soft)} .s-skysoft{fill:var(--sky-soft)} .s-bearsoft{fill:var(--bear-soft)} .s-accsoft{fill:var(--accent-soft)}
+.s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+.k-fg{stroke:var(--fg)} .k-muted{stroke:var(--muted)} .k-line{stroke:var(--line)} .k-acc{stroke:var(--accent)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* cards grid */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.type.land{border-top:5px solid var(--land)} .type.sea{border-top:5px solid var(--sea)} .type.sky{border-top:5px solid var(--sky)} .type.bear{border-top:5px solid var(--bear)}
+
+.pill{display:inline-block;font-family:var(--font-tag);font-size:.75rem;font-weight:600;border-radius:999px;padding:0 9px;color:#fff;vertical-align:middle;white-space:nowrap}
+.pill.land{background:var(--land)} .pill.sea{background:var(--sea)} .pill.sky{background:var(--sky)} .pill.bear{background:var(--bear)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps > li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps > li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--felt);color:var(--thread);border:2px dashed var(--thread);z-index:1}
+.steps > li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.06rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-weight:600}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:38px}
+.seg button[aria-pressed="true"]{background:var(--felt);border-color:var(--felt);color:var(--thread)}
+.seg.army button[data-v="land"][aria-pressed="true"]{background:var(--land);border-color:var(--land);color:#fff}
+.seg.army button[data-v="sea"][aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+.seg.army button[data-v="sky"][aria-pressed="true"]{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.small{min-height:32px;padding:3px 11px;font-size:.84rem}
+.btn.acc{background:var(--accent);border-color:var(--accent);color:#fff}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)} .co.hl b{color:var(--accent)}
+.babies{display:flex;flex-wrap:wrap;gap:6px;min-height:40px;align-items:center}
+.bchip{font:600 .95rem var(--font-tag);border:0;border-radius:8px;width:38px;height:38px;cursor:pointer;color:#fff;background:var(--muted)}
+.verdict{border-radius:12px;padding:14px 16px;font-size:1.02rem;background:var(--surface-2);border:1.5px dashed var(--line)}
+.verdict b{font-family:var(--font-display)}
+.verdict.win{background:var(--land-soft);border-color:var(--good)}
+.verdict.lose{background:var(--sky-soft);border-color:var(--bad)}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.prow:last-child{border-bottom:0}
+.txt{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 8px;min-height:38px;width:100%;min-width:0}
+.numin{width:76px;text-align:center;font-family:var(--font-tag);font-weight:600}
+.chk{display:flex;align-items:center;gap:6px;font-size:.88rem;cursor:pointer;white-space:nowrap}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.sb-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.sb-row:last-child{border-bottom:0}
+.sb-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sb-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;min-height:24px}
+.sb-chips span{font:600 .8rem var(--font-tag);background:var(--surface-2);border-radius:6px;padding:1px 8px}
+.sb-total{text-align:right;font-family:var(--font-tag)}
+.sb-total b{display:block;font-size:1.7rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.sb-total small{color:var(--muted);font-size:.8rem}
+.sb-row.lead .sb-total b{color:var(--accent)}
+.crown{font:600 .72rem var(--font-tag);background:var(--accent);color:#fff;border-radius:999px;padding:0 8px}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.02rem;font-weight:500}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:56em}
+dl.gl dt{font-family:var(--font-display);font-weight:500}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art svg{max-width:280px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .wob{animation:wob 2.4s ease-in-out infinite alternate;transform-origin:center bottom;transform-box:fill-box}
+  @keyframes wob{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · ภาคหลัก (Core Game) · อิงคู่มือทางการ (Exploding Kittens)</div>
+      <h1>Bears vs Babies<span>หมีปะทะเบบี๋ · ต่อมอนสเตอร์จากชิ้นส่วน แล้วยั่วกองทัพทารกมาสู้</span></h1>
+      <p class="lede">ทุกคนประกอบ<b>มอนสเตอร์</b>จากการ์ดหัว ลำตัว แขน ขา วางต่อกันตามรอยเย็บ ระหว่างนั้นทารกที่จั่วได้จะไปรวมเป็น<b>กองทัพทารก</b> 3 กอง (บก ทะเล ฟ้า) เมื่อคิดว่าพร้อม ก็<b>ยั่ว</b>ให้กองทัพหนึ่งบุก ใครมีมอนสเตอร์ประเภทนั้นแรงที่สุดและแรงพอ ได้กินทารกทั้งกอง จบเกมใครกินทารกได้แต้มรวมมากที่สุดชนะ</p>
+      <div class="facts">
+        <div class="fact"><b>2–5</b><small>คน</small></div>
+        <div class="fact"><b>20</b><small>นาทีโดยประมาณ</small></div>
+        <div class="fact"><b>107</b><small>การ์ดในกล่อง</small></div>
+        <div class="fact"><b>10+</b><small>ปีขึ้นไป</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 320 300">
+        <ellipse cx="160" cy="284" rx="150" ry="12" fill="#000" opacity=".25"/>
+        <!-- monster (original patchwork design) -->
+        <g class="wob">
+          <rect x="96" y="128" width="96" height="104" rx="18" fill="#5aa0d8"/>
+          <path d="M100 180 h88" stroke="#f2d27a" stroke-width="3" stroke-dasharray="6 5"/>
+          <rect x="40" y="140" width="58" height="24" rx="12" fill="#6fbf62"/>
+          <path d="M96 146 v12" stroke="#f2d27a" stroke-width="3" stroke-dasharray="4 4"/>
+          <circle cx="38" cy="152" r="16" fill="#6fbf62"/>
+          <path d="M26 140 l-6 -10 M34 136 l-2 -12 M44 137 l3 -11" stroke="#2a211b" stroke-width="3" stroke-linecap="round"/>
+          <rect x="190" y="150" width="54" height="22" rx="11" fill="#e0675c"/>
+          <path d="M192 154 v12" stroke="#f2d27a" stroke-width="3" stroke-dasharray="4 4"/>
+          <path d="M244 161 l18 -12 l-4 14 l14 2 z" fill="#d9d4c4" stroke="#2a211b" stroke-width="2"/>
+          <rect x="110" y="228" width="24" height="46" rx="10" fill="#8a5a2f"/>
+          <rect x="154" y="228" width="24" height="46" rx="10" fill="#8a5a2f"/>
+          <ellipse cx="118" cy="274" rx="20" ry="9" fill="#5f3c1f"/><ellipse cx="170" cy="274" rx="20" ry="9" fill="#5f3c1f"/>
+          <circle cx="144" cy="86" r="50" fill="#a46a3a"/>
+          <circle cx="104" cy="50" r="16" fill="#a46a3a"/><circle cx="184" cy="50" r="16" fill="#a46a3a"/>
+          <circle cx="104" cy="50" r="7" fill="#e7b98b"/><circle cx="184" cy="50" r="7" fill="#e7b98b"/>
+          <path d="M144 128 v8" stroke="#f2d27a" stroke-width="3"/>
+          <ellipse cx="144" cy="104" rx="24" ry="18" fill="#e7b98b"/>
+          <circle cx="126" cy="80" r="8" fill="#fbf4e8"/><circle cx="162" cy="80" r="11" fill="#fbf4e8"/>
+          <circle cx="128" cy="82" r="4" fill="#1b1416"/><circle cx="160" cy="83" r="5" fill="#1b1416"/>
+          <ellipse cx="144" cy="96" rx="7" ry="5" fill="#2a211b"/>
+          <path d="M130 110 q14 10 28 0" stroke="#2a211b" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M136 112 l3 6 l3 -5 M148 112 l3 6 l3 -6" fill="#fbf4e8"/>
+          <path d="M118 66 l10 4 M170 64 l-10 6" stroke="#2a211b" stroke-width="3" stroke-linecap="round"/>
+          <path d="M100 96 l10 -2 M178 96 l10 2" stroke="#f2d27a" stroke-width="2.5" stroke-dasharray="3 3"/>
+          <!-- party hat -->
+          <path d="M150 36 l18 -34 l14 32 z" fill="#f2d27a"/>
+          <circle cx="168" cy="2" r="5" fill="#e0675c"/>
+        </g>
+        <!-- babies -->
+        <g>
+          <circle cx="262" cy="232" r="20" fill="#f3cfb1"/><path d="M246 224 q16 -18 32 0" fill="#6fbf62"/>
+          <circle cx="255" cy="234" r="2.6" fill="#1b1416"/><circle cx="269" cy="234" r="2.6" fill="#1b1416"/>
+          <ellipse cx="262" cy="244" rx="5" ry="3" fill="#e0675c"/>
+          <rect x="248" y="250" width="28" height="26" rx="10" fill="#6fbf62"/>
+          <circle cx="292" cy="246" r="15" fill="#f3cfb1"/><path d="M280 240 q12 -14 24 0" fill="#5aa0d8"/>
+          <circle cx="287" cy="248" r="2.2" fill="#1b1416"/><circle cx="297" cy="248" r="2.2" fill="#1b1416"/>
+          <rect x="281" y="260" width="22" height="18" rx="8" fill="#5aa0d8"/>
+          <circle cx="282" cy="200" r="13" fill="#f3cfb1"/><path d="M272 194 q10 -12 20 0" fill="#e0675c"/>
+          <circle cx="278" cy="202" r="2" fill="#1b1416"/><circle cx="286" cy="202" r="2" fill="#1b1416"/>
+          <path d="M296 196 q10 -6 14 2 q-8 2 -14 -2z M268 196 q-10 -6 -14 2 q8 2 14 -2z" fill="#fbf4e8" opacity=".9"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li class="sep">วิธีเล่น</li>
+      <li><a href="#turn">เล่นหนึ่งตา</a></li>
+      <li><a href="#build">ต่อมอนสเตอร์</a></li>
+      <li><a href="#extras">หมวก หน้ากาก เครื่องมือ</a></li>
+      <li><a href="#provoke">ยั่วทารกและการต่อสู้</a></li>
+      <li><a href="#cards">การ์ดพิเศษ</a></li>
+      <li><a href="#end">จบเกมและนับแต้ม</a></li>
+      <li class="sep">ใช้กลางโต๊ะ</li>
+      <li><a href="#helper">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#judge">เครื่องตัดสินศึก</a></li>
+      <li><a href="#score">สมุดคะแนน</a></li>
+      <li class="sep">อ้างอิง</li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์ไทย-อังกฤษ</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 240" role="img" aria-label="แต่ละตาเลือก 1 ใน 3 ทาง: ทำแอ็กชัน (จั่วหรือเล่นการ์ด) ยั่วทารก หรือคุ้ยกองทิ้ง">
+            <rect x="250" y="10" width="220" height="56" rx="14" class="s-surface2"/>
+            <text x="360" y="36" text-anchor="middle" class="disp s-fg" font-size="17">ตาของคุณ</text>
+            <text x="360" y="56" text-anchor="middle" class="s-muted" font-size="12.5">เลือกทำอย่างใดอย่างหนึ่ง</text>
+            <path d="M300 66 L130 104 M360 66 V104 M420 66 L590 104" class="k-muted" stroke-width="2.5" fill="none"/>
+            <rect x="20" y="104" width="220" height="126" rx="14" class="s-landsoft"/>
+            <text x="130" y="134" text-anchor="middle" class="disp s-fg" font-size="16">ก · ทำแอ็กชัน</text>
+            <text x="130" y="158" text-anchor="middle" class="s-muted" font-size="12.5">จั่ว 1 ใบ หรือ เล่น 1 ใบ</text>
+            <text x="130" y="176" text-anchor="middle" class="s-muted" font-size="12.5">= 1 แอ็กชัน ผสมกันได้</text>
+            <text x="130" y="204" text-anchor="middle" class="tagf s-fg" font-size="13">2 คน: 4 · 3 คน: 3 · 4–5 คน: 2</text>
+            <rect x="250" y="104" width="220" height="126" rx="14" class="s-skysoft"/>
+            <text x="360" y="134" text-anchor="middle" class="disp s-fg" font-size="16">ข · ยั่วทารก</text>
+            <text x="360" y="158" text-anchor="middle" class="s-muted" font-size="12.5">เลือกกองทัพทารก 1 กอง</text>
+            <text x="360" y="176" text-anchor="middle" class="s-muted" font-size="12.5">มอนสเตอร์ประเภทเดียวกัน</text>
+            <text x="360" y="194" text-anchor="middle" class="s-muted" font-size="12.5">ของทุกคนออกรบ</text>
+            <text x="360" y="216" text-anchor="middle" class="tagf s-fg" font-size="13">ตานี้ไม่ได้ทำแอ็กชัน</text>
+            <rect x="480" y="104" width="220" height="126" rx="14" class="s-seasoft"/>
+            <text x="590" y="134" text-anchor="middle" class="disp s-fg" font-size="16">ค · คุ้ยกองทิ้ง</text>
+            <text x="590" y="158" text-anchor="middle" class="s-muted" font-size="12.5">เลือกหยิบการ์ดใบไหนก็ได้</text>
+            <text x="590" y="176" text-anchor="middle" class="s-muted" font-size="12.5">จากกองทิ้ง 1 ใบ</text>
+            <text x="590" y="216" text-anchor="middle" class="tagf s-fg" font-size="13">ตานี้ไม่ได้ทำแอ็กชัน</text>
+          </svg>
+        </div>
+        <figcaption>ส่งตาตามเข็มนาฬิกา เกมจบเมื่อการ์ดในกองจั่วทั้ง 3 กองหมด แล้วทุกคนได้เล่นอีกคนละ 1 ตา</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>จำ 5 ข้อนี้ก่อน</h3>
+        <ol>
+          <li>มอนสเตอร์ทุกตัว<b>เริ่มจากหัว</b> สีวงรีบนหัวบอกประเภท <span class="pill land">บก</span> <span class="pill sea">ทะเล</span> <span class="pill sky">ฟ้า</span> ส่วน<b>หมี</b><span class="pill bear">หมี</span> นับเป็นทั้ง 3 ประเภท</li>
+          <li><b>พลัง</b>มอนสเตอร์ = ผลรวมตัวเลขบนหัวและชิ้นส่วนทุกชิ้น มอนสเตอร์ประเภทเดียวกันของคนเดียวกันรวมพลังกันเป็น<b>กองทัพ</b></li>
+          <li>จั่วได้<b>ทารก</b> ต้องวางคว่ำลงกองทัพทารกสีเดียวกันทันที (นับเป็น 1 แอ็กชัน)</li>
+          <li>ยั่วแล้ว กองทัพที่<b>แรงที่สุด</b>ต้อง<b>แรงเท่าหรือมากกว่า</b>ทารกถึงจะกินได้ เสมอกับทารก มอนสเตอร์ชนะ</li>
+          <li>หลังรบ มอนสเตอร์<b>ทุกตัวที่ออกรบถูกทิ้ง</b> ทั้งฝ่ายชนะและแพ้ ต้องสร้างใหม่</li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="สูตรพลังและแต้ม">
+        <div class="fm"><small>พลังมอนสเตอร์</small><b>หัว + ทุกชิ้นส่วน</b></div>
+        <div class="fm"><small>ใส่หมวก</small><b>พลังตัวนั้น × 2</b></div>
+        <div class="fm"><small>เครื่องมือ 1 ชิ้น</small><b>พลัง −1 · แอ็กชัน +1</b></div>
+        <div class="fm"><small>พลังทารก</small><b>ผลรวมเลขบนทารก</b></div>
+        <div class="fm"><small>ชนะศึก</small><b>แรงสุด และ ≥ ทารก</b></div>
+        <div class="fm end"><small>ท้ายเกม · แต้ม</small><b>ผลรวมเลขทารกที่กิน</b></div>
+        <div class="fm end"><small>ท้ายเกม · เสมอ</small><b>ทารกมากใบกว่าชนะ</b></div>
+      </div>
+      <p class="note">กล่องสีเข้มคือสิ่งที่นับ<b>ตอนจบเกม</b> · ถ้ากล่องที่คุณมีพิมพ์ต่างจากคู่มือนี้ตรงไหน ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์ · 107 ใบ + แผ่นรองเล่น</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="3">ชิ้นส่วนมอนสเตอร์ · 60 ใบ</td></tr>
+            <tr><td>หัวหมี <span class="en">Bear Head</span></td><td class="num">5</td><td>แรงสุด แต่โดนเล็งง่ายสุด นับเป็นทุกประเภท แจกคนละ 1 ตอนเริ่ม</td></tr>
+            <tr><td>หัวบก / หัวทะเล / หัวฟ้า <span class="en">Land · Sea · Sky Head</span></td><td class="num">7 · 7 · 7</td><td>สีวงรีบนหัวบอกประเภท</td></tr>
+            <tr><td>ลำตัวสี่แยก <span class="en">Crossroad Torso</span></td><td class="num">9</td><td>มีรอยเย็บหลายด้าน ต่อได้หลายทาง</td></tr>
+            <tr><td>ลำตัวแขนจิ๋ว <span class="en">Mini Arm Torso</span></td><td class="num">3</td><td></td></tr>
+            <tr><td>ตัวจิ๋ว <span class="en">Mini Body</span></td><td class="num">3</td><td></td></tr>
+            <tr><td>ตัวไร้แขน <span class="en">Armless Body</span></td><td class="num">2</td><td></td></tr>
+            <tr><td>ขา <span class="en">Legs</span></td><td class="num">7</td><td></td></tr>
+            <tr><td>แขน <span class="en">Arm</span></td><td class="num">10</td><td>กลับหัววางได้ เพื่อให้เข้าด้านซ้ายหรือขวา</td></tr>
+            <tr class="grp"><td colspan="3">ทารก · 27 ใบ (กองทัพละ 9 ใบ รวม 15 แต้ม)</td></tr>
+            <tr><td>ทารก 0 แต้ม <span class="en">บก · ทะเล · ฟ้า</span></td><td class="num">1 · 1 · 1</td><td rowspan="4">พลังของทารก = ตัวเลขบนการ์ด และเป็นแต้มที่ได้เมื่อกินมัน · ทั้งเกมมีทารกรวม 45 แต้ม</td></tr>
+            <tr><td>ทารก 1 แต้ม</td><td class="num">3 · 3 · 3</td></tr>
+            <tr><td>ทารก 2 แต้ม</td><td class="num">3 · 3 · 3</td></tr>
+            <tr><td>ทารก 3 แต้ม</td><td class="num">2 · 2 · 2</td></tr>
+            <tr class="grp"><td colspan="3">การ์ดอื่น · 20 ใบ</td></tr>
+            <tr><td>เครื่องมือ <span class="en">Tool (+1 Action)</span></td><td class="num">5</td><td>ดู <a href="#extras">หมวก หน้ากาก เครื่องมือ</a></td></tr>
+            <tr><td>หมวก <span class="en">Hat</span></td><td class="num">3</td><td>พลัง ×2</td></tr>
+            <tr><td>หน้ากาก <span class="en">Mask</span></td><td class="num">3</td><td>ซ่อนประเภทหัว</td></tr>
+            <tr><td>สลับหัว <span class="en">Swap</span></td><td class="num">2</td><td rowspan="4">ดู <a href="#cards">การ์ดพิเศษ</a></td></tr>
+            <tr><td>หั่นชิ้น <span class="en">Dismember</span></td><td class="num">3</td></tr>
+            <tr><td>เพลงกล่อม <span class="en">Lullaby</span></td><td class="num">2</td></tr>
+            <tr><td>ยั่วไวลด์ <span class="en">Wild Provoke</span></td><td class="num">2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวเลขพลังของชิ้นส่วนแต่ละใบดูจากมุมการ์ด คู่มือไม่ได้ทำตารางรายใบไว้ · ในกล่องการ์ดแยกเป็น 2 ห่อ: ห่อ 1 คือหัว ชิ้นส่วน และทารก ห่อ 2 คือการ์ดอื่น 20 ใบ</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 220" role="img" aria-label="แผ่นรองเล่นมีช่องกองทัพทารก 3 ช่อง บก ทะเล ฟ้า กองจั่ว 3 กอง และกองทิ้ง ผู้เล่นมีหัวหมี 1 ใบกับการ์ด 4 ใบในมือ">
+            <rect x="10" y="10" width="700" height="120" rx="16" class="s-surface2"/>
+            <text x="30" y="34" class="tagf s-muted" font-size="12">แผ่นรองเล่น · กองทัพทารก</text>
+            <g>
+              <rect x="40" y="46" width="130" height="70" rx="10" class="s-landsoft"/><rect x="58" y="56" width="36" height="50" rx="5" class="s-land"/><rect x="66" y="60" width="36" height="50" rx="5" class="s-land" opacity=".8"/>
+              <text x="140" y="86" text-anchor="middle" class="disp s-fg" font-size="15">บก</text>
+              <rect x="190" y="46" width="130" height="70" rx="10" class="s-seasoft"/><rect x="208" y="56" width="36" height="50" rx="5" class="s-sea"/>
+              <text x="290" y="86" text-anchor="middle" class="disp s-fg" font-size="15">ทะเล</text>
+              <rect x="340" y="46" width="130" height="70" rx="10" class="s-skysoft"/>
+              <text x="405" y="86" text-anchor="middle" class="s-muted" font-size="12.5">(ยังว่าง)</text>
+            </g>
+            <g>
+              <rect x="500" y="46" width="44" height="64" rx="6" class="s-fg" opacity=".85"/><rect x="552" y="46" width="44" height="64" rx="6" class="s-fg" opacity=".85"/><rect x="604" y="46" width="44" height="64" rx="6" class="s-fg" opacity=".85"/>
+              <text x="574" y="124" text-anchor="middle" class="tagf s-muted" font-size="11.5">กองจั่ว 3 กอง</text>
+              <rect x="658" y="54" width="40" height="56" rx="6" fill="none" class="k-muted" stroke-width="2" stroke-dasharray="4 3"/>
+              <text x="678" y="86" text-anchor="middle" class="s-muted" font-size="11">ทิ้ง</text>
+            </g>
+            <text x="30" y="160" class="tagf s-muted" font-size="12">มือของผู้เล่นแต่ละคน</text>
+            <rect x="30" y="170" width="38" height="44" rx="5" class="s-bear"/><text x="49" y="197" text-anchor="middle" fill="#fff" class="tagf" font-size="11">หมี</text>
+            <g class="s-surface"><rect x="76" y="170" width="38" height="44" rx="5" stroke="var(--line)"/><rect x="120" y="170" width="38" height="44" rx="5" stroke="var(--line)"/><rect x="164" y="170" width="38" height="44" rx="5" stroke="var(--line)"/><rect x="208" y="170" width="38" height="44" rx="5" stroke="var(--line)"/></g>
+            <text x="262" y="198" class="s-muted" font-size="12.5">หัวหมี 1 + การ์ด 4 ใบ · จั่วได้ทารกตอนแจก วางลงกองทัพแล้วจั่วแทน</text>
+          </svg>
+        </div>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>กางแผ่นรองเล่นไว้กลางโต๊ะ</h3><p>มีช่องกองทัพทารก 3 ช่อง: <span class="pill land">บก · เขียว</span> <span class="pill sea">ทะเล · น้ำเงิน</span> <span class="pill sky">ฟ้า · แดง</span></p></div></li>
+        <li><div class="body"><h3>แจกหัวหมีคนละ 1 ใบ</h3><p>หัวหมีที่เหลือ (เช่นเล่น 3 คนเหลือ 2 ใบ) สับรวมกับการ์ดทั้งหมด</p></div></li>
+        <li><div class="body"><h3>สับการ์ดทั้งสองห่อรวมกัน แจกคนละ 4 ใบ</h3><p>ในมือจะมี 5 ใบ (หัวหมี + 4) · ถ้าได้<b>ทารก</b> วางคว่ำลงกองทัพสีเดียวกัน แล้วจั่วแทนจนครบ · ถ้าได้<b>ยั่วไวลด์</b> สับคืนกองจั่วแล้วจั่วใบใหม่</p></div></li>
+        <li><div class="body"><h3>แบ่งการ์ดที่เหลือเป็นกองจั่ว 3 กอง</h3><p>คว่ำไว้ จะจั่วจากกองไหนก็ได้ กองที่หมดแล้วไม่ต้องเติม เว้นที่ไว้เป็นกองทิ้ง</p></div></li>
+        <li><div class="body"><h3>เลือกคนเริ่ม แล้วเล่นตามเข็มนาฬิกา</h3></div></li>
+      </ol>
+      <div class="callout plain">
+        <h3>รอบฝึก (เล่นครั้งแรก)</h3>
+        <p>คู่มือแนะนำให้เปิดแค่<b>ห่อ 1</b> (หัว ชิ้นส่วน ทารก) ไม่ต้องแจกหัวหมี แจกคนละ 5 ใบ (ทารกวางลงกองทัพแล้วจั่วแทน) แบ่งที่เหลือเป็น 3 กอง แล้วเล่นสัก 3 รอบโต๊ะเพื่อดูว่ามอนสเตอร์กับทารกโตขึ้นยังไง พอเข้าใจแล้วค่อยเริ่มเกมจริงพร้อมห่อ 2</p>
+      </div>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">วิธีเล่น</span><h2>เล่นหนึ่งตา</h2></div>
+      <div class="types">
+        <div class="type"><h3>ก · ทำแอ็กชัน <span class="en">Take Actions</span></h3>
+          <ul>
+            <li>จั่ว 1 ใบ = 1 แอ็กชัน</li>
+            <li>เล่น 1 ใบ (ต่อชิ้นส่วน ใช้การ์ดพิเศษ) = 1 แอ็กชัน</li>
+            <li>จั่วได้ทารกแล้ววางลงกองทัพ นับเป็นแอ็กชันของการจั่วนั้น</li>
+            <li>ผสมกันได้ตามใจ เช่น จั่ว 1 เล่น 1</li>
+            <li>ไม่มีขีดจำกัดการ์ดในมือ</li>
+          </ul>
+        </div>
+        <div class="type"><h3>ข · ยั่วทารก <span class="en">Provoke</span></h3>
+          <p>ไม่ได้ทำแอ็กชันเลยในตานี้ ประกาศ “ยั่ว!” แล้วเลือกกองทัพทารก 1 กองมาสู้ ดูรายละเอียดที่ <a href="#provoke">ยั่วทารกและการต่อสู้</a></p>
+        </div>
+        <div class="type"><h3>ค · คุ้ยกองทิ้ง <span class="en">Dumpster Dive</span></h3>
+          <p>ไม่ได้ทำแอ็กชัน แต่เลือกหยิบการ์ดใบไหนก็ได้จากกองทิ้ง 1 ใบเข้ามือ ถ้าหยิบทารกขึ้นมา ต้องวางลงกองทัพทันที</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนผู้เล่น</th><th class="num">2 คน</th><th class="num">3 คน</th><th class="num">4–5 คน</th></tr></thead>
+          <tbody><tr><td>แอ็กชันต่อตา</td><td class="num">4</td><td class="num">3</td><td class="num">2</td></tr><tr><td>เครื่องมือแต่ละชิ้นที่ต่ออยู่</td><td class="num" colspan="3">+1 แอ็กชันต่อตา</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BUILD -->
+    <section id="build">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ต่อมอนสเตอร์</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 260" role="img" aria-label="ตัวอย่างมอนสเตอร์บก: หัวบกพลัง 2 ต่อกับลำตัวพลัง 1 แขนพลัง 1 และขาพลัง 1 รวมพลัง 5 รอยเย็บต้องตรงกัน">
+            <g>
+              <rect x="80" y="14" width="110" height="70" rx="10" class="s-landsoft" stroke="var(--land)" stroke-width="2"/>
+              <ellipse cx="135" cy="42" rx="22" ry="12" class="s-land"/><text x="135" y="47" text-anchor="middle" fill="#fff" class="tagf" font-size="12">บก</text>
+              <circle cx="176" cy="28" r="11" class="s-fg"/><text x="176" y="32" text-anchor="middle" class="tagf s-surface" font-size="12">2</text>
+              <text x="135" y="74" text-anchor="middle" class="s-muted" font-size="11.5">หัว</text>
+              <path d="M110 84 h50" class="k-acc" stroke-width="3" stroke-dasharray="5 4"/>
+              <rect x="80" y="88" width="110" height="80" rx="10" class="s-surface2" stroke="var(--line)" stroke-width="2"/>
+              <circle cx="176" cy="102" r="11" class="s-fg"/><text x="176" y="106" text-anchor="middle" class="tagf s-surface" font-size="12">1</text>
+              <text x="135" y="134" text-anchor="middle" class="s-muted" font-size="11.5">ลำตัวสี่แยก</text>
+              <path d="M190 112 v32" class="k-acc" stroke-width="3" stroke-dasharray="5 4"/>
+              <rect x="194" y="104" width="90" height="48" rx="10" class="s-surface2" stroke="var(--line)" stroke-width="2"/>
+              <circle cx="270" cy="118" r="11" class="s-fg"/><text x="270" y="122" text-anchor="middle" class="tagf s-surface" font-size="12">1</text>
+              <text x="234" y="134" text-anchor="middle" class="s-muted" font-size="11.5">แขน</text>
+              <path d="M110 168 h50" class="k-acc" stroke-width="3" stroke-dasharray="5 4"/>
+              <rect x="80" y="172" width="110" height="70" rx="10" class="s-surface2" stroke="var(--line)" stroke-width="2"/>
+              <circle cx="176" cy="186" r="11" class="s-fg"/><text x="176" y="190" text-anchor="middle" class="tagf s-surface" font-size="12">1</text>
+              <text x="135" y="214" text-anchor="middle" class="s-muted" font-size="11.5">ขา</text>
+            </g>
+            <text x="20" y="130" class="tagf s-acc" font-size="11" transform="rotate(-90 20 130)">รอยเย็บต้องตรงกัน</text>
+            <rect x="340" y="40" width="360" height="180" rx="16" class="s-landsoft"/>
+            <text x="520" y="78" text-anchor="middle" class="disp s-fg" font-size="17">มอนสเตอร์บก</text>
+            <text x="520" y="118" text-anchor="middle" class="tagf s-fg" font-size="22">2 + 1 + 1 + 1 = 5</text>
+            <text x="520" y="152" text-anchor="middle" class="s-muted" font-size="13">ถ้ามีมอนสเตอร์บกอีกตัวพลัง 3</text>
+            <text x="520" y="172" text-anchor="middle" class="s-muted" font-size="13">กองทัพบกของคุณ = 5 + 3 = 8</text>
+            <text x="520" y="200" text-anchor="middle" class="s-muted" font-size="12">(ตัวเลขในภาพเป็นตัวอย่าง ดูเลขจริงที่มุมการ์ด)</text>
+          </svg>
+        </div>
+        <figcaption>วางชิ้นส่วนต่อกันให้รอยเย็บ (เส้นประตรงขอบการ์ด) ตรงกัน ทุกชิ้นที่ต่อเข้าหัวแล้วนับรวมพลัง</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>กฎการต่อ</h3>
+          <ul>
+            <li>ต้องวาง<b>หัว</b>ก่อนเสมอ ถึงจะเริ่มมอนสเตอร์ได้</li>
+            <li>ชิ้นต่อไปต้องต่อกับรอยเย็บที่ยังว่าง และรอยเย็บต้องตรงกัน</li>
+            <li>ต่อการ์ดชนิดเดียวกันชนกันไม่ได้ (เช่นลำตัวชนลำตัว)</li>
+            <li>วางแล้ว<b>ย้ายหรือจัดใหม่ไม่ได้</b></li>
+            <li>แขนและเครื่องมือกลับหัววางได้ ให้เข้าด้านไหนก็ได้</li>
+            <li>สร้างหลายตัวพร้อมกันได้ ไม่ต้องทำตัวแรกให้เสร็จก่อน</li>
+          </ul>
+        </div>
+        <div class="type"><h3>ประเภทและกองทัพ</h3>
+          <ul>
+            <li>สีวงรีบนหัวบอกประเภท: <span class="pill land">บก</span> <span class="pill sea">ทะเล</span> <span class="pill sky">ฟ้า</span></li>
+            <li>มอนสเตอร์ประเภทเดียวกันของคุณ<b>รวมเป็นกองทัพเดียว</b> พลังบวกกัน</li>
+            <li>สู้ได้เฉพาะกองทัพทารกประเภทเดียวกัน</li>
+          </ul>
+        </div>
+        <div class="type bear"><h3><span class="pill bear">หมี</span> หัวหมี</h3>
+          <ul>
+            <li>นับเป็น<b>ทั้งบก ทะเล และฟ้า</b> ออกรบได้ทุกครั้งที่มีคนยั่ว</li>
+            <li>พลังสูงสุดในเกม แต่เพราะออกรบทุกศึก จึงถูกทิ้งเร็ว และเป็นเป้าของสลับหัว/หั่นชิ้น</li>
+          </ul>
+        </div>
+        <div class="type"><h3>มอนสเตอร์ไร้หัว</h3>
+          <p>ถ้าหัวถูกหั่นออก มอนสเตอร์ “ตาย” ชั่วคราว ออกรบไม่ได้ และเครื่องมือที่ถืออยู่ไม่ให้แอ็กชันเพิ่ม จนกว่าจะวางหัวใหม่ลงในตำแหน่งหัว</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXTRAS -->
+    <section id="extras">
+      <div class="sec-head"><span class="tag">ของเสริมบนตัวมอนสเตอร์</span><h2>หมวก หน้ากาก เครื่องมือ</h2></div>
+      <div class="types">
+        <div class="type"><h3>หมวก <span class="en">Hat · 3 ใบ</span></h3>
+          <ul>
+            <li>ใส่บนหัว: <b>พลังมอนสเตอร์ตัวนั้น ×2</b> (รวมผลของเครื่องมือแล้วค่อยคูณ)</li>
+            <li>ตัวละ 1 ใบเท่านั้น</li>
+            <li>เช่น มอนสเตอร์พลัง 4 ใส่หมวก = 8</li>
+            <li>หัวที่ใส่หมวกถูกหั่นไม่ได้ ต้องหั่นหมวกก่อน</li>
+          </ul>
+        </div>
+        <div class="type"><h3>หน้ากาก <span class="en">Mask · 3 ใบ</span></h3>
+          <ul>
+            <li>วางทับหัวใดก็ได้ (1 แอ็กชัน) เพื่อ<b>ซ่อนประเภท</b>ของหัวนั้น</li>
+            <li>เปิดหน้ากากเมื่อมีคนยั่วกองทัพประเภทของหัวนั้น</li>
+            <li>หัว + หน้ากาก นับเป็นการ์ดเดียวเวลาโดนสลับหัวหรือหั่นชิ้น</li>
+          </ul>
+        </div>
+        <div class="type"><h3>เครื่องมือ <span class="en">Tool · 5 ใบ</span></h3>
+          <ul>
+            <li>ต่อกับช่องเครื่องมือของมอนสเตอร์ (ช่องนี้รับได้แต่เครื่องมือ)</li>
+            <li><b>+1 แอ็กชันทุกตา</b> มีผลทันทีที่วาง</li>
+            <li>แลกกับ<b>พลังมอนสเตอร์ −1</b></li>
+            <li>ต้องอยู่กับมอนสเตอร์ที่มีหัว ถึงจะให้แอ็กชัน</li>
+            <li>มีหลายชิ้นได้ ถ้ามีช่องให้ต่อ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVOKE -->
+    <section id="provoke">
+      <div class="sec-head"><span class="tag">วิธีได้แต้ม</span><h2>ยั่วทารกและการต่อสู้</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ประกาศ “ยั่ว!” แทนการทำแอ็กชัน <span class="en">Provoke</span></h3><p>เลือกกองทัพทารก 1 กองที่มีทารกอยู่ และต้องมีมอนสเตอร์ประเภทนั้นอยู่บนโต๊ะอย่างน้อย 1 ตัว (ของใครก็ได้ ไม่จำเป็นต้องเป็นของคุณ)</p></div></li>
+        <li><div class="body"><h3>หงายทารกทั้งกอง รวมพลัง <span class="en">Reveal the Babies</span></h3><p>พลังทารก = ผลรวมตัวเลขบนการ์ดทารกทุกใบในกองนั้น</p></div></li>
+        <li><div class="body"><h3>ทุกคนที่มีมอนสเตอร์ประเภทนั้นออกรบ <span class="en">Monster Armies fight</span></h3><p>รวมทั้งคนที่ยั่ว และ<b>หัวหมี</b>ทุกหัว · เปิดหน้ากากของหัวประเภทนั้น · แต่ละคนรวมพลังกองทัพของตัวเอง</p></div></li>
+        <li><div class="body"><h3>ตัดสิน</h3>
+          <ul>
+            <li>กองทัพของผู้เล่นที่<b>แรงที่สุด</b> เทียบกับทารก: <b>มากกว่าหรือเท่ากัน</b> = ชนะ เก็บทารกทั้งกองเป็นแต้ม (คว่ำไว้หน้าตัว)</li>
+            <li>แรงที่สุดยังแพ้ทารก = ไม่มีใครได้ ทารกทั้งกองลงกองทิ้ง</li>
+            <li>ผู้เล่นเสมอกันที่อันดับ 1 (และชนะทารก): ดูกล่องด้านล่าง</li>
+          </ul></div></li>
+        <li><div class="body"><h3>ทิ้งมอนสเตอร์ทุกตัวที่ออกรบ <span class="en">Aftermath</span></h3><p>ทั้งฝ่ายชนะและฝ่ายแพ้ รวมหมวก หน้ากาก เครื่องมือที่ติดอยู่ · ตาของคนยั่วจบ</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 720 230" role="img" aria-label="ตัวอย่าง: ยั่วกองทัพบก ทารกรวม 4 ผู้เล่น 2 มีกองทัพบก 5 ผู้เล่น 3 มีกองทัพบก 7 ผู้เล่น 1 ไม่มี ผู้เล่น 3 ชนะ">
+            <rect x="10" y="20" width="200" height="190" rx="14" class="s-landsoft"/>
+            <text x="110" y="48" text-anchor="middle" class="disp s-fg" font-size="15">กองทัพทารกบก</text>
+            <g><rect x="38" y="64" width="40" height="56" rx="6" class="s-land"/><rect x="88" y="64" width="40" height="56" rx="6" class="s-land"/><rect x="138" y="64" width="40" height="56" rx="6" class="s-land"/></g>
+            <g fill="#fff" class="tagf" font-size="18" text-anchor="middle"><text x="58" y="99">2</text><text x="108" y="99">1</text><text x="158" y="99">1</text></g>
+            <text x="110" y="160" text-anchor="middle" class="tagf s-fg" font-size="26">= 4</text>
+            <text x="110" y="190" text-anchor="middle" class="s-muted" font-size="12">พลังทารก</text>
+            <g font-size="13">
+              <rect x="240" y="20" width="140" height="190" rx="14" class="s-surface2"/>
+              <text x="310" y="50" text-anchor="middle" class="disp s-fg" font-size="15">ผู้เล่น 1</text>
+              <text x="310" y="110" text-anchor="middle" class="s-muted">ไม่มีมอนสเตอร์บก</text>
+              <text x="310" y="130" text-anchor="middle" class="s-muted">ไม่ได้ออกรบ</text>
+              <rect x="400" y="20" width="140" height="190" rx="14" class="s-surface2"/>
+              <text x="470" y="50" text-anchor="middle" class="disp s-fg" font-size="15">ผู้เล่น 2</text>
+              <text x="470" y="110" text-anchor="middle" class="tagf s-fg" font-size="26">5</text>
+              <text x="470" y="140" text-anchor="middle" class="s-muted">ชนะทารก แต่</text>
+              <text x="470" y="158" text-anchor="middle" class="s-muted">ไม่ใช่ที่ 1</text>
+              <rect x="560" y="20" width="150" height="190" rx="14" class="s-accsoft" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>
+              <text x="635" y="50" text-anchor="middle" class="disp s-fg" font-size="15">ผู้เล่น 3</text>
+              <text x="635" y="110" text-anchor="middle" class="tagf s-acc" font-size="26">4 + 3 = 7</text>
+              <text x="635" y="140" text-anchor="middle" class="s-fg">แรงสุด และ ≥ 4</text>
+              <text x="635" y="166" text-anchor="middle" class="disp s-acc" font-size="15">กินทารก 4 แต้ม</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>ตัวอย่างจากคู่มือ: หลังศึก มอนสเตอร์บกของผู้เล่น 2 และ 3 ถูกทิ้งทั้งหมด (หัวหมีถ้ามีก็ถูกทิ้งด้วย เพราะมันออกรบ)</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ผู้เล่นเสมอกัน</h3>
+          <p>ถ้ากองทัพของผู้เล่นตั้งแต่ 2 คนแรงเท่ากันที่อันดับ 1 ไม่มีใครได้ทารก: ทารกคว่ำกลับลงกองทัพเดิม มอนสเตอร์ของคนที่เสมอ<b>อยู่ต่อ</b>รอศึกหน้า ส่วนคนที่แพ้ทิ้งมอนสเตอร์ที่ออกรบ</p>
+        </div>
+        <div class="type"><h3>เสมอกับทารก</h3><p>มอนสเตอร์ชนะ เช่น ทารก 6 กองทัพ 6 = กินได้</p></div>
+        <div class="type"><h3>ยั่วโดยไม่มีมอนสเตอร์ของตัวเอง</h3><p>ทำได้ เช่นยั่วเพื่อให้หัวหมีของคนอื่นต้องออกรบแล้วถูกทิ้ง หรือเพื่อล้างกองทัพทารกที่กำลังโตเกินไป</p></div>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">การ์ดในห่อ 2</span><h2>การ์ดพิเศษ</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>ทำอะไร (เล่น = 1 แอ็กชัน)</th></tr></thead>
+          <tbody>
+            <tr><td><b>สลับหัว</b><br><span class="en">Swap</span></td><td class="num">2</td><td>สลับหัว 2 หัวบนโต๊ะ ระหว่างของคุณกับคนอื่น ระหว่างคนอื่นสองคน หรือของคุณเองก็ได้ · หัวที่มีหมวก ย้ายไปแต่หัว (หมวกอยู่ที่เดิม) · หัวที่มีหน้ากาก ย้ายไปพร้อมหน้ากาก</td></tr>
+            <tr><td><b>หั่นชิ้น</b><br><span class="en">Dismember</span></td><td class="num">3</td><td>ทิ้งการ์ด<b>ที่อยู่ริม</b> 1 ใบ (การ์ดที่ต่อกับการ์ดอื่นเพียงใบเดียว) จากมอนสเตอร์ของใครก็ได้ รวมของตัวเอง ส่วนที่เหลืออยู่ต่อ · หั่นหัวได้ ถ้าหัวอยู่ริม → มอนสเตอร์ไร้หัว · หัวใส่หมวก ต้องหั่นหมวกก่อน · หัวที่มีหน้ากาก ทิ้งไปพร้อมหน้ากาก</td></tr>
+            <tr><td><b>เพลงกล่อม</b><br><span class="en">Lullaby</span></td><td class="num">2</td><td>เลือกกองทัพทารก 1 กอง ทิ้ง<b>ครึ่งบน</b>ของกองลงกองทิ้ง (เศษปัดขึ้น เช่น 5 ใบทิ้ง 3) · กองที่มีใบเดียว ทิ้งใบนั้น</td></tr>
+            <tr><td><b>ยั่วไวลด์</b><br><span class="en">Wild Provoke</span></td><td class="num">2</td><td>ยั่วกองทัพทารกกองไหนก็ได้<b>ทันที</b>ระหว่างตาของคุณ (ใช้แอ็กชัน ไม่ต้องสละทั้งตา) · ต้องเป็นศึกที่เกิดได้จริง ถ้าไม่มีทารกหรือไม่มีมอนสเตอร์ประเภทนั้น การ์ดและแอ็กชันเสียเปล่า</td></tr>
+            <tr><td><b>หมวก · หน้ากาก · เครื่องมือ</b></td><td class="num">3 · 3 · 5</td><td>ดู <a href="#extras">หัวข้อก่อนหน้า</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตอนจบ</span><h2>จบเกมและนับแต้ม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>การ์ดใบสุดท้ายถูกจั่ว <span class="en">Last card drawn</span></h3><p>เมื่อกองจั่วกองสุดท้ายหมด คนที่จั่วเล่นตาตัวเองต่อจนจบ</p></div></li>
+        <li><div class="body"><h3>ทุกคนได้ตาสุดท้ายอีกคนละ 1 ตา <span class="en">Final turns</span></h3><p>รวมคนที่จั่วใบสุดท้ายด้วย (ตาสุดท้ายจะทำแอ็กชันไม่ครบก็ได้ เพราะไม่มีการ์ดให้จั่วแล้ว)</p></div></li>
+        <li><div class="body"><h3>ศึกอาร์มาเกดดอน <span class="en">Armageddon Attack</span></h3><p>หลังตาสุดท้าย <b>ไม่สนประเภทแล้ว</b> ทารกที่เหลือทุกกองรวมเป็นกองทัพเดียว ผู้เล่นแต่ละคนรวมมอนสเตอร์ทุกตัวบนโต๊ะเป็นกองทัพเดียว แล้วรบตามกฎปกติ คนที่แรงที่สุดและแรงพอ เก็บทารกทั้งหมด</p></div></li>
+        <li><div class="body"><h3>นับแต้ม <span class="en">Scoring</span></h3><p>รวมตัวเลขบนทารกที่กินได้ <b>แต้มมากสุดชนะ</b> · เสมอ: คนที่มี<b>การ์ดทารกมากกว่า</b>ชนะ (เช่น 4 แต้มจาก 3 ใบ ชนะ 4 แต้มจาก 2 ใบ) · ยังเสมอ = ชนะร่วมกัน</p></div></li>
+      </ol>
+      <p class="note">ระหว่างเกมไม่ต้องเปิดแต้มให้ใครดู · นับจำนวนการ์ดในกองทัพทารกได้โดยไม่ต้องหงาย</p>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="h-n" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+          <div><span class="field-l">แบบ</span><div class="seg" id="h-mode" role="group" aria-label="แบบการเล่น"><button type="button" data-v="real" aria-pressed="true">เกมจริง</button><button type="button" data-v="practice" aria-pressed="false">รอบฝึก</button></div></div>
+        </div>
+        <div class="calc-out" id="h-out"></div>
+        <ul class="note" id="h-notes" style="margin:0;padding-left:1.2em;display:grid;gap:4px"></ul>
+      </div>
+    </section>
+
+    <!-- JUDGE -->
+    <section id="judge">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>เครื่องตัดสินศึก</h2></div>
+      <div class="tool">
+        <p class="note" style="margin:0">ใส่ทารกที่หงายแล้ว และพลังกองทัพของแต่ละคน (ใส่ 0 ถ้าไม่มีมอนสเตอร์ประเภทนั้น) ติ๊ก “หมวก” ถ้ามีหมวกอยู่บนมอนสเตอร์ตัวไหน แล้วใส่พลังตัวนั้นแยกในช่องหมวก ตัวเลขด้านล่างเป็นตัวอย่างจากคู่มือ</p>
+        <div class="tool-row">
+          <div><span class="field-l">กองทัพที่ถูกยั่ว</span><div class="seg army" id="j-army" role="group" aria-label="กองทัพ"><button type="button" data-v="land" aria-pressed="true">บก</button><button type="button" data-v="sea" aria-pressed="false">ทะเล</button><button type="button" data-v="sky" aria-pressed="false">ฟ้า</button><button type="button" data-v="all" aria-pressed="false">อาร์มาเกดดอน</button></div></div>
+        </div>
+        <div>
+          <span class="field-l">ทารกในกอง (กดชิปเพื่อลบ)</span>
+          <div class="babies" id="j-babies"></div>
+          <div class="seg" style="margin-top:8px"><button type="button" class="btn small" data-add="0">+ ทารก 0</button><button type="button" class="btn small" data-add="1">+ ทารก 1</button><button type="button" class="btn small" data-add="2">+ ทารก 2</button><button type="button" class="btn small" data-add="3">+ ทารก 3</button><button type="button" class="btn small" id="j-clear">ล้าง</button></div>
+        </div>
+        <div>
+          <span class="field-l">กองทัพของผู้เล่น · พลังปกติ + พลังตัวที่ใส่หมวก (จะถูก ×2)</span>
+          <div id="j-players"></div>
+        </div>
+        <div class="verdict" id="j-verdict" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- SCORE -->
+    <section id="score">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <p class="note" style="margin:0">กดเลขทารกทุกครั้งที่ใครกินได้ สมุดจะรวมแต้มและนับจำนวนใบไว้ตัดสินเสมอ กดชิปเพื่อลบ จดไว้ในเบราว์เซอร์นี้</p>
+        <div id="sb"></div>
+        <div class="seg"><button type="button" class="btn small" id="sb-add">+ เพิ่มผู้เล่น</button><button type="button" class="btn small" id="sb-reset">ล้างแต้มทั้งหมด</button></div>
+        <p class="note" id="sb-left" style="margin:0"></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">อ้างอิง</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>ยั่วกองทัพที่ไม่มีทารก หรือไม่มีมอนสเตอร์ประเภทนั้นบนโต๊ะได้ไหม</summary><p>ไม่ได้ ต้องมีทารกในกองนั้นและมีมอนสเตอร์ประเภทนั้น (ของใครก็ได้ รวมหัวหมี) อยู่อย่างน้อย 1 ตัว ถ้าใช้ยั่วไวลด์ในสถานการณ์นี้ การ์ดเสียเปล่า</p></details>
+        <details><summary>หัวหมีต้องออกรบทุกครั้งจริงหรือ</summary><p>จริง หมีนับเป็นทั้ง 3 ประเภท ใครยั่วกองไหน หมีก็ออกรบ และหลังศึกก็ถูกทิ้งเหมือนมอนสเตอร์ตัวอื่น ถ้าอยากเก็บหมีไว้ ต้องสลับหัวหมีไปให้คนอื่น หรือหั่นออกเองไม่ได้ช่วย เพราะหัวที่ถูกหั่นจะถูกทิ้ง</p></details>
+        <details><summary>คนชนะศึกเก็บมอนสเตอร์ไว้ได้ไหม</summary><p>ไม่ได้ มอนสเตอร์ทุกตัวที่ออกรบถูกทิ้งหมด ทั้งคนชนะและคนแพ้ ข้อยกเว้นเดียวคือกรณีผู้เล่นเสมอกันที่อันดับ 1 ซึ่งมอนสเตอร์ของคนที่เสมออยู่ต่อ</p></details>
+        <details><summary>ต้องแรงกว่าทุกคน หรือแค่แรงกว่าทารก</summary><p>ต้องทั้งสองอย่าง คนที่แรงที่สุดเท่านั้นที่มีสิทธิ์ และต้องแรงอย่างน้อยเท่าทารก ถ้าคนที่แรงที่สุดแพ้ทารก ทารกลงกองทิ้ง ไม่มีใครได้</p></details>
+        <details><summary>คุ้ยกองทิ้งได้ทารกขึ้นมา ทำยังไง</summary><p>ทำได้ แต่ต้องวางทารกลงกองทัพสีเดียวกันทันที ไม่ได้เก็บเป็นแต้ม (นิยมใช้เพื่อดันกองทัพที่ตัวเองพร้อมกินให้แต้มสูงขึ้น)</p></details>
+        <details><summary>เครื่องมือลดพลัง แล้วหมวกคูณก่อนหรือหลัง</summary><p>รวมพลังมอนสเตอร์กับผลของเครื่องมือก่อน แล้วค่อยคูณ 2 ด้วยหมวก</p></details>
+        <details><summary>ย้ายชิ้นส่วนที่วางผิดได้ไหม</summary><p>ไม่ได้ วางแล้วอยู่ตรงนั้น ทางเดียวที่จะเอาออกคือหั่นชิ้น (ได้เฉพาะการ์ดที่อยู่ริม)</p></details>
+        <details><summary>เล่น 2 คนต่างกันยังไง</summary><p>ต่างแค่จำนวนแอ็กชัน: ตาละ 4 แอ็กชัน ส่วนอื่นเหมือนเดิม</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ้างอิง</span><h2>ศัพท์ไทย-อังกฤษ</h2></div>
+      <dl class="gl">
+        <dt>มอนสเตอร์ / กองทัพ</dt><dd>Monster / Army · มอนสเตอร์ประเภทเดียวกันของคนเดียวกันรวมเป็นกองทัพ</dd>
+        <dt>กองทัพทารก</dt><dd>Baby Army · Land (บก) · Sea (ทะเล) · Sky (ฟ้า)</dd>
+        <dt>ยั่ว</dt><dd>Provoke</dd>
+        <dt>ยั่วไวลด์</dt><dd>Wild Provoke</dd>
+        <dt>คุ้ยกองทิ้ง</dt><dd>Dumpster Dive</dd>
+        <dt>แอ็กชัน</dt><dd>Action · จั่วหรือเล่นการ์ด 1 ใบ</dd>
+        <dt>รอยเย็บ</dt><dd>Stitches · ขอบที่ต้องตรงกันเวลาต่อการ์ด</dd>
+        <dt>สลับหัว · หั่นชิ้น · เพลงกล่อม</dt><dd>Swap · Dismember · Lullaby</dd>
+        <dt>หมวก · หน้ากาก · เครื่องมือ</dt><dd>Hat · Mask · Tool</dd>
+        <dt>การ์ดริม</dt><dd>Edge Card · ต่อกับการ์ดอื่นเพียงใบเดียว</dd>
+        <dt>ศึกอาร์มาเกดดอน</dt><dd>Armageddon Attack · ศึกรวมทุกประเภทหลังตาสุดท้าย</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>เรียบเรียงเป็นภาษาไทยจากคู่มือภาษาอังกฤษของ Bears vs Babies (ภาคหลัก) โดย Exploding Kittens ไม่ใช่คำแปลอย่างเป็นทางการ ชื่อการ์ดภาษาไทยแปลเอง ภาพประกอบวาดใหม่ทั้งหมด</p>
+    <ul>
+      <li><a href="https://www.explodingkittens.com/pages/rules-bears-vs-babies" target="_blank" rel="noopener">explodingkittens.com · The Rules: Bears vs Babies</a></li>
+      <li><a href="https://rulespal.com/bears-vs-babies/rulebook" target="_blank" rel="noopener">RulesPal · Bears vs Babies rulebook (จำนวนการ์ด, FAQ)</a></li>
+      <li><a href="https://ultraboardgames.com/bears-vs-babies/game-rules.php" target="_blank" rel="noopener">UltraBoardGames · Bears vs Babies game rules</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function $(s,r){return (r||document).querySelector(s)}
+  function seg(el,cb){el.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||!b.dataset.v)return;el.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});cb(b.dataset.v)})}
+  function store(k,v){try{if(v===undefined){return JSON.parse(localStorage.getItem(k))}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  /* ---- setup helper ---- */
+  var hN=3,hMode='real',hn=$('#h-n');
+  [2,3,4,5].forEach(function(n){var b=document.createElement('button');b.type='button';b.dataset.v=n;b.textContent=n+' คน';b.setAttribute('aria-pressed',n===hN?'true':'false');hn.appendChild(b)});
+  seg(hn,function(v){hN=+v;renderH()});
+  seg($('#h-mode'),function(v){hMode=v;renderH()});
+  function renderH(){
+    var act=hN===2?4:hN===3?3:2, real=hMode==='real';
+    var total=real?107:87, dealt=real?hN*5:hN*5;
+    $('#h-out').innerHTML=
+      '<div class="co hl"><b>'+act+'</b><small>แอ็กชันต่อตา</small></div>'+
+      '<div class="co"><b>'+(real?'หมี 1 + 4':'5')+'</b><small>การ์ดในมือเริ่มต้น</small></div>'+
+      '<div class="co"><b>'+(real?(5-hN):'–')+'</b><small>หัวหมีที่สับคืนกอง</small></div>'+
+      '<div class="co"><b>≈ '+Math.round((total-dealt)/3)+'</b><small>ใบต่อกองจั่ว (3 กอง)</small></div>';
+    var notes=real?[
+      'สับทั้งสองห่อรวมกัน แจกหัวหมีคนละ 1 แล้วแจกอีกคนละ 4',
+      'ได้ทารกตอนแจก: วางคว่ำลงกองทัพสีเดียวกัน แล้วจั่วแทน',
+      'ได้ยั่วไวลด์ตอนแจก: สับคืนกองจั่ว แล้วจั่วใหม่',
+      'ทั้งเกมมีทารก 45 แต้ม · '+hN+' คน เฉลี่ยคนละ ~'+Math.round(45/hN)+' แต้มถ้าแบ่งเท่ากัน'
+    ]:[
+      'ใช้แค่ห่อ 1 (87 ใบ) ไม่แจกหัวหมีแยก',
+      'แจกคนละ 5 ใบ ทารกวางลงกองทัพแล้วจั่วแทน',
+      'เล่นประมาณ 3 รอบโต๊ะเพื่อดูภาพรวม แล้วเริ่มเกมจริง'
+    ];
+    $('#h-notes').innerHTML=notes.map(function(t){return '<li>'+t+'</li>'}).join('');
+  }
+  renderH();
+
+  /* ---- battle judge ---- */
+  var J={army:'land',babies:[2,1,1],players:[{n:'ผู้เล่น 1',s:0,h:0},{n:'ผู้เล่น 2',s:5,h:0},{n:'ผู้เล่น 3',s:7,h:0}]};
+  var armyName={land:'บก',sea:'ทะเล',sky:'ฟ้า',all:'อาร์มาเกดดอน (ทุกประเภทรวมกัน)'};
+  var armyColor={land:'var(--land)',sea:'var(--sea)',sky:'var(--sky)',all:'var(--felt)'};
+  seg($('#j-army'),function(v){J.army=v;renderJ()});
+  document.querySelectorAll('[data-add]').forEach(function(b){b.addEventListener('click',function(){J.babies.push(+b.dataset.add);renderJ()})});
+  $('#j-clear').addEventListener('click',function(){J.babies=[];renderJ()});
+  $('#j-babies').addEventListener('click',function(e){var b=e.target.closest('.bchip');if(!b)return;J.babies.splice(+b.dataset.i,1);renderJ()});
+  function playersJ(){
+    var w=$('#j-players');
+    w.innerHTML=J.players.map(function(p,i){
+      return '<div class="prow"><input class="txt" id="jp-n'+i+'" data-i="'+i+'" data-k="n" value="'+esc(p.n)+'" aria-label="ชื่อผู้เล่น">'+
+      '<input class="txt numin" id="jp-s'+i+'" type="number" min="0" inputmode="numeric" data-i="'+i+'" data-k="s" value="'+p.s+'" aria-label="พลังปกติ">'+
+      '<input class="txt numin" id="jp-h'+i+'" type="number" min="0" inputmode="numeric" data-i="'+i+'" data-k="h" value="'+p.h+'" aria-label="พลังตัวที่ใส่หมวก" title="พลังตัวที่ใส่หมวก (×2)"></div>';
+    }).join('');
+  }
+  $('#j-players').addEventListener('input',function(e){var t=e.target,i=+t.dataset.i,k=t.dataset.k;if(isNaN(i))return;J.players[i][k]=k==='n'?t.value:Math.max(0,+t.value||0);renderJ(true)});
+  function renderJ(skipPlayers){
+    $('#j-babies').innerHTML=J.babies.length?J.babies.map(function(v,i){return '<button type="button" class="bchip" data-i="'+i+'" style="background:'+armyColor[J.army]+'" aria-label="ลบทารก '+v+'">'+v+'</button>'}).join(''):'<span class="note">ยังไม่มีทารก</span>';
+    if(!skipPlayers)playersJ();
+    var bt=J.babies.reduce(function(a,b){return a+b},0);
+    var fighters=J.players.map(function(p){return {n:p.n||'ไม่มีชื่อ',t:p.s+p.h*2}}).filter(function(p){return p.t>0});
+    var v=$('#j-verdict');v.className='verdict';
+    if(!J.babies.length){v.innerHTML='<b>ยั่วไม่ได้</b> · กองทัพทารก'+armyName[J.army]+'ยังไม่มีทารก';return}
+    if(!fighters.length){v.innerHTML='<b>ยั่วไม่ได้</b> · ไม่มีมอนสเตอร์ประเภทนี้บนโต๊ะ (ถ้าใช้ยั่วไวลด์ การ์ดเสียเปล่า)';return}
+    var max=Math.max.apply(null,fighters.map(function(p){return p.t}));
+    var top=fighters.filter(function(p){return p.t===max});
+    var line='ทารก'+armyName[J.army]+' <b>'+bt+'</b> · '+fighters.map(function(p){return esc(p.n)+' '+p.t}).join(' · ')+'<br>';
+    if(max<bt){v.className='verdict lose';v.innerHTML=line+'<b>ทารกชนะ</b> · ไม่มีใครได้แต้ม ทารกทั้งกองลงกองทิ้ง และมอนสเตอร์ทุกตัวที่ออกรบถูกทิ้ง';return}
+    if(top.length>1){v.innerHTML=line+'<b>ผู้เล่นเสมอกัน</b> ('+top.map(function(p){return esc(p.n)}).join(', ')+') · ไม่มีใครได้ ทารกคว่ำกลับกองเดิม มอนสเตอร์ของคนที่เสมออยู่ต่อ คนอื่นที่ออกรบทิ้งมอนสเตอร์';return}
+    v.className='verdict win';
+    v.innerHTML=line+'<b>'+esc(top[0].n)+' ชนะ</b> · กินทารก '+J.babies.length+' ใบ ได้ <b>'+bt+' แต้ม</b>'+(max===bt?' (เสมอทารก มอนสเตอร์ชนะ)':'')+' · มอนสเตอร์ทุกตัวที่ออกรบถูกทิ้ง';
+  }
+  renderJ();
+
+  /* ---- scorebook ---- */
+  var SK='bvb-score-v1';
+  var S=store(SK)||{players:[{n:'ผู้เล่น 1',b:[]},{n:'ผู้เล่น 2',b:[]},{n:'ผู้เล่น 3',b:[]}]};
+  function saveS(){store(SK,S)}
+  function renderS(){
+    var tot=S.players.map(function(p){return {pts:p.b.reduce(function(a,c){return a+c},0),cnt:p.b.length}});
+    var best=null;tot.forEach(function(t){if(!best||t.pts>best.pts||(t.pts===best.pts&&t.cnt>best.cnt))best=t});
+    var any=tot.some(function(t){return t.cnt>0});
+    $('#sb').innerHTML=S.players.map(function(p,i){
+      var t=tot[i],lead=any&&t.pts===best.pts&&t.cnt===best.cnt;
+      return '<div class="sb-row'+(lead?' lead':'')+'"><div style="min-width:0"><div class="sb-top"><input class="txt" style="max-width:200px" id="sb-n'+i+'" data-i="'+i+'" value="'+esc(p.n)+'" aria-label="ชื่อผู้เล่น">'+(lead?'<span class="crown">นำอยู่</span>':'')+
+      '<span class="seg">'+[0,1,2,3].map(function(v){return '<button type="button" class="btn small" data-p="'+i+'" data-v2="'+v+'">+'+v+'</button>'}).join('')+'</span>'+
+      (S.players.length>2?'<button type="button" class="btn small" data-del="'+i+'" aria-label="ลบผู้เล่น">ลบ</button>':'')+'</div>'+
+      '<div class="sb-chips">'+p.b.map(function(v,j){return '<span role="button" tabindex="0" data-p="'+i+'" data-rm="'+j+'" title="กดเพื่อลบ">'+v+'</span>'}).join('')+'</div></div>'+
+      '<div class="sb-total"><b>'+t.pts+'</b><small>'+t.cnt+' ใบ</small></div></div>';
+    }).join('');
+    var used=S.players.reduce(function(a,p){return a+p.b.reduce(function(x,y){return x+y},0)},0);
+    $('#sb-left').textContent='ทารกที่ถูกกินแล้ว '+used+' จาก 45 แต้ม · เสมอแต้มให้ดูจำนวนใบ ใบมากกว่าชนะ';
+    $('#sb-add').disabled=S.players.length>=5;
+  }
+  $('#sb').addEventListener('click',function(e){
+    var t=e.target;
+    if(t.dataset.v2!==undefined){S.players[+t.dataset.p].b.push(+t.dataset.v2);saveS();renderS();return}
+    if(t.dataset.rm!==undefined){S.players[+t.dataset.p].b.splice(+t.dataset.rm,1);saveS();renderS();return}
+    if(t.dataset.del!==undefined){S.players.splice(+t.dataset.del,1);saveS();renderS()}
+  });
+  $('#sb').addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.dataset.rm!==undefined){e.preventDefault();e.target.click()}});
+  $('#sb').addEventListener('change',function(e){var t=e.target;if(t.dataset.i===undefined)return;S.players[+t.dataset.i].n=t.value;saveS();renderS()});
+  $('#sb-add').addEventListener('click',function(){if(S.players.length>=5)return;S.players.push({n:'ผู้เล่น '+(S.players.length+1),b:[]});saveS();renderS()});
+  var resetArmed=false;
+  $('#sb-reset').addEventListener('click',function(){
+    var b=$('#sb-reset');
+    if(!resetArmed){resetArmed=true;b.textContent='กดอีกครั้งเพื่อยืนยัน';b.classList.add('acc');setTimeout(function(){resetArmed=false;b.textContent='ล้างแต้มทั้งหมด';b.classList.remove('acc')},3000);return}
+    S.players.forEach(function(p){p.b=[]});saveS();renderS();resetArmed=false;b.textContent='ล้างแต้มทั้งหมด';b.classList.remove('acc');
+  });
+  renderS();
+})();
+</script>
+
+</body></html>

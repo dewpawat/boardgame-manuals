@@ -1,0 +1,933 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Splendor ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Trirong:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: midnight-velvet hero with a drawn card fan and gem stacks; reading column with sticky chapter rail; cards, tiles and boards drawn in SVG; setup helper and scorepad near the end. */
+:root{
+  --bg:#eef1f5;
+  --surface:#fbfcfe;
+  --surface-2:#e1e7ef;
+  --fg:#16202f;
+  --muted:#556377;
+  --line:#ccd5e1;
+  --accent:#1f4f9c;
+  --accent-soft:#dce6f6;
+  --gold:#a87a1c;
+  --gold-soft:#f4ead2;
+  --jade:#1e7a52;
+  --jade-soft:#d8efe3;
+  --ruby-soft:#f6dde0;
+  --band-1:#0b1424; --band-2:#1b2c4f; --band-fg:#eef2fa; --spot:#e8c46a;
+  --gw:#eef1f4; --gb:#2d62c4; --gg:#1f8a4c; --gr:#c42c3a; --gk:#2a2b33; --gy:#e3b23c;
+  --good:#1f7a45; --bad:#b33240;
+  --font-display:"Trirong","Leelawadee UI","Tahoma",serif;
+  --font-body:"IBM Plex Sans Thai","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","IBM Plex Sans Thai","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c111a;--surface:#141b27;--surface-2:#1e2836;--fg:#e8edf5;--muted:#a3b0c2;--line:#2c3849;
+    --accent:#86aef0;--accent-soft:#1a2a45;--gold:#e8c46a;--gold-soft:#2f2711;--jade:#6fd3a2;--jade-soft:#11291e;--ruby-soft:#3a1a1f;
+    --band-1:#05090f;--band-2:#14213c;
+    --good:#66d39a;--bad:#ff7d88;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c111a;--surface:#141b27;--surface-2:#1e2836;--fg:#e8edf5;--muted:#a3b0c2;--line:#2c3849;
+  --accent:#86aef0;--accent-soft:#1a2a45;--gold:#e8c46a;--gold-soft:#2f2711;--jade:#6fd3a2;--jade-soft:#11291e;--ruby-soft:#3a1a1f;
+  --band-1:#05090f;--band-2:#14213c;
+  --good:#66d39a;--bad:#ff7d88;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75;margin:0}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.75rem}
+h3{font-size:1.15rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:radial-gradient(ellipse at 85% 10%,#3a2f6b 0%,transparent 55%),linear-gradient(165deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.3rem,5.6vw,3.5rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.4em;color:var(--spot);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:420px;margin-inline:auto}
+.exp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#121a28}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.85em;color:var(--muted);font-weight:400}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.gold{background:var(--gold-soft)} .callout.jade{background:var(--jade-soft)} .callout.ruby{background:var(--ruby-soft)}
+.callout h3{font-size:1.08rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.callout p+p,.callout p+ul,.callout ul+p{margin-top:6px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--gold-soft);color:var(--fg);border:1px solid var(--gold)}
+.flag.off{background:var(--accent-soft);border-color:var(--accent)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body);fill:var(--fg)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+svg .mut{fill:var(--muted)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.type svg{width:100%;max-width:260px;height:auto;display:block}
+.lv{font-family:var(--font-tag);font-weight:600;font-size:.8rem;background:var(--band-2);color:var(--spot);border-radius:8px;padding:1px 9px}
+.gemi{width:15px;height:15px;border-radius:50%;display:inline-block;flex:none;border:1px solid rgba(0,0,0,.35);vertical-align:-2px;margin:0 2px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.08rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.house td{background:var(--gold-soft)}
+.mx td,.mx th{text-align:center;vertical-align:middle}
+.mx th:first-child,.mx td:first-child{text-align:left}
+.ok{color:var(--good);font-weight:600} .meh{color:var(--gold);font-weight:600} .no{color:var(--bad);font-weight:600}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.06em;opacity:.92}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.3}
+.co small{font-size:.86rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)} .co.hl b{color:var(--accent)}
+.co.house{background:var(--gold-soft)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+
+.sp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.sp{min-width:520px;font-size:.95rem}
+.sp th,.sp td{padding:6px 8px;text-align:center;vertical-align:middle}
+.sp th:first-child,.sp td:first-child{text-align:left;padding-left:12px}
+.sp input[type=text]{font:inherit;width:100%;min-width:90px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:3px 8px}
+.sp input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:70px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;-moz-appearance:textfield}
+.sp input::-webkit-outer-spin-button,.sp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sp tr.win td{background:var(--gold-soft)}
+.sp td.res{font-family:var(--font-tag);font-weight:600;white-space:nowrap}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · Splendor (Space Cowboys, 2014) + ภาคเสริม Cities of Splendor (2017)</div>
+      <h1>Splendor<span>สเปลนเดอร์ · พ่อค้าอัญมณียุคเรอเนสซองส์</span></h1>
+      <p class="lede">ทุกคนเป็นพ่อค้าอัญมณี ผลัดกันเก็บเหรียญอัญมณีมาซื้อการ์ดพัฒนา (เหมือง ช่างเจียระไน กองคาราวาน ร้านค้า) การ์ดแต่ละใบให้<b>ส่วนลดถาวร</b> 1 เม็ด ยิ่งมีการ์ดมาก ยิ่งซื้อการ์ดแพงที่มีแต้มได้ง่าย ใครถึง <b>15 แต้มชื่อเสียง</b> ก่อน เล่นจนจบรอบแล้วนับแต้ม</p>
+      <div class="facts">
+        <div class="fact"><b>2–4</b><small>ผู้เล่น (ทางการ)</small></div>
+        <div class="fact"><b>5</b><small>ผู้เล่น (กฎบ้าน ในหน้านี้)</small></div>
+        <div class="fact"><b>30</b><small>นาทีโดยประมาณ</small></div>
+        <div class="fact"><b>15</b><small>แต้มเพื่อปิดเกม</small></div>
+      </div>
+      <div class="exp-badges">
+        <span class="xb" style="background:var(--spot)">เกมหลัก</span>
+        <span class="xb" style="background:#e3a6c9">+ แดนตะวันออก (The Orient)</span>
+        <span class="xb" style="background:#a9c6f2">+ เมือง · ป้อมปราการ · สถานีการค้า</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 340 300" id="heroart"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#card">อ่านการ์ดพัฒนา</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ตาของคุณ: 4 ทางเลือก</a></li>
+      <li><a href="#pay">วิธีจ่ายและส่วนลด</a></li>
+      <li><a href="#endturn">จบตา: ขุนนาง &amp; เหรียญ 10</a></li>
+      <li><a href="#end">จบเกม &amp; นับแต้ม</a></li>
+      <li class="sep">ภาคเสริม Cities of Splendor</li>
+      <li><a href="#cos">ภาพรวม 4 โมดูล</a></li>
+      <li><a href="#orient">แดนตะวันออก</a></li>
+      <li><a href="#cities">เมือง</a></li>
+      <li><a href="#strongholds">ป้อมปราการ</a></li>
+      <li><a href="#posts">สถานีการค้า</a></li>
+      <li><a href="#combine">ใช้หลายโมดูลร่วมกัน</a></li>
+      <li class="sep">กฎบ้าน</li>
+      <li><a href="#five">เล่น 5 คน</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#helper">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#pad">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ในตาของคุณ ทำได้ 1 อย่าง</h3>
+        <ol>
+          <li><b>หยิบเหรียญ 3 สีไม่ซ้ำกัน</b> สีละ 1 เหรียญ</li>
+          <li><b>หยิบเหรียญสีเดียวกัน 2 เหรียญ</b> ทำได้เฉพาะเมื่อกองสีนั้นมี<b>อย่างน้อย 4</b> เหรียญ</li>
+          <li><b>จองการ์ด 1 ใบ</b> แล้วรับเหรียญทอง 1 เหรียญ (ถือการ์ดจองได้ไม่เกิน 3 ใบ)</li>
+          <li><b>ซื้อการ์ด 1 ใบ</b> จากกลางโต๊ะหรือจากมือที่จองไว้</li>
+        </ol>
+      </div>
+      <div class="callout jade">
+        <h3>จบตา</h3>
+        <p>มีการ์ดครบตามที่ขุนนางต้องการ ขุนนางมาเยือนเอง (+3 แต้ม ได้ตาละ 1 คน) · ถือเหรียญเกิน 10 ต้องคืนจนเหลือ 10</p>
+        <p>ใครถึง <b>15 แต้ม</b> เล่นต่อจนทุกคนได้ตาเท่ากัน แต้มสูงสุดชนะ เสมอกันคนที่<b>ซื้อการ์ดน้อยกว่า</b>ชนะ</p>
+      </div>
+      <div class="callout gold">
+        <h3>วงที่เล่นกับแดนตะวันออก (The Orient)</h3>
+        <p>เพิ่มกองการ์ดตะวันออกระดับละ 1 กอง เปิด<b>เพิ่มอีกระดับละ 2 ใบ</b> (รวมบนโต๊ะ 18 ใบ) การ์ดพวกนี้มีความสามารถพิเศษ เช่น ได้ส่วนลด 2 เม็ด จับคู่ลอกสีการ์ดเก่า หรือหยิบการ์ดระดับต่ำกว่าฟรี กติกาอื่นเหมือนเกมหลักทุกข้อ ไปที่ <a href="#orient">แดนตะวันออก</a></p>
+      </div>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชิ้นส่วน</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td colspan="3"><b>กล่องเกมหลัก Splendor</b></td></tr>
+            <tr><td><b>เหรียญอัญมณี</b> <span class="en">gem tokens</span></td><td class="num">35</td><td>5 สี สีละ 7: <span class="gemi" style="background:var(--gg)"></span>มรกต (เขียว) <span class="gemi" style="background:var(--gw)"></span>เพชร (ขาว) <span class="gemi" style="background:var(--gb)"></span>ไพลิน (น้ำเงิน) <span class="gemi" style="background:var(--gk)"></span>นิล (ดำ) <span class="gemi" style="background:var(--gr)"></span>ทับทิม (แดง)</td></tr>
+            <tr><td><b>เหรียญทอง</b> <span class="en">gold joker</span></td><td class="num">5</td><td><span class="gemi" style="background:var(--gy)"></span>ใช้แทนสีอะไรก็ได้ ได้มาจากการจองการ์ดเท่านั้น</td></tr>
+            <tr><td><b>การ์ดพัฒนา</b> <span class="en">development cards</span></td><td class="num">90</td><td>ระดับ 1 = 40 ใบ · ระดับ 2 = 30 ใบ · ระดับ 3 = 20 ใบ (ดูจากจุดหลังการ์ด ● ●● ●●●)</td></tr>
+            <tr><td><b>แผ่นขุนนาง</b> <span class="en">noble tiles</span></td><td class="num">10</td><td>ใบละ 3 แต้ม</td></tr>
+            <tr><td colspan="3"><b>กล่องภาคเสริม Cities of Splendor</b></td></tr>
+            <tr><td><b>การ์ดแดนตะวันออก</b></td><td class="num">30</td><td>ระดับละ 10 ใบ · โมดูล The Orient</td></tr>
+            <tr><td><b>แผ่นเมือง</b> (สองหน้า)</td><td class="num">7</td><td>โมดูล The Cities</td></tr>
+            <tr><td><b>ป้อมปราการ</b> (หอคอยพลาสติก)</td><td class="num">12</td><td>4 สี สีละ 3 · โมดูล Strongholds</td></tr>
+            <tr><td><b>บอร์ด “เส้นทางสู่ตะวันออก”</b> + <b>ตราประจำตระกูล</b></td><td class="num">1 + 20</td><td>ตรา 4 สี สีละ 5 · โมดูล Trading Posts</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ป้อมปราการและตราประจำตระกูลมีแค่ 4 สี ถ้าเล่น 5 คนกับสองโมดูลนี้ ต้องหาของแทนให้คนที่ 5 (ดู <a href="#five">เล่น 5 คน</a>) · ชื่อไทยของอัญมณีในหน้านี้ผู้เรียบเรียงตั้งเอง วงเรียกแค่สีก็พอ</p>
+    </section>
+
+    <!-- CARD -->
+    <section id="card">
+      <div class="sec-head"><span class="tag">ทำความรู้จัก</span><h2>อ่านการ์ดพัฒนา</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 300" role="img" aria-label="ส่วนประกอบของการ์ด: แต้มมุมซ้ายบน อัญมณีโบนัสมุมขวาบน ราคาด้านซ้ายล่าง พร้อมแผ่นขุนนางเทียบ" id="carddemo"></svg></div>
+        <figcaption>ซ้าย: การ์ดพัฒนาระดับ 2 · ขวา: แผ่นขุนนางต้องการการ์ด (ไม่ใช่เหรียญ) น้ำเงิน 4 ใบ ขาว 4 ใบ</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>แต้มชื่อเสียง <span class="en">prestige</span></h3><p>เลขมุมซ้ายบน การ์ดระดับ 1 ส่วนใหญ่ไม่มีแต้ม ระดับ 3 มีถึง 3–5 แต้ม</p></div>
+        <div class="type"><h3>โบนัส <span class="en">bonus</span></h3><p>อัญมณีมุมขวาบน = <b>ส่วนลดถาวร</b> 1 เม็ดสีนั้น ใช้ทุกครั้งที่ซื้อ และนับเป็นเงื่อนไขขุนนาง/เมือง/สถานีการค้า</p></div>
+        <div class="type"><h3>ราคา <span class="en">cost</span></h3><p>วงกลมซ้ายล่าง บอกว่าต้องจ่ายอัญมณีสีไหนกี่เม็ด (หักส่วนลดได้)</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>การ์ดพัฒนา</h3><p>สับแต่ละระดับแยกกัน วางเป็น 3 กองเรียงลงมา (ระดับ 3 บนสุด) แล้ว<b>เปิดระดับละ 4 ใบ</b>ข้างกอง</p></div></li>
+        <li><div class="body"><h3>ขุนนาง</h3><p>สับแล้วเปิด <b>จำนวนผู้เล่น + 1</b> ใบ ที่เหลือเก็บลงกล่อง</p></div></li>
+        <li><div class="body"><h3>เหรียญ</h3><p>แยกกองตามสี ทองมี 5 เหรียญเสมอ อัญมณีแต่ละสีตามจำนวนคน (ตารางล่าง)</p></div></li>
+        <li><div class="body"><h3>ผู้เริ่ม</h3><p>คนที่<b>อายุน้อยที่สุด</b>เริ่ม แล้ววนตามเข็มนาฬิกา</p></div></li>
+      </ol>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ผู้เล่น</th><th class="num">อัญมณีต่อสี</th><th class="num">ทอง</th><th class="num">ขุนนาง</th><th>ที่มา</th></tr></thead>
+          <tbody>
+            <tr><td>2 คน</td><td class="num">4</td><td class="num">5</td><td class="num">3</td><td>คู่มือทางการ (เอาออกสีละ 3)</td></tr>
+            <tr><td>3 คน</td><td class="num">5</td><td class="num">5</td><td class="num">4</td><td>คู่มือทางการ (เอาออกสีละ 2)</td></tr>
+            <tr><td>4 คน</td><td class="num">7</td><td class="num">5</td><td class="num">5</td><td>คู่มือทางการ (ใช้ครบ)</td></tr>
+            <tr class="house"><td>5 คน</td><td class="num">7</td><td class="num">5</td><td class="num">6</td><td><span class="flag">กฎบ้าน</span> แบบที่วงนี้เล่น ดู <a href="#five">เล่น 5 คน</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 360" role="img" aria-label="ผังโต๊ะ: แถวขุนนางด้านบน การ์ดสามระดับ ระดับละ 4 ใบ ด้านขวาเป็นกองแดนตะวันออกระดับละ 2 ใบ เหรียญอยู่ด้านข้าง" id="tabledemo"></svg></div>
+        <figcaption>ผังโต๊ะเมื่อเล่นกับแดนตะวันออก: การ์ดหลัก 4 ใบ + การ์ดตะวันออก 2 ใบ ต่อระดับ (ถ้าไม่ใช้แดนตะวันออก ตัดส่วนสีชมพูทิ้ง)</figcaption>
+      </figure>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">ระหว่างเล่น</span><h2>ตาของคุณ: เลือกทำ 1 ใน 4</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 200" role="img" aria-label="สี่แอ็กชัน: หยิบ 3 สีต่างกัน, หยิบ 2 สีเดียวกันเมื่อกองมี 4 ขึ้นไป, จองการ์ดรับทอง, ซื้อการ์ด" id="actiondemo"></svg></div>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ก · หยิบ 3 สีต่างกัน</h3><p>สีละ 1 เหรียญ ห้ามหยิบทอง · ถ้าบนโต๊ะเหลือไม่ถึง 3 สี หยิบเท่าที่มี</p></div>
+        <div class="type"><h3>ข · หยิบ 2 สีเดียวกัน</h3><p>ทำได้เฉพาะเมื่อกองสีนั้นมี<b>อย่างน้อย 4 เหรียญก่อนหยิบ</b></p></div>
+        <div class="type"><h3>ค · จองการ์ด + รับทอง</h3><ul><li>หยิบการ์ดที่เปิดอยู่ 1 ใบ หรือ<b>จั่วใบบนสุด</b>ของกองไหนก็ได้แบบไม่ให้คนอื่นเห็น</li><li>รับทอง 1 เหรียญ (ถ้าทองหมด ก็ยังจองได้ แค่ไม่ได้ทอง)</li><li>ถือการ์ดจองได้ไม่เกิน <b>3 ใบ</b> ทิ้งไม่ได้ ออกจากมือได้ทางเดียวคือซื้อ</li></ul></div>
+        <div class="type"><h3>ง · ซื้อการ์ด</h3><p>ซื้อการ์ดที่เปิดอยู่กลางโต๊ะ หรือการ์ดที่ตัวเองจองไว้ จ่ายตามราคาหักส่วนลด วางการ์ดหน้าตัวเองแยกตามสีให้ทุกคนเห็นโบนัส</p></div>
+      </div>
+      <p class="note">การ์ดกลางโต๊ะที่ถูกซื้อหรือจอง ให้เปิดใบใหม่ระดับเดียวกันแทน<b>ทันที</b> กองหมดแล้วก็ปล่อยช่องว่าง</p>
+    </section>
+
+    <!-- PAY -->
+    <section id="pay">
+      <div class="sec-head"><span class="tag">ระหว่างเล่น · ต่อ</span><h2>วิธีจ่ายและส่วนลด</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 250" role="img" aria-label="ตัวอย่างการจ่าย: การ์ดราคา น้ำเงิน 3 ขาว 2 แดง 1 ผู้เล่นมีโบนัสน้ำเงิน 2 ขาว 1 จึงจ่ายน้ำเงิน 1 ขาว 1 และใช้ทองแทนแดง 1" id="paydemo"></svg></div>
+        <figcaption>การ์ดราคา น้ำเงิน 3 ขาว 2 แดง 1 · มีโบนัสน้ำเงิน 2 ใบ ขาว 1 ใบ → เหลือจ่ายน้ำเงิน 1 ขาว 1 แดง 1 · ไม่มีแดง ใช้ทองแทน · เหรียญที่จ่ายคืนกองกลาง</figcaption>
+      </figure>
+      <div class="prose"><ul>
+        <li>โบนัสแต่ละใบลดราคาสีนั้น 1 เม็ด ส่วนลด<b>ไม่ทอน</b> ถ้ามีโบนัสเกินราคา ก็แค่ได้ฟรี</li>
+        <li>ทองแทนสีไหนก็ได้ 1 เม็ด</li>
+        <li>โบนัส<b>ไม่ใช่เหรียญ</b> ไม่นับในลิมิต 10 เหรียญ</li>
+      </ul></div>
+    </section>
+
+    <!-- END TURN -->
+    <section id="endturn">
+      <div class="sec-head"><span class="tag">จบตา</span><h2>ขุนนางมาเยือน &amp; ลิมิต 10 เหรียญ</h2></div>
+      <div class="types">
+        <div class="type"><h3>ขุนนาง <span class="en">Nobles</span></h3><ul><li>จบตา ถ้ามี<b>โบนัส (การ์ด)</b>ถึงเงื่อนไขขุนนางใบไหน ขุนนางมาเยือนอัตโนมัติ +3 แต้ม</li><li><b>ปฏิเสธไม่ได้</b> และไม่ถือเป็นแอ็กชัน</li><li>ได้<b>ตาละ 1 ใบ</b> ถ้าถึงหลายใบพร้อมกัน เลือกเอง 1 ใบ ใบอื่นรอตาหน้า (ถ้ายังไม่โดนแย่ง)</li><li>เหรียญไม่นับ นับเฉพาะการ์ด</li></ul></div>
+        <div class="type"><h3>ลิมิต 10 เหรียญ</h3><ul><li>จบตาห้ามถือเหรียญเกิน <b>10</b> (นับทองด้วย)</li><li>เกินเท่าไร คืนเท่านั้น เลือกคืนสีไหนก็ได้ รวมถึงเหรียญที่เพิ่งหยิบ</li><li>ระหว่างตาเกินได้ ตรวจตอนจบตาเท่านั้น</li><li>วางเหรียญให้ทุกคนเห็นเสมอ</li></ul></div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม &amp; นับแต้ม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>มีคนถึง 15 แต้ม</h3><p>เล่นต่อ<b>จนจบรอบ</b> ให้ทุกคนได้เล่นจำนวนตาเท่ากัน (คนที่นั่งขวามือผู้เริ่มเป็นคนเล่นตาสุดท้าย)</p></div></li>
+        <li><div class="body"><h3>รวมแต้ม</h3><p>แต้มบนการ์ดที่ซื้อแล้ว + ขุนนางใบละ 3 · การ์ดที่จองไว้ในมือ<b>ไม่นับ</b></p></div></li>
+        <li><div class="body"><h3>แต้มสูงสุดชนะ</h3><p>เสมอกัน คนที่<b>ซื้อการ์ดพัฒนาน้อยกว่า</b>ชนะ (การ์ดที่จองไม่นับเป็นการ์ดที่ซื้อ)</p></div></li>
+      </ol>
+      <p class="note">คนที่ถึง 15 ก่อนไม่ได้ชนะอัตโนมัติ คนที่เล่นหลังอาจแซงได้ในรอบสุดท้าย · ถ้ายังเสมอ คู่มือไม่ได้เขียนต่อ วงส่วนใหญ่ให้ชนะร่วมกัน</p>
+    </section>
+
+    <!-- COS OVERVIEW -->
+    <section id="cos">
+      <div class="xhead" style="--c:#2a3f73"><span class="tag">ภาคเสริม · CITIES OF SPLENDOR (2017)</span><h2>ภาพรวม 4 โมดูลในกล่อง</h2><p>กล่องเดียวมี 4 ภาคเสริมย่อย แต่ละตัวเปลี่ยนเกมคนละจุด คู่มือทางการบอกให้<b>ใส่ทีละโมดูลกับเกมหลัก</b> ไม่ได้ให้กติกาเล่นหลายตัวพร้อมกัน (ถ้าอยากรวม ดู <a href="#combine" style="color:#fff">ใช้หลายโมดูลร่วมกัน</a>)</p></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>โมดูล</th><th>เปลี่ยนอะไร</th><th>ความหนัก</th><th>เหมาะกับ</th></tr></thead>
+          <tbody>
+            <tr><td><b>แดนตะวันออก</b><br><span class="en">The Orient</span></td><td>เพิ่มการ์ด 30 ใบที่มีความสามารถพิเศษ เปิดบนโต๊ะเพิ่มระดับละ 2</td><td>เบา</td><td>ตัวแรกที่ควรลอง เปลี่ยนน้อยสุด ตัวเลือกบนโต๊ะเยอะขึ้น</td></tr>
+            <tr><td><b>เมือง</b><br><span class="en">The Cities</span></td><td>ไม่ใช้ขุนนาง ใช้เมือง 3 แผ่นเป็นเงื่อนไขชนะแทน 15 แต้ม</td><td>กลาง</td><td>วงที่อยากได้เป้าหมายชัด เกมจบเร็ว/ช้าตามเมือง</td></tr>
+            <tr><td><b>ป้อมปราการ</b><br><span class="en">Strongholds</span></td><td>ซื้อการ์ดแล้วได้ปักป้อมกันการ์ดไว้ หรือถอนป้อมคนอื่น</td><td>กลาง</td><td>วงที่ชอบขัดขากัน (ปฏิสัมพันธ์สูงสุด)</td></tr>
+            <tr><td><b>สถานีการค้า</b><br><span class="en">Trading Posts</span></td><td>มีการ์ดสีครบตามเงื่อนไข ปลดล็อกพลังถาวร 5 ขั้น</td><td>กลาง</td><td>วงที่ชอบสร้างเอนจิน วางแผนสีระยะยาว</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ORIENT -->
+    <section id="orient">
+      <div class="xhead" style="--c:#8a2f63"><span class="tag">โมดูล · THE ORIENT</span><h2>แดนตะวันออก</h2><p>โมดูลที่วงนี้เล่นประจำ เพิ่มการ์ดพัฒนา 30 ใบ (ระดับละ 10) ทุกใบเป็นการ์ดพัฒนาธรรมดาที่<b>มีความสามารถพิเศษติดมา</b> ซื้อด้วยวิธีเดิม นับแต้มเหมือนเดิม</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p>สับการ์ดตะวันออกแยกตามระดับ เปิด<b>ระดับละ 2 ใบ</b>วางต่อทางขวาของการ์ดหลัก กองที่เหลือ (8 ใบ) วางขวาสุด</p></div></li>
+        <li><div class="body"><h3>เติมการ์ด</h3><p>การ์ดตะวันออกถูกซื้อ/จอง เติมจาก<b>กองตะวันออกระดับเดียวกัน</b>เท่านั้น บนโต๊ะต้องมีการ์ดหลัก 4 + ตะวันออก 2 ต่อระดับเสมอ (ยกเว้นกองหมด)</p></div></li>
+        <li><div class="body"><h3>จองได้เหมือนการ์ดปกติ</h3><p>จองใบที่เปิดอยู่ หรือจั่วบนสุดของกองตะวันออกก็ได้</p></div></li>
+      </ol>
+      <h3 style="margin-top:4px">ความสามารถของการ์ดตะวันออก แยกตามระดับ</h3>
+      <div class="types" id="orienttypes"></div>
+      <div class="callout gold">
+        <h3>จุดที่ต้องจำ</h3>
+        <ul>
+          <li><b>การ์ดจับคู่</b>ต้องเลือกคู่<b>ทันที</b>ตอนซื้อ (ก่อนเปิดการ์ดใบใหม่แทน) และผูกถาวร เปลี่ยนสีทีหลังไม่ได้ ถ้ายังไม่มีการ์ดที่มีโบนัสเลย ซื้อใบนี้ไม่ได้</li>
+          <li><b>การ์ดทองคู่</b> = ทองเสมือน 2 เหรียญ <b>ไม่นับในลิมิต 10</b> ต้องใช้ทั้ง 2 ในการซื้อครั้งเดียว ใช้แค่ 1 อีกอันก็ทิ้ง ใช้แล้วการ์ดออกจากเกม</li>
+          <li><b>การ์ดโบนัสคู่</b>นับ 2 ทุกที่: ส่วนลด ขุนนาง เงื่อนไขเมือง/สถานีการค้า และนับ 2 ตอนทิ้งจ่ายการ์ดระดับ 3</li>
+          <li><b>หยิบการ์ดฟรี</b>ไม่ใช่การซื้อ ไม่ต้องจ่าย การ์ดที่ได้มาฟรีถ้ามีความสามารถก็ใช้ได้ตามปกติ (เช่นได้การ์ดจับคู่ฟรีก็จับคู่เลย)</li>
+          <li><b>จองขุนนาง</b>: ไม่ได้ทองเหมือนการจองการ์ด ขุนนางที่จองไว้เป็นของคุณคนเดียว ยังต้องมีโบนัสครบเงื่อนไขจึงได้ 3 แต้ม จองได้ไม่จำกัด</li>
+        </ul>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 220" role="img" aria-label="ตัวอย่างการ์ดจับคู่: วางทับเยื้องบนการ์ดสีแดงที่มีอยู่ กลายเป็นโบนัสแดงเพิ่มอีก 1" id="pairdemo"></svg></div>
+        <figcaption>การ์ดจับคู่ (ระดับ 1): ซื้อแล้ววางเยื้องทับการ์ดแดงที่มีอยู่ ใบนี้กลายเป็นโบนัสแดงอีก 1 → มีโบนัสแดงรวม 3</figcaption>
+      </figure>
+    </section>
+
+    <!-- CITIES -->
+    <section id="cities">
+      <div class="xhead" style="--c:#7a5a18"><span class="tag">โมดูล · THE CITIES</span><h2>เมือง</h2><p>ขุนนางไม่มาแล้ว เป้าหมายใหม่คือ<b>เมือง</b> ใครได้เมืองก่อน (ไม่ใช่ใครถึง 15 ก่อน) เป็นตัวจุดจบเกม</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p><b>ไม่ใช้แผ่นขุนนาง</b> · สับแผ่นเมือง 7 แผ่น สุ่ม <b>3 แผ่น</b> (หน้าไหนก็ได้) วางกลางโต๊ะ ไม่ว่าเล่นกี่คน ที่เหลือเก็บ</p></div></li>
+        <li><div class="body"><h3>ได้เมือง</h3><p>จบตา ถ้ามี<b>แต้มชื่อเสียงถึง</b>ตัวเลขบนเมือง <b>และ</b>มีโบนัสครบตามที่เมืองต้องการ รับเมืองนั้นอัตโนมัติ ถึงหลายเมืองพร้อมกันเลือก<b>ได้ 1 เมือง</b></p></div></li>
+        <li><div class="body"><h3>จบเกม</h3><p>มีคนได้เมือง → เล่นจนจบรอบ · มีคนเดียวที่ได้เมือง คนนั้นชนะ · มีหลายคนได้เมือง คนที่<b>แต้มสูงสุดในกลุ่มนั้น</b>ชนะ · คนไม่มีเมือง<b>ชนะไม่ได้</b>ต่อให้แต้มสูงกว่า</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 210" role="img" aria-label="ตัวอย่างแผ่นเมือง 3 แบบ: 13 แต้มกับแดง 4 ดำ 3, 14 แต้มกับเขียว 4 และสีใดก็ได้ 4, 15 แต้มกับสีใดก็ได้ 5" id="citydemo"></svg></div>
+        <figcaption>ตัวอย่างเงื่อนไขเมืองจากคู่มือ · สัญลักษณ์สีเทา = “สีอะไรก็ได้ 1 สี” ต้องเป็นสีเดียวกันทั้งกลุ่ม และต้องไม่ซ้ำกับสีที่ระบุไว้แล้ว (ตัวอย่าง 14 แต้ม: เขียว 4 + สีอื่นสีเดียว 4 เช่นดำ 4)</figcaption>
+      </figure>
+      <p class="note">คู่มือไม่ได้บอกกรณีเสมอแต้มในกลุ่มที่ได้เมือง แนะนำใช้กฎเสมอของเกมหลัก (ซื้อการ์ดน้อยกว่าชนะ) <span class="flag">กฎบ้าน</span></p>
+    </section>
+
+    <!-- STRONGHOLDS -->
+    <section id="strongholds">
+      <div class="xhead" style="--c:#4a5566"><span class="tag">โมดูล · STRONGHOLDS</span><h2>ป้อมปราการ</h2><p>หอคอยเล็ก ๆ ที่ปักบนการ์ดกลางโต๊ะเพื่อกันคนอื่นซื้อ ขัดขาได้แรงที่สุดในกล่อง</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p>แต่ละคนรับป้อม 3 อันสีเดียวกัน วางหน้าตัวเอง</p></div></li>
+        <li><div class="body"><h3>ทุกครั้งที่ซื้อการ์ด (จากโต๊ะหรือจากมือ)</h3><p>ก่อนเปิดการ์ดใบใหม่แทน <b>ต้องเลือก 1 อย่าง</b>:</p><ul><li><b>วาง/ย้าย</b>ป้อมของตัวเอง 1 อันไปบนการ์ดที่เปิดอยู่ ที่<b>ไม่มีป้อมสีอื่น</b> (ปักซ้อนป้อมตัวเองได้ถึง 3 อัน)</li><li><b>ถอน</b>ป้อมของคนอื่น 1 อันออกจากการ์ด คืนเจ้าของ</li></ul><p>การจองการ์ดไม่ได้สิทธิ์นี้</p></div></li>
+        <li><div class="body"><h3>ยึดครอง</h3><p>การ์ดที่มีป้อมของคุณ <b>มีแต่คุณที่ซื้อหรือจองได้</b> พอได้การ์ดไป ป้อมบนการ์ดนั้นกลับมาหาคุณ</p></div></li>
+        <li><div class="body"><h3>พิชิต (ป้อมครบ 3 บนใบเดียว)</h3><p><b>หลัง</b>แอ็กชันปกติของตา คุณ<b>ซื้อการ์ดใบนั้นเพิ่มได้อีก 1 ครั้ง</b> ลำดับ: จ่ายเงิน → เก็บป้อม 3 อันคืน → วาง/ถอนป้อม 1 อัน → เปิดการ์ดใหม่แทน · ทำก่อนขุนนางมาเยือนและก่อนตรวจลิมิต 10 เหรียญ</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 200" role="img" aria-label="ป้อมปราการ: การ์ดที่มีป้อมสีแดง 1 อัน ถูกยึดครอง การ์ดที่มีป้อมสีน้ำเงิน 3 อัน พร้อมพิชิต" id="sholddemo"></svg></div>
+        <figcaption>ซ้าย: ป้อม 1 อัน = ยึดครอง คนอื่นซื้อ/จองไม่ได้ · ขวา: ป้อม 3 อัน = เจ้าของซื้อเป็นแอ็กชันแถมได้</figcaption>
+      </figure>
+    </section>
+
+    <!-- TRADING POSTS -->
+    <section id="posts">
+      <div class="xhead" style="--c:#1d6b5a"><span class="tag">โมดูล · TRADING POSTS</span><h2>สถานีการค้า</h2><p>บอร์ด “เส้นทางสู่ตะวันออก” มีพลังถาวร 5 จุด ใครมีโบนัสถึงเงื่อนไข ปักตราประจำตระกูลแล้วใช้พลังนั้นไปจนจบเกม</p></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p>วางบอร์ดกลางโต๊ะ แต่ละคนรับตรา 5 อันสีเดียวกัน · ขุนนางใช้ตามปกติ</p></div></li>
+        <li><div class="body"><h3>ปักตรา</h3><p>จบตา <b>หลังขุนนางมาเยือน</b> ถ้ามีโบนัสครบเงื่อนไขของพลังไหน ปักตรา 1 อันที่ช่องนั้น ได้พลังถึงจบเกม (หลายคนปักช่องเดียวกันได้)</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 230" role="img" aria-label="บอร์ดเส้นทางสู่ตะวันออก 5 จุด พร้อมเงื่อนไขโบนัส" id="postdemo"></svg></div>
+        <figcaption>ภาพแทนบอร์ด วาดเรียงตามลำดับในคู่มือ · ตัวเลขใต้อัญมณี = จำนวนโบนัส (การ์ด) ที่ต้องมี</figcaption>
+      </figure>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th class="num">จุด</th><th>เงื่อนไข (โบนัส)</th><th>พลังถาวร</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td>แดง 3 + ขาว 1</td><td>ทุกครั้งที่<b>ซื้อการ์ด</b> รับอัญมณี 1 เหรียญ (สีไหนก็ได้ แม้เป็นเหรียญที่เพิ่งจ่ายไป) รับก่อนเปิดการ์ดใหม่ · ไม่ได้ในตาที่เพิ่งปักตรา</td></tr>
+            <tr><td class="num">2</td><td>ขาว 2</td><td>ทุกครั้งที่หยิบ<b>สีเดียวกัน 2 เหรียญ</b> รับเพิ่มอีก 1 เหรียญสีอื่น (การหยิบ 2 ยังต้องมีกองสีนั้น ≥ 4)</td></tr>
+            <tr><td class="num">3</td><td>น้ำเงิน 3 + ดำ 1</td><td>ทองแต่ละเหรียญ<b>มีค่า 2 เม็ดสีเดียวกัน</b>ตอนซื้อ (ในลิมิต 10 ยังนับเป็น 1 เหรียญ)</td></tr>
+            <tr><td class="num">4</td><td>เขียว 5 + มีขุนนาง 1</td><td><b>+5 แต้ม</b> (ได้ครั้งเดียว แม้มีหลายขุนนาง) อาจทำให้ถึง 15 และจุดจบเกม</td></tr>
+            <tr><td class="num">5</td><td>ดำ 3</td><td><b>+1 แต้ม ต่อตรา</b>ของคุณที่อยู่บนบอร์ด (รวมตราช่องนี้) อาจจุดจบเกม</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวอย่างในคู่มือ: ผู้เล่นมี 15 แต้ม = ขุนนาง 3 + การ์ด 5 + จุดที่ 4 อีก 5 + จุดที่ 5 อีก 2 (มีตราบนบอร์ด 2 อัน) · คู่มือไม่ได้บอกว่าตราจะถูกถอนคืนได้ ปักแล้วอยู่ถาวร</p>
+    </section>
+
+    <!-- COMBINE -->
+    <section id="combine">
+      <div class="sec-head"><span class="tag">หลายโมดูล</span><h2>ใช้หลายโมดูลร่วมกัน</h2></div>
+      <div class="callout ruby">
+        <h3>คู่มือทางการพูดว่าอย่างไร</h3>
+        <p>คู่มือ Cities of Splendor ระบุให้เล่น<b>ทีละโมดูล</b> (เกมหลัก + 1 โมดูล) และไม่มีกติกาการรวม ทุกอย่างในหัวข้อนี้จึงเป็น<b>แนวทางของผู้เรียบเรียง</b> เพื่อให้รวมกันแล้วเล่นได้ไม่ติดขัด <span class="flag">กฎบ้าน</span></p>
+      </div>
+      <div class="tbl-wrap">
+        <table class="mx">
+          <thead><tr><th>คู่โมดูล</th><th>เข้ากันไหม</th><th>สิ่งที่ต้องตกลงก่อนเล่น</th></tr></thead>
+          <tbody>
+            <tr><td><b>ตะวันออก + เมือง</b></td><td class="ok">ดีมาก</td><td style="text-align:left">ไม่มีขุนนาง การ์ดตะวันออก “จองขุนนาง” (ระดับ 2) จึงไร้ผล → <b>คัดการ์ดแบบนี้ออก</b>ก่อนสับ หรือถือเป็นการ์ดเปล่าที่มีแค่โบนัสกับแต้ม · การ์ดโบนัสคู่ช่วยให้ถึงเงื่อนไขเมืองเร็วขึ้นมาก</td></tr>
+            <tr><td><b>ตะวันออก + สถานีการค้า</b></td><td class="ok">ดีมาก</td><td style="text-align:left">โบนัสคู่/การ์ดจับคู่นับเป็นเงื่อนไขปักตรา · ทิ้งการ์ดจ่ายระดับ 3 จนโบนัสลดต่ำกว่าเงื่อนไข <b>ตราที่ปักแล้วไม่หาย</b> · ทองเสมือนจากการ์ดทองคู่ ใช้กับพลังจุด 3 ได้ (ทองเสมือนละ 2 เม็ด) · หยิบการ์ดฟรี<b>ไม่ใช่การซื้อ</b> จึงไม่ได้เหรียญจากพลังจุด 1</td></tr>
+            <tr><td><b>ตะวันออก + ป้อมปราการ</b></td><td class="meh">ได้ ต้องตกลง</td><td style="text-align:left">ปักป้อมบนการ์ดตะวันออกได้ · การหยิบการ์ดฟรี<b>หยิบใบที่มีป้อมคนอื่นไม่ได้</b> (ยึดตามเจตนาของการยึดครอง) · หยิบฟรีไม่ใช่การซื้อ จึง<b>ไม่ได้</b>สิทธิ์วาง/ถอนป้อม</td></tr>
+            <tr><td><b>เมือง + สถานีการค้า</b></td><td class="meh">ได้ ต้องแก้ 1 จุด</td><td style="text-align:left">จุดที่ 4 ต้องมีขุนนาง แต่โหมดเมืองไม่มีขุนนาง → แก้เงื่อนไขเป็น “เขียว 5” อย่างเดียว · จบตา ตรวจสถานีการค้า<b>ก่อน</b>ตรวจเมือง (แต้มจากจุด 4–5 จะได้ช่วยถึงเมือง)</td></tr>
+            <tr><td><b>เมือง + ป้อมปราการ</b></td><td class="ok">ได้</td><td style="text-align:left">ไม่ชนกัน · ป้อมช่วยกันการ์ดสีที่คู่แข่งต้องใช้ทำเมืองได้ดี</td></tr>
+            <tr><td><b>ป้อมปราการ + สถานีการค้า</b></td><td class="ok">ได้</td><td style="text-align:left">การซื้อแบบพิชิตนับเป็นการซื้อ ได้เหรียญจากจุด 1 ด้วย</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <h3>ลำดับจบตา เมื่อใช้หลายโมดูล</h3>
+        <ol>
+          <li>แอ็กชันหลัก 1 อย่าง (ถ้าซื้อการ์ด: ป้อมปราการ → พลังสถานีจุด 1 → เปิดการ์ดใหม่)</li>
+          <li>ซื้อแบบพิชิต (ป้อมปราการ) ถ้ามีป้อมครบ 3 บนใบเดียว</li>
+          <li>ขุนนางมาเยือน (ถ้าไม่ได้เล่นเมือง)</li>
+          <li>ปักตราสถานีการค้า</li>
+          <li>ตรวจเมือง</li>
+          <li>คืนเหรียญให้เหลือไม่เกิน 10</li>
+        </ol>
+        <p class="note" style="margin-top:6px">ข้อ 2–3 และ 3–4 เรียงตามที่คู่มือแต่ละโมดูลกำหนด · ข้อ 5 ผู้เรียบเรียงวางไว้หลังสุดเพื่อให้แต้มทุกอย่างของตานั้นนับก่อน</p>
+      </div>
+      <p class="prose">ถ้าจะเริ่มรวม แนะนำ <b>ตะวันออก + เมือง</b> ก่อน (คัดการ์ดจองขุนนางออกอย่างเดียว) แล้วค่อยลอง <b>ตะวันออก + สถานีการค้า</b> ส่วนรวมครบ 4 โมดูล เกมจะยาวและติดกฎเยอะ ไม่แนะนำกับวง 5 คน</p>
+    </section>
+
+    <!-- FIVE -->
+    <section id="five">
+      <div class="xhead" style="--c:#7a4a12"><span class="tag">กฎบ้าน · 5 PLAYERS</span><h2>เล่น 5 คน</h2><p>Splendor และ Cities of Splendor รองรับทางการแค่ 2–4 คน ไม่มีกฎ 5 คนจากสำนักพิมพ์ หัวข้อนี้เขียนจากวิธีที่วงนี้เล่นอยู่จริง (ตั้งแบบ 4 คนแล้วเพิ่มคน) พร้อมตัวเลือกปรับเพิ่ม</p></div>
+      <div class="callout gold">
+        <h3>กติกาหลัก 5 คน (แบบที่วงนี้เล่น)</h3>
+        <ul>
+          <li><b>อัญมณี 7 เหรียญต่อสี</b> (ใช้ครบเหมือน 4 คน) · <b>ทอง 5</b></li>
+          <li><b>ขุนนาง 6 ใบ</b> (ใช้สูตรเดิม จำนวนคน + 1)</li>
+          <li><b>ใส่แดนตะวันออก</b> เปิดการ์ดระดับละ 6 ใบ (หลัก 4 + ตะวันออก 2) รวม 18 ใบ</li>
+          <li>กติกาอื่นทั้งหมดเหมือนเกมหลัก: ลิมิต 10 เหรียญ จอง 3 ใบ 15 แต้มจบเกม เล่นจนจบรอบ</li>
+        </ul>
+      </div>
+      <div class="prose">
+        <p><b>ทำไมแดนตะวันออกช่วยให้ 5 คนเล่นได้</b> เกมหลักมีการ์ดเปิดแค่ระดับละ 4 ใบ พอ 5 คนแย่งกัน การ์ดที่อยากได้มักโดนซื้อหรือจองไปก่อนถึงตา แดนตะวันออกเพิ่มเป็นระดับละ 6 ใบ ทุกคนมีทางเลือกพอ การ์ดกระจายกันได้ ตามที่วงนี้สังเกตเอง</p>
+        <p><b>สิ่งที่จะรู้สึกได้ตอน 5 คน</b></p>
+        <ul>
+          <li>เหรียญตึงกว่าปกติ: 5 คนแชร์ 35 เหรียญ (คนละ 7 เหรียญโดยเฉลี่ย ขณะที่ 4 คนได้ราว 8.75) การหยิบ 2 สีเดียวกันจะทำได้ไม่บ่อย การ์ดที่ให้ส่วนลดจึงมีค่ามากขึ้น</li>
+          <li>ทอง 5 เหรียญหมดเร็ว การจองจะหลายครั้งไม่ได้ทอง</li>
+          <li>เวลารอตายาวขึ้น ให้ทุกคนคิดล่วงหน้าระหว่างตาคนอื่น</li>
+          <li>ขุนนาง 6 ใบ ทำให้มีโอกาสได้ขุนนางทั่วถึงกว่า</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <h3>ตัวเลือกปรับเพิ่ม (เลือกใช้ทีละข้อ)</h3>
+        <ul>
+          <li><b>เหรียญตึงเกินไป</b>: ใช้เหรียญจากชุดอื่น (เช่นกล่อง Splendor อีกกล่อง หรือชิปโป๊กเกอร์) เพิ่มเป็น <b>8 เหรียญต่อสี</b></li>
+          <li><b>ขุนนางง่ายเกินไป</b>: ลดเหลือ 5 ใบเหมือน 4 คน</li>
+          <li><b>เมือง 5 คน</b>: ใช้ 3 เมืองตามปกติ หรือ 4 เมืองถ้าอยากให้แย่งกันน้อยลง</li>
+          <li><b>ป้อมปราการ/สถานีการค้า 5 คน</b>: ชิ้นมีแค่ 4 สี คนที่ 5 ใช้ของแทน (เหรียญเล็ก มีเปิ้ล หรือหมุดสีอื่น) ป้อม 3 อัน ตรา 5 อัน · ป้อมปราการ 5 คนจะขัดขากันรุนแรง ลองสถานีการค้าก่อน</li>
+        </ul>
+      </div>
+      <p class="note">ทุกข้อในหัวข้อนี้ไม่ได้มาจากคู่มือทางการ ไม่พบกฎ 5 คนจากสำนักพิมพ์หรือแหล่งอ้างอิงที่ตรวจได้</p>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ตอนเตรียมเกม</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="h-players" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+        </div>
+        <div class="tool-row">
+          <label class="chk"><input type="checkbox" id="h-orient" checked> แดนตะวันออก</label>
+          <label class="chk"><input type="checkbox" id="h-cities"> เมือง</label>
+          <label class="chk"><input type="checkbox" id="h-shold"> ป้อมปราการ</label>
+          <label class="chk"><input type="checkbox" id="h-posts"> สถานีการค้า</label>
+        </div>
+        <div class="calc-out" id="h-out"></div>
+        <ul class="notes" id="h-notes"></ul>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบเกม</span><h2>สมุดคะแนน</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="p-players" role="group" aria-label="จำนวนผู้เล่นในสมุดคะแนน"></div></div>
+          <label class="chk"><input type="checkbox" id="p-cities"> เล่นโหมดเมือง</label>
+        </div>
+        <div class="sp-wrap"><table class="sp" id="p-table"></table></div>
+        <p id="p-result" style="font-family:var(--font-display);font-weight:600"></p>
+        <p class="note">ใส่แต้มรวม (การ์ด + ขุนนาง + พลังสถานีการค้า) และจำนวนการ์ดที่<b>ซื้อ</b> (ไม่รวมการ์ดที่จองค้างมือ) ระบบตัดสินเสมอด้วยการ์ดน้อยกว่าให้ · โหมดเมือง: เฉพาะคนที่ได้เมืองเท่านั้นที่ชนะได้</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>หยิบ 3 สีไม่ครบได้ไหม เช่นหยิบแค่ 2 สี</summary><p>ถ้าบนโต๊ะมี 3 สีขึ้นไป ต้องหยิบ 3 สีต่างกัน หยิบน้อยกว่าได้เฉพาะตอนที่เหลือไม่ถึง 3 สี (ตามคำตอบที่ชุมชนอ้างจากตัวแทนสำนักพิมพ์ คู่มือเก่าบางฉบับเขียนกว้างกว่านี้)</p></details>
+        <details><summary>กองสีนั้นเหลือ 3 เหรียญ หยิบ 2 เหรียญได้ไหม</summary><p>ไม่ได้ ต้องมีอย่างน้อย 4 เหรียญ<b>ก่อน</b>หยิบ เหลือ 4 พอดีหยิบได้</p></details>
+        <details><summary>หยิบเหรียญจนเกิน 10 แล้วคืนเหรียญที่เพิ่งหยิบ เพื่อ “แลกสี” ได้ไหม</summary><p>ได้ คืนได้ทุกสีรวมเหรียญที่เพิ่งหยิบ แต่ต้องทำตามแอ็กชันที่ถูกกฎก่อน (เช่นหยิบ 3 สีต่างกัน) แล้วค่อยคืนส่วนที่เกิน</p></details>
+        <details><summary>หยิบทองเฉย ๆ โดยไม่จองการ์ดได้ไหม</summary><p>ไม่ได้ ทองได้มาทางเดียวคือการจองการ์ด</p></details>
+        <details><summary>จองการ์ดจากกองคว่ำ ต้องโชว์คนอื่นไหม</summary><p>ไม่ต้อง ดูเองคนเดียว และทิ้งไม่ได้ ถ้าไม่ได้ซื้อจะค้างมือจนจบเกม (ไม่นับแต้ม)</p></details>
+        <details><summary>ถึงเงื่อนไขขุนนาง 2 ใบในตาเดียว ได้ทั้งคู่ไหม</summary><p>ไม่ได้ ได้ตาละ 1 ใบ เลือกเอง อีกใบรอตาหน้า ถ้าระหว่างนั้นมีคนอื่นถึงเงื่อนไขก่อน เขาได้ไป</p></details>
+        <details><summary>มีคนถึง 15 แต้ม เกมจบทันทีไหม</summary><p>ไม่ เล่นต่อจนคนที่นั่งขวามือผู้เริ่มเล่นเสร็จ ทุกคนได้ตาเท่ากัน</p></details>
+        <details><summary>ทองเสมือนจากการ์ดทองคู่ (ตะวันออก) เก็บไว้ใช้ทีละอันได้ไหม</summary><p>ไม่ได้ ต้องใช้ในการซื้อครั้งเดียว ใช้ 1 อีกอันก็หายไป แล้วการ์ดใบนั้นออกจากเกม (เสียโบนัส/แต้มของใบนั้นด้วย)</p></details>
+        <details><summary>การ์ดจับคู่ ไปจับกับการ์ดโบนัสคู่ได้ไหม ได้กี่โบนัส</summary><p>คู่มือบอกว่าการ์ดจับคู่มีค่า 1 โบนัสสีเดียวกับการ์ดที่จับคู่ จับกับโบนัสคู่จึงได้เพิ่มแค่ 1 ไม่ใช่ 2 <span class="flag">ตีความ</span></p></details>
+        <details><summary>การ์ดตะวันออกระดับ 3 ที่ต้องทิ้งโบนัส 2 ทิ้งการ์ดไหนได้บ้าง</summary><p>ทิ้งการ์ดที่ซื้อแล้ว (ไม่ใช่การ์ดจอง) ให้ได้โบนัสสีที่ระบุรวม 2 เช่นการ์ดธรรมดา 2 ใบ หรือการ์ดโบนัสคู่ 1 ใบ การ์ดที่ทิ้งออกจากเกม แต้มของใบนั้นหายด้วย · ถ้าทิ้งการ์ดที่มีการ์ดจับคู่ติดอยู่ ทิ้งการ์ดจับคู่ไปด้วย (เพราะไม่มีคู่แล้ว) <span class="flag">ตีความ</span></p></details>
+        <details><summary>ทิ้งการ์ดจนโบนัสต่ำกว่าเงื่อนไขขุนนางที่ได้ไปแล้ว ต้องคืนขุนนางไหม</summary><p>ไม่ต้อง ขุนนางให้ตอนจบตาครั้งเดียว ได้แล้วเป็นของคุณ</p></details>
+        <details><summary>หยิบการ์ดฟรี (ตะวันออก) หยิบการ์ดตะวันออกระดับต่ำกว่าได้ไหม</summary><p>ได้ หยิบการ์ดที่<b>เปิดอยู่</b>ระดับที่ระบุ จะเป็นการ์ดหลักหรือการ์ดตะวันออกก็ได้ ห้ามหยิบจากกองคว่ำหรือจากมือที่จองไว้</p></details>
+        <details><summary>โหมดเมือง: คนที่ได้ 18 แต้มแต่ไม่มีเมือง ชนะคนที่ได้เมืองที่ 14 แต้มได้ไหม</summary><p>ไม่ได้ คนชนะต้องมาจากคนที่ได้เมืองเท่านั้น</p></details>
+        <details><summary>ป้อมปราการ: จองการ์ดที่มีป้อมคนอื่นได้ไหม</summary><p>ไม่ได้ การ์ดที่มีป้อมคนอื่น ซื้อก็ไม่ได้ จองก็ไม่ได้ ต้องถอนป้อมออกก่อน (ซึ่งต้องซื้อการ์ดสักใบจึงได้สิทธิ์ถอน)</p></details>
+        <details><summary>5 คน: คนที่ 5 เสียเปรียบเพราะเล่นทีหลังไหม</summary><p>ไม่มาก เกมเล่นจนจบรอบทุกครั้ง ทุกคนได้ตาเท่ากัน ข้อเสียจริงคือการ์ดที่อยากได้มักถูกซื้อก่อนถึงตา ซึ่งแดนตะวันออกช่วยได้</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ภาษาในคู่มือ</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>Gem token</dt><dd>เหรียญอัญมณี · Emerald เขียว, Diamond ขาว, Sapphire น้ำเงิน, Onyx ดำ, Ruby แดง</dd>
+        <dt>Gold joker</dt><dd>เหรียญทอง · แทนสีอะไรก็ได้</dd>
+        <dt>Development card</dt><dd>การ์ดพัฒนา · ระดับ 1–3</dd>
+        <dt>Bonus</dt><dd>โบนัส · อัญมณีบนการ์ด เป็นส่วนลดถาวร</dd>
+        <dt>Prestige points</dt><dd>แต้มชื่อเสียง</dd>
+        <dt>Reserve</dt><dd>จองการ์ด</dd>
+        <dt>Noble / visit</dt><dd>ขุนนาง / มาเยือน</dd>
+        <dt>The Orient</dt><dd>แดนตะวันออก · โมดูลการ์ดพิเศษ 30 ใบ</dd>
+        <dt>Pair / joker card</dt><dd>การ์ดจับคู่ · ลอกสีโบนัสของการ์ดที่มีอยู่</dd>
+        <dt>Double bonus</dt><dd>โบนัสคู่ · การ์ดที่นับเป็น 2 โบนัส</dd>
+        <dt>The Cities</dt><dd>เมือง · แทนขุนนาง และเป็นเงื่อนไขชนะ</dd>
+        <dt>Stronghold</dt><dd>ป้อมปราการ · Occupation = ยึดครอง, Conquest = พิชิต</dd>
+        <dt>Trading Posts / Coat of arms</dt><dd>สถานีการค้า / ตราประจำตระกูล · บอร์ด Route to the Orient</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b></p>
+    <ul>
+      <li>คู่มือ Splendor (Space Cowboys, 2014) ออกแบบโดย Marc André · อ่านผ่านสำเนาที่ <a href="https://rulespal.com/splendor/rulebook" target="_blank" rel="noopener">RulesPal</a> และ <a href="https://ultraboardgames.com/splendor/game-rules.php" target="_blank" rel="noopener">UltraBoardGames</a> (ตรงกันทุกข้อ)</li>
+      <li>คู่มือ Cities of Splendor (Space Cowboys, 2017) · <a href="https://rulespal.com/splendor-cities-of-splendor/rulebook" target="_blank" rel="noopener">RulesPal</a> และ <a href="https://ultraboardgames.com/splendor/cites-of-splendor.php" target="_blank" rel="noopener">UltraBoardGames</a> (ข้อความ “เล่นทีละโมดูล” มาจาก UltraBoardGames)</li>
+      <li>คำถามพบบ่อยของชุมชน: <a href="https://rulespal.com/splendor/faq" target="_blank" rel="noopener">RulesPal FAQ</a> (ไม่ใช่ FAQ ของสำนักพิมพ์)</li>
+      <li>เว็บไซต์สำนักพิมพ์: <a href="https://www.spacecowboys-games.com/" target="_blank" rel="noopener">Space Cowboys</a></li>
+      <li>หัวข้อ “เล่น 5 คน” “ใช้หลายโมดูลร่วมกัน” และคำตอบที่มีป้าย <span class="flag">กฎบ้าน</span> หรือ <span class="flag">ตีความ</span> เป็นข้อสรุปของผู้เรียบเรียง ไม่ใช่ข้อความในคู่มือ · ภาพประกอบวาดใหม่ทั้งหมด ไม่ใช่ภาพจากเกมจริง</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var C={w:"var(--gw)",b:"var(--gb)",g:"var(--gg)",r:"var(--gr)",k:"var(--gk)",y:"var(--gy)",x:"#8b93a1"};
+var NAME={w:"ขาว",b:"น้ำเงิน",g:"เขียว",r:"แดง",k:"ดำ",y:"ทอง",x:"สีใดก็ได้"};
+function set(id,h){var e=document.getElementById(id);if(e)e.innerHTML=h;}
+function T(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'" text-anchor="'+(o.a||"start")+'" font-size="'+(o.s||13)+'"'+(o.cls?' class="'+o.cls+'"':'')+(o.fill?' style="fill:'+o.fill+'"':'')+'>'+t+'</text>';}
+/* gem token */
+function tok(cx,cy,r,c){
+  var dark=(c==="k"||c==="b"||c==="g"||c==="r");
+  var o='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+C[c]+'" stroke="rgba(0,0,0,.45)" stroke-width="1.2"/>';
+  o+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(r*.78)+'" fill="none" stroke="'+(dark?"rgba(255,255,255,.35)":"rgba(0,0,0,.2)")+'" stroke-width="1"/>';
+  var s=r*.42;o+='<path d="M'+cx+' '+(cy-s)+' L'+(cx+s)+' '+cy+' L'+cx+' '+(cy+s)+' L'+(cx-s)+' '+cy+'Z" fill="'+(dark?"rgba(255,255,255,.28)":"rgba(0,0,0,.14)")+'"/>';
+  return o;
+}
+/* gem symbol (small, faceted) */
+function gem(cx,cy,s,c){
+  return '<path d="M'+(cx-s)+' '+(cy-s*.35)+' L'+(cx-s*.5)+' '+(cy-s)+' L'+(cx+s*.5)+' '+(cy-s)+' L'+(cx+s)+' '+(cy-s*.35)+' L'+cx+' '+(cy+s)+'Z" fill="'+C[c]+'" stroke="rgba(0,0,0,.5)" stroke-width="1"/><path d="M'+(cx-s)+' '+(cy-s*.35)+' H'+(cx+s)+' M'+(cx-s*.5)+' '+(cy-s)+' L'+cx+' '+(cy+s)+' L'+(cx+s*.5)+' '+(cy-s)+'" fill="none" stroke="rgba(0,0,0,.25)" stroke-width=".8"/>';
+}
+/* cost pip */
+function pip(cx,cy,r,c,n){
+  var lt=(c==="w"||c==="y");
+  return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+C[c]+'" stroke="rgba(0,0,0,.5)"/>'+'<text x="'+cx+'" y="'+(cy+r*.42)+'" text-anchor="middle" font-size="'+(r*1.15)+'" class="tagf" style="fill:'+(lt?"#1a1a1a":"#fff")+'">'+n+'</text>';
+}
+/* development card */
+function card(x,y,w,h,o){
+  o=o||{};
+  var lvlBg=o.orient?"#f3dbe8":"#f2efe6";
+  var s='<g'+(o.rot?' transform="rotate('+o.rot+' '+(x+w/2)+' '+(y+h/2)+')"':'')+'>';
+  s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(w*.08)+'" fill="'+lvlBg+'" stroke="rgba(0,0,0,.4)"/>';
+  if(o.back){
+    var dots=o.back;s+='<rect x="'+(x+4)+'" y="'+(y+4)+'" width="'+(w-8)+'" height="'+(h-8)+'" rx="'+(w*.06)+'" fill="'+(o.orient?"#8a2f63":(dots===1?"#2f7a4a":dots===2?"#b8862a":"#2d4f9c"))+'"/>';
+    for(var d=0;d<dots;d++)s+='<circle cx="'+(x+w/2+(d-(dots-1)/2)*w*.18)+'" cy="'+(y+h/2)+'" r="'+(w*.06)+'" fill="#f4ecd8"/>';
+    return s+'</g>';
+  }
+  s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+(h*.26)+'" rx="'+(w*.08)+'" fill="rgba(255,255,255,.75)"/>';
+  if(o.pts)s+='<text x="'+(x+w*.1)+'" y="'+(y+h*.2)+'" font-size="'+(h*.17)+'" class="tagf" style="fill:#1a1a1a">'+o.pts+'</text>';
+  if(o.bonus){s+=gem(x+w*.8,y+h*.13,w*.12,o.bonus);if(o.dbl)s+=gem(x+w*.56,y+h*.13,w*.12,o.bonus);}
+  if(o.icon)s+=o.icon(x+w*.6,y+h*.55,w*.22);
+  var cost=o.cost||[];cost.forEach(function(p,i){s+=pip(x+w*.17,y+h-(h*.11)-i*(w*.27),w*.12,p[0],p[1]);});
+  return s+'</g>';
+}
+function noble(x,y,s,req,pts){
+  var o='<rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="'+(s*.08)+'" fill="#efe2c4" stroke="rgba(0,0,0,.45)"/><rect x="'+x+'" y="'+y+'" width="'+(s*.32)+'" height="'+s+'" rx="'+(s*.08)+'" fill="rgba(0,0,0,.08)"/>';
+  o+='<text x="'+(x+s*.16)+'" y="'+(y+s*.27)+'" text-anchor="middle" font-size="'+(s*.22)+'" class="tagf" style="fill:#1a1a1a">'+(pts||3)+'</text>';
+  req.forEach(function(r,i){var lt=(r[0]==="w");o+='<rect x="'+(x+s*.06)+'" y="'+(y+s*.4+i*s*.2)+'" width="'+(s*.2)+'" height="'+(s*.17)+'" rx="2" fill="'+C[r[0]]+'" stroke="rgba(0,0,0,.4)"/><text x="'+(x+s*.16)+'" y="'+(y+s*.53+i*s*.2)+'" text-anchor="middle" font-size="'+(s*.13)+'" class="tagf" style="fill:'+(lt?"#1a1a1a":"#fff")+'">'+r[1]+'</text>';});
+  o+='<circle cx="'+(x+s*.66)+'" cy="'+(y+s*.42)+'" r="'+(s*.16)+'" fill="#c9a77a"/><path d="M'+(x+s*.42)+' '+(y+s*.92)+' q'+(s*.24)+' -'+(s*.42)+' '+(s*.48)+' 0z" fill="#6b3a5a"/>';
+  return o;
+}
+function tower(x,y,s,col){
+  return '<g><rect x="'+(x-s*.35)+'" y="'+(y-s)+'" width="'+(s*.7)+'" height="'+s+'" fill="'+col+'" stroke="rgba(0,0,0,.5)"/><path d="M'+(x-s*.45)+' '+(y-s)+' h'+(s*.9)+' v-'+(s*.25)+' h-'+(s*.2)+' v'+(s*.12)+' h-'+(s*.15)+' v-'+(s*.12)+' h-'+(s*.2)+' v'+(s*.12)+' h-'+(s*.15)+' v-'+(s*.12)+' h-'+(s*.2)+'z" fill="'+col+'" stroke="rgba(0,0,0,.5)"/></g>';
+}
+/* orient ability icons */
+var ICON={
+  pair:function(x,y,s){return '<g><rect x="'+(x-s)+'" y="'+(y-s*.8)+'" width="'+(s*1.2)+'" height="'+(s*1.6)+'" rx="3" fill="none" stroke="#8a2f63" stroke-width="2"/><rect x="'+(x-s*.2)+'" y="'+(y-s*.5)+'" width="'+(s*1.2)+'" height="'+(s*1.6)+'" rx="3" fill="#e3b23c" stroke="#8a2f63" stroke-width="2"/></g>';},
+  gold2:function(x,y,s){return tok(x-s*.45,y,s*.6,"y")+tok(x+s*.45,y,s*.6,"y");},
+  free1:function(x,y,s){return '<g><rect x="'+(x-s*.6)+'" y="'+(y-s*.8)+'" width="'+(s*1.2)+'" height="'+(s*1.6)+'" rx="3" fill="#2f7a4a" stroke="#8a2f63" stroke-width="2"/><circle cx="'+x+'" cy="'+y+'" r="'+(s*.18)+'" fill="#f4ecd8"/></g>';},
+  free2:function(x,y,s){return '<g><rect x="'+(x-s*.6)+'" y="'+(y-s*.8)+'" width="'+(s*1.2)+'" height="'+(s*1.6)+'" rx="3" fill="#b8862a" stroke="#8a2f63" stroke-width="2"/><circle cx="'+(x-s*.22)+'" cy="'+y+'" r="'+(s*.16)+'" fill="#f4ecd8"/><circle cx="'+(x+s*.22)+'" cy="'+y+'" r="'+(s*.16)+'" fill="#f4ecd8"/></g>';},
+  noble:function(x,y,s){return '<g><rect x="'+(x-s*.8)+'" y="'+(y-s*.8)+'" width="'+(s*1.6)+'" height="'+(s*1.6)+'" rx="3" fill="#efe2c4" stroke="#8a2f63" stroke-width="2"/><circle cx="'+x+'" cy="'+(y-s*.15)+'" r="'+(s*.3)+'" fill="#c9a77a"/><path d="M'+(x-s*.5)+' '+(y+s*.7)+' q'+(s*.5)+' -'+(s*.8)+' '+s+' 0z" fill="#6b3a5a"/></g>';},
+  drop:function(x,y,s){return '<g><path d="M'+x+' '+(y-s)+' C'+(x+s*.9)+' '+(y)+' '+(x+s*.6)+' '+(y+s*.8)+' '+x+' '+(y+s*.8)+' C'+(x-s*.6)+' '+(y+s*.8)+' '+(x-s*.9)+' '+y+' '+x+' '+(y-s)+'Z" fill="#c42c3a" stroke="#8a2f63" stroke-width="2"/><text x="'+x+'" y="'+(y+s*.5)+'" text-anchor="middle" font-size="'+(s*.9)+'" class="tagf" style="fill:#fff">2</text></g>';}
+};
+
+/* HERO */
+(function(){
+  var o='';
+  o+=card(40,70,110,160,{back:1,rot:-14});
+  o+=card(95,50,110,160,{pts:2,bonus:"b",cost:[["w",2],["g",2],["r",3]],rot:-4});
+  o+=card(160,60,110,160,{pts:4,bonus:"r",cost:[["g",3],["b",6],["k",3]],rot:7,orient:false});
+  o+=card(215,85,110,160,{pts:1,bonus:"g",icon:ICON.pair,cost:[["w",2],["k",2]],rot:15,orient:true});
+  var cols=["g","w","b","k","r","y"];
+  cols.forEach(function(c,i){var x=46+i*50,y=272;for(var k=0;k<3;k++)o+=tok(x,y-k*5,19,c);});
+  o+=noble(270,10,58,[["b",4],["w",4]]);
+  set("heroart",o);
+})();
+
+/* CARD ANATOMY */
+(function(){
+  var o=card(60,30,170,240,{pts:2,bonus:"b",cost:[["w",2],["g",2],["r",3]]});
+  o+='<g stroke="var(--muted)" stroke-width="1.5" fill="none"><path d="M82 62 L20 62"/><path d="M212 62 L300 62"/><path d="M80 210 L300 210"/></g>';
+  o+=T(14,52,"แต้ม",{s:13,cls:"tagf"});
+  o+=T(306,58,"โบนัส = ส่วนลดถาวร",{s:14,cls:"tagf"})+T(306,78,"น้ำเงิน 1 เม็ด ทุกครั้งที่ซื้อ",{s:12,cls:"mut"});
+  o+=T(306,206,"ราคา: ขาว 2 · เขียว 2 · แดง 3",{s:14,cls:"tagf"})+T(306,226,"(อ่านจากล่างขึ้นบน)",{s:12,cls:"mut"});
+  o+=noble(560,40,110,[["b",4],["w",4]]);
+  o+=T(615,175,"ขุนนาง 3 แต้ม",{s:13,a:"middle",cls:"tagf"})+T(615,195,"ต้องมีการ์ด",{s:12,a:"middle",cls:"mut"})+T(615,212,"น้ำเงิน 4 · ขาว 4",{s:12,a:"middle",cls:"mut"});
+  set("carddemo",o);
+})();
+
+/* TABLE LAYOUT */
+(function(){
+  var o='<rect x="4" y="4" width="692" height="352" rx="14" fill="var(--surface-2)"/>';
+  for(var i=0;i<6;i++)o+=noble(150+i*62,14,52,[["g",3],["r",3],["k",3]]);
+  o+=T(140,46,"ขุนนาง",{s:12,a:"end",cls:"tagf"});
+  var lv=[3,2,1];
+  lv.forEach(function(L,r){
+    var y=80+r*90,w=56,h=80;
+    o+=card(30,y,w,h,{back:L});
+    for(var j=0;j<4;j++)o+=card(100+j*64,y,w,h,{pts:L===1?(j===2?1:0)||"":L+1,bonus:["w","b","g","r","k"][(j+r)%5],cost:[["k",L+1],["g",L]]});
+    o+='<rect x="362" y="'+(y-4)+'" width="200" height="'+(h+8)+'" rx="8" fill="#e3a6c9" opacity=".35"/>';
+    o+=card(372,y,w,h,{orient:true,pts:L>1?L:"",bonus:["r","g","b"][r],icon:[ICON.free2,ICON.noble,ICON.pair][r],cost:[["w",L+1]]});
+    o+=card(436,y,w,h,{orient:true,bonus:["k","w","r"][r],dbl:r===1,icon:r===0?ICON.drop:(r===2?ICON.gold2:null),cost:[["b",L+2]]});
+    o+=card(500,y,w,h,{back:L,orient:true});
+    o+=T(22,y+46,"ระดับ "+L,{s:11,a:"end",cls:"mut"});
+  });
+  o+=T(462,350,"แดนตะวันออก: เปิด 2 + กอง",{s:12,a:"middle",cls:"tagf"});
+  o+=T(220,350,"การ์ดหลัก: กอง + เปิด 4",{s:12,a:"middle",cls:"tagf"});
+  ["g","w","b","k","r","y"].forEach(function(c,i){o+=tok(630,96+i*42,17,c)+tok(630,92+i*42,17,c);});
+  o+=T(630,74,"เหรียญ",{s:12,a:"middle",cls:"tagf"});
+  set("tabledemo",o);
+})();
+
+/* ACTIONS */
+(function(){
+  var o='',bx=[8,182,356,530];
+  var titles=["หยิบ 3 สีต่างกัน","หยิบ 2 สีเดียวกัน","จองการ์ด + ทอง 1","ซื้อการ์ด 1 ใบ"];
+  bx.forEach(function(x,i){o+='<rect x="'+x+'" y="8" width="162" height="184" rx="12" fill="var(--surface-2)"/>'+T(x+81,34,titles[i],{s:14,a:"middle",cls:"tagf"});});
+  o+=tok(48,100,20,"r")+tok(89,100,20,"g")+tok(130,100,20,"w");
+  o+=T(89,160,"สีละ 1 ห้ามทอง",{s:12,a:"middle",cls:"mut"});
+  o+=tok(242,100,20,"b")+tok(282,100,20,"b");
+  o+=T(263,150,"กองต้องมี ≥ 4",{s:12,a:"middle",cls:"mut"})+T(263,168,"ก่อนหยิบ",{s:12,a:"middle",cls:"mut"});
+  o+=card(380,52,58,84,{pts:3,bonus:"k",cost:[["r",3],["w",3]],rot:-8})+tok(470,110,20,"y");
+  o+=T(437,165,"ถือได้ไม่เกิน 3 ใบ",{s:12,a:"middle",cls:"mut"});
+  o+=card(580,52,62,90,{pts:1,bonus:"g",cost:[["w",3],["b",2]]});
+  o+=T(611,170,"จากโต๊ะหรือจากมือ",{s:12,a:"middle",cls:"mut"});
+  set("actiondemo",o);
+})();
+
+/* PAYMENT */
+(function(){
+  var o=card(20,20,140,200,{pts:2,bonus:"g",cost:[["r",1],["w",2],["b",3]]});
+  o+=T(90,240,"ราคา: น้ำเงิน 3 ขาว 2 แดง 1",{s:12,a:"middle",cls:"mut"});
+  o+=T(200,40,"โบนัสที่มีอยู่",{s:14,cls:"tagf"});
+  o+=card(200,52,50,72,{bonus:"b"})+card(256,52,50,72,{bonus:"b"})+card(312,52,50,72,{bonus:"w"});
+  o+=T(200,146,"ลดน้ำเงิน 2 · ขาว 1",{s:12,cls:"mut"});
+  o+=T(420,40,"เหรียญที่จ่ายจริง",{s:14,cls:"tagf"});
+  o+=tok(445,88,22,"b")+tok(500,88,22,"w")+tok(555,88,22,"y");
+  o+=T(445,130,"น้ำเงิน 1",{s:12,a:"middle",cls:"mut"})+T(500,130,"ขาว 1",{s:12,a:"middle",cls:"mut"})+T(555,130,"ทองแทนแดง",{s:12,a:"middle",cls:"mut"});
+  o+='<rect x="200" y="170" width="480" height="56" rx="10" fill="var(--accent-soft)"/>';
+  o+=T(216,196,"น้ำเงิน 3−2 = 1 · ขาว 2−1 = 1 · แดง 1−0 = 1",{s:14,cls:"tagf"})+T(216,216,"รวมจ่าย 3 เหรียญ จากราคาเต็ม 6",{s:12,cls:"mut"});
+  set("paydemo",o);
+})();
+
+/* ORIENT TYPES */
+(function(){
+  var list=[
+    {lv:"ระดับ 1",name:"ทองคู่",en:"2 gold",icon:ICON.gold2,txt:"มีค่าเท่าทอง 2 เหรียญ ไม่นับลิมิต 10 · ต้องใช้ทั้งคู่ในการซื้อครั้งเดียว ใช้แล้วทิ้งการ์ดออกจากเกม"},
+    {lv:"ระดับ 1",name:"จับคู่",en:"pairing",icon:ICON.pair,txt:"ซื้อแล้ววางเยื้องติดการ์ดใบหนึ่งของคุณทันที กลายเป็นโบนัสสีเดียวกับใบนั้นถาวร · ต้องมีการ์ดที่มีโบนัสอยู่แล้วจึงซื้อได้"},
+    {lv:"ระดับ 2",name:"จับคู่ + หยิบระดับ 1 ฟรี",en:"pair + cascade",icon:ICON.free1,txt:"จับคู่เหมือนระดับ 1 แล้วหยิบการ์ดระดับ 1 ที่เปิดอยู่ (หลักหรือตะวันออก) 1 ใบฟรี"},
+    {lv:"ระดับ 2",name:"โบนัสคู่",en:"double bonus",icon:null,dbl:true,txt:"นับเป็นโบนัส 2 เม็ดสีที่ระบุ ใช้ได้ทั้งส่วนลด ขุนนาง และการทิ้งจ่ายระดับ 3"},
+    {lv:"ระดับ 2",name:"จองขุนนาง",en:"reserve a noble",icon:ICON.noble,txt:"หยิบขุนนางที่เปิดอยู่ 1 ใบมาคว่ำหน้าตัวเอง คนอื่นแย่งไม่ได้ · ยังต้องมีโบนัสครบจึงได้แต้ม · ไม่ได้ทอง"},
+    {lv:"ระดับ 3",name:"หยิบระดับ 2 ฟรี",en:"cascade",icon:ICON.free2,txt:"ซื้อแล้วหยิบการ์ดระดับ 2 ที่เปิดอยู่ (หลักหรือตะวันออก) 1 ใบฟรี ถ้าได้ใบที่มีความสามารถ ใช้ต่อได้"},
+    {lv:"ระดับ 3",name:"ทิ้งการ์ดจ่าย",en:"sacrifice",icon:ICON.drop,txt:"ราคาคือ<b>ทิ้งโบนัส 2</b> สีที่ระบุจากการ์ดที่ซื้อแล้ว (ไม่ใช่การ์ดจอง) การ์ดที่ทิ้งออกจากเกม · ราคาถูกแต่แต้มสูง"}
+  ];
+  var bonusOf=["k","r","g","b","w","g","r"];
+  var h='';
+  list.forEach(function(it,i){
+    var svg='<svg viewBox="0 0 230 120" role="img" aria-label="การ์ด'+it.name+'">'+card(10,10,72,100,{orient:true,pts:it.lv==="ระดับ 3"?(i===6?5:3):(it.lv==="ระดับ 2"?1:""),bonus:i===0?null:bonusOf[i],dbl:it.dbl,icon:it.icon,cost:[["w",it.lv==="ระดับ 1"?2:3],["k",1]]})+'<text x="96" y="52" font-size="15" class="tagf">'+it.name+'</text><text x="96" y="74" font-size="12" class="mut">'+it.en+'</text></svg>';
+    h+='<div class="type"><h3><span class="lv">'+it.lv+'</span> '+it.name+'</h3>'+svg+'<p>'+it.txt+'</p></div>';
+  });
+  set("orienttypes",h);
+})();
+
+/* PAIR DEMO */
+(function(){
+  var o=card(40,30,110,160,{bonus:"r",cost:[["g",2],["k",1]]})+card(170,30,110,160,{bonus:"r",cost:[["w",3]]});
+  o+=card(200,48,110,160,{orient:true,bonus:null,icon:ICON.pair,cost:[["b",2],["w",1]]});
+  o+='<path d="M330 110 h60" stroke="var(--muted)" stroke-width="2" fill="none"/><path d="M390 110 l-10 -6 v12z" fill="var(--muted)"/>';
+  o+=T(410,96,"การ์ดจับคู่วางเยื้องติดการ์ดแดง",{s:14,cls:"tagf"});
+  o+=T(410,118,"= โบนัสแดงอีก 1 (ถาวร)",{s:13,cls:"mut"});
+  o+=T(410,150,"โบนัสแดงรวม",{s:13,cls:"mut"});
+  o+=gem(520,145,10,"r")+gem(546,145,10,"r")+gem(572,145,10,"r");
+  set("pairdemo",o);
+})();
+
+/* CITIES */
+(function(){
+  var cities=[{p:13,req:[["r",4],["k",3]]},{p:14,req:[["g",4],["x",4]]},{p:15,req:[["x",5]]}];
+  var o='';
+  cities.forEach(function(c,i){
+    var x=20+i*226;
+    o+='<rect x="'+x+'" y="20" width="206" height="150" rx="12" fill="#e9dcc0" stroke="rgba(0,0,0,.45)"/>';
+    o+='<path d="M'+(x+20)+' 150 v-50 h20 v-20 h14 v20 h16 v-40 l12 -14 l12 14 v40 h16 v-26 h20 v76z" fill="#b48a4f" opacity=".55"/>';
+    o+='<circle cx="'+(x+40)+'" cy="46" r="20" fill="#7a5a18"/><text x="'+(x+40)+'" y="53" text-anchor="middle" font-size="18" class="tagf" style="fill:#fff3d6">'+c.p+'</text>';
+    c.req.forEach(function(r,j){var yy=40+j*44;o+=gem(x+150,yy+10,14,r[0])+'<text x="'+(x+176)+'" y="'+(yy+17)+'" font-size="18" class="tagf" style="fill:#1a1a1a">'+r[1]+'</text>';});
+    o+=T(x+103,192,c.p+" แต้ม + "+c.req.map(function(r){return NAME[r[0]]+" "+r[1];}).join(" + "),{s:12,a:"middle",cls:"mut"});
+  });
+  set("citydemo",o);
+})();
+
+/* STRONGHOLDS */
+(function(){
+  var o=card(60,20,110,160,{pts:1,bonus:"g",cost:[["w",2],["r",2]]})+tower(150,70,34,"#c42c3a");
+  o+=T(200,80,"ยึดครอง",{s:15,cls:"tagf"})+T(200,102,"เจ้าของสีแดงเท่านั้น",{s:12,cls:"mut"})+T(200,120,"ที่ซื้อ/จองใบนี้ได้",{s:12,cls:"mut"});
+  o+=card(400,20,110,160,{pts:4,bonus:"k",cost:[["k",3],["r",3],["g",6]]});
+  o+=tower(430,120,30,"#2d62c4")+tower(456,120,30,"#2d62c4")+tower(482,120,30,"#2d62c4");
+  o+=T(530,80,"พิชิต",{s:15,cls:"tagf"})+T(530,102,"ป้อมครบ 3 อัน",{s:12,cls:"mut"})+T(530,120,"ซื้อเป็นแอ็กชันแถมได้",{s:12,cls:"mut"});
+  set("sholddemo",o);
+})();
+
+/* TRADING POSTS */
+(function(){
+  var reqs=[[["r",3],["w",1]],[["w",2]],[["b",3],["k",1]],[["g",5],["n",1]],[["k",3]]];
+  var lab=["+1 เหรียญเมื่อซื้อ","หยิบ 2 แถม 1","ทอง = 2 เม็ด","+5 แต้ม","+1 แต้ม/ตรา"];
+  var o='<rect x="4" y="4" width="692" height="222" rx="14" fill="#e6d7b8"/><path d="M60 120 C150 60 210 170 300 110 S470 60 540 120 S640 150 660 100" fill="none" stroke="#a87a1c" stroke-width="5" stroke-dasharray="10 8"/>';
+  var xs=[60,190,330,470,630];
+  xs.forEach(function(x,i){
+    var y=[120,115,105,95,108][i];
+    o+='<circle cx="'+x+'" cy="'+y+'" r="26" fill="#1d6b5a" stroke="#0f3d33" stroke-width="2"/><text x="'+x+'" y="'+(y+7)+'" text-anchor="middle" font-size="20" class="tagf" style="fill:#fff">'+(i+1)+'</text>';
+    reqs[i].forEach(function(r,j){
+      var gx=x-((reqs[i].length-1)*16)+j*32,gy=y+50;
+      if(r[0]==="n")o+='<rect x="'+(gx-11)+'" y="'+(gy-11)+'" width="22" height="22" rx="3" fill="#efe2c4" stroke="rgba(0,0,0,.45)"/><circle cx="'+gx+'" cy="'+(gy-2)+'" r="5" fill="#c9a77a"/>';
+      else o+=gem(gx,gy,11,r[0]);
+      o+='<text x="'+gx+'" y="'+(gy+28)+'" text-anchor="middle" font-size="13" class="tagf" style="fill:#1a1a1a">'+r[1]+'</text>';
+    });
+    o+='<text x="'+x+'" y="'+(y-38)+'" text-anchor="middle" font-size="12" class="tagf" style="fill:#3b2a10">'+lab[i]+'</text>';
+  });
+  set("postdemo",o);
+})();
+
+/* SETUP HELPER */
+(function(){
+  var players=4;
+  var pBox=document.getElementById("h-players");
+  [2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.dataset.v=n;b.setAttribute("aria-pressed",n===players?"true":"false");b.addEventListener("click",function(){players=n;[].forEach.call(pBox.children,function(x){x.setAttribute("aria-pressed",+x.dataset.v===n?"true":"false");});render();});pBox.appendChild(b);});
+  ["h-orient","h-cities","h-shold","h-posts"].forEach(function(id){document.getElementById(id).addEventListener("change",render);});
+  function render(){
+    var or=document.getElementById("h-orient").checked,ci=document.getElementById("h-cities").checked,sh=document.getElementById("h-shold").checked,po=document.getElementById("h-posts").checked;
+    var gems={2:4,3:5,4:7,5:7}[players];
+    var nob=ci?0:players+1;
+    var face=or?"4 + 2":"4";
+    var cards=or?18:12;
+    var house=players===5;
+    var out='';
+    out+='<div class="co hl'+(house?' house':'')+'"><b>'+gems+'</b><small>อัญมณีต่อสี'+(players<4?" (เอาออกสีละ "+(7-gems)+")":"")+'</small></div>';
+    out+='<div class="co"><b>5</b><small>ทอง (เสมอ)</small></div>';
+    out+='<div class="co'+(house&&!ci?' house':'')+'"><b>'+(ci?"—":nob)+'</b><small>'+(ci?"ไม่ใช้ขุนนาง":"ขุนนาง (คน + 1)")+'</small></div>';
+    if(ci)out+='<div class="co"><b>3</b><small>แผ่นเมือง (สุ่มหน้า)</small></div>';
+    out+='<div class="co"><b>'+face+'</b><small>การ์ดเปิดต่อระดับ · รวม '+cards+' ใบ</small></div>';
+    if(sh)out+='<div class="co"><b>3</b><small>ป้อมต่อคน</small></div>';
+    if(po)out+='<div class="co"><b>5</b><small>ตราต่อคน</small></div>';
+    document.getElementById("h-out").innerHTML=out;
+    var n=[];
+    var mods=[or,ci,sh,po].filter(Boolean).length;
+    if(house)n.push("5 คนเป็นกฎบ้าน (ไม่มีในคู่มือทางการ) ตัวเลขช่องสีทองคือแบบที่วงนี้เล่น"+(or?"":" · แนะนำเปิดแดนตะวันออกด้วย เพื่อให้การ์ดบนโต๊ะพอแย่ง"));
+    if(house&&(sh||po))n.push("ป้อม/ตรามีแค่ 4 สี เตรียมของแทนให้คนที่ 5");
+    if(mods>1)n.push("ใช้หลายโมดูลพร้อมกันไม่มีในคู่มือทางการ ดูข้อตกลงในหัวข้อ ‘ใช้หลายโมดูลร่วมกัน’");
+    if(or&&ci)n.push("คัดการ์ดตะวันออก ‘จองขุนนาง’ (ระดับ 2) ออกก่อนสับ เพราะไม่มีขุนนาง");
+    if(ci&&po)n.push("สถานีการค้าจุดที่ 4 ต้องมีขุนนาง แก้เป็น ‘เขียว 5’ อย่างเดียว");
+    if(ci)n.push("จบเกมเมื่อมีคนได้เมือง (ไม่ใช่ 15 แต้ม) เล่นจนจบรอบ คนได้เมืองแต้มสูงสุดชนะ");
+    else n.push("จบเกมเมื่อมีคนถึง 15 แต้ม เล่นจนจบรอบ");
+    n.push("ผู้เริ่ม: คนอายุน้อยที่สุด");
+    document.getElementById("h-notes").innerHTML=n.map(function(s){return "<li>"+s+"</li>";}).join("");
+  }
+  render();
+})();
+
+/* SCOREPAD */
+(function(){
+  var count=5;
+  var data=[["ผู้เล่น 1",17,16,false],["ผู้เล่น 2",15,14,false],["ผู้เล่น 3",17,13,false],["ผู้เล่น 4",12,11,false],["ผู้เล่น 5",9,12,false]];
+  var pBox=document.getElementById("p-players");
+  [2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.textContent=n+" คน";b.dataset.v=n;b.setAttribute("aria-pressed",n===count?"true":"false");b.addEventListener("click",function(){count=n;[].forEach.call(pBox.children,function(x){x.setAttribute("aria-pressed",+x.dataset.v===n?"true":"false");});build();});pBox.appendChild(b);});
+  var cityChk=document.getElementById("p-cities");
+  cityChk.addEventListener("change",build);
+  function build(){
+    var ci=cityChk.checked;
+    var h='<thead><tr><th>ผู้เล่น</th><th>แต้มรวม</th><th>การ์ดที่ซื้อ</th>'+(ci?'<th>ได้เมือง</th>':'')+'<th>ผล</th></tr></thead><tbody>';
+    for(var i=0;i<count;i++){var d=data[i];
+      h+='<tr data-i="'+i+'"><td><input type="text" id="p-name-'+i+'" value="'+d[0]+'" aria-label="ชื่อผู้เล่น '+(i+1)+'"></td><td><input type="number" min="0" id="p-pts-'+i+'" value="'+d[1]+'" aria-label="แต้ม"></td><td><input type="number" min="0" id="p-cards-'+i+'" value="'+d[2]+'" aria-label="จำนวนการ์ดที่ซื้อ"></td>'+(ci?'<td><input type="checkbox" id="p-city-'+i+'"'+(d[3]?" checked":"")+' aria-label="ได้เมือง" style="width:20px;height:20px"></td>':'')+'<td class="res" id="p-res-'+i+'"></td></tr>';}
+    h+='</tbody>';
+    var t=document.getElementById("p-table");t.innerHTML=h;
+    t.querySelectorAll("input").forEach(function(inp){inp.addEventListener("input",calc);inp.addEventListener("change",calc);});
+    calc();
+  }
+  function calc(){
+    var ci=cityChk.checked,rows=[];
+    for(var i=0;i<count;i++){
+      var nm=document.getElementById("p-name-"+i).value||("ผู้เล่น "+(i+1));
+      var p=parseInt(document.getElementById("p-pts-"+i).value,10)||0;
+      var c=parseInt(document.getElementById("p-cards-"+i).value,10)||0;
+      var city=ci?document.getElementById("p-city-"+i).checked:true;
+      data[i]=[nm,p,c,ci?city:data[i][3]];
+      rows.push({i:i,nm:nm,p:p,c:c,ok:city});
+    }
+    var elig=rows.filter(function(r){return r.ok;});
+    var sorted=elig.slice().sort(function(a,b){return b.p-a.p||a.c-b.c;});
+    var rank={};sorted.forEach(function(r,k){rank[r.i]=k;});
+    var top=sorted[0],winners=top?sorted.filter(function(r){return r.p===top.p&&r.c===top.c;}):[];
+    rows.forEach(function(r){
+      var tr=document.querySelector('#p-table tr[data-i="'+r.i+'"]');
+      var w=winners.some(function(x){return x.i===r.i;});
+      tr.classList.toggle("win",w);
+      document.getElementById("p-res-"+r.i).textContent=!r.ok?"ไม่มีเมือง":(w?"ชนะ":"อันดับ "+(rank[r.i]+1));
+    });
+    var res=document.getElementById("p-result");
+    if(!top){res.textContent=ci?"ยังไม่มีใครได้เมือง เกมยังไม่จบ":"";return;}
+    var tiedPts=sorted.filter(function(r){return r.p===top.p;}).length>1;
+    if(winners.length>1)res.textContent="เสมอกันทั้งแต้มและจำนวนการ์ด: "+winners.map(function(w){return w.nm;}).join(", ")+" ชนะร่วม";
+    else res.textContent="ผู้ชนะ: "+top.nm+" ("+top.p+" แต้ม"+(tiedPts?" · ชนะเสมอด้วยการ์ดน้อยกว่า ("+top.c+" ใบ)":"")+")";
+  }
+  build();
+})();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,904 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>อาวาลอน ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: night-blue hero with the round table seen from above, then a rulebook column with a sticky chapter rail.
+   Blue = loyal servants of Arthur, crimson = minions of Mordred, gold = quests and Avalon X modules. Tools (setup + night script, quest tracker) near the end. */
+:root{
+  --bg:#eef1f6;
+  --surface:#fcfdff;
+  --surface-2:#e2e8f1;
+  --fg:#1b2333;
+  --muted:#5c677a;
+  --line:#cdd6e2;
+  --accent:#a8761c;
+  --accent-soft:#f5e9cd;
+  --good:#2f5fb3;
+  --good-soft:#dde7f8;
+  --evil:#b3263a;
+  --evil-soft:#f7dde1;
+  --band-1:#1d2c52;
+  --band-2:#0b1226;
+  --band-fg:#f3eedf;
+  --gold:#f0c869;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f141e;--surface:#171f2c;--surface-2:#212b3a;--fg:#e8ecf3;--muted:#a1abbc;--line:#2f3a4c;
+    --accent:#e8bd62;--accent-soft:#3a2f17;--good:#86aef2;--good-soft:#1c2c4a;--evil:#f28694;--evil-soft:#41202a;
+    --band-1:#162242;--band-2:#070c19;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f141e;--surface:#171f2c;--surface-2:#212b3a;--fg:#e8ecf3;--muted:#a1abbc;--line:#2f3a4c;
+  --accent:#e8bd62;--accent-soft:#3a2f17;--good:#86aef2;--good-soft:#1c2c4a;--evil:#f28694;--evil-soft:#41202a;
+  --band-1:#162242;--band-2:#070c19;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--good)}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.g{color:var(--good);font-weight:600}.e{color:var(--evil);font-weight:600}
+
+/* hero */
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden;position:relative}
+.hero::before{content:"";position:absolute;inset:0;opacity:.5;background-image:radial-gradient(1.4px 1.4px at 12% 18%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 32% 70%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 58% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 78% 40%,#fff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 90% 82%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 46% 46%,#fff 50%,transparent 51%);pointer-events:none}
+.hero .wrap{position:relative;padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.edition{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--gold);color:#1b2333;border-radius:999px;padding:4px 14px;font-family:var(--font-tag);font-weight:600;font-size:.88rem}
+
+/* layout + toc */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--good-soft)}
+.callout.red{background:var(--evil-soft)}
+.callout.dash{background:var(--surface);border:2px dashed var(--line)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:56em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 170px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.1rem}
+.fm.good b{color:var(--good)}.fm.evil b{color:var(--evil)}
+
+.sides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:56em}
+.side{border-radius:14px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.side.good{background:var(--good-soft)}.side.evil{background:var(--evil-soft)}
+.side ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+
+/* figures */
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0;display:grid;gap:10px}
+.figure figcaption{font-size:.9rem;color:var(--muted)}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:600px}
+svg text{font-family:var(--font-body)}
+.t-fg{fill:var(--fg)} .t-muted{fill:var(--muted)} .t-good{fill:var(--good)} .t-evil{fill:var(--evil)} .t-acc{fill:var(--accent)}
+.b-n{fill:var(--surface-2);stroke:var(--line)}
+.b-g{fill:var(--good-soft);stroke:var(--good)}
+.b-e{fill:var(--evil-soft);stroke:var(--evil)}
+.b-a{fill:var(--accent-soft);stroke:var(--accent)}
+.ar{stroke:var(--muted);fill:none;stroke-width:2}
+.ar-e{stroke:var(--evil);fill:none;stroke-width:2;stroke-dasharray:5 4}
+.ar-g{stroke:var(--good);fill:none;stroke-width:2}
+.ar-a{stroke:var(--accent);fill:none;stroke-width:2.5}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.say{font-family:var(--font-display);background:var(--surface-2);border-radius:8px;padding:4px 12px;justify-self:start}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+td .two{display:inline-block;font-size:.7rem;background:var(--evil-soft);color:var(--evil);border-radius:4px;padding:0 4px;margin-left:3px}
+
+/* role cards */
+.roles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.role{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.role .pic{height:110px;display:grid;place-items:center}
+.role.good .pic{background:var(--good-soft)}
+.role.evil .pic{background:var(--evil-soft)}
+.role.both .pic{background:linear-gradient(90deg,var(--good-soft) 50%,var(--evil-soft) 50%)}
+.role .pic svg{height:92px;width:auto}
+.role .txt{padding:12px 14px 14px;display:grid;gap:4px;align-content:start}
+.role h3{font-size:1.08rem}
+.role p{font-size:.92rem;line-height:1.6}
+.role .who{font-family:var(--font-tag);font-size:.75rem;font-weight:600}
+.role.good .who{color:var(--good)}.role.evil .who{color:var(--evil)}.role.both .who{color:var(--accent)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.05rem}
+.type p{font-size:.94rem}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:3px}
+.k{font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 9px;white-space:nowrap}
+.k.now{background:var(--accent-soft);color:var(--accent)}
+.k.hold{background:var(--good-soft);color:var(--good)}
+.k.keep{background:var(--evil-soft);color:var(--evil)}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.03rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+details .ans{display:grid;gap:6px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.verdict.house{color:var(--accent)}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"],.btn.primary{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.seg button.g[aria-pressed="true"]{background:var(--good);border-color:var(--good);color:#fff}
+.seg button.e[aria-pressed="true"]{background:var(--evil);border-color:var(--evil);color:#fff}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
+.out{display:grid;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font-family:var(--font-tag);font-size:.84rem;font-weight:600;border-radius:8px;padding:2px 10px}
+.chip.g{background:var(--good-soft);color:var(--good)}
+.chip.e{background:var(--evil-soft);color:var(--evil)}
+.chip.a{background:var(--accent-soft);color:var(--accent)}
+.warn{background:var(--evil-soft);color:var(--evil);border-radius:10px;padding:8px 12px;font-size:.94rem}
+.script{margin:6px 0 0;padding-left:1.5em;display:grid;gap:6px}
+.script li{font-family:var(--font-display);font-size:1.04rem;padding-left:4px}
+.script li.skip{font-family:var(--font-body);font-size:.88rem;color:var(--muted);list-style:none;margin-left:-1.2em}
+.qrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;max-width:520px}
+.q{aspect-ratio:1;border-radius:50%;border:2px solid var(--line);background:var(--surface-2);color:var(--fg);font:inherit;display:grid;place-items:center;align-content:center;cursor:pointer;padding:0;line-height:1.1}
+.q b{font-family:var(--font-tag);font-size:1.3rem}
+.q span{font-size:.72rem;color:var(--muted)}
+.q.s{background:var(--good);border-color:var(--good);color:#fff}
+.q.f{background:var(--evil);border-color:var(--evil);color:#fff}
+.q.s span,.q.f span{color:inherit;opacity:.85}
+.q.cur{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.rej{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.rej i{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:inline-block}
+.rej i.on{background:var(--evil);border-color:var(--evil)}
+.inrow{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.msg{font-family:var(--font-display);font-size:1.08rem;border-radius:10px;padding:8px 14px;background:var(--surface-2)}
+.msg.g{background:var(--good-soft);color:var(--good)}
+.msg.e{background:var(--evil-soft);color:var(--evil)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:420px}
+  .sides{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .glow{animation:glow 3.2s ease-in-out infinite}
+  @keyframes glow{0%,100%{opacity:.35}50%{opacity:.8}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + ภาคเสริม Avalon X</div>
+      <h1>The Resistance: Avalon<span>อาวาลอน · ฝ่ายดีต้องทำภารกิจให้สำเร็จ ฝ่ายร้ายต้องทำให้ล้มโดยไม่ถูกจับ</span></h1>
+      <p class="lede">ทุกคนนั่งรอบโต๊ะกลมของกษัตริย์อาเธอร์ ในนั้นมี<b>สมุนของมอร์เดร็ด</b>ปะปนอยู่ หัวหน้าเวียนกันเลือกทีมไปทำภารกิจ ทุกคน<b>โหวต</b>ว่าจะให้ทีมนั้นไปไหม แล้วคนในทีมลงการ์ด<b>สำเร็จหรือล้มเหลว</b>แบบลับ ฝ่ายไหนได้ 3 ภารกิจก่อนชนะ แต่ถ้าฝ่ายดีชนะ นักฆ่ายังมีโอกาสพลิกเกมด้วยการ<b>ฆ่าเมอร์ลิน</b></p>
+      <div class="facts">
+        <div class="fact"><b>5–10</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>30</b><small>นาทีโดยประมาณ</small></div>
+        <div class="fact"><b>5</b><small>ภารกิจ ชนะ 3 ก่อน</small></div>
+        <div class="fact"><b>3</b><small>โมดูลใน Avalon X</small></div>
+      </div>
+      <div class="edition">Avalon X: แลนซ์ล็อต · เอ็กซ์คาลิเบอร์ · การ์ดพล็อต</div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 360 260">
+        <circle cx="300" cy="40" r="20" fill="#f3eedf" opacity=".9"/><circle cx="292" cy="34" r="20" fill="#1d2c52" opacity=".9"/>
+        <ellipse cx="180" cy="236" rx="160" ry="16" fill="rgba(0,0,0,.3)"/>
+        <!-- seats -->
+        <g stroke="#0b1226" stroke-width="2">
+          <path d="M180 22 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#2f5fb3"/>
+          <path d="M268 54 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#8a93a6"/>
+          <path d="M300 132 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#2f5fb3"/>
+          <path d="M260 196 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#b3263a"/>
+          <path d="M100 196 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#8a93a6"/>
+          <path d="M60 132 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#2f5fb3"/>
+          <path d="M92 54 l16 6 v14 q0 14 -16 20 q-16 -6 -16 -20 v-14z" fill="#8a93a6"/>
+        </g>
+        <!-- table -->
+        <ellipse cx="180" cy="140" rx="104" ry="70" fill="#5f3c1f"/>
+        <ellipse cx="180" cy="134" rx="104" ry="70" fill="#8a5a32"/>
+        <ellipse cx="180" cy="134" rx="86" ry="56" fill="none" stroke="#f0c869" stroke-width="1.5" opacity=".6"/>
+        <!-- quest track -->
+        <g stroke="#0b1226" stroke-width="2">
+          <circle cx="124" cy="160" r="12" fill="#2f5fb3"/>
+          <circle cx="152" cy="160" r="12" fill="#b3263a"/>
+          <circle cx="180" cy="160" r="12" fill="#2f5fb3"/>
+          <circle cx="208" cy="160" r="12" fill="#f3eedf" opacity=".35"/>
+          <circle cx="236" cy="160" r="12" fill="#f3eedf" opacity=".35"/>
+        </g>
+        <!-- sword -->
+        <circle class="glow" cx="180" cy="112" r="34" fill="#f0c869" opacity=".35"/>
+        <g transform="rotate(-62 180 112)">
+          <rect x="128" y="108" width="92" height="8" rx="3" fill="#dfe5ee"/>
+          <path d="M220 108 l14 4 l-14 4z" fill="#dfe5ee"/>
+          <rect x="120" y="98" width="8" height="28" rx="3" fill="#f0c869"/>
+          <rect x="100" y="108" width="20" height="8" rx="3" fill="#6b4425"/>
+          <circle cx="98" cy="112" r="6" fill="#f0c869"/>
+        </g>
+        <!-- vote cards -->
+        <g transform="rotate(-12 54 238)"><rect x="34" y="214" width="40" height="30" rx="5" fill="#f3eedf"/><path d="M44 230 l7 7 l13 -14" stroke="#2f5fb3" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+        <g transform="rotate(10 306 238)"><rect x="286" y="214" width="40" height="30" rx="5" fill="#f3eedf"/><path d="M298 221 l16 16 M314 221 l-16 16" stroke="#b3263a" stroke-width="4" stroke-linecap="round"/></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#roles">ตัวละคร</a></li>
+      <li><a href="#night">ช่วงหลับตา</a></li>
+      <li class="sep">เล่น</li>
+      <li><a href="#flow">Flow หนึ่งภารกิจ</a></li>
+      <li><a href="#end">จบเกมและลอบสังหาร</a></li>
+      <li><a href="#lady">ท่านหญิงแห่งทะเลสาบ</a></li>
+      <li class="sep">Avalon X</li>
+      <li><a href="#lancelot">แลนซ์ล็อต</a></li>
+      <li><a href="#excalibur">เอ็กซ์คาลิเบอร์</a></li>
+      <li><a href="#plot">การ์ดพล็อต</a></li>
+      <li><a href="#path">ลำดับเพิ่มโมดูล</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#tool-setup">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#tool-track">กระดานคุมภารกิจ</a></li>
+      <li><a href="#tips">เคล็ดลับมือใหม่</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ทุกภารกิจวนแบบนี้</h3>
+        <ol>
+          <li><b>หัวหน้าเสนอทีม</b> ตามจำนวนคนบนกระดานภารกิจ</li>
+          <li><b>ทุกคนโหวต</b> เปิดพร้อมกัน เห็นด้วยเกินครึ่งทีมได้ไป ไม่งั้นหัวหน้าส่งต่อคนถัดไป</li>
+          <li><b>คนในทีมลงการ์ดลับ</b> ฝ่ายดีต้องลงสำเร็จ ฝ่ายร้ายเลือกได้</li>
+          <li><b>เปิดผล</b> มีใบล้มเหลวแม้ใบเดียว ภารกิจล้ม</li>
+        </ol>
+      </div>
+      <div class="sides">
+        <div class="side good">
+          <h3 class="g">ฝ่ายดี ชนะเมื่อ</h3>
+          <ul><li>ภารกิจ<b>สำเร็จ 3 ครั้ง</b></li><li><b>และ</b>นักฆ่าชี้ตัวเมอร์ลินผิด</li></ul>
+          <p class="note">คนมากกว่า แต่ส่วนใหญ่ไม่รู้ว่าใครเป็นใคร</p>
+        </div>
+        <div class="side evil">
+          <h3 class="e">ฝ่ายร้าย ชนะเมื่อ</h3>
+          <ul><li>ภารกิจ<b>ล้ม 3 ครั้ง</b></li><li>หรือทีม<b>โหวตไม่ผ่าน 5 ครั้งติด</b>ในภารกิจเดียว</li><li>หรือนักฆ่า<b>ชี้ถูกตัวเมอร์ลิน</b></li></ul>
+          <p class="note">คนน้อยกว่า แต่รู้จักกันเองตั้งแต่ต้นเกม</p>
+        </div>
+      </div>
+      <p class="note">เกมนี้ไม่มีแต้ม ไม่มีกระดานให้เดิน ทั้งเกมคือการคุย สังเกต และโหวต พูดอะไรก็ได้ โกหกก็ได้ แต่ห้ามโชว์การ์ดให้ใครดู</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th>กล่อง</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr><td><b>การ์ดตัวละคร</b> <span class="en">Character</span></td><td>เกมหลัก</td><td>ฝ่ายดีสีฟ้า ฝ่ายร้ายสีแดง รวมตัวละครพิเศษ แจกคนละใบ</td></tr>
+            <tr><td><b>กระดานภารกิจ</b> <span class="en">Tableau</span></td><td>เกมหลัก</td><td>แยกตามจำนวนผู้เล่น บอกขนาดทีมของ 5 ภารกิจ และมีรางนับโหวตไม่ผ่าน</td></tr>
+            <tr><td><b>ป้ายหัวหน้า</b> <span class="en">Leader</span></td><td>เกมหลัก</td><td>คนถือเป็นคนเสนอทีม เวียนไปทางซ้ายทุกครั้งที่เสนอ</td></tr>
+            <tr><td><b>ป้ายทีม</b> <span class="en">Team</span></td><td>เกมหลัก</td><td>หัวหน้ายื่นให้คนที่เลือกเข้าทีม</td></tr>
+            <tr><td><b>การ์ดโหวต</b> <span class="en">Vote</span></td><td>เกมหลัก</td><td>เห็นด้วย / ไม่เห็นด้วย คนละชุด</td></tr>
+            <tr><td><b>การ์ดภารกิจ</b> <span class="en">Quest</span></td><td>เกมหลัก</td><td>สำเร็จ / ล้มเหลว แจกให้คนในทีม</td></tr>
+            <tr><td><b>เครื่องหมายผลภารกิจ</b></td><td>เกมหลัก</td><td>ฟ้า = สำเร็จ แดง = ล้ม วางบนช่องภารกิจ</td></tr>
+            <tr><td><b>ป้ายท่านหญิงแห่งทะเลสาบ + การ์ดฝ่าย</b> <span class="en">Lady of the Lake · Loyalty</span></td><td>เกมหลัก</td><td>ใช้ตรวจฝ่ายของผู้เล่น (การ์ดฝ่ายบอกแค่ดีหรือร้าย)</td></tr>
+            <tr><td><b>แลนซ์ล็อต</b> <span class="en">Lancelot</span></td><td>Avalon X</td><td>การ์ดตัวละคร 2 ใบ ดี 1 ร้าย 1</td></tr>
+            <tr><td><b>การ์ดสลับฝ่าย</b> <span class="en">Loyalty deck</span></td><td>Avalon X</td><td>ไม่เปลี่ยน 5 ใบ + สลับ 2 ใบ (แบบที่ 1 ใช้แค่ไม่เปลี่ยน 4 ใบ)</td></tr>
+            <tr><td><b>ป้ายดาบเอ็กซ์คาลิเบอร์</b> <span class="en">Excalibur</span></td><td>Avalon X</td><td>หัวหน้ามอบให้คนในทีม ใช้สลับการ์ดภารกิจ</td></tr>
+            <tr><td><b>การ์ดพล็อต</b> <span class="en">Plot Cards</span></td><td>Avalon X</td><td>15 ใบ 9 ชนิด มีเครื่องหมาย 5+ กับ 7+</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">จำนวนชิ้นแต่ละอย่างของกล่องไทยอาจต่างจากฉบับอังกฤษ ให้ยึดของในกล่อง</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนผู้เล่น</th><th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th><th class="num">9</th><th class="num">10</th></tr></thead>
+          <tbody>
+            <tr><td><b class="g">ฝ่ายดี</b></td><td class="num g">3</td><td class="num g">4</td><td class="num g">4</td><td class="num g">5</td><td class="num g">6</td><td class="num g">6</td></tr>
+            <tr><td><b class="e">ฝ่ายร้าย</b></td><td class="num e">2</td><td class="num e">2</td><td class="num e">3</td><td class="num e">3</td><td class="num e">3</td><td class="num e">4</td></tr>
+            <tr><td>ภารกิจ 1</td><td class="num">2</td><td class="num">2</td><td class="num">2</td><td class="num">3</td><td class="num">3</td><td class="num">3</td></tr>
+            <tr><td>ภารกิจ 2</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">4</td></tr>
+            <tr><td>ภารกิจ 3</td><td class="num">2</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">4</td></tr>
+            <tr><td>ภารกิจ 4</td><td class="num">3</td><td class="num">3</td><td class="num">4<span class="two">ล้ม 2</span></td><td class="num">5<span class="two">ล้ม 2</span></td><td class="num">5<span class="two">ล้ม 2</span></td><td class="num">5<span class="two">ล้ม 2</span></td></tr>
+            <tr><td>ภารกิจ 5</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวเลขภารกิจ = จำนวนคนในทีม · “ล้ม 2” = ภารกิจที่ 4 ของเกม 7 คนขึ้นไป ต้องมีการ์ดล้มเหลว 2 ใบขึ้นไปภารกิจจึงจะล้ม</p>
+      <ol class="steps">
+        <li><div class="body"><h3>วางกระดานภารกิจให้ตรงจำนวนคน</h3><p>เลือกกระดานที่พิมพ์จำนวนผู้เล่นตรงกับโต๊ะ วางเครื่องหมายนับโหวตไว้ช่องแรก</p></div></li>
+        <li><div class="body"><h3>เลือกการ์ดตัวละคร</h3><p>นับฝ่ายดีและฝ่ายร้ายตามตาราง เกมแรกใช้ <span class="g">เมอร์ลิน</span> + <span class="e">นักฆ่า</span> ที่เหลือเป็นอัศวินและสมุนธรรมดา (<a href="#tool-setup">ตัวช่วยเตรียมเกม</a> คำนวณให้)</p></div></li>
+        <li><div class="body"><h3>สับแล้วแจกคนละ 1 ใบคว่ำ</h3><p>ดูของตัวเองแบบลับ ห้ามให้ใครเห็น</p></div></li>
+        <li><div class="body"><h3>แจกการ์ดโหวต</h3><p>ทุกคนได้ “เห็นด้วย” 1 ใบ และ “ไม่เห็นด้วย” 1 ใบ</p></div></li>
+        <li><div class="body"><h3>ทำช่วงหลับตา</h3><p>ให้คนหนึ่งอ่านบท <a href="#night">ช่วงหลับตา</a> ออกเสียง คนอ่านเล่นไปด้วยได้</p></div></li>
+        <li><div class="body"><h3>สุ่มหัวหน้าคนแรก</h3><p>ให้ป้ายหัวหน้ากับคนนั้น ถ้าใช้โมดูลเสริม เตรียมตาม <a href="#tool-setup">ตัวช่วยเตรียมเกม</a></p></div></li>
+      </ol>
+    </section>
+
+    <!-- ROLES -->
+    <section id="roles">
+      <div class="sec-head"><span class="tag">ใครเป็นใคร</span><h2>ตัวละคร</h2></div>
+      <p class="prose">ตัวละครพิเศษ “แทนที่” การ์ดธรรมดาของฝ่ายเดียวกัน จำนวนฝ่ายดีและฝ่ายร้ายยังเท่าเดิมตามตาราง</p>
+      <div class="roles">
+        <div class="role good"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 L72 62 H28Z" fill="#2f5fb3"/><circle cx="58" cy="30" r="3" fill="#f5e9cd"/><circle cx="46" cy="44" r="2.4" fill="#f5e9cd"/><path d="M20 62 H80 L74 70 H26Z" fill="#244a8c"/><circle cx="50" cy="78" r="10" fill="#e8c9a5"/><path d="M40 82 Q50 100 60 82" fill="#d9dde6"/><path d="M84 30 V92" stroke="#7a5426" stroke-width="4" stroke-linecap="round"/><circle cx="84" cy="26" r="6" fill="#a8d4ff" stroke="#2f5fb3" stroke-width="2"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายดี</span><h3>เมอร์ลิน <span class="en">Merlin</span></h3><p>รู้ว่าใครเป็นฝ่ายร้าย (ยกเว้นมอร์เดร็ด) แต่ห้ามบอกตรง ๆ ถ้าโจ่งแจ้ง นักฆ่าจะจับได้แล้วฆ่าตอนจบ</p></div></div>
+        <div class="role evil"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10 Q78 20 76 54 Q70 86 50 92 Q30 86 24 54 Q22 20 50 10Z" fill="#3a1d24"/><path d="M36 50 h10 M54 50 h10" stroke="#f28694" stroke-width="4" stroke-linecap="round"/><path d="M60 64 L88 36" stroke="#cfd5e0" stroke-width="5" stroke-linecap="round"/><path d="M56 68 L66 58" stroke="#7a5426" stroke-width="7" stroke-linecap="round"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายร้าย</span><h3>นักฆ่า <span class="en">Assassin</span></h3><p>ถ้าฝ่ายดีชนะภารกิจ 3 ครั้ง นักฆ่าได้ชี้ตัวคนที่คิดว่าเป็นเมอร์ลิน ชี้ถูก ฝ่ายร้ายชนะทันที</p></div></div>
+        <div class="role good"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10 L80 20 V50 Q80 78 50 92 Q20 78 20 50 V20Z" fill="#2f5fb3" stroke="#a8761c" stroke-width="3"/><path d="M50 22 V80 M30 44 H70" stroke="#f5e9cd" stroke-width="6"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายดี</span><h3>เพอร์ซิวัล <span class="en">Percival</span></h3><p>รู้ว่าใครคือเมอร์ลิน ช่วยปกป้องได้ แต่ถ้ามีมอร์แกนา จะเห็น 2 คนและไม่รู้ว่าคนไหนตัวจริง</p></div></div>
+        <div class="role evil"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 8 L72 62 H28Z" fill="#7a2140"/><circle cx="50" cy="78" r="10" fill="#e8c9a5"/><path d="M30 70 Q50 60 70 70 L74 96 H26Z" fill="#7a2140" opacity=".8"/><ellipse cx="82" cy="40" rx="10" ry="14" fill="#cfd5e0" stroke="#a8761c" stroke-width="3"/><path d="M82 54 V70" stroke="#a8761c" stroke-width="4"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายร้าย</span><h3>มอร์แกนา <span class="en">Morgana</span></h3><p>ปลอมเป็นเมอร์ลินในสายตาเพอร์ซิวัล ใช้คู่กับเพอร์ซิวัลเสมอ</p></div></div>
+        <div class="role evil"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 40 L32 20 L42 36 L50 14 L58 36 L68 20 L78 40 Z" fill="#a8761c"/><rect x="22" y="40" width="56" height="10" fill="#7d5714"/><circle cx="50" cy="70" r="20" fill="#2a1418"/><path d="M40 66 h7 M53 66 h7" stroke="#f28694" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายร้าย</span><h3>มอร์เดร็ด <span class="en">Mordred</span></h3><p>เมอร์ลินมองไม่เห็นตัวเขา เพิ่มเมื่อฝ่ายดีเริ่มชนะง่ายเกินไป</p></div></div>
+        <div class="role evil"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M18 40 Q50 22 82 40 Q78 66 50 72 Q22 66 18 40Z" fill="#4b5563"/><ellipse cx="36" cy="46" rx="7" ry="5" fill="#171f2c"/><ellipse cx="64" cy="46" rx="7" ry="5" fill="#171f2c"/><path d="M50 72 V92" stroke="#4b5563" stroke-width="4"/><text x="50" y="22" text-anchor="middle" font-size="16" fill="#b3263a" font-weight="700">?</text></svg></div>
+          <div class="txt"><span class="who">ฝ่ายร้าย</span><h3>โอเบรอน <span class="en">Oberon</span></h3><p>ฝ่ายร้ายที่ไม่รู้จักพวกเดียวกัน พวกเดียวกันก็ไม่รู้จักเขา แต่เมอร์ลินเห็นเขา</p></div></div>
+        <div class="role good"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="34" r="16" fill="#cfd5e0"/><rect x="40" y="30" width="20" height="4" fill="#171f2c"/><path d="M26 92 Q26 56 50 56 Q74 56 74 92Z" fill="#2f5fb3"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายดี</span><h3>อัศวินผู้ภักดี <span class="en">Loyal Servant</span></h3><p>ไม่รู้อะไรเลย เดาจากการโหวตและผลภารกิจ</p></div></div>
+        <div class="role evil"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="34" r="16" fill="#3a1d24"/><path d="M42 32 h6 M52 32 h6" stroke="#f28694" stroke-width="3" stroke-linecap="round"/><path d="M26 92 Q26 56 50 56 Q74 56 74 92Z" fill="#b3263a"/></svg></div>
+          <div class="txt"><span class="who">ฝ่ายร้าย</span><h3>สมุนมอร์เดร็ด <span class="en">Minion</span></h3><p>รู้จักฝ่ายร้ายคนอื่น (ยกเว้นโอเบรอน) ทำตัวให้เหมือนคนดี</p></div></div>
+        <div class="role both"><div class="pic"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10 L80 20 V50 Q80 78 50 92 Z" fill="#b3263a"/><path d="M50 10 L20 20 V50 Q20 78 50 92 Z" fill="#2f5fb3"/><path d="M38 52 L50 40 L62 52 M62 52 L50 64 L38 52" fill="none" stroke="#f5e9cd" stroke-width="4"/><path d="M50 10 V92" stroke="#a8761c" stroke-width="3"/></svg></div>
+          <div class="txt"><span class="who">Avalon X · ดี 1 ร้าย 1</span><h3>แลนซ์ล็อต <span class="en">Lancelot</span></h3><p>อัศวินที่อาจเปลี่ยนฝ่ายกลางเกม ดู <a href="#lancelot">หมวดแลนซ์ล็อต</a></p></div></div>
+      </div>
+    </section>
+
+    <!-- NIGHT -->
+    <section id="night">
+      <div class="sec-head"><span class="tag">ก่อนภารกิจแรก</span><h2>ช่วงหลับตา</h2></div>
+      <p class="prose">ทุกคนหลับตา กำมือวางบนโต๊ะ คนอ่านบทอ่านทีละบรรทัด เว้นจังหวะ 3–4 วินาทีให้คนลืมตาดูทัน ตัวละครไหนไม่ได้ใช้ก็ข้ามบรรทัดนั้น หรือให้ <a href="#tool-setup">ตัวช่วยเตรียมเกม</a> สร้างบทให้ตรงกับเกมของคุณ</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 720 230" role="img" aria-label="ใครเห็นใครตอนช่วงหลับตา">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#8a94a6"/></marker></defs>
+          <rect class="b-g" x="20" y="20" width="150" height="54" rx="10"/><text class="t-fg" x="95" y="53" text-anchor="middle" font-size="17" font-weight="600">เมอร์ลิน</text>
+          <rect class="b-g" x="20" y="150" width="150" height="54" rx="10"/><text class="t-fg" x="95" y="183" text-anchor="middle" font-size="17" font-weight="600">เพอร์ซิวัล</text>
+          <rect class="b-e" x="290" y="10" width="180" height="40" rx="10"/><text class="t-fg" x="380" y="36" text-anchor="middle" font-size="15">สมุน / นักฆ่า / มอร์แกนา</text>
+          <rect class="b-e" x="290" y="64" width="180" height="40" rx="10"/><text class="t-fg" x="380" y="90" text-anchor="middle" font-size="15">โอเบรอน</text>
+          <rect class="b-e" x="290" y="118" width="180" height="40" rx="10"/><text class="t-fg" x="380" y="144" text-anchor="middle" font-size="15">มอร์เดร็ด</text>
+          <rect class="b-a" x="290" y="172" width="180" height="40" rx="10"/><text class="t-fg" x="380" y="198" text-anchor="middle" font-size="15">เมอร์ลิน + มอร์แกนา</text>
+          <path class="ar" d="M170 40 L288 30" marker-end="url(#ah)"/>
+          <path class="ar" d="M170 52 L288 84" marker-end="url(#ah)"/>
+          <path d="M170 64 L288 136" stroke="#b3263a" stroke-width="2" stroke-dasharray="4 4" fill="none"/><text x="226" y="114" font-size="22" fill="#b3263a" font-weight="700">✕</text>
+          <path class="ar" d="M170 177 L288 192" marker-end="url(#ah)"/>
+          <rect class="b-e" x="540" y="40" width="160" height="80" rx="10"/>
+          <text class="t-fg" x="620" y="68" text-anchor="middle" font-size="15" font-weight="600">ฝ่ายร้ายเห็นกันเอง</text>
+          <text class="t-muted" x="620" y="92" text-anchor="middle" font-size="13">ยกเว้นโอเบรอน</text>
+          <text class="t-muted" x="620" y="110" text-anchor="middle" font-size="13">(มอร์เดร็ดเห็นด้วย)</text>
+          <text class="t-muted" x="540" y="168" font-size="13">เพอร์ซิวัลเห็น 2 คน</text>
+          <text class="t-muted" x="540" y="186" font-size="13">แต่ไม่รู้ว่าใครตัวจริง</text>
+        </svg></div>
+        <figcaption>ลูกศร = ลืมตาแล้วเห็น · กากบาท = เมอร์ลินมองไม่เห็นมอร์เดร็ด</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>ทุกคนหลับตา</h3><p class="say">“ทุกคนหลับตา กำมือวางไว้ข้างหน้า”</p></div></li>
+        <li><div class="body"><h3>ฝ่ายร้ายดูกันเอง</h3><p class="say">“สมุนของมอร์เดร็ด ยกเว้นโอเบรอน ลืมตา มองหาพวกเดียวกัน”</p><p class="say">“สมุนของมอร์เดร็ด หลับตา”</p></div></li>
+        <li><div class="body"><h3>เมอร์ลินดูฝ่ายร้าย</h3><p class="say">“สมุนของมอร์เดร็ด ยกเว้นมอร์เดร็ด ยกนิ้วโป้ง”</p><p class="say">“เมอร์ลิน ลืมตา … เมอร์ลินหลับตา สมุนเอานิ้วลง”</p></div></li>
+        <li><div class="body"><h3>เพอร์ซิวัลดูเมอร์ลิน</h3><p class="say">“เมอร์ลินและมอร์แกนา ยกนิ้วโป้ง”</p><p class="say">“เพอร์ซิวัล ลืมตา … เพอร์ซิวัลหลับตา เมอร์ลินและมอร์แกนาเอานิ้วลง”</p></div></li>
+        <li><div class="body"><h3>ลืมตา เริ่มเกม</h3><p class="say">“ทุกคนลืมตา”</p></div></li>
+      </ol>
+    </section>
+
+    <!-- FLOW -->
+    <section id="flow">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>Flow หนึ่งภารกิจ</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 330" role="img" aria-label="ขั้นตอนหนึ่งภารกิจ ตั้งแต่เสนอทีมถึงผลภารกิจ">
+          <defs>
+            <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#8a94a6"/></marker>
+            <marker id="ahE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#b3263a"/></marker>
+            <marker id="ahG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#2f5fb3"/></marker>
+          </defs>
+          <rect class="b-a" x="14" y="30" width="150" height="74" rx="12"/>
+          <text class="t-fg" x="89" y="60" text-anchor="middle" font-size="16" font-weight="600">① หัวหน้าเสนอทีม</text>
+          <text class="t-muted" x="89" y="84" text-anchor="middle" font-size="12.5">ตามจำนวนบนกระดาน</text>
+          <rect class="b-n" x="214" y="30" width="150" height="74" rx="12"/>
+          <text class="t-fg" x="289" y="60" text-anchor="middle" font-size="16" font-weight="600">② ทุกคนคุย</text>
+          <text class="t-muted" x="289" y="84" text-anchor="middle" font-size="12.5">ถกเถียง กล่าวหาได้</text>
+          <rect class="b-n" x="414" y="30" width="150" height="74" rx="12"/>
+          <text class="t-fg" x="489" y="60" text-anchor="middle" font-size="16" font-weight="600">③ โหวตพร้อมกัน</text>
+          <text class="t-muted" x="489" y="84" text-anchor="middle" font-size="12.5">ทุกคน รวมหัวหน้า</text>
+          <path class="ar" d="M164 67 H210" marker-end="url(#ah2)"/>
+          <path class="ar" d="M364 67 H410" marker-end="url(#ah2)"/>
+          <path class="ar-e" d="M489 104 V150 H89 V108" marker-end="url(#ahE)"/>
+          <text class="t-evil" x="290" y="142" text-anchor="middle" font-size="13">เห็นด้วยไม่เกินครึ่ง → ไม่ผ่าน · ขยับเครื่องหมายโหวต · หัวหน้าส่งต่อคนซ้าย</text>
+          <text class="t-evil" x="290" y="170" text-anchor="middle" font-size="13">ไม่ผ่านครบ 5 ครั้งติด = ฝ่ายร้ายชนะทันที</text>
+          <path class="ar-g" d="M564 67 H604" marker-end="url(#ahG)"/>
+          <text class="t-good" x="584" y="56" text-anchor="middle" font-size="12">ผ่าน</text>
+          <rect class="b-g" x="606" y="30" width="140" height="74" rx="12"/>
+          <text class="t-fg" x="676" y="60" text-anchor="middle" font-size="16" font-weight="600">④ ออกภารกิจ</text>
+          <text class="t-muted" x="676" y="84" text-anchor="middle" font-size="12.5">คนในทีมลงการ์ดลับ</text>
+          <path class="ar" d="M676 104 V200" marker-end="url(#ah2)"/>
+          <rect class="b-n" x="560" y="202" width="186" height="74" rx="12"/>
+          <text class="t-fg" x="653" y="232" text-anchor="middle" font-size="16" font-weight="600">⑤ หัวหน้าสับแล้วเปิด</text>
+          <text class="t-muted" x="653" y="256" text-anchor="middle" font-size="12.5">ไม่มีใครรู้ว่าใบไหนของใคร</text>
+          <path class="ar" d="M560 239 H470" marker-end="url(#ah2)"/>
+          <rect class="b-g" x="270" y="196" width="196" height="40" rx="10"/>
+          <text class="t-fg" x="368" y="221" text-anchor="middle" font-size="14">ไม่มีใบล้ม → สำเร็จ (ฟ้า)</text>
+          <rect class="b-e" x="270" y="246" width="196" height="40" rx="10"/>
+          <text class="t-fg" x="368" y="271" text-anchor="middle" font-size="14">มีใบล้ม → ล้มเหลว (แดง)</text>
+          <path class="ar" d="M270 241 H170" marker-end="url(#ah2)"/>
+          <rect class="b-a" x="14" y="206" width="154" height="70" rx="12"/>
+          <text class="t-fg" x="91" y="234" text-anchor="middle" font-size="15" font-weight="600">⑥ วางเครื่องหมาย</text>
+          <text class="t-muted" x="91" y="256" text-anchor="middle" font-size="12.5">รีเซ็ตเครื่องหมายโหวต</text>
+          <text class="t-muted" x="91" y="306" text-anchor="middle" font-size="12.5">หัวหน้าส่งต่อ → ภารกิจถัดไป</text>
+          <path class="ar" d="M40 206 V112" marker-end="url(#ah2)"/>
+        </svg></div>
+        <figcaption>วนแบบนี้จนฝ่ายใดได้ 3 ภารกิจ · หัวหน้าเปลี่ยนทุกครั้งที่เสนอทีม ไม่ว่าทีมผ่านหรือไม่ผ่าน</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>หัวหน้าเสนอทีม</h3><p>ยื่นป้ายทีมให้คนตามจำนวนของภารกิจนี้ เลือกตัวเองได้ ระหว่างนั้นทุกคนคุยกันได้ตลอด</p></div></li>
+        <li><div class="body"><h3>โหวตทีม</h3><p>ทุกคน (รวมหัวหน้า) เลือกการ์ดโหวตคว่ำไว้ แล้วเปิดพร้อมกัน</p>
+          <ul><li><b>เห็นด้วยมากกว่าครึ่ง</b> → ทีมผ่าน ไปข้อ 3</li><li><b>เสมอหรือน้อยกว่า</b> → ไม่ผ่าน ขยับเครื่องหมายโหวต 1 ช่อง หัวหน้าส่งต่อคนถัดไปทางซ้าย กลับไปข้อ 1</li></ul></div></li>
+        <li><div class="body"><h3>ออกภารกิจ</h3><p>คนในทีมได้การ์ด “สำเร็จ” และ “ล้มเหลว” อย่างละใบ เลือกลงคว่ำ 1 ใบ</p>
+          <ul><li><span class="g">ฝ่ายดี</span> ต้องลง “สำเร็จ” เท่านั้น</li><li><span class="e">ฝ่ายร้าย</span> เลือกได้ทั้งสองแบบ (ลงสำเร็จเพื่อหลอกก็ได้)</li></ul></div></li>
+        <li><div class="body"><h3>เปิดผล</h3><p>หัวหน้าเก็บการ์ดที่ลง สับ แล้วเปิด มี “ล้มเหลว” 1 ใบ ภารกิจล้ม (ยกเว้นภารกิจ 4 ในเกม 7 คนขึ้นไป ต้องมี 2 ใบ)</p></div></li>
+        <li><div class="body"><h3>บันทึกผล</h3><p>วางเครื่องหมายสีบนช่องภารกิจ เครื่องหมายโหวตกลับช่องแรก หัวหน้าส่งต่อคนถัดไปทางซ้าย</p></div></li>
+      </ol>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและการลอบสังหาร</h2></div>
+      <div class="formula">
+        <div class="fm evil"><small>ภารกิจล้ม 3 ครั้ง</small><b>ฝ่ายร้ายชนะ</b></div>
+        <div class="fm evil"><small>ไม่ผ่าน 5 ครั้งติด</small><b>ฝ่ายร้ายชนะ</b></div>
+        <div class="fm"><small>ภารกิจสำเร็จ 3 ครั้ง</small><b>ไปช่วงลอบสังหาร</b></div>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>ฝ่ายร้ายเปิดตัว</h3><p>เมื่อฝ่ายดีชนะครบ 3 ภารกิจ ฝ่ายร้ายเปิดตัวแล้วปรึกษากันได้ว่าใครน่าจะเป็นเมอร์ลิน</p></div></li>
+        <li><div class="body"><h3>นักฆ่าชี้ 1 คน</h3><p>นักฆ่าเป็นคนตัดสินสุดท้าย ชี้ได้ครั้งเดียว</p>
+          <ul><li>ชี้ถูกเมอร์ลิน → <span class="e">ฝ่ายร้ายชนะ</span></li><li>ชี้ผิด → <span class="g">ฝ่ายดีชนะ</span></li></ul></div></li>
+      </ol>
+    </section>
+
+    <!-- LADY -->
+    <section id="lady">
+      <div class="sec-head"><span class="tag">เกมหลัก · แนะนำ 7 คนขึ้นไป</span><h2>ท่านหญิงแห่งทะเลสาบ</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เริ่มเกม</h3><p>ให้ป้ายกับผู้เล่นที่นั่งทางขวามือของหัวหน้าคนแรก</p></div></li>
+        <li><div class="body"><h3>หลังภารกิจ 2, 3 และ 4</h3><p>คนถือป้ายเลือกตรวจผู้เล่น 1 คน คนนั้นส่งการ์ดฝ่าย (บอกแค่ดีหรือร้าย) ให้ดูแบบลับ</p></div></li>
+        <li><div class="body"><h3>ส่งต่อป้าย</h3><p>ป้ายไปอยู่กับคนที่ถูกตรวจ ห้ามตรวจคนที่เคยถือป้ายมาแล้ว</p></div></li>
+        <li><div class="body"><h3>พูดได้ โกหกก็ได้</h3><p>คนตรวจบอกโต๊ะว่าเห็นอะไรก็ได้ จะจริงหรือไม่จริงก็ได้</p></div></li>
+      </ol>
+    </section>
+
+    <!-- LANCELOT -->
+    <section id="lancelot">
+      <div class="sec-head"><span class="tag">Avalon X · แนะนำ 7 คนขึ้นไป</span><h2>แลนซ์ล็อต</h2></div>
+      <div class="prose">
+        <p>ใส่ <span class="g">แลนซ์ล็อตดี</span> แทนอัศวินธรรมดา 1 ใบ และ <span class="e">แลนซ์ล็อตร้าย</span> แทนสมุนธรรมดา 1 ใบ ระหว่างเกม สองคนนี้อาจ<b>สลับฝ่ายกันแบบลับ</b> ไม่แลกการ์ดตัวละคร ไม่เปิดให้ใครดู แต่เงื่อนไขชนะและการ์ดที่ลงภารกิจได้เปลี่ยนตามฝ่ายใหม่ทันที</p>
+        <p>สลับได้ 0, 1 หรือ 2 ครั้งต่อเกม ถ้าสลับ 2 ครั้ง ทั้งคู่กลับฝ่ายเดิม</p>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 720 200" role="img" aria-label="ตัวอย่างแลนซ์ล็อตสลับฝ่ายก่อนภารกิจ 3">
+          <text class="t-muted" x="20" y="24" font-size="13">ภารกิจ</text>
+          <g font-size="15" font-weight="600" class="t-fg" text-anchor="middle"><text x="150" y="24">1</text><text x="270" y="24">2</text><text x="390" y="24">3</text><text x="510" y="24">4</text><text x="630" y="24">5</text></g>
+          <rect class="b-n" x="120" y="36" width="60" height="40" rx="6"/><text class="t-muted" x="150" y="61" text-anchor="middle" font-size="12">ไม่เปลี่ยน</text>
+          <rect class="b-n" x="240" y="36" width="60" height="40" rx="6"/><text class="t-muted" x="270" y="61" text-anchor="middle" font-size="12">ไม่เปลี่ยน</text>
+          <rect class="b-a" x="360" y="36" width="60" height="40" rx="6"/><text class="t-fg" x="390" y="61" text-anchor="middle" font-size="13" font-weight="600">สลับ!</text>
+          <rect class="b-n" x="480" y="36" width="60" height="40" rx="6"/><text class="t-muted" x="510" y="61" text-anchor="middle" font-size="12">ไม่เปลี่ยน</text>
+          <rect class="b-n" x="600" y="36" width="60" height="40" rx="6"/><text class="t-muted" x="630" y="61" text-anchor="middle" font-size="12">ไม่เปลี่ยน</text>
+          <text class="t-fg" x="20" y="120" font-size="14" font-weight="600">ถือการ์ด</text><text class="t-fg" x="20" y="138" font-size="14" font-weight="600">แลนซ์ล็อตดี</text>
+          <rect class="b-g" x="110" y="108" width="250" height="30" rx="6"/><text class="t-fg" x="235" y="128" text-anchor="middle" font-size="13">ฝ่ายดี</text>
+          <rect class="b-e" x="370" y="108" width="300" height="30" rx="6"/><text class="t-fg" x="520" y="128" text-anchor="middle" font-size="13">กลายเป็นฝ่ายร้าย</text>
+          <text class="t-fg" x="20" y="172" font-size="14" font-weight="600">แลนซ์ล็อตร้าย</text>
+          <rect class="b-e" x="110" y="152" width="250" height="30" rx="6"/><text class="t-fg" x="235" y="172" text-anchor="middle" font-size="13">ฝ่ายร้าย</text>
+          <rect class="b-g" x="370" y="152" width="300" height="30" rx="6"/><text class="t-fg" x="520" y="172" text-anchor="middle" font-size="13">กลายเป็นฝ่ายดี</text>
+        </svg></div>
+        <figcaption>ตัวอย่างแบบที่ 2: การ์ดสลับอยู่เหนือภารกิจ 3 สองคนนี้สลับฝ่ายตอนเริ่มภารกิจ 3 แล้วอยู่ฝ่ายใหม่จนจบเกม</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type">
+          <h3>แบบที่ 1 <span class="en">สลับระหว่างเกม</span></h3>
+          <ul>
+            <li>กองสลับฝ่าย 6 ใบ: <b>ไม่เปลี่ยน 4 + สลับ 2</b> สับคว่ำไว้ข้างกระดาน</li>
+            <li>ตอนเริ่มทุกภารกิจ (ตั้งแต่ภารกิจแรก) เปิด 1 ใบให้ทุกคนเห็น แล้ววางกองทิ้ง</li>
+            <li>เปิดได้ “สลับ” → สองแลนซ์ล็อตเปลี่ยนฝ่ายกันเงียบ ๆ</li>
+            <li>ไม่มีใครรู้ล่วงหน้าว่าจะสลับเมื่อไร</li>
+          </ul>
+        </div>
+        <div class="type">
+          <h3>แบบที่ 2 <span class="en">เปิดล่วงหน้า</span></h3>
+          <ul>
+            <li>กอง 7 ใบ: <b>ไม่เปลี่ยน 5 + สลับ 2</b> สับแล้วเปิดวางเหนือช่องภารกิจละใบ (5 ใบ) ที่เหลือเก็บกล่อง</li>
+            <li>ภารกิจที่มี “สลับ” อยู่ด้านบน → สลับตอนเริ่มภารกิจนั้น</li>
+            <li><b>ข้อบังคับ:</b> แลนซ์ล็อตฝ่ายดีต้องลงสำเร็จ แลนซ์ล็อตฝ่ายร้าย<b>ต้องลงล้มเหลว</b>ทุกครั้งที่อยู่ในทีม</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout blue">
+        <h3>ช่วงหลับตาเมื่อใช้แลนซ์ล็อต</h3>
+        <ul>
+          <li>แลนซ์ล็อตทั้งสอง<b>ไม่รู้จักกัน</b></li>
+          <li>ตอนฝ่ายร้ายลืมตาดูกัน <span class="e">แลนซ์ล็อตร้ายไม่ลืมตา</span> แต่ยกนิ้วโป้งให้พวกฝ่ายร้ายเห็น เขาจึงไม่รู้ว่าใครเป็นฝ่ายร้าย</li>
+          <li>ตอนเมอร์ลินลืมตา แลนซ์ล็อตร้ายยกนิ้วเหมือนฝ่ายร้ายคนอื่น เมอร์ลินจึงเห็นเขา (ถ้าสลับฝ่ายภายหลัง ข้อมูลนี้จะเก่า)</li>
+        </ul>
+      </div>
+      <div class="callout dash">
+        <h3>ทางเลือกในคู่มือ: ให้แลนซ์ล็อตรู้จักกัน</h3>
+        <p>คู่มือมีบทอีกแบบที่ให้สองแลนซ์ล็อตลืมตาดูกันและรู้ฝ่ายของกันและกัน เปิดใช้ได้ใน <a href="#tool-setup">ตัวช่วยเตรียมเกม</a></p>
+      </div>
+    </section>
+
+    <!-- EXCALIBUR -->
+    <section id="excalibur">
+      <div class="sec-head"><span class="tag">Avalon X</span><h2>ดาบเอ็กซ์คาลิเบอร์</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 720 170" role="img" aria-label="ผู้ถือดาบสลับการ์ดภารกิจของเพื่อนร่วมทีม 1 คน">
+          <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#a8761c"/></marker></defs>
+          <g transform="translate(40 30)"><path d="M10 90 L80 20" stroke="#aeb8c8" stroke-width="8" stroke-linecap="round"/><path d="M80 20 L92 8" stroke="#aeb8c8" stroke-width="4" stroke-linecap="round"/><path d="M0 82 L22 104 M6 96 L18 84" stroke="#a8761c" stroke-width="6" stroke-linecap="round"/><text class="t-fg" x="50" y="128" text-anchor="middle" font-size="14" font-weight="600">ผู้ถือดาบ</text></g>
+          <g transform="translate(250 24)">
+            <rect class="b-n" x="0" y="0" width="70" height="98" rx="8"/><text class="t-muted" x="35" y="54" text-anchor="middle" font-size="13">คว่ำ</text>
+            <rect class="b-a" x="90" y="0" width="70" height="98" rx="8" stroke-width="3"/><text class="t-fg" x="125" y="46" text-anchor="middle" font-size="13" font-weight="600">ใบที่ลง</text><text class="t-muted" x="125" y="66" text-anchor="middle" font-size="12">→ สลับ</text>
+            <rect class="b-n" x="180" y="0" width="70" height="98" rx="8"/><text class="t-muted" x="215" y="54" text-anchor="middle" font-size="13">คว่ำ</text>
+            <text class="t-muted" x="125" y="126" text-anchor="middle" font-size="13">การ์ดภารกิจที่คนในทีมวางไว้ตรงหน้า</text>
+          </g>
+          <path class="ar-a" d="M150 70 Q250 -10 360 26" marker-end="url(#ah3)"/>
+          <rect class="b-e" x="560" y="30" width="60" height="84" rx="8"/><text class="t-fg" x="590" y="78" text-anchor="middle" font-size="12">ล้ม</text>
+          <path class="ar" d="M626 72 H646" marker-end="url(#ah2)"/>
+          <rect class="b-g" x="650" y="30" width="60" height="84" rx="8"/><text class="t-fg" x="680" y="78" text-anchor="middle" font-size="12">สำเร็จ</text>
+          <text class="t-muted" x="635" y="140" text-anchor="middle" font-size="12.5">ใบที่ลงกับใบในมือสลับกัน</text>
+        </svg></div>
+        <figcaption>ดาบไม่ได้แก้ให้สำเร็จเสมอ แค่สลับเป็นอีกใบ ฝ่ายร้ายถือดาบก็เปลี่ยนสำเร็จเป็นล้มได้</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>หัวหน้ามอบดาบตอนเสนอทีม</h3><p>นอกจากป้ายทีม หัวหน้ายื่นดาบให้คนในทีม 1 คน <b>ห้ามให้ตัวเอง</b> ทุกคนเห็นว่าใครถือ แล้วค่อยโหวต</p></div></li>
+        <li><div class="body"><h3>ลงการ์ดภารกิจไว้ตรงหน้าตัวเอง</h3><p>คนในทีมวางการ์ดที่เลือกคว่ำไว้ตรงหน้า ให้รู้ว่าใบไหนของใคร (ยังไม่ส่งให้หัวหน้า)</p></div></li>
+        <li><div class="body"><h3>ผู้ถือดาบตัดสินใจ</h3><p>ก่อนหัวหน้าเก็บการ์ด ผู้ถือดาบสั่งคนอื่นในทีม 1 คนให้สลับการ์ด (ใบที่ไม่ได้ลงกลายเป็นใบที่ลง) หรือไม่ใช้ก็ได้ <b>สลับของตัวเองไม่ได้</b></p></div></li>
+        <li><div class="body"><h3>ผู้ถือดาบได้ดูใบเดิม</h3><p>ถ้าใช้ดาบ ผู้ถือดาบได้ดูใบที่คนนั้นลงไว้ตอนแรก จึงรู้ว่าคนนั้นเลือกอะไร</p></div></li>
+        <li><div class="body"><h3>เก็บ สับ เปิดผลตามปกติ</h3></div></li>
+      </ol>
+    </section>
+
+    <!-- PLOT -->
+    <section id="plot">
+      <div class="sec-head"><span class="tag">Avalon X</span><h2>การ์ดพล็อต</h2></div>
+      <p class="prose">การ์ดพล็อตทำให้ข้อมูลและพลังพิเศษหมุนเวียนในโต๊ะ ทุกใบ<b>เปิดหน้า</b> ทุกคนเห็นว่าใครถือใบไหน</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ผู้เล่น</th><th>การ์ดที่ใช้</th><th class="num">หัวหน้าจั่วต่อภารกิจ</th></tr></thead>
+          <tbody>
+            <tr><td>5–6 คน</td><td>7 ใบ (เฉพาะใบที่พิมพ์ 5+)</td><td class="num">1</td></tr>
+            <tr><td>7–8 คน</td><td>ครบ 15 ใบ</td><td class="num">2</td></tr>
+            <tr><td>9–10 คน</td><td>ครบ 15 ใบ</td><td class="num">3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>จั่วตอนเริ่มภารกิจ</h3><p>ก่อนเสนอทีมแรกของภารกิจ หัวหน้าจั่วตามตาราง ทีมไม่ผ่านแล้วเปลี่ยนหัวหน้า<b>ไม่จั่วเพิ่ม</b></p></div></li>
+        <li><div class="body"><h3>หัวหน้าแจกให้คนอื่น</h3><p>หัวหน้าเลือกเองว่าใครได้ใบไหน และแจกก่อนหลังตามใจ <b>เก็บไว้เองไม่ได้</b> (ยกเว้น “แสดงความแข็งแกร่ง” ที่หัวหน้าเป็นคนทำ)</p></div></li>
+        <li><div class="body"><h3>ทำตามชนิดการ์ด</h3>
+          <ul><li><span class="k now">ใช้ทันที</span> ทำตอนได้รับแล้วทิ้ง</li><li><span class="k hold">ถือไว้</span> เก็บไว้ใช้ในจังหวะของการ์ด ใช้แล้วทิ้ง</li><li><span class="k keep">ติดตัว</span> มีผลจนจบเกม</li></ul></div></li>
+        <li><div class="body"><h3>ใช้พร้อมกันหลายใบ</h3><p>เริ่มจากหัวหน้าแล้ววนตามเข็มนาฬิกา แต่ละคนได้โอกาสครั้งเดียวต่อจังหวะ ผ่านแล้วใช้ย้อนหลังในจังหวะเดียวกันไม่ได้</p></div></li>
+      </ol>
+      <div class="types">
+        <div class="type"><h3>คุณใช่ไหม? <span class="k now">ใช้ทันที</span></h3><p class="en">Are You the One?</p><p>ตรวจฝ่ายของคนที่นั่ง<b>ติดกัน</b> 1 คน (ซ้ายหรือขวา) ด้วยการ์ดฝ่าย</p></div>
+        <div class="type"><h3>แสดงความแข็งแกร่ง <span class="k now">ใช้ทันที</span></h3><p class="en">Show Your Strength</p><p><b>หัวหน้า</b>ต้องส่งการ์ดฝ่ายของตัวเองให้ผู้เล่นอื่น 1 คนดู</p></div>
+        <div class="type"><h3>เผยตัวตน <span class="k now">ใช้ทันที</span></h3><p class="en">Show Your True Nature</p><p>ผู้ได้รับต้องส่งการ์ดฝ่ายของตัวเองให้ผู้เล่นอื่น 1 คนดู (เลือกหัวหน้าก็ได้)</p></div>
+        <div class="type"><h3>กู้เกียรติ <span class="k now">ใช้ทันที</span></h3><p class="en">Restore Your Honor</p><p>ยึดการ์ดพล็อตที่คนอื่นถืออยู่มา 1 ใบ ถ้าไม่มีใครถือ ไม่มีผล</p></div>
+        <div class="type"><h3>นำสู่ชัยชนะ <span class="k hold">ถือไว้</span></h3><p class="en">Lead to Victory</p><p>ใช้เพื่อขึ้นเป็นหัวหน้าเอง ต้องประกาศก่อนหัวหน้าคนปัจจุบันจั่วพล็อตหรือแจกป้ายทีม ใช้ซ้อนอีกใบไม่ได้จนกว่าจะมีการโหวต</p></div>
+        <div class="type"><h3>กษัตริย์กลับมา <span class="k hold">ถือไว้</span></h3><p class="en">The King Returns</p><p>ใช้หลังทีมโหวตผ่าน ก่อนลงการ์ดภารกิจ เพื่อ<b>ปัดตก</b>ทีมนั้น นับเป็นโหวตไม่ผ่าน 1 ครั้ง</p></div>
+        <div class="type"><h3>ซุ่มโจมตี <span class="k hold">ถือไว้</span></h3><p class="en">Ambush</p><p>แอบดูการ์ดภารกิจที่คนหนึ่งลงไว้ ไม่ต้องประกาศก่อน ไม่เปลี่ยนการ์ด การ์ดของแต่ละคนถูกดูได้แค่คนเดียวต่อภารกิจ</p></div>
+        <div class="type"><h3>เจอตัวแล้ว! <span class="k hold">ถือไว้</span></h3><p class="en">We Found You!</p><p>บังคับให้คนในทีม 1 คนลงการ์ดภารกิจแบบ<b>หงาย</b> ต้องประกาศพร้อมเป้าหมายก่อนใครในทีมเลือกการ์ด</p></div>
+        <div class="type"><h3>บุกตะลุย! <span class="k keep">ติดตัว</span></h3><p class="en">Charge!</p><p>ทุกครั้งที่โหวต ผู้ถือต้องเปิดการ์ดโหวตก่อนคนอื่น ถ้ามี 2 คนถือ สองคนนั้นเปิดพร้อมกัน</p></div>
+      </div>
+      <div class="callout">
+        <h3>กฎทองของการ์ดพล็อต</h3>
+        <p>ข้อมูลที่ได้ พูดบอกโต๊ะได้ (จะจริงหรือโกหกก็ได้) แต่<b>ห้ามโชว์การ์ดฝ่ายหรือการ์ดภารกิจให้คนอื่นดู</b> นอกจากที่การ์ดสั่ง</p>
+      </div>
+      <p class="note">ชื่อภาษาไทยในเล่มนี้แปลเพื่อให้เรียกง่าย กล่อง Avalon X ฉบับไทยอาจใช้ชื่อต่างไป เทียบด้วยชื่ออังกฤษ · จำนวนใบของแต่ละชื่อให้นับจากกล่อง</p>
+    </section>
+
+    <!-- PATH -->
+    <section id="path">
+      <div class="sec-head"><span class="tag">สำหรับมือใหม่</span><h2>ลำดับการเพิ่มโมดูล</h2></div>
+      <p class="prose">เพิ่มทีละอย่าง แต่ละขั้นเล่นสัก 2–3 เกมให้คล่องก่อน ทุกโมดูลใน Avalon X ใช้รวมกันได้</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 760 120" role="img" aria-label="ลำดับแนะนำ 5 ขั้น">
+          <defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#8a94a6"/></marker></defs>
+          <g font-size="14" text-anchor="middle">
+            <rect class="b-g" x="6" y="20" width="134" height="80" rx="10"/><text class="t-fg" x="73" y="50" font-weight="600">เกมแรก</text><text class="t-muted" x="73" y="72" font-size="12">เมอร์ลิน + นักฆ่า</text>
+            <rect class="b-g" x="158" y="20" width="134" height="80" rx="10"/><text class="t-fg" x="225" y="50" font-weight="600">ขั้นที่ 2</text><text class="t-muted" x="225" y="72" font-size="12">+ เพอร์ซิวัล มอร์แกนา</text>
+            <rect class="b-e" x="310" y="20" width="134" height="80" rx="10"/><text class="t-fg" x="377" y="50" font-weight="600">ขั้นที่ 3</text><text class="t-muted" x="377" y="72" font-size="12">+ มอร์เดร็ด / ท่านหญิง</text>
+            <rect class="b-a" x="462" y="20" width="134" height="80" rx="10"/><text class="t-fg" x="529" y="50" font-weight="600">ขั้นที่ 4</text><text class="t-muted" x="529" y="72" font-size="12">+ เอ็กซ์คาลิเบอร์</text>
+            <rect class="b-a" x="614" y="20" width="140" height="80" rx="10"/><text class="t-fg" x="684" y="50" font-weight="600">ขั้นที่ 5</text><text class="t-muted" x="684" y="72" font-size="12">+ แลนซ์ล็อต / พล็อต</text>
+          </g>
+          <path class="ar" d="M140 60 H154" marker-end="url(#ah4)"/><path class="ar" d="M292 60 H306" marker-end="url(#ah4)"/><path class="ar" d="M444 60 H458" marker-end="url(#ah4)"/><path class="ar" d="M596 60 H610" marker-end="url(#ah4)"/>
+        </svg></div>
+        <figcaption>เอ็กซ์คาลิเบอร์เพิ่มก่อนเพราะกติกาสั้นที่สุด แลนซ์ล็อตกับการ์ดพล็อตทำให้เกมวุ่นที่สุด เก็บไว้ท้าย</figcaption>
+      </figure>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ใช้ตอนเล่น</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>หัวหน้าเลือกตัวเองเข้าทีมได้ไหม?</summary><div class="ans"><p class="verdict">ได้</p><p>และมักควรทำ เพราะตัวเองเป็นคนเดียวที่มั่นใจว่าอยู่ฝ่ายไหน</p></div></details>
+        <details><summary>ฝ่ายร้ายลง “สำเร็จ” ได้ไหม?</summary><div class="ans"><p class="verdict">ได้</p><p>ฝ่ายร้ายเลือกได้ทั้งสองใบ บางครั้งลงสำเร็จเพื่อสร้างความเชื่อใจคุ้มกว่า ส่วนฝ่ายดีลงล้มไม่ได้เด็ดขาด (ยกเว้นแลนซ์ล็อตที่สลับไปเป็นฝ่ายร้ายแล้ว)</p></div></details>
+        <details><summary>โหวตเสมอถือว่าผ่านไหม?</summary><div class="ans"><p class="verdict">ไม่ผ่าน</p><p>ต้องเห็นด้วย “มากกว่าครึ่ง” เท่านั้น</p></div></details>
+        <details><summary>โกหกได้แค่ไหน?</summary><div class="ans"><p class="verdict">พูดอะไรก็ได้ แต่ห้ามโชว์การ์ด</p><p>อ้างตัวเป็นใครก็ได้ แต่ห้ามเปิดการ์ดตัวละคร การ์ดฝ่าย หรือการ์ดภารกิจให้ใครดู และห้ามแอบลืมตาตอนหลับตา</p></div></details>
+        <details><summary>ฝ่ายร้ายช่วยนักฆ่าคิดได้ไหม?</summary><div class="ans"><p class="verdict">ได้</p><p>ปรึกษากันได้ แต่นักฆ่าตัดสินคนสุดท้าย ชี้ได้ครั้งเดียว</p></div></details>
+        <details><summary>แลนซ์ล็อตสลับฝ่ายแล้ว เมอร์ลินรู้ไหม?</summary><div class="ans"><p class="verdict">ไม่รู้</p><p>เมอร์ลินมีแค่ข้อมูลจากช่วงหลับตาตอนต้นเกม แต่ทุกคนเห็นการ์ดสลับที่เปิด จึงอนุมานเอาได้</p></div></details>
+        <details><summary>แลนซ์ล็อตกลายเป็นฝ่ายร้ายแล้ว เป็นนักฆ่าแทนได้ไหม?</summary><div class="ans"><p class="verdict">ไม่ได้</p><p>นักฆ่ายังเป็นคนเดิม แลนซ์ล็อตแค่เปลี่ยนฝ่ายที่ตัวเองช่วยและเงื่อนไขชนะ ชนะหรือแพ้ดูจากฝ่ายตอนจบเกม</p></div></details>
+        <details><summary>แลนซ์ล็อตถูกตรวจฝ่าย จะแสดงฝ่ายไหน?</summary><div class="ans"><p class="verdict house">กฎบ้าน: แสดงฝ่ายปัจจุบัน</p><p>คู่มือไม่ได้เขียนชัด แนะนำให้หยิบการ์ดฝ่ายใบใหม่ให้ตรงเมื่อสลับ ตกลงกันก่อนเริ่มเกม</p></div></details>
+        <details><summary>เอ็กซ์คาลิเบอร์กับซุ่มโจมตี อะไรก่อน?</summary><div class="ans"><p class="verdict">เอ็กซ์คาลิเบอร์ก่อน</p><p>ดาบใช้ก่อน แล้วค่อยมีโอกาสใช้ซุ่มโจมตี และดาบสลับการ์ดที่ลงแบบหงายเพราะ “เจอตัวแล้ว!” ไม่ได้</p></div></details>
+        <details><summary>แบบที่ 2 แลนซ์ล็อตร้ายอยู่ในทีม ภารกิจล้มแน่?</summary><div class="ans"><p class="verdict">เกือบแน่</p><p>เขาต้องลงล้ม ทุกคนจึงใช้ข้อนี้ไล่หาตัวได้ แต่ถ้าผู้ถือดาบสั่งให้เขาสลับ ภารกิจก็อาจพลิกกลับ</p></div></details>
+      </div>
+    </section>
+
+    <!-- TOOL: SETUP -->
+    <section id="tool-setup">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวช่วยเตรียมเกม + บทอ่าน</h2></div>
+      <div class="tool">
+        <div><span class="field-l">ผู้เล่น</span><div class="seg" id="h-n"></div></div>
+        <div><span class="field-l">ตัวละครพิเศษ (เมอร์ลิน + นักฆ่าใส่เสมอ)</span><div class="seg">
+          <button type="button" class="g" id="r-percival" aria-pressed="false">เพอร์ซิวัล</button>
+          <button type="button" class="e" id="r-morgana" aria-pressed="false">มอร์แกนา</button>
+          <button type="button" class="e" id="r-mordred" aria-pressed="false">มอร์เดร็ด</button>
+          <button type="button" class="e" id="r-oberon" aria-pressed="false">โอเบรอน</button>
+        </div></div>
+        <div><span class="field-l">แลนซ์ล็อต</span><div class="seg">
+          <button type="button" id="l-none" aria-pressed="true">ไม่ใช้</button>
+          <button type="button" id="l-v1" aria-pressed="false">แบบที่ 1</button>
+          <button type="button" id="l-v2" aria-pressed="false">แบบที่ 2</button>
+          <button type="button" id="l-know" aria-pressed="false">ให้รู้จักกัน</button>
+        </div></div>
+        <div><span class="field-l">โมดูลอื่น</span><div class="seg">
+          <button type="button" id="m-lady" aria-pressed="false">ท่านหญิงแห่งทะเลสาบ</button>
+          <button type="button" id="m-excal" aria-pressed="false">เอ็กซ์คาลิเบอร์</button>
+          <button type="button" id="m-plot" aria-pressed="false">การ์ดพล็อต</button>
+        </div></div>
+        <div class="out" id="h-out" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- TOOL: TRACK -->
+    <section id="tool-track">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>กระดานคุมภารกิจ</h2></div>
+      <div class="tool">
+        <p class="note">ใช้จำนวนผู้เล่นจากตัวช่วยด้านบน แตะวงกลมเพื่อบันทึกผล (ว่าง → สำเร็จ → ล้ม → ว่าง)</p>
+        <div class="qrow" id="t-q"></div>
+        <div class="inrow"><span class="field-l" style="margin:0">ทีมไม่ผ่าน</span><span class="rej" id="t-rej"></span>
+          <button type="button" class="btn" id="t-rej-add">+ ไม่ผ่าน</button>
+          <button type="button" class="btn" id="t-rej-reset">ทีมผ่าน / รีเซ็ต</button>
+        </div>
+        <div class="msg" id="t-status" aria-live="polite"></div>
+        <div class="inrow"><button type="button" class="btn primary" id="t-new">เริ่มเกมใหม่</button></div>
+      </div>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips">
+      <div class="sec-head"><span class="tag">มือใหม่</span><h2>เคล็ดลับเกมแรก</h2></div>
+      <div class="sides">
+        <div class="side good">
+          <h3 class="g">ถ้าเป็นฝ่ายดี</h3>
+          <ul>
+            <li>จำว่าใครโหวตให้ทีมที่ภารกิจล้ม คนที่ชอบโหวตให้ทีมแปลก ๆ น่าสงสัย</li>
+            <li>เมอร์ลิน: ใบ้ด้วยการโหวตมากกว่าการพูด ทำตัวเหมือนคนที่ “เดาเก่ง” พอดี ๆ</li>
+            <li>เพอร์ซิวัล: ดึงความสนใจจากเมอร์ลิน ทำตัวเหมือนรู้อะไรบางอย่าง</li>
+          </ul>
+        </div>
+        <div class="side evil">
+          <h3 class="e">ถ้าเป็นฝ่ายร้าย</h3>
+          <ul>
+            <li>ภารกิจแรกทีมเล็ก ลงสำเร็จไปก่อนเพื่อสร้างความเชื่อใจได้</li>
+            <li>อยู่ทีมเดียวกับพวกเดียวกัน ระวังลงล้มพร้อมกัน 2 ใบ จะโดนจับง่าย</li>
+            <li>ตลอดเกมคอยดูว่าใครดูเหมือนรู้มากเกินไป นั่นคือเป้าของนักฆ่า</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ศัพท์</span><h2>ศัพท์ในเกม</h2></div>
+      <dl class="gl">
+        <dt>Quest</dt><dd>ภารกิจ มี 5 ครั้งต่อเกม ฝ่ายไหนได้ 3 ก่อน</dd>
+        <dt>Leader</dt><dd>หัวหน้า คนเสนอทีม เวียนไปทางซ้ายทุกครั้งที่เสนอ</dd>
+        <dt>Team</dt><dd>ทีมที่หัวหน้าเลือกไปทำภารกิจ</dd>
+        <dt>Vote track</dt><dd>รางนับทีมที่โหวตไม่ผ่าน ครบ 5 ฝ่ายร้ายชนะ</dd>
+        <dt>Loyalty card</dt><dd>การ์ดฝ่าย บอกแค่ดีหรือร้าย ใช้ตอนถูกตรวจ</dd>
+        <dt>Minions of Mordred</dt><dd>สมุนของมอร์เดร็ด หมายถึงฝ่ายร้ายทั้งหมด</dd>
+        <dt>Loyal Servants of Arthur</dt><dd>อัศวินของอาเธอร์ หมายถึงฝ่ายดีทั้งหมด</dd>
+        <dt>Assassination</dt><dd>ช่วงลอบสังหาร นักฆ่าชี้ตัวเมอร์ลินหลังฝ่ายดีชนะ 3 ภารกิจ</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b> เรียบเรียงจากคู่มือ The Resistance: Avalon (Indie Boards &amp; Cards) และคู่มือภาคเสริม Avalon X (Lancelot, Excalibur, Plot Cards)</p>
+    <ul>
+      <li><a href="https://rulespal.com/the-resistance-avalon-x/rulebook" target="_blank" rel="noopener">RulesPal: The Resistance: Avalon X rulebook</a></li>
+      <li><a href="https://avalon-game.com/wiki/expansions/plot_cards/" target="_blank" rel="noopener">avalon-game.com: Plot Cards</a></li>
+      <li><a href="https://www.goldengoblingames.com/en/avalon-x-thai-version.html" target="_blank" rel="noopener">Golden Goblin Games: Avalon X ฉบับภาษาไทย</a></li>
+    </ul>
+    <p style="margin-top:8px">ข้อที่ติดป้าย “กฎบ้าน” ไม่ได้มาจากคู่มือ ใช้เมื่อโต๊ะตกลงกัน · ภาพประกอบทั้งหมดวาดใหม่ ไม่ใช่ภาพจากกล่อง</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+var GOOD={5:3,6:4,7:4,8:5,9:6,10:6}, EVIL={5:2,6:2,7:3,8:3,9:3,10:4};
+var QUEST={5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]};
+var S={n:7,percival:false,morgana:false,mordred:false,oberon:false,lance:"none",know:false,lady:false,excal:false,plot:false};
+var T={q:[null,null,null,null,null],rej:0};
+function load(k){try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}}
+function save(){try{localStorage.setItem("avalon-setup",JSON.stringify(S));localStorage.setItem("avalon-track",JSON.stringify(T));}catch(e){}}
+var sv=load("avalon-setup");if(sv)for(var k in sv)if(k in S)S[k]=sv[k];
+if(!GOOD[S.n])S.n=7;
+var tv=load("avalon-track");if(tv&&tv.q&&tv.q.length===5){T.q=tv.q;T.rej=tv.rej|0;}
+var $=function(id){return document.getElementById(id);};
+
+var nHost=$("h-n");
+for(var i=5;i<=10;i++)(function(n){var b=document.createElement("button");b.type="button";b.id="n-"+n;b.textContent=n+" คน";b.addEventListener("click",function(){S.n=n;render();});nHost.appendChild(b);})(i);
+["percival","morgana","mordred","oberon"].forEach(function(r){$("r-"+r).addEventListener("click",function(){S[r]=!S[r];render();});});
+["none","v1","v2"].forEach(function(v){$("l-"+v).addEventListener("click",function(){S.lance=v;render();});});
+$("l-know").addEventListener("click",function(){S.know=!S.know;render();});
+$("m-lady").addEventListener("click",function(){S.lady=!S.lady;render();});
+$("m-excal").addEventListener("click",function(){S.excal=!S.excal;render();});
+$("m-plot").addEventListener("click",function(){S.plot=!S.plot;render();});
+
+function chip(cls,t){return '<span class="chip '+cls+'">'+t+'</span>';}
+function pr(id,v){$(id).setAttribute("aria-pressed",String(v));}
+function render(){
+  var n=S.n,L=S.lance!=="none";
+  for(var i=5;i<=10;i++)pr("n-"+i,i===n);
+  ["percival","morgana","mordred","oberon"].forEach(function(r){pr("r-"+r,S[r]);});
+  ["none","v1","v2"].forEach(function(v){pr("l-"+v,S.lance===v);});
+  pr("l-know",S.know&&L);$("l-know").disabled=!L;
+  pr("m-lady",S.lady);pr("m-excal",S.excal);pr("m-plot",S.plot);
+
+  var g=GOOD[n],e=EVIL[n],warn=[];
+  var gs=["เมอร์ลิน"],es=["นักฆ่า"];
+  if(S.percival)gs.push("เพอร์ซิวัล");
+  if(L)gs.push("แลนซ์ล็อตดี");
+  if(S.morgana)es.push("มอร์แกนา");
+  if(S.mordred)es.push("มอร์เดร็ด");
+  if(S.oberon)es.push("โอเบรอน");
+  if(L)es.push("แลนซ์ล็อตร้าย");
+  if(es.length>e)warn.push("ตัวละครฝ่ายร้ายพิเศษ "+es.length+" ตัว เกินจำนวนฝ่ายร้าย ("+e+" คน) ให้ถอดออกบางตัว");
+  if(gs.length>g)warn.push("ตัวละครฝ่ายดีพิเศษเกินจำนวนฝ่ายดี");
+  if(S.morgana&&!S.percival)warn.push("มอร์แกนามีผลเฉพาะเมื่อมีเพอร์ซิวัล ควรเปิดเพอร์ซิวัลด้วย");
+  if(L&&n<7)warn.push("คู่มือแนะนำแลนซ์ล็อตสำหรับ 7 คนขึ้นไป");
+  if(S.lady&&n<7)warn.push("ท่านหญิงแห่งทะเลสาบแนะนำสำหรับ 7 คนขึ้นไป");
+  var gPlain=Math.max(0,g-gs.length),ePlain=Math.max(0,e-es.length);
+  var cards=gs.map(function(x){return chip("g",x);}).join("")+(gPlain?chip("g","อัศวินธรรมดา ×"+gPlain):"")+es.map(function(x){return chip("e",x);}).join("")+(ePlain?chip("e","สมุนธรรมดา ×"+ePlain):"");
+  var q=QUEST[n].map(function(s,i){return chip("a","ภารกิจ "+(i+1)+": "+s+" คน"+(i===3&&n>=7?" (ล้ม 2)":""));}).join("");
+  var extra=[];
+  if(S.lady)extra.push("ให้ป้ายท่านหญิงกับคนทางขวาของหัวหน้าคนแรก ใช้หลังภารกิจ 2, 3, 4");
+  if(S.excal)extra.push("วางดาบไว้ใกล้หัวหน้า มอบให้คนในทีม (ไม่ใช่ตัวเอง) ทุกครั้งที่เสนอทีม");
+  if(S.plot)extra.push("การ์ดพล็อต: ใช้ "+(n<=6?"7 ใบ (ใบที่พิมพ์ 5+)":"ครบ 15 ใบ")+" · หัวหน้าจั่ว "+(n<=6?1:n<=8?2:3)+" ใบตอนเริ่มทุกภารกิจ");
+  if(S.lance==="v1")extra.push("แลนซ์ล็อตแบบที่ 1: กองสลับฝ่าย ไม่เปลี่ยน 4 + สลับ 2 เปิด 1 ใบตอนเริ่มทุกภารกิจ");
+  if(S.lance==="v2")extra.push("แลนซ์ล็อตแบบที่ 2: ไม่เปลี่ยน 5 + สลับ 2 วางเหนือภารกิจละใบ แลนซ์ล็อตร้ายต้องลงล้มทุกครั้ง");
+
+  var sc=[],act=function(t){sc.push('<li>“'+t+'”</li>');};
+  act("ทุกคนหลับตา กำมือวางไว้ข้างหน้า");
+  var hide=L&&!S.know,exc=[];
+  if(S.oberon)exc.push("โอเบรอน");if(hide)exc.push("แลนซ์ล็อต");
+  if(hide)act("แลนซ์ล็อตฝ่ายร้าย ยกนิ้วโป้งไว้ ไม่ต้องลืมตา");
+  act("สมุนของมอร์เดร็ด"+(exc.length?" ยกเว้น"+exc.join("และ"):"")+" ลืมตา มองหาพวกเดียวกัน");
+  act("สมุนของมอร์เดร็ด หลับตา"+(hide?" แลนซ์ล็อตเอานิ้วลง":""));
+  act("สมุนของมอร์เดร็ด"+(S.mordred?" ยกเว้นมอร์เดร็ด":"")+" ยกนิ้วโป้ง ให้เมอร์ลินรู้ว่าเป็นใคร");
+  act("เมอร์ลิน ลืมตา");act("เมอร์ลิน หลับตา สมุนเอานิ้วลง");
+  if(S.percival){act("เมอร์ลิน"+(S.morgana?"และมอร์แกนา":"")+" ยกนิ้วโป้ง");act("เพอร์ซิวัล ลืมตา");act("เพอร์ซิวัล หลับตา เมอร์ลิน"+(S.morgana?"และมอร์แกนา":"")+"เอานิ้วลง");}
+  if(L&&S.know){act("แลนซ์ล็อตทั้งสอง ลืมตา มองหากันและกัน");act("แลนซ์ล็อต หลับตา");}
+  act("ทุกคนลืมตา");
+
+  $("h-out").innerHTML=
+    (warn.length?'<div class="warn">'+warn.join("<br>")+'</div>':"")+
+    '<div><span class="field-l">การ์ดตัวละคร '+n+' ใบ · ดี '+g+' ร้าย '+e+'</span><div class="chips">'+cards+'</div></div>'+
+    '<div><span class="field-l">ขนาดทีม</span><div class="chips">'+q+'</div></div>'+
+    (extra.length?'<div><span class="field-l">เตรียมเพิ่ม</span><ul style="margin:0;padding-left:1.2em">'+extra.map(function(x){return "<li>"+x+"</li>";}).join("")+'</ul></div>':"")+
+    '<div><span class="field-l">บทอ่านช่วงหลับตา · อ่านช้า ๆ เว้น 3–4 วินาทีทุกบรรทัด</span><ol class="script">'+sc.join("")+'</ol></div>';
+  renderT();save();
+}
+
+var qHost=$("t-q");
+for(var j=0;j<5;j++)(function(i){var b=document.createElement("button");b.type="button";b.className="q";b.id="q-"+i;b.addEventListener("click",function(){T.q[i]=T.q[i]===null?"s":T.q[i]==="s"?"f":null;T.rej=0;renderT();save();});qHost.appendChild(b);})(j);
+$("t-rej-add").addEventListener("click",function(){if(T.rej<5)T.rej++;renderT();save();});
+$("t-rej-reset").addEventListener("click",function(){T.rej=0;renderT();save();});
+$("t-new").addEventListener("click",function(){T.q=[null,null,null,null,null];T.rej=0;renderT();save();});
+function renderT(){
+  var n=S.n,sz=QUEST[n],s=0,f=0,cur=-1,i;
+  T.q.forEach(function(v){if(v==="s")s++;if(v==="f")f++;});
+  for(i=0;i<5;i++){if(T.q[i]===null){cur=i;break;}}
+  var over=s>=3||f>=3||T.rej>=5;
+  for(i=0;i<5;i++){var b=$("q-"+i),v=T.q[i];b.className="q"+(v==="s"?" s":v==="f"?" f":"")+(i===cur&&!over?" cur":"");
+    b.innerHTML="<b>"+sz[i]+"</b><span>"+(v==="s"?"สำเร็จ":v==="f"?"ล้ม":(i===3&&n>=7?"ล้ม 2 ใบ":"คน"))+"</span>";
+    b.setAttribute("aria-label","ภารกิจ "+(i+1)+" ทีม "+sz[i]+" คน "+(v==="s"?"สำเร็จ":v==="f"?"ล้มเหลว":"ยังไม่เล่น"));}
+  var r="";for(var k=1;k<=5;k++)r+='<i class="'+(k<=T.rej?"on":"")+'"></i>';$("t-rej").innerHTML=r;
+  var st=$("t-status"),cls="",msg;
+  if(f>=3){msg="ภารกิจล้ม 3 ครั้ง ฝ่ายร้ายชนะ";cls="e";}
+  else if(T.rej>=5){msg="ทีมไม่ผ่าน 5 ครั้งติด ฝ่ายร้ายชนะ";cls="e";}
+  else if(s>=3){msg="ฝ่ายดีสำเร็จ 3 ภารกิจ ถึงเวลานักฆ่าชี้ตัวเมอร์ลิน";cls="g";}
+  else{msg="ภารกิจที่ "+(cur+1)+" · ทีม "+sz[cur]+" คน"+(cur===3&&n>=7?" · ต้องล้ม 2 ใบ":"")+" · สำเร็จ "+s+" ล้ม "+f+(T.rej?" · ไม่ผ่านแล้ว "+T.rej+" ครั้ง":"");}
+  st.className="msg "+cls;st.textContent=msg;
+}
+render();
+})();
+</script>
+
+</body></html>

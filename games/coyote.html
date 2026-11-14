@@ -1,0 +1,933 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Coyote ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Sarabun:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: a night-desert header with a row of cards and two hands thumping the table, then a reading column with a sticky chapter rail. The beat (ตึง ตึง → ท่า) is the visual motif repeated in every flow figure; the game keeper + beat trainer sit near the end. */
+:root{
+  --bg:#eef0f3;
+  --surface:#ffffff;
+  --surface-2:#e2e5ea;
+  --fg:#1d2033;
+  --muted:#596074;
+  --line:#cdd2db;
+  --accent:#e2591f;
+  --accent-soft:#fbe3d6;
+  --night:#1f2340;
+  --sun:#f39a3d;
+  --band-fg:#f7f1e8;
+  --c-or:#ef7d2d; --c-bl:#2d7fd4; --c-gr:#4fa83f; --c-pu:#8a4bb8;
+  --good:#22804a; --good-soft:#d9efe0; --bad:#c2321f; --bad-soft:#f8dcd6;
+  --coy:#a35a1c; --coy-soft:#f5e6d3; --atk:#2b2e3a; --atk-soft:#e3e4ea;
+  --font-display:"Kanit","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11131c;--surface:#1a1d29;--surface-2:#252937;--fg:#ecedf3;--muted:#a3a8b8;--line:#343849;
+    --accent:#ff8650;--accent-soft:#3a2117;--night:#0b0d18;--sun:#f6ac57;--band-fg:#f7f1e8;
+    --c-or:#f48c42;--c-bl:#4f9be6;--c-gr:#6cc25b;--c-pu:#a76ad4;
+    --good:#5ccd80;--good-soft:#173322;--bad:#ff7563;--bad-soft:#3a1a16;
+    --coy:#e0a060;--coy-soft:#33261a;--atk:#c9ccd8;--atk-soft:#2a2d3a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11131c;--surface:#1a1d29;--surface-2:#252937;--fg:#ecedf3;--muted:#a3a8b8;--line:#343849;
+  --accent:#ff8650;--accent-soft:#3a2117;--night:#0b0d18;--sun:#f6ac57;--band-fg:#f7f1e8;
+  --c-or:#f48c42;--c-bl:#4f9be6;--c-gr:#6cc25b;--c-pu:#a76ad4;
+  --good:#5ccd80;--good-soft:#173322;--bad:#ff7563;--bad-soft:#3a1a16;
+  --coy:#e0a060;--coy-soft:#33261a;--atk:#c9ccd8;--atk-soft:#2a2d3a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.35;text-wrap:balance;margin:0}
+h2{font-size:1.7rem}
+h3{font-size:1.12rem;font-weight:500}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(180deg,var(--night) 0%,#2c2748 70%,#4a2f3a 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.5rem,6.5vw,4rem);margin-top:6px;font-weight:700;letter-spacing:.01em}
+.hero h1 span{display:block;font-size:.36em;color:var(--sun);margin-top:6px;font-weight:500;letter-spacing:0}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--sun);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:380px;margin-inline:auto}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.85em;color:var(--muted)}
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.plain{background:var(--surface-2)}
+.callout.good{background:var(--good-soft)}
+.callout h3{font-size:1.06rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--coy-soft);color:var(--fg);border:1px solid var(--coy)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:640px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-night{fill:var(--night)}
+.s-acc{fill:var(--accent)} .s-accsoft{fill:var(--accent-soft)} .s-sun{fill:var(--sun)} .s-good{fill:var(--good)} .s-goodsoft{fill:var(--good-soft)} .s-bad{fill:var(--bad)} .s-badsoft{fill:var(--bad-soft)}
+.s-or{fill:var(--c-or)} .s-bl{fill:var(--c-bl)} .s-gr{fill:var(--c-gr)} .s-pu{fill:var(--c-pu)}
+.s-coy{fill:var(--coy)} .s-coysoft{fill:var(--coy-soft)} .s-atk{fill:var(--atk)} .s-atksoft{fill:var(--atk-soft)}
+.k-line{stroke:var(--line)} .k-fg{stroke:var(--fg)} .k-muted{stroke:var(--muted)} .k-acc{stroke:var(--accent)} .k-good{stroke:var(--good)} .k-bad{stroke:var(--bad)}
+.k-or{stroke:var(--c-or)} .k-bl{stroke:var(--c-bl)} .k-gr{stroke:var(--c-gr)} .k-pu{stroke:var(--c-pu)} .k-coy{stroke:var(--coy)} .k-atk{stroke:var(--atk)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+/* types grid */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.type .lbl{font-family:var(--font-tag);font-size:.76rem;font-weight:600;letter-spacing:.05em;color:var(--muted)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--night);color:var(--sun);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.06rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+/* fail list */
+.fails{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;max-width:52em}
+.fails li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:0}
+.fails li::before{content:"✕";font-family:var(--font-tag);font-weight:600;color:var(--bad);line-height:1.75}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:0}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool h3{font-size:1.15rem}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:38px}
+.seg button[aria-pressed="true"]{background:var(--night);border-color:var(--night);color:var(--sun)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.big{font-size:1rem;padding:8px 18px;min-height:46px;border-radius:12px}
+.btn.go{background:var(--good);border-color:var(--good);color:#fff}
+.btn.no{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.ink{background:var(--night);border-color:var(--night);color:var(--sun)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.stepper{display:flex;align-items:center;gap:6px}
+.stepper button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font:600 1.2rem var(--font-tag);cursor:pointer}
+.stepper output{min-width:3ch;text-align:center;font:600 1.4rem var(--font-tag);font-variant-numeric:tabular-nums}
+.txt{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:4px 8px;min-height:38px;width:100%;min-width:0}
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.status{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--night);color:var(--band-fg);border-radius:14px;padding:16px 18px}
+.status .now{font-family:var(--font-display);font-size:1.45rem;line-height:1.3}
+.status .now small{display:block;font-family:var(--font-tag);font-size:.8rem;color:var(--sun);letter-spacing:.06em}
+.status .cnt{text-align:center;font-family:var(--font-tag)}
+.status .cnt b{display:block;font-size:2.3rem;line-height:1;color:var(--sun);font-variant-numeric:tabular-nums}
+.status .cnt small{font-size:.8rem;opacity:.85}
+.ring{display:flex;flex-wrap:wrap;gap:8px}
+.pl{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface-2);font-size:.95rem;min-width:0;cursor:default}
+.pl.first{background:var(--night);color:var(--sun);border-color:var(--night)}
+.pl.out{opacity:.5;text-decoration:line-through}
+.pl.sel{outline:3px solid var(--bad);outline-offset:1px}
+.pl button{all:unset;cursor:pointer;display:flex;align-items:center;gap:8px}
+.pl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.lives{display:inline-flex;gap:3px}
+.lives i{width:9px;height:12px;border-radius:2px;background:var(--good);display:block}
+.lives i.lost{background:var(--bad)}
+.assign{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.assign li{display:grid;justify-items:center;gap:2px;min-width:64px;padding:6px 8px;border-radius:10px;background:var(--surface-2);font-size:.88rem}
+.assign li b{font-family:var(--font-tag);font-size:.75rem;color:var(--muted)}
+.assign li.hit{background:var(--accent);color:#fff}
+.assign li.hit b{color:#fff}
+.log{font-size:.88rem;color:var(--muted);max-height:9.5em;overflow:auto;margin:0;padding-left:1.2em}
+.pick{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 14px}
+.banner{border-radius:12px;padding:14px 16px;font-family:var(--font-display);font-size:1.2rem}
+.banner.win{background:var(--good-soft)}
+.banner.lose{background:var(--bad-soft)}
+.meter{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.mt{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:grid;gap:4px}
+.mt b{font-family:var(--font-tag);font-size:1.3rem;font-variant-numeric:tabular-nums}
+.bar{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s ease}
+
+/* beat trainer */
+.beat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.beat div{border-radius:12px;background:var(--surface-2);padding:14px 8px;text-align:center;font-family:var(--font-display);font-size:1.15rem;transition:background .08s ease,transform .08s ease;min-width:0}
+.beat div.on{background:var(--night);color:var(--sun);transform:scale(1.04)}
+.beat div.act.on{background:var(--accent);color:#fff}
+.beat small{display:block;font-family:var(--font-tag);font-size:.75rem;opacity:.8}
+.big-now{font-family:var(--font-display);font-size:1.6rem;text-align:center;min-height:2.4em;display:grid;place-items:center;line-height:1.3}
+input[type=range]{width:min(260px,100%);accent-color:var(--accent)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.02rem;font-weight:500}
+details[open] summary{margin-bottom:8px}
+details p+p{margin-top:6px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:56em}
+dl.gl dt{font-family:var(--font-display);font-weight:500}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art svg{max-width:280px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+  .status{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .thump{animation:thump 1.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+  .thump.b{animation-delay:.12s}
+  @keyframes thump{0%,40%,100%{transform:translateY(0)}15%{transform:translateY(8px)}55%{transform:translateY(0)}65%{transform:translateY(8px)}80%{transform:translateY(0)}}
+}
+@media (prefers-reduced-motion:reduce){.beat div,.bar i{transition:none}}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · โหมดแข่งกัน + โหมดร่วมมือ + ขั้นเซียน · อิงคู่มือทางการ (Exploding Kittens)</div>
+      <h1>Coyote<span>โคโยตี้ · เกมโดย Tim Ferriss และ Exploding Kittens · ตบโต๊ะ ทำท่า จำให้ได้ทั้งแถว</span></h1>
+      <p class="lede">กลางโต๊ะมีการ์ดท่าเรียงเป็นแถว ทุกคนตบโต๊ะ <b>ตึง ตึง</b> พร้อมกัน แล้วคนที่ถึงคิวพูดคำและทำท่าของการ์ดใบนั้น ไล่ไปทีละใบจากซ้ายไปขวา ผ่านครบทั้งแถวก็เพิ่มการ์ดอีกใบ แถวยาวขึ้นเรื่อย ๆ และมี<b>การ์ดโคโยตี้</b>กับ<b>การ์ดโจมตี</b>คอยเปลี่ยนกติกาให้จำยากขึ้น ใครพลาดรับการ์ดลงโทษ ครบ 3 ใบตกรอบ</p>
+      <div class="facts">
+        <div class="fact"><b>3–8</b><small>คน</small></div>
+        <div class="fact"><b>10</b><small>นาทีต่อเกม</small></div>
+        <div class="fact"><b>66</b><small>ใบในกล่อง</small></div>
+        <div class="fact"><b>2</b><small>โหมด แข่งกัน · ร่วมมือ</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 320 250">
+        <circle cx="256" cy="54" r="30" fill="#f39a3d" opacity=".9"/>
+        <circle cx="256" cy="54" r="48" fill="#f39a3d" opacity=".12"/>
+        <path d="M0 150 L40 118 L58 130 L92 96 L120 124 L150 110 L190 134 L230 112 L270 130 L320 116 V170 H0Z" fill="#3a2d4f"/>
+        <path d="M262 150 v-36 a8 8 0 0 1 16 0 v36 M270 128 h-14 v-12 M270 136 h14 v-14" stroke="#2a3a2c" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <rect x="0" y="160" width="320" height="90" fill="#6b4630"/>
+        <rect x="0" y="160" width="320" height="8" fill="#8a5c3c"/>
+        <g transform="translate(36 176)">
+          <rect x="0" y="0" width="42" height="58" rx="5" fill="#fff8ee" stroke="#ef7d2d" stroke-width="4"/>
+          <rect x="50" y="0" width="42" height="58" rx="5" fill="#fff8ee" stroke="#2d7fd4" stroke-width="4"/>
+          <rect x="100" y="0" width="42" height="58" rx="5" fill="#fff8ee" stroke="#4fa83f" stroke-width="4"/>
+          <rect x="150" y="0" width="42" height="58" rx="5" fill="#fff8ee" stroke="#8a4bb8" stroke-width="4"/>
+          <rect x="200" y="0" width="42" height="58" rx="5" fill="#fff8ee" stroke="#ef7d2d" stroke-width="4"/>
+          <g fill="#c9a27a"><circle cx="21" cy="24" r="8"/><circle cx="71" cy="24" r="8"/><circle cx="121" cy="24" r="8"/><circle cx="171" cy="24" r="8"/><circle cx="221" cy="24" r="8"/></g>
+          <g stroke="#c9a27a" stroke-width="4" stroke-linecap="round"><path d="M21 34 v12 M13 38 l-4 -10 M29 38 l6 -6"/><path d="M71 34 v12 M63 38 l-6 4 M79 38 l4 -12"/><path d="M121 34 v12 M113 38 l-6 -8 M129 38 l6 -8"/><path d="M171 34 v12 M163 36 l-2 10 M179 36 l2 10"/><path d="M221 34 v12 M213 38 l-6 2 M229 38 l2 -14"/></g>
+        </g>
+        <g class="thump"><rect x="70" y="128" width="40" height="30" rx="12" fill="#e9b892"/><rect x="74" y="118" width="8" height="16" rx="4" fill="#e9b892"/><rect x="84" y="116" width="8" height="18" rx="4" fill="#e9b892"/><rect x="94" y="118" width="8" height="16" rx="4" fill="#e9b892"/></g>
+        <g class="thump b"><rect x="206" y="128" width="40" height="30" rx="12" fill="#e9b892"/><rect x="214" y="118" width="8" height="16" rx="4" fill="#e9b892"/><rect x="224" y="116" width="8" height="18" rx="4" fill="#e9b892"/><rect x="234" y="118" width="8" height="16" rx="4" fill="#e9b892"/></g>
+        <g stroke="#f7f1e8" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M58 150 l-10 4 M60 140 l-12 -2 M258 150 l10 4 M256 140 l12 -2"/></g>
+        <text x="90" y="104" text-anchor="middle" font-family="Kanit,sans-serif" font-weight="700" font-size="20" fill="#f39a3d">ตึง!</text>
+        <text x="226" y="104" text-anchor="middle" font-family="Kanit,sans-serif" font-weight="700" font-size="20" fill="#f39a3d">ตึง!</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#cards">การ์ด 4 แบบในกล่อง</a></li>
+      <li class="sep">ลำดับการเล่น</li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#beat">จังหวะและใครทำใบไหน</a></li>
+      <li><a href="#round">หนึ่งรอบ ตั้งแต่ต้นจนจบ</a></li>
+      <li><a href="#shift">คนเริ่มเลื่อนทุกรอบ</a></li>
+      <li><a href="#fail">ทำพลาด ตกรอบ ชนะ</a></li>
+      <li><a href="#special">วางโคโยตี้และโจมตี</a></li>
+      <li><a href="#coop">โหมดร่วมมือ</a></li>
+      <li class="sep">ใช้กลางโต๊ะ</li>
+      <li><a href="#keeper">กระดานคุมเกม</a></li>
+      <li><a href="#trainer">ตัวเคาะจังหวะ</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">คำศัพท์ไทย-อังกฤษ</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 760 230" role="img" aria-label="วงจรของเกม: ตบโต๊ะสองที แล้วคนถึงคิวทำท่า วนจนครบแถว ถ้าผ่านก็ส่งกองจั่วไปทางซ้ายและเพิ่มการ์ด ถ้ามีคนพลาดรับการ์ดลงโทษแล้วเล่นรอบเดิมซ้ำ">
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-muted"/></marker></defs>
+            <rect x="10" y="64" width="170" height="100" rx="14" class="s-night"/>
+            <text x="95" y="100" text-anchor="middle" class="disp s-sun" font-size="22">ตึง ตึง</text>
+            <text x="95" y="124" text-anchor="middle" fill="#f7f1e8" font-size="13">ทุกคนตบโต๊ะ 2 ที</text>
+            <text x="95" y="144" text-anchor="middle" fill="#f7f1e8" font-size="13">ด้วยสองมือ พร้อมกัน</text>
+            <path d="M184 114 h40" class="k-muted" stroke-width="2.5" marker-end="url(#ar)"/>
+            <rect x="230" y="64" width="170" height="100" rx="14" class="s-accsoft"/>
+            <text x="315" y="100" text-anchor="middle" class="disp s-fg" font-size="18">คนถึงคิวทำท่า</text>
+            <text x="315" y="124" text-anchor="middle" class="s-muted" font-size="13">พูดคำ + ทำท่า</text>
+            <text x="315" y="144" text-anchor="middle" class="s-muted" font-size="13">ของการ์ดใบถัดไป 1 ใบ</text>
+            <path d="M315 60 C315 20 95 20 95 58" fill="none" class="k-muted" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ar)"/>
+            <text x="205" y="22" text-anchor="middle" class="s-muted" font-size="12.5">วนจนครบทุกใบในแถว (ซ้าย → ขวา)</text>
+            <path d="M404 96 C440 70 450 52 486 46" fill="none" class="k-muted" stroke-width="2.5" marker-end="url(#ar)"/>
+            <path d="M404 132 C440 160 450 182 486 186" fill="none" class="k-muted" stroke-width="2.5" marker-end="url(#ar)"/>
+            <text x="422" y="58" class="s-good tagf" font-size="12.5">ทุกคนผ่าน</text>
+            <text x="422" y="186" class="s-bad tagf" font-size="12.5">มีคนพลาด</text>
+            <rect x="492" y="10" width="258" height="80" rx="12" class="s-goodsoft"/>
+            <text x="621" y="38" text-anchor="middle" class="disp s-fg" font-size="15">ส่งกองจั่วไปทางซ้าย</text>
+            <text x="621" y="58" text-anchor="middle" class="s-muted" font-size="12.5">คนใหม่เปิด 3 เลือก 1 ใบลงโต๊ะ</text>
+            <text x="621" y="76" text-anchor="middle" class="s-muted" font-size="12.5">แล้วเริ่มรอบใหม่เป็นคนแรก</text>
+            <rect x="492" y="142" width="258" height="80" rx="12" class="s-badsoft"/>
+            <text x="621" y="170" text-anchor="middle" class="disp s-fg" font-size="15">คนพลาดรับการ์ดลงโทษ 1 ใบ</text>
+            <text x="621" y="190" text-anchor="middle" class="s-muted" font-size="12.5">ครบ 3 ใบตกรอบ · เล่นรอบเดิมซ้ำ</text>
+            <text x="621" y="208" text-anchor="middle" class="s-muted" font-size="12.5">คนเริ่มเดิม ไม่เพิ่มการ์ด</text>
+          </svg>
+        </div>
+        <figcaption>ทุกรอบมีแค่นี้ ความยากมาจากแถวที่ยาวขึ้น การ์ดที่เปลี่ยนวิธีทำท่า และคนเริ่มที่เปลี่ยนทุกรอบ ทำให้ใบเดิมไม่ได้ตกเป็นของคนเดิม</figcaption>
+      </figure>
+      <div class="callout">
+        <h3>จำ 5 ข้อนี้ก่อน</h3>
+        <ol>
+          <li>ก่อน<b>ทุกท่า</b> ทุกคนตบโต๊ะ <b>ตึง ตึง</b> พร้อมกัน (ใช้จังหวะเพลง We Will Rock You) ท่าสุดท้ายไม่ต้องตบต่อ</li>
+          <li>ทำท่าทีละใบ <b>จากซ้ายไปขวา</b> คนละใบ วนตามเข็มนาฬิกา เริ่มที่คนถือกองจั่ว การ์ดมากกว่าคนก็วนกลับมาคนแรกต่อ</li>
+          <li>ผ่านครบแถว: ส่งกองจั่วไป<b>ทางซ้าย</b> คนใหม่<b>เปิด 3 เลือก 1</b> ใส่ลงโต๊ะ แล้วเป็นคนเริ่มรอบถัดไป</li>
+          <li>มีคนพลาด: หยุดทันที คนพลาดหยิบการ์ด<b>ใบล่างสุดของกองจั่ว</b>คว่ำไว้หน้าตัว แล้ว<b>เล่นรอบเดิมซ้ำ</b> คนเริ่มเดิม ไม่เพิ่มการ์ด</li>
+          <li>การ์ดคว่ำหน้าตัวครบ <b>3 ใบ ตกรอบ</b> · คนสุดท้ายที่เหลือชนะ</li>
+        </ol>
+      </div>
+      <p class="note">คู่มือทางการแนะนำให้ดูวิดีโอสอนเล่นก่อนอ่าน: <a href="https://www.explodingkittens.com/coyote/how" target="_blank" rel="noopener">explodingkittens.com/coyote/how</a> (ภาษาอังกฤษ ดูท่าตบโต๊ะแล้วเข้าใจทันที)</p>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">อุปกรณ์ · 66 ใบ</span><h2>การ์ด 4 แบบในกล่อง</h2></div>
+      <p class="prose">ในกล่องมีแต่การ์ด ไม่มีชิ้นส่วนอื่น การ์ดลงโทษก็คือการ์ดจากก้นกองจั่วที่คว่ำไว้ ไม่ได้มีการ์ดแยก ข้อความบนการ์ดฉบับไทยอ่านจากการ์ดของคุณได้เลย ตัวอย่างชื่อการ์ดในหน้านี้เอามาจากคู่มือฉบับอังกฤษ ฉบับไทยอาจแปลต่างไป</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชนิด</th><th>ใช้ทำอะไร</th><th>จำนวน</th></tr></thead>
+          <tbody>
+            <tr><td><b>การ์ดทั้งกล่อง</b><br><span class="en">Cards</span></td><td>รวมทุกชนิดด้านล่าง ไม่มีชิ้นส่วนอื่นนอกจากใบกติกา</td><td><b>66 ใบ</b> (คู่มือทางการ + หน้าร้าน)</td></tr>
+            <tr><td><b>การ์ดท่า</b><br><span class="en">Action Cards</span></td><td>คำ + ท่า ที่ต้องทำในแถว</td><td rowspan="4">ยังไม่ยืนยัน · คู่มือทางการไม่ได้แยกจำนวนต่อชนิด และแหล่งอื่นที่แยกไว้รวมได้ไม่ครบ 66</td></tr>
+            <tr><td><b>การ์ดโคโยตี้</b><br><span class="en">Coyote Cards</span></td><td>เปลี่ยนวิธีทำท่าไปจนจบเกม</td></tr>
+            <tr><td><b>การ์ดโจมตี</b><br><span class="en">Attack Cards</span></td><td>เล็งผู้เล่นหรือการ์ดท่า</td></tr>
+            <tr><td><b>การ์ดเปล่า</b><br><span class="en">Blank Cards</span></td><td>เขียนการ์ดเอง</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 760 250" role="img" aria-label="การ์ด 4 แบบ: การ์ดท่ามีกรอบสี คำ และรูปท่า; การ์ดโคโยตี้มีระดับความยากและกติกาที่ใช้กับการ์ดท่า; การ์ดโจมตีมีระดับความยากและชี้ไปที่ผู้เล่นหรือการ์ดท่า; การ์ดเปล่าให้เขียนเอง">
+            <!-- action -->
+            <g transform="translate(20 16)">
+              <rect x="0" y="0" width="140" height="196" rx="12" class="s-surface" stroke-width="7" style="stroke:var(--c-or)"/>
+              <rect x="10" y="10" width="120" height="26" rx="6" class="s-or"/>
+              <text x="70" y="29" text-anchor="middle" class="tagf" fill="#fff" font-size="14">BOOP</text>
+              <circle cx="70" cy="86" r="22" fill="#c9a27a"/>
+              <path d="M70 108 v40 M70 120 l-26 -10 M70 120 l20 -30 M70 148 l-14 26 M70 148 l14 26" stroke="#c9a27a" stroke-width="7" stroke-linecap="round" fill="none"/>
+              <circle cx="92" cy="86" r="4" class="s-acc"/>
+              <text x="70" y="226" text-anchor="middle" class="disp s-fg" font-size="15">การ์ดท่า</text>
+            </g>
+            <g class="s-muted" font-size="12"><text x="168" y="40">← คำที่ต้องพูด</text><text x="168" y="110">← ท่าที่ต้องทำ</text><text x="168" y="190">← สีกรอบ</text><text x="168" y="206">(สนใจเมื่อการ์ดโคโยตี้สั่ง)</text></g>
+            <!-- coyote -->
+            <g transform="translate(320 16)">
+              <rect x="0" y="0" width="140" height="196" rx="12" class="s-coysoft" stroke-width="3" style="stroke:var(--coy)"/>
+              <rect x="10" y="10" width="120" height="24" rx="6" class="s-coy"/>
+              <text x="70" y="27" text-anchor="middle" class="tagf" fill="#fff" font-size="12.5">COYOTE · Easy</text>
+              <text x="70" y="62" text-anchor="middle" class="disp s-fg" font-size="17">WHISPER</text>
+              <text x="70" y="88" text-anchor="middle" class="s-fg" font-size="13">กระซิบการ์ดท่า</text>
+              <rect x="30" y="98" width="80" height="26" rx="6" class="s-or"/>
+              <text x="70" y="116" text-anchor="middle" fill="#fff" class="tagf" font-size="13">สีส้ม</text>
+              <text x="70" y="140" text-anchor="middle" class="s-fg" font-size="13">ทุกใบ</text>
+              <path d="M40 166 h60" class="k-coy" stroke-width="4" stroke-linecap="round"/><circle cx="58" cy="166" r="5" class="s-coy"/>
+              <text x="70" y="226" text-anchor="middle" class="disp s-fg" font-size="15">การ์ดโคโยตี้</text>
+            </g>
+            <!-- attack -->
+            <g transform="translate(476 16)">
+              <rect x="0" y="0" width="140" height="196" rx="12" class="s-atksoft" stroke-width="3" style="stroke:var(--atk)"/>
+              <rect x="10" y="10" width="120" height="24" rx="6" class="s-atk"/>
+              <text x="70" y="27" text-anchor="middle" class="tagf" style="fill:var(--surface)" font-size="12.5">ATTACK · Medium</text>
+              <text x="70" y="62" text-anchor="middle" class="disp s-fg" font-size="17">T-REX</text>
+              <text x="70" y="88" text-anchor="middle" class="s-fg" font-size="12.5">ทำท่าโดยให้ข้อศอก</text>
+              <text x="70" y="106" text-anchor="middle" class="s-fg" font-size="12.5">แนบลำตัวตลอด</text>
+              <text x="70" y="138" text-anchor="middle" class="s-muted" font-size="11.5">ชี้เป้า: ผู้เล่น</text>
+              <text x="70" y="154" text-anchor="middle" class="s-muted" font-size="11.5">หรือ การ์ดท่า</text>
+              <text x="70" y="226" text-anchor="middle" class="disp s-fg" font-size="15">การ์ดโจมตี</text>
+            </g>
+            <!-- blank -->
+            <g transform="translate(632 16)">
+              <rect x="0" y="0" width="112" height="196" rx="12" class="s-surface" stroke-width="3" stroke-dasharray="8 6" style="stroke:var(--c-pu)"/>
+              <path d="M30 120 l44 -44 l10 10 l-44 44 l-14 4z" class="s-pu"/>
+              <text x="56" y="226" text-anchor="middle" class="disp s-fg" font-size="15">การ์ดเปล่า</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>มุมบนของการ์ดโคโยตี้และโจมตีบอก<b>ระดับความยาก</b> (Easy · Medium · Hard) ใช้ในโหมดร่วมมือขั้นเซียน · ตัวอย่างการ์ดในรูปมาจากคู่มือฉบับอังกฤษ</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><span class="lbl">ACTION CARD</span><h3>การ์ดท่า</h3><p>มี<b>คำ</b>กับ<b>ท่า</b> คนถึงคิวต้องพูดและทำทั้งสองอย่าง ใส่เพิ่มได้ทุกตำแหน่งในแถว เลื่อนการ์ดอื่นให้มีที่ว่าง สีกรอบไม่มีผล เว้นแต่การ์ดโคโยตี้อ้างถึงสี</p></div>
+        <div class="type"><span class="lbl">COYOTE CARD</span><h3>การ์ดโคโยตี้</h3><p>เปลี่ยนวิธีเล่นของการ์ดท่าหนึ่งใบหรือหลายใบ <b>ไปจนจบเกม</b> วางไว้ใกล้การ์ดที่มันมีผล ช่วยให้จำได้ว่าใช้กับใบไหน</p></div>
+        <div class="type"><span class="lbl">ATTACK CARD</span><h3>การ์ดโจมตี</h3><p>เลือกเป้าเอง วางหงายไว้<b>หน้าผู้เล่น</b> (มีผลทุกท่าที่คนนั้นทำ) หรือ<b>เหนือการ์ดท่า</b> (มีผลกับทุกคนที่ต้องทำใบนั้น)</p></div>
+        <div class="type"><span class="lbl">BLANK CARD</span><h3>การ์ดเปล่า</h3><p>ไว้คิดท่าหรือกติกาเอง ไม่จำเป็นต้องใช้ จะเก็บไว้ในกล่องก็ได้ ถ้าเขียนแล้วอยากใช้ สับรวมเข้ากองจั่ว</p></div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ลำดับการเล่น · 1</span><h2>เตรียมเกม</h2></div>
+      <div class="types" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+        <ol class="steps">
+          <li><div class="body"><h3>เลือกผู้เล่นคนแรก <span class="en">Pick the First Player</span></h3><p>ใครก็ได้ คนนี้เป็น <b>First Player</b></p></div></li>
+          <li><div class="body"><h3>สับการ์ดเป็นกองจั่ว <span class="en">Form a Draw Pile</span></h3><p>คว่ำไว้<b>หน้าผู้เล่นคนแรก</b> (ไม่ใช่กลางโต๊ะ) ใครถือกองจั่ว คนนั้นเริ่มรอบ</p></div></li>
+          <li><div class="body"><h3>เปิดการ์ดเป็นแถวกลางโต๊ะ <span class="en">Flip over a row</span></h3>
+            <ul>
+              <li>เปิดเท่ากับ<b>จำนวนผู้เล่น</b> เช่น 4 คน เปิด 4 ใบ</li>
+              <li><b>เล่น 3 คน เปิด 6 ใบ</b> แทน 3</li>
+              <li>เปิดเจอการ์ดโคโยตี้หรือโจมตี: คว่ำสอดไว้ก้นกองจั่ว เปิดใบใหม่แทน ทำซ้ำจนแถวมีแต่การ์ดท่า แล้วสับกองจั่วอีกรอบ</li>
+            </ul></div></li>
+          <li><div class="body"><h3>ซ้อม 1 รอบก่อนเสมอ <span class="en">Practice round</span></h3><p>รอบแรกของเกม ให้เล่นซ้อมด้วยการ์ดชุดนี้ <b>พลาดไม่มีโทษ</b> ซ้อมจนทุกคนผ่าน แล้วเริ่มรอบจริงด้วยการ์ดชุดเดิม</p></div></li>
+        </ol>
+        <figure class="figure" style="align-self:start">
+          <svg viewBox="0 0 420 300" role="img" aria-label="ผัง 4 คนรอบโต๊ะ กองจั่วอยู่หน้าคนแรก การ์ดท่า 4 ใบเรียงแถวกลางโต๊ะ เล่นตามเข็มนาฬิกา">
+            <defs><marker id="arc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-muted"/></marker></defs>
+            <ellipse cx="210" cy="152" rx="150" ry="92" class="s-surface2"/>
+            <g>
+              <circle cx="96" cy="40" r="24" class="s-night"/><text x="96" y="46" text-anchor="middle" class="disp s-sun" font-size="16">1</text>
+              <text x="96" y="14" text-anchor="middle" class="tagf s-fg" font-size="12">คนแรก · แอน</text>
+              <circle cx="324" cy="40" r="24" class="s-surface" style="stroke:var(--line)" stroke-width="2"/><text x="324" y="46" text-anchor="middle" class="disp s-fg" font-size="16">2</text>
+              <text x="324" y="14" text-anchor="middle" class="tagf s-fg" font-size="12">บี</text>
+              <circle cx="324" cy="266" r="24" class="s-surface" style="stroke:var(--line)" stroke-width="2"/><text x="324" y="272" text-anchor="middle" class="disp s-fg" font-size="16">3</text>
+              <text x="380" y="270" class="tagf s-fg" font-size="12">ซี</text>
+              <circle cx="96" cy="266" r="24" class="s-surface" style="stroke:var(--line)" stroke-width="2"/><text x="96" y="272" text-anchor="middle" class="disp s-fg" font-size="16">4</text>
+              <text x="40" y="270" text-anchor="end" class="tagf s-fg" font-size="12">ดี</text>
+            </g>
+            <g transform="translate(108 82)"><rect x="0" y="0" width="34" height="46" rx="5" class="s-night"/><rect x="4" y="-4" width="34" height="46" rx="5" class="s-night" opacity=".7"/><text x="20" y="64" text-anchor="middle" class="s-muted" font-size="11.5">กองจั่ว</text></g>
+            <g transform="translate(130 136)">
+              <rect x="0" y="0" width="34" height="48" rx="5" class="s-surface" stroke-width="4" style="stroke:var(--c-or)"/>
+              <rect x="42" y="0" width="34" height="48" rx="5" class="s-surface" stroke-width="4" style="stroke:var(--c-bl)"/>
+              <rect x="84" y="0" width="34" height="48" rx="5" class="s-surface" stroke-width="4" style="stroke:var(--c-gr)"/>
+              <rect x="126" y="0" width="34" height="48" rx="5" class="s-surface" stroke-width="4" style="stroke:var(--c-pu)"/>
+              <g class="tagf s-fg" font-size="13" text-anchor="middle"><text x="17" y="29">1</text><text x="59" y="29">2</text><text x="101" y="29">3</text><text x="143" y="29">4</text></g>
+              <text x="80" y="68" text-anchor="middle" class="s-muted" font-size="11.5">แถวการ์ดท่า อ่านซ้าย → ขวา</text>
+            </g>
+            <path d="M136 30 C190 10 230 10 286 30" fill="none" class="k-muted" stroke-width="2" marker-end="url(#arc)"/>
+            <path d="M352 70 C380 120 380 190 352 236" fill="none" class="k-muted" stroke-width="2" marker-end="url(#arc)"/>
+            <path d="M286 276 C230 296 190 296 136 276" fill="none" class="k-muted" stroke-width="2" marker-end="url(#arc)"/>
+          </svg>
+          <figcaption>ตัวอย่าง 4 คน: กองจั่วอยู่หน้าแอน (คนแรก) เปิดการ์ดท่า 4 ใบ เล่นตามเข็มนาฬิกา</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- BEAT -->
+    <section id="beat">
+      <div class="sec-head"><span class="tag">ลำดับการเล่น · 2 · หัวใจของเกม</span><h2>จังหวะ และใครทำการ์ดใบไหน <span class="en">Playing the Game</span></h2></div>
+      <p class="prose">ตัวอย่างจากคู่มือ: เล่น 4 คน แต่บนโต๊ะมีการ์ดท่า 5 ใบ ใบที่ 5 วนกลับไปเป็นของคนแรกอีกครั้ง ช่อง <b>ตึง ตึง</b> ทุกคนตบโต๊ะพร้อมกัน ช่องการ์ดมีแค่คนเดียวที่พูดและทำท่า</p>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 900 230" role="img" aria-label="ไทม์ไลน์หนึ่งรอบ 4 คน 5 ใบ: ตึงตึง แอนทำใบ1 ตึงตึง บีทำใบ2 ตึงตึง ซีทำใบ3 ตึงตึง ดีทำใบ4 ตึงตึง แอนทำใบ5 จบโดยไม่ต้องตบต่อ">
+            <defs>
+              <g id="tt"><rect x="0" y="70" width="80" height="96" rx="12" class="s-night"/><g fill="#e9b892"><rect x="12" y="104" width="24" height="18" rx="7"/><rect x="44" y="104" width="24" height="18" rx="7"/></g><rect x="8" y="124" width="64" height="4" rx="2" fill="#8a5c3c"/><text x="40" y="96" text-anchor="middle" class="disp s-sun" font-size="17">ตึง ตึง</text><text x="40" y="150" text-anchor="middle" fill="#f7f1e8" font-size="11.5">ทุกคน</text></g>
+              <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-fg"/></marker>
+            </defs>
+            <use href="#tt" x="10"/>
+            <g transform="translate(98 0)"><rect x="0" y="70" width="80" height="96" rx="12" class="s-surface" stroke-width="5" style="stroke:var(--c-or)"/><text x="40" y="108" text-anchor="middle" class="tagf s-fg" font-size="13">ใบ 1</text><text x="40" y="134" text-anchor="middle" class="disp s-fg" font-size="16">แอน</text><text x="40" y="54" text-anchor="middle" class="s-muted" font-size="12">พูด + ทำท่า</text></g>
+            <use href="#tt" x="186"/>
+            <g transform="translate(274 0)"><rect x="0" y="70" width="80" height="96" rx="12" class="s-surface" stroke-width="5" style="stroke:var(--c-bl)"/><text x="40" y="108" text-anchor="middle" class="tagf s-fg" font-size="13">ใบ 2</text><text x="40" y="134" text-anchor="middle" class="disp s-fg" font-size="16">บี</text></g>
+            <use href="#tt" x="362"/>
+            <g transform="translate(450 0)"><rect x="0" y="70" width="80" height="96" rx="12" class="s-surface" stroke-width="5" style="stroke:var(--c-gr)"/><text x="40" y="108" text-anchor="middle" class="tagf s-fg" font-size="13">ใบ 3</text><text x="40" y="134" text-anchor="middle" class="disp s-fg" font-size="16">ซี</text></g>
+            <use href="#tt" x="538"/>
+            <g transform="translate(626 0)"><rect x="0" y="70" width="80" height="96" rx="12" class="s-surface" stroke-width="5" style="stroke:var(--c-pu)"/><text x="40" y="108" text-anchor="middle" class="tagf s-fg" font-size="13">ใบ 4</text><text x="40" y="134" text-anchor="middle" class="disp s-fg" font-size="16">ดี</text></g>
+            <use href="#tt" x="714"/>
+            <g transform="translate(802 0)"><rect x="0" y="70" width="80" height="96" rx="12" class="s-accsoft" stroke-width="5" style="stroke:var(--c-or)"/><text x="40" y="108" text-anchor="middle" class="tagf s-fg" font-size="13">ใบ 5</text><text x="40" y="134" text-anchor="middle" class="disp s-acc" font-size="16">แอน</text><text x="40" y="54" text-anchor="middle" class="s-acc tagf" font-size="12">วนกลับคนแรก</text></g>
+            <path d="M20 196 H880" class="k-fg" stroke-width="3" marker-end="url(#arb)"/>
+            <text x="450" y="220" text-anchor="middle" class="s-muted" font-size="13">ทำการ์ดจากซ้ายไปขวาเสมอ · ใบสุดท้ายแล้วไม่ต้องตบต่อ รอบจบ</text>
+          </svg>
+        </div>
+        <figcaption>จังหวะ “ตึง ตึง · ท่า” คือจังหวะเดียวกับ “ตึง ตึง แปะ” ของเพลง We Will Rock You ช่องท่าต้องพูดและทำให้ทันจังหวะที่สาม ช้าไปนับว่าพลาด · ลองฟังที่ <a href="#trainer">ตัวเคาะจังหวะ</a></figcaption>
+      </figure>
+      <div class="callout plain">
+        <h3>เริ่มรอบอย่างไร</h3>
+        <p>ทุกคนวาง<b>มือแบนบนโต๊ะ</b> พร้อมเมื่อไหร่ คนถือกองจั่วเริ่มนับ “ตึง ตึง” ได้เลย ใช้สองมือตบพร้อมกันทุกคน</p>
+      </div>
+    </section>
+
+    <!-- ROUND -->
+    <section id="round">
+      <div class="sec-head"><span class="tag">ลำดับการเล่น · 3</span><h2>หนึ่งรอบ ตั้งแต่ต้นจนจบ</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 800 360" role="img" aria-label="ผังหนึ่งรอบ: คนถือกองจั่วเริ่ม ตบและทำท่าครบแถว ถ้าไม่มีใครพลาด ส่งกองจั่วซ้าย คนใหม่เปิด 3 เลือก 1 วาง อีก 2 ใบสอดก้นกอง แล้วเริ่มรอบใหม่ ถ้ามีคนพลาด หยุด รับการ์ดก้นกอง ครบ 3 ตกรอบ เล่นรอบเดิมซ้ำ">
+            <defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-muted"/></marker></defs>
+            <rect x="10" y="140" width="160" height="80" rx="12" class="s-night"/>
+            <text x="90" y="172" text-anchor="middle" class="disp s-sun" font-size="15">เริ่มรอบ</text>
+            <text x="90" y="194" text-anchor="middle" fill="#f7f1e8" font-size="12">คนถือกองจั่ว = คนแรก</text>
+            <path d="M174 180 h36" class="k-muted" stroke-width="2.5" marker-end="url(#ar4)"/>
+            <rect x="214" y="140" width="160" height="80" rx="12" class="s-accsoft"/>
+            <text x="294" y="172" text-anchor="middle" class="disp s-fg" font-size="15">ตึงตึง + ท่า</text>
+            <text x="294" y="194" text-anchor="middle" class="s-muted" font-size="12">ไล่ทุกใบในแถว</text>
+            <path d="M378 180 h30" class="k-muted" stroke-width="2.5" marker-end="url(#ar4)"/>
+            <path d="M462 140 L512 180 L462 220 L412 180Z" class="s-surface2"/>
+            <text x="462" y="178" text-anchor="middle" class="disp s-fg" font-size="13">มีใคร</text>
+            <text x="462" y="194" text-anchor="middle" class="disp s-fg" font-size="13">พลาด?</text>
+            <path d="M462 136 V70 h40" fill="none" class="k-good" stroke-width="2.5" marker-end="url(#ar4)"/>
+            <text x="470" y="104" class="tagf s-good" font-size="12.5">ไม่มี</text>
+            <path d="M462 224 V290 h40" fill="none" class="k-bad" stroke-width="2.5" marker-end="url(#ar4)"/>
+            <text x="470" y="262" class="tagf s-bad" font-size="12.5">มี</text>
+            <rect x="506" y="16" width="284" height="110" rx="12" class="s-goodsoft"/>
+            <text x="648" y="42" text-anchor="middle" class="disp s-fg" font-size="14.5">1. ส่งกองจั่วให้คนทางซ้าย</text>
+            <text x="648" y="66" text-anchor="middle" class="s-fg" font-size="12.5">2. คนใหม่เปิด 3 ใบบนสุด หงายหน้าตัว</text>
+            <text x="648" y="88" text-anchor="middle" class="s-fg" font-size="12.5">3. เลือก 1 ใบใส่ลงโต๊ะ (ดูวิธีวางด้านล่าง)</text>
+            <text x="648" y="110" text-anchor="middle" class="s-fg" font-size="12.5">4. อีก 2 ใบคว่ำสอดก้นกองจั่ว</text>
+            <rect x="506" y="234" width="284" height="110" rx="12" class="s-badsoft"/>
+            <text x="648" y="260" text-anchor="middle" class="disp s-fg" font-size="14.5">หยุดรอบทันที</text>
+            <text x="648" y="284" text-anchor="middle" class="s-fg" font-size="12.5">คนพลาดทุกคนหยิบการ์ดก้นกองจั่ว</text>
+            <text x="648" y="304" text-anchor="middle" class="s-fg" font-size="12.5">คว่ำไว้หน้าตัว คนละ 1 ใบ · ครบ 3 ตกรอบ</text>
+            <text x="648" y="326" text-anchor="middle" class="s-fg" font-size="12.5">ไม่ส่งกองจั่ว ไม่เพิ่มการ์ด</text>
+            <path d="M648 130 C648 150 300 120 140 136" fill="none" class="k-good" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar4)"/>
+            <text x="330" y="118" text-anchor="middle" class="s-good" font-size="12">คนที่ได้กองจั่วเริ่มรอบใหม่ แถวยาวขึ้น 1 ใบ</text>
+            <path d="M506 330 C300 350 294 300 294 226" fill="none" class="k-bad" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar4)"/>
+            <text x="250" y="330" text-anchor="middle" class="s-bad" font-size="12">เล่นรอบเดิมซ้ำ คนเริ่มเดิม</text>
+          </svg>
+        </div>
+        <figcaption>การ์ดที่เลือกใส่ลงโต๊ะไม่จำเป็นต้องเป็นการ์ดท่า เลือกโคโยตี้หรือโจมตีก็ได้ คู่มือบอกว่า <b>คนที่ได้เลือกการ์ดคือคนกำหนดว่าเกมจะยากแค่ไหน</b></figcaption>
+      </figure>
+    </section>
+
+    <!-- SHIFT -->
+    <section id="shift">
+      <div class="sec-head"><span class="tag">ลำดับการเล่น · 4 · ข้อที่มือใหม่งงที่สุด</span><h2>คนเริ่มเลื่อนทุกรอบ ใบเดิมจึงไม่ใช่ของคุณเสมอไป</h2></div>
+      <p class="prose">กองจั่วเลื่อนไปทางซ้ายทุกครั้งที่ผ่านรอบ และการ์ดใบใหม่ถูกแทรกตรงไหนก็ได้ ผลคือแต่ละรอบคุณต้องนับใหม่ว่าใบไหนเป็นของคุณ จำแค่ “ใบของฉัน” จากรอบก่อนไม่ได้ ต้องจำทั้งแถว</p>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 760 250" role="img" aria-label="รอบที่ 1 แอนเริ่ม 4 ใบ แอน บี ซี ดี. ผ่านรอบ บีได้กองจั่ว แทรกการ์ดม่วงเป็นใบที่ 2. รอบที่ 2 บีเริ่ม 5 ใบ บี ซี ดี แอน บี การ์ดส้มที่แอนเคยทำตอนนี้บีทำ">
+            <text x="10" y="44" class="disp s-fg" font-size="15">รอบที่ 1</text>
+            <text x="10" y="64" class="s-muted" font-size="12">แอนถือกองจั่ว</text>
+            <g transform="translate(120 18)">
+              <rect x="0" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-or)"/>
+              <rect x="80" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-bl)"/>
+              <rect x="160" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-gr)"/>
+              <rect x="240" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-or)"/>
+              <g class="disp s-fg" font-size="15" text-anchor="middle"><text x="35" y="38">แอน</text><text x="115" y="38">บี</text><text x="195" y="38">ซี</text><text x="275" y="38">ดี</text></g>
+            </g>
+            <g transform="translate(470 20)">
+              <rect x="0" y="0" width="280" height="60" rx="10" class="s-goodsoft"/>
+              <text x="140" y="26" text-anchor="middle" class="disp s-fg" font-size="14">ผ่าน! ส่งกองจั่วให้บี</text>
+              <text x="140" y="46" text-anchor="middle" class="s-muted" font-size="12">บีเลือกการ์ดม่วง แทรกเป็นใบที่ 2</text>
+            </g>
+            <path d="M380 100 v26" class="k-muted" stroke-width="2.5"/><path d="M372 120 l8 10 l8 -10" fill="none" class="k-muted" stroke-width="2.5"/>
+            <text x="10" y="176" class="disp s-fg" font-size="15">รอบที่ 2</text>
+            <text x="10" y="196" class="s-muted" font-size="12">บีถือกองจั่ว</text>
+            <g transform="translate(120 150)">
+              <rect x="0" y="0" width="70" height="64" rx="8" class="s-accsoft" stroke-width="5" style="stroke:var(--c-or)"/>
+              <rect x="80" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-pu)"/>
+              <rect x="160" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-bl)"/>
+              <rect x="240" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-gr)"/>
+              <rect x="320" y="0" width="70" height="64" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-or)"/>
+              <g class="disp s-fg" font-size="15" text-anchor="middle"><text x="35" y="38" class="s-acc">บี</text><text x="115" y="38">ซี</text><text x="195" y="38">ดี</text><text x="275" y="38">แอน</text><text x="355" y="38">บี</text></g>
+              <text x="115" y="84" text-anchor="middle" class="tagf s-pu" font-size="11.5">ใบใหม่</text>
+              <text x="35" y="84" text-anchor="middle" class="tagf s-acc" font-size="11.5">เคยเป็นของแอน</text>
+            </g>
+            <text x="530" y="176" class="s-fg" font-size="13">บีเริ่มใบที่ 1 · แถวยาว 5 ใบ</text>
+            <text x="530" y="196" class="s-fg" font-size="13">บีต้องทำ 2 ใบ (ใบ 1 และใบ 5)</text>
+            <text x="530" y="216" class="s-muted" font-size="12.5">ทุกคนได้ใบใหม่ที่ต่างจากรอบก่อน</text>
+          </svg>
+        </div>
+        <figcaption>ใช้ <a href="#keeper">กระดานคุมเกม</a> ช่วยดูว่ารอบนี้ใครทำใบไหน แต่ระหว่างตบโต๊ะจริงต้องจำเอง</figcaption>
+      </figure>
+      <div class="callout plain">
+        <h3>ถ้ามีคนตกรอบ</h3>
+        <p>คนที่เหลือเล่นต่อโดยข้ามคนตกรอบไป ถ้าคนตกรอบเป็นคนถือกองจั่ว ส่งกองจั่วให้คนทางซ้าย คนนั้นเป็นคนแรกของรอบถัดไป (รอบเดิมเล่นซ้ำ แต่คนเริ่มเปลี่ยน)</p>
+      </div>
+    </section>
+
+    <!-- FAIL -->
+    <section id="fail">
+      <div class="sec-head"><span class="tag">ลำดับการเล่น · 5</span><h2>ทำพลาด ตกรอบ และชนะ</h2></div>
+      <p class="prose">คู่มือนับว่า<b>พลาด</b>ถ้าเกิดข้อใดข้อหนึ่งนี้</p>
+      <ul class="fails">
+        <li>ไม่พูดหรือไม่ทำท่าของการ์ดตัวเอง</li>
+        <li>พูดหรือทำท่าของการ์ดตัวเองผิด</li>
+        <li>พูดหรือทำท่าของการ์ดใบอื่น</li>
+        <li>พูดหรือทำท่าตอนที่ยังไม่ถึงคิว</li>
+        <li>ช้าเกินไป ไม่ทันจังหวะ</li>
+        <li>ตบโต๊ะไม่ตรงจังหวะ (นับทุกคน ไม่ใช่แค่คนถึงคิว)</li>
+        <li>ลืมทำตามการ์ดโคโยตี้หรือโจมตีที่มีผลอยู่</li>
+      </ul>
+      <div class="types">
+        <div class="type"><span class="lbl">SOMEONE MESSED UP</span><h3>การ์ดลงโทษ</h3><p>หยุดรอบ คนพลาดหยิบ<b>ใบล่างสุดของกองจั่ว</b>คว่ำไว้หน้าตัว พลาดพร้อมกันหลายคน ก็หยิบคนละใบ แล้วเล่นรอบเดิมซ้ำ</p></div>
+        <div class="type"><span class="lbl">ELIMINATION</span><h3>ตกรอบ</h3><p>การ์ดคว่ำหน้าตัวครบ <b>3 ใบ</b> ตกรอบทันที คนที่เหลือเล่นต่อโดยไม่มีคุณ (ยังตบโต๊ะเชียร์ได้ แต่ไม่นับ)</p></div>
+        <div class="type"><span class="lbl">WIN</span><h3>ชนะ</h3><p><b>คนสุดท้ายที่รอด</b>ชนะ ไม่มีคะแนน</p></div>
+      </div>
+    </section>
+
+    <!-- SPECIAL -->
+    <section id="special">
+      <div class="sec-head"><span class="tag">ลำดับการเล่น · 6</span><h2>วางการ์ดท่า โคโยตี้ และโจมตี</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+          <svg class="wide" viewBox="0 0 780 290" role="img" aria-label="ตัวอย่างการวาง: การ์ดท่าใหม่แทรกระหว่างใบใดก็ได้ การ์ดโคโยตี้ทำซ้ำวางเหนือการ์ดสีฟ้า การ์ดโจมตีวางหน้าผู้เล่น หรือเหนือการ์ดท่า">
+            <defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="s-muted"/></marker></defs>
+            <g transform="translate(150 140)">
+              <rect x="0" y="0" width="64" height="88" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-or)"/>
+              <rect x="80" y="0" width="64" height="88" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-bl)"/>
+              <rect x="160" y="0" width="64" height="88" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-gr)"/>
+              <rect x="240" y="0" width="64" height="88" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-pu)"/>
+              <rect x="320" y="0" width="64" height="88" rx="8" class="s-surface" stroke-width="5" style="stroke:var(--c-or)"/>
+              <g class="tagf s-fg" font-size="10.5" text-anchor="middle"><text x="32" y="50">BOOP</text><text x="112" y="50">ROCK ON</text><text x="192" y="50">BOCK</text><text x="272" y="50">BOCK</text><text x="352" y="50">HELLO</text></g>
+            </g>
+            <!-- new action inserted -->
+            <g transform="translate(40 18)">
+              <rect x="0" y="0" width="64" height="88" rx="8" class="s-surface" stroke-width="5" stroke-dasharray="7 4" style="stroke:var(--c-gr)"/>
+              <text x="32" y="50" text-anchor="middle" class="tagf s-fg" font-size="11">ใหม่</text>
+            </g>
+            <path d="M80 110 C100 140 140 160 222 182" fill="none" class="k-muted" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar5)"/>
+            <path d="M80 110 C120 120 200 130 302 160" fill="none" class="k-muted" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar5)"/>
+            <text x="20" y="140" class="s-muted" font-size="12">การ์ดท่า:</text>
+            <text x="20" y="156" class="s-muted" font-size="12">แทรกตรงไหนก็ได้</text>
+            <!-- coyote above blue -->
+            <g transform="translate(232 20)">
+              <rect x="0" y="0" width="96" height="94" rx="8" class="s-coysoft" stroke-width="3" style="stroke:var(--coy)"/>
+              <text x="48" y="22" text-anchor="middle" class="tagf s-coy" font-size="11">COYOTE</text>
+              <text x="48" y="44" text-anchor="middle" class="disp s-fg" font-size="13">DO IT AGAIN</text>
+              <text x="48" y="64" text-anchor="middle" class="s-fg" font-size="11">การ์ดท่าสีฟ้า</text>
+              <text x="48" y="80" text-anchor="middle" class="s-fg" font-size="11">ทำซ้ำอีกใบ</text>
+            </g>
+            <path d="M280 118 v18" class="k-coy" stroke-width="2.5" marker-end="url(#ar5)"/>
+            <text x="340" y="40" class="s-muted" font-size="12">โคโยตี้: วางใกล้ใบที่มีผล</text>
+            <text x="340" y="56" class="s-muted" font-size="12">ช่วยให้จำ (มีผลจนจบเกม)</text>
+            <!-- attack on card -->
+            <g transform="translate(470 72)">
+              <rect x="0" y="0" width="64" height="56" rx="8" class="s-atksoft" stroke-width="3" style="stroke:var(--atk)"/>
+              <text x="32" y="22" text-anchor="middle" class="tagf s-fg" font-size="10">ATTACK</text>
+              <text x="32" y="40" text-anchor="middle" class="disp s-fg" font-size="11">ใช้กับใบนี้</text>
+            </g>
+            <path d="M502 130 v8" class="k-atk" stroke-width="2.5"/>
+            <!-- attack in front of player -->
+            <g transform="translate(600 150)">
+              <circle cx="60" cy="24" r="22" class="s-surface2"/>
+              <text x="60" y="30" text-anchor="middle" class="disp s-fg" font-size="14">ดี</text>
+              <rect x="34" y="56" width="52" height="40" rx="6" class="s-atksoft" stroke-width="3" style="stroke:var(--atk)"/>
+              <text x="60" y="81" text-anchor="middle" class="tagf s-fg" font-size="10">ATTACK</text>
+              <text x="60" y="118" text-anchor="middle" class="s-muted" font-size="11.5">ใช้กับทุกท่าที่ดีทำ</text>
+            </g>
+            <text x="560" y="40" class="s-muted" font-size="12">โจมตี: เลือกเป้าเอง</text>
+            <text x="560" y="56" class="s-muted" font-size="12">เหนือการ์ด = ทุกคนที่ทำใบนั้น</text>
+            <text x="560" y="72" class="s-muted" font-size="12">หน้าผู้เล่น = ทุกท่าของคนนั้น</text>
+            <text x="342" y="262" text-anchor="middle" class="s-muted" font-size="12">แถวการ์ดท่าบนโต๊ะ (ซ้าย → ขวา)</text>
+          </svg>
+        </div>
+        <figcaption>การ์ดโคโยตี้และโจมตี<b>ไม่ใช่การ์ดที่ต้องทำท่า</b> มันไม่ได้นับเป็นช่องในแถว แต่บอกให้ทำท่าใบอื่นต่างไปจากเดิม · ตัวอย่างการ์ดจากคู่มือฉบับอังกฤษ</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ตัวอย่าง: กระซิบ <span class="en">WHISPER · Easy</span></h3><p>การ์ดท่า<b>สีส้มทุกใบ</b> ต้องพูดแบบกระซิบ ท่ายังต้องทำเหมือนเดิม</p></div>
+        <div class="type"><h3>ตัวอย่าง: ทำอีกที <span class="en">DO IT AGAIN · Medium</span></h3><p>การ์ดท่า<b>สีฟ้าทุกใบ</b> ให้คิดว่ามีใบซ้ำวางต่อท้ายอีกใบ ใบซ้ำนั้นเป็นของคนถัดไป ลำดับคนหลังจากนั้นจึงเลื่อนไป 1 คน <span class="flag">ตีความ</span></p></div>
+        <div class="type"><h3>ตัวอย่าง: ทีเร็กซ์ <span class="en">T-REX · Medium</span></h3><p>คนที่โดน (หรือทุกคนที่ทำใบที่โดน) ต้องทำท่า<b>โดยข้อศอกแนบลำตัว</b>ตลอด</p></div>
+      </div>
+      <p class="note">คู่มือบอกว่าไม่ต้องจำการ์ดทุกใบ อ่านข้อความบนการ์ดใบไหนก็รู้วิธีใช้ใบนั้น</p>
+    </section>
+
+    <!-- COOP -->
+    <section id="coop">
+      <div class="sec-head"><span class="tag">โหมดที่ 2</span><h2>โหมดร่วมมือ ชนะหรือแพ้ด้วยกัน</h2></div>
+      <p class="prose">เตรียมเกมและเล่นเหมือนโหมดแข่งทุกอย่าง ต่างกันแค่ 2 เรื่อง คือวิธีชนะ และการพลาด</p>
+      <div class="types">
+        <div class="type" style="border-color:var(--good)"><span class="lbl">WIN</span><h3>ชนะเมื่อ</h3><p>ผ่านรอบที่บนโต๊ะมี<b>การ์ดท่า 9 ใบ</b> และ<b>การ์ดโคโยตี้หรือโจมตีรวม 3 ใบ</b> ได้ครบ มีเกินได้ ถ้าการ์ดท่าครบ 9 แล้วแต่เปิด 3 ใบเจอแต่การ์ดท่า ก็เลือกใส่ 1 ใบแล้วเล่นต่อ</p></div>
+        <div class="type" style="border-color:var(--bad)"><span class="lbl">FAIL</span><h3>ใครพลาด</h3><p>หยุดรอบ หยิบการ์ดก้นกองคว่ำไว้<b>กลางโต๊ะ</b> เป็นกองความผิดพลาดของทีม <b>รอบหนึ่งได้แค่ 1 ใบ</b> แม้จะพลาดหลายคน เล่นรอบเดิมซ้ำ คนเริ่มเดิม · กองนี้ครบ <b>3 ใบ ทุกคนแพ้</b></p></div>
+        <div class="type"><span class="lbl">EXPERT</span><h3>ขั้นเซียน</h3><p>ชนะเมื่อผ่านรอบที่มี<b>การ์ดท่า 20 ใบ</b> และ<b>โคโยตี้หรือโจมตีรวม 5 ใบ</b> ในนั้นต้องเป็นระดับ <b>Hard</b> อย่างน้อย 3 ใบ</p></div>
+      </div>
+    </section>
+
+    <!-- KEEPER -->
+    <section id="keeper">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>กระดานคุมเกม</h2></div>
+      <p class="prose">ใส่ชื่อตามลำดับที่นั่ง<b>ตามเข็มนาฬิกา</b> กระดานจะบอกว่ารอบนี้ใครเริ่ม ใครทำการ์ดใบที่เท่าไร นับการ์ดลงโทษ และเลื่อนกองจั่วให้เอง เปิดวางไว้ให้คนตกรอบหรือคนนอกช่วยดู</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">โหมด</span><div class="seg" id="k-mode"><button type="button" data-v="comp" aria-pressed="true">แข่งกัน</button><button type="button" data-v="coop" aria-pressed="false">ร่วมมือ</button><button type="button" data-v="expert" aria-pressed="false">ร่วมมือ ขั้นเซียน</button></div></div>
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="stepper"><button type="button" id="k-pminus" aria-label="ลดผู้เล่น">−</button><output id="k-pn">4</output><button type="button" id="k-pplus" aria-label="เพิ่มผู้เล่น">+</button></div></div>
+          <button type="button" class="btn" id="k-reset">เริ่มเกมใหม่</button>
+        </div>
+        <div><span class="field-l">ชื่อผู้เล่น ตามเข็มนาฬิกา (คนแรกถือกองจั่ว)</span><div class="names" id="k-names"></div></div>
+        <div class="status">
+          <div class="now" id="k-now"></div>
+          <div class="cnt"><b id="k-cards">4</b><small>การ์ดท่าในแถว</small></div>
+        </div>
+        <div><span class="field-l">รอบนี้ใครทำใบไหน (ซ้าย → ขวา)</span><ol class="assign" id="k-assign"></ol></div>
+        <div class="tool-row">
+          <div><span class="field-l">ปรับจำนวนการ์ดท่าเอง (เช่นมีการ์ดทำซ้ำ)</span><div class="stepper"><button type="button" id="k-cminus" aria-label="ลดการ์ดท่า">−</button><output id="k-cn">4</output><button type="button" id="k-cplus" aria-label="เพิ่มการ์ดท่า">+</button></div></div>
+          <div id="k-spwrap"><span class="field-l">โคโยตี้ + โจมตี บนโต๊ะ</span><div class="stepper"><button type="button" id="k-sminus" aria-label="ลดการ์ดพิเศษ">−</button><output id="k-sn">0</output><button type="button" id="k-splus" aria-label="เพิ่มการ์ดพิเศษ">+</button></div></div>
+        </div>
+        <div class="meter" id="k-meter" hidden>
+          <div class="mt"><small>การ์ดท่า</small><b id="k-m1">4 / 9</b><div class="bar"><i id="k-b1"></i></div></div>
+          <div class="mt"><small>โคโยตี้ + โจมตี</small><b id="k-m2">0 / 3</b><div class="bar"><i id="k-b2"></i></div></div>
+          <div class="mt"><small>ความผิดพลาดของทีม</small><b id="k-m3">0 / 3</b><div class="bar"><i id="k-b3" style="background:var(--bad)"></i></div></div>
+        </div>
+        <div><span class="field-l" id="k-ringlbl">ผู้เล่น · แตะชื่อเพื่อเลือกคนพลาด</span><div class="ring" id="k-ring"></div></div>
+        <div class="tool-row" id="k-acts">
+          <button type="button" class="btn big go" id="k-ok">ทุกคนผ่าน</button>
+          <button type="button" class="btn big no" id="k-fail">บันทึกคนพลาด</button>
+          <button type="button" class="btn" id="k-undo">ย้อนกลับ</button>
+        </div>
+        <div class="pick" id="k-pick" hidden>
+          <span id="k-picktxt">ใส่การ์ดชนิดไหนลงโต๊ะ?</span>
+          <button type="button" class="btn" data-pick="act">การ์ดท่า</button>
+          <button type="button" class="btn" data-pick="coy">การ์ดโคโยตี้</button>
+          <button type="button" class="btn" data-pick="atk">การ์ดโจมตี</button>
+        </div>
+        <div class="banner" id="k-banner" hidden></div>
+        <div><span class="field-l">บันทึก</span><ol class="log" id="k-log" reversed></ol></div>
+      </div>
+      <p class="note">รอบแรกของเกมเป็น<b>รอบซ้อม</b>เสมอ พลาดไม่มีโทษ กดทุกคนผ่านเมื่อซ้อมผ่านแล้ว กระดานจะเริ่มรอบจริงด้วยการ์ดชุดเดิมและคนเริ่มเดิม</p>
+    </section>
+
+    <!-- TRAINER -->
+    <section id="trainer">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวเคาะจังหวะ</h2></div>
+      <p class="prose">เล่นจังหวะ “ตึง ตึง · ท่า” ของรอบปัจจุบันจากกระดานคุมเกม พร้อมบอกชื่อคนที่ต้องทำท่าในแต่ละใบ ใช้ซ้อมความเร็วก่อนเล่นจริง กดเริ่มแล้วจะมีเสียง (ปิดได้)</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><label class="field-l" for="t-bpm">ความเร็ว <span id="t-bpmv">80</span> จังหวะต่อนาที</label><input type="range" id="t-bpm" min="50" max="130" value="80"></div>
+          <label class="chk"><input type="checkbox" id="t-sound" checked><span>มีเสียงตบโต๊ะ</span></label>
+          <button type="button" class="btn big ink" id="t-go">เริ่มเคาะ</button>
+        </div>
+        <div class="beat" aria-hidden="true"><div id="t-b1">ตึง<small>ทุกคน</small></div><div id="t-b2">ตึง<small>ทุกคน</small></div><div id="t-b3" class="act">ท่า<small>คนเดียว</small></div></div>
+        <div class="big-now" id="t-now" aria-live="polite">กดเริ่มเคาะ</div>
+      </div>
+      <p class="note">เพลง We Will Rock You เร็วประมาณ 80 จังหวะต่อนาที เป็นค่าตั้งต้นที่ดี กลุ่มที่เล่นเก่งแล้วลองเร่งให้เร็วขึ้นได้ <span class="flag">กฎบ้าน</span></p>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ข้อที่ชอบเถียงกัน</span><h2>คำถามที่เจอบ่อยกลางโต๊ะ</h2></div>
+      <p class="note">ข้อที่ติด <span class="flag">ตีความ</span> คู่มือไม่ได้เขียนตรง ๆ เป็นการอ่านจากตัวอย่างและหลักของคู่มือ ตกลงกันก่อนเล่นได้</p>
+      <div class="faq">
+        <details><summary>การ์ดมากกว่าจำนวนคน ทำอย่างไร</summary><p>วนต่อตามเข็มนาฬิกา ใบถัดจากคนสุดท้ายกลับมาเป็นของคนแรก คู่มือมีตัวอย่าง 4 คน 5 ใบ ใบที่ 5 เป็นของคนแรก</p></details>
+        <details><summary>ท่าสุดท้ายต้องตบโต๊ะต่ออีกไหม</summary><p>ไม่ต้อง คู่มือเขียนไว้ชัดว่าหลังการ์ดใบสุดท้ายไม่ต้องตบ รอบจบตรงนั้น</p></details>
+        <details><summary>คนที่ไม่ใช่คิวตบโต๊ะผิดจังหวะ นับว่าพลาดไหม</summary><p>นับ ข้อ “ตบโต๊ะไม่ตรงจังหวะ” ใช้กับทุกคน เพราะทุกคนต้องตบทุกครั้ง และพูดหรือทำท่าตอนไม่ใช่คิวตัวเองก็นับว่าพลาดเช่นกัน</p></details>
+        <details><summary>ช้าแค่ไหนถึงเรียกว่าช้าเกินไป</summary><p>คู่มือไม่ได้กำหนดเวลา ใช้จังหวะเป็นเกณฑ์ คือต้องพูดและทำท่าในจังหวะที่สามต่อจาก ตึง ตึง ถ้าโต๊ะต้องหยุดรอ ถือว่าช้า <span class="flag">ตีความ</span></p></details>
+        <details><summary>หลายคนพลาดพร้อมกัน</summary><p>โหมดแข่ง: ทุกคนที่พลาดหยิบการ์ดลงโทษคนละใบ · โหมดร่วมมือ: ทีมได้แค่ 1 ใบต่อรอบ ไม่ว่าจะพลาดกี่คน</p></details>
+        <details><summary>พลาดแล้วเล่นซ้ำ ต้องเริ่มที่ไหน</summary><p>เริ่มรอบเดิมใหม่ตั้งแต่ใบแรก คนเริ่มคนเดิม ไม่ส่งกองจั่ว ไม่เพิ่มการ์ด ยกเว้นคนถือกองจั่วตกรอบ ให้ส่งกองจั่วไปทางซ้ายก่อน</p></details>
+        <details><summary>เปิด 3 ใบแล้ว ใครเป็นคนเลือก และเลือกเป้าการ์ดโจมตี</summary><p>คนที่เพิ่งได้กองจั่วเป็นคนเลือกทั้งหมด ทั้งชนิดการ์ด ตำแหน่งที่แทรก และเป้าของการ์ดโจมตี เลือกให้ตัวเองได้เปรียบหรือแกล้งคนที่ใกล้ตกรอบก็ได้</p></details>
+        <details><summary>การ์ดโคโยตี้ “ทำอีกที” ใบซ้ำในจินตนาการเป็นของใคร</summary><p>คู่มือให้คิดว่ามีการ์ดซ้ำวางต่อท้ายจริง ๆ ใบในจินตนาการจึงนับเป็นใบหนึ่งในแถว คนถัดไปเป็นคนทำ และมี ตึง ตึง คั่นตามปกติ <span class="flag">ตีความ</span> · ในกระดานคุมเกม กดเพิ่มการ์ดท่าเองตามจำนวนใบซ้ำ</p></details>
+        <details><summary>การ์ดโคโยตี้กับโจมตีนับเป็นช่องที่ต้องทำท่าไหม</summary><p>ไม่นับ มันแค่เปลี่ยนวิธีทำท่าของการ์ดท่า ลำดับคนนับจากการ์ดท่าเท่านั้น</p></details>
+        <details><summary>คนตกรอบมีผลกับการ์ดโจมตีที่อยู่หน้าเขาไหม</summary><p>คู่มือไม่ได้พูดถึง การ์ดโจมตีที่ชี้ตัวคนไม่มีเป้าแล้ว จึงไม่มีผลอีก ส่วนการ์ดโจมตีที่วางเหนือการ์ดท่ายังมีผลต่อ <span class="flag">ตีความ</span></p></details>
+        <details><summary>เล่นซ้อมกี่รอบก็ได้ไหม</summary><p>ได้ คู่มือให้ซ้อมจนทุกคนผ่าน ไม่มีโทษ แล้วเริ่มรอบจริงด้วยการ์ดชุดเดิม ซ้อมแค่ช่วงต้นเกมเท่านั้น</p></details>
+        <details><summary>กองจั่วหมดได้ไหม</summary><p>แทบไม่เกิด เพราะทุกรอบหยิบไป 1 ใบ คืน 2 ใบสอดก้นกอง ถ้าเกิดขึ้นจริงให้ตกลงกันว่าจบแบบเสมอ หรือเล่นต่อโดยไม่เพิ่มการ์ด <span class="flag">กฎบ้าน</span></p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ศัพท์</span><h2>คำศัพท์ไทย-อังกฤษ</h2></div>
+      <p class="note">ชื่อในหน้านี้เป็นคำที่ใช้อธิบาย ฉบับไทยในกล่องอาจใช้คำต่างไป ถ้าการ์ดของคุณเขียนอีกแบบ ให้ยึดตามการ์ด</p>
+      <dl class="gl">
+        <dt>ผู้เล่นคนแรก</dt><dd>First Player · คนที่ถือกองจั่วอยู่ เริ่มการ์ดใบที่ 1 ของรอบ</dd>
+        <dt>กองจั่ว</dt><dd>Draw Pile · ตั้งไว้หน้าคนแรก ส่งไปทางซ้ายทุกครั้งที่ผ่านรอบ</dd>
+        <dt>ตึง ตึง</dt><dd>Thump Thump · ทุกคนตบโต๊ะด้วยสองมือ 2 ครั้งก่อนทุกท่า</dd>
+        <dt>การ์ดท่า</dt><dd>Action Card · คำ + ท่า ที่ต้องพูดและทำ</dd>
+        <dt>การ์ดโคโยตี้</dt><dd>Coyote Card · เปลี่ยนวิธีทำการ์ดท่าไปจนจบเกม</dd>
+        <dt>การ์ดโจมตี</dt><dd>Attack Card · เล็งผู้เล่นคนหนึ่งหรือการ์ดท่าใบหนึ่ง</dd>
+        <dt>การ์ดเปล่า</dt><dd>Blank Card · เขียนการ์ดเอง</dd>
+        <dt>การ์ดลงโทษ</dt><dd>การ์ดก้นกองจั่วที่คว่ำไว้เมื่อพลาด ครบ 3 ใบตกรอบ</dd>
+        <dt>ระดับความยาก</dt><dd>Easy · Medium · Hard บนการ์ดโคโยตี้และโจมตี</dd>
+        <dt>โหมดแข่งกัน</dt><dd>Competitive Mode · คนสุดท้ายที่รอดชนะ</dd>
+        <dt>โหมดร่วมมือ</dt><dd>Cooperative Mode · ทั้งโต๊ะเป็นทีมเดียว</dd>
+        <dt>ขั้นเซียน</dt><dd>Expert Mode · โหมดร่วมมือแบบ 20 + 5</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>เรียบเรียงจากคู่มือทางการ <b>Coyote · The Rules</b> (Exploding Kittens, 2024) แผ่นพับ 2 หน้า ทั้งโหมดแข่งกัน โหมดร่วมมือ และขั้นเซียน ไม่พบคู่มือฉบับภาษาไทยแบบ PDF ทางออนไลน์ คำศัพท์ไทยในหน้านี้จึงเรียบเรียงเอง</p>
+    <ul>
+      <li>คู่มือทางการ (PDF ภาษาอังกฤษ): <a href="https://cdn.shopify.com/s/files/1/0345/9180/1483/files/EK_Coyote-SM_Instructions_2024.pdf" target="_blank" rel="noopener">EK_Coyote-SM_Instructions_2024.pdf</a></li>
+      <li>วิดีโอสอนเล่น: <a href="https://www.explodingkittens.com/coyote/how" target="_blank" rel="noopener">explodingkittens.com/coyote/how</a></li>
+      <li>หน้าสินค้าฉบับไทย: <a href="https://www.lanlalen.com/product/24850/" target="_blank" rel="noopener">ลานละเล่น · Coyote โคโยตี้ [TH]</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DEF=["แอน","บี","ซี","ดี","เอ็ม","เจ","เค","พี"];
+  var KEY="coyote-keeper-v1";
+  var S, hist=[];
+  function fresh(n,mode,names){
+    n=n||4;mode=mode||"comp";
+    var ps=[];for(var i=0;i<n;i++)ps.push({name:(names&&names[i])||DEF[i],pen:0,out:false});
+    return {mode:mode,players:ps,first:0,actions:n===3?6:n,special:0,fails:0,practice:true,phase:"play",sel:[],over:null,round:1,log:["ตั้งเกม "+n+" คน · เปิดการ์ดท่า "+(n===3?6:n)+" ใบ · เริ่มรอบซ้อม"]};
+  }
+  try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw);}catch(e){}
+  if(!S||!S.players)S=fresh();
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function snap(){hist.push(JSON.stringify(S));if(hist.length>40)hist.shift();}
+  var $=function(id){return document.getElementById(id);};
+  function alive(){var r=[];for(var k=0;k<S.players.length;k++){var i=(S.first+k)%S.players.length;if(!S.players[i].out)r.push(i);}return r;}
+  function nextAlive(i){var n=S.players.length;for(var k=1;k<=n;k++){var j=(i+k)%n;if(!S.players[j].out)return j;}return i;}
+  function assignment(){var a=alive(),r=[];if(!a.length)return r;for(var c=0;c<S.actions;c++)r.push(a[c%a.length]);return r;}
+  function coop(){return S.mode!=="comp";}
+  function goal(){return S.mode==="expert"?[20,5]:[9,3];}
+  function addLog(t){S.log.unshift(t);if(S.log.length>60)S.log.pop();}
+
+  function renderNames(){
+    var w=$("k-names");w.innerHTML="";
+    S.players.forEach(function(p,i){
+      var inp=document.createElement("input");inp.className="txt";inp.id="k-name-"+i;inp.value=p.name;inp.setAttribute("aria-label","ชื่อผู้เล่นที่ "+(i+1));
+      inp.addEventListener("input",function(){S.players[i].name=inp.value||DEF[i];save();render(true);});
+      w.appendChild(inp);
+    });
+  }
+  function render(skipNames){
+    if(!skipNames)renderNames();
+    $("k-pn").textContent=S.players.length;
+    $("k-cn").textContent=S.actions;$("k-cards").textContent=S.actions;$("k-sn").textContent=S.special;
+    [].forEach.call($("k-mode").children,function(b){b.setAttribute("aria-pressed",String(b.dataset.v===S.mode));});
+    var fp=S.players[S.first];
+    var head=S.over?"จบเกม":(S.practice?"รอบซ้อม (พลาดไม่มีโทษ)":"รอบที่ "+S.round);
+    $("k-now").innerHTML="<small>"+head+"</small>"+esc(fp.name)+" ถือกองจั่ว เริ่มใบที่ 1";
+    var as=assignment(),ol=$("k-assign");ol.innerHTML="";
+    as.forEach(function(pi,c){var li=document.createElement("li");li.id="k-a-"+c;li.innerHTML="<b>ใบ "+(c+1)+"</b>"+esc(S.players[pi].name);ol.appendChild(li);});
+    // ring
+    var ring=$("k-ring");ring.innerHTML="";
+    S.players.forEach(function(p,i){
+      var d=document.createElement("div");d.className="pl"+(i===S.first?" first":"")+(p.out?" out":"")+(S.sel.indexOf(i)>=0?" sel":"");
+      var b=document.createElement("button");b.type="button";b.disabled=p.out||!!S.over||S.phase!=="play";
+      var lv="";if(!coop()){lv='<span class="lives" aria-label="โดนลงโทษ '+p.pen+' จาก 3">';for(var k=0;k<3;k++)lv+='<i class="'+(k<p.pen?"lost":"")+'"></i>';lv+="</span>";}
+      b.innerHTML=esc(p.name)+(i===S.first?" ·กองจั่ว":"")+lv;
+      b.setAttribute("aria-pressed",String(S.sel.indexOf(i)>=0));
+      b.addEventListener("click",function(){var x=S.sel.indexOf(i);if(x>=0)S.sel.splice(x,1);else S.sel.push(i);save();render(true);});
+      d.appendChild(b);ring.appendChild(d);
+    });
+    $("k-ringlbl").textContent=coop()?"ผู้เล่น · โหมดร่วมมือไม่ต้องเลือกคนพลาด":"ผู้เล่น · แตะชื่อเพื่อเลือกคนพลาด แล้วกดบันทึก";
+    // meter
+    $("k-meter").hidden=!coop();
+    if(coop()){var g=goal();
+      $("k-m1").textContent=S.actions+" / "+g[0];$("k-b1").style.width=Math.min(100,S.actions/g[0]*100)+"%";
+      $("k-m2").textContent=S.special+" / "+g[1];$("k-b2").style.width=Math.min(100,S.special/g[1]*100)+"%";
+      $("k-m3").textContent=S.fails+" / 3";$("k-b3").style.width=Math.min(100,S.fails/3*100)+"%";
+    }
+    $("k-ok").disabled=!!S.over||S.phase!=="play";
+    $("k-fail").disabled=!!S.over||S.phase!=="play"||(!coop()&&!S.sel.length);
+    $("k-fail").textContent=coop()?"มีคนพลาด":"บันทึกคนพลาด"+(S.sel.length?" ("+S.sel.length+")":"");
+    $("k-undo").disabled=!hist.length;
+    $("k-pick").hidden=S.phase!=="pick";
+    if(S.phase==="pick")$("k-picktxt").textContent=S.players[S.first].name+" เปิด 3 ใบ เลือกใส่ลงโต๊ะ 1 ใบ เป็นชนิดไหน?";
+    var bn=$("k-banner");
+    if(S.over){bn.hidden=false;bn.className="banner "+(S.over.win?"win":"lose");bn.textContent=S.over.text;}else bn.hidden=true;
+    var lg=$("k-log");lg.innerHTML="";S.log.slice(0,30).forEach(function(t){var li=document.createElement("li");li.textContent=t;lg.appendChild(li);});
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+  $("k-ok").addEventListener("click",function(){
+    snap();S.sel=[];
+    if(S.practice){S.practice=false;addLog("ซ้อมผ่าน · เริ่มรอบจริงด้วยการ์ดชุดเดิม "+S.players[S.first].name+" เริ่ม");save();render(true);return;}
+    if(coop()){var g=goal();if(S.actions>=g[0]&&S.special>=g[1]){S.over={win:true,text:"ทีมชนะ! ผ่านรอบที่มีการ์ดท่า "+S.actions+" ใบ และโคโยตี้/โจมตี "+S.special+" ใบ"};addLog(S.over.text);save();render(true);return;}}
+    S.first=nextAlive(S.first);S.phase="pick";S.round++;
+    addLog("ผ่านรอบ · ส่งกองจั่วให้ "+S.players[S.first].name);
+    save();render(true);
+  });
+  [].forEach.call(document.querySelectorAll("[data-pick]"),function(b){b.addEventListener("click",function(){
+    snap();var t=b.dataset.pick;
+    if(t==="act")S.actions++;else S.special++;
+    addLog(S.players[S.first].name+" ใส่"+(t==="act"?"การ์ดท่า (แถวยาว "+S.actions+" ใบ)":t==="coy"?"การ์ดโคโยตี้":"การ์ดโจมตี"));
+    S.phase="play";save();render(true);
+  });});
+  $("k-fail").addEventListener("click",function(){
+    snap();
+    if(S.practice){addLog("ซ้อมพลาด ไม่มีโทษ · ซ้อมใหม่");S.sel=[];save();render(true);return;}
+    if(coop()){S.fails++;addLog("ทีมพลาด · ความผิดพลาด "+S.fails+"/3 · เล่นรอบเดิมซ้ำ");if(S.fails>=3){S.over={win:false,text:"ความผิดพลาดครบ 3 ทุกคนแพ้ ลองใหม่อีกเกม"};addLog(S.over.text);}save();render(true);return;}
+    var names=[],firstOut=false;
+    S.sel.forEach(function(i){var p=S.players[i];p.pen++;names.push(p.name+" ("+p.pen+"/3)");if(p.pen>=3){p.out=true;if(i===S.first)firstOut=true;}});
+    addLog("พลาด: "+names.join(", ")+" · เล่นรอบเดิมซ้ำ");
+    S.sel.forEach(function(i){if(S.players[i].out)addLog(S.players[i].name+" ตกรอบ");});
+    S.sel=[];
+    if(firstOut){S.first=nextAlive(S.first);addLog("ส่งกองจั่วให้ "+S.players[S.first].name+" เป็นคนเริ่ม");}
+    var a=alive();if(a.length<=1){S.over={win:true,text:(a.length?S.players[a[0]].name:"ไม่มีใคร")+" ชนะ! เป็นคนสุดท้ายที่รอด"};addLog(S.over.text);}
+    save();render(true);
+  });
+  $("k-undo").addEventListener("click",function(){if(!hist.length)return;S=JSON.parse(hist.pop());save();render();});
+  $("k-reset").addEventListener("click",function(){snap();S=fresh(S.players.length,S.mode,S.players.map(function(p){return p.name;}));save();render();});
+  function resize(d){var n=Math.max(3,Math.min(8,S.players.length+d));if(n===S.players.length)return;snap();S=fresh(n,S.mode,S.players.map(function(p){return p.name;}));save();render();}
+  $("k-pminus").addEventListener("click",function(){resize(-1);});
+  $("k-pplus").addEventListener("click",function(){resize(1);});
+  $("k-cminus").addEventListener("click",function(){if(S.actions>1){snap();S.actions--;save();render(true);}});
+  $("k-cplus").addEventListener("click",function(){snap();S.actions++;save();render(true);});
+  $("k-sminus").addEventListener("click",function(){if(S.special>0){snap();S.special--;save();render(true);}});
+  $("k-splus").addEventListener("click",function(){snap();S.special++;save();render(true);});
+  [].forEach.call($("k-mode").children,function(b){b.addEventListener("click",function(){if(S.mode===b.dataset.v)return;snap();S=fresh(S.players.length,b.dataset.v,S.players.map(function(p){return p.name;}));save();render();});});
+  render();
+
+  // ===== beat trainer =====
+  var timer=null,actx=null,step=0;
+  var bpm=$("t-bpm");bpm.addEventListener("input",function(){$("t-bpmv").textContent=bpm.value;});
+  function snd(kind){
+    if(!$("t-sound").checked||!actx)return;
+    try{var t=actx.currentTime,o=actx.createOscillator(),g=actx.createGain();
+      if(kind==="thump"){o.type="sine";o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(50,t+.15);g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);}
+      else{o.type="triangle";o.frequency.setValueAtTime(880,t);g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.12);}
+      o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.25);}catch(e){}
+  }
+  function lights(k){["t-b1","t-b2","t-b3"].forEach(function(id,i){$(id).classList.toggle("on",i===k);});}
+  function hit(c){[].forEach.call($("k-assign").children,function(li,i){li.classList.toggle("hit",i===c);});}
+  function stop(msg){clearTimeout(timer);timer=null;lights(-1);hit(-1);$("t-go").textContent="เริ่มเคาะ";if(msg)$("t-now").textContent=msg;}
+  function tick(){
+    var as=assignment();if(!as.length){stop("ไม่มีผู้เล่น");return;}
+    var total=as.length*3,i=step%3,c=Math.floor(step/3);
+    if(step>=total){stop("จบรอบ · ใบสุดท้ายไม่ต้องตบต่อ");return;}
+    lights(i);
+    if(i<2){snd("thump");$("t-now").textContent="ตึง! "+(i===0?"":"ตึง!");hit(-1);}
+    else{snd("act");hit(c);$("t-now").textContent="ใบ "+(c+1)+" · "+S.players[as[c]].name;}
+    step++;timer=setTimeout(tick,60000/Number(bpm.value));
+  }
+  $("t-go").addEventListener("click",function(){
+    if(timer){stop("หยุดแล้ว");return;}
+    try{if(!actx){var AC=window.AudioContext||window.webkitAudioContext;if(AC)actx=new AC();}if(actx&&actx.resume)actx.resume();}catch(e){}
+    step=0;$("t-go").textContent="หยุด";tick();
+  });
+})();
+</script>
+
+</body></html>

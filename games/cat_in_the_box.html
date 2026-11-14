@@ -1,0 +1,883 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cat in the Box ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: night-lab hero band (a cardboard box with a cat that is and isn't there), then a rulebook column with a sticky chapter rail.
+   Research-board diagrams are inline SVG. Tools near the end: board simulator (largest group), trick judge, scorepad. Disputes section is the longest on purpose. */
+:root{
+  --bg:#f2eee6;
+  --surface:#fffdf8;
+  --surface-2:#e7e1d4;
+  --fg:#26221c;
+  --muted:#6b6255;
+  --line:#d8cebd;
+  --accent:#8a3fb0;
+  --accent-strong:#9b4cc4;
+  --accent-soft:#efe2f6;
+  --blue-soft:#dde6f4;
+  --green-soft:#e1ebcf;
+  --band-1:#14122a;
+  --band-2:#2e2a4f;
+  --band-fg:#f5f0e4;
+  --gold:#f4c95d;
+  --good:#2f7d3d;
+  --bad:#bb3326;
+  --c-red:#d6453b; --c-blue:#2f6fd0; --c-yel:#d9a91c; --c-grn:#3a9a4c;
+  --x-two:#1d7572; --x-five:#7a3fa0;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#13110f;--surface:#1d1a16;--surface-2:#29251f;--fg:#efe8da;--muted:#b1a691;--line:#3a342b;
+    --accent:#d7a3f0;--accent-strong:#d7a3f0;--accent-soft:#2f2138;--blue-soft:#1a2539;--green-soft:#1f2a14;
+    --band-1:#0b0a18;--band-2:#1e1b38;--gold:#f4cd6a;--good:#6fd086;--bad:#ff6f61;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13110f;--surface:#1d1a16;--surface-2:#29251f;--fg:#efe8da;--muted:#b1a691;--line:#3a342b;
+  --accent:#d7a3f0;--accent-strong:#d7a3f0;--accent-soft:#2f2138;--blue-soft:#1a2539;--green-soft:#1f2a14;
+  --band-1:#0b0a18;--band-2:#1e1b38;--gold:#f4cd6a;--good:#6fd086;--bad:#ff6f61;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.exp-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.76rem;font-weight:600;border-radius:999px;padding:2px 10px;color:#fff;text-decoration:none}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol,ul.prose{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal;font-weight:400}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.unv{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--bad);color:#fff;vertical-align:2px;white-space:nowrap}
+
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.zero b{color:var(--bad)}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+svg text{font-family:var(--font-body)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)} .s-line{stroke:var(--line)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+.s-stroke-fg{stroke:var(--fg)} .s-stroke-bad{stroke:var(--bad)} .s-stroke-good{stroke:var(--good)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+.xmeta{display:flex;flex-wrap:wrap;gap:6px}
+.xmeta span{background:rgba(255,255,255,.16);border-radius:999px;padding:0 10px;font-family:var(--font-tag);font-size:.78rem}
+
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:4px;background:var(--c)}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+input[type=number],select{font:inherit;font-family:var(--font-tag);font-weight:600;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;font-variant-numeric:tabular-nums}
+input[type=number]{width:72px;text-align:center}
+select{padding:0 8px}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent-strong)}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.result b{font-family:var(--font-tag);font-size:2.2rem;font-weight:600;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
+.result span{font-family:var(--font-display);font-size:1.05rem}
+.result small{color:var(--muted);font-size:.9rem}
+
+.rb{display:grid;grid-template-columns:44px repeat(9,minmax(30px,1fr));gap:4px;min-width:400px}
+.rb .lab{font-family:var(--font-tag);font-weight:600;font-size:.82rem;display:grid;place-items:center;color:var(--muted)}
+.rb .rowlab{border-radius:8px;color:#fff;font-family:var(--font-tag);font-weight:600;font-size:.8rem;display:grid;place-items:center}
+.rb button{aspect-ratio:1;border:2px solid var(--line);border-radius:8px;background:var(--surface-2);cursor:pointer;font:600 .8rem var(--font-tag);color:#fff;padding:0;min-height:30px}
+.rb button.off{background:repeating-linear-gradient(45deg,var(--surface-2) 0 4px,var(--line) 4px 8px);cursor:not-allowed}
+.rb button.best{outline:3px solid var(--gold);outline-offset:-1px}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.legend button{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:50%;display:inline-block;background:var(--c)}
+.grp-out{display:flex;flex-wrap:wrap;gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:8px 14px;display:inline-grid;gap:0;min-width:110px}
+.co b{font-family:var(--font-tag);font-size:1.6rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.co small{font-size:.84rem;color:var(--muted)}
+.plays{display:grid;gap:8px}
+.play{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.play>span{font-family:var(--font-tag);font-weight:600;font-size:.85rem;min-width:70px}
+.pad table{min-width:640px}
+.pad td input[type=number]{width:52px;height:34px}
+.pad td.tot{font-family:var(--font-tag);font-weight:600;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.pad .rs{display:grid;gap:4px;min-width:120px}
+.pad .rs label{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--muted)}
+.pad .rs b{font-family:var(--font-tag);font-size:1rem;color:var(--fg)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+details p+p{margin-top:6px}
+.faq{display:grid;gap:8px}
+.faq h3{font-size:1rem;color:var(--muted);font-family:var(--font-tag);letter-spacing:.06em;margin-top:10px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+.verdict.no{color:var(--bad)}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+footer .wrap{display:grid;gap:8px}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:400px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ghost{animation:blink 3.2s ease-in-out infinite alternate}
+  @keyframes blink{0%,40%{opacity:.95}60%,100%{opacity:.18}}
+  .twinkle{animation:tw 3s ease-in-out infinite alternate}
+  @keyframes tw{from{opacity:.25}to{opacity:.9}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก 2–5 คน (ฉบับภาษาอังกฤษ Hobby Japan) · อิงคู่มือทางการ Experiment Manual (Hobby Japan)</div>
+      <h1>Cat in the Box<span>แคทอินเดอะบ็อกซ์ · เกมเก็บกลที่การ์ดไม่มีสี จนกว่าคุณจะประกาศ</span></h1>
+      <p class="lede">เกมเก็บกล <span class="en">trick-taking</span> ที่การ์ดมีแต่ตัวเลข 1–9 ไม่มีสี ตอนลงการ์ดคุณ<b>ประกาศเอง</b>ว่าใบนั้นเป็นแดง น้ำเงิน เหลือง หรือเขียว แล้ววางโทเคนลงช่องเลขกับสีนั้นบนกระดานวิจัย ช่องไหนถูกจองแล้วใช้ซ้ำไม่ได้ ถ้าถึงตาคุณแล้วลงการ์ดไม่ได้สักใบ เรียกว่า<b>พาราด็อกซ์</b> รอบจบทันทีและคุณเสียแต้ม คู่มือนี้เน้นจุดที่<b>เถียงกันบ่อย</b>ระหว่างเล่น</p>
+      <div class="facts">
+        <div class="fact"><b>2–5</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>30</b><small>นาที (ตามกล่อง)</small></div>
+        <div class="fact"><b>8</b><small>กลต่อรอบ (5 คน 7 กล)</small></div>
+        <div class="fact"><b>รอบ = คน</b><small>3 คนเล่น 3 รอบ</small></div>
+      </div>
+      <div class="exp-badges">
+        <a class="xb" href="#faq" style="background:#bb3326">ข้อที่ชอบเถียงกัน (ตรงนี้ก่อน)</a>
+        <a class="xb" href="#paradox" style="background:#8a3fb0">พาราด็อกซ์</a>
+        <a class="xb" href="#two" style="background:var(--x-two)">กติกา 2 คน</a>
+        <a class="xb" href="#five" style="background:var(--x-five)">กติกา 5 คน</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 340 250">
+        <g fill="#f5f0e4"><circle class="twinkle" cx="30" cy="24" r="1.4"/><circle class="twinkle" cx="100" cy="14" r="1.1" style="animation-delay:-1s"/><circle class="twinkle" cx="306" cy="34" r="1.4" style="animation-delay:-2s"/><circle class="twinkle" cx="246" cy="12" r="1" style="animation-delay:-.5s"/></g>
+        <circle cx="284" cy="62" r="18" fill="#f4c95d" opacity=".9"/>
+        <!-- research grid behind -->
+        <g opacity=".5">
+          <g fill="#d6453b"><rect x="14" y="96" width="14" height="14" rx="3"/><rect x="14" y="114" width="14" height="14" rx="3" fill="#2f6fd0"/><rect x="14" y="132" width="14" height="14" rx="3" fill="#d9a91c"/><rect x="14" y="150" width="14" height="14" rx="3" fill="#3a9a4c"/></g>
+          <g fill="none" stroke="#f5f0e4" stroke-width="1" opacity=".4"><path d="M34 96h60v14h-60z M34 114h60v14h-60z M34 132h60v14h-60z M34 150h60v14h-60z"/></g>
+        </g>
+        <!-- box -->
+        <path d="M86 132 L170 104 L254 132 L170 160Z" fill="#c99a5b"/>
+        <path d="M86 132 L170 160 V232 L86 204Z" fill="#a8763d"/>
+        <path d="M254 132 L170 160 V232 L254 204Z" fill="#8c5f2c"/>
+        <path d="M86 132 L60 112 L144 86 L170 104Z" fill="#d8ad70"/>
+        <path d="M254 132 L282 110 L198 84 L170 104Z" fill="#d8ad70"/>
+        <!-- cat (blinking: there and not there) -->
+        <g class="ghost">
+          <path d="M136 118 Q136 80 170 78 Q204 80 204 118Z" fill="#2a2a35"/>
+          <path d="M140 92 L144 66 L160 82Z M200 92 L196 66 L180 82Z" fill="#2a2a35"/>
+          <ellipse cx="158" cy="100" rx="5" ry="6.5" fill="#f4c95d"/><ellipse cx="182" cy="100" rx="5" ry="6.5" fill="#f4c95d"/>
+          <ellipse cx="158" cy="101" rx="1.6" ry="5" fill="#14122a"/><ellipse cx="182" cy="101" rx="1.6" ry="5" fill="#14122a"/>
+          <path d="M167 110 h6 l-3 3z" fill="#e88a9a"/>
+        </g>
+        <text x="170" y="196" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="34" fill="#5f3c1f" opacity=".55">?</text>
+        <!-- floating cards -->
+        <g transform="rotate(-14 52 214)"><rect x="34" y="186" width="36" height="52" rx="5" fill="#fffaf0" stroke="#14122a"/><text x="52" y="220" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="22" fill="#14122a">7</text></g>
+        <g transform="rotate(12 296 200)"><rect x="278" y="172" width="36" height="52" rx="5" fill="#fffaf0" stroke="#d6453b" stroke-width="3"/><text x="296" y="206" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="22" fill="#d6453b">3</text></g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#round">หนึ่งรอบมีอะไรบ้าง</a></li>
+      <li><a href="#predict">ทายจำนวนกล</a></li>
+      <li><a href="#declare">ประกาศสี (2 กฎ)</a></li>
+      <li><a href="#lead">นำกล & แดง</a></li>
+      <li><a href="#follow">ตามสี / ไม่ตามสี</a></li>
+      <li><a href="#win">ใครชนะกล</a></li>
+      <li><a href="#paradox">พาราด็อกซ์</a></li>
+      <li><a href="#score">จบรอบ & นับแต้ม</a></li>
+      <li><a href="#end">จบเกม</a></li>
+      <li class="sep">ตามจำนวนคน</li>
+      <li><a href="#two" style="--c:var(--x-two)"><i></i>เล่น 2 คน</a></li>
+      <li><a href="#five" style="--c:var(--x-five)"><i></i>เล่น 5 คน</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#sim">กระดานวิจัยจำลอง</a></li>
+      <li><a href="#judge">ตัวตัดสินกล</a></li>
+      <li><a href="#pad">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>หนึ่งรอบ ทำแบบนี้</h3>
+        <ol>
+          <li><b>แจกคนละ 10 ใบ</b> (5 คน 9 ใบ) แต่ละคนคว่ำ 1 ใบทิ้งไว้ (ไม่ใช้รอบนี้)</li>
+          <li><b>ทาย</b>ว่าจะชนะกี่กล วางโทเคนบนเลขที่ทายบนบอร์ดตัวเอง (2 คนไม่ต้องทาย)</li>
+          <li><b>เล่น 8 กล</b> (5 คน 7 กล) ลงการ์ด 1 ใบแล้ว<b>ประกาศสี</b> วางโทเคนลงช่อง [สี × เลข] บนกระดานวิจัย ช่องที่มีโทเคนแล้วห้ามใช้ซ้ำ</li>
+          <li>ใครลงการ์ดไม่ได้เลยสักใบ = <b>พาราด็อกซ์</b> รอบจบทันที</li>
+          <li><b>นับแต้ม</b> 1 แต้มต่อกลที่ชนะ ทายตรงได้โบนัส = ขนาดกลุ่มโทเคนติดกันที่ใหญ่สุดของคุณบนกระดานวิจัย</li>
+        </ol>
+      </div>
+      <div class="formula" aria-label="สูตรแต้ม">
+        <div class="fm"><small>กลที่ชนะ</small><b>+1 / กล</b></div>
+        <div class="fm"><small>ทายตรงเป๊ะ</small><b>+1 / โทเคนในกลุ่มใหญ่สุด</b></div>
+        <div class="fm zero"><small>ทายพลาด</small><b>ไม่หักแต้ม แค่ไม่มีโบนัส</b></div>
+        <div class="fm zero"><small>คนก่อพาราด็อกซ์</small><b>−1 / กล · ไม่มีโบนัส</b></div>
+        <div class="fm end"><small>จบเกม</small><b>เล่นรอบ = จำนวนคน · รวมมากสุดชนะ</b></div>
+      </div>
+      <p class="note">ตัวอย่าง: ทาย 2 ชนะ 2 กล และกลุ่มโทเคนติดกันใหญ่สุดมี 5 อัน = 2 + 5 = <b>7 แต้ม</b> · ทาย 2 แต่ชนะ 3 = <b>3 แต้ม</b> · ก่อพาราด็อกซ์ตอนชนะไปแล้ว 2 กล = <b>−2</b> · ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <p class="prose">กล่องนี้คือฉบับภาษาอังกฤษของ <b>Hobby Japan</b> (2–5 คน · 30 นาที · 13+) คู่มือในกล่องชื่อ <b>Experiment Manual</b> ตารางนี้อิงรายการอุปกรณ์ในคู่มือเล่มนั้น</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th>รายละเอียด</th><th class="num">จำนวน</th></tr></thead>
+          <tbody>
+            <tr><td><b>การ์ดแมว</b><br><span class="en">Cat cards</span></td><td>เลข 1–9 เลขละ 5 ใบ <b>ไม่มีสี</b> (สีเกิดตอนประกาศ)</td><td class="num">45</td></tr>
+            <tr><td><b>กระดานวิจัย</b><br><span class="en">Research board</span></td><td>กระดานพับได้ มี 4 แถวสี (แดง น้ำเงิน เหลือง เขียว) × ช่องเลข 1–9 เสียบการ์ดวิจัยเข้าไป</td><td class="num">1</td></tr>
+            <tr><td><b>การ์ดวิจัย</b><br><span class="en">Research cards</span></td><td>วางบนกระดานวิจัย เลือกด้านขาวหรือด้านม่วงตามจำนวนคน</td><td class="num">4</td></tr>
+            <tr><td><b>บอร์ดผู้เล่น</b><br><span class="en">Player boards</span></td><td>มีช่อง X ของ 4 สี และเลขสำหรับทายจำนวนกล</td><td class="num">5</td></tr>
+            <tr><td><b>โทเคนผู้เล่น</b><br><span class="en">Player tokens</span></td><td>5 สี สีละ 12 อัน</td><td class="num">60</td></tr>
+            <tr><td><b>โทเคนสังเกต</b><br><span class="en">Observed tokens</span></td><td>ปิดช่องที่ไม่ใช้ (4 คน ปิดเลข 9 · 2 คน ปิดเลข 6)</td><td class="num">4</td></tr>
+            <tr><td><b>สมุดผลการทดลอง</b><br><span class="en">Experiment result booklet</span></td><td>สมุดจดคะแนน</td><td class="num">1</td></tr>
+            <tr><td><b>การ์ดคนเริ่มรอบ</b><br><span class="en">Round start player card</span></td><td>เลื่อนไปทางซ้ายทุกรอบ</td><td class="num">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตัวเลขอุปกรณ์อิงข้อความคู่มือ Experiment Manual ที่หาได้ทางออนไลน์ ถ้านับของในกล่องแล้วไม่ตรง ให้ยึดของในกล่อง</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จำนวนคน</th><th>การ์ดที่ใช้</th><th class="num">แจกคนละ</th><th>กระดานวิจัย</th><th>ช่องที่ประกาศได้</th><th>ทายได้</th></tr></thead>
+          <tbody>
+            <tr><td><b>2 คน</b> <a href="#two">(ดูกติกา)</a></td><td><b>เลข 1–5</b> (25 ใบ)</td><td class="num">10 <span class="en">+ 5 ใบกลางโต๊ะ</span></td><td>ด้านขาว · <b>พับครึ่ง</b> เหลือเลข 1–6 · โทเคนสังเกตปิด<b>ช่องเลข 6</b> ทั้ง 4 แถว</td><td>1–5</td><td>ไม่ทาย</td></tr>
+            <tr><td><b>3 คน</b></td><td><b>เลข 1–6</b> (30 ใบ)</td><td class="num">10</td><td>ด้านขาว (เกมแรก) หรือม่วง · <b>พับครึ่ง</b> เหลือเลข 1–6 · ไม่ใช้โทเคนสังเกต</td><td>1–6</td><td>1, 3, 4 <span class="en">(ไม่มี 2)</span></td></tr>
+            <tr><td><b>4 คน</b></td><td><b>เลข 1–8</b> (40 ใบ · เอาเลข 9 ออก)</td><td class="num">10</td><td>ด้านขาว (เกมแรก) หรือม่วง · <b>กางเต็ม</b> 1–9 · โทเคนสังเกตปิด<b>ช่องเลข 9</b> ทั้ง 4 แถว</td><td>1–8</td><td>ตามเลขบนบอร์ด</td></tr>
+            <tr><td><b>5 คน</b> <a href="#five">(ดูกติกา)</a></td><td><b>เลข 1–9</b> (ครบ 45 ใบ)</td><td class="num">9</td><td>ด้านม่วง · <b>กางเต็ม</b> 1–9 · ไม่ใช้โทเคนสังเกต</td><td>1–9</td><td>ตามเลขบนบอร์ด</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ตรวจซ้ำจากคู่มือ Experiment Manual และรีวิว 2 แหล่ง (What's Eric Playing · GeekDad) ตรงกัน: 2 คนใช้เลข 1–5 · 3 คนใช้ 1–6 และ<b>พับกระดานครึ่งหนึ่ง</b> · 4 คนใช้ 1–8 · 5 คนใช้ 1–9 · เช็กเลขได้อีกทาง: 3 คน มีช่อง 6 เลข × 4 สี = 24 ช่อง พอดีกับ 8 กล × 3 คน = 24 ใบ · 4 คน 8 × 4 = 32 พอดีกับ 8 × 4 = 32 · <span class="unv">ยังไม่ยืนยัน</span> 3 คนด้านม่วง: คู่มือบอกแค่ว่าไม่ใช้โทเคนสังเกต แต่มีคู่มือแนะนำออนไลน์ (Zatu) บอกให้ปิดตั้งแต่เลข 7 ขึ้นไป ให้ดูภาพเตรียมเกมในคู่มือกล่อง</p>
+      <div class="callout blue">
+        <h3>ด้านขาว กับ ด้านม่วง ต่างกันยังไง</h3>
+        <ul>
+          <li><b>ด้านขาว</b> (ง่าย): เลขเรียงตรงกันทุกแถว เช่น ช่อง 5 แดงอยู่เหนือ 5 ฟ้าพอดี จึงต่อกลุ่มแนวตั้งได้ด้วยการลงเลขเดียวกันหลายสี</li>
+          <li><b>ด้านม่วง</b>: เลขแต่ละแถว<b>เยื้องกัน</b> เลขเดียวกันเรียงเป็นแนวทแยง ช่องที่ติดกันในแนวตั้งจึงเป็นเลขต่างกัน ต้องวางแผนลงเลขต่อเนื่องถึงจะต่อกลุ่มได้</li>
+          <li>ไม่ว่าด้านไหน กลุ่มนับเฉพาะช่องที่<b>ติดกันจริงบนกระดาน</b> (บน ล่าง ซ้าย ขวา) ไม่ใช่เลขที่ติดกัน</li>
+        </ul>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>วางกระดานวิจัย <span class="en">Research board</span></h3><p>เสียบการ์ดวิจัย 4 ใบเข้ากระดาน (ด้านขาวหรือม่วงตามตาราง) แล้ววางกลางโต๊ะ · 2–3 คน<b>พับกระดานครึ่งหนึ่ง</b>ให้เหลือเลข 1–6 · 4–5 คน<b>กางเต็ม</b> · วางโทเคนสังเกตตามตาราง</p></div></li>
+        <li><div class="body"><h3>คัดการ์ด</h3><p>เอาการ์ดเลขที่ไม่ใช้ออก (2 คน เอา 6–9 ออก · 3 คน เอา 7–9 ออก · 4 คน เอา 9 ออก · 5 คน ใช้ครบ)</p></div></li>
+        <li><div class="body"><h3>รับบอร์ดและโทเคน</h3><p>ทุกคนรับบอร์ดผู้เล่น 1 แผ่นกับโทเคนสีของตัวเอง 12 อัน</p></div></li>
+        <li><div class="body"><h3>คนเริ่มรอบ <span class="en">Round start player</span></h3><p>คนที่<b>เจอแมวล่าสุด</b>รับการ์ดคนเริ่มรอบ</p></div></li>
+        <li><div class="body"><h3>เตรียมทุกต้นรอบ</h3><p>วางโทเคน 1 อันบน <b>X ทั้ง 4 สี</b>ของบอร์ดตัวเอง แล้วสับการ์ดแจกคนละ 10 ใบ (5 คน 9 ใบ)</p></div></li>
+      </ol>
+    </section>
+
+    <!-- ROUND -->
+    <section id="round">
+      <div class="sec-head"><span class="tag">ภาพรวม</span><h2>หนึ่งรอบมีอะไรบ้าง</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>คว่ำการ์ด 1 ใบ</h3><p>ทุกคนเลือกการ์ด 1 ใบจากมือ คว่ำไว้ข้างกระดานวิจัย ใบนี้<b>ไม่ใช้รอบนี้</b> เหลือในมือ 9 ใบ (5 คน 8 ใบ)</p></div></li>
+        <li><div class="body"><h3>ทายจำนวนกล <span class="en">Predict</span></h3><p>เริ่มที่คนเริ่มรอบ วนตามเข็มนาฬิกา (ดู <a href="#predict">ทายจำนวนกล</a>)</p></div></li>
+        <li><div class="body"><h3>เล่นกล <span class="en">Trick phase</span></h3><p>เล่นไปเรื่อย ๆ จน<b>เหลือการ์ดในมือคนละ 1 ใบ</b> = <b>8 กล</b> (5 คน = 7 กล) ใบสุดท้ายไม่ได้เล่น</p></div></li>
+        <li><div class="body"><h3>นับแต้ม <span class="en">Scoring</span></h3><p>ดู <a href="#score">จบรอบ & นับแต้ม</a> แล้วส่งการ์ดคนเริ่มรอบไป<b>ทางซ้าย</b></p></div></li>
+      </ol>
+      <p class="note">ถ้าเกิด<a href="#paradox">พาราด็อกซ์</a>กลางทาง ข้ามไปนับแต้มทันที ไม่ต้องเล่นให้ครบ 8 กล</p>
+    </section>
+
+    <!-- PREDICT -->
+    <section id="predict">
+      <div class="sec-head"><span class="tag">ทาย</span><h2>ทายจำนวนกล <span class="en">Victory prediction</span></h2></div>
+      <ul class="prose">
+        <li>หลังคว่ำการ์ดแล้ว ทายทีละคน เริ่มจาก<b>คนเริ่มรอบ</b> วนตามเข็มนาฬิกา ทุกคนเห็นคำทายของคนก่อนหน้า</li>
+        <li>วางโทเคน 1 อันบนเลขที่ทายบน<b>บอร์ดผู้เล่นของตัวเอง</b> ทายได้เฉพาะเลขที่พิมพ์บนบอร์ด</li>
+        <li><b>3 คน</b> ทายได้แค่ <b>1, 3 หรือ 4</b> (ห้ามทาย 2)</li>
+        <li><b>2 คน ไม่ต้องทาย</b> (ดู <a href="#two">เล่น 2 คน</a>)</li>
+        <li>ทายแล้วเปลี่ยนไม่ได้</li>
+      </ul>
+      <p class="note">บอร์ดผู้เล่นมี 2 ด้าน (ด้าน 2–3 คน กับด้าน 4–5 คน) แต่ละด้านมี<b>ช่องทาย 3 ช่อง</b> · ด้าน 3 คนคือ 1, 3, 4 · <span class="unv">ยังไม่ยืนยัน</span> ด้าน 4–5 คน มีแหล่งเดียว (Zatu) บอกว่าเป็น 1, 2, 3 ให้ยึดเลขบนบอร์ดในกล่อง</p>
+    </section>
+
+    <!-- DECLARE -->
+    <section id="declare">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ประกาศสี: 2 กฎที่ต้องผ่าน</h2></div>
+      <p class="prose">การ์ดในมือ<b>ยังไม่มีสี</b> ตอนลงการ์ดให้พูดสีออกมา เช่น "7 เหลือง" สีนั้นต้องผ่าน 2 กฎพร้อมกัน</p>
+      <div class="types">
+        <div class="type"><h3>กฎ 1 · ช่องต้องว่าง</h3><p>ช่อง [สีนั้น × เลขนั้น] บนกระดานวิจัย<b>ยังไม่มีโทเคนใคร</b> · เช่น มีคนวาง "7 เหลือง" ไปแล้ว ไม่มีใครประกาศ 7 เหลืองได้อีกทั้งรอบ</p></div>
+        <div class="type"><h3>กฎ 2 · X ยังอยู่</h3><p>บนบอร์ดผู้เล่นของคุณ <b>X ของสีนั้นยังมีโทเคนอยู่</b> · ถ้าโทเคนบน X หายไปแล้ว คุณประกาศสีนั้นไม่ได้อีกทั้งรอบ</p></div>
+        <div class="type"><h3>ผ่านแล้วทำอะไร</h3><p>วางการ์ดข้างแถวสีนั้นบนบอร์ดตัวเอง แล้ววางโทเคนของคุณลงช่อง [สี × เลข] บนกระดานวิจัย ช่องนั้น<b>ปิดถาวร</b>ทั้งรอบ</p></div>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 200" role="img" aria-label="กระดานวิจัย 4 แถว มีช่องที่ถูกจองแล้ว">
+          <g class="tagf" font-size="12">
+            <text x="70" y="22" text-anchor="middle" class="s-muted">1</text><text x="120" y="22" text-anchor="middle" class="s-muted">2</text><text x="170" y="22" text-anchor="middle" class="s-muted">3</text><text x="220" y="22" text-anchor="middle" class="s-muted">4</text><text x="270" y="22" text-anchor="middle" class="s-muted">5</text><text x="320" y="22" text-anchor="middle" class="s-muted">6</text><text x="370" y="22" text-anchor="middle" class="s-muted">7</text><text x="420" y="22" text-anchor="middle" class="s-muted">8</text><text x="470" y="22" text-anchor="middle" class="s-muted">9</text>
+          </g>
+          <g>
+            <rect x="8" y="32" width="36" height="36" rx="6" fill="#d6453b"/><rect x="8" y="74" width="36" height="36" rx="6" fill="#2f6fd0"/><rect x="8" y="116" width="36" height="36" rx="6" fill="#d9a91c"/><rect x="8" y="158" width="36" height="36" rx="6" fill="#3a9a4c"/>
+            <g fill="#fff" class="tagf" font-size="11" text-anchor="middle"><text x="26" y="54">แดง</text><text x="26" y="96">ฟ้า</text><text x="26" y="138">เหลือง</text><text x="26" y="180">เขียว</text></g>
+          </g>
+          <g class="s-surface2 s-line" stroke-width="1.5">
+            <rect x="52" y="32" width="36" height="36" rx="6"/><rect x="102" y="32" width="36" height="36" rx="6"/><rect x="152" y="32" width="36" height="36" rx="6"/><rect x="202" y="32" width="36" height="36" rx="6"/><rect x="252" y="32" width="36" height="36" rx="6"/><rect x="302" y="32" width="36" height="36" rx="6"/><rect x="352" y="32" width="36" height="36" rx="6"/><rect x="402" y="32" width="36" height="36" rx="6"/><rect x="452" y="32" width="36" height="36" rx="6"/>
+            <rect x="52" y="74" width="36" height="36" rx="6"/><rect x="102" y="74" width="36" height="36" rx="6"/><rect x="152" y="74" width="36" height="36" rx="6"/><rect x="202" y="74" width="36" height="36" rx="6"/><rect x="252" y="74" width="36" height="36" rx="6"/><rect x="302" y="74" width="36" height="36" rx="6"/><rect x="352" y="74" width="36" height="36" rx="6"/><rect x="402" y="74" width="36" height="36" rx="6"/><rect x="452" y="74" width="36" height="36" rx="6"/>
+            <rect x="52" y="116" width="36" height="36" rx="6"/><rect x="102" y="116" width="36" height="36" rx="6"/><rect x="152" y="116" width="36" height="36" rx="6"/><rect x="202" y="116" width="36" height="36" rx="6"/><rect x="252" y="116" width="36" height="36" rx="6"/><rect x="302" y="116" width="36" height="36" rx="6"/><rect x="352" y="116" width="36" height="36" rx="6"/><rect x="402" y="116" width="36" height="36" rx="6"/><rect x="452" y="116" width="36" height="36" rx="6"/>
+            <rect x="52" y="158" width="36" height="36" rx="6"/><rect x="102" y="158" width="36" height="36" rx="6"/><rect x="152" y="158" width="36" height="36" rx="6"/><rect x="202" y="158" width="36" height="36" rx="6"/><rect x="252" y="158" width="36" height="36" rx="6"/><rect x="302" y="158" width="36" height="36" rx="6"/><rect x="352" y="158" width="36" height="36" rx="6"/><rect x="402" y="158" width="36" height="36" rx="6"/><rect x="452" y="158" width="36" height="36" rx="6"/>
+          </g>
+          <!-- observed tokens on 9 -->
+          <g fill="#7d7464"><circle cx="470" cy="50" r="11"/><circle cx="470" cy="92" r="11"/><circle cx="470" cy="134" r="11"/><circle cx="470" cy="176" r="11"/></g>
+          <!-- player tokens -->
+          <g stroke="#14122a" stroke-width="1.5">
+            <circle cx="370" cy="134" r="12" fill="#e07b24"/><circle cx="170" cy="92" r="12" fill="#8a4fc2"/><circle cx="220" cy="92" r="12" fill="#8a4fc2"/><circle cx="270" cy="176" r="12" fill="#1aa3a3"/><circle cx="420" cy="134" r="12" fill="#e07b24"/>
+          </g>
+          <!-- attempt -->
+          <rect x="352" y="116" width="36" height="36" rx="6" fill="none" class="s-stroke-bad" stroke-width="3" stroke-dasharray="5 4"/>
+          <g class="tagf" font-size="13">
+            <text x="508" y="120" class="s-bad">"7 เหลือง" ไม่ได้แล้ว</text>
+            <text x="508" y="138" class="s-muted">ส้มจองไปแล้ว (กฎ 1)</text>
+            <text x="508" y="172" class="s-muted">วงเทา = โทเคนสังเกต</text>
+            <text x="508" y="188" class="s-muted">ปิดเลข 9 (4 คน)</text>
+          </g>
+        </svg></div>
+        <figcaption>มีการ์ด 7 ในมือ ยังลง "7 แดง" "7 ฟ้า" หรือ "7 เขียว" ได้ ถ้า X ของสีนั้นบนบอร์ดคุณยังอยู่ · สีผู้เล่นในภาพเป็นสีสมมติ</figcaption>
+      </figure>
+    </section>
+
+    <!-- LEAD -->
+    <section id="lead">
+      <div class="sec-head"><span class="tag">คนเปิดกล</span><h2>นำกล และแดงเป็นไพ่ตัด</h2></div>
+      <ul class="prose">
+        <li>กลแรกของรอบ <b>คนเริ่มรอบ</b>นำ กลต่อ ๆ ไป <b>คนชนะกลก่อนหน้า</b>นำ (การ์ดคนเริ่มรอบไม่ขยับ)</li>
+        <li>คนนำต้องประกาศ <b>น้ำเงิน เหลือง หรือเขียว</b> · <b>ห้ามนำแดง</b> <span class="en">red = trump</span></li>
+        <li>นำแดงได้ ถ้า<b>มีโทเคนของใครก็ได้</b>อยู่ในแถวแดงบนกระดานวิจัยแล้ว (แดงถูก "เปิด" แล้ว)</li>
+        <li>หรือนำแดงได้ ถ้าคุณ<b>ประกาศสีอื่นไม่ได้เลย</b>กับการ์ดทุกใบในมือ</li>
+        <li>สีที่คนนำประกาศ = <b>สีนำ</b> <span class="en">led color</span> ของกลนั้น</li>
+      </ul>
+    </section>
+
+    <!-- FOLLOW -->
+    <section id="follow">
+      <div class="sec-head"><span class="tag">คนตาม</span><h2>ตามสี หรือไม่ตามสี</h2></div>
+      <p class="prose">คนที่เหลือลงการ์ดทีละคนตามเข็มนาฬิกา ประกาศสีอะไรก็ได้ที่ผ่าน <a href="#declare">2 กฎ</a> <b>ไม่บังคับตามสี</b> แต่มีราคาต้องจ่าย</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 170" role="img" aria-label="ไม่ตามสีน้ำเงิน ต้องเอาโทเคนออกจาก X น้ำเงิน">
+          <rect x="10" y="14" width="250" height="142" rx="12" class="s-surface2"/>
+          <text x="24" y="38" class="tagf s-fg" font-size="13">บอร์ดผู้เล่นของคุณ</text>
+          <g class="tagf" font-size="12" fill="#fff">
+            <rect x="24" y="52" width="52" height="40" rx="8" fill="#d6453b"/><rect x="82" y="52" width="52" height="40" rx="8" fill="#2f6fd0"/><rect x="140" y="52" width="52" height="40" rx="8" fill="#d9a91c"/><rect x="198" y="52" width="52" height="40" rx="8" fill="#3a9a4c"/>
+          </g>
+          <g stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M40 62 l20 20 M60 62 l-20 20 M98 62 l20 20 M118 62 l-20 20 M156 62 l20 20 M176 62 l-20 20 M214 62 l20 20 M234 62 l-20 20"/></g>
+          <g stroke="#14122a" stroke-width="1.5" fill="#e07b24"><circle cx="50" cy="72" r="10"/><circle cx="166" cy="72" r="10"/><circle cx="224" cy="72" r="10"/></g>
+          <g transform="translate(108 128)"><circle r="10" fill="#e07b24" stroke="#14122a" stroke-width="1.5" opacity=".35"/></g>
+          <path d="M108 96 V114" class="s-stroke-bad" stroke-width="2.5" marker-end="url(#ar)"/>
+          <defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#bb3326"/></marker></defs>
+          <text x="124" y="146" class="tagf s-bad" font-size="12">X ฟ้าหาย = ห้ามฟ้าทั้งรอบ</text>
+          <g transform="translate(300 18)">
+            <text x="0" y="16" class="tagf s-fg" font-size="13">กลนี้นำ "5 ฟ้า"</text>
+            <rect x="0" y="28" width="50" height="70" rx="6" fill="#fffaf0" stroke="#2f6fd0" stroke-width="3"/><text x="25" y="72" text-anchor="middle" class="tagf" font-size="26" fill="#2f6fd0">5</text>
+            <text x="70" y="50" class="s-fg" font-size="14">คุณลง "8 เหลือง"</text>
+            <text x="70" y="70" class="s-muted" font-size="13">ไม่ได้ตามฟ้า</text>
+            <text x="70" y="90" class="s-muted" font-size="13">→ เอาโทเคนออกจาก X ฟ้า</text>
+            <rect x="0" y="108" width="50" height="40" rx="6" fill="#fffaf0" stroke="#d9a91c" stroke-width="3"/><text x="25" y="136" text-anchor="middle" class="tagf" font-size="22" fill="#d9a91c">8</text>
+            <text x="70" y="134" class="s-fg" font-size="13">การ์ดเหลืองไม่ชนะกลนี้ (ไม่ใช่สีนำ ไม่ใช่แดง)</text>
+          </g>
+        </svg></div>
+        <figcaption>ไม่ตามสีนำ = ประกาศตัวเองว่า "ไม่มี" สีนั้นแล้ว ต้องหยิบโทเคนออกจาก X ของสีนำ จากนั้นทั้งรอบประกาศสีนั้นไม่ได้อีก (กฎ 2)</figcaption>
+      </figure>
+      <div class="callout blue">
+        <h3>สรุปทางเลือกของคนตาม</h3>
+        <ul>
+          <li><b>ประกาศสีนำ</b> ไม่เสียอะไร ลุ้นชนะด้วยเลขสูงกว่า</li>
+          <li><b>ประกาศแดง</b> (ไม่ใช่สีนำ) ชนะสีนำได้ แต่ต้องเอาโทเคนออกจาก X ของสีนำ</li>
+          <li><b>ประกาศสีที่สาม</b> แพ้แน่นอน และต้องเอาโทเคนออกจาก X ของสีนำ (ใช้ตอนอยากทิ้งกล หรือหาช่องวางโทเคนให้กลุ่มใหญ่ขึ้น)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- WIN -->
+    <section id="win">
+      <div class="sec-head"><span class="tag">ตัดสิน</span><h2>ใครชนะกล</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>มีแดงไหม</h3><p>มีแดงในกล → <b>แดงเลขสูงสุด</b>ชนะ (แดง 1 ก็ชนะสีนำ 9)</p></div></li>
+        <li><div class="body"><h3>ไม่มีแดง</h3><p>สีนำเลขสูงสุดชนะ สีอื่นไม่มีสิทธิ์ชนะเลย</p></div></li>
+        <li><div class="body"><h3>เก็บกลแล้วนำต่อ</h3><p>คนชนะเก็บการ์ดกลนั้นไว้นับ แล้ว<b>นำกลถัดไป</b></p></div></li>
+      </ol>
+      <p class="note">เลขเสมอกันในสีเดียวกันเกิดไม่ได้ เพราะช่อง [สี × เลข] ใช้ได้ครั้งเดียว (กฎ 1)</p>
+    </section>
+
+    <!-- PARADOX -->
+    <section id="paradox">
+      <div class="sec-head"><span class="tag">เรื่องใหญ่</span><h2>พาราด็อกซ์ <span class="en">Paradox</span></h2></div>
+      <p class="prose">ถึงตาคุณแล้ว การ์ด<b>ทุกใบ</b>ในมือประกาศ<b>สีไหนก็ไม่ผ่าน</b> 2 กฎ = คุณก่อพาราด็อกซ์</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 170" role="img" aria-label="มือเหลือ 3 และ 6 แต่ทุกช่องที่ใช้ได้ถูกจองหมด">
+          <text x="14" y="24" class="tagf s-fg" font-size="13">มือคุณ</text>
+          <rect x="14" y="36" width="50" height="70" rx="6" fill="#fffaf0" stroke="#14122a"/><text x="39" y="80" text-anchor="middle" class="tagf" font-size="26" fill="#14122a">3</text>
+          <rect x="72" y="36" width="50" height="70" rx="6" fill="#fffaf0" stroke="#14122a"/><text x="97" y="80" text-anchor="middle" class="tagf" font-size="26" fill="#14122a">6</text>
+          <text x="14" y="130" class="s-muted" font-size="13">X เหลือเฉพาะ ฟ้า กับ เขียว</text>
+          <g transform="translate(170 22)">
+            <text x="0" y="12" class="tagf s-fg" font-size="13">ช่องบนกระดานวิจัย</text>
+            <g class="tagf" font-size="13">
+              <rect x="0" y="22" width="120" height="30" rx="6" fill="#2f6fd0"/><text x="12" y="42" fill="#fff">3 ฟ้า · มีแล้ว</text>
+              <rect x="130" y="22" width="120" height="30" rx="6" fill="#2f6fd0"/><text x="142" y="42" fill="#fff">6 ฟ้า · มีแล้ว</text>
+              <rect x="0" y="60" width="120" height="30" rx="6" fill="#3a9a4c"/><text x="12" y="80" fill="#fff">3 เขียว · มีแล้ว</text>
+              <rect x="130" y="60" width="120" height="30" rx="6" fill="#3a9a4c"/><text x="142" y="80" fill="#fff">6 เขียว · มีแล้ว</text>
+            </g>
+            <text x="0" y="122" class="tagf s-bad" font-size="15">ไม่มีใบไหนลงได้ → พาราด็อกซ์</text>
+          </g>
+          <g transform="translate(470 30)"><rect width="150" height="110" rx="12" class="s-surface2"/><text x="14" y="28" class="tagf s-fg" font-size="13">คนก่อ (ชนะไป 2 กล)</text><text x="14" y="62" class="tagf s-bad" font-size="28">−2</text><text x="14" y="90" class="s-muted" font-size="12">ไม่มีโบนัสกลุ่ม</text></g>
+        </svg></div>
+        <figcaption>3 แดง กับ 6 แดง อาจยังว่าง แต่ X แดงของคุณหายไปแล้ว จึงใช้ไม่ได้ (กฎ 2)</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>เปิดมือ</h3><p>คนก่อเปิดการ์ดในมือให้ทุกคนดู แล้วประกาศว่าเกิดพาราด็อกซ์</p></div></li>
+        <li><div class="body"><h3>กลนั้นหยุดทันที</h3><p>กลที่เล่นค้างอยู่<b>ไม่มีใครชนะ</b> คนที่ยังไม่ได้ลงไม่ต้องลง การ์ดในกลนั้นวางแยกไว้ · <b>โทเคนที่วางไปแล้วในกลนั้นอยู่บนกระดานต่อ</b> (นับเข้ากลุ่มได้)</p></div></li>
+        <li><div class="body"><h3>ไปนับแต้ม</h3><p>คนก่อได้ <b>−1 ต่อกลที่ชนะ</b> และไม่มีโบนัส · คนอื่นนับตามปกติ</p></div></li>
+      </ol>
+      <div class="callout">
+        <h3>กติกากันโกง</h3>
+        <ul>
+          <li><b>ห้ามจงใจ</b>ก่อพาราด็อกซ์ ถ้ามีใบไหนลงได้ ต้องลง</li>
+          <li>ถ้าเปิดมือแล้วมีคนเห็นว่ามีใบที่ยังลงได้ ต้องลงใบนั้น แล้วเล่นกลต่อ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SCORE -->
+    <section id="score">
+      <div class="sec-head"><span class="tag">นับแต้ม</span><h2>จบรอบ และนับแต้ม</h2></div>
+      <p class="prose">รอบจบเมื่อทุกคนเหลือการ์ดในมือ 1 ใบ (เล่นครบ 8 กล · 5 คน 7 กล) หรือเมื่อเกิดพาราด็อกซ์</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>กรณี</th><th>แต้มจากกล</th><th>โบนัส</th><th>ตัวอย่าง</th></tr></thead>
+          <tbody>
+            <tr><td><b>ทายตรง</b></td><td>+1 / กล</td><td>+1 / โทเคนในกลุ่มติดกันที่ใหญ่สุด</td><td>ทาย 3 ชนะ 3 กลุ่ม 4 = <b>7</b></td></tr>
+            <tr><td><b>ทายไม่ตรง</b> (ขาดหรือเกิน)</td><td>+1 / กล</td><td>ไม่มี</td><td>ทาย 1 ชนะ 3 = <b>3</b></td></tr>
+            <tr><td><b>คนก่อพาราด็อกซ์</b></td><td><span style="color:var(--bad);font-weight:600">−1 / กล</span></td><td>ไม่มี (แม้ทายตรง)</td><td>ชนะ 2 กล = <b>−2</b> · ชนะ 0 กล = <b>0</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 200" role="img" aria-label="กลุ่มโทเคนสีม่วงติดกัน 4 อัน ทแยงไม่นับ">
+          <g class="s-surface2 s-line" stroke-width="1.5">
+            <rect x="60" y="20" width="40" height="40" rx="6"/><rect x="106" y="20" width="40" height="40" rx="6"/><rect x="152" y="20" width="40" height="40" rx="6"/><rect x="198" y="20" width="40" height="40" rx="6"/><rect x="244" y="20" width="40" height="40" rx="6"/>
+            <rect x="60" y="66" width="40" height="40" rx="6"/><rect x="106" y="66" width="40" height="40" rx="6"/><rect x="152" y="66" width="40" height="40" rx="6"/><rect x="198" y="66" width="40" height="40" rx="6"/><rect x="244" y="66" width="40" height="40" rx="6"/>
+            <rect x="60" y="112" width="40" height="40" rx="6"/><rect x="106" y="112" width="40" height="40" rx="6"/><rect x="152" y="112" width="40" height="40" rx="6"/><rect x="198" y="112" width="40" height="40" rx="6"/><rect x="244" y="112" width="40" height="40" rx="6"/>
+            <rect x="60" y="158" width="40" height="40" rx="6"/><rect x="106" y="158" width="40" height="40" rx="6"/><rect x="152" y="158" width="40" height="40" rx="6"/><rect x="198" y="158" width="40" height="40" rx="6"/><rect x="244" y="158" width="40" height="40" rx="6"/>
+          </g>
+          <g><rect x="14" y="20" width="40" height="40" rx="6" fill="#d6453b"/><rect x="14" y="66" width="40" height="40" rx="6" fill="#2f6fd0"/><rect x="14" y="112" width="40" height="40" rx="6" fill="#d9a91c"/><rect x="14" y="158" width="40" height="40" rx="6" fill="#3a9a4c"/></g>
+          <path d="M126 86 H172 V132 H218 V132" class="s-stroke-good" stroke-width="5" fill="none" opacity=".5" stroke-linecap="round"/>
+          <path d="M172 86 V132" class="s-stroke-good" stroke-width="5" opacity=".5" stroke-linecap="round"/>
+          <g stroke="#14122a" stroke-width="1.5" fill="#8a4fc2"><circle cx="126" cy="86" r="13"/><circle cx="172" cy="86" r="13"/><circle cx="172" cy="132" r="13"/><circle cx="218" cy="132" r="13"/><circle cx="264" cy="178" r="13"/><circle cx="80" cy="40" r="13"/></g>
+          <g stroke="#14122a" stroke-width="1.5" fill="#e07b24"><circle cx="218" cy="86" r="13"/><circle cx="126" cy="132" r="13"/></g>
+          <g class="tagf" font-size="13">
+            <text x="310" y="70" class="s-good">ม่วง: กลุ่มใหญ่สุด = 4 อัน → โบนัส 4</text>
+            <text x="310" y="96" class="s-muted">ติดกันได้แค่ บน ล่าง ซ้าย ขวา</text>
+            <text x="310" y="150" class="s-bad">ม่วงมุมขวาล่าง ติดแค่ทแยง → ไม่นับ</text>
+            <text x="310" y="40" class="s-muted">ม่วงมุมซ้ายบน อยู่เดี่ยว เป็นกลุ่ม 1</text>
+            <text x="310" y="176" class="s-muted">นับกลุ่มใหญ่สุดกลุ่มเดียว ไม่บวกทุกกลุ่ม</text>
+          </g>
+        </svg></div>
+        <figcaption>กลุ่มข้ามแถวสีได้ ขอแค่ติดกันแนวตั้งหรือแนวนอน · โทเคนสังเกตและโทเคนคนอื่นตัดกลุ่ม</figcaption>
+      </figure>
+      <p class="note">โทเคนที่ใช้ทายบนบอร์ดผู้เล่นกับโทเคนบน X ไม่นับในกลุ่ม นับเฉพาะโทเคนบนกระดานวิจัย · ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม</h2></div>
+      <ul class="prose">
+        <li>เล่น<b>จำนวนรอบเท่าจำนวนผู้เล่น</b> (2 คน = 2 รอบ · 3 คน = 3 รอบ · 5 คน = 5 รอบ) ทุกคนได้เป็นคนเริ่มรอบคนละครั้ง</li>
+        <li>เริ่มรอบใหม่: เก็บโทเคนทั้งหมดออกจากกระดานวิจัย วางโทเคนบน X ใหม่ทั้ง 4 สี สับการ์ดแจกใหม่</li>
+        <li>แต้มรวมมากสุดชนะ · <b>เสมอ</b> ดูแต้มรอบสุดท้าย ใครมากกว่าชนะ ยังเสมออีก ชนะร่วมกัน</li>
+      </ul>
+    </section>
+
+    <!-- TWO -->
+    <section id="two">
+      <div class="xhead" style="--c:var(--x-two)"><span class="tag">ตามจำนวนคน · 2 PLAYERS</span><h2>เล่น 2 คน</h2><p>ไม่มีการทาย แต่เปิดการ์ดกลางโต๊ะมาจองช่องบนกระดานวิจัยก่อนเริ่มรอบ ทำให้ช่องที่ใช้ได้น้อยลงและพาราด็อกซ์เกิดง่ายขึ้น</p><div class="xmeta"><span>การ์ด 25 ใบ</span><span>2 รอบ</span><span>ด้านขาว</span></div></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม</h3><p>ใช้การ์ด<b>เลข 1–5</b> (25 ใบ) บอร์ดผู้เล่น 2 แผ่น กระดานวิจัยด้านขาว<b>พับครึ่ง</b>ให้เหลือเลข 1–6 แล้ววางโทเคนสังเกตปิด<b>ช่องเลข 6 ทั้ง 4 แถว</b> · ช่องที่ประกาศได้จึงเป็น 1–5</p></div></li>
+        <li><div class="body"><h3>แจก แล้ววาง 5 ใบกลางโต๊ะ</h3><p>แจกคนละ 10 ใบ ที่เหลือ <b>5 ใบ</b>วางคว่ำกลางโต๊ะ</p></div></li>
+        <li><div class="body"><h3>เปิด 3 ใบมาจองช่อง</h3><p>เปิด 3 ใบจาก 5 ใบกลางโต๊ะ ใช้<b>โทเคนผู้เล่นสีที่ไม่มีคนใช้</b>วางบนกระดานวิจัยตามนี้</p>
+          <ul>
+            <li>ทุกเลขที่เปิด → วางบน<b>แถวเขียว</b>ที่เลขนั้น</li>
+            <li>เลขเดียวกันเปิดได้ 2 ใบ → วางบน<b>แถวเหลือง</b>ด้วย</li>
+            <li>เลขเดียวกันเปิดได้ 3 ใบ → วางบน<b>แถวน้ำเงิน</b>ด้วย</li>
+          </ul>
+          <p>ตัวอย่าง: เปิดได้ 2, 2, 5 → วางเขียว 2, เหลือง 2, เขียว 5 · ช่องเหล่านี้ประกาศไม่ได้ทั้งรอบ</p></div></li>
+        <li><div class="body"><h3>ไม่ต้องทาย</h3><p>คว่ำการ์ด 1 ใบตามปกติ แล้วเริ่มเล่นกลเลย</p></div></li>
+        <li><div class="body"><h3>นับแต้ม</h3><p>ได้ 1 แต้มต่อกลตามปกติ · ใครชนะ<b>ไม่เกิน 4 กล</b> ได้โบนัส · คนก่อพาราด็อกซ์ −1 ต่อกลเหมือนเดิม</p></div></li>
+      </ol>
+      <p class="note"><span class="unv">ยังไม่ยืนยัน</span> คู่มือที่หาได้ออนไลน์ไม่ได้เขียนตัวเลขโบนัสของ 2 คนไว้ น่าจะเท่ากับขนาดกลุ่มใหญ่สุดเหมือนปกติ สมุดคะแนนในหน้านี้คิดแบบนั้น ให้เช็กหน้ากติกา 2 คนในคู่มือกล่องคุณ · จบรอบที่ไม่มีพาราด็อกซ์ จะเหลือช่องว่างบนกระดาน 1 ช่อง เป็นเรื่องปกติ</p>
+    </section>
+
+    <!-- FIVE -->
+    <section id="five">
+      <div class="xhead" style="--c:var(--x-five)"><span class="tag">ตามจำนวนคน · 5 PLAYERS</span><h2>เล่น 5 คน</h2><p>ใช้การ์ดครบทุกใบ มือเล็กลง 1 ใบ จึงเหลือ 7 กลต่อรอบ กติกาอื่นเหมือนเดิมทั้งหมด</p><div class="xmeta"><span>การ์ด 45 ใบ</span><span>แจกคนละ 9</span><span>7 กล</span><span>5 รอบ</span></div></div>
+      <ul class="prose">
+        <li>ใช้การ์ดทั้ง 45 ใบ (เลข 1–9) บอร์ดผู้เล่น 5 แผ่น กระดานวิจัย<b>ด้านม่วง กางเต็ม</b> ไม่ใช้โทเคนสังเกต</li>
+        <li>แจกคนละ <b>9 ใบ</b> คว่ำ 1 ใบ เหลือ 8 ใบ เล่นจนเหลือ 1 ใบ = <b>7 กล</b></li>
+        <li>ทาย เล่นกล พาราด็อกซ์ และนับแต้ม เหมือนกติกาหลัก</li>
+      </ul>
+    </section>
+
+    <!-- SIM -->
+    <section id="sim">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>กระดานวิจัยจำลอง</h2></div>
+      <p class="prose">เถียงกันว่ากลุ่มใครใหญ่สุด? เลือกสีผู้เล่น แล้วแตะช่องให้ตรงกับกระดานจริง เครื่องจะนับกลุ่มติดกันที่ใหญ่สุดของแต่ละคน (ไม่นับทแยง) และไฮไลต์ให้ดู · ตารางนี้จำลอง<b>ด้านขาว</b> (เลขตรงกันทุกแถว) ถ้าเล่นด้านม่วง ให้แตะช่องตาม<b>ตำแหน่ง</b>บนกระดานจริง ไม่ใช่ตามเลข</p>
+      <div class="tool">
+        <div><span class="field-l">จำนวนผู้เล่น</span>
+          <div class="seg" id="s-n">
+            <button type="button" data-v="2" aria-pressed="false">2 คน (ใช้ 1–5)</button>
+            <button type="button" data-v="3" aria-pressed="false">3 คน (ใช้ 1–6)</button>
+            <button type="button" data-v="4" aria-pressed="true">4 คน (ปิดเลข 9)</button>
+            <button type="button" data-v="5" aria-pressed="false">5 คน</button>
+          </div></div>
+        <div><span class="field-l">แตะช่องเพื่อวางโทเคนของ</span><div class="seg legend" id="s-pick"></div></div>
+        <div class="scroll" style="overflow-x:auto"><div class="rb" id="s-board"></div></div>
+        <div class="grp-out" id="s-out" aria-live="polite"></div>
+        <div class="inrow"><button type="button" class="btn" id="s-clear">ล้างกระดาน</button><span class="note">แตะช่องที่มีโทเคนอยู่แล้วด้วยสีเดิมเพื่อลบออก</span></div>
+      </div>
+    </section>
+
+    <!-- JUDGE -->
+    <section id="judge">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>ตัวตัดสินกล</h2></div>
+      <p class="prose">ใส่การ์ดที่ลงในกลตามลำดับ เครื่องบอกว่าใครชนะ พร้อมเหตุผล และเตือนถ้ามีคนประกาศช่องซ้ำ หรือต้องเอาโทเคนออกจาก X</p>
+      <div class="tool">
+        <div class="plays" id="j-plays"></div>
+        <div class="result" aria-live="polite"><b id="j-out">–</b><span id="j-why">ใส่การ์ดอย่างน้อย 1 ใบ</span><small id="j-note"></small></div>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <p class="prose">แต่ละรอบใส่ คำทาย · กลที่ชนะ · ขนาดกลุ่มใหญ่สุด แล้วติ๊กถ้าเป็นคนก่อพาราด็อกซ์ เครื่องคิดแต้มรอบและรวมให้ เบราว์เซอร์จะจำไว้จนกดล้าง · โหมด 2 คนไม่มีช่องทาย ได้โบนัสเมื่อชนะไม่เกิน 4 กล</p>
+      <div class="tool pad">
+        <div class="inrow">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="p-n"><button type="button" data-v="2" aria-pressed="false">2 คน</button><button type="button" data-v="3" aria-pressed="false">3 คน</button><button type="button" data-v="4" aria-pressed="true">4 คน</button><button type="button" data-v="5" aria-pressed="false">5 คน</button></div></div>
+          <button type="button" class="btn" id="p-clear">ล้างสมุด</button>
+        </div>
+        <div class="tbl-wrap"><table id="p-tbl"></table></div>
+        <p class="note" id="p-win" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <p class="prose">รวมจุดที่โต๊ะมักเถียงกัน เรียงตามช่วงของรอบ คำตอบอิงคู่มือทางการ ข้อไหนคู่มือไม่ได้เขียนตรง ๆ จะบอกไว้</p>
+      <div class="faq">
+        <h3>ตอนทาย</h3>
+        <details open><summary>ทายก่อนหรือหลังคว่ำการ์ด?</summary><p><span class="verdict">คว่ำก่อน แล้วค่อยทาย</span> ทุกคนเลือกใบคว่ำก่อน จากนั้นทายทีละคนเริ่มจากคนเริ่มรอบ</p></details>
+        <details><summary>3 คน ทาย 2 กลได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> 3 คนทายได้แค่ 1, 3 หรือ 4</p></details>
+        <details><summary>ทายผิดแล้วโดนหักแต้มไหม?</summary><p><span class="verdict">ไม่หัก</span> ยังได้ 1 แต้มต่อกลตามปกติ แค่ไม่ได้โบนัสกลุ่ม · ชนะ<b>เกิน</b>คำทายก็ไม่ได้โบนัสเหมือนกัน ต้องตรงเป๊ะ</p></details>
+        <details><summary>ทาย 0 กล หรือเลขที่ไม่มีบนบอร์ดได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> ทายได้เฉพาะ 3 เลขที่พิมพ์บนช่องทายของบอร์ดผู้เล่น (ด้านตามจำนวนคน)</p></details>
+        <details><summary>3 คน ทำไมกระดานสั้นลง?</summary><p><span class="verdict">พับครึ่งตามกติกา</span> 3 คนใช้การ์ดเลข 1–6 เท่านั้น จึงพับกระดานให้เหลือ 1–6 · 2 คนก็พับเหมือนกัน แล้วปิดช่อง 6 ด้วยโทเคนสังเกต</p></details>
+        <details><summary>เล่น 2 คน ต้องทายไหม?</summary><p><span class="verdict no">ไม่ต้อง</span> 2 คนไม่มีการทาย แต่ใครชนะไม่เกิน 4 กลได้โบนัสแทน ดู <a href="#two">เล่น 2 คน</a></p></details>
+        <details><summary>2 คน การ์ดกลางโต๊ะ 2 ใบที่ไม่ได้เปิดใช้ทำอะไร?</summary><p><span class="verdict">ไม่ได้ใช้</span> คู่มือให้เปิดแค่ 3 ใบมาจองช่อง อีก 2 ใบไม่ได้ใช้ในรอบนั้น</p></details>
+
+        <h3>ตอนประกาศสี</h3>
+        <details open><summary>"ฉันมีสีแดงอยู่ในมือ แต่ประกาศเหลือง" โกงไหม?</summary><p><span class="verdict">ไม่โกง</span> การ์ดในมือไม่มีสีจริง สีเกิดตอนประกาศเท่านั้น ไม่มีคำว่า "มีสีนี้ในมือ" สิ่งเดียวที่จำกัดคือ 2 กฎ: ช่องบนกระดานว่าง และ X ของสีนั้นยังอยู่</p></details>
+        <details open><summary>ต้องตามสีนำไหม?</summary><p><span class="verdict">ไม่บังคับ</span> แต่ถ้าไม่ตาม ต้องหยิบโทเคนออกจาก X ของสีนำบนบอร์ดตัวเอง แล้วทั้งรอบประกาศสีนั้นไม่ได้อีก</p><p>เพราะงั้นที่ชอบพูดกันว่า "ต้องตามถ้าทำได้" แบบเกมไพ่ทั่วไป <b>ใช้ไม่ได้</b>กับเกมนี้</p></details>
+        <details><summary>ไม่ตามสีนำ แต่ X สีนั้นหายไปก่อนแล้ว ต้องหยิบอะไรออกอีกไหม?</summary><p><span class="verdict">ไม่มีอะไรต้องหยิบ</span> X หายไปแล้วก็จบ คุณประกาศสีนั้นไม่ได้อยู่แล้ว (คู่มือไม่ได้เขียนกรณีนี้ตรง ๆ แต่ไม่มีโทเคนให้หยิบ)</p></details>
+        <details><summary>ประกาศแดงตอนตาม ต้องเสีย X ไหม?</summary><p><span class="verdict">เสีย</span> แดงก็เป็น "สีอื่นที่ไม่ใช่สีนำ" ต้องหยิบโทเคนออกจาก X ของสีนำเหมือนกัน (ยกเว้นกลที่นำด้วยแดงอยู่แล้ว)</p></details>
+        <details><summary>ช่องว่าง แต่คนอื่นเคยประกาศเลขเดียวกันสีอื่นไปแล้ว ใช้ได้ไหม?</summary><p><span class="verdict">ได้</span> ห้ามซ้ำเฉพาะ<b>คู่สี + เลข</b>เดียวกัน 7 เหลืองถูกใช้แล้ว ยังประกาศ 7 แดง 7 ฟ้า 7 เขียวได้</p></details>
+        <details><summary>ลงการ์ดแล้วประกาศผิด (ช่องมีคนแล้ว) ทำยังไง?</summary><p>ประกาศใหม่ด้วยสีที่ถูกกติกา คู่มือไม่ได้กำหนดบทลงโทษ แนะนำให้ตกลงกันก่อนเริ่มว่าแก้ได้จนกว่าคนถัดไปจะลงการ์ด <span class="en">(กฎบ้าน)</span></p></details>
+
+        <h3>ตอนนำกล & แดง</h3>
+        <details open><summary>นำด้วยแดงได้เมื่อไร?</summary><p><span class="verdict">2 กรณี</span> (1) มีโทเคน<b>ของใครก็ได้</b>อยู่ในแถวแดงบนกระดานวิจัยแล้ว หรือ (2) คุณประกาศสีอื่นไม่ได้เลยกับการ์ดทุกใบในมือ · ไม่เกี่ยวกับ X แดงบนบอร์ดใคร</p></details>
+        <details><summary>คนชนะกลก่อนเป็นคนนำ หรือคนเริ่มรอบนำทุกกล?</summary><p><span class="verdict">คนชนะกลก่อนนำ</span> การ์ดคนเริ่มรอบใช้แค่กลแรก และเลื่อนทางซ้ายเมื่อจบรอบเท่านั้น</p></details>
+        <details><summary>แดงเลขน้อยชนะสีนำเลขมากได้จริงเหรอ?</summary><p><span class="verdict">จริง</span> แดง 1 ชนะสีนำ 9 · ถ้ามีแดงหลายใบ แดงเลขสูงสุดชนะ</p></details>
+        <details><summary>ลงสีที่สาม เลข 9 ชนะไหม?</summary><p><span class="verdict no">ไม่ชนะ</span> ชนะได้เฉพาะสีนำหรือแดง สีอื่นเลขเท่าไรก็แพ้</p></details>
+
+        <h3>พาราด็อกซ์</h3>
+        <details open><summary>ยังมีใบที่ลงได้ แต่อยากก่อพาราด็อกซ์ให้รอบจบเร็ว ได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> คู่มือเขียนชัดว่าห้ามจงใจ ถ้าเปิดมือแล้วมีคนชี้ว่ายังมีใบลงได้ ต้องลงใบนั้นและเล่นต่อ</p></details>
+        <details><summary>กลที่เกิดพาราด็อกซ์ ใครได้กลนั้น?</summary><p><span class="verdict">ไม่มีใครได้</span> การ์ดในกลวางแยก แต่<b>โทเคนที่วางไปแล้วในกลนั้นยังอยู่</b>บนกระดาน และนับเข้ากลุ่มได้</p></details>
+        <details><summary>คนอื่นได้แต้มตามปกติไหม ตอนมีคนก่อพาราด็อกซ์?</summary><p><span class="verdict">ได้ตามปกติ</span> นับกลที่ชนะ และถ้าทายตรงก็ได้โบนัสกลุ่ม (กลที่ค้างไม่นับให้ใคร)</p></details>
+        <details><summary>คนก่อทายตรงพอดี ได้โบนัสไหม?</summary><p><span class="verdict no">ไม่ได้</span> คนก่อไม่ได้โบนัสใด ๆ และกลที่ชนะกลายเป็น −1 ต่อกล</p></details>
+        <details><summary>คนสุดท้ายของกลก่อพาราด็อกซ์ คนที่ลงไปแล้วในกลนั้นชนะไหม?</summary><p><span class="verdict no">ไม่</span> กลหยุดทันทีไม่มีผู้ชนะ ไม่ว่าคนก่อจะนั่งตรงไหน</p></details>
+
+        <h3>นับแต้ม</h3>
+        <details open><summary>กลุ่มทแยงนับไหม?</summary><p><span class="verdict no">ไม่นับ</span> ติดกันได้แค่บน ล่าง ซ้าย ขวา ลองใน <a href="#sim">กระดานวิจัยจำลอง</a></p></details>
+        <details><summary>มีหลายกลุ่ม บวกทุกกลุ่มได้ไหม?</summary><p><span class="verdict no">ไม่ได้</span> นับกลุ่มที่ใหญ่สุดกลุ่มเดียว 1 แต้มต่อโทเคน</p></details>
+        <details><summary>กลุ่มข้ามแถวสีได้ไหม?</summary><p><span class="verdict">ได้</span> ขอแค่ช่องติดกันแนวตั้งหรือแนวนอน แถวแดงติดกับแถวฟ้าได้</p></details>
+        <details><summary>การ์ดที่คว่ำไว้ และใบสุดท้ายในมือ มีผลกับแต้มไหม?</summary><p><span class="verdict">ไม่มีผล</span> คู่มือไม่ได้ใช้สองใบนี้ในการนับแต้มเลย (ไม่ได้เขียนให้เปิดหรือนับ)</p></details>
+        <details><summary>แต้มติดลบได้ไหม?</summary><p><span class="verdict">ได้</span> คนก่อพาราด็อกซ์ได้ −1 ต่อกล รวมแล้วติดลบได้</p></details>
+        <details><summary>แต้มรวมเสมอกันตอนจบเกม?</summary><p>ดูแต้ม<b>รอบสุดท้าย</b> ใครมากกว่าชนะ ถ้ายังเสมอ ชนะร่วมกัน</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>กล <span class="en">Trick</span></dt><dd>รอบย่อยที่ทุกคนลงการ์ดคนละ 1 ใบ ใครชนะเก็บไป</dd>
+        <dt>สีนำ <span class="en">Led color</span></dt><dd>สีที่คนนำกลประกาศ</dd>
+        <dt>ไพ่ตัด <span class="en">Trump</span></dt><dd>แดง ชนะสีนำเสมอ</dd>
+        <dt>กระดานวิจัย <span class="en">Research board</span></dt><dd>ตาราง 4 สี × เลข ใช้จองคู่สี-เลขที่ประกาศแล้ว</dd>
+        <dt>บอร์ดผู้เล่น <span class="en">Player board</span></dt><dd>มี X ของ 4 สี และเลขสำหรับทาย</dd>
+        <dt>X</dt><dd>ช่องบนบอร์ดผู้เล่น มีโทเคน = ยังประกาศสีนั้นได้</dd>
+        <dt>โทเคนสังเกต <span class="en">Observed token</span></dt><dd>โทเคนกลางปิดช่องที่ไม่ใช้ (4 คน ปิดเลข 9 · 2 คน ปิดเลข 6)</dd>
+        <dt>ทาย <span class="en">Prediction</span></dt><dd>จำนวนกลที่คิดว่าจะชนะในรอบนี้</dd>
+        <dt>พาราด็อกซ์ <span class="en">Paradox</span></dt><dd>ถึงตาแล้วลงการ์ดใบไหนก็ไม่ผ่านกฎ รอบจบทันที</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยสำหรับ <b>Cat in the Box ฉบับภาษาอังกฤษของ Hobby Japan (2–5 คน)</b> ออกแบบโดย Muneyuki Yokouchi ภาพโดย Osamu Inoue อิงคู่มือ <b>Experiment Manual</b> ที่อยู่ในกล่อง (ข้อความเต็มจากแหล่งออนไลน์) และเทียบกับรีวิว จุดที่หาแหล่งยืนยันไม่ได้ติดป้าย "ยังไม่ยืนยัน" ไว้ ภาพประกอบวาดใหม่ทั้งหมด ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="https://www.64ouncegames.com/pages/cat-in-the-box-rules" target="_blank" rel="noopener">Cat in the Box: Experiment Manual (ข้อความกติกาเต็ม) · 64 Oz Games</a></li>
+      <li><a href="https://opinionatedgamers.com/2022/10/03/cat-in-the-box-deluxe-edition/" target="_blank" rel="noopener">รีวิว Cat in the Box · The Opinionated Gamers</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Cat_in_the_Box" target="_blank" rel="noopener">Cat in the Box · Wikipedia</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var COLORS=[{id:"r",th:"แดง",c:"#d6453b"},{id:"b",th:"ฟ้า",c:"#2f6fd0"},{id:"y",th:"เหลือง",c:"#d9a91c"},{id:"g",th:"เขียว",c:"#3a9a4c"}];
+var PCOL=["#e07b24","#8a4fc2","#1aa3a3","#c2417a","#5b7a2a","#8c8577"];
+var PNAME=["ส้ม","ม่วง","ฟ้าเขียว","ชมพู","เขียวขี้ม้า","กลาง"];
+var NEU=5;
+/* 2p: folded to 1–6, 6 covered · 3p: folded to 1–6 · 4p: full, 9 covered · 5p: full */
+function offCol(n,c){return (n===4&&c===9)||(n===2&&c>=6)||(n===3&&c>=7);}
+var store={get:function(k){try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+function segBind(id,cb){var host=document.getElementById(id);host.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;Array.prototype.forEach.call(host.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",String(x===b));});cb(b.dataset.v);});}
+function segSet(id,v){Array.prototype.forEach.call(document.getElementById(id).querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",String(x.dataset.v===String(v)));});}
+
+/* ---------- research board sim ---------- */
+var sim={n:4,pick:0,cells:{}};
+var board=document.getElementById("s-board"),pickHost=document.getElementById("s-pick"),out=document.getElementById("s-out");
+function drawPick(){
+  pickHost.innerHTML="";
+  var ids=[];for(var j=0;j<sim.n;j++)ids.push(j);if(sim.n===2)ids.push(NEU);
+  ids.forEach(function(i){(function(i){var b=document.createElement("button");b.type="button";b.style.setProperty("--c",PCOL[i]);b.innerHTML='<i></i>'+(i===NEU?'โทเคนกลาง (การ์ดที่เปิด)':'ผู้เล่น '+(i+1)+' ('+PNAME[i]+')');b.setAttribute("aria-pressed",String(sim.pick===i));b.addEventListener("click",function(){sim.pick=i;drawPick();});pickHost.appendChild(b);})(i);});
+}
+function key(r,c){return r+"-"+c;}
+function groups(){
+  var best={},seen={};
+  for(var r=0;r<4;r++)for(var c=1;c<=9;c++){
+    var k=key(r,c),p=sim.cells[k];if(p===undefined||seen[k])continue;
+    var stack=[[r,c]],grp=[];seen[k]=1;
+    while(stack.length){var cur=stack.pop();grp.push(key(cur[0],cur[1]));
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){var nr=cur[0]+d[0],nc=cur[1]+d[1],nk=key(nr,nc);if(nr<0||nr>3||nc<1||nc>9||seen[nk]||sim.cells[nk]!==p)return;seen[nk]=1;stack.push([nr,nc]);});}
+    if(!best[p]||grp.length>best[p].length)best[p]=grp;
+  }
+  return best;
+}
+function drawBoard(){
+  var best=groups(),hi={};
+  Object.keys(best).forEach(function(p){if(+p===NEU)return;best[p].forEach(function(k){hi[k]=1;});});
+  var h='<span></span>';for(var c=1;c<=9;c++)h+='<span class="lab">'+c+'</span>';
+  COLORS.forEach(function(col,r){
+    h+='<span class="rowlab" style="background:'+col.c+'">'+col.th+'</span>';
+    for(var c=1;c<=9;c++){
+      var k=key(r,c),p=sim.cells[k],off=offCol(sim.n,c),lb=p===undefined?'':(p===NEU?'•':(p+1));
+      h+='<button type="button" data-k="'+k+'" class="'+(off?'off':'')+(hi[k]?' best':'')+'"'+(off?' disabled aria-label="'+col.th+' '+c+' ไม่ใช้ (ปิดหรือพับ)"':' aria-label="'+col.th+' '+c+(p!==undefined?(p===NEU?' โทเคนกลาง':' โทเคนผู้เล่น '+(p+1)):' ว่าง')+'"')+(p!==undefined?' style="background:'+PCOL[p]+';border-color:'+PCOL[p]+'"':'')+'>'+lb+'</button>';
+    }
+  });
+  board.innerHTML=h;
+  var o='';for(var i=0;i<sim.n;i++){o+='<div class="co" style="border-left:5px solid '+PCOL[i]+'"><b>'+(best[i]?best[i].length:0)+'</b><small>ผู้เล่น '+(i+1)+' กลุ่มใหญ่สุด</small></div>';}
+  out.innerHTML=o;
+  store.set("citb-sim",{n:sim.n,cells:sim.cells});
+}
+board.addEventListener("click",function(e){var b=e.target.closest("button[data-k]");if(!b||b.disabled)return;var k=b.dataset.k;if(sim.cells[k]===sim.pick)delete sim.cells[k];else sim.cells[k]=sim.pick;drawBoard();});
+document.getElementById("s-clear").addEventListener("click",function(){sim.cells={};drawBoard();});
+segBind("s-n",function(v){sim.n=+v;if(sim.pick>=sim.n&&!(sim.n===2&&sim.pick===NEU))sim.pick=0;Object.keys(sim.cells).forEach(function(k){var p=sim.cells[k];if((p===NEU?sim.n!==2:p>=sim.n)||offCol(sim.n,+k.split("-")[1]))delete sim.cells[k];});drawPick();drawBoard();});
+var sv=store.get("citb-sim");if(sv&&sv.cells){sim.n=[2,3,4,5].indexOf(sv.n)>-1?sv.n:4;sim.cells=sv.cells;}
+segSet("s-n",sim.n);drawPick();drawBoard();
+
+/* ---------- trick judge ---------- */
+var plays=document.getElementById("j-plays");
+var ph='';
+for(var i=0;i<5;i++){
+  ph+='<div class="play"><span>'+(i===0?'คนนำ':'คนที่ '+(i+1))+'</span>'+
+    '<select data-i="'+i+'" data-f="c" aria-label="สีของคนที่ '+(i+1)+'"><option value="">— ไม่ลง —</option>'+COLORS.map(function(c){return '<option value="'+c.id+'">'+c.th+'</option>';}).join("")+'</select>'+
+    '<select data-i="'+i+'" data-f="n" aria-label="เลขของคนที่ '+(i+1)+'">'+[1,2,3,4,5,6,7,8,9].map(function(n){return '<option value="'+n+'"'+(n===5?' selected':'')+'>'+n+'</option>';}).join("")+'</select></div>';
+}
+plays.innerHTML=ph;
+function judge(){
+  var ps=[];
+  for(var i=0;i<5;i++){var c=plays.querySelector('[data-i="'+i+'"][data-f="c"]').value,n=+plays.querySelector('[data-i="'+i+'"][data-f="n"]').value;if(c)ps.push({who:i,c:c,n:n});}
+  var o=document.getElementById("j-out"),w=document.getElementById("j-why"),nt=document.getElementById("j-note");
+  if(!ps.length||ps[0].who!==0){o.textContent="–";w.textContent="ใส่การ์ดของคนนำก่อน";nt.textContent="";return;}
+  var name=function(p){return (p.who===0?'คนนำ':'คนที่ '+(p.who+1))+' ('+p.n+' '+COLORS.filter(function(c){return c.id===p.c;})[0].th+')';};
+  var dup={},dups=[];ps.forEach(function(p){var k=p.c+p.n;if(dup[k])dups.push(p.n+' '+COLORS.filter(function(c){return c.id===p.c;})[0].th);dup[k]=1;});
+  var led=ps[0].c,ledTh=COLORS.filter(function(c){return c.id===led;})[0].th;
+  var reds=ps.filter(function(p){return p.c==="r";}),pool=reds.length?reds:ps.filter(function(p){return p.c===led;});
+  var win=pool.reduce(function(a,b){return b.n>a.n?b:a;});
+  var notes=[];
+  if(dups.length)notes.push('⚠ ประกาศซ้ำช่อง '+dups.join(', ')+' ผิดกฎ 1 ต้องแก้ก่อน');
+  if(led==="r")notes.push('นำแดง: ทำได้ถ้ามีโทเคนในแถวแดงแล้ว หรือคนนำประกาศสีอื่นไม่ได้เลย');
+  var off=ps.slice(1).filter(function(p){return p.c!==led;});
+  if(off.length)notes.push(off.map(name).join(', ')+' ไม่ตามสี'+ledTh+' → หยิบโทเคนออกจาก X '+ledTh);
+  o.textContent=(win.who===0?'นำ':'#'+(win.who+1));
+  w.textContent=name(win)+' ชนะ';
+  nt.textContent=(reds.length&&led!=="r"?'มีแดงในกล แดงเลขสูงสุดชนะ':'ไม่มีแดง สี'+ledTh+'เลขสูงสุดชนะ')+(notes.length?' · '+notes.join(' · '):'');
+}
+plays.addEventListener("change",judge);
+plays.querySelector('[data-i="0"][data-f="c"]').value="b";
+plays.querySelector('[data-i="1"][data-f="c"]').value="b";plays.querySelector('[data-i="1"][data-f="n"]').value="8";
+plays.querySelector('[data-i="2"][data-f="c"]').value="r";plays.querySelector('[data-i="2"][data-f="n"]').value="2";
+judge();
+
+/* ---------- scorepad ---------- */
+var pad=store.get("citb-pad")||{n:4,r:{}};
+if([2,3,4,5].indexOf(pad.n)<0)pad.n=4;
+var tbl=document.getElementById("p-tbl");
+function rs(p,r){var v=pad.r[p+"-"+r]||{};return v;}
+/* bonus condition: 2 players = won 4 or fewer tricks (no prediction); otherwise exact prediction */
+function hit(v){var t=+v.t||0;if(pad.n===2)return t<=4;return v.b!==undefined&&v.b!==""&&+v.b===t;}
+function roundScore(v){
+  if(v.t===undefined||v.t==="")return null;
+  var t=+v.t||0;
+  if(v.px)return -t;
+  var s=t;if(hit(v))s+=(+v.g||0);
+  return s;
+}
+function drawPad(){
+  var n=pad.n,h='<thead><tr><th>ผู้เล่น</th>';
+  for(var r=1;r<=n;r++)h+='<th>รอบ '+r+'</th>';
+  h+='<th class="num">รวม</th></tr></thead><tbody>';
+  for(var p=0;p<n;p++){
+    h+='<tr><td><span class="dot" style="--c:'+PCOL[p]+'"></span>ผู้เล่น '+(p+1)+'</td>';
+    for(var r=1;r<=n;r++){var v=rs(p,r);
+      h+='<td><div class="rs" data-p="'+p+'" data-r="'+r+'">'+
+        (n===2?'':'<label>ทาย <input type="number" min="0" max="8" data-f="b" value="'+(v.b===undefined?'':v.b)+'"></label>')+
+        '<label>ชนะ <input type="number" min="0" max="8" data-f="t" value="'+(v.t===undefined?'':v.t)+'"></label>'+
+        '<label>กลุ่ม <input type="number" min="0" max="36" data-f="g" value="'+(v.g===undefined?'':v.g)+'"></label>'+
+        '<label><input type="checkbox" data-f="px"'+(v.px?' checked':'')+'> ก่อพาราด็อกซ์</label>'+
+        '<b data-out></b></div></td>';}
+    h+='<td class="num tot" data-tot="'+p+'"></td></tr>';
+  }
+  tbl.innerHTML=h+'</tbody>';
+  calcPad();
+}
+function calcPad(){
+  var tots=[],last=[];
+  for(var p=0;p<pad.n;p++){var t=0;for(var r=1;r<=pad.n;r++){var s=roundScore(rs(p,r));var cell=tbl.querySelector('.rs[data-p="'+p+'"][data-r="'+r+'"] [data-out]');
+      if(s===null){cell.textContent='';}else{var v=rs(p,r);var why=v.px?'(−1/กล)':(hit(v)?(pad.n===2?'(≤4 กล +':'(ตรง +')+(+v.g||0)+')':(pad.n===2?'(เกิน 4 กล)':'(ไม่ตรง)'));cell.textContent='= '+s+' '+why;t+=s;}
+      if(r===pad.n)last[p]=s||0;}
+    tots[p]=t;tbl.querySelector('[data-tot="'+p+'"]').textContent=t;}
+  var mx=Math.max.apply(null,tots),lead=tots.map(function(t,i){return t===mx?i:-1;}).filter(function(i){return i>=0;});
+  var msg='';
+  if(lead.length>1){var lm=Math.max.apply(null,lead.map(function(i){return last[i];}));var w=lead.filter(function(i){return last[i]===lm;});msg='เสมอที่ '+mx+' แต้ม → ดูรอบสุดท้าย: '+w.map(function(i){return 'ผู้เล่น '+(i+1);}).join(', ')+(w.length>1?' ยังเสมอ ชนะร่วมกัน':' นำ');}
+  else msg='นำอยู่: ผู้เล่น '+(lead[0]+1)+' ('+mx+' แต้ม)';
+  document.getElementById("p-win").textContent=msg;
+  store.set("citb-pad",pad);
+}
+tbl.addEventListener("input",function(e){var box=e.target.closest(".rs");if(!box)return;var k=box.dataset.p+"-"+box.dataset.r,v=pad.r[k]||(pad.r[k]={}),f=e.target.dataset.f;v[f]=f==="px"?e.target.checked:e.target.value;calcPad();});
+tbl.addEventListener("change",function(e){if(e.target.dataset.f==="px"){var box=e.target.closest(".rs"),k=box.dataset.p+"-"+box.dataset.r;(pad.r[k]||(pad.r[k]={})).px=e.target.checked;calcPad();}});
+segBind("p-n",function(v){pad.n=+v;drawPad();});
+document.getElementById("p-clear").addEventListener("click",function(){pad.r={};drawPad();});
+segSet("p-n",pad.n);drawPad();
+})();
+</script>
+
+</body></html>

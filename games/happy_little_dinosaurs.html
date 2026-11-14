@@ -1,0 +1,868 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Happy Little Dinosaurs ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600&display=swap">
+<style>
+/* Layout: volcanic-dusk header band, then a reading column with a sticky chapter rail on wide screens; diagrams are hand-drawn SVG cards. */
+:root{
+  --bg:#f6f4ef;
+  --surface:#ffffff;
+  --surface-2:#efeae3;
+  --fg:#2a1a2e;
+  --muted:#6b5a66;
+  --line:#ddd3cb;
+  --ember:#d9502a;
+  --ember-soft:#fbe3d9;
+  --dino:#6fae2e;
+  --dino-soft:#e6f2d8;
+  --raptor:#2f8fd6;
+  --ptero:#d24f9c;
+  --nat:#3f8f3a;
+  --pred:#c8372f;
+  --emo:#5a62d6;
+  --meteor:#e98a1c;
+  --card-dark:#33213a;
+  --card-dark-fg:#f6ece6;
+  --card-light:#fbf3e4;
+  --band-1:#2b1631;
+  --band-2:#5a2033;
+  --band-fg:#fff3ea;
+  --good:#3d8a3a;
+  --bad:#c8372f;
+  --font-display:"Mitr","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"IBM Plex Sans Thai Looped","Leelawadee UI","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1a1220;--surface:#241a2b;--surface-2:#2e2236;--fg:#f3ebe6;--muted:#b9a8b4;--line:#3d2f45;
+    --ember:#ff7a4d;--ember-soft:#4a2420;--dino:#9bd65a;--dino-soft:#2b3a20;--raptor:#5cb2f0;--ptero:#ee7cbf;
+    --nat:#6cc064;--pred:#ff6a5f;--emo:#8f96ff;--meteor:#ffad4d;
+    --card-dark:#140c18;--card-dark-fg:#f6ece6;--card-light:#3a2c3f;
+    --band-1:#140a19;--band-2:#3d1525;--band-fg:#fff3ea;--good:#76c96f;--bad:#ff6a5f;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1a1220;--surface:#241a2b;--surface-2:#2e2236;--fg:#f3ebe6;--muted:#b9a8b4;--line:#3d2f45;
+  --ember:#ff7a4d;--ember-soft:#4a2420;--dino:#9bd65a;--dino-soft:#2b3a20;--raptor:#5cb2f0;--ptero:#ee7cbf;
+  --nat:#6cc064;--pred:#ff6a5f;--emo:#8f96ff;--meteor:#ffad4d;
+  --card-dark:#140c18;--card-dark-fg:#f6ece6;--card-light:#3a2c3f;
+  --band-1:#140a19;--band-2:#3d1525;--band-fg:#fff3ea;--good:#76c96f;--bad:#ff6a5f;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16.5px;line-height:1.75;}
+a{color:var(--ember)}
+h1,h2,h3{font-family:var(--font-display);font-weight:500;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.75rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(160deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden;position:relative}
+.hero .wrap{padding-block:44px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-display);font-size:.85rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:600;margin-top:6px}
+.hero h1 span{display:block;font-size:.5em;font-weight:400;color:#ffc9a8;margin-top:4px}
+.hero .lede{margin-top:14px;font-size:1.08rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.fact{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-display);font-size:1.35rem;font-weight:500;color:#ffd166;font-variant-numeric:tabular-nums}
+.fact small{font-size:.82rem;opacity:.85}
+.hero-art{max-width:100%}
+.hero-art svg{width:100%;height:auto;display:block}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem}
+.toc p{font-family:var(--font-display);color:var(--muted);font-size:.8rem;letter-spacing:.06em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;counter-reset:t}
+.toc a{display:block;padding:5px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+main{min-width:0;display:grid;gap:56px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-display);font-size:.78rem;color:var(--ember);letter-spacing:.06em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.86em;color:var(--muted);font-style:normal}
+.kbd{font-family:var(--font-display);background:var(--surface-2);border-radius:6px;padding:0 6px;font-size:.92em;white-space:nowrap}
+
+.callout{background:var(--ember-soft);border-radius:14px;padding:16px 18px;max-width:46em}
+.callout.green{background:var(--dino-soft)}
+.callout h3{font-size:1.05rem;margin-bottom:6px}
+.note{font-size:.9rem;color:var(--muted);max-width:46em}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)}
+.s-line{stroke:var(--line)} .s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)}
+.s-ember{fill:var(--ember)} .s-dino{fill:var(--dino)} .s-cdark{fill:var(--card-dark)} .s-cdark-fg{fill:var(--card-dark-fg)} .s-clight{fill:var(--card-light)}
+.s-nat{fill:var(--nat)} .s-pred{fill:var(--pred)} .s-emo{fill:var(--emo)} .s-met{fill:var(--meteor)}
+.s-raptor{fill:var(--raptor)} .s-ptero{fill:var(--ptero)}
+.s-good{fill:var(--good)} .s-bad{fill:var(--bad)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display)}
+
+/* cards grid */
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
+
+/* timeline */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s;max-width:52em}
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-display);font-size:1.1rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--ember);color:#fff;z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.1rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-display);font-weight:500;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-display)}
+.pill{display:inline-block;border-radius:999px;padding:1px 10px;font-size:.85rem;font-family:var(--font-display);white-space:nowrap}
+.pill.up{background:var(--dino-soft);color:var(--good)}
+.pill.down{background:var(--ember-soft);color:var(--bad)}
+.pill.sd{background:var(--surface-2);color:var(--fg)}
+
+/* example */
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:4px;min-width:0}
+.ex .who{font-family:var(--font-display);font-size:.95rem}
+.ex .calc{font-size:.85rem;color:var(--muted)}
+.ex .total{font-family:var(--font-display);font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1.2}
+.ex.win{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
+.ex.lose{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+
+/* tools */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-family:var(--font-display);font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:4px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ember);border-color:var(--ember);color:#fff}
+.rows{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.row input[type=text]{font:inherit;width:100%;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:10px;padding:6px 10px}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.stepper button{font:inherit;width:34px;height:36px;border:0;background:var(--surface-2);color:var(--fg);cursor:pointer;font-size:1.1rem}
+.stepper input{font:inherit;font-family:var(--font-display);width:46px;height:36px;border:0;text-align:center;background:transparent;color:var(--fg);font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.result{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:6px;font-size:.95rem}
+.result .line{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.counters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.counter{border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px;justify-items:start;min-width:0}
+.counter .lab{display:flex;gap:6px;align-items:center;font-family:var(--font-display);font-size:.95rem}
+.status{font-family:var(--font-display);font-size:1.1rem}
+.status.ok{color:var(--good)} .status.out{color:var(--bad)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+
+/* glossary */
+.cards-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.cl{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.cl b{font-family:var(--font-display);font-weight:500}
+.cl .k{font-size:.78rem;font-family:var(--font-display);color:var(--muted);letter-spacing:.04em}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-weight:500}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.88rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc a{background:var(--surface-2);font-size:.85rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:320px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .meteor-fall{animation:fall 3.6s ease-in infinite}
+  .meteor-fall.d2{animation-delay:1.2s}
+  .meteor-fall.d3{animation-delay:2.3s}
+  @keyframes fall{0%{transform:translate(0,0);opacity:0}10%{opacity:1}80%{opacity:1}100%{transform:translate(-60px,120px);opacity:0}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · กล่องหลัก + ภาค 5–6 Player Expansion</div>
+      <h1>Happy Little Dinosaurs<span>วิธีเล่นแบบละเอียด สำหรับ 5–6 คน</span></h1>
+      <p class="lede">ทุกคนเป็นไดโนเสาร์ตัวน้อยที่ชีวิตโดนภัยพิบัติถล่มไม่หยุด เล่นการ์ดแต้มหลบภัยให้รอด แล้ววิ่งบนเส้นทางหนีตายให้ถึง 50 แต้มก่อนเพื่อน หรือเป็นไดโนตัวสุดท้ายที่ยังรอด</p>
+      <div class="facts">
+        <div class="fact"><b>2–6</b><small>ผู้เล่น (รวมภาคเสริม)</small></div>
+        <div class="fact"><b>50</b><small>แต้มเพื่อชนะ</small></div>
+        <div class="fact"><b>5</b><small>ใบในมือเสมอ</small></div>
+        <div class="fact"><b>3</b><small>ภัยครบชุด = ตกรอบ</small></div>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 320 240">
+        <g class="meteor-fall"><circle cx="250" cy="30" r="9" fill="#ffb347"/><path d="M256 24 L300 -10" stroke="#ff7a3d" stroke-width="6" stroke-linecap="round"/></g>
+        <g class="meteor-fall d2"><circle cx="150" cy="18" r="6" fill="#ffb347"/><path d="M154 14 L184 -8" stroke="#ff7a3d" stroke-width="4" stroke-linecap="round"/></g>
+        <g class="meteor-fall d3"><circle cx="300" cy="80" r="5" fill="#ffb347"/><path d="M303 76 L326 60" stroke="#ff7a3d" stroke-width="3" stroke-linecap="round"/></g>
+        <path d="M0 210 Q80 180 160 196 T320 190 V240 H0Z" fill="#1a0c1f"/>
+        <!-- little original dino: round body, spikes, big smile -->
+        <g transform="translate(70 92)">
+          <path d="M40 30 l12 -22 l10 24 z M66 22 l14 -22 l8 26 z M92 22 l14 -16 l4 24 z" fill="#ff9a5c"/>
+          <path d="M20 70 Q20 22 80 22 Q140 22 150 66 Q176 70 186 54 Q184 92 140 100 L30 100 Q20 92 20 70Z" fill="#8cc63f"/>
+          <ellipse cx="80" cy="84" rx="44" ry="14" fill="#a8d863"/>
+          <rect x="40" y="94" width="18" height="22" rx="8" fill="#6fae2e"/>
+          <rect x="100" y="94" width="18" height="22" rx="8" fill="#6fae2e"/>
+          <circle cx="52" cy="54" r="6" fill="#2a1a2e"/><circle cx="84" cy="54" r="6" fill="#2a1a2e"/>
+          <circle cx="54" cy="52" r="2" fill="#fff"/><circle cx="86" cy="52" r="2" fill="#fff"/>
+          <path d="M60 66 Q68 74 76 66" stroke="#2a1a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M100 40 q6 -6 12 0" stroke="#2a1a2e" stroke-width="2" fill="none" opacity=".35"/>
+        </g>
+        <text x="236" y="160" font-family="Mitr, sans-serif" font-size="13" fill="#ffd9c2" opacity=".9">(ยิ้มไว้ ใกล้จบแล้ว)</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#board">บอร์ดผู้เล่น</a></li>
+      <li><a href="#cards">ประเภทการ์ด</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#round">ลำดับ 1 รอบ</a></li>
+      <li><a href="#scoring">คิดคะแนน</a></li>
+      <li><a href="#five-six">กติกา 5–6 คน</a></li>
+      <li><a href="#ties">เสมอ & ดวลตัดสิน</a></li>
+      <li><a href="#elim">ตกรอบ & ชนะ</a></li>
+      <li><a href="#example">ตัวอย่าง 1 รอบ</a></li>
+      <li><a href="#helper">ตัวช่วยกลางโต๊ะ</a></li>
+      <li><a href="#glossary">ศัพท์บนการ์ด</a></li>
+      <li><a href="#faq">คำถามที่เจอบ่อย</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout green">
+        <h3>ทุกรอบเป็นแบบนี้</h3>
+        <ol class="prose" style="padding-left:1.3em;margin:0">
+          <li>เปิด<b>การ์ดภัยพิบัติ</b> 1 ใบกลางโต๊ะ</li>
+          <li>ทุกคนเลือก<b>การ์ดแต้ม</b> 1 ใบ คว่ำไว้ แล้วเปิดพร้อมกัน</li>
+          <li>บวกลบคะแนนจากนิสัยไดโน เอฟเฟกต์การ์ด และการ์ด Instant</li>
+          <li><b>คะแนนสูงสุด</b>เดินหมากไปข้างหน้าตามคะแนน (เล่น 5–6 คน: <b>อันดับ 1 และ 2 ได้เดินทั้งคู่</b>)</li>
+          <li><b>คะแนนต่ำสุด</b>ต้องเก็บการ์ดภัยพิบัติใบนั้น</li>
+          <li>จบรอบ: ทุกคนเดินเพิ่ม 1 ช่องต่อภัยพิบัติ 1 ใบที่ตัวเองมี แล้วจั่วจนครบ 5 ใบ</li>
+        </ol>
+      </div>
+      <p class="prose">ชนะเมื่อถึง <b>50 แต้ม</b>ก่อน หรือเป็นคนสุดท้ายที่ยังไม่ตกรอบ และ<b>ตกรอบ</b>ทันทีเมื่อมีภัยพิบัติ <b>3 ใบประเภทเดียวกัน</b> หรือ <b>ครบ 3 ประเภท</b> (อุกกาบาตนับเป็นประเภทไหนก็ได้)</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของ</th><th>กล่องหลัก</th><th>ภาค 5–6 คน</th><th>รวมเมื่อเล่น 6 คน</th></tr></thead>
+          <tbody>
+            <tr><td>บอร์ดผู้เล่น (ตัวละครไดโน)</td><td class="num">4</td><td class="num">2</td><td class="num">6</td></tr>
+            <tr><td>หมากไดโน (meeple ไม้)</td><td class="num">4</td><td class="num">2</td><td class="num">6</td></tr>
+            <tr><td>กองหลัก <span class="en">Main deck · หลังการ์ดสีอ่อน</span></td><td>69 ใบ<br><span class="en">Point 53 + Instant 16</span></td><td rowspan="2">การ์ดเพิ่ม 50 ใบ<br><span class="en">แยกตามสีหลังการ์ด</span></td><td rowspan="2">ผสมการ์ดภาคเสริมเข้ากองที่หลังสีตรงกัน</td></tr>
+            <tr><td>กองภัยพิบัติ <span class="en">Disaster deck · หลังการ์ดสีเข้ม</span></td><td>28 ใบ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ไดโนในกล่องหลักมี 4 ตัว เช่น <b>Nervous Rex</b> และ <b>Bad Luck Bronto</b> ส่วนภาค 5–6 คนเพิ่ม <b style="color:var(--raptor)">Raging Raptor</b> (แร็พเตอร์สีฟ้า) และ <b style="color:var(--ptero)">Pterry Dactyl</b> (เทอโรสีชมพู) สองตัวนี้มีค่าบวกลบจากนิสัยแรงกว่าตัวในกล่องหลัก ดูค่าจริงได้ที่มุมซ้ายล่างของบอร์ด</p>
+    </section>
+
+    <!-- BOARD -->
+    <section id="board">
+      <div class="sec-head"><span class="tag">ของแต่ละคน</span><h2>รู้จักบอร์ดผู้เล่น</h2></div>
+      <p class="prose">บอร์ดของแต่ละคนมี 3 ส่วน คือ ตัวไดโน <b>เส้นทางหนีตาย</b> <span class="en">Escape Route</span> ไว้เดินหมากนับแต้ม และ<b>ช่องเก็บภัยพิบัติ</b> <span class="en">Disaster Area</span> ไว้วางการ์ดภัยที่โดน</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 290" role="img" aria-label="แผนภาพบอร์ดผู้เล่น">
+          <rect x="10" y="10" width="660" height="200" rx="18" class="s-surface2"/>
+          <!-- dino portrait -->
+          <rect x="26" y="26" width="140" height="120" rx="12" class="s-surface"/>
+          <g transform="translate(40 52)">
+            <path d="M14 46 Q14 16 54 16 Q96 16 102 44 Q118 46 124 36 Q122 62 94 66 L22 66 Q14 60 14 46Z" class="s-dino"/>
+            <circle cx="40" cy="36" r="4" class="s-fg"/><circle cx="62" cy="36" r="4" class="s-fg"/>
+            <path d="M44 46 Q51 51 58 46" class="s-stroke-fg" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="96" y="138" text-anchor="middle" class="s-muted" font-size="12">ตัวละครไดโน</text>
+          <!-- traits -->
+          <rect x="26" y="156" width="140" height="42" rx="10" class="s-surface"/>
+          <text x="40" y="183" class="s-good disp" font-size="16">+1</text>
+          <circle cx="76" cy="177" r="9" class="s-pred"/>
+          <text x="98" y="183" class="s-bad disp" font-size="16">−1</text>
+          <circle cx="134" cy="177" r="9" class="s-emo"/>
+          <!-- escape route -->
+          <text x="186" y="40" class="s-fg disp" font-size="15">เส้นทางหนีตาย · Escape Route (0 → 50)</text>
+          <g id="track"></g>
+          <!-- disaster area -->
+          <text x="186" y="132" class="s-fg disp" font-size="15">ช่องเก็บภัยพิบัติ · Disaster Area</text>
+          <rect x="186" y="144" width="54" height="56" rx="6" class="s-pred"/>
+          <rect x="248" y="144" width="54" height="56" rx="6" class="s-nat"/>
+          <rect x="310" y="144" width="54" height="56" rx="6" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+          <rect x="372" y="144" width="54" height="56" rx="6" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+          <text x="444" y="168" class="s-muted" font-size="12.5">มีภัย 2 ใบ = จบทุกรอบ</text>
+          <text x="444" y="188" class="s-muted" font-size="12.5">ได้เดินเพิ่ม +2 ช่อง</text>
+          <!-- callouts below -->
+          <text x="26" y="236" class="s-fg disp" font-size="13.5">นิสัยไดโน (Dinosaur Traits)</text>
+          <text x="26" y="256" class="s-muted" font-size="12.5">ถ้าภัยรอบนี้ตรงสัญลักษณ์ +1 ได้คะแนนเพิ่ม 1, ตรง −1 โดนลบ 1</text>
+          <text x="26" y="276" class="s-muted" font-size="12.5">ตัวอย่างนี้คือ Nervous Rex: +1 เมื่อเจอภัยนักล่า, −1 เมื่อเจอภัยทางใจ</text>
+        </svg>
+        </div>
+        <figcaption>ภาพจำลองเพื่ออธิบายเท่านั้น หน้าตาบอร์ดจริงต่างจากนี้ แต่ตำแหน่งของแต่ละส่วนคล้ายกัน</figcaption>
+      </figure>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <div class="sec-head"><span class="tag">การ์ด 3 แบบ</span><h2>ประเภทการ์ด</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 300" role="img" aria-label="ตัวอย่างหน้าตาการ์ด 3 ประเภท">
+          <!-- point card -->
+          <rect x="20" y="20" width="170" height="240" rx="14" class="s-clight" stroke-width="1.5" style="stroke:var(--line)"/>
+          <text x="36" y="56" class="s-fg disp" font-size="30">7</text>
+          <text x="174" y="248" text-anchor="end" class="s-fg disp" font-size="30">7</text>
+          <rect x="44" y="76" width="122" height="80" rx="10" class="s-surface2"/>
+          <text x="105" y="122" text-anchor="middle" class="s-muted" font-size="12">รูปอาวุธ/ของ</text>
+          <text x="105" y="176" text-anchor="middle" class="s-fg disp" font-size="13">ชื่อการ์ด</text>
+          <rect x="34" y="186" width="142" height="34" rx="6" fill="none" class="s-stroke-muted" stroke-dasharray="4 3"/>
+          <text x="105" y="207" text-anchor="middle" class="s-muted" font-size="11">เอฟเฟกต์ (บางใบมี)</text>
+          <text x="105" y="286" text-anchor="middle" class="s-fg disp" font-size="14">การ์ดแต้ม · Point</text>
+          <!-- instant card -->
+          <rect x="255" y="20" width="170" height="240" rx="14" class="s-clight" style="stroke:var(--line)" stroke-width="1.5"/>
+          <rect x="255" y="20" width="170" height="40" rx="14" class="s-ember"/>
+          <rect x="255" y="44" width="170" height="16" class="s-ember"/>
+          <text x="340" y="46" text-anchor="middle" fill="#fff" class="disp" font-size="15">INSTANT</text>
+          <rect x="279" y="76" width="122" height="70" rx="10" class="s-surface2"/>
+          <text x="340" y="116" text-anchor="middle" class="s-muted" font-size="12">รูปการ์ด</text>
+          <text x="340" y="170" text-anchor="middle" class="s-fg disp" font-size="13">ชื่อการ์ด</text>
+          <text x="340" y="196" text-anchor="middle" class="s-muted" font-size="11">“Play this card</text>
+          <text x="340" y="212" text-anchor="middle" class="s-muted" font-size="11">during scoring...”</text>
+          <text x="340" y="240" text-anchor="middle" class="s-muted" font-size="11">← บอกจังหวะที่ลงได้</text>
+          <text x="340" y="286" text-anchor="middle" class="s-fg disp" font-size="14">การ์ดด่วน · Instant</text>
+          <!-- disaster card -->
+          <rect x="490" y="20" width="170" height="240" rx="14" class="s-cdark"/>
+          <circle cx="520" cy="50" r="14" class="s-pred"/>
+          <path d="M514 42 l4 16 M520 41 l4 16 M526 42 l4 16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <text x="644" y="56" text-anchor="end" class="s-cdark-fg" font-size="11">ประเภทภัย</text>
+          <rect x="514" y="76" width="122" height="80" rx="10" fill="rgba(255,255,255,.08)"/>
+          <text x="575" y="122" text-anchor="middle" class="s-cdark-fg" font-size="12" opacity=".7">รูปภัยพิบัติ</text>
+          <text x="575" y="180" text-anchor="middle" class="s-cdark-fg disp" font-size="13">ชื่อภัยพิบัติ</text>
+          <text x="575" y="208" text-anchor="middle" class="s-cdark-fg" font-size="11" opacity=".75">(บางใบมีผลต่อคะแนน)</text>
+          <text x="575" y="286" text-anchor="middle" class="s-fg disp" font-size="14">การ์ดภัยพิบัติ · Disaster</text>
+        </svg>
+        </div>
+        <figcaption>ภาพจำลองโครงการ์ด ไม่ใช่ลายจริง ดูเลขแต้มที่มุมการ์ด และคำว่า Instant / ประเภทภัยตามจุดที่ชี้ไว้</figcaption>
+      </figure>
+
+      <div class="types">
+        <div class="type">
+          <h3><span class="dot" style="background:var(--card-light);border:1px solid var(--muted)"></span>การ์ดแต้ม <span class="en">Point</span></h3>
+          <p>มีแต้ม <b>0–9</b> ทุกรอบต้องเล่น 1 ใบแบบคว่ำ บางใบมีเอฟเฟกต์ เช่น จั่ว ทิ้ง สลับการ์ดกับคนอื่น หรือเปลี่ยนวิธีคิดคะแนนรอบนั้น เอฟเฟกต์ใช้ได้หลังเปิดการ์ดและก่อนคิดคะแนน ใช้ได้ครั้งเดียวต่อใบต่อรอบ</p>
+        </div>
+        <div class="type">
+          <h3><span class="dot" style="background:var(--ember)"></span>การ์ดด่วน <span class="en">Instant</span></h3>
+          <p>ไม่ต้องคว่ำตอนต้นรอบ ถือไว้ในมือแล้วลงเมื่อถึงจังหวะที่การ์ดเขียนไว้ มี 2 จังหวะหลัก: <b>ตอนคิดคะแนน</b> (บวก/ลบ/สลับคะแนน) และ<b>ตอนกำลังจะโดนภัยพิบัติ</b> (หลบหรือส่งภัยต่อ) ใช้แล้วทิ้ง</p>
+        </div>
+        <div class="type">
+          <h3><span class="dot" style="background:var(--card-dark)"></span>การ์ดภัยพิบัติ <span class="en">Disaster</span></h3>
+          <p>เปิดรอบละใบ คนคะแนนต่ำสุดต้องเก็บ มี 3 ประเภท แต่ละประเภทมีสีและสัญลักษณ์ของตัวเอง และมี<b>อุกกาบาต</b> <span class="en">Meteor</span> ที่นับเป็นประเภทไหนก็ได้</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+            <span class="pill sd"><span class="dot" style="background:var(--nat);width:10px;height:10px"></span> ธรรมชาติ <span class="en">Natural</span></span>
+            <span class="pill sd"><span class="dot" style="background:var(--pred);width:10px;height:10px"></span> นักล่า <span class="en">Predatory</span></span>
+            <span class="pill sd"><span class="dot" style="background:var(--emo);width:10px;height:10px"></span> ทางใจ <span class="en">Emotional</span></span>
+            <span class="pill sd"><span class="dot" style="background:var(--meteor);width:10px;height:10px"></span> อุกกาบาต <span class="en">Meteor</span></span>
+          </div>
+        </div>
+      </div>
+      <p class="note">สีในหน้านี้ใช้แยกประเภทให้อ่านง่ายเท่านั้น บนการ์ดจริงให้ดูสัญลักษณ์ประเภทภัยแล้วเทียบกับมุมซ้ายล่างของบอร์ด</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม 5–6 คน</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>ผสมการ์ดภาคเสริม</h3><p>เอาการ์ด 50 ใบจากกล่อง 5–6 คน ผสมเข้ากับการ์ดกล่องหลัก โดยดูสีหลังการ์ด: <b>หลังสีอ่อน</b>เข้ากองหลัก <b>หลังสีเข้ม</b>เข้ากองภัยพิบัติ (ทำครั้งเดียว เก็บรวมกันไว้เลยก็ได้)</p></div></li>
+        <li><div class="body"><h3>เลือกไดโน</h3><p>แต่ละคนหยิบบอร์ด 1 แผ่นกับหมากสีเดียวกัน วางหมากไว้ช่องเริ่มต้น (0 แต้ม) ของเส้นทางหนีตาย บอร์ดที่เหลือเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>แจกการ์ด</h3><p>สับการ์ดหลังสีอ่อน แจกคนละ <b>5 ใบ</b> ที่เหลือคว่ำกลางโต๊ะเป็น<b>กองหลัก</b> เว้นที่ด้านขวาไว้เป็น<b>กองทิ้ง</b></p></div></li>
+        <li><div class="body"><h3>วางกองภัยพิบัติ</h3><p>สับการ์ดหลังสีเข้ม คว่ำไว้ทางซ้ายของกองหลัก พร้อมเล่น</p></div></li>
+      </ol>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 380" role="img" aria-label="การจัดโต๊ะสำหรับ 6 คน">
+          <ellipse cx="340" cy="190" rx="250" ry="140" class="s-surface2"/>
+          <!-- decks -->
+          <rect x="230" y="150" width="56" height="80" rx="8" class="s-cdark"/>
+          <text x="258" y="196" text-anchor="middle" class="s-cdark-fg disp" font-size="12">ภัย</text>
+          <rect x="312" y="150" width="56" height="80" rx="8" class="s-clight" style="stroke:var(--muted)" stroke-width="1.2"/>
+          <text x="340" y="196" text-anchor="middle" class="s-fg disp" font-size="12">กองหลัก</text>
+          <rect x="394" y="150" width="56" height="80" rx="8" fill="none" class="s-stroke-muted" stroke-dasharray="5 4" stroke-width="1.5"/>
+          <text x="422" y="196" text-anchor="middle" class="s-muted disp" font-size="12">กองทิ้ง</text>
+          <text x="258" y="250" text-anchor="middle" class="s-muted" font-size="11">Disaster deck</text>
+          <text x="340" y="250" text-anchor="middle" class="s-muted" font-size="11">Main deck</text>
+          <text x="422" y="250" text-anchor="middle" class="s-muted" font-size="11">Discard</text>
+          <!-- players -->
+          <g id="seats"></g>
+        </svg>
+        </div>
+        <figcaption>ตัวอย่างการจัดโต๊ะ 6 คน: กองการ์ดอยู่กลาง ทุกคนวางบอร์ดของตัวเองไว้ตรงหน้า ให้ทุกคนมองเห็นภัยพิบัติของกันและกันได้</figcaption>
+      </figure>
+    </section>
+
+    <!-- ROUND -->
+    <section id="round">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ลำดับการเล่น 1 รอบ</h2></div>
+      <p class="prose">ทุกคนเล่นพร้อมกัน ไม่มีการเวียนตา หนึ่งรอบมี 8 จังหวะตามลำดับนี้</p>
+      <ol class="steps">
+        <li><div class="body"><h3>เปิดภัยพิบัติ</h3><p>เปิดการ์ดใบบนสุดของกองภัยพิบัติ อ่านออกเสียง ดูว่าเป็นภัยประเภทไหน เพราะนิสัยไดโนแต่ละตัวจะได้บวกหรือโดนลบตามประเภทนี้</p></div></li>
+        <li><div class="body"><h3>คว่ำการ์ดแต้ม</h3><p>ทุกคนเลือกการ์ดแต้ม 1 ใบจากมือ วางคว่ำไว้ตรงหน้า</p><ul><li>ถ้าในมือ<b>ไม่มีการ์ดแต้มเลย</b> (มีแต่ Instant) ให้ทิ้งทั้งมือ จั่วใหม่ 5 ใบ ทำซ้ำจนกว่าจะมีการ์ดแต้มให้ลง</li></ul></div></li>
+        <li><div class="body"><h3>เปิดพร้อมกัน</h3><p>เมื่อทุกคนคว่ำครบ นับ 1-2-3 แล้วเปิดพร้อมกัน</p></div></li>
+        <li><div class="body"><h3>ใช้เอฟเฟกต์การ์ดแต้ม</h3><p>การ์ดที่มีเอฟเฟกต์ทำงานตามลำดับนี้</p>
+          <ul>
+            <li>การ์ดที่เขียน <span class="kbd">During this round</span> ทำงาน<b>ก่อนทุกใบ</b></li>
+            <li>จากนั้น<b>แต้มบนการ์ดน้อยสุดได้ใช้ก่อน</b> ถ้าแต้มเท่ากัน คนที่มีแต้มสะสมบนเส้นทางน้อยกว่าได้ก่อน ถ้ายังเท่ากันอีก คนอายุน้อยสุดได้ก่อน</li>
+            <li>การ์ดที่เขียน <span class="kbd">During scoring this round</span> ทำงาน<b>ท้ายสุด</b> ตอนคิดคะแนน</li>
+          </ul></div></li>
+        <li><div class="body"><h3>คิดคะแนน + ลง Instant</h3><p>คะแนนรอบนี้ = แต้มบนการ์ด ± นิสัยไดโน ± ผลจากเอฟเฟกต์ ± ผลจากการ์ดภัยในช่องของเรา (ถ้าการ์ดนั้นเขียนไว้) ตอนนี้ใครมี Instant แบบ <span class="kbd">Play this card during scoring</span> ลงได้</p></div></li>
+        <li><div class="body"><h3>แจกแต้ม</h3><p>คะแนนสูงสุดเดินหมากไปข้างหน้าเท่ากับคะแนนที่ได้ <b>ถ้าเล่น 5–6 คน อันดับ 2 ก็ได้เดินด้วย</b> (ดูรายละเอียดหัวข้อกติกา 5–6 คน)</p></div></li>
+        <li><div class="body"><h3>คนต่ำสุดรับภัยพิบัติ</h3><p>คนคะแนนต่ำสุดเอาการ์ดภัยพิบัติไปวางในช่องเก็บภัยของตัวเอง</p>
+          <ul>
+            <li>ก่อนรับ ลง Instant แบบ <span class="kbd">Play this card if you would add a Disaster card…</span> เพื่อหลบหรือส่งภัยต่อได้</li>
+            <li>ถ้าต่ำสุด<b>เสมอกัน</b> ต้องดวลตัดสิน (Sudden Death)</li>
+            <li>คนที่รับภัย <b>ทิ้งการ์ดในมือได้ 1 ใบ</b> (ไม่บังคับ) ไว้ระบายการ์ดที่ไม่อยากได้</li>
+            <li>เช็กทันทีว่าครบชุดตกรอบหรือยัง</li>
+          </ul></div></li>
+        <li><div class="body"><h3>จบรอบ</h3>
+          <ul>
+            <li>ทุกคนเดินหมาก<b>เพิ่ม 1 ช่องต่อภัยพิบัติ 1 ใบ</b>ในช่องของตัวเอง (โดนภัยเยอะก็เดินเยอะ)</li>
+            <li>ทุกคนจั่วจากกองหลักจนมีในมือ <b>5 ใบ</b></li>
+            <li>เก็บการ์ดแต้มและ Instant ที่หงายอยู่ลงกองทิ้ง</li>
+            <li>กองหลักหมดเมื่อไร ให้สับกองทิ้งมาเป็นกองหลักใหม่</li>
+          </ul></div></li>
+      </ol>
+    </section>
+
+    <!-- SCORING -->
+    <section id="scoring">
+      <div class="sec-head"><span class="tag">ตัวเลข</span><h2>วิธีคิดคะแนน</h2></div>
+      <p class="prose">ระวังสองคำนี้ไม่ให้ปนกัน: <b>คะแนน</b> <span class="en">score</span> คือตัวเลขของรอบนั้นที่ใช้วัดสูงต่ำ ส่วน<b>แต้ม</b> <span class="en">points</span> คือจำนวนช่องที่เดินบนเส้นทางหนีตาย สะสมไปเรื่อย ๆ</p>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 150" role="img" aria-label="สูตรคิดคะแนน">
+          <g class="disp" font-size="14">
+            <rect x="10" y="30" width="112" height="70" rx="12" class="s-clight" style="stroke:var(--line)"/>
+            <text x="66" y="62" text-anchor="middle" class="s-fg" font-size="22">6</text>
+            <text x="66" y="86" text-anchor="middle" class="s-muted" font-size="12">แต้มบนการ์ด</text>
+            <text x="136" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="156" y="30" width="112" height="70" rx="12" class="s-surface2"/>
+            <text x="212" y="62" text-anchor="middle" class="s-good" font-size="22">+1</text>
+            <text x="212" y="86" text-anchor="middle" class="s-muted" font-size="12">นิสัยไดโน</text>
+            <text x="282" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="302" y="30" width="112" height="70" rx="12" class="s-surface2"/>
+            <text x="358" y="62" text-anchor="middle" class="s-fg" font-size="22">0</text>
+            <text x="358" y="86" text-anchor="middle" class="s-muted" font-size="12">เอฟเฟกต์การ์ด</text>
+            <text x="428" y="72" class="s-fg" font-size="22">+</text>
+            <rect x="448" y="30" width="112" height="70" rx="12" class="s-ember" opacity=".16"/>
+            <text x="504" y="62" text-anchor="middle" class="s-ember" font-size="22">+2</text>
+            <text x="504" y="86" text-anchor="middle" class="s-muted" font-size="12">Instant</text>
+            <text x="574" y="72" class="s-fg" font-size="22">=</text>
+            <circle cx="636" cy="65" r="34" class="s-dino"/>
+            <text x="636" y="74" text-anchor="middle" fill="#fff" font-size="26">9</text>
+          </g>
+          <text x="10" y="130" class="s-muted" font-size="12.5">ตัวอย่าง: Nervous Rex ลงการ์ด 6 เจอภัยนักล่า (+1) แล้วมีคนเล่น Score Booster ให้ (+2) คะแนนรอบนี้ = 9</text>
+        </svg>
+        </div>
+      </figure>
+      <div class="prose">
+        <ul>
+          <li><b>Instant ลงได้กี่ใบก็ได้</b> ตราบที่ถึงจังหวะตามที่การ์ดเขียน ลงกับตัวเองหรือคนอื่นก็ได้ถ้าการ์ดบอกว่า <span class="kbd">any player</span></li>
+          <li><b>กลับคะแนน</b> <span class="en">invert</span> สลับเฉพาะคนสูงสุดกับคนต่ำสุดเท่านั้น คนกลาง ๆ ไม่โดน ถ้ามีคนเสมอที่สูงสุดหรือต่ำสุด ทุกคนที่เสมอโดนกลับหมด เช่น ต่ำสุดเสมอกันที่ 3 สองคน สูงสุดได้ 9 พอกลับแล้วสองคนนั้นได้ 9 คนเดิมได้ 3</li>
+          <li>การ์ดภัยพิบัติบางใบที่อยู่ในช่องของเรามีผลต่อคะแนน อ่านข้อความบนการ์ดภัยของตัวเองทุกรอบ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5-6 -->
+    <section id="five-six">
+      <div class="sec-head"><span class="tag">ภาคเสริม</span><h2>กติกาเฉพาะ 5–6 คน</h2></div>
+      <div class="callout">
+        <h3>ข้อเปลี่ยนหลักมีข้อเดียว</h3>
+        <p>เล่น 5–6 คน <b>คะแนนสูงสุด 2 อันดับแรกได้เดินหมากทั้งคู่</b> (แต่ละคนเดินเท่ากับคะแนนของตัวเอง) ส่วนคนต่ำสุดยังรับภัยพิบัติ 1 ใบเหมือนเดิม กติกาอื่นเหมือนกล่องหลักทั้งหมด</p>
+      </div>
+      <p class="prose">กรณีเสมอ ให้ดูตามตารางนี้</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>สถานการณ์</th><th>ตัวอย่างคะแนน (6 คน)</th><th>ใครได้เดิน</th><th>ใครรับภัย</th></tr></thead>
+          <tbody>
+            <tr><td>ปกติ ไม่มีใครเสมอ</td><td class="num">9 · 7 · 5 · 4 · 3 · 1</td><td><span class="pill up">9</span> <span class="pill up">7</span></td><td><span class="pill down">1</span></td></tr>
+            <tr><td>เสมอกันที่อันดับ 1</td><td class="num">8 · 8 · 6 · 5 · 4 · 2</td><td>ทุกคนที่เสมออันดับ 1: <span class="pill up">8</span> <span class="pill up">8</span><br><span class="en">อันดับถัดไป (6) ไม่ได้เดิน</span></td><td><span class="pill down">2</span></td></tr>
+            <tr><td>อันดับ 1 คนเดียว แต่เสมอกันที่อันดับ 2</td><td class="num">9 · 6 · 6 · 4 · 3 · 2</td><td><span class="pill up">9</span> และทุกคนที่ได้ <span class="pill up">6</span></td><td><span class="pill down">2</span></td></tr>
+            <tr><td>อันดับ 1 คนเดียว คนที่เหลือเสมอกันหมด</td><td class="num">9 · 4 · 4 · 4 · 4 · 4</td><td>เฉพาะ <span class="pill up">9</span></td><td>คนที่ได้ 4 ทั้งหมด <span class="pill sd">ดวลตัดสิน</span></td></tr>
+            <tr><td>ต่ำสุดเสมอกัน</td><td class="num">9 · 7 · 5 · 3 · 2 · 2</td><td><span class="pill up">9</span> <span class="pill up">7</span></td><td>สองคนที่ได้ 2 <span class="pill sd">ดวลตัดสิน</span></td></tr>
+            <tr><td>ทุกคนเสมอกันหมด</td><td class="num">5 · 5 · 5 · 5 · 5 · 5</td><td>ไม่มีใครได้</td><td>ไม่มีใครรับ ภัยใบนั้นไปไว้ใต้กอง</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">การ์ดที่กลับคะแนน (เช่น Score Inversion, Mouth Trap) สลับแค่คนสูงสุดกับคนต่ำสุด อันดับ 2 ไม่โดนสลับและยังได้เดินตามปกติ · ตารางนี้สรุปจากคู่มือภาค 5–6 คน ถ้าคู่มือเล่มเล็กในกล่องของคุณเขียนต่างไป ให้ยึดตามในกล่อง</p>
+    </section>
+
+    <!-- TIES -->
+    <section id="ties">
+      <div class="sec-head"><span class="tag">กรณีพิเศษ</span><h2>เสมอ และการดวลตัดสิน</h2></div>
+      <div class="prose">
+        <p><b>เสมอที่สูงสุด:</b> ทุกคนที่เสมอได้เดินตามคะแนนของตัวเอง ไม่ต้องตัดสินต่อ</p>
+        <p><b>เสมอที่ต่ำสุด → ดวลตัดสิน</b> <span class="en">Sudden Death</span></p>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>คว่ำการ์ดแต้มอีกใบ</h3><p>ทุกคนที่เสมอต่ำสุด เลือกการ์ดแต้มจากมืออีก 1 ใบ คว่ำไว้ แล้วเปิดพร้อมกัน</p></div></li>
+        <li><div class="body"><h3>ดูแค่ตัวเลขบนการ์ด</h3><p>ตอนดวล <b>ไม่นับ</b>นิสัยไดโน ไม่ใช้เอฟเฟกต์การ์ดแต้ม และลง Instant ไม่ได้ ไม่มีการกลับคะแนน อยากรอดให้ลงเลขสูงกว่าคนอื่น</p></div></li>
+        <li><div class="body"><h3>เลขต่ำสุดรับภัย</h3><p>คนที่เปิดได้เลขต่ำสุดรับภัยพิบัติ ถ้ายังเสมอกันอีก ดวลซ้ำจนกว่าจะได้คนแพ้</p></div></li>
+      </ol>
+      <div class="prose">
+        <ul>
+          <li>คนที่ดวลตัดสิน<b>ไม่ได้แต้มรอบนั้น</b> ถึงการ์ดใบใหม่จะสูงกว่าคนที่ชนะรอบก็ตาม</li>
+          <li>ถ้ามีคนหนึ่ง<b>ไม่มีการ์ดแต้มเหลือในมือ</b>ระหว่างดวล คนนั้นรับภัยไปเลย</li>
+          <li>ถ้า<b>หมดการ์ดแต้มมากกว่า 1 คน</b> เอาภัยใบนั้นไปไว้ใต้กองภัยพิบัติ จบรอบ ไม่มีใครรับ</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ELIM -->
+    <section id="elim">
+      <div class="sec-head"><span class="tag">แพ้ / ชนะ</span><h2>ตกรอบ และวิธีชนะ</h2></div>
+      <figure class="figure">
+        <div class="scroll">
+        <svg class="wide" viewBox="0 0 680 270" role="img" aria-label="ชุดภัยพิบัติที่ทำให้ตกรอบ">
+          <g id="elim-rows"></g>
+        </svg>
+        </div>
+        <figcaption>ตกรอบทันทีที่ครบชุด แล้วต้องทิ้งการ์ดทั้งมือ ออกจากเกม · สังเกตแถวล่าง: เก็บภัยได้มากสุด 4 ใบ (2+2) โดยยังไม่ตาย ใบที่ 5 ประเภทไหนก็ตกรอบ</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>ชนะแบบที่ 1</h3><p>เป็นคนแรกที่เดินหมากถึง <b>50 แต้ม</b>บนเส้นทางหนีตาย</p></div>
+        <div class="type"><h3>ชนะแบบที่ 2</h3><p>เป็น<b>ไดโนตัวสุดท้าย</b>ที่ยังไม่ตกรอบ ไม่ต้องสนแต้ม</p></div>
+        <div class="type"><h3>ภัยก็มีข้อดี</h3><p>จบทุกรอบเดินเพิ่ม 1 ช่องต่อภัย 1 ใบ คนที่ถือภัย 2 ใบได้ฟรี +2 ทุกรอบ เป็นการไล่ตามที่ได้ผลถ้ารอดได้</p></div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section id="example">
+      <div class="sec-head"><span class="tag">ลองดูของจริง</span><h2>ตัวอย่าง 1 รอบ (6 คน)</h2></div>
+      <p class="prose">เปิดภัยพิบัติได้ <b style="color:var(--pred)">ภัยนักล่า</b> ทุกคนคว่ำการ์ดแล้วเปิดพร้อมกัน</p>
+      <div class="ex-grid">
+        <div class="ex win"><span class="who">ต้น · Nervous Rex</span><span class="calc">การ์ด 6, นิสัย +1 (เจอนักล่า)</span><span class="total">7</span><span class="pill up">อันดับ 2 ร่วม</span></div>
+        <div class="ex win"><span class="who">บี</span><span class="calc">การ์ด 8</span><span class="total">8</span><span class="pill up">อันดับ 1</span></div>
+        <div class="ex"><span class="who">ซี</span><span class="calc">การ์ด 3</span><span class="total">3</span><span class="en">ไม่ได้ไม่เสีย</span></div>
+        <div class="ex lose"><span class="who">ดาว</span><span class="calc">การ์ด 2</span><span class="total">2</span><span class="pill sd">ดวลตัดสิน</span></div>
+        <div class="ex win"><span class="who">เอ็ม</span><span class="calc">การ์ด 5, Score Booster ให้ตัวเอง +2</span><span class="total">7</span><span class="pill up">อันดับ 2 ร่วม</span></div>
+        <div class="ex lose"><span class="who">ฟ้า</span><span class="calc">การ์ด 2</span><span class="total">2</span><span class="pill sd">ดวลตัดสิน</span></div>
+      </div>
+      <div class="prose">
+        <ol>
+          <li><b>แจกแต้ม:</b> บีสูงสุด 8 เดิน 8 ช่อง · อันดับ 2 เสมอกันที่ 7 คือต้นกับเอ็ม เลยได้เดินคนละ 7 ช่องทั้งคู่</li>
+          <li><b>ต่ำสุดเสมอ:</b> ดาวกับฟ้าได้ 2 เท่ากัน ต้องดวล ดาวลง 4 ฟ้าลง 1 → <b>ฟ้ารับภัยนักล่า</b> และทิ้งการ์ดในมือได้ 1 ใบ ดาวกับฟ้าไม่ได้แต้มรอบนี้</li>
+          <li><b>จบรอบ:</b> ทุกคนเดินเพิ่มตามจำนวนภัยที่มี (ฟ้าตอนนี้มีอย่างน้อย 1 ใบ ได้ +1) แล้วทุกคนจั่วให้ครบ 5 ใบ เก็บการ์ดบนโต๊ะลงกองทิ้ง</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ระหว่างเล่น</span><h2>ตัวช่วยกลางโต๊ะ</h2></div>
+      <p class="prose">ใส่คะแนนสุดท้ายของแต่ละคน (หลังบวกลบทุกอย่างแล้ว) ระบบบอกให้ว่าใครเดิน ใครรับภัย ตัวเลขที่ใส่ไว้ตอนนี้คือตัวอย่างจากหัวข้อก่อนหน้า</p>
+      <div class="tools">
+        <div class="tool">
+          <h3>ใครได้แต้ม ใครรับภัย</h3>
+          <div class="seg" role="group" aria-label="จำนวนผู้เล่น" id="pc"></div>
+          <div class="rows" id="rows"></div>
+          <div class="result" id="result" aria-live="polite"></div>
+        </div>
+        <div class="tool">
+          <h3>เช็กภัยในช่องของฉัน</h3>
+          <p class="note" style="margin:0">กด + ตามภัยที่มีอยู่ในช่องของคุณ ดูว่ายังรอดไหม และใบไหนอันตราย</p>
+          <div class="counters" id="counters"></div>
+          <div class="result" id="elim-result" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">อ่านการ์ดภาษาอังกฤษ</span><h2>ศัพท์ที่เจอบนการ์ด</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ภาษาอังกฤษบนการ์ด</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td><b>During this round</b></td><td>เอฟเฟกต์นี้ทำงาน<b>ก่อน</b>การ์ดแต้มใบอื่นทั้งหมด ไม่สนเลขบนการ์ด</td></tr>
+            <tr><td><b>During scoring this round</b></td><td>ทำงาน<b>ท้ายสุด</b> ตอนคิดคะแนน หลังเอฟเฟกต์อื่นเสร็จหมดแล้ว</td></tr>
+            <tr><td><b>Play this card during scoring</b></td><td>Instant ที่ลงได้ตอนคิดคะแนน</td></tr>
+            <tr><td><b>Play this card if you would add a Disaster card to your Disaster Area this round</b></td><td>Instant ที่ลงได้ตอนเรากำลังจะต้องรับภัย (เพราะต่ำสุด หรือมีคนส่งภัยมาให้)</td></tr>
+            <tr><td>score / your score</td><td>คะแนนของรอบนี้</td></tr>
+            <tr><td>points / Escape Route</td><td>แต้มสะสม / เส้นทางหนีตายบนบอร์ด</td></tr>
+            <tr><td>any player</td><td>ผู้เล่นคนไหนก็ได้ รวมตัวเองด้วย</td></tr>
+            <tr><td>another player / other players</td><td>คนอื่น (ไม่รวมตัวเอง)</td></tr>
+            <tr><td>highest / lowest</td><td>คะแนนสูงสุด / ต่ำสุด</td></tr>
+            <tr><td>draw · discard · swap</td><td>จั่ว · ทิ้ง · สลับ</td></tr>
+            <tr><td>invert</td><td>กลับคะแนน: คนสูงสุดได้คะแนนของคนต่ำสุด และกลับกัน</td></tr>
+            <tr><td>look at</td><td>แอบดู (ดูคนเดียว ไม่ต้องโชว์คนอื่น)</td></tr>
+            <tr><td>top of the Main deck</td><td>ใบบนสุดของกองหลัก</td></tr>
+            <tr><td>bottom of the Disaster deck</td><td>ใต้สุดของกองภัยพิบัติ</td></tr>
+            <tr><td>add (+X) / subtract (−X)</td><td>บวกเพิ่ม / ลบออก จากคะแนนรอบนี้</td></tr>
+            <tr><td>Sudden Death</td><td>ดวลตัดสินเมื่อต่ำสุดเสมอกัน</td></tr>
+            <tr><td>eliminated</td><td>ตกรอบ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:8px">ตัวอย่างการ์ดในกล่องหลัก</h3>
+      <p class="note">สรุปความหมายสั้น ๆ ไว้ให้เปิดดูตอนเล่น ข้อความจริงบนการ์ดอาจละเอียดกว่านี้ ให้ยึดตามการ์ด</p>
+      <div class="cards-list">
+        <div class="cl"><span class="k">INSTANT · ตอนคิดคะแนน</span><br><b>Score Booster</b><br>เลือกผู้เล่นคนใดก็ได้ (รวมตัวเอง) +2 คะแนน</div>
+        <div class="cl"><span class="k">INSTANT · ตอนคิดคะแนน</span><br><b>Score Sapper</b><br>เลือกผู้เล่นคนใดก็ได้ −2 คะแนน</div>
+        <div class="cl"><span class="k">INSTANT · ตอนคิดคะแนน</span><br><b>Score Inversion</b><br>กลับคะแนนคนสูงสุดกับคนต่ำสุด (ลงซ้ำ 2 ใบ = กลับคืน)</div>
+        <div class="cl"><span class="k">INSTANT · ตอนจะโดนภัย</span><br><b>Disaster Insurance</b><br>ไม่ต้องรับภัย เอาภัยใบนั้นไปไว้ใต้กองภัยพิบัติ</div>
+        <div class="cl"><span class="k">INSTANT · ตอนจะโดนภัย</span><br><b>Disaster Redirect</b><br>ส่งภัยใบนั้นไปให้ผู้เล่นคนอื่นแทน</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Pet Rock</b><br>ทิ้งการ์ดแต้มอีกใบจากมือ เอาเลขของใบนั้นมาบวกคะแนนรอบนี้</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Delicious Smoothie</b><br>ทิ้งการ์ดแต้มที่มีเอฟเฟกต์จากมือ 1 ใบ บวกเลขของใบนั้นเข้าคะแนน</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Dino Grabber</b><br>ดูมือคนอื่น 1 คน หยิบมา 1 ใบ ถ้าเป็น Instant ใช้รอบนี้ได้</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Treenoculars</b><br>ดู 2 ใบบนกองหลัก เก็บ 1 ทิ้ง 1 ถ้าเก็บ Instant ใช้รอบนี้ได้</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Fire Spray</b><br>ทิ้งการ์ดในมือได้สูงสุด 3 ใบ</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Grappling Snake</b><br>ดูการ์ดของคนซ้ายและขวา สลับการ์ดของเรากับใบใดใบหนึ่งได้ (ห้ามใบที่มีเอฟเฟกต์)</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Hungry Plant</b><br>สลับการ์ดแต้มของผู้เล่นอื่น 2 คน</div>
+        <div class="cl"><span class="k">POINT · ตอนคิดคะแนน</span><br><b>Mouth Trap</b><br>สลับคะแนนของคนต่ำสุดกับคนสูงสุด</div>
+        <div class="cl"><span class="k">POINT · เอฟเฟกต์</span><br><b>Flaming Chainsaw</b><br>เอฟเฟกต์บนการ์ดแต้มใบอื่นทั้งหมดไม่มีผล</div>
+        <div class="cl"><span class="k">POINT · ตอนคิดคะแนน</span><br><b>Special Star Fruit</b><br>Score Booster กลายเป็น +4 และ Score Sapper กลายเป็น −4 ในรอบนี้</div>
+      </div>
+    </section>
+
+    <!-- FAQ / TIPS -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ถามบ่อย</span><h2>คำถามที่เจอบ่อย & เทคนิค</h2></div>
+      <div class="faq">
+        <details open><summary>ลง Instant ได้กี่ใบต่อรอบ</summary><p>ไม่จำกัด ลงได้เมื่อถึงจังหวะที่การ์ดเขียนไว้ และลงต่อกันได้ เช่น ลง Score Inversion สองใบ คะแนนจะกลับไปเหมือนเดิม</p></details>
+        <details><summary>มีแต่ Instant ในมือ ไม่มีการ์ดแต้มเลย</summary><p>ทิ้งทั้งมือ จั่วใหม่ 5 ใบ ทำซ้ำจนมีการ์ดแต้ม</p></details>
+        <details><summary>มีคนส่งภัยมาให้ (Disaster Redirect) หลบต่อได้ไหม</summary><p>ได้ ถ้ามี Instant แบบ “Play this card if you would add a Disaster card…” ลงหลบหรือส่งต่อได้ แต่ใช้ไม่ได้ตอนแพ้ดวลตัดสิน เพราะระหว่างดวลห้ามใช้ Instant</p></details>
+        <details><summary>ตกรอบแล้วทำอะไรต่อ</summary><p>ทิ้งการ์ดในมือทันที ไม่ต้องเล่นต่อ แต้มที่สะสมไว้ไม่มีผลอีก</p></details>
+        <details><summary>คะแนนติดลบได้ไหม แล้วเดินกี่ช่อง</summary><p>คะแนนรอบนั้นอาจติดลบได้จากนิสัยหรือการ์ดลบคะแนน คนติดลบมักจะเป็นคนต่ำสุดที่ต้องรับภัย คู่มือไม่ได้พูดถึงการเดินถอยหลัง ถ้าบังเอิญคนคะแนนติดลบเป็นผู้ชนะ (เช่น โดนกลับคะแนน) ตกลงกันว่าไม่เดิน</p></details>
+        <details><summary>ถึง 50 พร้อมกันหลายคน</summary><p>คู่มือไม่ได้ระบุ แนะนำให้ตกลงกันก่อนเริ่ม เช่น ให้ชนะร่วมกัน หรือให้คนที่เดินเกิน 50 มากกว่าเป็นผู้ชนะ</p></details>
+        <details><summary>ถ้าเหลือ 2 คนจะทำไง</summary><p>เล่นต่อกติกาเดิม (คนที่มีคะแนนสูงกว่าเดิน คนต่ำกว่ารับภัย) ส่วนกติกาพิเศษสำหรับ<b>เริ่มเกม</b>แบบ 2 คน คือเอาการ์ดแต้มเลข 1, 2, 3 ออก และตกรอบเมื่อมีภัยประเภทเดียวกัน 4 ใบ หรือครบ 3 ประเภทประเภทละ 2 ใบ</p></details>
+      </div>
+      <div class="callout green">
+        <h3>เทคนิคสำหรับวง 5–6 คน</h3>
+        <ul class="prose" style="margin:0;padding-left:1.2em">
+          <li>อันดับ 2 ก็ได้แต้ม การ์ดเลขกลาง ๆ (5–7) จึงคุ้มกว่าในวงใหญ่ ไม่ต้องทุ่มเลข 9 ทุกรอบ</li>
+          <li>ดูภัยรอบนี้เทียบกับนิสัยไดโนของตัวเองก่อนเลือกการ์ด รอบที่โดน −1 ให้ลงการ์ดสูงไว้ก่อน</li>
+          <li>เก็บ Disaster Insurance หรือ Redirect ไว้สักใบ ช่วยชีวิตได้ตอนมีภัย 2 ใบแล้ว</li>
+          <li>มองช่องภัยของเพื่อน คนที่มี 2 ใบต่างประเภทอยู่แล้วคือเป้าที่ดีที่สุดสำหรับ Redirect</li>
+          <li>รับภัยแล้วทิ้งการ์ดได้ 1 ใบ ใช้ทิ้งการ์ดเลขต่ำที่ค้างมือ</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    เรียบเรียงเป็นภาษาไทยจากคู่มือทางการของ Unstable Games (กล่องหลัก) และสรุปกติกาภาค 5–6 Player Expansion ภาพทั้งหมดเป็นภาพจำลองเพื่ออธิบาย ไม่ใช่ภาพจากการ์ดจริง แหล่งอ้างอิง:
+    <ul>
+      <li><a href="https://cdn.1j1ju.com/medias/55/63/54-happy-little-dinosaurs-rulebook.pdf" target="_blank" rel="noopener">คู่มือกล่องหลัก (PDF ภาษาอังกฤษ)</a></li>
+      <li><a href="https://www.unstablegameswiki.com/images/b/b4/Happy_Little_Dinosaurs-5-6_Player_Expansion-Rules.pdf" target="_blank" rel="noopener">คู่มือภาค 5–6 คน (PDF ภาษาอังกฤษ, Unstable Games Wiki)</a></li>
+      <li><a href="https://www.geekyhobbies.com/how-to-play-happy-little-dinosaurs-card-game-rules-and-instructions/" target="_blank" rel="noopener">Geeky Hobbies: รายชื่อการ์ดตัวอย่าง</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const NS="http://www.w3.org/2000/svg";
+  function el(tag,attrs,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e;}
+
+  // Escape Route track
+  const track=document.getElementById("track");
+  if(track){
+    const x0=186,y0=52,w=470,cells=26; // 0,2,4..50 shown as cells
+    const cw=w/cells;
+    for(let i=0;i<cells;i++){
+      const v=i*2;
+      const r=el("rect",{x:x0+i*cw+1,y:y0,width:cw-2,height:30,rx:4,class:(v%10===0)?"s-surface":"s-surface"});
+      r.setAttribute("style","stroke:var(--line)");
+      track.appendChild(r);
+      if(v%10===0) track.appendChild(el("text",{x:x0+i*cw+cw/2,y:y0+48,"text-anchor":"middle",class:"s-muted",'font-size':"11"},String(v)));
+    }
+    // meeple at 14
+    const mi=7, mx=x0+mi*cw+cw/2;
+    track.appendChild(el("circle",{cx:mx,cy:y0+11,r:6,class:"s-dino"}));
+    track.appendChild(el("rect",{x:mx-7,y:y0+15,width:14,height:11,rx:4,class:"s-dino"}));
+    const goal=el("text",{x:x0+w-2,y:y0-6,"text-anchor":"end",class:"s-ember disp",'font-size':"12"},"ถึง 50 = ชนะ");
+    track.appendChild(goal);
+  }
+
+  // seats around the table
+  const seats=document.getElementById("seats");
+  if(seats){
+    const cx=340,cy=190,rx=300,ry=160;
+    const cls=["s-dino","s-pred","s-emo","s-met","s-raptor","s-ptero"];
+    const names=["ผู้เล่น 1","ผู้เล่น 2","ผู้เล่น 3","ผู้เล่น 4","ผู้เล่น 5","ผู้เล่น 6"];
+    const angles=[-90,-30,30,90,150,210];
+    angles.forEach((a,i)=>{
+      const t=a*Math.PI/180;
+      const x=cx+rx*Math.cos(t), y=cy+ry*Math.sin(t)*0.95;
+      const g=el("g",{});
+      const bw=96,bh=40;
+      const bx=Math.max(4,Math.min(680-bw-4,x-bw/2)), by=Math.max(4,Math.min(380-bh-4,y-bh/2));
+      const r=el("rect",{x:bx,y:by,width:bw,height:bh,rx:10,class:"s-surface"}); r.setAttribute("style","stroke:var(--line)");
+      g.appendChild(r);
+      g.appendChild(el("circle",{cx:bx+18,cy:by+bh/2,r:9,class:cls[i]}));
+      g.appendChild(el("text",{x:bx+34,y:by+bh/2+5,class:"s-fg disp",'font-size':"12.5"},names[i]+(i>=4?" ★":"")));
+      seats.appendChild(g);
+    });
+    seats.appendChild(el("text",{x:676,y:374,"text-anchor":"end",class:"s-muted",'font-size':"11"},"★ ใช้ไดโนจากภาค 5–6 คน"));
+  }
+
+  // elimination rows
+  const rowsSvg=document.getElementById("elim-rows");
+  if(rowsSvg){
+    const C={N:"s-nat",P:"s-pred",E:"s-emo",M:"s-met"};
+    const L={N:"ธ",P:"น",E:"ใ",M:"☄"};
+    const data=[
+      {cards:["N","N","N"],out:true,txt:"ประเภทเดียวกัน 3 ใบ → ตกรอบ"},
+      {cards:["N","P","E"],out:true,txt:"ครบ 3 ประเภท อย่างละใบ → ตกรอบ"},
+      {cards:["M","P","P"],out:true,txt:"อุกกาบาต + ภัยอะไรก็ได้อีก 2 ใบ → ตกรอบ"},
+      {cards:["N","N","P","P"],out:false,txt:"2 + 2 ยังรอด (แต่ใบต่อไปตกรอบแน่นอน)"}
+    ];
+    data.forEach((d,ri)=>{
+      const y=14+ri*64;
+      d.cards.forEach((c,ci)=>{
+        const x=14+ci*46;
+        rowsSvg.appendChild(el("rect",{x:x,y:y,width:38,height:52,rx:6,class:C[c]}));
+        rowsSvg.appendChild(el("text",{x:x+19,y:y+33,"text-anchor":"middle",fill:"#fff",class:"disp",'font-size':"17"},L[c]));
+      });
+      const tx=220;
+      rowsSvg.appendChild(el("circle",{cx:tx,cy:y+26,r:13,class:d.out?"s-bad":"s-good"}));
+      rowsSvg.appendChild(el("text",{x:tx,y:y+31,"text-anchor":"middle",fill:"#fff",class:"disp",'font-size':"14"},d.out?"✕":"✓"));
+      rowsSvg.appendChild(el("text",{x:tx+24,y:y+31,class:"s-fg",'font-size':"14"},d.txt));
+    });
+    rowsSvg.appendChild(el("text",{x:14,y:266,class:"s-muted",'font-size':"11.5"},"ธ = ธรรมชาติ · น = นักล่า · ใ = ทางใจ · ☄ = อุกกาบาต (นับเป็นประเภทไหนก็ได้)"));
+  }
+
+  // ---- scoring helper ----
+  const pcBox=document.getElementById("pc"), rowsBox=document.getElementById("rows"), out=document.getElementById("result");
+  const players=[
+    {name:"ต้น",v:7},{name:"บี",v:8},{name:"ซี",v:3},{name:"ดาว",v:2},{name:"เอ็ม",v:7},{name:"ฟ้า",v:2}
+  ];
+  let count=6;
+  [3,4,5,6].forEach(n=>{
+    const b=document.createElement("button");
+    b.type="button";b.id="pc-"+n;b.textContent=n+" คน";b.setAttribute("aria-pressed",String(n===count));
+    b.addEventListener("click",()=>{count=n;pcBox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderRows();compute();});
+    pcBox.appendChild(b);
+  });
+  function renderRows(){
+    rowsBox.innerHTML="";
+    for(let i=0;i<count;i++){
+      const p=players[i];
+      const row=document.createElement("div");row.className="row";
+      const name=document.createElement("input");name.type="text";name.id="pn-"+i;name.value=p.name;name.setAttribute("aria-label","ชื่อผู้เล่น "+(i+1));
+      name.addEventListener("input",()=>{p.name=name.value||("ผู้เล่น "+(i+1));compute();});
+      const st=document.createElement("div");st.className="stepper";
+      const minus=document.createElement("button");minus.type="button";minus.textContent="−";minus.setAttribute("aria-label","ลดคะแนน");
+      const inp=document.createElement("input");inp.type="number";inp.id="ps-"+i;inp.value=p.v;inp.setAttribute("aria-label","คะแนนของ "+p.name);inp.inputMode="numeric";
+      const plus=document.createElement("button");plus.type="button";plus.textContent="+";plus.setAttribute("aria-label","เพิ่มคะแนน");
+      minus.addEventListener("click",()=>{p.v--;inp.value=p.v;compute();});
+      plus.addEventListener("click",()=>{p.v++;inp.value=p.v;compute();});
+      inp.addEventListener("input",()=>{const n=parseInt(inp.value,10);p.v=isNaN(n)?0:n;compute();});
+      st.append(minus,inp,plus);row.append(name,st);rowsBox.appendChild(row);
+    }
+  }
+  function resolve(list,n){
+    const vals=list.map(p=>p.v);
+    const max=Math.max(...vals),min=Math.min(...vals);
+    if(max===min) return {allTie:true};
+    const top=list.filter(p=>p.v===max);
+    let scorers=top.slice(), note="";
+    if(n>=5){
+      if(top.length===1){
+        const rest=list.filter(p=>p.v!==max);
+        const second=Math.max(...rest.map(p=>p.v));
+        if(second!==min) scorers=scorers.concat(rest.filter(p=>p.v===second));
+        else note="คนที่เหลือเสมอกันที่ต่ำสุด จึงได้เดินแค่อันดับ 1";
+      } else note="อันดับ 1 เสมอกัน จึงไม่มีอันดับ 2 ได้เดิน";
+    }
+    const low=list.filter(p=>p.v===min);
+    return {scorers,low,note};
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+  function compute(){
+    const list=players.slice(0,count);
+    const r=resolve(list,count);
+    if(r.allTie){out.innerHTML='<div class="line"><span class="pill sd">ทุกคนเสมอ</span> ไม่มีใครได้แต้ม ภัยใบนี้ไปไว้ใต้กองภัยพิบัติ</div>';return;}
+    let h='<div class="line"><b>ได้เดิน:</b> '+r.scorers.map(p=>'<span class="pill up">'+esc(p.name)+' +'+Math.max(0,p.v)+'</span>').join(" ")+'</div>';
+    if(r.note) h+='<div class="note">'+r.note+'</div>';
+    if(r.low.length===1) h+='<div class="line"><b>รับภัย:</b> <span class="pill down">'+esc(r.low[0].name)+'</span> <span class="en">ทิ้งการ์ดในมือได้ 1 ใบ</span></div>';
+    else h+='<div class="line"><b>ดวลตัดสิน:</b> '+r.low.map(p=>'<span class="pill sd">'+esc(p.name)+'</span>').join(" ")+'</div><div class="note">คว่ำการ์ดแต้มอีกใบ ดูแค่เลขบนการ์ด เลขต่ำสุดรับภัย คนที่ดวลไม่ได้แต้มรอบนี้</div>';
+    if(count<5) h+='<div class="note">เล่นไม่ถึง 5 คน ใช้กติกากล่องหลัก: เฉพาะคะแนนสูงสุดได้เดิน</div>';
+    out.innerHTML=h;
+  }
+  renderRows();compute();
+
+  // ---- elimination checker ----
+  const cBox=document.getElementById("counters"), eOut=document.getElementById("elim-result");
+  const types=[{k:"N",n:"ธรรมชาติ",c:"var(--nat)"},{k:"P",n:"นักล่า",c:"var(--pred)"},{k:"E",n:"ทางใจ",c:"var(--emo)"},{k:"M",n:"อุกกาบาต",c:"var(--meteor)"}];
+  const cnt={N:1,P:1,E:0,M:0};
+  function isOut(c){const total=c.N+c.P+c.E+c.M;return (c.M>=1&&total>=3)||c.N>=3||c.P>=3||c.E>=3||(c.N>=1&&c.P>=1&&c.E>=1);}
+  types.forEach(t=>{
+    const d=document.createElement("div");d.className="counter";
+    d.innerHTML='<span class="lab"><span class="dot" style="background:'+t.c+'"></span>'+t.n+'</span>';
+    const st=document.createElement("div");st.className="stepper";
+    const m=document.createElement("button");m.type="button";m.textContent="−";m.setAttribute("aria-label","ลด "+t.n);
+    const v=document.createElement("input");v.type="number";v.id="ec-"+t.k;v.min="0";v.value=cnt[t.k];v.setAttribute("aria-label","จำนวนภัย"+t.n);
+    const p=document.createElement("button");p.type="button";p.textContent="+";p.setAttribute("aria-label","เพิ่ม "+t.n);
+    m.addEventListener("click",()=>{cnt[t.k]=Math.max(0,cnt[t.k]-1);v.value=cnt[t.k];ec();});
+    p.addEventListener("click",()=>{cnt[t.k]++;v.value=cnt[t.k];ec();});
+    v.addEventListener("input",()=>{const n=parseInt(v.value,10);cnt[t.k]=isNaN(n)||n<0?0:n;ec();});
+    st.append(m,v,p);d.appendChild(st);cBox.appendChild(d);
+  });
+  function ec(){
+    const total=cnt.N+cnt.P+cnt.E+cnt.M;
+    if(isOut(cnt)){eOut.innerHTML='<div class="status out">ตกรอบแล้ว</div><div class="note">ทิ้งการ์ดทั้งมือ แล้วออกจากเกม</div>';return;}
+    const danger=types.filter(t=>{const c=Object.assign({},cnt);c[t.k]++;return isOut(c);});
+    let h='<div class="status ok">ยังรอด · มีภัย '+total+' ใบ</div>';
+    h+='<div class="line">จบทุกรอบได้เดินเพิ่ม <b>+'+total+'</b> ช่อง</div>';
+    if(danger.length===types.length) h+='<div class="line" style="color:var(--bad)"><b>ใบต่อไปไม่ว่าประเภทไหน = ตกรอบ</b></div>';
+    else if(danger.length) h+='<div class="line"><b>ระวัง:</b> โดนอีกใบเป็น '+danger.map(t=>'<span class="pill down">'+t.n+'</span>').join(" ")+' = ตกรอบ</div>';
+    else h+='<div class="line">ภัยใบต่อไปยังไม่ทำให้ตกรอบ</div>';
+    eOut.innerHTML=h;
+  }
+  ec();
+})();
+</script>
+
+</body></html>

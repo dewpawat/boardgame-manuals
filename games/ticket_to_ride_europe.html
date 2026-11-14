@@ -1,0 +1,933 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ticket to Ride Europe ฉบับไทย</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Trirong:wght@600;700&family=Sarabun:wght@400;600&family=Bai+Jamjuree:wght@500;600&display=swap">
+<style>
+/* Layout: railway-green hero with a drawn route map, reading column with sticky chapter rail; tunnels get a long, illustrated chapter; setup helper, tunnel simulator and scorepad near the end. */
+:root{
+  --bg:#eef1ef;
+  --surface:#fbfcfb;
+  --surface-2:#e1e8e4;
+  --fg:#16211e;
+  --muted:#55645f;
+  --line:#ccd6d1;
+  --accent:#9b2c2c;
+  --accent-soft:#f3dddb;
+  --brass:#a87a22;
+  --brass-soft:#f4ead2;
+  --steel:#2f5f8a;
+  --steel-soft:#dce8f3;
+  --band-1:#0f2a24; --band-2:#1d4a3f; --band-fg:#eef3ea; --spot:#e8c167;
+  --good:#2a7f4a; --bad:#b8352a;
+  --c-purple:#7b4fa0; --c-blue:#2f6db5; --c-orange:#e38a2b; --c-white:#f2f0ea; --c-green:#3f9a4f; --c-yellow:#f0c93a; --c-black:#2b2b2b; --c-red:#c8372d; --c-gray:#9aa0a6;
+  --font-display:"Trirong","Leelawadee UI","Tahoma",serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Bai Jamjuree","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1715;--surface:#16211e;--surface-2:#1f2c28;--fg:#e6ece9;--muted:#9fb0aa;--line:#2b3a35;
+    --accent:#ef8a80;--accent-soft:#3a1e1c;--brass:#e2b75a;--brass-soft:#2f2712;--steel:#8cbbe6;--steel-soft:#16283a;
+    --band-1:#08130f;--band-2:#143a31;--good:#62cc8a;--bad:#ff7466;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1715;--surface:#16211e;--surface-2:#1f2c28;--fg:#e6ece9;--muted:#9fb0aa;--line:#2b3a35;
+  --accent:#ef8a80;--accent-soft:#3a1e1c;--brass:#e2b75a;--brass-soft:#2f2712;--steel:#8cbbe6;--steel-soft:#16283a;
+  --band-1:#08130f;--band-2:#143a31;--good:#62cc8a;--bad:#ff7466;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75;margin:0}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.4;text-wrap:balance;margin:0}
+h2{font-size:1.7rem}
+h3{font-size:1.12rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.hero{background:radial-gradient(ellipse at 85% 10%,#2c6b5a 0%,transparent 55%),linear-gradient(165deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.84rem;letter-spacing:.06em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.3rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.42em;color:var(--spot);margin-top:4px;font-weight:600}
+.hero .lede{margin-top:14px;font-size:1.05rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--spot);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block;max-width:440px;margin-inline:auto}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.8rem;font-weight:600;border-radius:999px;padding:3px 12px;color:#14201c}
+
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.93rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;padding:4px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a.hot{background:var(--accent-soft);font-weight:600}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em;font-weight:600}
+.prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-size:.85em;color:var(--muted);font-weight:400;font-family:var(--font-body)}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.steel{background:var(--steel-soft)} .callout.brass{background:var(--brass-soft)}
+.callout h3{font-size:1.06rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.flag{display:inline-block;font-family:var(--font-tag);font-size:.72rem;font-weight:600;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap;background:var(--brass-soft);color:var(--fg);border:1px solid var(--brass)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:580px}
+svg text{font-family:var(--font-body);fill:var(--fg)}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+svg .mut{fill:var(--muted)}
+svg .acc{fill:var(--accent)}
+svg .good{fill:var(--good)}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.num-badge{font-family:var(--font-tag);font-weight:600;font-size:.85rem;background:var(--band-2);color:var(--spot);border-radius:8px;padding:1px 9px}
+.chipc{width:14px;height:14px;border-radius:3px;display:inline-block;flex:none;border:1px solid rgba(0,0,0,.3);vertical-align:-2px;margin-right:3px}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+.steps > li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps > li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--band-2);color:var(--spot);z-index:1}
+.steps > li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.06rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+.score-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;max-width:40em}
+.score-strip div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center;display:grid}
+.score-strip small{font-size:.8rem;color:var(--muted)}
+.score-strip b{font-family:var(--font-tag);font-size:1.5rem;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.3}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.06em;opacity:.92}
+
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.tool-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-2);border-color:var(--band-2);color:var(--spot)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.co{background:var(--surface-2);border-radius:12px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.co b{font-family:var(--font-tag);font-size:1.15rem;font-weight:600;line-height:1.4}
+.co small{font-size:.84rem;color:var(--muted)}
+.co.hl{background:var(--accent-soft)}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.notes{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+
+/* tunnel simulator */
+.colors{display:flex;flex-wrap:wrap;gap:6px}
+.colors button{width:40px;height:40px;border-radius:9px;border:2px solid var(--line);cursor:pointer;background:var(--cc);padding:0}
+.colors button[aria-pressed="true"]{outline:3px solid var(--accent);outline-offset:2px}
+.colors button.loco{background:conic-gradient(var(--c-red),var(--c-orange),var(--c-yellow),var(--c-green),var(--c-blue),var(--c-purple),var(--c-red))}
+.stepper{display:inline-flex;align-items:center;gap:6px}
+.stepper button{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font-family:var(--font-tag);font-weight:600;font-size:1.1rem;cursor:pointer}
+.stepper output{min-width:2ch;text-align:center;font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.reveal{display:flex;gap:10px;flex-wrap:wrap;align-items:center;min-height:96px}
+.tcard{width:62px;height:90px;border-radius:9px;border:2px solid rgba(0,0,0,.25);background:var(--cc);display:grid;place-items:end center;padding-bottom:4px;font-family:var(--font-tag);font-size:.72rem;font-weight:600;color:#14201c;position:relative}
+.tcard.dk{color:#fff}
+.tcard.loco{background:linear-gradient(160deg,var(--c-red),var(--c-orange) 25%,var(--c-yellow) 40%,var(--c-green) 58%,var(--c-blue) 75%,var(--c-purple));color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.tcard.hit{outline:4px solid var(--accent);outline-offset:2px}
+.tcard.hit::after{content:"+1";position:absolute;top:-12px;right:-12px;background:var(--accent);color:#fff;border-radius:999px;font-size:.8rem;padding:1px 7px}
+.tcard.back{background:repeating-linear-gradient(45deg,var(--band-2),var(--band-2) 6px,var(--band-1) 6px,var(--band-1) 12px);border-color:var(--band-1)}
+.verdict{font-family:var(--font-display);font-size:1.15rem;font-weight:700}
+.verdict.ok{color:var(--good)} .verdict.no{color:var(--bad)}
+.bars{display:grid;gap:6px;max-width:34em}
+.bar{display:grid;grid-template-columns:120px minmax(0,1fr) 56px;gap:10px;align-items:center;font-size:.92rem}
+.bar .trk{height:14px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+.bar .trk i{display:block;height:100%;background:var(--steel);border-radius:999px}
+.bar b{font-family:var(--font-tag);text-align:right;font-variant-numeric:tabular-nums}
+.bar.pass .trk i{background:var(--good)}
+
+/* scorepad */
+.pad-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.rank{display:grid;gap:6px}
+.rank-row{display:grid;grid-template-columns:34px 18px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface-2);border-radius:10px;padding:6px 12px}
+.rank-row.first{background:var(--brass-soft);box-shadow:inset 0 0 0 2px var(--brass)}
+.rank-row .pos{font-family:var(--font-tag);font-weight:600;color:var(--muted)}
+.rank-row .tot{font-family:var(--font-tag);font-weight:600;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.rank-row small{color:var(--muted);font-size:.82rem;display:block;line-height:1.3}
+.dot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(0,0,0,.25);background:var(--pc)}
+.players{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.pcard{border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:12px;background:var(--bg);min-width:0;border-top:6px solid var(--pc)}
+.pcard .ph{display:flex;gap:8px;align-items:center}
+.pcard .ph input{font:inherit;font-family:var(--font-display);font-weight:600;font-size:1.05rem;flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);padding:3px 10px}
+.pcard select{font:inherit;font-size:.88rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);padding:4px 6px}
+.rt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.rt .cell{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px;display:grid;justify-items:center;gap:2px}
+.rt .cell small{font-size:.76rem;color:var(--muted);line-height:1.2;text-align:center}
+.rt .stepper button{width:30px;height:30px;font-size:1rem}
+.trains{font-size:.86rem;color:var(--muted)}
+.trains.over{color:var(--bad);font-weight:600}
+.tk-add{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tk-add input{font:inherit;font-family:var(--font-tag);font-weight:600;width:70px;height:36px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);text-align:center}
+.tk-add .btn{padding:4px 12px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--font-tag);font-weight:600;font-size:.85rem;border-radius:999px;padding:2px 4px 2px 10px;display:inline-flex;gap:4px;align-items:center;border:1px solid}
+.chip.ok{color:var(--good);border-color:var(--good)}
+.chip.no{color:var(--bad);border-color:var(--bad)}
+.chip button{border:0;background:none;color:inherit;cursor:pointer;font-size:1rem;line-height:1;padding:0 4px;min-width:24px;min-height:24px}
+.brk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font-size:.92rem;border-top:1px dashed var(--line);padding-top:8px}
+.brk b{font-family:var(--font-tag);text-align:right;font-variant-numeric:tabular-nums}
+.brk .t{font-family:var(--font-display);font-weight:700;font-size:1.05rem}
+.brk .t + b{font-size:1.25rem;color:var(--accent)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.02rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+dl.gl{display:grid;grid-template-columns:minmax(150px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.86rem;padding:3px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+  .score-strip{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:420px){
+  .bar{grid-template-columns:96px minmax(0,1fr) 48px}
+  .tcard{width:54px;height:80px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .tcard.flip{animation:flip .35s ease both}
+  @keyframes flip{from{transform:rotateY(90deg)}to{transform:none}}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="lg-loco" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c8372d"/><stop offset=".25" stop-color="#e38a2b"/><stop offset=".42" stop-color="#f0c93a"/><stop offset=".6" stop-color="#3f9a4f"/><stop offset=".78" stop-color="#2f6db5"/><stop offset="1" stop-color="#7b4fa0"/></linearGradient>
+  <pattern id="pt-tunnel" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="none"/><line x1="0" y1="0" x2="0" y2="6" stroke="#1a1a1a" stroke-width="2"/></pattern>
+</defs></svg>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · ฉบับครบรอบ 15 ปี (15th Anniversary) ปี 2021</div>
+      <h1>Ticket to Ride: Europe<span>ต่อรางรถไฟข้ามยุโรปปี 1901 · ฉบับกล่องใหญ่ ตั๋วครบทุกชุด</span></h1>
+      <p class="lede">ผลัดกันสะสมการ์ดรถไฟสีต่าง ๆ แล้วจ่ายเป็นชุดเพื่อวางขบวนยึดเส้นทางระหว่างเมือง ต่อให้ถึงปลายทางบนตั๋วลับของตัวเองเพื่อเก็บแต้ม ภาคยุโรปเพิ่ม<b>อุโมงค์</b>ที่ต้องลุ้นจ่ายเพิ่ม <b>เรือข้ามฟาก</b>ที่ต้องใช้การ์ดรถจักร และ<b>สถานี</b>ที่ให้ยืมเส้นทางของคนอื่น</p>
+      <div class="facts">
+        <div class="fact"><b>2–5</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>30–60</b><small>นาที</small></div>
+        <div class="fact"><b>45 + 3</b><small>ขบวน + สถานี ต่อคน</small></div>
+        <div class="fact"><b>108</b><small>ตั๋วปลายทาง</small></div>
+      </div>
+      <div class="badges">
+        <span class="xb" style="background:var(--spot)">Classic</span>
+        <span class="xb" style="background:#9fd3c0">Europe 1912</span>
+        <span class="xb" style="background:#f0b3a8">Big Cities of Europe</span>
+        <span class="xb" style="background:#b9c9ee">Mega Europe</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 400 320" id="heroart"></svg></div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ตาหนึ่งทำอะไรได้</a></li>
+      <li><a href="#draw">จั่วการ์ด & รถจักร</a></li>
+      <li><a href="#claim">ยึดเส้นทาง</a></li>
+      <li><a href="#ferry">เรือข้ามฟาก</a></li>
+      <li><a href="#tunnel" class="hot">อุโมงค์ ★</a></li>
+      <li><a href="#tickets">ตั๋วปลายทาง</a></li>
+      <li><a href="#station">สถานีรถไฟ</a></li>
+      <li><a href="#end">จบเกม & นับคะแนน</a></li>
+      <li class="sep">ตัวแปรในกล่อง</li>
+      <li><a href="#variants">4 แบบการเล่น</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#helper">ตัวช่วยเตรียมเกม</a></li>
+      <li><a href="#tsim">ลองเปิดอุโมงค์</a></li>
+      <li><a href="#pad">เครื่องนับคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>ตาของคุณ ทำได้ 1 อย่างจาก 4 อย่าง</h3>
+        <ol>
+          <li><b>จั่วการ์ดรถไฟ 2 ใบ</b> (หงายหรือคว่ำ · ถ้าหยิบรถจักรที่หงายอยู่ ได้แค่ใบเดียว)</li>
+          <li><b>ยึดเส้นทาง 1 เส้น</b> จ่ายการ์ดสีตรงตามจำนวนช่อง วางขบวน ได้แต้มทันที</li>
+          <li><b>จั่วตั๋วปลายทาง 3 ใบ</b> เก็บอย่างน้อย 1</li>
+          <li><b>สร้างสถานี</b> (ใบที่ 1 จ่าย 1 การ์ด · ใบที่ 2 จ่าย 2 · ใบที่ 3 จ่าย 3)</li>
+        </ol>
+      </div>
+      <div class="callout steel">
+        <h3>ของพิเศษภาคยุโรป</h3>
+        <ul>
+          <li><b>เรือข้ามฟาก</b> เส้นเทาที่มีรูปรถจักร ต้องจ่ายการ์ดรถจักรตามจำนวนรูป</li>
+          <li><b>อุโมงค์</b> จ่ายแล้วเปิดการ์ดกองจั่ว 3 ใบ ใบไหนสีตรงหรือเป็นรถจักร ต้องจ่ายเพิ่มใบละ 1 → <a href="#tunnel">อ่านละเอียด</a></li>
+          <li><b>สถานี</b> ยืมเส้นทางของคนอื่นได้ 1 เส้นตอนจบเกม · สถานีที่ไม่ได้สร้างได้ 4 แต้ม</li>
+        </ul>
+      </div>
+      <p class="prose">เกมเข้าสู่รอบสุดท้ายเมื่อใครก็ตามเหลือขบวน <b>0–2 ตัว</b> ทุกคน (รวมคนนั้น) เล่นอีกคนละ 1 ตา แล้วนับ: แต้มเส้นทาง ± ตั๋วปลายทาง + 4 ต่อสถานีที่เหลือ + 10 สำหรับ<b>เส้นทางต่อเนื่องยาวที่สุด</b> (European Express)</p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ชิ้นส่วน</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td><b>บอร์ดแผนที่ยุโรป</b> (ขนาดใหญ่)</td><td class="num">1</td><td>มีรางนับคะแนนรอบขอบ และตารางแต้มตามความยาวเส้นทาง</td></tr>
+            <tr><td><b>ขบวนรถไฟ</b> <span class="en">Train Cars</span></td><td class="num">45×5</td><td>สีน้ำตาล แดง ม่วง เทา ฟ้า บรรจุในกล่องเหล็กแยกสี · มีตัวสำรองเกินมาเล็กน้อย <b>นับให้เหลือ 45 ตัวพอดีก่อนเริ่ม</b></td></tr>
+            <tr><td><b>สถานีรถไฟ</b> <span class="en">Train Stations</span></td><td class="num">15</td><td>สีละ 3</td></tr>
+            <tr><td><b>ตัวนับคะแนน</b></td><td class="num">5</td><td>สีละ 1</td></tr>
+            <tr><td><b>การ์ดรถไฟ</b> <span class="en">Train Car cards</span></td><td class="num">110</td><td>8 สี สีละ 12 (<span class="chipc" style="background:var(--c-purple)"></span>ม่วง <span class="chipc" style="background:var(--c-blue)"></span>น้ำเงิน <span class="chipc" style="background:var(--c-orange)"></span>ส้ม <span class="chipc" style="background:var(--c-white)"></span>ขาว <span class="chipc" style="background:var(--c-green)"></span>เขียว <span class="chipc" style="background:var(--c-yellow)"></span>เหลือง <span class="chipc" style="background:var(--c-black)"></span>ดำ <span class="chipc" style="background:var(--c-red)"></span>แดง) + <b>รถจักร 14</b></td></tr>
+            <tr><td><b>ตั๋วปลายทาง</b> <span class="en">Destination Tickets</span></td><td class="num">108</td><td>ดูแยกชุดด้านล่าง</td></tr>
+            <tr><td><b>การ์ดโบนัส European Express</b></td><td class="num">1</td><td>วางข้างบอร์ดเตือนความจำ (+10 เส้นทางยาวสุด)</td></tr>
+            <tr><td><b>การ์ดอ้างอิงเมืองใหญ่</b> <span class="en">Big Cities</span></td><td class="num">1</td><td>ใช้ในตัวแปร Big Cities of Europe</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="types">
+        <div class="type"><h3><span class="num-badge">46</span> โลโก้ Europe</h3><p>ตั๋วของเกมหลักดั้งเดิม ยาว 6 + ปกติ 40</p></div>
+        <div class="type"><h3><span class="num-badge">55</span> โลโก้ 1912</h3><p>ตั๋วจากภาคเสริม Europa 1912 ยาว 6 + ปกติ 49</p></div>
+        <div class="type"><h3><span class="num-badge">6+1</span> ตั๋วโบนัส</h3><p>6 ใบจากมินิภาคเสริม Orient Express และ 1 ใบจาก Ticket to Ride with Max ใส่เพิ่มได้ทุกแบบการเล่น</p></div>
+      </div>
+      <p class="note">แยก<b>ตั๋วยาว</b>กับ<b>ตั๋วปกติ</b>ได้จาก<b>สีของกรอบตัวเลขแต้ม</b>บนตั๋ว · ตั๋วปกติบางใบมีโลโก้ <b>Big Cities</b> แปลว่ามีเมืองใหญ่อย่างน้อย 1 เมือง: London, Berlin, Moskva, Paris, Wien, Madrid, Roma, Athína, Angora</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม · แบบ Classic</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>แจกของประจำตัว</h3><p>ทุกคนรับขบวน <b>45</b> ตัว สถานี <b>3</b> หลัง และตัวนับคะแนนสีเดียวกัน วางตัวนับที่ช่อง Start ของรางคะแนน</p></div></li>
+        <li><div class="body"><h3>แจกการ์ดรถไฟ คนละ 4 ใบ</h3><p>สับการ์ดรถไฟทั้งหมด แจกคนละ 4 ใบ ที่เหลือเป็นกองจั่ว</p></div></li>
+        <li><div class="body"><h3>หงายการ์ด 5 ใบ</h3><p>เปิดการ์ด 5 ใบบนสุดวางเรียงข้างบอร์ด · ถ้ามี<b>รถจักร 3 ใบ</b> ทิ้งทั้ง 5 ใบแล้วเปิดใหม่ (ใช้กฎนี้ตลอดเกม)</p></div></li>
+        <li><div class="body"><h3>วางการ์ด European Express</h3><p>หงายไว้ข้างบอร์ดเป็นตัวเตือน</p></div></li>
+        <li><div class="body"><h3>แจกตั๋ว: ยาว 1 + ปกติ 3</h3><p>ใช้เฉพาะตั๋วโลโก้ Europe · สับตั๋วยาว 6 ใบ แจกคนละ 1 ที่เหลือคว่ำเก็บลงกล่อง<b>โดยไม่ให้ใครเห็น</b> · สับตั๋วปกติ แจกคนละ 3 ที่เหลือเป็นกองตั๋ว</p></div></li>
+        <li><div class="body"><h3>เลือกเก็บตั๋วอย่างน้อย 2 ใบ</h3><p>จะเก็บกี่ใบก็ได้ (ยาวหรือปกติก็ได้) ใบที่ไม่เก็บคว่ำลงกล่อง · ตั๋วที่เก็บไว้เป็นความลับจนจบเกม</p></div></li>
+        <li><div class="body"><h3>เลือกคนเริ่ม</h3><p>คนที่<b>เคยไปประเทศในยุโรปมากที่สุด</b>เริ่มก่อน แล้ววนตามเข็มนาฬิกา</p></div></li>
+      </ol>
+      <p class="note">แบบการเล่นอื่น (1912, Big Cities, Mega Europe) ต่างกันแค่ขั้นที่ 5–6 ดู <a href="#variants">4 แบบการเล่น</a> หรือใช้ <a href="#helper">ตัวช่วยเตรียมเกม</a></p>
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">ตาของคุณ</span><h2>ตาหนึ่งทำอะไรได้</h2></div>
+      <p class="prose">ต้องทำ<b>อย่างใดอย่างหนึ่ง</b> (และอย่างเดียว) จาก 4 อย่างนี้</p>
+      <div class="types">
+        <div class="type"><h3><span class="num-badge">A</span> จั่วการ์ดรถไฟ</h3><p>2 ใบ จากกองหงายหรือกองคว่ำผสมกันได้ · ดู <a href="#draw">กฎรถจักร</a></p></div>
+        <div class="type"><h3><span class="num-badge">B</span> ยึดเส้นทาง</h3><p>1 เส้นต่อตา ต้องยึดทั้งเส้นในตาเดียว ไม่ต้องต่อกับเส้นเดิมของตัวเอง</p></div>
+        <div class="type"><h3><span class="num-badge">C</span> จั่วตั๋วปลายทาง</h3><p>จั่ว 3 ใบ (Big Cities จั่ว 4) เก็บอย่างน้อย 1 ใบ</p></div>
+        <div class="type"><h3><span class="num-badge">D</span> สร้างสถานี</h3><p>วางสถานีบนเมืองที่ยังไม่มีสถานี จ่าย 1 / 2 / 3 การ์ดสีเดียวกันตามลำดับหลัง</p></div>
+      </div>
+    </section>
+
+    <!-- DRAW -->
+    <section id="draw">
+      <div class="sec-head"><span class="tag">การกระทำ A</span><h2>จั่วการ์ดรถไฟ และกฎรถจักร</h2></div>
+      <div class="prose"><ul>
+        <li>จั่ว 2 ใบ แต่ละใบเลือกได้ว่าจะหยิบจาก<b>5 ใบที่หงาย</b>หรือ<b>บนสุดของกองคว่ำ</b> หยิบใบหงายแล้วเปิดใบใหม่เติมทันที</li>
+        <li><b>หยิบรถจักรที่หงายอยู่</b> = ได้ใบนั้นใบเดียว จบการจั่ว</li>
+        <li>รถจักรที่หงายอยู่ <b>หยิบเป็นใบที่ 2 ไม่ได้</b> (รวมถึงใบที่เพิ่งเปิดเติมหลังคุณหยิบใบแรก)</li>
+        <li>จั่วคว่ำแล้วได้รถจักร <b>นับเป็น 1 ใบตามปกติ</b> จั่วใบที่ 2 ต่อได้</li>
+        <li>ถือการ์ดในมือได้ไม่จำกัด · กองจั่วหมด สับกองทิ้งให้ทั่ว (เพราะทิ้งมาเป็นชุดสี) แล้วใช้ต่อ</li>
+        <li>ถ้ากองจั่วและกองทิ้งหมดเกลี้ยง (มีคนกักการ์ด) ต้องเลือกการกระทำอื่น</li>
+      </ul></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 170" role="img" aria-label="กฎจั่วรถจักร: หยิบรถจักรหงายได้ใบเดียว, ใบแรกสีปกติแล้วใบที่สองห้ามเป็นรถจักรหงาย, จั่วคว่ำได้รถจักรจั่วต่อได้" id="drawdemo"></svg></div>
+        <figcaption>รถจักร (สีรุ้ง) เป็นไวลด์การ์ด ใช้แทนสีใดก็ได้ แต่หยิบจากกองหงายแล้วเสียสิทธิ์ใบที่สอง</figcaption>
+      </figure>
+    </section>
+
+    <!-- CLAIM -->
+    <section id="claim">
+      <div class="sec-head"><span class="tag">การกระทำ B</span><h2>ยึดเส้นทาง</h2></div>
+      <p class="prose">จ่ายการ์ด<b>เท่าจำนวนช่อง</b>ของเส้นทาง ทุกใบต้องเป็นสีเดียวกัน (ผสมรถจักรได้) แล้ววางขบวนของคุณทุกช่อง ทิ้งการ์ดที่จ่าย และเดินตัวนับคะแนนตามตาราง</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 300" role="img" aria-label="ประเภทเส้นทาง: เส้นสี, เส้นเทา, เส้นคู่, เรือข้ามฟาก, อุโมงค์" id="routedemo"></svg></div>
+        <figcaption>ภาพวาดอธิบาย ไม่ใช่เส้นทางจริงบนแผนที่ · อุโมงค์มีกรอบดำหนาและลายขีดรอบทุกช่อง · เรือข้ามฟากเป็นเส้นเทามีรูปรถจักร</figcaption>
+      </figure>
+      <div class="types">
+        <div class="type"><h3>เส้นสี</h3><p>เหลือง 3 ช่อง จ่ายได้: เหลือง 3 · เหลือง 2 + รถจักร 1 · เหลือง 1 + รถจักร 2 · รถจักร 3</p></div>
+        <div class="type"><h3>เส้นเทา</h3><p>ใช้สีอะไรก็ได้แต่ต้อง<b>สีเดียวกันทั้งชุด</b> เทา 2 ช่อง: แดง 2 · เหลือง 1 + รถจักร 1 · รถจักร 2</p></div>
+        <div class="type"><h3>เส้นคู่</h3><p>สองรางยาวเท่ากันเชื่อมเมืองคู่เดียวกัน · คนเดียว<b>ยึดทั้งสองรางไม่ได้</b> · เล่น <b>2–3 คน</b> ยึดได้รางเดียว อีกรางปิดทันที</p></div>
+      </div>
+      <h3>ตารางแต้มเส้นทาง</h3>
+      <div class="score-strip" aria-label="แต้มตามความยาวเส้นทาง">
+        <div><small>1 ช่อง</small><b>1</b></div><div><small>2 ช่อง</small><b>2</b></div><div><small>3 ช่อง</small><b>4</b></div><div><small>4 ช่อง</small><b>7</b></div><div><small>6 ช่อง</small><b>15</b></div><div><small>8 ช่อง</small><b>21</b></div>
+      </div>
+      <p class="note">แผนที่ยุโรปไม่มีเส้นทาง 5 ช่อง ตารางจึงข้ามจาก 4 ไป 6 · ดูตารางบนบอร์ดประกอบ</p>
+    </section>
+
+    <!-- FERRY -->
+    <section id="ferry">
+      <div class="sec-head"><span class="tag">เส้นทางพิเศษ 1</span><h2>เรือข้ามฟาก <span class="en">Ferries</span></h2></div>
+      <div class="prose"><ul>
+        <li>เส้น<b>เทา</b>ข้ามทะเล มี<b>รูปรถจักร</b>อย่างน้อย 1 ช่อง</li>
+        <li>จ่าย<b>การ์ดรถจักร 1 ใบต่อรูปรถจักร 1 รูป</b> ช่องที่เหลือจ่ายสีเดียวกันตามปกติ (รถจักรเพิ่มแทนได้)</li>
+        <li>ตัวอย่างจากคู่มือ: <b>Smyrna – Palermo</b> 6 ช่อง มีรูปรถจักร 2 รูป = รถจักร 2 + สีเดียวกัน 4 ใบ</li>
+      </ul></div>
+    </section>
+
+    <!-- TUNNEL -->
+    <section id="tunnel">
+      <div class="xhead" style="--c:#2b2f36"><span class="tag">เส้นทางพิเศษ 2 · หัวข้อหลักของคู่มือนี้</span><h2>อุโมงค์ <span style="font-size:.6em;opacity:.8">Tunnels</span> · วางยังไง ลุ้นยังไง</h2><p>อุโมงค์คือเส้นทางที่คุณ<b>ไม่รู้ว่าจะต้องจ่ายกี่ใบ</b>จนกว่าจะเปิดการ์ด จ่ายเท่าความยาวก่อน แล้วเปิดกองจั่ว 3 ใบ ใบไหนตรงสี ต้องจ่ายเพิ่ม</p></div>
+
+      <h3>ดูยังไงว่าเป็นอุโมงค์</h3>
+      <p class="prose">ทุกช่องของเส้นทางมี<b>กรอบหนาสีดำและลายขีดรอบ ๆ</b> (เหมือนปากอุโมงค์) อุโมงค์มีทั้งแบบมีสีและแบบเทา ส่วนมากอยู่แถวเทือกเขาแอลป์และเส้นทางเหนือ</p>
+
+      <h3>ลำดับการยึดอุโมงค์</h3>
+      <ol class="steps">
+        <li><div class="body"><h3>ประกาศว่าจะยึดอุโมงค์ไหน แล้ววางการ์ดเท่าความยาว</h3><p>จ่ายสีตามเส้นทาง (อุโมงค์เทา: เลือกสีเดียว) ผสมรถจักรได้ตามปกติ วางการ์ดหงายไว้ตรงหน้า <b>ยังไม่ทิ้ง</b></p></div></li>
+        <li><div class="body"><h3>เปิดการ์ดบนสุดของกองจั่ว 3 ใบ</h3><p><b>3 ใบเสมอ</b> ไม่ว่าอุโมงค์ยาว 1 หรือ 8 ช่อง</p></div></li>
+        <li><div class="body"><h3>นับใบที่ “ตรง”</h3>
+          <ul>
+            <li>ใบที่<b>สีเดียวกับการ์ดที่คุณจ่าย</b> = ตรง</li>
+            <li>ใบที่เป็น<b>รถจักร</b> = ตรงเสมอ (เพราะเป็นไวลด์)</li>
+            <li>สีอื่น = ไม่มีผล</li>
+          </ul>
+          <p>ตรงกี่ใบ ต้องจ่าย<b>เพิ่มเท่านั้นใบ</b> เป็นสีเดียวกันหรือรถจักร</p></div></li>
+        <li><div class="body"><h3>ตัดสินใจ: จ่ายเพิ่ม หรือถอย</h3>
+          <ul>
+            <li><b>จ่ายไหวและอยากจ่าย</b> → ทิ้งการ์ดทั้งหมด วางขบวนเท่าความยาว ได้แต้มตาม<b>ความยาวเส้นทาง</b> (จ่ายเพิ่มไม่ได้แต้มเพิ่ม)</li>
+            <li><b>ไม่พอ หรือไม่อยากจ่าย</b> → เก็บการ์ดที่วางไว้<b>คืนมือทั้งหมด</b> และ<b>จบตาทันที</b> (ไม่เสียการ์ด แต่เสียตา)</li>
+          </ul></div></li>
+        <li><div class="body"><h3>ทิ้ง 3 ใบที่เปิด</h3><p>การ์ด 3 ใบที่เปิดดูลงกองทิ้งเสมอ ไม่ว่าจะยึดสำเร็จหรือไม่</p></div></li>
+      </ol>
+
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 420" role="img" aria-label="ตัวอย่างอุโมงค์ 3 แบบจากคู่มือ" id="tunneldemo"></svg></div>
+        <figcaption>สามตัวอย่างจากคู่มือทางการ (ม่วงยึดอุโมงค์ 2 ช่อง) · การ์ดขอบแดง = ใบที่ตรง ต้องจ่ายเพิ่ม · สีของใบที่ไม่ตรงในภาพเป็นตัวอย่างของผู้เรียบเรียง</figcaption>
+      </figure>
+
+      <div class="callout steel">
+        <h3>กรณีพิเศษ: จ่ายด้วยรถจักรล้วน</h3>
+        <p>ถ้าการ์ดที่วางทั้งหมดเป็นรถจักร จะนับว่า “ตรง” <b>เฉพาะรถจักรที่เปิดได้</b> สีอื่นไม่มีผล และสิ่งที่ต้องจ่ายเพิ่ม<b>ต้องเป็นรถจักรเท่านั้น</b> (ตัวอย่างที่ 3)</p>
+      </div>
+      <div class="callout brass">
+        <h3>กรณีพิเศษ: กองการ์ดเหลือไม่ถึง 3 ใบ</h3>
+        <p>ถ้ากองจั่ว (รวมกองทิ้งที่สับใหม่) มีไม่ถึง 3 ใบ ให้เปิดเท่าที่มี · ถ้าไม่เหลือเลยสักใบ ยึดอุโมงค์ได้<b>โดยไม่ต้องลุ้น</b></p>
+      </div>
+
+      <h3>โอกาสต้องจ่ายเพิ่ม</h3>
+      <p class="prose">คำนวณจากการ์ดครบ 110 ใบ (ตัวเลขจริงขึ้นกับการ์ดที่อยู่ในมือคนอื่นและกองทิ้ง ใช้ดูภาพรวม)</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>จ่ายด้วย</th><th class="num">ไม่ต้องเพิ่ม</th><th class="num">+1</th><th class="num">+2</th><th class="num">+3</th><th class="num">ต้องเพิ่มอย่างน้อย 1</th></tr></thead>
+          <tbody id="oddsbody"></tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <h3>วางอุโมงค์ให้รอด <span class="flag">คำแนะนำผู้เรียบเรียง</span></h3>
+        <ul>
+          <li><b>พกสำรองอย่างน้อย 1 ใบ</b> สีเดียวกันหรือรถจักร โอกาสผ่านจะขึ้นจากราว 44% เป็นราว 86%</li>
+          <li><b>อุโมงค์สำคัญมาก ใช้รถจักรล้วน</b> โอกาสต้องจ่ายเพิ่มลดจากราว 56% เหลือราว 34% แต่เปลืองรถจักร</li>
+          <li><b>อุโมงค์เทา</b> เลือกสีที่ถืออยู่เยอะที่สุด จะได้มีสำรองจ่ายเพิ่ม</li>
+          <li>ล้มเหลวไม่เสียการ์ด แต่<b>เสียตาหนึ่งตา</b> และคนอื่นเห็นว่าคุณอยากได้เส้นนั้น อาจโดนตัดหน้า</li>
+          <li>ยาวแค่ไหนก็เปิด 3 ใบเท่ากัน อุโมงค์ยาวจึงคุ้มกว่าเมื่อเทียบความเสี่ยงต่อแต้ม</li>
+        </ul>
+      </div>
+      <p class="note">อยากลองดูจริง ๆ ไปที่ <a href="#tsim">ลองเปิดอุโมงค์</a> ด้านล่าง</p>
+    </section>
+
+    <!-- TICKETS -->
+    <section id="tickets">
+      <div class="sec-head"><span class="tag">การกระทำ C</span><h2>ตั๋วปลายทาง</h2></div>
+      <div class="prose"><ul>
+        <li>จั่ว 3 ใบจากกองตั๋ว (Big Cities จั่ว 4) กองเหลือไม่พอ จั่วเท่าที่มี</li>
+        <li>ต้อง<b>เก็บอย่างน้อย 1 ใบ</b> จะเก็บหมดก็ได้ ใบที่ไม่เก็บใส่<b>ใต้กองตั๋ว</b></li>
+        <li>ตั๋วที่เก็บแล้ว<b>ทิ้งภายหลังไม่ได้</b> ต้องถือจนจบเกม</li>
+        <li>จบเกม ถ้ามีขบวนสีของคุณต่อเนื่องเชื่อมสองเมืองบนตั๋ว <b>ได้แต้มตามตั๋ว</b> ถ้าไม่ครบ <b>หักแต้มเท่ากัน</b></li>
+        <li>เก็บเป็นความลับจนนับคะแนน ถือได้ไม่จำกัด</li>
+      </ul></div>
+    </section>
+
+    <!-- STATION -->
+    <section id="station">
+      <div class="sec-head"><span class="tag">การกระทำ D</span><h2>สถานีรถไฟ <span class="en">Train Stations</span></h2></div>
+      <div class="prose"><ul>
+        <li>วางบน<b>เมืองใดก็ได้ที่ยังไม่มีสถานี</b> (ไม่ต้องมีเส้นทางเข้าเมืองนั้นก็ได้) · เมืองหนึ่งมีได้สถานีเดียว</li>
+        <li>สร้างได้ตาละ 1 หลัง รวมไม่เกิน 3 หลัง · ค่าสร้าง: หลังที่ 1 = <b>1 ใบสีอะไรก็ได้</b> · หลังที่ 2 = <b>2 ใบสีเดียวกัน</b> · หลังที่ 3 = <b>3 ใบสีเดียวกัน</b> (รถจักรแทนได้)</li>
+        <li>ตอนจบเกม สถานีให้คุณ<b>ยืมเส้นทาง 1 เส้นของคู่แข่ง</b>ที่เข้า/ออกจากเมืองนั้น เพื่อต่อตั๋วปลายทาง</li>
+        <li>ใช้สถานีเดียวช่วยตั๋วหลายใบได้ แต่<b>ต้องเป็นเส้นทางเดียวกัน</b>ทุกใบ · เลือกเส้นทางตอนจบเกม</li>
+        <li>สถานีที่<b>ไม่ได้สร้าง</b> ได้ <b>4 แต้ม</b>ต่อหลัง</li>
+      </ul></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 700 190" role="img" aria-label="สถานีที่เมือง B ให้ผู้เล่นสีแดงยืมเส้นทางของสีฟ้าจาก B ไป C" id="stationdemo"></svg></div>
+        <figcaption>แดงมีเส้น A–B และสถานีที่ B จึงยืมเส้น B–C ของฟ้าได้ ตั๋ว A → C สำเร็จ · แต่เส้นที่ยืมไม่นับรวมในเส้นทางยาวที่สุด</figcaption>
+      </figure>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และนับคะแนน</h2></div>
+      <div class="callout">
+        <h3>สัญญาณจบเกม</h3>
+        <p>เมื่อจบตาของใครแล้วเขาเหลือขบวน <b>0, 1 หรือ 2 ตัว</b> ทุกคน<b>รวมถึงคนนั้น</b> ได้เล่นอีกคนละ 1 ตา แล้วจบเกม</p>
+      </div>
+      <ol class="steps">
+        <li><div class="body"><h3>ตรวจแต้มเส้นทาง</h3><p>แต้มเส้นทางนับไปแล้วระหว่างเกม นับทวนได้ถ้าไม่แน่ใจ (ใช้ <a href="#pad">เครื่องนับคะแนน</a>)</p></div></li>
+        <li><div class="body"><h3>เปิดตั๋ว และเลือกเส้นทางให้สถานี</h3><p>วางสถานีทับขบวนของคู่แข่งบนเส้นที่เลือก เส้นนั้นนับเป็นของทั้งสองคน · วางบนเส้นที่ไม่มีใครยึดไม่ได้</p></div></li>
+        <li><div class="body"><h3>บวก/ลบตั๋วปลายทาง</h3><p>สำเร็จบวก ไม่สำเร็จลบ</p></div></li>
+        <li><div class="body"><h3>+4 ต่อสถานีที่เหลือ</h3></div></li>
+        <li><div class="body"><h3>+10 European Express</h3><p>ให้คนที่มี<b>เส้นทางต่อเนื่องยาวที่สุด</b> (นับจำนวนขบวน) วนลูปได้ ผ่านเมืองเดิมซ้ำได้ แต่ขบวนตัวเดียวห้ามนับซ้ำ · ไม่นับเส้นที่ยืมผ่านสถานี · เสมอกันได้ทุกคน</p></div></li>
+      </ol>
+      <div class="callout steel">
+        <h3>เสมอกัน</h3>
+        <ol><li>ทำตั๋วสำเร็จ<b>มากใบกว่า</b>ชนะ</li><li>ยังเสมอ: ใช้สถานี<b>น้อยกว่า</b>ชนะ</li><li>ยังเสมอ: คนที่ได้ European Express ชนะ</li></ol>
+      </div>
+    </section>
+
+    <!-- VARIANTS -->
+    <section id="variants">
+      <div class="xhead" style="--c:#1d4a3f"><span class="tag">ตัวแปรในกล่องฉบับ 15 ปี</span><h2>4 แบบการเล่น</h2><p>ทุกแบบเริ่มด้วยการ์ดรถไฟคนละ 4 ใบ และมีโบนัส European Express เหมือนกัน ต่างกันที่<b>ชุดตั๋วปลายทาง</b> จำนวนที่แจก และจำนวนที่ต้องเก็บ</p></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>แบบ</th><th>ตั๋วที่ใช้</th><th>แจกตอนเริ่ม</th><th>ต้องเก็บ</th><th>ระหว่างเกม</th></tr></thead>
+          <tbody>
+            <tr><td><b>Classic</b></td><td>โลโก้ Europe 46 ใบ<br><span class="en">ยาว 6 + ปกติ 40</span></td><td>ยาว 1 + ปกติ 3</td><td>≥ 2 (ผสมได้) · ที่ทิ้งลงกล่อง</td><td>จั่ว 3 เก็บ ≥ 1</td></tr>
+            <tr><td><b>Europe 1912</b></td><td>โลโก้ 1912 55 ใบ<br><span class="en">ยาว 6 + ปกติ 49</span></td><td>ยาว 1 + ปกติ 3</td><td>≥ 2 (ผสมได้) · ที่ทิ้งลงกล่อง</td><td>จั่ว 3 เก็บ ≥ 1</td></tr>
+            <tr><td><b>Big Cities of Europe</b></td><td>ตั๋วที่มีโลโก้ Big Cities 45 ใบ (จาก Europe + 1912) <b>ไม่ใช้ตั๋วยาว</b></td><td>ปกติ 5</td><td>≥ 2 · ที่ทิ้งสับแล้วไว้ใต้กอง</td><td><b>จั่ว 4</b> เก็บ ≥ 1</td></tr>
+            <tr><td><b>Mega Europe</b></td><td>Europe + 1912 ทั้งหมด 101 ใบ<br><span class="en">ยาว 12 + ปกติ 89</span></td><td>ยาว 2 แล้วปกติ 5</td><td>ยาว: เก็บ 1 หรือไม่เก็บ (ห้ามเก็บทั้งคู่)<br>ปกติ: มีตั๋วยาว ≥ 2 · ไม่มี ≥ 3<br>ยาวที่ทิ้งลงกล่อง · ปกติที่ทิ้งสับแล้วไว้ใต้กอง</td><td>จั่ว 3 เก็บ ≥ 1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="types">
+        <div class="type"><h3>Big Cities of Europe</h3><p>วางการ์ดอ้างอิงเมืองใหญ่ข้างบอร์ด ตั๋วทุกใบแตะ London, Berlin, Moskva, Paris, Wien, Madrid, Roma, Athína หรือ Angora เมืองเหล่านี้จึงแย่งกันดุ เหมาะกับวงที่ชอบปะทะ</p></div>
+        <div class="type"><h3>Mega Europe</h3><p>ตั๋วเยอะและหลากหลายที่สุด แจกเยอะตอนเริ่ม เลือกได้กว้าง เหมาะกับวงที่เล่นมาหลายรอบแล้ว</p></div>
+        <div class="type"><h3>ตั๋วโบนัส 7 ใบ</h3><p>ตั๋ว Orient Express 6 ใบ และตั๋ว Ticket to Ride with Max 1 ใบ สับรวมเข้าไปได้ทุกแบบการเล่น</p></div>
+      </div>
+    </section>
+
+    <!-- HELPER -->
+    <section id="helper">
+      <div class="sec-head"><span class="tag">ใช้ตอนเตรียมเกม</span><h2>ตัวช่วยเตรียมเกม</h2></div>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">แบบการเล่น</span><div class="seg" id="h-var" role="group" aria-label="แบบการเล่น"></div></div>
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="h-players" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+          <label class="chk"><input type="checkbox" id="h-bonus"> ใส่ตั๋วโบนัส 7 ใบ</label>
+        </div>
+        <div class="calc-out" id="h-out"></div>
+        <ul class="notes" id="h-notes"></ul>
+      </div>
+    </section>
+
+    <!-- TUNNEL SIM -->
+    <section id="tsim">
+      <div class="sec-head"><span class="tag">เครื่องมือกลางโต๊ะ</span><h2>ลองเปิดอุโมงค์</h2></div>
+      <p class="prose">เลือกสีที่จะจ่าย ความยาวอุโมงค์ และจำนวนการ์ด<b>สำรอง</b>ในมือ (สีเดียวกัน + รถจักร ที่เหลือหลังจ่ายแล้ว) ระบบบอกโอกาสผ่าน และกดเปิด 3 ใบเพื่อลองสุ่มได้ · ใช้ฝึกและช่วยตัดสินใจเท่านั้น ตอนเล่นจริงต้องเปิดจากกองจั่วบนโต๊ะ</p>
+      <div class="tool">
+        <div class="tool-row">
+          <div><span class="field-l">จ่ายด้วยสี</span><div class="colors" id="t-color" role="group" aria-label="สีที่จ่าย"></div></div>
+        </div>
+        <div class="tool-row">
+          <div><span class="field-l">ความยาวอุโมงค์</span><div class="stepper"><button type="button" id="t-len-m" aria-label="ลดความยาว">−</button><output id="t-len">2</output><button type="button" id="t-len-p" aria-label="เพิ่มความยาว">+</button></div></div>
+          <div><span class="field-l">การ์ดสำรองในมือ</span><div class="stepper"><button type="button" id="t-sp-m" aria-label="ลดการ์ดสำรอง">−</button><output id="t-sp">1</output><button type="button" id="t-sp-p" aria-label="เพิ่มการ์ดสำรอง">+</button></div></div>
+          <button type="button" class="btn primary" id="t-go">เปิด 3 ใบ</button>
+        </div>
+        <div class="reveal" id="t-reveal" aria-live="polite"></div>
+        <p class="verdict" id="t-verdict"></p>
+        <div class="bars" id="t-bars"></div>
+      </div>
+    </section>
+
+    <!-- PAD -->
+    <section id="pad">
+      <div class="sec-head"><span class="tag">ใช้ตอนจบเกม</span><h2>เครื่องนับคะแนน</h2></div>
+      <p class="prose">นับเส้นทางตามความยาว ใส่ตั๋วทีละใบ (กด ✓ สำเร็จ / ✗ พลาด) เลือกจำนวนสถานีที่สร้าง และติ๊กคนที่ได้ European Express ระบบเรียงอันดับพร้อมตัดสินเสมอให้ · ข้อมูลจำไว้ในเครื่องนี้</p>
+      <div class="tool">
+        <div class="pad-top">
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="p-n" role="group" aria-label="จำนวนผู้เล่น"></div></div>
+          <div class="seg"><button type="button" class="btn" id="p-sample">ใส่ตัวอย่าง</button><button type="button" class="btn" id="p-reset">ล้างเริ่มเกมใหม่</button></div>
+        </div>
+        <p class="note" id="p-sample-note"></p>
+        <div class="rank" id="p-rank" aria-live="polite"></div>
+        <div class="players" id="p-players"></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ตัดสินข้อพิพาท</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details><summary>อุโมงค์ จ่ายเพิ่มแล้วได้แต้มเพิ่มไหม</summary><p>ไม่ได้ แต้มคิดจาก<b>ความยาวเส้นทาง</b>ตามตารางเท่านั้น และวางขบวนเท่าจำนวนช่อง การ์ดที่จ่ายเพิ่มคือค่าผ่านทางล้วน ๆ</p></details>
+        <details><summary>อุโมงค์ ถอยแล้วเลือกทำอย่างอื่นในตานั้นต่อได้ไหม</summary><p>ไม่ได้ คู่มือเขียนชัดว่าเก็บการ์ดคืนมือ<b>และจบตา</b></p></details>
+        <details><summary>อุโมงค์ จ่ายสีผสมรถจักร แล้วเปิดเจอรถจักร ต้องจ่ายเพิ่มไหม</summary><p>ต้อง รถจักรที่เปิดได้ตรงกับสีที่คุณจ่ายเสมอ (ตัวอย่างที่ 2 ในคู่มือ) ยกเว้นข้อเดียว: ถ้าจ่ายด้วยรถจักรล้วน จะนับเฉพาะรถจักรที่เปิด</p></details>
+        <details><summary>อุโมงค์ จ่ายเพิ่มด้วยรถจักรได้ไหม</summary><p>ได้ คู่มือเขียนว่าจ่ายเพิ่ม “สีเดียวกันหรือรถจักร” · ถ้าจ่ายด้วยรถจักรล้วน การ์ดเพิ่มต้องเป็นรถจักร</p></details>
+        <details><summary>อุโมงค์เทา จ่ายแดง 2 + รถจักร 1 แล้วเปิดเจอเขียว นับไหม</summary><p>ไม่นับ “สีที่ตรง” คือสีที่คุณเลือกจ่ายในตานั้น (แดง) และรถจักร</p></details>
+        <details><summary>3 ใบที่เปิดในอุโมงค์ เอาเข้ามือได้ไหม</summary><p>ไม่ได้ ทั้ง 3 ใบลงกองทิ้งตอนจบตาเสมอ</p></details>
+        <details><summary>หยิบการ์ดหงายใบแรกเป็นสีปกติ แล้วใบที่เปิดเติมเป็นรถจักร หยิบได้ไหม</summary><p>ไม่ได้ รถจักรหงายหยิบได้เฉพาะเป็นใบแรก (และใบเดียว) เท่านั้น ใบที่สองจั่วคว่ำหรือหยิบสีปกติแทน</p></details>
+        <details><summary>จั่วคว่ำได้รถจักร ยังจั่วต่อได้ไหม</summary><p>ได้ นับเป็น 1 ใบปกติ</p></details>
+        <details><summary>เรือข้ามฟาก ใช้รถจักรมากกว่าจำนวนรูปได้ไหม</summary><p>ได้ ช่องที่เหลือจ่ายสีเดียวกันหรือรถจักรก็ได้ ขอแค่รถจักรไม่น้อยกว่าจำนวนรูป</p></details>
+        <details><summary>เล่น 2–3 คน เส้นคู่อีกรางยังว่าง ใช้ได้ไหม</summary><p>ไม่ได้ เมื่อมีคนยึดรางหนึ่ง อีกรางปิดทันที · 4–5 คนใช้ได้ทั้งสองรางแต่คนละคน</p></details>
+        <details><summary>สถานีใช้กับเส้นทางของตัวเองหรือเส้นที่ว่างได้ไหม</summary><p>สถานียืมได้เฉพาะเส้นทางที่<b>คู่แข่ง</b>ยึดแล้ว เส้นที่ว่างไม่มีขบวนให้วางสถานีทับ · เส้นของตัวเองใช้ได้อยู่แล้วไม่ต้องยืม</p></details>
+        <details><summary>สถานีหนึ่งหลัง ยืมได้กี่เส้น</summary><p>เส้นเดียว ถึงจะช่วยตั๋วหลายใบก็ต้องเป็นเส้นเดียวกัน · สองคนวางสถานีบนเส้นเดียวกันได้ เส้นนั้นเป็นของสามคน</p></details>
+        <details><summary>เส้นที่ยืมผ่านสถานี นับเป็นเส้นทางยาวที่สุดไหม</summary><p>ไม่นับ นับเฉพาะขบวนสีของตัวเองที่ต่อกัน</p></details>
+        <details><summary>เหลือขบวน 2 ตัว แล้วเจอเส้น 3 ช่อง ยึดได้ไหม</summary><p>ไม่ได้ ต้องมีขบวนพอวางทุกช่อง เพราะเส้นทางต้องยึดทั้งเส้นในตาเดียว</p></details>
+        <details><summary>คนที่ทำให้เหลือ 0–2 ตัว ได้เล่นอีกตาไหม</summary><p>ได้ ทุกคนรวมคนนั้นได้อีกคนละ 1 ตา</p></details>
+        <details><summary>ตั๋วที่จั่วระหว่างเกมแล้วไม่เก็บ ไปไหน</summary><p>ใต้กองตั๋ว · ส่วนตั๋วที่ไม่เก็บตอนเริ่มเกม Classic/1912 ลงกล่อง ส่วน Big Cities/Mega (ตั๋วปกติ) สับแล้วไว้ใต้กอง</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">ภาษาในคู่มือ</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>Route</dt><dd>เส้นทาง · ช่องต่อเนื่องระหว่างสองเมืองติดกัน</dd>
+        <dt>Double Route</dt><dd>เส้นคู่ · สองรางยาวเท่ากันเชื่อมเมืองคู่เดียวกัน</dd>
+        <dt>Train Car card</dt><dd>การ์ดรถไฟ 8 สี</dd>
+        <dt>Locomotive</dt><dd>รถจักร · การ์ดสีรุ้ง ไวลด์การ์ด</dd>
+        <dt>Ferry</dt><dd>เรือข้ามฟาก · เส้นเทามีรูปรถจักร</dd>
+        <dt>Tunnel</dt><dd>อุโมงค์ · เปิดการ์ด 3 ใบแล้วอาจต้องจ่ายเพิ่ม</dd>
+        <dt>Train Station</dt><dd>สถานี · ยืมเส้นทางคู่แข่ง 1 เส้น</dd>
+        <dt>Destination Ticket</dt><dd>ตั๋วปลายทาง · ยาว (Long) และปกติ (Regular)</dd>
+        <dt>European Express</dt><dd>โบนัส 10 แต้มเส้นทางต่อเนื่องยาวที่สุด</dd>
+        <dt>Continuous Path</dt><dd>เส้นทางต่อเนื่อง · ขบวนสีเดียวกันที่ต่อกันไม่ขาด</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>แหล่งที่มา</b></p>
+    <ul>
+      <li>คู่มือทางการ Ticket to Ride Europe – 15th Anniversary (Days of Wonder, 2021) ฉบับภาษาอังกฤษ · ออกแบบโดย Alan R. Moon · <a href="https://www.daysofwonder.com/ticket-to-ride/" target="_blank" rel="noopener">daysofwonder.com</a></li>
+      <li>ข้อมูลกล่อง: <a href="https://boardgamegeek.com/boardgame/329841/ticket-to-ride-europe-15th-anniversary" target="_blank" rel="noopener">BoardGameGeek</a></li>
+      <li>ตารางโอกาสในอุโมงค์ คำนวณโดยผู้เรียบเรียงจากการ์ด 110 ใบ (สีละ 12 + รถจักร 14) · หัวข้อที่มีป้าย <span class="flag">คำแนะนำผู้เรียบเรียง</span> ไม่ใช่ข้อความในคู่มือ</li>
+      <li>ภาพทั้งหมดในหน้านี้วาดใหม่เพื่ออธิบาย ไม่ใช่ภาพจากคู่มือ</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+var CC={purple:"#7b4fa0",blue:"#2f6db5",orange:"#e38a2b",white:"#f2f0ea",green:"#3f9a4f",yellow:"#f0c93a",black:"#2b2b2b",red:"#c8372d",gray:"#9aa0a6",loco:"url(#lg-loco)"};
+var TH={purple:"ม่วง",blue:"น้ำเงิน",orange:"ส้ม",white:"ขาว",green:"เขียว",yellow:"เหลือง",black:"ดำ",red:"แดง",loco:"รถจักร",gray:"เทา"};
+var DARK={purple:1,blue:1,black:1,red:1,green:1,loco:1};
+function set(id,h){var e=document.getElementById(id);if(e)e.innerHTML=h;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function txt(x,y,t,cls,anchor,size){return '<text x="'+x+'" y="'+y+'" class="'+(cls||"")+'" text-anchor="'+(anchor||"start")+'" font-size="'+(size||13)+'">'+t+'</text>';}
+/* train card in svg */
+function card(x,y,c,o){o=o||{};var w=o.w||34,h=o.h||50;
+  var s='<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="5" fill="'+CC[c]+'" stroke="'+(o.hit?"var(--accent)":"rgba(0,0,0,.35)")+'" stroke-width="'+(o.hit?3.5:1)+'"/>';
+  s+='<rect x="'+(x+4)+'" y="'+(y+4)+'" width="'+(w-8)+'" height="'+(h-8)+'" rx="3" fill="none" stroke="'+(DARK[c]?"rgba(255,255,255,.35)":"rgba(0,0,0,.2)")+'"/>';
+  if(o.hit)s+='<circle cx="'+(x+w)+'" cy="'+y+'" r="9" fill="var(--accent)"/><text x="'+(x+w)+'" y="'+(y+4)+'" text-anchor="middle" font-size="10" class="tagf" style="fill:#fff">+1</text>';
+  if(o.back)s='<g><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="5" fill="#1d4a3f" stroke="rgba(0,0,0,.35)"/><rect x="'+(x+5)+'" y="'+(y+5)+'" width="'+(w-10)+'" height="'+(h-10)+'" rx="3" fill="none" stroke="#e8c167" stroke-dasharray="3 3"/>';
+  return s+'</g>';
+}
+/* route spaces along a straight line */
+function route(x1,y1,x2,y2,n,c,o){o=o||{};var dx=x2-x1,dy=y2-y1,L=Math.sqrt(dx*dx+dy*dy),ang=Math.atan2(dy,dx)*180/Math.PI;
+  var gap=4,sw=(L-gap*(n+1))/n,hh=o.h||14,s='';
+  for(var i=0;i<n;i++){var cx=x1+dx*(gap+sw/2+i*(sw+gap))/L,cy=y1+dy*(gap+sw/2+i*(sw+gap))/L;
+    s+='<g transform="translate('+cx.toFixed(1)+' '+cy.toFixed(1)+') rotate('+ang.toFixed(1)+')">';
+    if(o.tunnel)s+='<rect x="'+(-sw/2-4)+'" y="'+(-hh/2-4)+'" width="'+(sw+8)+'" height="'+(hh+8)+'" rx="3" fill="url(#pt-tunnel)" stroke="#1a1a1a" stroke-width="1.5"/>';
+    s+='<rect x="'+(-sw/2)+'" y="'+(-hh/2)+'" width="'+sw+'" height="'+hh+'" rx="2.5" fill="'+CC[c]+'" stroke="'+(o.tunnel?"#111":"rgba(0,0,0,.4)")+'" stroke-width="'+(o.tunnel?2:1)+'"/>';
+    if(o.ferry&&i<o.ferry)s+='<rect x="'+(-hh*.35)+'" y="'+(-hh*.35)+'" width="'+(hh*.7)+'" height="'+(hh*.7)+'" rx="1.5" fill="url(#lg-loco)" stroke="#fff" stroke-width=".8"/>';
+    if(o.train)s+='<rect x="'+(-sw/2+2)+'" y="'+(-hh/2+2)+'" width="'+(sw-4)+'" height="'+(hh-4)+'" rx="3" fill="'+o.train+'" stroke="rgba(0,0,0,.5)"/><circle cx="'+(-sw/4)+'" cy="'+(hh/2-1)+'" r="1.6" fill="#111"/><circle cx="'+(sw/4)+'" cy="'+(hh/2-1)+'" r="1.6" fill="#111"/>';
+    s+='</g>';}
+  return s;
+}
+function city(x,y,name,o){o=o||{};var s='<circle cx="'+x+'" cy="'+y+'" r="'+(o.r||8)+'" fill="'+(o.fill||"var(--surface)")+'" stroke="'+(o.stroke||"var(--fg)")+'" stroke-width="2"/>';
+  if(name)s+='<text x="'+(x+(o.dx||0))+'" y="'+(y+(o.dy||-14))+'" text-anchor="'+(o.anchor||"middle")+'" font-size="'+(o.fs||13)+'" class="tagf" '+(o.style?'style="'+o.style+'"':'')+'>'+name+'</text>';
+  return s;
+}
+function stationIcon(x,y,col){return '<g><path d="M'+(x-9)+' '+(y+7)+' v-9 l9 -8 l9 8 v9 z" fill="'+col+'" stroke="rgba(0,0,0,.6)" stroke-width="1.2"/><rect x="'+(x-3)+'" y="'+(y+1)+'" width="6" height="6" fill="rgba(0,0,0,.35)"/></g>';}
+
+/* HERO MAP */
+(function(){
+  var st='fill:#eef3ea';
+  var C={ed:[60,50],lo:[90,110],am:[160,95],pa:[120,170],be:[230,90],wi:[260,170],ma:[50,260],ro:[220,250],at:[320,285],mo:[360,60],zu:[180,205]};
+  var o='<rect x="0" y="0" width="400" height="320" rx="18" fill="rgba(255,255,255,.04)"/>';
+  o+='<path d="M10 140 q30 -30 50 -20 M20 300 q60 -30 120 -10 q60 20 120 -5" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>';
+  o+=route(C.ed[0],C.ed[1],C.lo[0],C.lo[1],4,"black",{h:11});
+  o+=route(C.lo[0],C.lo[1],C.am[0],C.am[1],2,"gray",{h:11,ferry:2});
+  o+=route(C.lo[0],C.lo[1],C.pa[0],C.pa[1],2,"gray",{h:11,ferry:1});
+  o+=route(C.am[0],C.am[1],C.be[0],C.be[1],3,"white",{h:11,train:"#c8372d"});
+  o+=route(C.pa[0],C.pa[1],C.zu[0],C.zu[1],3,"purple",{h:11,tunnel:true});
+  o+=route(C.zu[0],C.zu[1],C.wi[0],C.wi[1],2,"green",{h:11,tunnel:true});
+  o+=route(C.be[0],C.be[1],C.wi[0],C.wi[1],3,"green",{h:11,train:"#2f6db5"});
+  o+=route(C.pa[0],C.pa[1],C.ma[0],C.ma[1],4,"red",{h:11});
+  o+=route(C.zu[0],C.zu[1],C.ro[0],C.ro[1],2,"gray",{h:11,tunnel:true});
+  o+=route(C.ro[0],C.ro[1],C.at[0],C.at[1],4,"gray",{h:11,ferry:1});
+  o+=route(C.be[0],C.be[1],C.mo[0],C.mo[1],4,"yellow",{h:11});
+  o+=route(C.wi[0],C.wi[1],C.at[0],C.at[1],4,"orange",{h:11});
+  var names={ed:"Edinburgh",lo:"London",am:"Amsterdam",pa:"Paris",be:"Berlin",wi:"Wien",ma:"Madrid",ro:"Roma",at:"Athína",mo:"Moskva",zu:"Zürich"};
+  for(var k in C){o+=city(C[k][0],C[k][1],names[k],{fill:"#e8c167",stroke:"#0f2a24",r:7,fs:11,style:st,dy:k==="ma"||k==="at"||k==="ro"?22:-12});}
+  o+=stationIcon(C.wi[0]+16,C.wi[1]-2,"#c8372d");
+  set("heroart",o);
+})();
+
+/* DRAW DEMO */
+(function(){
+  var o='';
+  function panel(x,title,ok,cards,note){var s=txt(x,22,title,"tagf","start",14);
+    cards.forEach(function(c,i){s+=card(x+i*44,40,c.c,{back:c.back});});
+    s+='<circle cx="'+(x+cards.length*44+16)+'" cy="65" r="13" fill="'+(ok?"var(--good)":"var(--bad)")+'"/><text x="'+(x+cards.length*44+16)+'" y="70" text-anchor="middle" font-size="14" class="tagf" style="fill:#fff">'+(ok?"✓":"✕")+'</text>';
+    s+=txt(x,120,note[0],"mut","start",12)+txt(x,138,note[1],"mut","start",12);return s;}
+  o+=panel(10,"รถจักรหงาย",true,[{c:"loco"}],["หยิบรถจักรหงาย 1 ใบ","จบการจั่วทันที"]);
+  o+=panel(170,"สีหงาย + รถจักรหงาย",false,[{c:"blue"},{c:"loco"}],["รถจักรหงาย","ห้ามเป็นใบที่ 2"]);
+  o+=panel(370,"จั่วคว่ำได้รถจักร",true,[{c:"loco"},{c:"red"}],["รถจักรจากกองคว่ำ","นับ 1 ใบ จั่วต่อได้"]);
+  o+=panel(560,"ปกติ",true,[{c:"green"},{back:1,c:"green"}],["หงาย/คว่ำ","ผสมกันได้"]);
+  set("drawdemo",o);
+})();
+
+/* ROUTE DEMO */
+(function(){
+  var o='';
+  function row(y,label,sub,fn){o+=txt(14,y-4,label,"tagf","start",14)+txt(14,y+14,sub,"mut","start",12);o+=fn(y);}
+  row(40,"เส้นสี","จ่ายสีนั้น",function(y){return city(250,y,"")+city(470,y,"")+route(258,y,462,y,3,"yellow");});
+  row(95,"เส้นเทา","สีอะไรก็ได้ สีเดียว",function(y){return city(250,y,"")+city(400,y,"")+route(258,y,392,y,2,"gray");});
+  row(150,"เส้นคู่","คนละคน · 2–3 คนใช้รางเดียว",function(y){return city(250,y,"")+city(470,y,"")+route(258,y-9,462,y-9,3,"red",{h:12})+route(258,y+9,462,y+9,3,"orange",{h:12});});
+  row(205,"เรือข้ามฟาก","รถจักรตามรูป",function(y){return '<rect x="240" y="'+(y-22)+'" width="320" height="44" rx="22" fill="var(--steel-soft)"/>'+city(250,y,"")+city(550,y,"")+route(258,y,542,y,4,"gray",{ferry:1});});
+  row(262,"อุโมงค์","เปิด 3 ใบ ลุ้นจ่ายเพิ่ม",function(y){return '<path d="M250 '+(y+18)+' l40 -40 l30 22 l40 -34 l50 46 l40 -24 l50 30" fill="none" stroke="var(--muted)" stroke-width="1.5" opacity=".5"/>'+city(250,y,"")+city(500,y,"")+route(258,y,492,y,3,"purple",{tunnel:true});});
+  set("routedemo",o);
+})();
+
+/* TUNNEL DEMO */
+(function(){
+  var ex=[
+    {t:"ตัวอย่าง 1 · จ่ายแดง 2",pay:["red","red"],rev:["red","blue","yellow"],hit:[0],res:"ตรง 1 ใบ (แดง) → จ่ายแดงเพิ่ม 1 ใบ",extra:"red"},
+    {t:"ตัวอย่าง 2 · จ่ายเขียว 2",pay:["green","green"],rev:["loco","white","black"],hit:[0],res:"ตรง 1 ใบ (รถจักร) → จ่ายเขียวเพิ่ม 1 ใบ",extra:"green"},
+    {t:"ตัวอย่าง 3 · จ่ายรถจักร 2",pay:["loco","loco"],rev:["orange","loco","orange"],hit:[1],res:"นับเฉพาะรถจักร → จ่ายรถจักรเพิ่ม 1 ใบ",extra:"loco"}
+  ];
+  var o=txt(150,20,"การ์ดที่จ่าย","mut","middle",12)+txt(355,20,"เปิด 3 ใบจากกองจั่ว","mut","middle",12)+txt(560,20,"จ่ายเพิ่ม","mut","middle",12);
+  ex.forEach(function(e,i){var y=34+i*128;
+    o+='<rect x="6" y="'+y+'" width="688" height="116" rx="12" fill="var(--surface-2)"/>';
+    o+=txt(18,y+22,e.t,"tagf","start",14);
+    o+=route(18,y+78,108,y+78,2,"gray",{tunnel:true,h:12});
+    e.pay.forEach(function(c,k){o+=card(120+k*42,y+40,c);});
+    o+='<path d="M222 '+(y+65)+' h30" stroke="var(--muted)" stroke-width="2" marker-end="url(#ar-t)"/>';
+    e.rev.forEach(function(c,k){o+=card(280+k*50,y+40,c,{hit:e.hit.indexOf(k)>=0});});
+    o+='<path d="M444 '+(y+65)+' h30" stroke="var(--muted)" stroke-width="2" marker-end="url(#ar-t)"/>';
+    o+=card(500,y+40,e.extra,{});o+='<text x="517" y="'+(y+34)+'" text-anchor="middle" font-size="12" class="tagf acc">+1</text>';
+    o+=txt(552,y+60,e.res.split(" → ")[0],"","start",12)+txt(552,y+78,"→ "+e.res.split(" → ")[1],"tagf acc","start",12);
+  });
+  o+='<defs><marker id="ar-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--muted)"/></marker></defs>';
+  set("tunneldemo",o);
+})();
+
+/* STATION DEMO */
+(function(){
+  var o=city(90,100,"A",{dy:-18})+city(350,100,"B",{dy:-24})+city(610,100,"C",{dy:-18});
+  o+=route(98,100,342,100,4,"white",{train:"#c8372d"});
+  o+=route(358,100,602,100,4,"gray",{train:"#2f6db5"});
+  o+=stationIcon(350,96,"#c8372d");
+  o+='<path d="M90 140 C 250 175, 450 175, 610 140" fill="none" stroke="var(--good)" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#ar-s)"/>';
+  o+=txt(350,182,"ตั๋วแดง A → C สำเร็จ","tagf good","middle",14);
+  o+=txt(220,130,"เส้นของแดง","mut","middle",12)+txt(480,130,"เส้นของฟ้า (ยืมด้วยสถานี)","mut","middle",12);
+  o+='<defs><marker id="ar-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="var(--good)"/></marker></defs>';
+  set("stationdemo",o);
+})();
+
+/* ODDS */
+function C3(n,k){if(k<0||k>n)return 0;var r=1;for(var i=0;i<k;i++)r=r*(n-i)/(i+1);return r;}
+function hyper(K,N,draw){N=N||110;draw=draw||3;var out=[];for(var k=0;k<=draw;k++)out.push(C3(K,k)*C3(N-K,draw-k)/C3(N,draw));return out;}
+function pct(p){return (p*100).toFixed(p<0.1?1:0)+"%";}
+(function(){
+  var rows=[["สี + รถจักร (ปกติ)",26],["รถจักรล้วน",14]],h="";
+  rows.forEach(function(r){var p=hyper(r[1]);h+='<tr><td>'+r[0]+'</td>'+p.map(function(x){return '<td class="num">'+pct(x)+'</td>';}).join("")+'<td class="num">'+pct(1-p[0])+'</td></tr>';});
+  set("oddsbody",h);
+})();
+
+/* SETUP HELPER */
+(function(){
+  var V={
+    classic:{n:"Classic",pool:"โลโก้ Europe 46 ใบ",deal:"ยาว 1 + ปกติ 3",keep:"อย่างน้อย 2 ใบ",draw:"จั่ว 3 เก็บ ≥ 1",
+      notes:["ตั๋วยาวที่ไม่ได้แจก คว่ำเก็บลงกล่องโดยไม่ดู","ตั๋วที่ไม่เก็บตอนเริ่ม (ยาวหรือปกติ) คว่ำลงกล่อง"]},
+    e1912:{n:"Europe 1912",pool:"โลโก้ 1912 55 ใบ",deal:"ยาว 1 + ปกติ 3",keep:"อย่างน้อย 2 ใบ",draw:"จั่ว 3 เก็บ ≥ 1",
+      notes:["เปลี่ยนแค่ชุดตั๋ว: เก็บตั๋วโลโก้ Europe ลงกล่อง ใช้โลโก้ 1912 แทน","ตั๋วที่ไม่เก็บตอนเริ่ม คว่ำลงกล่อง"]},
+    big:{n:"Big Cities",pool:"โลโก้ Big Cities 45 ใบ",deal:"ปกติ 5",keep:"อย่างน้อย 2 ใบ",draw:"จั่ว 4 เก็บ ≥ 1",
+      notes:["ไม่ใช้ตั๋วยาวเลย","วางการ์ดอ้างอิงเมืองใหญ่ข้างบอร์ด","ตั๋วที่ไม่เก็บตอนเริ่ม สับรวมแล้ววางไว้ใต้กองตั๋ว"]},
+    mega:{n:"Mega Europe",pool:"Europe + 1912 รวม 101 ใบ",deal:"ยาว 2 แล้วปกติ 5",keep:"ยาว 0–1 · ปกติ ≥ 2 (ถ้าไม่เก็บยาว ≥ 3)",draw:"จั่ว 3 เก็บ ≥ 1",
+      notes:["ตั๋วยาว: เก็บ 1 ใบหรือไม่เก็บ ห้ามเก็บทั้งสอง ที่ไม่เก็บคว่ำลงกล่อง","ตั๋วปกติที่ไม่เก็บ สับรวมแล้ววางไว้ใต้กองตั๋ว"]}
+  };
+  var st={v:"classic",p:4,b:false};
+  var ve=document.getElementById("h-var"),pe=document.getElementById("h-players");
+  Object.keys(V).forEach(function(k){var b=document.createElement("button");b.type="button";b.dataset.v=k;b.textContent=V[k].n;ve.appendChild(b);});
+  [2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.dataset.v=n;b.textContent=n+" คน";pe.appendChild(b);});
+  function draw(){
+    [].forEach.call(ve.children,function(b){b.setAttribute("aria-pressed",b.dataset.v===st.v);});
+    [].forEach.call(pe.children,function(b){b.setAttribute("aria-pressed",+b.dataset.v===st.p);});
+    var v=V[st.v];
+    var out=[["ตั๋วที่ใช้",v.pool+(st.b?" + โบนัส 7":"")],["แจกตั๋วคนละ",v.deal],["ต้องเก็บ",v.keep],["ระหว่างเกม",v.draw],["การ์ดรถไฟเริ่ม","คนละ 4 · หงาย 5"],["ของต่อคน","ขบวน 45 · สถานี 3"]];
+    set("h-out",out.map(function(r,i){return '<div class="co'+(i<3?" hl":"")+'"><small>'+r[0]+'</small><b>'+r[1]+'</b></div>';}).join(""));
+    var n=v.notes.slice();
+    n.push(st.p<=3?"<b>"+st.p+" คน: เส้นคู่ใช้ได้รางเดียว</b> เมื่อมีคนยึดรางหนึ่ง อีกรางปิด":st.p+" คน: เส้นคู่ใช้ได้ทั้งสองราง แต่คนเดียวห้ามยึดทั้งคู่");
+    if(st.b)n.push("ตั๋วโบนัส (Orient Express 6 + Max 1) สับรวมเข้ากองตั๋วปกติ");
+    n.push("คนที่เคยไปประเทศในยุโรปมากที่สุดเริ่มก่อน");
+    set("h-notes",n.map(function(x){return "<li>"+x+"</li>";}).join(""));
+  }
+  ve.addEventListener("click",function(e){var b=e.target.closest("button");if(b){st.v=b.dataset.v;draw();}});
+  pe.addEventListener("click",function(e){var b=e.target.closest("button");if(b){st.p=+b.dataset.v;draw();}});
+  document.getElementById("h-bonus").addEventListener("change",function(e){st.b=e.target.checked;draw();});
+  draw();
+})();
+
+/* TUNNEL SIM */
+(function(){
+  var COLS=["red","orange","yellow","green","blue","purple","white","black","loco"];
+  var st={c:"red",len:2,sp:1,last:null};
+  var ce=document.getElementById("t-color");
+  COLS.forEach(function(c){var b=document.createElement("button");b.type="button";b.dataset.v=c;b.style.setProperty("--cc",CC[c]);if(c==="loco")b.className="loco";b.title=b.ariaLabel=c==="loco"?"รถจักรล้วน":TH[c];ce.appendChild(b);});
+  function deck(){var d=[];["purple","blue","orange","white","green","yellow","black","red"].forEach(function(c){for(var i=0;i<12;i++)d.push(c);});for(var j=0;j<14;j++)d.push("loco");return d;}
+  function pick3(){var d=deck(),r=[];for(var i=0;i<3;i++){var k=Math.floor(Math.random()*d.length);r.push(d.splice(k,1)[0]);}return r;}
+  function isHit(x){return st.c==="loco"?x==="loco":(x===st.c||x==="loco");}
+  function tc(c,cls,extra,label){return '<div class="tcard '+(c==="loco"?"loco":"")+(DARK[c]&&c!=="loco"?" dk":"")+' '+(cls||"")+'" style="--cc:'+(CC[c]||"")+';'+(extra||"")+'">'+(label===undefined?TH[c]:label)+'</div>';}
+  function draw(){
+    [].forEach.call(ce.children,function(b){b.setAttribute("aria-pressed",b.dataset.v===st.c);});
+    document.getElementById("t-len").textContent=st.len;document.getElementById("t-sp").textContent=st.sp;
+    var payName=st.c==="loco"?"รถจักร":TH[st.c];
+    var h='<div style="display:grid;gap:4px"><span class="field-l">จ่าย '+st.len+' ใบ</span><div style="display:flex;gap:4px">';
+    for(var i=0;i<Math.min(st.len,4);i++)h+=tc(st.c,"","width:30px;height:44px","");
+    if(st.len>4)h+='<span style="align-self:center;font-family:var(--font-tag)">+'+(st.len-4)+'</span>';
+    h+='</div></div><span style="font-size:1.6rem;color:var(--muted)">→</span>';
+    if(st.last){st.last.forEach(function(c){h+=tc(c,"flip"+(isHit(c)?" hit":""));});}
+    else h+=tc("red","back","","")+tc("red","back","","")+tc("red","back","","");
+    set("t-reveal",h);
+    var v=document.getElementById("t-verdict");
+    if(st.last){var n=st.last.filter(isHit).length;
+      if(n===0){v.className="verdict ok";v.textContent="ไม่ตรงเลย ผ่านอุโมงค์โดยไม่ต้องจ่ายเพิ่ม · วางขบวน "+st.len+" ตัว";}
+      else if(n<=st.sp){v.className="verdict ok";v.textContent="ตรง "+n+" ใบ → จ่าย"+payName+(st.c==="loco"?"":"หรือรถจักร")+"เพิ่ม "+n+" ใบ มีสำรองพอ ผ่าน";}
+      else{v.className="verdict no";v.textContent="ตรง "+n+" ใบ แต่มีสำรองแค่ "+st.sp+" ใบ → เก็บการ์ดคืนมือ จบตา";}
+    }else{v.className="verdict";v.textContent="กด “เปิด 3 ใบ” เพื่อลองสุ่ม";}
+    var p=hyper(st.c==="loco"?14:26),pass=0;for(var k=0;k<=Math.min(st.sp,3);k++)pass+=p[k];
+    var lab=["ไม่ต้องเพิ่ม","เพิ่ม 1 ใบ","เพิ่ม 2 ใบ","เพิ่ม 3 ใบ"];
+    var b=p.map(function(x,i){return '<div class="bar"><span>'+lab[i]+'</span><span class="trk"><i style="width:'+(x*100).toFixed(1)+'%"></i></span><b>'+pct(x)+'</b></div>';}).join("");
+    b+='<div class="bar pass"><span><b style="text-align:left">ผ่านด้วยสำรอง '+st.sp+'</b></span><span class="trk"><i style="width:'+(pass*100).toFixed(1)+'%"></i></span><b>'+pct(pass)+'</b></div>';
+    set("t-bars",b);
+  }
+  ce.addEventListener("click",function(e){var b=e.target.closest("button");if(b){st.c=b.dataset.v;st.last=null;draw();}});
+  function step(id,key,d,min,max){document.getElementById(id).addEventListener("click",function(){st[key]=Math.max(min,Math.min(max,st[key]+d));if(key==="len")st.last=null;draw();});}
+  step("t-len-m","len",-1,1,8);step("t-len-p","len",1,1,8);step("t-sp-m","sp",-1,0,6);step("t-sp-p","sp",1,0,6);
+  document.getElementById("t-go").addEventListener("click",function(){st.last=pick3();draw();});
+  draw();
+})();
+
+/* SCOREPAD */
+(function(){
+  var LENS=[1,2,3,4,6,8],PTS={1:1,2:2,3:4,4:7,6:15,8:21};
+  var PCOL={blue:["ฟ้า","#3f7fc9"],red:["แดง","#c8372d"],purple:["ม่วง","#7b4fa0"],gray:["เทา","#8b9198"],brown:["น้ำตาล","#7a4f2c"]};
+  var KEY="ttr-eu15-pad-v1";
+  function blank(i){var cs=Object.keys(PCOL);return{name:"ผู้เล่น "+(i+1),col:cs[i%5],r:{1:0,2:0,3:0,4:0,6:0,8:0},tk:[],st:0,ex:false};}
+  function sample(){
+    var a=blank(0),b=blank(1),c=blank(2);
+    a.name="แพร";a.r={1:1,2:4,3:3,4:2,6:1,8:0};a.tk=[{v:21,ok:1},{v:8,ok:1},{v:12,ok:1}];a.st=1;a.ex=true;
+    b.name="ต้น";b.r={1:2,2:5,3:2,4:3,6:0,8:1};b.tk=[{v:20,ok:1},{v:7,ok:1},{v:10,ok:0}];b.st=0;
+    c.name="มิ้นท์";c.r={1:3,2:3,3:4,4:2,6:1,8:0};c.tk=[{v:13,ok:1},{v:6,ok:1},{v:5,ok:1},{v:9,ok:1}];c.st=2;
+    return{n:3,ps:[a,b,c,blank(3),blank(4)],sample:true};
+  }
+  var S=null;
+  try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw);}catch(e){}
+  if(!S||!S.ps||S.ps.length!==5)S=sample();
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  function calc(p){
+    var route=0,trains=0;LENS.forEach(function(L){route+=PTS[L]*p.r[L];trains+=L*p.r[L];});
+    var ok=0,bad=0,okN=0;p.tk.forEach(function(t){if(t.ok){ok+=t.v;okN++;}else bad+=t.v;});
+    var stp=(3-p.st)*4,ex=p.ex?10:0;
+    return{route:route,trains:trains,ok:ok,bad:bad,okN:okN,stp:stp,ex:ex,total:route+ok-bad+stp+ex};
+  }
+  var ne=document.getElementById("p-n");
+  [2,3,4,5].forEach(function(n){var b=document.createElement("button");b.type="button";b.dataset.v=n;b.textContent=n+" คน";ne.appendChild(b);});
+  function cardHTML(p,i){
+    var c=calc(p),col=PCOL[p.col][1];
+    var h='<div class="pcard" style="--pc:'+col+'" data-i="'+i+'">';
+    h+='<div class="ph"><input type="text" id="pn-'+i+'" value="'+esc(p.name)+'" aria-label="ชื่อผู้เล่น '+(i+1)+'" data-f="name"><select id="pc-'+i+'" data-f="col" aria-label="สีขบวน">'+Object.keys(PCOL).map(function(k){return '<option value="'+k+'"'+(k===p.col?" selected":"")+'>'+PCOL[k][0]+'</option>';}).join("")+'</select></div>';
+    h+='<div><span class="field-l">เส้นทางที่ยึด (จำนวนเส้น)</span><div class="rt">';
+    LENS.forEach(function(L){h+='<div class="cell"><small>'+L+' ช่อง · '+PTS[L]+' แต้ม</small><div class="stepper"><button type="button" data-a="r" data-l="'+L+'" data-d="-1" aria-label="ลดเส้น '+L+' ช่อง">−</button><output>'+p.r[L]+'</output><button type="button" data-a="r" data-l="'+L+'" data-d="1" aria-label="เพิ่มเส้น '+L+' ช่อง">+</button></div></div>';});
+    h+='</div><p class="trains'+(c.trains>45?" over":"")+'">ใช้ขบวนไป '+c.trains+' / 45 ตัว'+(c.trains>45?" · เกิน 45 ตรวจอีกครั้ง":"")+'</p></div>';
+    h+='<div><span class="field-l">ตั๋วปลายทาง</span><div class="tk-add"><input type="number" inputmode="numeric" min="1" max="30" id="tv-'+i+'" placeholder="แต้ม" aria-label="แต้มบนตั๋ว"><button type="button" class="btn" data-a="tk" data-ok="1">✓ สำเร็จ</button><button type="button" class="btn" data-a="tk" data-ok="0">✗ พลาด</button></div>';
+    h+='<div class="chips" style="margin-top:6px">'+(p.tk.length?p.tk.map(function(t,k){return '<span class="chip '+(t.ok?"ok":"no")+'">'+(t.ok?"+":"−")+t.v+'<button type="button" data-a="rm" data-k="'+k+'" aria-label="ลบตั๋วนี้">×</button></span>';}).join(""):'<span class="note">ยังไม่มีตั๋ว</span>')+'</div></div>';
+    h+='<div class="tool-row" style="gap:10px 16px"><div><span class="field-l">สถานีที่สร้าง</span><div class="seg">'+[0,1,2,3].map(function(n){return '<button type="button" data-a="st" data-n="'+n+'" aria-pressed="'+(p.st===n)+'">'+n+'</button>';}).join("")+'</div></div>';
+    h+='<label class="chk"><input type="checkbox" data-a="ex" id="pe-'+i+'"'+(p.ex?" checked":"")+'> European Express</label></div>';
+    h+='<div class="brk"><span>เส้นทาง</span><b>'+c.route+'</b><span>ตั๋วสำเร็จ ('+c.okN+' ใบ)</span><b>+'+c.ok+'</b><span>ตั๋วพลาด</span><b>−'+c.bad+'</b><span>สถานีเหลือ '+(3-p.st)+' × 4</span><b>+'+c.stp+'</b><span>European Express</span><b>+'+c.ex+'</b><span class="t">รวม</span><b>'+c.total+'</b></div>';
+    return h+'</div>';
+  }
+  function rank(){
+    var arr=S.ps.slice(0,S.n).map(function(p,i){var c=calc(p);return{p:p,c:c,i:i};});
+    arr.sort(function(a,b){return b.c.total-a.c.total||b.c.okN-a.c.okN||a.p.st-b.p.st||(b.p.ex?1:0)-(a.p.ex?1:0);});
+    var h=arr.map(function(x,k){var why="";
+      if(k===0&&arr[1]&&arr[1].c.total===x.c.total){
+        why=arr[1].c.okN!==x.c.okN?"ชนะเสมอด้วยตั๋วสำเร็จมากกว่า":arr[1].p.st!==x.p.st?"ชนะเสมอด้วยใช้สถานีน้อยกว่า":(x.p.ex&&!arr[1].p.ex)?"ชนะเสมอด้วย European Express":"เสมอกันทุกเกณฑ์";}
+      return '<div class="rank-row'+(k===0?" first":"")+'"><span class="pos">#'+(k+1)+'</span><span class="dot" style="--pc:'+PCOL[x.p.col][1]+'"></span><span>'+esc(x.p.name)+'<small>ตั๋ว '+x.c.okN+'/'+x.p.tk.length+' ใบ · ขบวน '+x.c.trains+' ตัว'+(why?" · "+why:"")+'</small></span><span class="tot">'+x.c.total+'</span></div>';}).join("");
+    set("p-rank",h);
+  }
+  function draw(){
+    [].forEach.call(ne.children,function(b){b.setAttribute("aria-pressed",+b.dataset.v===S.n);});
+    set("p-players",S.ps.slice(0,S.n).map(cardHTML).join(""));
+    document.getElementById("p-sample-note").textContent=S.sample?"ตอนนี้เป็นข้อมูลตัวอย่าง กด “ล้างเริ่มเกมใหม่” ก่อนใช้จริง":"";
+    rank();save();
+  }
+  ne.addEventListener("click",function(e){var b=e.target.closest("button");if(b){S.n=+b.dataset.v;draw();}});
+  document.getElementById("p-reset").addEventListener("click",function(){var n=S.n,old=S.ps;S={n:n,ps:[0,1,2,3,4].map(function(i){var b=blank(i);b.col=old[i].col;if(!S.sample)b.name=old[i].name;return b;}),sample:false};draw();});
+  document.getElementById("p-sample").addEventListener("click",function(){S=sample();draw();});
+  var pe=document.getElementById("p-players");
+  pe.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var pc=b.closest(".pcard"),i=+pc.dataset.i,p=S.ps[i];
+    var a=b.dataset.a;if(!a)return;S.sample=false;
+    if(a==="r"){var L=+b.dataset.l;p.r[L]=Math.max(0,p.r[L]+(+b.dataset.d));}
+    else if(a==="tk"){var inp=document.getElementById("tv-"+i),v=parseInt(inp.value,10);if(!(v>0)){inp.focus();return;}p.tk.push({v:v,ok:b.dataset.ok==="1"?1:0});}
+    else if(a==="rm"){p.tk.splice(+b.dataset.k,1);}
+    else if(a==="st"){p.st=+b.dataset.n;}
+    draw();
+    if(a==="tk"){var ni=document.getElementById("tv-"+i);if(ni)ni.focus();}
+  });
+  pe.addEventListener("change",function(e){var t=e.target,pc=t.closest(".pcard");if(!pc)return;var p=S.ps[+pc.dataset.i];
+    if(t.dataset.a==="ex"){p.ex=t.checked;S.sample=false;draw();}
+    else if(t.dataset.f==="col"){p.col=t.value;draw();}
+  });
+  pe.addEventListener("input",function(e){var t=e.target;if(t.dataset.f!=="name")return;var p=S.ps[+t.closest(".pcard").dataset.i];p.name=t.value;rank();save();});
+  pe.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id&&e.target.id.indexOf("tv-")===0){e.preventDefault();var ok=e.target.closest(".pcard").querySelector('[data-a="tk"][data-ok="1"]');ok.click();}});
+  draw();
+})();
+})();
+</script>
+
+</body></html>

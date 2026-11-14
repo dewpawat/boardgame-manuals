@@ -1,0 +1,470 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<title>ชั้นคู่มือบอร์ดเกม</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: a wooden bookcase. One bay (shelf group) per game category with a brass nameplate; every game box is the same size and stands on a plank. Filters and sort sit above, a category-grouped index table below. Data lives in GAMES + CATS in the script. */
+:root{
+  --bg:#f1ece3;
+  --surface:#fffdf9;
+  --surface-2:#e8e0d2;
+  --fg:#2b2219;
+  --muted:#6e6252;
+  --line:#d8ccb8;
+  --wood:#8a5a32;
+  --wood-dark:#5f3c1f;
+  --case-back:#e2d6c2;
+  --accent:#9b3f1f;
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15110d;--surface:#1f1913;--surface-2:#2a231a;--fg:#efe6d6;--muted:#b2a48e;--line:#3a3024;
+    --wood:#7a4f2c;--wood-dark:#4a2f18;--case-back:#211a13;--accent:#f0915f;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15110d;--surface:#1f1913;--surface-2:#2a231a;--fg:#efe6d6;--muted:#b2a48e;--line:#3a3024;
+  --wood:#7a4f2c;--wood-dark:#4a2f18;--case-back:#211a13;--accent:#f0915f;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.7}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.25;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header .wrap{padding-block:40px 18px;display:grid;gap:10px}
+.eyebrow{font-family:var(--font-tag);font-size:.8rem;letter-spacing:.08em;color:var(--muted)}
+h1{font-size:clamp(2rem,5vw,3rem)}
+.lede{max-width:38em;color:var(--muted)}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--font-tag);font-size:.88rem;color:var(--muted)}
+.stats b{color:var(--fg);font-size:1.05rem;font-variant-numeric:tabular-nums}
+
+/* controls */
+.controls{display:grid;gap:10px;padding-block:6px 18px}
+.ctl-row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.seg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg>span{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;margin-right:2px}
+.seg button,.jump button{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.86rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:3px 13px;min-height:34px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.search{font:inherit;font-size:.95rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 14px;min-width:0;width:min(280px,100%)}
+.count{font-family:var(--font-tag);font-size:.86rem;color:var(--muted)}
+.jump{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.jump>span{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;margin-right:2px}
+.jump button i{font-style:normal;color:var(--muted);font-weight:500;margin-left:4px}
+
+/* bookcase */
+.case{--pad:20px;--side:12px;position:relative;background:var(--case-back);border:solid var(--wood-dark);border-width:18px var(--side) 14px;border-radius:6px;padding:var(--pad) var(--pad) 0;box-shadow:inset 0 10px 24px rgba(0,0,0,.18),0 14px 28px -14px rgba(0,0,0,.45)}
+.case::before{content:"";position:absolute;left:calc(-1 * var(--side) - 6px);right:calc(-1 * var(--side) - 6px);top:-26px;height:12px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--wood) 0%,var(--wood-dark) 100%)}
+.bays{display:grid;gap:30px;padding-bottom:var(--pad)}
+.bay{display:grid;gap:14px;scroll-margin-top:16px}
+.plate{justify-self:start;display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px;position:relative;padding:4px 22px;border-radius:4px;background:linear-gradient(180deg,#e2c27a 0%,#b88a3c 100%);color:#2b1d0c;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 2px 4px rgba(0,0,0,.3)}
+.plate::before,.plate::after{content:"";position:absolute;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#6d4f1d}
+.plate::before{left:8px}.plate::after{right:8px}
+.plate b{font-family:var(--font-display);font-weight:600;font-size:1.05rem}
+.plate span{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.04em}
+.rows{display:grid;gap:34px}
+.shelf-row{--cols:4;position:relative;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:18px;align-items:end;padding-bottom:22px}
+.shelf-row::after{content:"";position:absolute;left:calc(-1 * var(--pad));right:calc(-1 * var(--pad));bottom:0;height:22px;background:linear-gradient(180deg,var(--wood) 0%,var(--wood-dark) 100%);box-shadow:0 6px 12px rgba(0,0,0,.2),inset 0 3px 0 rgba(255,255,255,.12)}
+.shelf-row::before{content:"";position:absolute;left:calc(-1 * var(--pad));right:calc(-1 * var(--pad));bottom:22px;height:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.14))}
+
+/* game box: all boxes share one height; the art block keeps the original SVG untouched */
+.box{--c:#444;--c2:#222;--ink:#fff;--hl:#f0c869;position:relative;display:grid;grid-template-rows:118px 1fr auto;height:356px;border-radius:7px 7px 3px 3px;overflow:hidden;text-decoration:none;color:var(--ink);background:linear-gradient(165deg,var(--c) 0%,var(--c2) 100%);box-shadow:inset -7px 0 0 rgba(0,0,0,.22),0 2px 0 rgba(0,0,0,.25),0 12px 20px -10px rgba(0,0,0,.5);transition:transform .18s ease}
+.box::before{content:"";position:absolute;left:0;right:0;top:0;height:7px;background:rgba(255,255,255,.14);border-bottom:1px solid rgba(0,0,0,.3);z-index:2;pointer-events:none}
+.box::after{content:"";position:absolute;top:0;bottom:0;right:7px;width:1px;background:rgba(255,255,255,.12);pointer-events:none}
+.box:hover,.box:focus-visible{transform:translateY(-6px)}
+.box:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.box .art{height:118px;display:block}
+.box .art svg{width:100%;height:100%;display:block}
+.box .body{padding:12px 20px 0 16px;display:grid;gap:5px;align-content:start;min-height:0}
+.box h2{font-size:1.3rem;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.box .th{font-size:.88rem;opacity:.85;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.box .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px;max-height:52px;overflow:hidden}
+.box .chip{font-family:var(--font-tag);font-weight:600;font-size:.72rem;line-height:1.6;border-radius:999px;padding:1px 9px;background:rgba(255,255,255,.16);color:var(--ink);white-space:nowrap}
+.box .chip.hl{background:var(--hl);color:#1d1710}
+.box .chip.new{background:#fff;color:#1d1710}
+.box .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 20px 14px 16px;font-family:var(--font-tag);font-size:.8rem;border-top:1px solid rgba(255,255,255,.1)}
+.box .foot>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.box .open{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:2px 12px;white-space:nowrap}
+.empty{padding:20px 0 28px;color:var(--muted)}
+
+main{display:grid;gap:44px;padding-block:8px 64px}
+
+/* index table */
+.list{display:grid;gap:12px}
+.list h3{font-size:1.25rem}
+.list .note{color:var(--muted);font-size:.95rem;max-width:44em}
+.tbl-wrap{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+table{border-collapse:collapse;width:100%;font-size:.94rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--font-tag);font-weight:600;font-size:.82rem;background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-weight:600;font-size:1rem;padding-block:8px}
+tr.grp td small{font-family:var(--font-tag);font-weight:500;font-size:.78rem;color:var(--muted);margin-left:8px}
+td.num{font-family:var(--font-tag);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+td a{color:var(--accent);font-weight:600}
+td .sub{display:block;color:var(--muted);font-size:.86rem}
+.cov{display:grid;gap:3px;margin:0;padding:0;list-style:none}
+.cov b{font-family:var(--font-tag);font-weight:600;font-size:.8rem;color:var(--muted);margin-right:6px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:0}
+.how{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;max-width:46em;display:grid;gap:6px}
+.how h3{font-size:1.1rem}
+.how ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (max-width:760px){
+  .case{--pad:12px;--side:8px;border-width:14px var(--side) 10px}
+  thead{display:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tbody tr{border-bottom:1px solid var(--line);padding-block:6px}
+  tbody tr:last-child{border-bottom:0}
+  td{border-bottom:0;padding:4px 14px}
+  td[data-l]::before{content:attr(data-l);display:block;font-family:var(--font-tag);font-size:.76rem;color:var(--muted);letter-spacing:.04em}
+  tr.grp{padding:0}
+  tr.grp td{padding:8px 14px}
+}
+@media (prefers-reduced-motion:reduce){.box{transition:none}.box:hover,.box:focus-visible{transform:none}}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">คู่มือภาษาไทย · เรียบเรียงจากคู่มือทางการ</div>
+    <h1>ชั้นคู่มือบอร์ดเกม</h1>
+    <p class="lede">คู่มือภาษาไทยของบอร์ดเกมทุกกล่องบนชั้นนี้ แต่ละเล่มมีกติกาครบ ภาพประกอบ วิธีนับคะแนนทุกภาค และเครื่องมือช่วยระหว่างเล่น กดที่กล่องเพื่อเปิดคู่มือ</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <div class="ctl-row">
+      <div class="seg" id="f-players" role="group" aria-label="กรองตามจำนวนผู้เล่น"><span>ผู้เล่น</span></div>
+    </div>
+    <div class="ctl-row">
+      <div class="seg" id="f-time" role="group" aria-label="กรองตามเวลาเล่น"><span>เวลาเล่น</span></div>
+      <div class="seg" id="f-sort" role="group" aria-label="เรียงลำดับ"><span>เรียง</span></div>
+    </div>
+    <div class="ctl-row">
+      <input type="search" class="search" id="q" placeholder="ค้นชื่อเกม ชื่อภาค หรือหมวด" aria-label="ค้นชื่อเกม ชื่อภาค หรือหมวด">
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <nav class="jump" id="jump" aria-label="ไปที่หมวด"></nav>
+  </div>
+</div>
+
+<main class="wrap">
+  <section aria-label="ชั้นวางคู่มือ">
+    <div class="case">
+      <div class="bays" id="bays"></div>
+      <p class="empty" id="empty" hidden>ไม่มีคู่มือที่ตรงกับตัวกรอง ลองเปลี่ยนจำนวนผู้เล่น เวลาเล่น หรือคำค้น</p>
+    </div>
+  </section>
+
+  <section class="list">
+    <h3>สารบัญแบบตาราง</h3>
+    <p class="note">เวลาเล่นอิงตัวเลขที่พิมพ์บนกล่อง ส่วนจำนวนผู้เล่นนับรวมภาคเสริมที่อยู่ในคู่มือแล้ว</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>เกม</th><th>ผู้เล่น</th><th>เวลาเล่น</th><th>เนื้อหาในคู่มือ</th><th>เครื่องมือในหน้า</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="how">
+    <h3>เกี่ยวกับชั้นนี้</h3>
+    <ul>
+      <li>คู่มือทุกเล่มเรียบเรียงจากคู่มือทางการของแต่ละเกม และบอกแหล่งที่มาไว้ท้ายเล่ม</li>
+      <li>เกมจะขึ้นชั้นเมื่อคู่มือภาษาไทยของเกมนั้นเสร็จแล้ว ชั้นนี้จึงค่อย ๆ เพิ่มขึ้นเรื่อย ๆ</li>
+      <li>ลิงก์ของชั้นและของคู่มือแต่ละเล่มไม่เปลี่ยน แชร์ให้เพื่อนไว้ใช้ได้ตลอด</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(function(){
+/* กฎของชั้นคู่มือ วิธีเพิ่มเกม และความหมายของฟิลด์ใน GAMES อยู่ใน README.md
+   ของ repo https://github.com/dewpawat/boardgame-manuals (อ่านก่อนทำคู่มือเล่มใหม่หรือแก้ชั้น) */
+var CATS=[
+  {id:"engine",name:"สร้างเอนจิน",en:"Engine Building"},
+  {id:"pattern",name:"จัดลวดลาย",en:"Pattern Building"},
+  {id:"tile",name:"วางไทล์ สร้างเมือง",en:"Tile Placement"},
+  {id:"route",name:"สร้างเส้นทาง",en:"Route Building"},
+  {id:"deduce",name:"นิรนัย ซ่อนตัว",en:"Deduction · Hidden Movement"},
+  {id:"party",name:"ปาร์ตี้ การ์ดเบา ๆ",en:"Party · Take That"},
+  {id:"rollmove",name:"ทอยเต๋าเดินกระดาน",en:"Roll and Move"},
+  {id:"abstract",name:"วางการ์ด แข่งพื้นที่",en:"Abstract · Card Placement"},
+  {id:"trick",name:"เก็บกล ทายกล",en:"Trick-Taking"}
+];
+var GAMES=[
+  {id:"cascadia",name:"Cascadia",th:"คาสเคเดีย",url:"games/cascadia.html",cat:"pattern",
+   min:1,max:6,t:"30–45 นาที",tmax:45,parts:"เกมหลัก + Landmarks",exp:["Landmarks","การ์ดสัตว์ E–G","กติกาเล่นเร็ว 5–6 คน"],
+   rules:"ดราฟต์ไทล์คู่สัตว์ ประชากรล้น โทเคนธรรมชาติ ทางเดินถิ่นอาศัย",score:"การ์ดสัตว์ A–G ทุกใบ โบนัสเสียงข้างมาก การ์ดแลนด์มาร์ก A–L",extra:"ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · สมุดคะแนน",added:"2026-11-14",
+   c:"#24493f",c2:"#10241f",hl:"#f2c14e",art:"cascadia"},
+  {id:"carcassonne",name:"Carcassonne Big Box",th:"คาร์คาซอน",url:"games/carcassonne_big_box.html",cat:"tile",
+   min:2,max:6,t:"35 นาที",tmax:35,parts:"เกมหลัก + 11 ภาค",exp:["แม่น้ำ","อธิการ","โรงเตี๊ยม & มหาวิหาร","พ่อค้า & ช่างก่อสร้าง","เครื่องบินร่อน","ผู้ส่งสาร","เรือข้ามฟาก","เหมืองทอง","นักเวท & แม่มด","โจร","วงกลมในทุ่ง"],
+   rules:"วางไทล์ วางคนงาน ถนน เมือง อาราม และทุ่ง",score:"แต้มระหว่างเกมและท้ายเกม รวมวิธีนับแต้มของทุกภาค",extra:"ข้อที่ชอบเถียงกัน",
+   tools:"เครื่องคิดคะแนน · ตัวเลือกภาคเสริม",
+   c:"#2b3c66",c2:"#18213a",hl:"#e8b84a",art:"castle"},
+  {id:"forest",name:"Forest Shuffle",th:"ฟอเรสต์ ชัฟเฟิล",url:"games/forest_shuffle.html",cat:"engine",
+   min:1,max:5,t:"40–60 นาที",tmax:60,parts:"เกมหลัก + 3 ภาค",exp:["ชายป่า","เทือกเขาแอลป์","การสำรวจ (เล่นคนเดียว)"],
+   rules:"อ่านการ์ด จ่ายค่าการ์ดและรับโบนัส ลานโล่ง ต้นไม้ทุกชนิด",score:"คะแนนต้นไม้และสัตว์ทุกชนิดตอนจบเกม",extra:"วิธีรวมทุกภาค",
+   tools:"ตัวช่วยเตรียมเกม · สมุดคะแนน",
+   c:"#2c4a26",c2:"#16301f",hl:"#f0c869",art:"forest"},
+  {id:"dino",name:"Happy Little Dinosaurs",th:"แฮปปี้ ลิตเติล ไดโนเสาร์",url:"games/happy_little_dinosaurs.html",cat:"party",
+   min:2,max:6,t:"30–60 นาที",tmax:60,parts:"กล่องหลัก + ภาค 5–6 คน",exp:["5–6 Player Expansion"],
+   rules:"ลำดับ 1 รอบ การ์ดภัยพิบัติ การตกรอบ",score:"แต้มรายรอบ เสมอและการดวลตัดสิน",extra:"กติกา 5–6 คน",
+   tools:"ตัวตัดสินรอบ · ตัวเช็กภัยพิบัติ",
+   c:"#5a2033",c2:"#2b1631",hl:"#ffd166",art:"dino"},
+  {id:"cryptids",name:"Twisted Cryptids",th:"ทวิสเต็ด คริปทิดส์",url:"games/twisted_cryptids.html",cat:"deduce",
+   min:2,max:6,t:"60 นาที",tmax:60,parts:"กล่องหลัก + Ness is More",exp:["Ness is More"],
+   rules:"Cryptid ทั้ง 6 ตัว การย้ายมนุษย์ 4 ช่วงต่อรอบ การ Encounter",score:"คะแนน Myth และการจบเกม",extra:"",
+   tools:"ตัวนับ Myth · เครื่องคิด Myth · ตัวเช็กที่ซ่อน",
+   c:"#251a3d",c2:"#0d1d1a",hl:"#f5c66f",art:"eyes"},
+  {id:"canvas",name:"Canvas",th:"แคนวาส",url:"games/canvas.html",cat:"pattern",
+   min:1,max:5,t:"30 นาที",tmax:30,parts:"เกมหลัก + 3 ภาค",exp:["Reflections","Finishing Touches","KS Mini"],
+   rules:"อ่านการ์ดใส ซ้อนภาพ 3 ชั้น",score:"การ์ดคะแนนและริบบิ้นทุกสี",extra:"ฉากกำหนด เล่นคนเดียว วิธีรวมทุกภาค",
+   tools:"ตัวช่วยเตรียมเกม · ตัวตรวจภาพ · สมุดคะแนน",
+   c:"#2a2350",c2:"#16142a",hl:"#f3d98a",art:"canvas"},
+  {id:"sagrada",name:"Sagrada",th:"ซากราดา",url:"games/sagrada.html",cat:"pattern",
+   min:1,max:6,t:"30–45 นาที",tmax:45,parts:"เกมหลัก + 2 ภาค",exp:["5–6 Player","Passion"],
+   rules:"กฎวางลูกเต๋า ดราฟต์แบบงู การ์ดเครื่องมือ 12 ใบ",score:"เป้าหมายส่วนกลางทุกใบและเป้าหมายส่วนตัว",extra:"กองเต๋าส่วนตัว กระจกหายาก เล่นคนเดียว",
+   tools:"ตัวช่วยเตรียมเกม · เครื่องคิดคะแนน · สมุดคะแนน",
+   c:"#1a2440",c2:"#0d1220",hl:"#f4cf6a",art:"window"},
+  {id:"cryptid",name:"Cryptid",th:"คริปทิด",url:"games/cryptid.html",cat:"deduce",
+   min:3,max:5,t:"30–50 นาที",tmax:50,parts:"เกมหลัก (โหมดปกติ + ขั้นสูง)",exp:["โหมดขั้นสูง"],
+   rules:"เตรียมเกมจากการ์ด การถามและค้น ลูกบาศก์ลงโทษ คำใบ้ 6 แบบ",score:"ไม่มีคะแนน คนแรกที่หาตัวพบชนะ",extra:"ตารางศัพท์พร้อมคำอ่าน",
+   tools:"แผนที่คำใบ้ · ตัวตัดคำใบ้คู่แข่ง · ตัวเปิดคำใบ้ช่วย",
+   c:"#1d4a47",c2:"#0c1f22",hl:"#f1d7a3",art:"hexmap"},
+  {id:"kittens",name:"Exploding Kittens",th:"เหมียวระเบิด",url:"games/exploding_kittens.html",cat:"party",
+   min:2,max:9,t:"15 นาที",tmax:15,parts:"เกมหลัก + 3 ภาค + Zombie Kittens",exp:["Imploding","Streaking","Barking","Zombie Kittens","Zombie Apocalypse"],
+   rules:"เตรียมเกม การ์ดทุกใบทุกกล่อง โจมตีซ้อน Nope และคอมโบ",score:"ไม่มีคะแนน คนสุดท้ายที่รอดชนะ",extra:"วิธีรวม 4 กล่อง โหมด 2–9 คน",
+   tools:"ตัวช่วยเตรียมเกม · ตัวคุมตา · เครื่องคิดโอกาสระเบิด",
+   c:"#3a1712",c2:"#141513",hl:"#f2a51c",art:"bomb"},
+  {id:"towerup",name:"Tower Up",th:"ก่อร่างสร้างเมือง",url:"games/tower_up.html",cat:"tile",
+   min:2,max:4,t:"30–45 นาที",tmax:45,parts:"เกมหลัก",exp:[],
+   rules:"กระดานเมืองและถนน เปิดตึก วางหลังคา เดินรถก่อสร้าง เทิร์นพิเศษ",score:"เป้าหมาย 10 ใบ กรวยจราจร นับเงินจบเกม",extra:"",
+   tools:"ตัวช่วยเตรียมเกม · ตัวคิดตาสร้างตึก · สมุดคะแนน",
+   c:"#3a4248",c2:"#1c2124",hl:"#f07a3c",art:"skyline"},
+  {id:"azulchoc",name:"Azul: Master Chocolatier",th:"อาซูล ช็อกโกแลต",url:"games/azul_master_chocolatier.html",cat:"pattern",
+   min:2,max:4,t:"30–45 นาที",tmax:45,parts:"เกมหลัก + 2 ตัวแปรในกล่อง",exp:["โรงงานพิเศษ","บอร์ดฝั่งน้ำตาล"],
+   rules:"หยิบจากโรงงาน กฎวางแถวรูปแบบ แถวโรงหล่อ",score:"แต้มชิ้นติดกันในกล่องและโบนัสท้ายเกม",extra:"",
+   tools:"ตัวช่วยเตรียมเกม · เครื่องคิดคะแนน · สมุดคะแนน",
+   c:"#5a3420",c2:"#24130a",hl:"#7fd1c7",art:"choco"},
+  {id:"tfm",name:"Terraforming Mars",th:"พลิกพิภพดาวอังคาร",url:"games/terraforming_mars.html",cat:"engine",
+   min:1,max:5,t:"120 นาที",tmax:120,parts:"เกมหลัก + 2 ภาค",exp:["ปฐมบท Prelude","อาณานิคม Colonies"],
+   rules:"ค่าพารามิเตอร์ 3 ค่าและ TR ทรัพยากร 6 ชนิด หนึ่งรอบ 4 ช่วง วางแผ่นบนดาว",score:"TR หลักชัยและรางวัล แต้มจากแผ่นและการ์ด",extra:"บริษัท 23 แห่ง อาณานิคม 11 ดวง",
+   tools:"กระดานค่าพารามิเตอร์ · เครื่องคิดเงินจ่ายการ์ด · ตัวช่วยอาณานิคม · สมุดคะแนน",
+   c:"#7a2a14",c2:"#1e0d10",hl:"#ffb36b",art:"mars"},
+  {id:"splendor",name:"Splendor",th:"สเปลนเดอร์",url:"games/splendor.html",cat:"engine",
+   min:2,max:5,t:"30 นาที",tmax:30,parts:"เกมหลัก + Cities of Splendor (4 โมดูล)",exp:["แดนตะวันออก","เมือง","ป้อมปราการ","สถานีการค้า","กฎบ้าน 5 คน"],
+   rules:"4 แอ็กชัน การจ่ายและส่วนลด ขุนนาง ลิมิต 10 เหรียญ",score:"ครบ 15 แต้มจบเกม และกติกาเสมอ",extra:"วิธีรวมโมดูล",
+   tools:"ตัวช่วยเตรียมเกม · สมุดคะแนน",
+   c:"#1b2c4f",c2:"#0b1424",hl:"#e8c46a",art:"gems"},
+  {id:"monopoly",name:"Monopoly",th:"โมโนโพลี (เกมเศรษฐีต้นฉบับ)",url:"games/monopoly.html",cat:"rollmove",
+   min:2,max:6,t:"1–3 ชม.",tmax:180,parts:"ภาคหลัก C1009 ฉบับอังกฤษ",exp:["เทียบเกมเศรษฐีไทย","จบแบบจับเวลา (กฎบ้าน)"],
+   rules:"กระดาน 40 ช่อง ซื้อที่และประมูล บ้านและโรงแรม คุก จำนอง ซื้อขายแลกเปลี่ยน",score:"ล้มละลายและผู้ชนะ ตารางค่าเช่าครบทุกช่อง",extra:"ตารางเทียบกฎเกมเศรษฐีไทย ข้อที่ชอบเถียงกัน",
+   tools:"เครื่องคิดค่าเช่าและจำนอง · ตัวนับบ้านในธนาคาร · เครื่องนับทรัพย์สิน",
+   c:"#1d4635",c2:"#0f2a20",hl:"#f2c84b",art:"board"},
+  {id:"ttreurope",name:"Ticket to Ride: Europe",th:"ทิกเก็ตทูไรด์ ยุโรป · ฉบับครบรอบ 15 ปี",url:"games/ticket_to_ride_europe.html",cat:"route",
+   min:2,max:5,t:"30–60 นาที",tmax:60,parts:"15th Anniversary + 4 แบบการเล่น",exp:["Classic","Europe 1912","Big Cities","Mega Europe","ตั๋วโบนัส 7 ใบ"],
+   rules:"จั่วการ์ดและกฎรถจักร ยึดเส้นทาง เส้นคู่ เรือข้ามฟาก อุโมงค์ สถานี",score:"ตั๋วปลายทาง ตั๋วโบนัส และ European Express",extra:"อุโมงค์แบบละเอียดพร้อมโอกาสจ่ายเพิ่ม",
+   tools:"ตัวจำลองเปิดอุโมงค์ · ตัวช่วยเตรียมเกม · เครื่องคิดคะแนน",
+   c:"#1d4a3f",c2:"#0f2a24",hl:"#e8c167",art:"rail"},
+  {id:"tablecooking",name:"Table Cooking",th:"เทเบิลคุกกิ้ง · ฉบับแรก",url:"games/table_cooking.html",cat:"engine",
+   min:2,max:4,t:"30–60 นาที",tmax:60,parts:"เกมหลัก ฉบับพิมพ์แรก",exp:[],
+   rules:"ตลาดราคาขึ้นลง (เม็ดขาว) ซื้อวัตถุดิบ รับเมนู อัปเกรดครัว ปรุงอาหารฟรี",score:"แต้มเมนู โบนัสครบ 4 ประเภท ไทล์ครัว ภารกิจลับ เมนูค้างมือ",extra:"เทียบฉบับแรกกับฉบับ 2 ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · ตัวคุมราคาตลาด · สมุดคะแนน",added:"2026-11-14",
+   c:"#7c1d14",c2:"#3a0e0a",hl:"#f5c85a",art:"kitchen"},
+  {id:"avalon",name:"The Resistance: Avalon",th:"อาวาลอน",url:"games/the_resistance_avalon.html",cat:"deduce",
+   min:5,max:10,t:"30 นาที",tmax:30,parts:"เกมหลัก + Avalon X",exp:["แลนซ์ล็อต","เอ็กซ์คาลิเบอร์","การ์ดพล็อต","ท่านหญิงแห่งทะเลสาบ"],
+   rules:"ช่วงหลับตา เสนอทีมและโหวต ลงการ์ดภารกิจลับ ตัวละครพิเศษทุกตัว",score:"ไม่มีคะแนน ฝ่ายที่ได้ 3 ภารกิจก่อนชนะ และช่วงลอบสังหารเมอร์ลิน",extra:"Flow หนึ่งภารกิจ ลำดับเพิ่มโมดูล ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · บทอ่านช่วงหลับตา · กระดานคุมภารกิจ",added:"2026-11-14",
+   c:"#1d2c52",c2:"#0b1226",hl:"#f0c869",art:"roundtable"},
+  {id:"7wa",name:"7 Wonders Architects",th:"เซเว่นวันเดอร์ส อาร์คิเท็กส์",url:"games/7_wonders_architects.html",cat:"engine",
+   min:2,max:7,t:"25 นาที",tmax:25,parts:"เกมหลัก",exp:[],
+   rules:"หยิบการ์ดซ้าย ขวา กองกลาง สร้างชั้นมหาสิ่ง วิทยาศาสตร์ สงครามและแตร แมว",score:"ชั้นมหาสิ่ง การ์ดฟ้า เหรียญทหาร แมว เหรียญความก้าวหน้าทั้ง 15",extra:"พลังมหาสิ่งทั้ง 7 ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · ตัวเช็กสร้างชั้น · สมุดคะแนน",added:"2026-11-14",
+   c:"#1f5a74",c2:"#0f2b40",hl:"#e9b949",art:"pyramid"},
+  {id:"tacta",name:"Tacta",th:"แทคตา",url:"games/tacta.html",cat:"abstract",
+   min:2,max:6,t:"20+ นาที",tmax:20,parts:"เกมหลัก + 5 แบบเล่น",exp:["Limited Space","Quick Round","Team Up","Free Play","Sabotage"],
+   rules:"ใบนอกสุด 2 ใบ ต่อและทับรูปทรงให้พอดี ทำได้และห้ามทำ ไม่มีที่ลง การ์ดวางผิด",score:"จุดสีตัวเองที่มองเห็น เสมอ เล่นหลายรอบถึง 100",extra:"กฎขอบโต๊ะ ข้อที่ชอบเถียงกัน",
+   tools:"ตัวหาคนเริ่มก่อน · ตัวจับเวลา · สมุดคะแนน",added:"2026-11-14",
+   c:"#2a1446",c2:"#0d0b16",hl:"#ff4fc3",art:"tacta"},
+  {id:"bvb",name:"Bears vs Babies",th:"หมีปะทะเบบี๋",url:"games/bears_vs_babies.html",cat:"party",
+   min:2,max:5,t:"20 นาที",tmax:20,parts:"ภาคหลัก (Core Game)",exp:[],
+   rules:"ต่อมอนสเตอร์ตามรอยเย็บ หัวหมี หมวก หน้ากาก เครื่องมือ ยั่วกองทัพทารก การ์ดพิเศษ",score:"แต้มทารกที่กิน ศึกอาร์มาเกดดอน และกติกาเสมอ",extra:"รอบฝึก ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · เครื่องตัดสินศึก · สมุดคะแนน",added:"2026-11-14",
+   c:"#3b2a3f",c2:"#1b1320",hl:"#f2d27a",art:"bearbaby"},
+  {id:"huescues",name:"Hues and Cues",th:"สีสันบันเทิง",url:"games/hues_and_cues.html",cat:"party",
+   min:3,max:10,t:"30 นาที",tmax:30,parts:"เกมหลัก",exp:["ตัวแปรสำหรับเด็ก"],
+   rules:"คำใบ้ 1 คำและ 2 คำ วางกรวยเดา ข้ามคำใบ้รอบสอง กฎห้ามชื่อสีสามัญ",score:"กรอบคะแนน 3/2/1 แต้มผู้ให้คำใบ้ จบเกมและเสมอ",extra:"คำไหนนับเป็นชื่อสีในภาษาไทย ข้อที่ชอบเถียงกัน",
+   tools:"ตัวเช็กคำใบ้ · เครื่องคิดคะแนน · สมุดคะแนน",added:"2026-11-14",
+   c:"#26262b",c2:"#0b0b0c",hl:"#f2d23a",art:"hues"},
+  {id:"coyote",name:"Coyote",th:"โคโยตี้",url:"games/coyote.html",cat:"party",
+   min:3,max:8,t:"10 นาที",tmax:10,parts:"เกมหลัก + โหมดร่วมมือ",exp:["โหมดร่วมมือ","ขั้นเซียน"],
+   rules:"ตบโต๊ะตึงตึงแล้วทำท่า ใครทำใบไหน คนเริ่มเลื่อนทุกรอบ เปิด 3 เลือก 1 การ์ดโคโยตี้และโจมตี",score:"ไม่มีคะแนน พลาด 3 ครั้งตกรอบ คนสุดท้ายที่รอดชนะ",extra:"ภาพ flow การเล่น ข้อที่ชอบเถียงกัน",
+   tools:"กระดานคุมเกม · ตัวเคาะจังหวะ",added:"2026-11-14",
+   c:"#7a3a1c",c2:"#1f2340",hl:"#f39a3d",art:"coyote"},
+  {id:"catbox",name:"Cat in the Box",th:"แคทอินเดอะบ็อกซ์",url:"games/cat_in_the_box.html",cat:"trick",
+   min:2,max:5,t:"30 นาที",tmax:30,parts:"เกมหลัก ฉบับ Hobby Japan",exp:["กติกา 2 คน","กติกา 5 คน"],
+   rules:"ประกาศสีเองตอนลงการ์ด 2 กฎประกาศสี นำแดง ตามหรือไม่ตามสี ใครชนะกล พาราด็อกซ์",score:"แต้มต่อกล โบนัสกลุ่มโทเคนเมื่อทายตรง โทษพาราด็อกซ์ เสมอ",extra:"ข้อที่ชอบเถียงกัน (ชุดใหญ่)",
+   tools:"กระดานวิจัยจำลอง · ตัวตัดสินกล · สมุดคะแนน",added:"2026-11-14",
+   c:"#2e2a4f",c2:"#14122a",hl:"#f4c95d",art:"catbox"},
+  {id:"6nimmt",name:"6 nimmt!",th:"ซิกส์นิมท์",url:"games/6_nimmt.html",cat:"party",
+   min:2,max:10,t:"45 นาที",tmax:45,parts:"เกมหลัก + 8 แบบเล่น + ส่วนเสริมฉบับ 30 ปี",exp:["Tactics / Logic (Pro 2–6 คน)","Professional","Open","Nifty","Hand","Tournament","Double","ไพ่พิเศษจากแฟนเกม","สู้ควาย (ร่วมมือ)"],
+   rules:"เปิดไพ่พร้อมกัน กฎวางไพ่ 4 ข้อ เรียงขึ้น ห่างน้อยสุด แถวเต็ม ไพ่ต่ำเกิน",score:"หัววัว 1/2/3/5/7 ครบ 66 จบเกม และกติกาเสมอ",extra:"กับดักที่เจอบ่อย ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · ตัวช่วยวางไพ่ · เครื่องคิดคะแนน · สมุดคะแนน",added:"2026-11-14",
+   c:"#7a2418",c2:"#3a1210",hl:"#f2c35a",art:"bullrows"},
+  {id:"stoolpigeon",name:"Stool Pigeon",th:"มาเฟียนกพิราบ",url:"games/stool_pigeon.html",cat:"party",
+   min:2,max:6,t:"10–20 นาที",tmax:20,parts:"เกมหลัก",exp:[],
+   rules:"ที่เกิดเหตุ 4 ใบคว่ำ จั่วแล้วสลับ แข่งตบกำจัดพยาน ตบผิดโดนปรับ พลังนกพิราบ 4 แบบ หนูและมีตบอล",score:"แต้มรวมต่ำสุดชนะ การเคาะจบเกม ลำดับตัดสินเสมอ 3 ขั้น",extra:"ภาพการเล่น ข้อที่ชอบเถียงกัน",
+   tools:"ตัวช่วยเตรียมเกม · เครื่องคิดคะแนน",added:"2026-11-14",
+   c:"#2f2c42",c2:"#14131c",hl:"#f0a58f",art:"pigeon"}
+];
+
+var ART={
+  rail:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 92 L40 60 L70 78 L110 36 L150 74 L180 54 L240 88 V118 H0Z" fill="#2c6b5a" opacity=".55"/><path d="M96 50 L110 36 L124 50" fill="#eef3ea" opacity=".6"/><g stroke="rgba(0,0,0,.45)"><rect x="20" y="96" width="24" height="10" rx="2" fill="#c8372d"/><rect x="48" y="96" width="24" height="10" rx="2" fill="#c8372d"/><rect x="76" y="96" width="24" height="10" rx="2" fill="#c8372d"/></g><g><rect x="112" y="72" width="30" height="16" rx="3" fill="url(#rl-hatch)" stroke="#111" stroke-width="1.5" transform="rotate(-20 127 80)"/><rect x="116" y="75" width="22" height="10" rx="2" fill="#7b4fa0" stroke="#111" stroke-width="1.5" transform="rotate(-20 127 80)"/><rect x="144" y="62" width="30" height="16" rx="3" fill="url(#rl-hatch)" stroke="#111" stroke-width="1.5" transform="rotate(-20 159 70)"/><rect x="148" y="65" width="22" height="10" rx="2" fill="#7b4fa0" stroke="#111" stroke-width="1.5" transform="rotate(-20 159 70)"/></g><defs><pattern id="rl-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#111" stroke-width="2"/></pattern></defs><g stroke="#0f2a24" stroke-width="2"><circle cx="12" cy="101" r="7" fill="#e8c167"/><circle cx="106" cy="94" r="7" fill="#e8c167"/><circle cx="190" cy="56" r="7" fill="#e8c167"/></g><path d="M192 40 v-9 l9 -8 l9 8 v9z" fill="#2f6db5" stroke="rgba(0,0,0,.6)"/><g transform="rotate(-8 214 92)"><rect x="196" y="74" width="36" height="34" rx="4" fill="#f2efe6" stroke="rgba(0,0,0,.4)"/><path d="M202 98 L214 84 L226 92" fill="none" stroke="#9b2c2c" stroke-width="2"/><text x="226" y="84" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a1a">21</text></g></svg>',
+  board:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g transform="translate(70 14)"><rect x="0" y="0" width="100" height="100" rx="4" fill="#d6eadb" stroke="#0a1f16" stroke-width="2"/><rect x="18" y="18" width="64" height="64" fill="#cfe6d3" stroke="#0a1f16"/><rect x="20" y="2" width="14" height="5" fill="#dd2a2a"/><rect x="36" y="2" width="14" height="5" fill="#dd2a2a"/><rect x="52" y="2" width="14" height="5" fill="#f1d21a"/><rect x="68" y="2" width="12" height="5" fill="#f1d21a"/><rect x="93" y="20" width="5" height="14" fill="#1e9a4c"/><rect x="93" y="36" width="5" height="14" fill="#1e9a4c"/><rect x="93" y="64" width="5" height="16" fill="#1f56a8"/><rect x="20" y="93" width="14" height="5" fill="#9fd3ef"/><rect x="36" y="93" width="14" height="5" fill="#9fd3ef"/><rect x="66" y="93" width="14" height="5" fill="#8b5a2b"/><rect x="2" y="20" width="5" height="14" fill="#ef8a1b"/><rect x="2" y="36" width="5" height="14" fill="#ef8a1b"/><rect x="2" y="56" width="5" height="12" fill="#d23c93"/><rect x="2" y="70" width="5" height="12" fill="#d23c93"/><rect x="28" y="42" width="44" height="16" rx="2" fill="#c42a20" transform="rotate(-35 50 50)"/></g><g stroke="#0a1f16" stroke-width="1.5"><path d="M20 96 l10 -9 l10 9 v12 h-20z" fill="#2aa65a"/><path d="M42 96 l10 -9 l10 9 v12 h-20z" fill="#2aa65a"/><rect x="186" y="88" width="40" height="22" rx="2" fill="#d4302a"/><path d="M182 90 h48 l-6 -9 h-36z" fill="#d4302a"/></g><g transform="rotate(12 206 40)"><rect x="190" y="24" width="32" height="32" rx="6" fill="#fff" stroke="#0a1f16" stroke-width="2"/><circle cx="198" cy="32" r="3" fill="#0a1f16"/><circle cx="206" cy="40" r="3" fill="#0a1f16"/><circle cx="214" cy="48" r="3" fill="#0a1f16"/></g><g transform="rotate(-10 30 40)"><rect x="12" y="26" width="40" height="22" rx="2" fill="#f2c84b" stroke="#0a1f16"/><text x="32" y="42" text-anchor="middle" font-size="11" font-weight="700" fill="#0a1f16">M500</text></g></svg>',
+  gems:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g transform="rotate(-10 92 70)"><rect x="66" y="22" width="52" height="76" rx="5" fill="#f2efe6" stroke="rgba(0,0,0,.4)"/><text x="72" y="40" font-size="14" font-weight="700" fill="#1a1a1a">2</text><path d="M100 30 l5 -5 h6 l5 5 l-8 9z" fill="#2d62c4"/><circle cx="76" cy="88" r="6" fill="#c42c3a"/><circle cx="76" cy="74" r="6" fill="#1f8a4c"/></g><g transform="rotate(8 150 66)"><rect x="124" y="18" width="52" height="76" rx="5" fill="#f3dbe8" stroke="rgba(0,0,0,.4)"/><text x="130" y="36" font-size="14" font-weight="700" fill="#1a1a1a">4</text><path d="M158 26 l5 -5 h6 l5 5 l-8 9z" fill="#c42c3a"/><circle cx="134" cy="84" r="6" fill="#2a2b33"/><circle cx="134" cy="70" r="6" fill="#eef1f4" stroke="rgba(0,0,0,.4)"/></g><g stroke="rgba(0,0,0,.45)"><circle cx="34" cy="100" r="13" fill="#1f8a4c"/><circle cx="34" cy="94" r="13" fill="#1f8a4c"/><circle cx="206" cy="100" r="13" fill="#e3b23c"/><circle cx="206" cy="94" r="13" fill="#e3b23c"/><circle cx="62" cy="106" r="11" fill="#c42c3a"/><circle cx="182" cy="106" r="11" fill="#2d62c4"/></g><rect x="190" y="14" width="34" height="34" rx="3" fill="#efe2c4" stroke="rgba(0,0,0,.4)"/><circle cx="210" cy="28" r="6" fill="#c9a77a"/><path d="M200 46 q10 -14 20 0z" fill="#6b3a5a"/></svg>',
+  mars:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".7"><circle cx="20" cy="18" r="1.4"/><circle cx="214" cy="14" r="1.6"/><circle cx="60" cy="40" r="1"/><circle cx="190" cy="50" r="1.1"/><circle cx="226" cy="70" r="1"/></g><circle cx="120" cy="96" r="78" fill="#ff8a4a" opacity=".16"/><circle cx="120" cy="96" r="70" fill="#b4431f"/><g stroke="rgba(0,0,0,.25)" stroke-width="1"><polygon points="100,52 108,57 108,66 100,71 92,66 92,57" fill="#2b7cc0"/><polygon points="116,52 124,57 124,66 116,71 108,66 108,57" fill="#2b7cc0"/><polygon points="108,66 116,71 116,80 108,85 100,80 100,71" fill="#3c9440"/><polygon points="124,66 132,71 132,80 124,85 116,80 116,71" fill="#8e929c"/><polygon points="140,66 148,71 148,80 140,85 132,80 132,71" fill="#3c9440"/><polygon points="132,52 140,57 140,66 132,71 124,66 124,57" fill="#3c9440"/><polygon points="116,80 124,85 124,94 116,99 108,94 108,85" fill="#3c9440"/><polygon points="132,80 140,85 140,94 132,99 124,94 124,85" fill="#2b7cc0"/></g><rect x="121" y="70" width="3" height="9" fill="#fff"/><rect x="125" y="73" width="3" height="6" fill="#eef"/><circle cx="76" cy="62" r="6" fill="#8f3416"/><circle cx="168" cy="92" r="8" fill="#8f3416"/><rect x="204" y="34" width="8" height="70" rx="4" fill="#2a1a1a"/><rect x="204" y="66" width="8" height="38" rx="4" fill="#e0571c"/><rect x="218" y="34" width="8" height="70" rx="4" fill="#102a30"/><rect x="218" y="74" width="8" height="30" rx="4" fill="#2d9eac"/></svg>',
+  castle:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="196" cy="30" r="13" fill="#e8b84a" opacity=".85"/><path d="M0 104 Q60 84 120 96 T240 92 V118 H0Z" fill="#3d5a2a"/><rect x="40" y="62" width="160" height="44" fill="#c9a46e"/><rect x="30" y="40" width="26" height="66" fill="#d4b07a"/><path d="M26 42 L43 14 L60 42Z" fill="#b8442f"/><rect x="184" y="40" width="26" height="66" fill="#d4b07a"/><path d="M180 42 L197 14 L214 42Z" fill="#b8442f"/><rect x="100" y="30" width="40" height="76" fill="#dcbb86"/><path d="M94 32 L120 2 L146 32Z" fill="#a33a26"/><path d="M110 106 v-16 a10 10 0 0 1 20 0 v16z" fill="#3a2a1c"/></svg>',
+  forest:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 60 L50 30 L90 52 L140 18 L190 50 L240 34 V118 H0Z" fill="#3a5a46" opacity=".6"/><rect x="0" y="100" width="240" height="18" fill="#1a3320"/><rect x="46" y="72" width="7" height="30" fill="#5b3c22"/><path d="M50 26 L76 78 L24 78Z" fill="#1f4a2c"/><rect x="120" y="66" width="10" height="36" fill="#6a4628"/><circle cx="125" cy="54" r="26" fill="#4f8a3a"/><rect x="190" y="74" width="6" height="28" fill="#d9d4c4"/><ellipse cx="193" cy="58" rx="16" ry="24" fill="#c7a73a"/><path d="M84 94 q6 -10 12 0z" fill="#c4382f"/></svg>',
+  dino:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="196" cy="18" r="7" fill="#ffb347"/><path d="M201 14 L228 -6" stroke="#ff7a3d" stroke-width="5" stroke-linecap="round"/><path d="M0 104 Q60 88 120 98 T240 94 V118 H0Z" fill="#1a0c1f"/><g transform="translate(58 30) scale(.7)"><path d="M40 30 l12 -22 l10 24 z M66 22 l14 -22 l8 26 z M92 22 l14 -16 l4 24 z" fill="#ff9a5c"/><path d="M20 70 Q20 22 80 22 Q140 22 150 66 Q176 70 186 54 Q184 92 140 100 L30 100 Q20 92 20 70Z" fill="#8cc63f"/><circle cx="52" cy="54" r="6" fill="#2a1a2e"/><circle cx="84" cy="54" r="6" fill="#2a1a2e"/><path d="M60 66 Q68 74 76 66" stroke="#2a1a2e" stroke-width="3" fill="none" stroke-linecap="round"/></g></svg>',
+  eyes:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="200" cy="26" r="14" fill="#f4ecd0" opacity=".9"/><path d="M14 118 L170 40 L210 84Z" fill="#f5c66f" opacity=".16"/><g fill="#0a1714"><path d="M0 118 L0 70 L14 46 L28 70 L22 70 L36 48 L50 76 L50 118Z"/><path d="M200 118 L200 76 L214 52 L228 76 L240 60 V118Z"/></g><ellipse cx="120" cy="112" rx="110" ry="10" fill="#163a44"/><ellipse cx="158" cy="62" rx="5" ry="3.6" fill="#ffdd6b"/><ellipse cx="174" cy="62" rx="5" ry="3.6" fill="#ffdd6b"/></svg>',
+  canvas:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M90 0 L150 0 L210 118 L30 118Z" fill="#f3d98a" opacity=".14"/><rect x="66" y="14" width="108" height="96" rx="3" fill="#3a2a1a"/><rect x="72" y="20" width="96" height="70" fill="#f3a46b"/><circle cx="146" cy="38" r="9" fill="#fff4d6" opacity=".9"/><path d="M72 70 Q100 48 122 64 T168 58 V90 H72Z" fill="#3c955a" opacity=".8"/><path d="M72 90 V80 Q120 72 168 82 V90Z" fill="#2f6db5" opacity=".85"/><path d="M112 82 q3 -14 7 -14 q4 0 7 14z" fill="#cf4338"/><rect x="72" y="90" width="19.2" height="14" fill="#cf4338"/><rect x="91.2" y="90" width="19.2" height="14" fill="#d99a1c"/><rect x="110.4" y="90" width="19.2" height="14" fill="#3c955a"/><rect x="129.6" y="90" width="19.2" height="14" fill="#2f6db5"/><rect x="148.8" y="90" width="19.2" height="14" fill="#8a4db8"/><g transform="translate(196 52)"><circle cx="11" cy="9" r="8" fill="#bf8d22"/><path d="M5 14 L3 29 L8 25 L11 29 L11 16z M17 14 L19 29 L14 25 L11 29 L11 16z" fill="#bf8d22"/></g><g transform="translate(26 62)"><circle cx="11" cy="9" r="8" fill="#cf4338"/><path d="M5 14 L3 29 L8 25 L11 29 L11 16z M17 14 L19 29 L14 25 L11 29 L11 16z" fill="#cf4338"/></g></svg>',
+  window:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M70 118 V44 Q70 6 120 4 Q170 6 170 44 V118Z" fill="#05070c"/><g opacity=".85"><path d="M120 30 L144 30 A24 24 0 0 0 120 6Z" fill="#c8382f"/><path d="M120 30 L120 6 A24 24 0 0 0 96 30Z" fill="#e0a91b"/><path d="M120 30 L96 30 A24 24 0 0 0 120 54Z" fill="#2f8f52"/><path d="M120 30 L120 54 A24 24 0 0 0 144 30Z" fill="#7d43a8"/></g><circle cx="120" cy="30" r="7" fill="#f4cf6a"/><rect x="80" y="62" width="22" height="22" rx="4" fill="#c8382f"/><rect x="109" y="62" width="22" height="22" rx="4" fill="#2d63b8"/><rect x="138" y="62" width="22" height="22" rx="4" fill="#e0a91b"/><rect x="80" y="90" width="22" height="22" rx="4" fill="#7d43a8"/><rect x="109" y="90" width="22" height="22" rx="4" fill="#2f8f52"/><rect x="138" y="90" width="22" height="22" rx="4" fill="#c8382f"/><g fill="#fff"><circle cx="91" cy="73" r="2.4"/><circle cx="114" cy="67" r="2.4"/><circle cx="126" cy="79" r="2.4"/><circle cx="91" cy="101" r="2.4"/><circle cx="85" cy="95" r="2.4"/><circle cx="97" cy="107" r="2.4"/><circle cx="143" cy="95" r="2.4"/><circle cx="155" cy="95" r="2.4"/><circle cx="143" cy="107" r="2.4"/><circle cx="155" cy="107" r="2.4"/></g><g fill="#1b2230"><circle cx="143" cy="67" r="2.4"/><circle cx="149" cy="73" r="2.4"/><circle cx="155" cy="79" r="2.4"/></g><g fill="#fff"><circle cx="114" cy="95" r="2.4"/><circle cx="126" cy="95" r="2.4"/><circle cx="114" cy="101" r="2.4"/><circle cx="126" cy="101" r="2.4"/><circle cx="114" cy="107" r="2.4"/><circle cx="126" cy="107" r="2.4"/></g><g fill="#e0a91b" opacity=".7"><rect x="186" y="80" width="14" height="14" rx="3" transform="rotate(14 193 87)"/></g><g fill="#2d63b8" opacity=".7"><rect x="38" y="88" width="14" height="14" rx="3" transform="rotate(-12 45 95)"/></g></svg>',
+  hexmap:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="204" cy="22" r="12" fill="#f1d7a3" opacity=".9"/><circle cx="204" cy="22" r="22" fill="#f1d7a3" opacity=".12"/><g stroke="rgba(0,0,0,.35)" stroke-width="1"><polygon points="60,70 52,84 36,84 28,70 36,56 52,56" fill="#4c8fc6"/><polygon points="84,84 76,98 60,98 52,84 60,70 76,70" fill="#3e8a4c"/><polygon points="84,56 76,70 60,70 52,56 60,42 76,42" fill="#e2c069"/><polygon points="108,70 100,84 84,84 76,70 84,56 100,56" fill="#7d5c93"/><polygon points="132,84 124,98 108,98 100,84 108,70 124,70" fill="#3e8a4c"/><polygon points="132,56 124,70 108,70 100,56 108,42 124,42" fill="#9c9fa3"/><polygon points="156,70 148,84 132,84 124,70 132,56 148,56" fill="#4c8fc6"/><polygon points="180,84 172,98 156,98 148,84 156,70 172,70" fill="#e2c069"/><polygon points="180,56 172,70 156,70 148,56 156,42 172,42" fill="#3e8a4c"/><polygon points="204,70 196,84 180,84 172,70 180,56 196,56" fill="#9c9fa3"/><polygon points="60,98 52,112 36,112 28,98 36,84 52,84" fill="#7d5c93"/><polygon points="108,98 100,112 84,112 76,98 84,84 100,84" fill="#4c8fc6"/><polygon points="156,98 148,112 132,112 124,98 132,84 148,84" fill="#9c9fa3"/><polygon points="204,98 196,112 180,112 172,98 180,84 196,84" fill="#3e8a4c"/></g><polygon points="116,50 122,53 122,60 116,63 110,60 110,53" fill="#2d62c4" stroke="#111"/><polygon points="164,72 171,84 157,84" fill="#2f9a55" stroke="#111"/><ellipse cx="92" cy="74" rx="8" ry="4" fill="#e07b24" stroke="rgba(0,0,0,.4)"/><ellipse cx="92" cy="70" rx="8" ry="4" fill="#8a4fc2" stroke="rgba(0,0,0,.4)"/><rect x="62" y="86" width="10" height="10" fill="#1aa3a3" stroke="rgba(0,0,0,.4)"/><path d="M134 82 Q140 54 146 82Z" fill="#20322f" stroke="#f1d7a3" stroke-width="1.5"/></svg>',
+  bomb:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M146 40 C158 22 174 24 182 12" fill="none" stroke="#c9b48a" stroke-width="4" stroke-linecap="round"/><circle cx="184" cy="10" r="7" fill="#f2a51c"/><circle cx="184" cy="10" r="3" fill="#fff3c4"/><path d="M184 -2 v4 M184 18 v4 M172 10 h4 M192 10 h4" stroke="#f2a51c" stroke-width="2" stroke-linecap="round"/><path d="M0 108 Q60 98 120 104 T240 100 V118 H0Z" fill="#0b0c0a"/><path d="M84 50 L92 22 L108 44Z M132 44 L148 22 L156 50Z" fill="#2a2c28"/><path d="M89 44 L93 30 L102 42Z M138 42 L147 30 L151 44Z" fill="#c4301f"/><circle cx="120" cy="76" r="40" fill="#2a2c28"/><ellipse cx="105" cy="72" rx="9" ry="10" fill="#f6f4ee"/><ellipse cx="135" cy="72" rx="9" ry="10" fill="#f6f4ee"/><ellipse cx="107" cy="74" rx="4" ry="6" fill="#141513"/><ellipse cx="133" cy="74" rx="4" ry="6" fill="#141513"/><path d="M116 86 h8 l-4 4z" fill="#e88a8a"/><rect x="26" y="70" width="26" height="36" rx="4" fill="#5f8f2a" transform="rotate(-10 39 88)"/><rect x="190" y="68" width="26" height="36" rx="4" fill="#3b3f8f" transform="rotate(9 203 86)"/><rect x="56" y="78" width="22" height="30" rx="4" fill="#d36a1c" transform="rotate(-4 67 93)"/><rect x="164" y="78" width="22" height="30" rx="4" fill="#2c8a4d" transform="rotate(5 175 93)"/></svg>',
+  skyline:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g stroke="#cfd5d9" stroke-width="2.5" fill="none" opacity=".8"><path d="M196 10 V110"/><path d="M150 12 H232"/><path d="M220 12 V34"/></g><rect x="214" y="34" width="12" height="7" fill="#9aa1a8"/><g stroke="#111416" stroke-width="1"><rect x="30" y="78" width="34" height="14" fill="#f4f1ea"/><rect x="30" y="92" width="34" height="14" fill="#f4f1ea"/><rect x="34" y="72" width="26" height="6" rx="1" fill="#2c66c4"/><rect x="78" y="22" width="34" height="14" fill="#5a5f66"/><rect x="78" y="36" width="34" height="14" fill="#5a5f66"/><rect x="82" y="50" width="26" height="6" rx="1" fill="#d23c33"/><rect x="78" y="56" width="34" height="14" fill="#5a5f66"/><rect x="78" y="70" width="34" height="14" fill="#5a5f66"/><rect x="78" y="84" width="34" height="14" fill="#5a5f66"/><rect x="78" y="98" width="34" height="8" fill="#5a5f66"/><rect x="82" y="16" width="26" height="6" rx="1" fill="#e5ad1e"/><rect x="126" y="50" width="34" height="14" fill="#8b5a37"/><rect x="126" y="64" width="34" height="14" fill="#8b5a37"/><rect x="126" y="78" width="34" height="14" fill="#8b5a37"/><rect x="126" y="92" width="34" height="14" fill="#8b5a37"/><rect x="130" y="44" width="26" height="6" rx="1" fill="#2f9255"/><rect x="172" y="78" width="34" height="14" fill="#9aa1a8"/><rect x="172" y="92" width="34" height="14" fill="#9aa1a8"/><rect x="176" y="72" width="26" height="6" rx="1" fill="#d23c33"/></g><rect x="0" y="106" width="240" height="12" fill="#111416"/><path d="M12 106 L18 88 L24 106Z" fill="#f07a3c"/><rect x="15.5" y="96" width="5" height="3" fill="#fff"/></svg>',
+  choco:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="34" cy="40" r="22" fill="#3a6fa8"/><rect x="22" y="28" width="11" height="11" rx="2.5" fill="#3ea79b"/><rect x="35" y="28" width="11" height="11" rx="2.5" fill="#f3e8d2"/><rect x="22" y="41" width="11" height="11" rx="2.5" fill="#94603a"/><rect x="35" y="41" width="11" height="11" rx="2.5" fill="#3b2418" stroke="rgba(255,255,255,.3)"/><circle cx="208" cy="36" r="20" fill="#c8952f"/><rect x="197" y="25" width="10" height="10" rx="2.5" fill="#d97a95"/><rect x="209" y="25" width="10" height="10" rx="2.5" fill="#d97a95"/><rect x="197" y="37" width="10" height="10" rx="2.5" fill="#f3e8d2"/><rect x="72" y="22" width="96" height="96" rx="8" fill="#2a160c" stroke="#e9c27a" stroke-width="2"/><path d="M72 22 L120 6 L168 22" fill="none" stroke="#e9c27a" stroke-width="2.5"/><g><rect x="80" y="30" width="15" height="15" rx="3.5" fill="#3ea79b"/><rect x="98" y="30" width="15" height="15" rx="3.5" fill="#3b2418" stroke="rgba(255,255,255,.25)"/><rect x="116" y="30" width="15" height="15" rx="3.5" fill="#94603a"/><rect x="134" y="30" width="15" height="15" rx="3.5" fill="#f3e8d2"/><rect x="152" y="30" width="15" height="15" rx="3.5" fill="#d97a95" opacity=".3"/><rect x="80" y="48" width="15" height="15" rx="3.5" fill="#d97a95"/><rect x="98" y="48" width="15" height="15" rx="3.5" fill="#3ea79b"/><rect x="116" y="48" width="15" height="15" rx="3.5" fill="#3b2418" opacity=".4"/><rect x="134" y="48" width="15" height="15" rx="3.5" fill="#94603a"/><rect x="152" y="48" width="15" height="15" rx="3.5" fill="#f3e8d2" opacity=".3"/><rect x="80" y="66" width="15" height="15" rx="3.5" fill="#f3e8d2"/><rect x="98" y="66" width="15" height="15" rx="3.5" fill="#d97a95" opacity=".3"/><rect x="116" y="66" width="15" height="15" rx="3.5" fill="#3ea79b"/><rect x="134" y="66" width="15" height="15" rx="3.5" fill="#3b2418" opacity=".4"/><rect x="152" y="66" width="15" height="15" rx="3.5" fill="#94603a" opacity=".3"/><rect x="80" y="84" width="15" height="15" rx="3.5" fill="#94603a" opacity=".3"/><rect x="98" y="84" width="15" height="15" rx="3.5" fill="#f3e8d2"/><rect x="116" y="84" width="15" height="15" rx="3.5" fill="#d97a95" opacity=".3"/><rect x="134" y="84" width="15" height="15" rx="3.5" fill="#3ea79b"/><rect x="152" y="84" width="15" height="15" rx="3.5" fill="#3b2418" opacity=".4"/></g></svg>',
+  cascadia:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="200" cy="24" r="11" fill="#f2c14e" opacity=".9"/><path d="M0 74 L40 40 L66 58 L104 18 L142 56 L170 36 L240 70 V118 H0Z" fill="#33524a"/><path d="M92 31 L104 18 L117 32 L110 30 L104 35Z" fill="#eef3ea"/><path d="M0 104 Q60 94 120 102 T240 98 V118 H0Z" fill="#3f8fcf" opacity=".8"/><g stroke="#0d1310" stroke-width="1.2"><path d="M70,62 L86,71 L86,89 L70,98 L54,89 L54,71Z" fill="#2f6b3c"/><path d="M102,62 L118,71 L118,89 L102,98 L86,89 L86,71Z" fill="#e2bf45"/><path d="M102,62 L102,98 L86,89 L86,71Z" fill="#8cc46a"/><path d="M134,62 L150,71 L150,89 L134,98 L118,89 L118,71Z" fill="#a3abb4"/><path d="M166,62 L182,71 L182,89 L166,98 L150,89 L150,71Z" fill="#3f8fcf"/><path d="M166,62 L182,71 L182,89 L166,62Z" fill="#2f6b3c"/></g><g stroke="#14110c" stroke-width="1.2"><circle cx="70" cy="80" r="8" fill="#6b4630"/><circle cx="102" cy="80" r="8" fill="#c49a5c"/><circle cx="134" cy="80" r="8" fill="#4ea3d8"/><circle cx="166" cy="80" r="8" fill="#e2607a"/></g><circle cx="206" cy="92" r="8" fill="#e8822a" stroke="#14110c" stroke-width="1.2"/><path d="M24 98 L31 84 L36 91 L39 88 L46 98Z" fill="#5b6470" stroke="#fff" stroke-width="1.4"/><g fill="#1d3b2b"><path d="M8 80 l7 -20 l7 20z"/><path d="M214 72 l7 -22 l7 22z"/></g></svg>',
+  kitchen:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".07"><rect x="0" y="0" width="20" height="20"/><rect x="40" y="0" width="20" height="20"/><rect x="80" y="0" width="20" height="20"/><rect x="120" y="0" width="20" height="20"/><rect x="160" y="0" width="20" height="20"/><rect x="200" y="0" width="20" height="20"/><rect x="20" y="20" width="20" height="20"/><rect x="60" y="20" width="20" height="20"/><rect x="100" y="20" width="20" height="20"/><rect x="140" y="20" width="20" height="20"/><rect x="180" y="20" width="20" height="20"/><rect x="220" y="20" width="20" height="20"/></g><g fill="none" stroke="#fff6ea" stroke-width="2.5" stroke-linecap="round" opacity=".6"><path d="M104 30 q-5 -8 0 -16 q5 -8 0 -16"/><path d="M122 28 q-5 -8 0 -16 q5 -8 0 -16"/><path d="M140 30 q-5 -8 0 -16 q5 -8 0 -16"/></g><ellipse cx="122" cy="62" rx="56" ry="22" fill="#fff6ea"/><ellipse cx="122" cy="59" rx="40" ry="14" fill="#efe3c8"/><ellipse cx="122" cy="57" rx="30" ry="9" fill="#e9a83c"/><circle cx="110" cy="55" r="5" fill="#9c3b2b"/><circle cx="130" cy="53" r="4.5" fill="#e0745a"/><circle cx="122" cy="60" r="4" fill="#6aa84f"/><path d="M40 70 l9 -40 M48 70 l6 -38" stroke="#d9c6a6" stroke-width="3.5" stroke-linecap="round"/><g transform="rotate(-8 206 44)"><rect x="190" y="18" width="34" height="46" rx="4" fill="#fff6ea"/><path d="M214 18 h9 v12 l-4.5 -3 l-4.5 3z" fill="#b8321f"/><circle cx="206" cy="44" r="8" fill="#f4d23f"/></g><rect x="14" y="92" width="212" height="20" rx="10" fill="#2a1a14"/><circle cx="74" cy="102" r="7" fill="#fff" stroke="rgba(0,0,0,.45)"/><circle cx="126" cy="102" r="7" fill="#fff" stroke="rgba(0,0,0,.45)"/><circle cx="178" cy="102" r="7" fill="#fff" stroke="rgba(0,0,0,.45)"/><circle cx="48" cy="102" r="7" fill="#fff" stroke="rgba(0,0,0,.45)"/></svg>',
+  roundtable:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".7"><circle cx="18" cy="16" r="1.3"/><circle cx="64" cy="30" r="1"/><circle cx="170" cy="12" r="1.2"/><circle cx="226" cy="44" r="1"/><circle cx="40" cy="54" r="1"/></g><circle cx="206" cy="22" r="11" fill="#f3eedf" opacity=".9"/><circle cx="201" cy="18" r="11" fill="#1d2c52"/><g stroke="#0b1226" stroke-width="1.5"><path d="M120 14 l11 4 v10 q0 10 -11 14 q-11 -4 -11 -14 v-10z" fill="#2f5fb3"/><path d="M58 40 l11 4 v10 q0 10 -11 14 q-11 -4 -11 -14 v-10z" fill="#8a93a6"/><path d="M182 40 l11 4 v10 q0 10 -11 14 q-11 -4 -11 -14 v-10z" fill="#b3263a"/><path d="M30 82 l11 4 v10 q0 10 -11 14 q-11 -4 -11 -14 v-10z" fill="#2f5fb3"/><path d="M210 82 l11 4 v10 q0 10 -11 14 q-11 -4 -11 -14 v-10z" fill="#8a93a6"/></g><ellipse cx="120" cy="96" rx="78" ry="30" fill="#5f3c1f"/><ellipse cx="120" cy="91" rx="78" ry="30" fill="#8a5a32"/><ellipse cx="120" cy="91" rx="64" ry="23" fill="none" stroke="#f0c869" stroke-width="1.2" opacity=".6"/><g stroke="#0b1226" stroke-width="1.5"><circle cx="88" cy="100" r="7" fill="#2f5fb3"/><circle cx="104" cy="100" r="7" fill="#b3263a"/><circle cx="120" cy="100" r="7" fill="#2f5fb3"/><circle cx="136" cy="100" r="7" fill="#f3eedf" opacity=".35"/><circle cx="152" cy="100" r="7" fill="#f3eedf" opacity=".35"/></g><circle cx="120" cy="66" r="22" fill="#f0c869" opacity=".25"/><g transform="rotate(-70 120 70)"><rect x="92" y="67" width="56" height="6" rx="2" fill="#dfe5ee"/><path d="M148 67 l9 3 l-9 3z" fill="#dfe5ee"/><rect x="86" y="60" width="6" height="20" rx="2" fill="#f0c869"/><rect x="72" y="67" width="14" height="6" rx="2" fill="#6b4425"/><circle cx="70" cy="70" r="4" fill="#f0c869"/></g></svg>',
+  pyramid:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".7"><circle cx="16" cy="14" r="1.3"/><circle cx="90" cy="10" r="1"/><circle cx="150" cy="22" r="1.2"/><circle cx="230" cy="12" r="1"/></g><circle cx="40" cy="30" r="12" fill="#e9b949" opacity=".9"/><path d="M186 40 L240 24 L240 58Z" fill="#f7e2a0" opacity=".35"/><path d="M0 100 Q60 90 120 96 T240 94 V118 H0Z" fill="#c69a55"/><path d="M40 100 L100 26 L160 100Z" fill="#e2c07a"/><path d="M100 26 L160 100 L132 100Z" fill="#b8924a"/><g stroke="#8a6a32" stroke-width="1.2" opacity=".7"><path d="M52 85 H148 M64 70 H136 M76 55 H124 M88 40 H112"/></g><path d="M178 100 L182 46 L192 46 L196 100Z" fill="#efe4c8"/><rect x="180" y="34" width="14" height="12" fill="#d8c69a"/><circle cx="187" cy="40" r="4" fill="#ffd56a"/><path d="M178 34 L187 24 L196 34Z" fill="#b8701c"/><g stroke="#0f2b40" stroke-width="1.2"><rect x="10" y="74" width="18" height="26" rx="3" fill="#7d838b" transform="rotate(-12 19 87)"/><rect x="24" y="72" width="18" height="26" rx="3" fill="#d9a52a" transform="rotate(-4 33 85)"/><rect x="204" y="72" width="18" height="26" rx="3" fill="#c23b2e" transform="rotate(6 213 85)"/><rect x="218" y="74" width="18" height="26" rx="3" fill="#3a8a4a" transform="rotate(14 227 87)"/></g><g fill="#1d1a14" transform="translate(160 104)"><ellipse cx="0" cy="0" rx="7" ry="5"/><circle cx="-6" cy="-6" r="4.5"/><path d="M-10 -9 l1.5 -5 l3 4z M-4 -10 l1.5 -4.5 l2.5 4.5z"/></g></svg>',
+  coyote:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="196" cy="28" r="16" fill="#f39a3d" opacity=".9"/><circle cx="196" cy="28" r="28" fill="#f39a3d" opacity=".14"/><path d="M0 70 L30 52 L48 62 L78 40 L104 60 L136 50 L170 66 L206 54 L240 64 V84 H0Z" fill="#3a2d4f" opacity=".85"/><path d="M28 70 v-18 a5 5 0 0 1 10 0 v18 M33 58 h-8 v-7 M33 63 h8 v-8" stroke="#2a3a2c" stroke-width="4.5" fill="none" stroke-linecap="round"/><rect x="0" y="80" width="240" height="38" fill="#6b4630"/><rect x="0" y="80" width="240" height="4" fill="#8a5c3c"/><g stroke-width="2.5"><rect x="58" y="90" width="22" height="26" rx="3" fill="#fff8ee" stroke="#ef7d2d"/><rect x="86" y="90" width="22" height="26" rx="3" fill="#fff8ee" stroke="#2d7fd4"/><rect x="114" y="90" width="22" height="26" rx="3" fill="#fff8ee" stroke="#4fa83f"/><rect x="142" y="90" width="22" height="26" rx="3" fill="#fff8ee" stroke="#8a4bb8"/><rect x="170" y="90" width="22" height="26" rx="3" fill="#fff8ee" stroke="#ef7d2d"/></g><g fill="#c9a27a"><circle cx="69" cy="100" r="4"/><circle cx="97" cy="100" r="4"/><circle cx="125" cy="100" r="4"/><circle cx="153" cy="100" r="4"/><circle cx="181" cy="100" r="4"/></g><g fill="#e9b892"><rect x="14" y="70" width="28" height="16" rx="7"/><rect x="17" y="63" width="6" height="11" rx="3"/><rect x="25" y="62" width="6" height="12" rx="3"/><rect x="33" y="63" width="6" height="11" rx="3"/><rect x="200" y="70" width="28" height="16" rx="7"/><rect x="203" y="63" width="6" height="11" rx="3"/><rect x="211" y="62" width="6" height="12" rx="3"/><rect x="219" y="63" width="6" height="11" rx="3"/></g><g stroke="#f7f1e8" stroke-width="2" stroke-linecap="round" opacity=".75"><path d="M8 80 l-6 2 M10 72 l-7 -2 M234 80 l6 2 M232 72 l7 -2"/></g><text x="28" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#f39a3d">ตึง!</text><text x="214" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#f39a3d">ตึง!</text></svg>',
+  tacta:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect x="0" y="0" width="240" height="118" fill="#0d0b16"/><g stroke-width="2.5"><g transform="translate(96 40)"><rect width="48" height="72" rx="3" fill="#121018" stroke="#f4f4f8"/><rect x="32" y="0" width="16" height="16" fill="none" stroke="#f4f4f8" stroke-width="1.5"/><path d="M0 0 H16 L0 16Z" fill="none" stroke="#f4f4f8" stroke-width="1.5"/></g><g transform="translate(128 -16)"><rect width="48" height="72" rx="3" fill="#121018" stroke="#ff4fc3"/><rect x="0" y="56" width="16" height="16" fill="#ff4fc3" fill-opacity=".35" stroke="#ff4fc3" stroke-width="1.5"/><circle cx="8" cy="64" r="2.4" fill="#ff4fc3"/><path d="M48 20 V40 L38 30Z" fill="#ff4fc3" fill-opacity=".35" stroke="#ff4fc3" stroke-width="1.5"/></g><g transform="translate(112 40) rotate(45) translate(-48 -31)"><rect width="48" height="72" rx="3" fill="#121018" stroke="#27b4ff"/><path d="M48 31 V53.6 L36.7 42.3Z" fill="#27b4ff" fill-opacity=".35" stroke="#27b4ff" stroke-width="1.5"/><rect x="0" y="0" width="16" height="16" fill="#27b4ff" fill-opacity=".35" stroke="#27b4ff" stroke-width="1.5"/><circle cx="8" cy="8" r="2.4" fill="#27b4ff"/></g><g transform="translate(176 56) rotate(-10)"><rect width="48" height="72" rx="3" fill="#121018" stroke="#2ee66b"/><rect x="32" y="0" width="16" height="16" fill="#2ee66b" fill-opacity=".35" stroke="#2ee66b" stroke-width="1.5"/><circle cx="40" cy="8" r="2.4" fill="#2ee66b"/><circle cx="24" cy="36" r="7" fill="none" stroke="#2ee66b" stroke-width="1.5"/></g><g transform="translate(14 70) rotate(8)"><rect width="48" height="72" rx="3" fill="#121018" stroke="#ff8c1a"/><path d="M0 0 H16 L0 16Z" fill="#ff8c1a" fill-opacity=".35" stroke="#ff8c1a" stroke-width="1.5"/><circle cx="5" cy="5" r="2.2" fill="#ff8c1a"/></g></g><line x1="0" y1="116" x2="240" y2="116" stroke="#a259ff" stroke-width="2" opacity=".7"/></svg>',
+  bearbaby:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 110 H240" stroke="#f2d27a" stroke-width="2" stroke-dasharray="6 5" opacity=".5"/><g><rect x="62" y="66" width="44" height="44" rx="9" fill="#5aa0d8"/><path d="M64 88 h40" stroke="#f2d27a" stroke-width="2" stroke-dasharray="4 3"/><rect x="34" y="72" width="30" height="12" rx="6" fill="#6fbf62"/><rect x="104" y="76" width="26" height="11" rx="5.5" fill="#e0675c"/><circle cx="84" cy="44" r="24" fill="#a46a3a"/><circle cx="65" cy="25" r="8" fill="#a46a3a"/><circle cx="103" cy="25" r="8" fill="#a46a3a"/><circle cx="65" cy="25" r="3.5" fill="#e7b98b"/><circle cx="103" cy="25" r="3.5" fill="#e7b98b"/><ellipse cx="84" cy="53" rx="12" ry="9" fill="#e7b98b"/><circle cx="75" cy="40" r="4" fill="#fbf4e8"/><circle cx="93" cy="40" r="5.5" fill="#fbf4e8"/><circle cx="76" cy="41" r="2" fill="#1b1416"/><circle cx="92" cy="41" r="2.5" fill="#1b1416"/><ellipse cx="84" cy="49" rx="3.5" ry="2.5" fill="#2a211b"/><path d="M77 56 q7 5 14 0" stroke="#2a211b" stroke-width="2" fill="none"/><path d="M88 22 l9 -18 l7 17z" fill="#f2d27a"/></g><g><circle cx="168" cy="82" r="13" fill="#f3cfb1"/><path d="M157 77 q11 -12 22 0" fill="#6fbf62"/><circle cx="164" cy="84" r="1.8" fill="#1b1416"/><circle cx="172" cy="84" r="1.8" fill="#1b1416"/><rect x="159" y="94" width="18" height="15" rx="6" fill="#6fbf62"/><circle cx="198" cy="88" r="10" fill="#f3cfb1"/><path d="M190 84 q8 -10 16 0" fill="#5aa0d8"/><rect x="191" y="97" width="14" height="12" rx="5" fill="#5aa0d8"/><circle cx="214" cy="56" r="9" fill="#f3cfb1"/><path d="M207 52 q7 -8 14 0" fill="#e0675c"/><path d="M224 52 q8 -5 11 2 q-6 1 -11 -2z M204 52 q-8 -5 -11 2 q6 1 11 -2z" fill="#fbf4e8" opacity=".9"/></g></svg>',
+  hues:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect width="240" height="118" fill="#0b0b0c"/><g><rect x="6" y="8" width="26" height="22" rx="2" fill="#8e2a1c"/><rect x="35" y="8" width="26" height="22" rx="2" fill="#c8331f"/><rect x="64" y="8" width="26" height="22" rx="2" fill="#e8402a"/><rect x="93" y="8" width="26" height="22" rx="2" fill="#e8358f"/><rect x="122" y="8" width="26" height="22" rx="2" fill="#c64aa8"/><rect x="151" y="8" width="26" height="22" rx="2" fill="#9a4aae"/><rect x="180" y="8" width="26" height="22" rx="2" fill="#6c3aa0"/><rect x="209" y="8" width="26" height="22" rx="2" fill="#4b3592"/><rect x="6" y="33" width="26" height="22" rx="2" fill="#e8742a"/><rect x="35" y="33" width="26" height="22" rx="2" fill="#f08a3a"/><rect x="64" y="33" width="26" height="22" rx="2" fill="#f4a070"/><rect x="93" y="33" width="26" height="22" rx="2" fill="#f2a0c4"/><rect x="122" y="33" width="26" height="22" rx="2" fill="#d6a0d6"/><rect x="151" y="33" width="26" height="22" rx="2" fill="#a08ad6"/><rect x="180" y="33" width="26" height="22" rx="2" fill="#5a6ec8"/><rect x="209" y="33" width="26" height="22" rx="2" fill="#3a56b0"/><rect x="6" y="58" width="26" height="22" rx="2" fill="#f6b62a"/><rect x="35" y="58" width="26" height="22" rx="2" fill="#f8cc54"/><rect x="64" y="58" width="26" height="22" rx="2" fill="#f4e08a"/><rect x="93" y="58" width="26" height="22" rx="2" fill="#d8eab0"/><rect x="122" y="58" width="26" height="22" rx="2" fill="#a8dccf"/><rect x="151" y="58" width="26" height="22" rx="2" fill="#7cc4e4"/><rect x="180" y="58" width="26" height="22" rx="2" fill="#3a98d4"/><rect x="209" y="58" width="26" height="22" rx="2" fill="#2a74b8"/><rect x="6" y="83" width="26" height="22" rx="2" fill="#e6e02a"/><rect x="35" y="83" width="26" height="22" rx="2" fill="#c4d83a"/><rect x="64" y="83" width="26" height="22" rx="2" fill="#94c84a"/><rect x="93" y="83" width="26" height="22" rx="2" fill="#5cb45a"/><rect x="122" y="83" width="26" height="22" rx="2" fill="#2fa070"/><rect x="151" y="83" width="26" height="22" rx="2" fill="#20968e"/><rect x="180" y="83" width="26" height="22" rx="2" fill="#2088a8"/><rect x="209" y="83" width="26" height="22" rx="2" fill="#1f6fae"/></g><rect x="145" y="27" width="92" height="82" rx="3" fill="none" stroke="#000" stroke-width="5"/><rect x="145" y="27" width="92" height="82" rx="3" fill="none" stroke="#fff" stroke-width="2.5"/><g stroke="#000" stroke-width="1.4"><path d="M186 76 l7 -18 l7 18z" fill="#f2d23a"/><path d="M157 51 l7 -18 l7 18z" fill="#d8342b"/><path d="M215 101 l7 -18 l7 18z" fill="#f4f4f0"/><path d="M42 76 l7 -18 l7 18z" fill="#2f9a4c"/><path d="M100 51 l7 -18 l7 18z" fill="#f06fae"/></g><circle cx="193" cy="69" r="13" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 3"/></svg>',
+  catbox:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="#fff" opacity=".7"><circle cx="18" cy="14" r="1.3"/><circle cx="70" cy="28" r="1"/><circle cx="214" cy="40" r="1.1"/></g><circle cx="204" cy="22" r="11" fill="#f4c95d" opacity=".9"/><g opacity=".55"><rect x="10" y="40" width="10" height="10" rx="2" fill="#d6453b"/><rect x="10" y="54" width="10" height="10" rx="2" fill="#2f6fd0"/><rect x="10" y="68" width="10" height="10" rx="2" fill="#d9a91c"/><rect x="10" y="82" width="10" height="10" rx="2" fill="#3a9a4c"/><g fill="none" stroke="#f5f0e4" stroke-width=".8" opacity=".5"><path d="M24 40h40v10h-40z M24 54h40v10h-40z M24 68h40v10h-40z M24 82h40v10h-40z"/></g><circle cx="38" cy="59" r="4" fill="#e07b24"/><circle cx="50" cy="73" r="4" fill="#8a4fc2"/></g><path d="M74 78 L120 62 L166 78 L120 94Z" fill="#c99a5b"/><path d="M74 78 L120 94 V118 L74 112Z" fill="#a8763d"/><path d="M166 78 L120 94 V118 L166 112Z" fill="#8c5f2c"/><path d="M74 78 L58 64 L104 50 L120 62Z" fill="#d8ad70"/><path d="M166 78 L182 64 L136 50 L120 62Z" fill="#d8ad70"/><path d="M100 70 Q100 44 120 43 Q140 44 140 70Z" fill="#2a2a35"/><path d="M103 54 L105 36 L115 47Z M137 54 L135 36 L125 47Z" fill="#2a2a35"/><ellipse cx="113" cy="60" rx="3.2" ry="4.2" fill="#f4c95d"/><ellipse cx="127" cy="60" rx="3.2" ry="4.2" fill="#f4c95d"/><ellipse cx="113" cy="60.5" rx="1" ry="3.2" fill="#14122a"/><ellipse cx="127" cy="60.5" rx="1" ry="3.2" fill="#14122a"/><g transform="rotate(-12 196 92)"><rect x="182" y="70" width="28" height="40" rx="4" fill="#fffaf0" stroke="#d6453b" stroke-width="2.5"/><text x="196" y="97" text-anchor="middle" font-size="17" font-weight="700" fill="#d6453b">3</text></g><g transform="rotate(9 214 86)"><rect x="204" y="66" width="28" height="40" rx="4" fill="#fffaf0" stroke="#14122a"/><text x="218" y="93" text-anchor="middle" font-size="17" font-weight="700" fill="#14122a">?</text></g></svg>',
+  bullrows:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g transform="translate(14 14) scale(.88)"><g stroke="rgba(0,0,0,.45)" stroke-width="1"><rect x="14" y="10" width="24" height="32" rx="3" fill="#f3eee4"/><rect x="42" y="10" width="24" height="32" rx="3" fill="#a9d4ee"/><rect x="70" y="10" width="24" height="32" rx="3" fill="#f3eee4"/><rect x="14" y="48" width="24" height="32" rx="3" fill="#f3c55a"/><rect x="42" y="48" width="24" height="32" rx="3" fill="#f3eee4"/><rect x="70" y="48" width="24" height="32" rx="3" fill="#ee8a6d"/><rect x="98" y="48" width="24" height="32" rx="3" fill="#f3eee4"/><rect x="126" y="48" width="24" height="32" rx="3" fill="#f3eee4"/><rect x="14" y="86" width="24" height="32" rx="3" fill="#f3eee4"/><rect x="42" y="86" width="24" height="32" rx="3" fill="#b48ad8"/></g><rect x="154" y="48" width="24" height="32" rx="3" fill="none" stroke="#f2c35a" stroke-width="1.6" stroke-dasharray="4 3"/><g font-family="Chakra Petch,sans-serif" font-weight="600" font-size="11" fill="#1d1510" text-anchor="middle"><text x="26" y="30">3</text><text x="54" y="30">15</text><text x="82" y="30">21</text><text x="26" y="68">40</text><text x="54" y="68">42</text><text x="82" y="68">44</text><text x="110" y="68">47</text><text x="138" y="68">52</text><text x="26" y="106">53</text><text x="54" y="106">55</text></g><g transform="translate(196 44) rotate(10)"><rect x="-13" y="-17" width="26" height="34" rx="3" fill="#f3eee4" stroke="#f2c35a" stroke-width="2.5"/><text x="0" y="5" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="11" fill="#1d1510">58</text></g><text x="196" y="80" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="600" font-size="12" fill="#f2c35a">ใบที่ 6!</text><g transform="translate(200 102) scale(1.6)" fill="#fbf2e4"><path d="M-6,-3 Q-9,-7 -7,-9 Q-5,-6 -3,-5 M6,-3 Q9,-7 7,-9 Q5,-6 3,-5" fill="none" stroke="#fbf2e4" stroke-width="1.6" stroke-linecap="round"/><path d="M-4,-5 Q0,-7 4,-5 Q5,0 3,4 Q0,6 -3,4 Q-5,0 -4,-5Z"/></g></g></svg>',
+  pigeon:'<svg viewBox="0 0 240 118" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="208" cy="22" r="11" fill="#f4ecd8" opacity=".85"/><path d="M120 0 L46 118 H194Z" fill="#f0a58f" opacity=".08"/><ellipse cx="120" cy="112" rx="120" ry="14" fill="#0c0b12"/><g stroke="#7a2318"><rect x="14" y="70" width="28" height="40" rx="4" fill="#d9503f" transform="rotate(-12 28 90)"/><rect x="46" y="74" width="28" height="40" rx="4" fill="#d9503f" transform="rotate(-3 60 94)"/><rect x="168" y="74" width="28" height="40" rx="4" fill="#d9503f" transform="rotate(5 182 94)"/></g><g transform="rotate(14 214 92)"><rect x="200" y="70" width="28" height="40" rx="4" fill="#fbf6ec" stroke="#25222e"/><text x="214" y="96" text-anchor="middle" font-size="17" font-weight="700" fill="#25222e">7</text></g><path d="M86 112 Q80 62 120 52 Q160 62 154 112Z" fill="#8d8a98"/><path d="M106 112 Q108 80 120 74 Q132 80 134 112Z" fill="#f4ecd8"/><path d="M114 82 l6 7 l6 -7 l-6 -3z" fill="#d9503f"/><path d="M120 89 v20" stroke="#d9503f" stroke-width="4"/><circle cx="120" cy="40" r="22" fill="#a19eac"/><circle cx="112" cy="37" r="3.4" fill="#1b1a26"/><circle cx="128" cy="37" r="3.4" fill="#1b1a26"/><path d="M106 31 l10 3 M134 31 l-10 3" stroke="#1b1a26" stroke-width="2.4" stroke-linecap="round"/><path d="M116 44 l4 7 l4 -7z" fill="#e9a23b"/><path d="M92 22 h56 q-3 6 -12 6 h-32 q-9 0 -12 -6z" fill="#2b2838"/><path d="M101 22 q1 -18 19 -18 q18 0 19 18z" fill="#3a3650"/><rect x="101" y="15" width="38" height="5" fill="#d9503f"/><rect x="124" y="50" width="18" height="4.5" rx="2" fill="#7a4a24" transform="rotate(10 124 50)"/><circle cx="143" cy="56" r="2" fill="#f0a58f"/></svg>'
+};
+
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+var pr=function(g){return g.min===g.max?g.min+" คน":g.min+"–"+g.max+" คน";};
+var catOf={};CATS.forEach(function(c){catOf[c.id]=c;});
+var OTHER={id:"other",name:"อื่น ๆ",en:"Other"};
+var cat=function(g){return catOf[g.cat]||OTHER;};
+var isNew=function(g){var d=g.added?Date.parse(g.added):NaN;return !isNaN(d)&&Date.now()-d<30*864e5;};
+GAMES.forEach(function(g,i){g._i=i;});
+
+var TIMES=[{id:"all",l:"ทั้งหมด",f:function(){return true;}},{id:"short",l:"ไม่เกิน 30 นาที",f:function(g){return g.tmax<=30;}},{id:"mid",l:"31–60 นาที",f:function(g){return g.tmax>30&&g.tmax<=60;}},{id:"long",l:"เกิน 1 ชม.",f:function(g){return g.tmax>60;}}];
+var SORTS=[{id:"name",l:"ชื่อ A–Z"},{id:"cat",l:"ตามหมวด"},{id:"new",l:"ขึ้นชั้นล่าสุด"}];
+var state={p:0,t:"all",s:"name",q:""};
+try{var sv=JSON.parse(localStorage.getItem("shelf-filter")||"null");if(sv){if(typeof sv.p==="number")state.p=sv.p;if(sv.t)state.t=sv.t;if(sv.s)state.s=sv.s;}}catch(e){}
+function save(){try{localStorage.setItem("shelf-filter",JSON.stringify({p:state.p,t:state.t,s:state.s}));}catch(e){}}
+
+function seg(hostId,items,key){
+  var host=document.getElementById(hostId);
+  items.forEach(function(it){
+    var b=document.createElement("button");b.type="button";b.id=hostId+"-"+it.id;b.textContent=it.l;b.dataset.v=it.id;
+    b.addEventListener("click",function(){state[key]=it.id;save();render();});
+    host.appendChild(b);
+  });
+}
+var maxP=GAMES.reduce(function(m,g){return Math.max(m,g.max);},0);
+var pItems=[{id:0,l:"ทั้งหมด"}];for(var n=1;n<=maxP;n++)pItems.push({id:n,l:n+" คน"});
+seg("f-players",pItems,"p");seg("f-time",TIMES,"t");seg("f-sort",SORTS,"s");
+var q=document.getElementById("q");
+q.addEventListener("input",function(){state.q=q.value.trim().toLowerCase();render();});
+
+function match(g){
+  if(state.p&&(state.p<g.min||state.p>g.max))return false;
+  var tf=TIMES.filter(function(x){return x.id===state.t;})[0]||TIMES[0];
+  if(!tf.f(g))return false;
+  if(!state.q)return true;
+  var c=cat(g);
+  var hay=(g.name+" "+g.th+" "+g.parts+" "+g.exp.join(" ")+" "+g.rules+" "+g.score+" "+g.extra+" "+c.name+" "+c.en).toLowerCase();
+  return hay.indexOf(state.q)>-1;
+}
+function groups(list){
+  if(state.s==="cat"){
+    var out=CATS.concat([OTHER]).map(function(c){return {cat:c,items:list.filter(function(g){return cat(g)===c;})};}).filter(function(x){return x.items.length;});
+    return out;
+  }
+  var sorted=list.slice();
+  if(state.s==="name")sorted.sort(function(a,b){return a.name.localeCompare(b.name,"en");});
+  else sorted.sort(function(a,b){var da=Date.parse(a.added||"")||0,db=Date.parse(b.added||"")||0;return db-da||b._i-a._i;});
+  return [{cat:null,items:sorted}];
+}
+function chips(g){
+  var out=['<span class="chip hl">'+pr(g)+'</span>','<span class="chip">'+esc(g.t)+'</span>'];
+  var ex=g.exp.length>2?g.exp.slice(0,2).concat(["+"+(g.exp.length-2)+" ภาค"]):g.exp;
+  return out.concat(ex.map(function(e){return '<span class="chip">'+esc(e)+'</span>';})).join("");
+}
+function card(g){
+  return '<a class="box" href="'+esc(g.url)+'" style="--c:'+g.c+';--c2:'+g.c2+';--hl:'+g.hl+'">'+
+    '<span class="art">'+(ART[g.art]||"")+'</span>'+
+    '<span class="body"><h2>'+esc(g.name)+'</h2><span class="th">'+esc(g.th)+' · '+esc(g.parts)+'</span>'+
+    '<span class="chips">'+chips(g)+'</span></span>'+
+    '<span class="foot"><span>'+esc(g.tools.split(" · ")[0])+'</span><span class="open">เปิดคู่มือ ↗</span></span></a>';
+}
+var bays=document.getElementById("bays");
+var lastCols=0;
+function colsNow(){return Math.max(1,Math.floor((bays.clientWidth+18)/(220+18)));}
+function render(){
+  ["f-players","f-time","f-sort"].forEach(function(id){
+    var key={"f-players":"p","f-time":"t","f-sort":"s"}[id];
+    Array.prototype.forEach.call(document.getElementById(id).querySelectorAll("button"),function(b){b.setAttribute("aria-pressed",String(b.dataset.v===String(state[key])));});
+  });
+  var list=GAMES.filter(match);
+  var gs=groups(list);
+  var cols=colsNow();lastCols=cols;
+  bays.innerHTML=gs.map(function(gr){
+    var rows=[];
+    for(var i=0;i<gr.items.length;i+=cols){rows.push('<div class="shelf-row" style="--cols:'+cols+'">'+gr.items.slice(i,i+cols).map(card).join("")+'</div>');}
+    var plate=gr.cat?'<div class="plate"><b>'+esc(gr.cat.name)+'</b><span>'+esc(gr.cat.en)+' · '+gr.items.length+' เล่ม</span></div>':'';
+    return '<section class="bay"'+(gr.cat?' id="cat-'+gr.cat.id+'"':'')+'>'+plate+'<div class="rows">'+rows.join("")+'</div></section>';
+  }).join("");
+  document.getElementById("empty").hidden=list.length>0;
+  document.getElementById("count").textContent="แสดง "+list.length+" จาก "+GAMES.length+" เล่ม";
+
+  var jump=document.getElementById("jump");
+  if(state.s==="cat"&&gs.length>1){
+    jump.hidden=false;
+    jump.innerHTML='<span>ไปที่หมวด</span>'+gs.map(function(gr){return '<button type="button" data-c="'+gr.cat.id+'">'+esc(gr.cat.name)+'<i>'+gr.items.length+'</i></button>';}).join("");
+  }else{jump.hidden=true;jump.innerHTML="";}
+
+  document.getElementById("rows").innerHTML=gs.map(function(gr){
+    var head=gr.cat?'<tr class="grp"><td colspan="5">'+esc(gr.cat.name)+'<small>'+esc(gr.cat.en)+' · '+gr.items.length+' เล่ม</small></td></tr>':'';
+    return head+gr.items.map(function(g){
+      var exTxt=g.exp.length?g.exp.join(", "):"ไม่มี";
+      var cov='<ul class="cov"><li><b>กติกา</b>'+esc(g.rules)+'</li><li><b>คะแนน</b>'+esc(g.score)+'</li><li><b>ภาคเสริม</b>'+esc(exTxt)+'</li>'+(g.extra?'<li><b>เพิ่มเติม</b>'+esc(g.extra)+'</li>':'')+'</ul>';
+      return '<tr><td><span class="dot" style="background:'+g.c+'"></span><a href="'+esc(g.url)+'">'+esc(g.name)+'</a><span class="sub">'+esc(g.th)+' · '+esc(g.parts)+'</span></td>'+
+        '<td class="num" data-l="ผู้เล่น">'+pr(g)+'</td><td class="num" data-l="เวลาเล่น">'+esc(g.t)+'</td><td data-l="เนื้อหาในคู่มือ">'+cov+'</td><td data-l="เครื่องมือในหน้า">'+esc(g.tools)+'</td></tr>';
+    }).join("");
+  }).join("");
+}
+document.getElementById("jump").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-c]");if(!b)return;
+  var el=document.getElementById("cat-"+b.dataset.c);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+});
+var cats=GAMES.reduce(function(s,g){s[cat(g).id]=1;return s;},{});
+var expCount=GAMES.reduce(function(s,g){return s+g.exp.length;},0);
+document.getElementById("stats").innerHTML='<span><b>'+GAMES.length+'</b> คู่มือ</span><span><b>'+Object.keys(cats).length+'</b> หมวด</span><span><b>'+expCount+'</b> ภาคเสริมและโหมด</span>';
+render();
+function onResize(){if(colsNow()!==lastCols)render();}
+if(window.ResizeObserver){new ResizeObserver(onResize).observe(bays);}else{window.addEventListener("resize",onResize);}
+})();
+</script>
+
+
+</body></html>
