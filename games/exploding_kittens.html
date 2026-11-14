@@ -1,5 +1,6 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>เหมียวระเบิด ฉบับไทย</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}.formula .fm{background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}.formula .fm small{font-family:var(--font-tag,inherit);font-size:.74rem;letter-spacing:.06em;color:var(--muted,#666)}.formula .fm b{font-family:var(--font-tag,inherit);font-weight:600;font-size:1.12rem;font-variant-numeric:tabular-nums}.formula .fm.end{background:var(--surface-2,rgba(0,0,0,.05))}.formula .fm.zero b{color:var(--bad,#bb3326)}
+</style></head><body>
+<title>Exploding Kittens ฉบับไทย</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,6 +82,7 @@ section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
 .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
 .prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
 .prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
 .en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
 
@@ -226,7 +228,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
 <header class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + 3 ภาคเสริม + Zombie Kittens + โหมด Zombie Apocalypse</div>
+      <div class="eyebrow">คู่มือภาษาไทย · เกมหลัก + 3 ภาคเสริม + Zombie Kittens + โหมด Zombie Apocalypse · อิงคู่มือทางการ (Exploding Kittens)</div>
       <h1>เหมียวระเบิด<span>Exploding Kittens · ผลัดกันจั่วการ์ด ใครจั่วได้แมวระเบิดแล้วกู้ไม่ทัน ตกรอบ</span></h1>
       <p class="lede">ในกองการ์ดมี<b>เหมียวระเบิด</b>ซ่อนอยู่ น้อยกว่าจำนวนคน 1 ใบ แต่ละตาเล่นการ์ดกี่ใบก็ได้ (หรือไม่เล่น) แล้ว<b>จั่ว 1 ใบเพื่อจบตา</b> จั่วได้เหมียวระเบิดต้องใช้การ์ด<b>กู้ระเบิด</b> ไม่มีก็ตาย คนสุดท้ายที่รอดชนะ การ์ดอื่นทั้งหมดมีไว้แอบดู สับ ข้าม โยนตาให้คนอื่น และขโมยของ</p>
       <div class="facts">
@@ -284,13 +286,14 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
     <p>สารบัญ</p>
     <ol>
       <li><a href="#summary">สรุป 1 นาที</a></li>
-      <li><a href="#boxes">5 กล่องมีอะไรบ้าง</a></li>
+      <li><a href="#box">5 กล่องมีอะไรบ้าง</a></li>
       <li class="sep">เกมหลัก</li>
       <li><a href="#setup"><span class="sw" style="background:var(--x-base)"></span>เตรียมเกม</a></li>
       <li><a href="#turn"><span class="sw" style="background:var(--x-base)"></span>เล่นหนึ่งตา</a></li>
       <li><a href="#base-cards"><span class="sw" style="background:var(--x-base)"></span>การ์ดเกมหลัก</a></li>
       <li><a href="#attack"><span class="sw" style="background:var(--x-base)"></span>โจมตีซ้อน & Nope</a></li>
       <li><a href="#combos"><span class="sw" style="background:var(--x-base)"></span>คอมโบพิเศษ</a></li>
+      <li><a href="#end"><span class="sw" style="background:var(--x-base)"></span>จบเกม</a></li>
       <li class="sep">แยกทีละกล่อง</li>
       <li><a href="#imploding"><span class="sw" style="background:var(--x-imp)"></span>Imploding</a></li>
       <li><a href="#streaking"><span class="sw" style="background:var(--x-str)"></span>Streaking</a></li>
@@ -354,10 +357,12 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
           <li>ถูก<b>โจมตี</b> = เล่น 2 ตาติด ถ้าโจมตีกลับ คนถัดไปรับตาที่ค้าง + 2 (เช่น 4 ตา)</li>
         </ol>
       </div>
+      <div class="formula" aria-label="เงื่อนไขสำคัญ"><div class="fm"><small>จบตา</small><b>จั่ว 1 ใบ</b></div><div class="fm"><small>เหมียวระเบิดในกอง</small><b>จำนวนคน − 1 ใบ</b></div><div class="fm"><small>ถูกโจมตี</small><b>เล่น 2 ตาติด</b></div><div class="fm"><small>การ์ดคู่ชื่อเหมือนกัน</small><b>ขโมยการ์ดสุ่ม 1 ใบ</b></div><div class="fm zero"><small>จั่วเหมียวระเบิด ไม่มีกู้ระเบิด</small><b>ตกรอบ</b></div><div class="fm end"><small>คนสุดท้ายที่รอด</small><b>ชนะ</b></div></div>
+      <p class="note">เกมนี้ไม่มีการนับแต้ม กล่องสีเข้มคือเงื่อนไขชนะ</p>
     </section>
 
     <!-- BOXES -->
-    <section id="boxes">
+    <section id="box">
       <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>5 กล่องมีอะไรบ้าง</h2></div>
       <div class="tbl-wrap">
         <table>
@@ -394,9 +399,9 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
     <section id="turn">
       <div class="sec-head"><span class="tag">เกมหลัก</span><h2>เล่นหนึ่งตา และการระเบิด</h2></div>
       <ol class="steps">
-        <li><div class="body"><h3>เล่น หรือ ผ่าน</h3><p>วางการ์ด<b>หงาย</b>บนกองทิ้งแล้วทำตามข้อความ เล่นต่ออีกใบได้เรื่อย ๆ หรือไม่เล่นเลยก็ได้</p></div></li>
-        <li><div class="body"><h3>จั่ว 1 ใบจากบนสุด = จบตา</h3><p>ไม่มีขีดจำกัดการ์ดในมือ การ์ดหมดมือก็ไม่เป็นไร ตาหน้าจะได้จั่วอีกอย่างน้อย 1 ใบ</p></div></li>
-        <li><div class="body"><h3>ถ้าจั่วได้เหมียวระเบิด</h3>
+        <li><div class="body"><h3>เล่น หรือ ผ่าน <span class="en">Play or Pass</span></h3><p>วางการ์ด<b>หงาย</b>บนกองทิ้งแล้วทำตามข้อความ เล่นต่ออีกใบได้เรื่อย ๆ หรือไม่เล่นเลยก็ได้</p></div></li>
+        <li><div class="body"><h3>จั่ว 1 ใบจากบนสุด = จบตา <span class="en">Draw</span></h3><p>ไม่มีขีดจำกัดการ์ดในมือ การ์ดหมดมือก็ไม่เป็นไร ตาหน้าจะได้จั่วอีกอย่างน้อย 1 ใบ</p></div></li>
+        <li><div class="body"><h3>ถ้าจั่วได้เหมียวระเบิด <span class="en">Exploding Kitten</span></h3>
           <ul>
             <li><b>ต้องเปิดให้ทุกคนเห็นทันที</b></li>
             <li>มี<b>กู้ระเบิด</b>: เล่นกู้ระเบิดลงกองทิ้ง แล้ว<b>แอบ</b>ใส่เหมียวระเบิดกลับเข้ากองจั่ว ตรงไหนก็ได้ (บนสุด ล่างสุด กลางกอง ถือกองไว้ใต้โต๊ะได้) จบตา</li>
@@ -463,17 +468,23 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
 
     <!-- COMBOS -->
     <section id="combos">
-      <div class="sec-head"><span class="tag">เกมหลัก</span><h2>คอมโบพิเศษ</h2></div>
+      <div class="sec-head"><span class="tag">เกมหลัก</span><h2>คอมโบพิเศษ <span class="en">Special Combos</span></h2></div>
       <p class="prose">เล่นการ์ดเป็นชุดพร้อมกัน <b>ไม่สนข้อความบนการ์ด</b> ใช้ได้กับการ์ดทุกชื่อ ไม่ใช่เฉพาะการ์ดแมว (คู่มือ Original Edition รุ่นปัจจุบันเขียนไว้แบบนี้)</p>
       <div class="types">
-        <div class="type"><h3>2 ใบเหมือนกัน</h3><p>เลือกคนหนึ่ง แล้ว<b>หยิบการ์ดสุ่ม</b> 1 ใบจากมือเขา (ให้เขาสับมือแล้วยื่นคว่ำ)</p></div>
-        <div class="type"><h3>3 ใบเหมือนกัน</h3><p>เลือกคนหนึ่ง <b>เอ่ยชื่อการ์ด</b>ที่อยากได้ ถ้าเขามีต้องให้ 1 ใบ ถ้าไม่มีก็ไม่ได้อะไร</p></div>
-        <div class="type"><h3>5 ใบไม่ซ้ำกันเลย</h3><p>เลือกหยิบการ์ดใดก็ได้ 1 ใบจาก<b>กองทิ้ง</b> (เช่นเก็บกู้ระเบิดคืนมา) · มีในคู่มือเกมหลัก แต่ <b>Zombie Kittens ไม่มีคอมโบนี้</b></p></div>
+        <div class="type"><h3>2 ใบเหมือนกัน <span class="en">Two of a Kind</span></h3><p>เลือกคนหนึ่ง แล้ว<b>หยิบการ์ดสุ่ม</b> 1 ใบจากมือเขา (ให้เขาสับมือแล้วยื่นคว่ำ)</p></div>
+        <div class="type"><h3>3 ใบเหมือนกัน <span class="en">Three of a Kind</span></h3><p>เลือกคนหนึ่ง <b>เอ่ยชื่อการ์ด</b>ที่อยากได้ ถ้าเขามีต้องให้ 1 ใบ ถ้าไม่มีก็ไม่ได้อะไร</p></div>
+        <div class="type"><h3>5 ใบไม่ซ้ำกันเลย <span class="en">Five Different Cards</span></h3><p>เลือกหยิบการ์ดใดก็ได้ 1 ใบจาก<b>กองทิ้ง</b> (เช่นเก็บกู้ระเบิดคืนมา) · มีในคู่มือเกมหลัก แต่ <b>Zombie Kittens ไม่มีคอมโบนี้</b></p></div>
       </div>
       <p class="note">คอมโบโดน Nope ได้ทั้งชุด · การ์ดแมวจรจัด (Imploding) ใช้แทนการ์ดแมวลายไหนก็ได้ · <b>โคลน</b> (Zombie) วางทับการ์ดแมวที่ตัวเองเพิ่งเล่นแล้วนับเป็นคู่ได้</p>
     </section>
 
     <!-- IMPLODING -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และผู้ชนะ</h2></div>
+      <p class="prose">เกมนี้ไม่มีการนับแต้ม คนที่จั่วได้เหมียวระเบิดแล้ว<b>ไม่มีกู้ระเบิด</b>จะระเบิดและตกรอบ ทิ้งการ์ดในมือทั้งหมดลงกองทิ้ง เล่นไปเรื่อย ๆ จน<b>เหลือคนสุดท้ายที่ยังไม่ระเบิด</b> คนนั้นชนะ · กองจั่วไม่มีวันหมดก่อนเกมจบ เพราะในกองมีเหมียวระเบิดจำนวนคน − 1 ใบเสมอ ดูรายละเอียดที่ <a href="#turn">เล่นหนึ่งตา และการระเบิด</a></p>
+      <p class="note">ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
     <section id="imploding">
       <div class="xhead" style="--c:var(--x-imp)"><span class="tag">ภาคเสริมที่ 1 · IMPLODING KITTENS · 20 ใบ + กรวยแห่งความอับอาย</span><h2>Imploding Kittens · เหมียวปะทุ</h2><p>เพิ่มแมวพิเศษ 1 ตัวที่<b>กู้ระเบิดไม่ได้</b> แต่ทุกคนจะเห็นว่ามันกำลังเข้ามาใกล้ และเพิ่มการ์ดเปลี่ยนทิศ/จั่วก้นกองให้เกมพลิกง่ายขึ้น</p></div>
       <div class="tbl-wrap"><table><thead><tr><th>การ์ด</th><th class="num">จำนวน</th><th>ทำอะไร</th></tr></thead><tbody data-cards="imp"></tbody></table></div>
@@ -503,13 +514,13 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
       </figure>
       <ol class="steps">
         <li><div class="body"><h3>แยกออก</h3><p>เอาเหมียวปะทุ เหมียวระเบิดทั้งหมด และกู้ระเบิดทั้งหมดออก</p></div></li>
-        <li><div class="body"><h3>กู้ระเบิด</h3><p>แจกคนละ 1 ใบ ใบที่เหลือใส่กลับกองเหมือนเกมหลัก</p></div></li>
+        <li><div class="body"><h3>กู้ระเบิด <span class="en">Defuse</span></h3><p>แจกคนละ 1 ใบ ใบที่เหลือใส่กลับกองเหมือนเกมหลัก</p></div></li>
         <li><div class="body"><h3>รวมการ์ด 19 ใบ</h3><p>สับการ์ดภาคเสริมที่เหลือรวมกับเกมหลัก (จะเลือกใส่แค่บางใบก็ได้) แจกคนละ 7</p></div></li>
         <li><div class="body"><h3>ใส่แมว</h3><p>ใส่<b>เหมียวปะทุ + เหมียวระเบิด ให้รวมกัน = จำนวนคน − 1</b> เช่น 6 คน = ปะทุ 1 + ระเบิด 4</p></div></li>
       </ol>
       <div class="types">
         <div class="type"><h3>เล่น 2 คน</h3><p>คู่มือแนะนำใส่ระเบิด 1 + ปะทุ 1 (ตายได้ 2 ทาง) ใครตายก่อนแพ้</p></div>
-        <div class="type"><h3>กรวยแห่งความอับอาย</h3><p>คนแรกที่ลืมว่าตาใคร หรือเล่นผิดทิศหลังโดนกลับทิศ ต้องใส่กรวยไปจนจบเกม (หมุนกรวยตามทิศทุกครั้งที่มีกลับทิศ) · ใช้ <a href="#keeper">ผู้คุมตา</a> ช่วยก็ได้</p></div>
+        <div class="type"><h3>กรวยแห่งความอับอาย <span class="en">Cone of Shame</span></h3><p>คนแรกที่ลืมว่าตาใคร หรือเล่นผิดทิศหลังโดนกลับทิศ ต้องใส่กรวยไปจนจบเกม (หมุนกรวยตามทิศทุกครั้งที่มีกลับทิศ) · ใช้ <a href="#keeper">ผู้คุมตา</a> ช่วยก็ได้</p></div>
         <div class="type"><h3>ตายเพราะปะทุ</h3><p>วางเหมียวปะทุหงายไว้หน้าตัว · เหมียววิ่งแก้ผ้า<b>ถือ</b>เหมียวปะทุไม่ได้</p></div>
       </div>
     </section>
@@ -530,7 +541,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
           <li>เล่นแมวออกจากมือเอง → คุณระเบิด</li>
           <li>ถือเหมียวปะทุไม่ได้ · ใช้ในคอมโบ 5 ใบไม่ได้</li>
         </ul></div>
-        <div class="type"><h3>คำสาปก้นแมว (ตาบอด)</h3><ul>
+        <div class="type"><h3>คำสาปก้นแมว (ตาบอด) <span class="en">Curse of the Cat Butt</span></h3><ul>
           <li>คนโดนคำสาปคว่ำการ์ดในมือลงโต๊ะ สับ ห้ามดู จนกว่าจะ<b>จั่วรอด</b> 1 ครั้ง</li>
           <li>จะเล่นการ์ด: สุ่มหยิบ 1 ใบเปิด ถ้าเล่นได้ก็ทำงาน ถ้าเล่นไม่ได้ (เช่นแมวใบเดียว) ทิ้งเปล่า</li>
           <li>จั่วได้เหมียวระเบิดตอนตาบอด: ยังไม่นับว่าจั่วรอด ต้องสุ่มเปิดไปเรื่อย ๆ จนเจอกู้ระเบิด ใบอื่นที่เปิดเสียเปล่า</li>
@@ -574,7 +585,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
         <figcaption>ได้เหมียวเห่าครบทั้ง 2 ตัว (แม้จะเคยวางไปแล้ว 1 ตัว) เล่นคู่กันแล้วเลือก<b>ใครก็ได้</b>เป็นเป้า · Nope เหมียวเห่าไม่ได้ เหมือนแมวทุกตัว</figcaption>
       </figure>
       <div class="types">
-        <div class="type"><h3>มงกุฎหอคอยแห่งพลัง</h3><ul>
+        <div class="type"><h3>มงกุฎหอคอยแห่งพลัง <span class="en">Tower of Power</span></h3><ul>
           <li>ตอนเตรียมเกม แจกการ์ดคว่ำ 6 ใบเป็น<b>กองสมบัติ</b> วางมงกุฎทับไว้</li>
           <li>คนที่เล่นการ์ดหอคอย สวมมงกุฎ เอากองสมบัติใส่ในมงกุฎโดยไม่ดู</li>
           <li>ใครขโมยจากคุณ (ขอหน่อย, คู่, 3 ใบ, ขอเอาไปนะ ฯลฯ) ต้องสุ่มหยิบจาก<b>ในมงกุฎ</b>แทน จนกว่ามงกุฎจะว่าง</li>
@@ -660,7 +671,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
       <p class="prose">คู่มือทุกเล่มบอกว่า “เล่นหลายภาคพร้อมกัน ให้ทำตามขั้นเตรียมเกมของทุกภาค” รวมกันแล้วได้ขั้นตอนนี้</p>
       <ol class="steps">
         <li><div class="body"><h3>แยกออกทั้งหมด</h3><p>เหมียวระเบิด (4 + 1 จาก Streaking), กู้ระเบิด 6, เหมียวปะทุ, การ์ดหอคอย</p></div></li>
-        <li><div class="body"><h3>กู้ระเบิด</h3><p>แจกคนละ 1 ใบที่เหลือคืนกอง (2 คนคืนแค่ 2)</p></div></li>
+        <li><div class="body"><h3>กู้ระเบิด <span class="en">Defuse</span></h3><p>แจกคนละ 1 ใบที่เหลือคืนกอง (2 คนคืนแค่ 2)</p></div></li>
         <li><div class="body"><h3>รวมกอง</h3><p>เกมหลัก + Imploding 19 + Streaking 14 + Barking 19 สับรวม</p></div></li>
         <li><div class="body"><h3>กองสมบัติ</h3><p>แจกคว่ำ 6 ใบ วางมงกุฎทับ แล้วใส่การ์ดหอคอยคืนกอง สับ</p></div></li>
         <li><div class="body"><h3>แจกคนละ 7</h3></div></li>
@@ -859,7 +870,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
         <li>แผ่นกติกา Zombie Apocalypse (©2024) · <a href="https://cdn.shopify.com/s/files/1/0345/9180/1483/files/EKG-ZOMB_Instructions_14MAR2024_Web.pdf" target="_blank" rel="noopener">cdn.shopify.com/…/EKG-ZOMB_Instructions_14MAR2024_Web.pdf</a></li>
       </ul>
       <p style="margin-top:8px">ป้าย <span class="flag house">ข้อแนะนำ</span> คือจุดที่คู่มือทางการไม่ได้เขียนไว้ตรง ๆ และคู่มือนี้สรุปเอง · ชื่อการ์ดแมวของเกมหลักและจำนวนการ์ดบางใบ ให้ตรวจกับการ์ดในกล่องอีกครั้ง หากพิมพ์ต่างรุ่น</p>
-    </footer>
+      <p>ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+</footer>
   </main>
 </div>
 

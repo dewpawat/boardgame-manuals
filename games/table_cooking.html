@@ -82,6 +82,7 @@ section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
 .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
 .prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
 .prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
 .en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
 
@@ -219,7 +220,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 <header class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow">คู่มือภาษาไทย · บอร์ดเกมไทย · ฉบับพิมพ์แรก</div>
+      <div class="eyebrow">คู่มือภาษาไทย · บอร์ดเกมไทย · ฉบับพิมพ์แรก · อิงคู่มือทางการ (Table Cooking: Enjoy Your Meal ฉบับพิมพ์แรก)</div>
       <h1>Table Cooking<span>Enjoy Your Meal · ช้อปวัตถุดิบ รับออเดอร์ อัปเกรดครัว แล้วปรุงให้ครบ 7 จาน</span></h1>
       <p class="lede">ทุกคนเป็นหัวหน้าเชฟ ในตาของคุณเลือกทำ 1 อย่าง คือ<b>ซื้อวัตถุดิบ</b> <b>รับเมนู</b> <b>อัปเกรดครัว</b> หรือ<b>รับรายได้</b> แล้วจะ<b>ปรุงอาหาร</b>ฟรีอีก 1 จานก็ได้ ราคาวัตถุดิบกลางโต๊ะขึ้นลงตามที่ทุกคนซื้อ ใครปรุงครบ 7 จานก่อน เล่นจนจบรอบแล้วนับแต้ม</p>
       <div class="facts">
@@ -366,14 +367,14 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- SETUP -->
     <section id="setup">
-      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม <span class="en">Setting Up the Game</span></h2></div>
       <ol class="steps">
-        <li><div class="body"><h3>วางบอร์ดตลาด</h3><p>วางกลางโต๊ะ ใส่โทเคนวัตถุดิบลงช่องของแต่ละชนิด <b>ชนิดละ (จำนวนคน + 2) ชิ้น</b> เช่น 3 คนใส่ชนิดละ 5 ที่เหลือเก็บข้างบอร์ดเป็นกองสำรอง</p></div></li>
-        <li><div class="body"><h3>วางเม็ดขาวที่ราคา 5</h3><p>วางเม็ดขาวของวัตถุดิบทั้ง 6 ชนิดไว้ที่ช่อง <b>5</b> บนรางราคา</p></div></li>
-        <li><div class="body"><h3>แจกครัวเริ่มต้น</h3><p>คนละแผ่น แยกไทล์ครัวระดับ 2 และ 3 ไว้ข้างโต๊ะ (ซื้อได้ด้วยแอ็กชันอัปเกรดครัว)</p></div></li>
-        <li><div class="body"><h3>ภารกิจลับ</h3><p>สับการ์ดภารกิจ แจกคนละ 3 ใบ <b>เลือกเก็บ 1</b> คว่ำไว้ ที่เหลือเก็บกล่อง</p></div></li>
+        <li><div class="body"><h3>วางบอร์ดตลาด <span class="en">Market board</span></h3><p>วางกลางโต๊ะ ใส่โทเคนวัตถุดิบลงช่องของแต่ละชนิด <b>ชนิดละ (จำนวนคน + 2) ชิ้น</b> เช่น 3 คนใส่ชนิดละ 5 ที่เหลือเก็บข้างบอร์ดเป็นกองสำรอง</p></div></li>
+        <li><div class="body"><h3>วางเม็ดขาวที่ราคา 5 <span class="en">Cost track</span></h3><p>วางเม็ดขาวของวัตถุดิบทั้ง 6 ชนิดไว้ที่ช่อง <b>5</b> บนรางราคา</p></div></li>
+        <li><div class="body"><h3>แจกครัวเริ่มต้น <span class="en">Starter kitchen</span></h3><p>คนละแผ่น แยกไทล์ครัวระดับ 2 และ 3 ไว้ข้างโต๊ะ (ซื้อได้ด้วยแอ็กชันอัปเกรดครัว)</p></div></li>
+        <li><div class="body"><h3>ภารกิจลับ <span class="en">Secret mission</span></h3><p>สับการ์ดภารกิจ แจกคนละ 3 ใบ <b>เลือกเก็บ 1</b> คว่ำไว้ ที่เหลือเก็บกล่อง</p></div></li>
         <li><div class="body"><h3>เมนูในมือ</h3><p>สับการ์ดเมนู แจกคนละ 3 ใบ เลือกเก็บไว้<b>อย่างน้อย 1 ใบ</b> ใบที่ไม่เอาสับคืนกอง</p></div></li>
-        <li><div class="body"><h3>เปิดแถวเมนู 4 ใบ</h3><p>เปิดการ์ดเมนู 4 ใบเรียงข้างกอง นี่คือ<b>แถวเมนู</b> <span class="en">Menu row</span></p></div></li>
+        <li><div class="body"><h3>เปิดแถวเมนู 4 ใบ <span class="en">Menu row</span></h3><p>เปิดการ์ดเมนู 4 ใบเรียงข้างกอง นี่คือ<b>แถวเมนู</b> <span class="en">Menu row</span></p></div></li>
         <li><div class="body"><h3>ปรับราคาเริ่มต้น</h3>
           <ul>
             <li>ดูวัตถุดิบ<b>ตัวแรก</b>ของเมนู 3 ใบแรกในแถวเมนู เลื่อนเม็ดขาวของวัตถุดิบนั้น<b>ขึ้น 1</b></li>
@@ -424,7 +425,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- TURN -->
     <section id="turn">
-      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ <span class="en">How to Play</span></h2></div>
       <p class="prose">เลือก<b>แอ็กชันหลัก 1 อย่าง</b>จาก 4 อย่าง และจะปรุงอาหารฟรี 1 จานก่อนหรือหลังแอ็กชันหลักก็ได้ (ไม่บังคับ)</p>
       <div class="types">
         <div class="type">
@@ -640,14 +641,14 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- END -->
     <section id="end">
-      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและนับแต้ม</h2></div>
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและนับแต้ม <span class="en">Game End · Final Scoring</span></h2></div>
       <p class="prose">เมื่อมีคนปรุง<b>จานที่ 7</b> เกมยังไม่จบทันที เล่นต่อ<b>จนจบรอบ</b> ให้ทุกคนได้จำนวนตาเท่ากัน (คนที่นั่งก่อนคนเล่นคนแรกเป็นคนเล่นตาสุดท้าย) แล้วนับแต้ม</p>
       <ol class="steps">
         <li><div class="body"><h3>เมนูที่ปรุงแล้ว</h3><p>รวมเลขบนริบบิ้นแดงของทุกเมนูที่หงายหน้าคุณ</p></div></li>
         <li><div class="body"><h3>ครบ 4 ประเภท +10</h3><p>มีของว่าง ซุป จานหลัก และของหวาน อย่างละอย่างน้อย 1 จาน ได้ 10 แต้ม (ได้ครั้งเดียว)</p></div></li>
         <li><div class="body"><h3>ไทล์ครัว</h3><p>รวมแต้มที่พิมพ์บนไทล์อัปเกรดทุกแผ่น</p></div></li>
         <li><div class="body"><h3>วัตถุดิบเหลือ</h3><p>ในตู้เย็น ชิ้นละ 1 แต้ม</p></div></li>
-        <li><div class="body"><h3>ภารกิจลับ</h3><p>เปิดการ์ด ทำสำเร็จได้แต้มตามการ์ด</p></div></li>
+        <li><div class="body"><h3>ภารกิจลับ <span class="en">Secret mission</span></h3><p>เปิดการ์ด ทำสำเร็จได้แต้มตามการ์ด</p></div></li>
         <li><div class="body"><h3>เมนูค้างมือ −2</h3><p>เมนูที่ยังอยู่ในมือ ใบละ −2</p></div></li>
       </ol>
       <div class="callout green">
@@ -745,7 +746,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li><a href="https://boardgamegeek.com/boardgame/406612/table-cooking-enjoy-your-meal" target="_blank" rel="noopener">BoardGameGeek: Table Cooking: Enjoy Your Meal</a></li>
     </ul>
     <p style="margin-top:8px">ถ้าตัวเลขบนการ์ดหรือบอร์ดในกล่องต่างจากเล่มนี้ ให้ยึดของในกล่อง · แผนผังครัวในเล่มเป็นภาพจำลอง</p>
-  </div>
+    <p>ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+</div>
 </footer>
 
 <script>

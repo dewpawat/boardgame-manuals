@@ -1,4 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}.formula .fm{background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}.formula .fm small{font-family:var(--font-tag,inherit);font-size:.74rem;letter-spacing:.06em;color:var(--muted,#666)}.formula .fm b{font-family:var(--font-tag,inherit);font-weight:600;font-size:1.12rem;font-variant-numeric:tabular-nums}.formula .fm.end{background:var(--surface-2,rgba(0,0,0,.05))}.formula .fm.zero b{color:var(--bad,#bb3326)}
+</style></head><body>
 <title>Coyote ฉบับไทย</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,6 +79,7 @@ section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
 .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .sec-head .tag{font-family:var(--font-tag);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
 .prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
 .prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
 .en{font-size:.85em;color:var(--muted)}
 .callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
@@ -273,13 +275,13 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
     <p>สารบัญ</p>
     <ol>
       <li><a href="#summary">สรุป 1 นาที</a></li>
-      <li><a href="#cards">การ์ด 4 แบบในกล่อง</a></li>
+      <li><a href="#box">การ์ด 4 แบบในกล่อง</a></li>
       <li class="sep">ลำดับการเล่น</li>
       <li><a href="#setup">เตรียมเกม</a></li>
       <li><a href="#beat">จังหวะและใครทำใบไหน</a></li>
-      <li><a href="#round">หนึ่งรอบ ตั้งแต่ต้นจนจบ</a></li>
+      <li><a href="#turn">หนึ่งรอบ ตั้งแต่ต้นจนจบ</a></li>
       <li><a href="#shift">คนเริ่มเลื่อนทุกรอบ</a></li>
-      <li><a href="#fail">ทำพลาด ตกรอบ ชนะ</a></li>
+      <li><a href="#end">ทำพลาด ตกรอบ ชนะ</a></li>
       <li><a href="#special">วางโคโยตี้และโจมตี</a></li>
       <li><a href="#coop">โหมดร่วมมือ</a></li>
       <li class="sep">ใช้กลางโต๊ะ</li>
@@ -336,10 +338,12 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
         </ol>
       </div>
       <p class="note">คู่มือทางการแนะนำให้ดูวิดีโอสอนเล่นก่อนอ่าน: <a href="https://www.explodingkittens.com/coyote/how" target="_blank" rel="noopener">explodingkittens.com/coyote/how</a> (ภาษาอังกฤษ ดูท่าตบโต๊ะแล้วเข้าใจทันที)</p>
+      <div class="formula" aria-label="เงื่อนไขสำคัญ"><div class="fm"><small>ผ่านครบแถว</small><b>ส่งกองจั่วไปทางซ้าย</b></div><div class="fm"><small>ทำพลาด</small><b>รับการ์ดลงโทษ 1 ใบ</b></div><div class="fm zero"><small>การ์ดลงโทษครบ 3 ใบ</small><b>ตกรอบ</b></div><div class="fm end"><small>คนสุดท้ายที่รอด</small><b>ชนะ</b></div></div>
+      <p class="note">เกมนี้ไม่มีการนับแต้ม กล่องสีเข้มคือเงื่อนไขชนะ</p>
     </section>
 
     <!-- CARDS -->
-    <section id="cards">
+    <section id="box">
       <div class="sec-head"><span class="tag">อุปกรณ์ · 66 ใบ</span><h2>การ์ด 4 แบบในกล่อง</h2></div>
       <p class="prose">ในกล่องมีแต่การ์ด ไม่มีชิ้นส่วนอื่น การ์ดลงโทษก็คือการ์ดจากก้นกองจั่วที่คว่ำไว้ ไม่ได้มีการ์ดแยก ข้อความบนการ์ดฉบับไทยอ่านจากการ์ดของคุณได้เลย ตัวอย่างชื่อการ์ดในหน้านี้เอามาจากคู่มือฉบับอังกฤษ ฉบับไทยอาจแปลต่างไป</p>
       <div class="tbl-wrap">
@@ -493,7 +497,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
     </section>
 
     <!-- ROUND -->
-    <section id="round">
+    <section id="turn">
       <div class="sec-head"><span class="tag">ลำดับการเล่น · 3</span><h2>หนึ่งรอบ ตั้งแต่ต้นจนจบ</h2></div>
       <figure class="figure">
         <div class="scroll">
@@ -582,7 +586,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em;display:grid;gap:4px}
     </section>
 
     <!-- FAIL -->
-    <section id="fail">
+    <section id="end">
       <div class="sec-head"><span class="tag">ลำดับการเล่น · 5</span><h2>ทำพลาด ตกรอบ และชนะ</h2></div>
       <p class="prose">คู่มือนับว่า<b>พลาด</b>ถ้าเกิดข้อใดข้อหนึ่งนี้</p>
       <ul class="fails">

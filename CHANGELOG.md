@@ -3,11 +3,25 @@
 บันทึกการเพิ่มเกมและการแก้ไขชั้นคู่มือ เรียงใหม่ไปเก่า
 รูปแบบ: `เพิ่ม` = เกมใหม่ขึ้นชั้น · `แก้` = แก้เนื้อหาคู่มือ · `ชั้น` = แก้หน้าชั้น/โครงเว็บ
 
+## 2026-11-14 — ปรับเล่มเก่าให้ตรงมาตรฐานเล่มต้นแบบ
+
+สคริปต์ตรวจจาก WARN 71 เหลือ 0 (ERROR 0) ไม่ได้เพิ่มตัวเลขกติกาใหม่ ทุกอย่างดึงจากเนื้อหาที่มีอยู่แล้วในเล่ม
+
+- แก้: ทุกเล่มที่ใช้ `<p class="prose">` ข้อความที่มีตัวหนาเคยแตกเป็นหลายบรรทัด (รวมเล่มต้นแบบ) เพิ่ม `p.prose{display:block}` แล้ว
+- แก้: เพิ่มแถบสูตรแต้ม/เงื่อนไขชนะใน "สรุป 1 นาที" 14 เล่ม (Azul, Canvas, Coyote, Cryptid, Exploding Kittens, Forest Shuffle, Happy Little Dinosaurs, Monopoly, Sagrada, Splendor, Terraforming Mars, Ticket to Ride Europe, Tower Up, Twisted Cryptids)
+- แก้: eyebrow ลงท้าย "อิงคู่มือทางการ (สำนักพิมพ์)" 16 เล่ม · ประโยค "ให้ยึดคู่มือในกล่อง" ใน footer 17 เล่ม
+- แก้: `<title>` เป็นชื่ออังกฤษ: Exploding Kittens, The Resistance: Avalon, Tower Up
+- แก้: เพิ่มหัวข้อ "ในตาของคุณ" (Tower Up) และ "จบเกม และผู้ชนะ" (Exploding Kittens)
+- แก้: จัด id หัวข้อให้ตรงมาตรฐาน (turn / end / box / glossary) 12 เล่ม และสลับ FAQ ไว้ก่อนศัพท์ 4 เล่ม
+- แก้: เพิ่มชื่ออังกฤษตามคู่มือใน Exploding Kittens, Table Cooking, Tacta (อ้างอิง RulesPal ซึ่งเป็นแหล่งที่เล่มนั้นอ้างอยู่แล้ว)
+- แก้: เพิ่มภาพลำดับหนึ่งรอบเล่นใน Hues and Cues · ลิงก์แหล่งที่มาใน footer ของ Cascadia
+- ชั้น: สคริปต์ตรวจเพิ่มกฎ `p.prose` และ template แก้ตามแล้ว
+
 ## 2026-11-14 — เครื่องมือทำเล่มใหม่
 
 - ชั้น: เพิ่ม `templates/manual.html` template คู่มือเล่มใหม่ โครงเดียวกับเล่มต้นแบบ Carcassonne (มีสมุดคะแนนที่ใช้ได้ทันที)
 - ชั้น: เพิ่ม `templates/NEW_GAME_REQUEST.md` แบบฟอร์มสั่งทำเล่มใหม่
-- ชั้น: เพิ่ม `tools/check_manual.py` สคริปต์ตรวจคู่มือตามกฎใน README (เล่มเก่า: ERROR 0 · WARN 71)
+- ชั้น: เพิ่ม `tools/check_manual.py` สคริปต์ตรวจคู่มือตามกฎใน README (ตอนเพิ่ม เล่มเก่ามี WARN 71)
 - ชั้น: เพิ่ม skill `/new-manual` ใน `.claude/skills/` ขั้นตอนทำเล่มใหม่ครบวงจร
 
 ## 2026-11-14 — ย้ายขึ้น GitHub

@@ -175,6 +175,8 @@ def check_manual(path: Path):
             errs.append(f"CSS ของ .shelf-home ไม่ครบ ขาด {bit} (คัดลอก snippet จาก template)")
 
     # กฎ CSS
+    if '<p class="prose"' in text and "p.prose{display:block}" not in text:
+        errs.append('ใช้ <p class="prose"> แต่ไม่มี CSS p.prose{display:block} (ข้อความที่มีตัวหนาจะแตกบรรทัด)')
     if re.search(r"\.steps\s+li\b", text):
         errs.append('CSS ใช้ ".steps li" ต้องเป็น ".steps>li"')
     if "prefers-color-scheme: dark" not in text and "prefers-color-scheme:dark" not in text:

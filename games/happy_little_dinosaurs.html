@@ -1,4 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}.formula .fm{background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}.formula .fm small{font-family:var(--font-tag,inherit);font-size:.74rem;letter-spacing:.06em;color:var(--muted,#666)}.formula .fm b{font-family:var(--font-tag,inherit);font-weight:600;font-size:1.12rem;font-variant-numeric:tabular-nums}.formula .fm.end{background:var(--surface-2,rgba(0,0,0,.05))}.formula .fm.zero b{color:var(--bad,#bb3326)}
+</style></head><body>
 <title>Happy Little Dinosaurs ฉบับไทย</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,6 +88,7 @@ section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
 .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .sec-head .tag{font-family:var(--font-display);font-size:.78rem;color:var(--ember);letter-spacing:.06em}
 .prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
 .prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
 .en{font-family:var(--font-body);font-size:.86em;color:var(--muted);font-style:normal}
 .kbd{font-family:var(--font-display);background:var(--surface-2);border-radius:6px;padding:0 6px;font-size:.92em;white-space:nowrap}
@@ -207,7 +209,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 <header class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow">คู่มือภาษาไทย · กล่องหลัก + ภาค 5–6 Player Expansion</div>
+      <div class="eyebrow">คู่มือภาษาไทย · กล่องหลัก + ภาค 5–6 Player Expansion · อิงคู่มือทางการ (Unstable Games)</div>
       <h1>Happy Little Dinosaurs<span>วิธีเล่นแบบละเอียด สำหรับ 5–6 คน</span></h1>
       <p class="lede">ทุกคนเป็นไดโนเสาร์ตัวน้อยที่ชีวิตโดนภัยพิบัติถล่มไม่หยุด เล่นการ์ดแต้มหลบภัยให้รอด แล้ววิ่งบนเส้นทางหนีตายให้ถึง 50 แต้มก่อนเพื่อน หรือเป็นไดโนตัวสุดท้ายที่ยังรอด</p>
       <div class="facts">
@@ -250,15 +252,15 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li><a href="#board">บอร์ดผู้เล่น</a></li>
       <li><a href="#cards">ประเภทการ์ด</a></li>
       <li><a href="#setup">เตรียมเกม</a></li>
-      <li><a href="#round">ลำดับ 1 รอบ</a></li>
+      <li><a href="#turn">ลำดับ 1 รอบ</a></li>
       <li><a href="#scoring">คิดคะแนน</a></li>
       <li><a href="#five-six">กติกา 5–6 คน</a></li>
       <li><a href="#ties">เสมอ & ดวลตัดสิน</a></li>
-      <li><a href="#elim">ตกรอบ & ชนะ</a></li>
+      <li><a href="#end">ตกรอบ & ชนะ</a></li>
       <li><a href="#example">ตัวอย่าง 1 รอบ</a></li>
       <li><a href="#helper">ตัวช่วยกลางโต๊ะ</a></li>
-      <li><a href="#glossary">ศัพท์บนการ์ด</a></li>
       <li><a href="#faq">คำถามที่เจอบ่อย</a></li>
+      <li><a href="#glossary">ศัพท์บนการ์ด</a></li>
     </ol>
   </nav>
 
@@ -278,6 +280,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
         </ol>
       </div>
       <p class="prose">ชนะเมื่อถึง <b>50 แต้ม</b>ก่อน หรือเป็นคนสุดท้ายที่ยังไม่ตกรอบ และ<b>ตกรอบ</b>ทันทีเมื่อมีภัยพิบัติ <b>3 ใบประเภทเดียวกัน</b> หรือ <b>ครบ 3 ประเภท</b> (อุกกาบาตนับเป็นประเภทไหนก็ได้)</p>
+      <div class="formula" aria-label="เงื่อนไขสำคัญ"><div class="fm"><small>คะแนนสูงสุดของรอบ</small><b>เดินหน้าตามคะแนน</b></div><div class="fm zero"><small>คะแนนต่ำสุดของรอบ</small><b>เก็บการ์ดภัยพิบัติ</b></div><div class="fm"><small>จบรอบ</small><b>+1 ช่อง / ภัยพิบัติที่มี</b></div><div class="fm zero"><small>ภัยประเภทเดียวกัน 3 ใบ หรือครบ 3 ประเภท</small><b>ตกรอบ</b></div><div class="fm end"><small>ถึง 50 แต้มก่อน</small><b>ชนะ</b></div></div>
+      <p class="note">เกมนี้ไม่มีการนับแต้ม กล่องสีเข้มคือเงื่อนไขชนะ</p>
     </section>
 
     <!-- BOX -->
@@ -438,7 +442,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
     </section>
 
     <!-- ROUND -->
-    <section id="round">
+    <section id="turn">
       <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ลำดับการเล่น 1 รอบ</h2></div>
       <p class="prose">ทุกคนเล่นพร้อมกัน ไม่มีการเวียนตา หนึ่งรอบมี 8 จังหวะตามลำดับนี้</p>
       <ol class="steps">
@@ -556,7 +560,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
     </section>
 
     <!-- ELIM -->
-    <section id="elim">
+    <section id="end">
       <div class="sec-head"><span class="tag">แพ้ / ชนะ</span><h2>ตกรอบ และวิธีชนะ</h2></div>
       <figure class="figure">
         <div class="scroll">
@@ -614,6 +618,29 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       </div>
     </section>
 
+    <!-- FAQ / TIPS -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ถามบ่อย</span><h2>คำถามที่เจอบ่อย & เทคนิค</h2></div>
+      <div class="faq">
+        <details open><summary>ลง Instant ได้กี่ใบต่อรอบ</summary><p>ไม่จำกัด ลงได้เมื่อถึงจังหวะที่การ์ดเขียนไว้ และลงต่อกันได้ เช่น ลง Score Inversion สองใบ คะแนนจะกลับไปเหมือนเดิม</p></details>
+        <details><summary>มีแต่ Instant ในมือ ไม่มีการ์ดแต้มเลย</summary><p>ทิ้งทั้งมือ จั่วใหม่ 5 ใบ ทำซ้ำจนมีการ์ดแต้ม</p></details>
+        <details><summary>มีคนส่งภัยมาให้ (Disaster Redirect) หลบต่อได้ไหม</summary><p>ได้ ถ้ามี Instant แบบ “Play this card if you would add a Disaster card…” ลงหลบหรือส่งต่อได้ แต่ใช้ไม่ได้ตอนแพ้ดวลตัดสิน เพราะระหว่างดวลห้ามใช้ Instant</p></details>
+        <details><summary>ตกรอบแล้วทำอะไรต่อ</summary><p>ทิ้งการ์ดในมือทันที ไม่ต้องเล่นต่อ แต้มที่สะสมไว้ไม่มีผลอีก</p></details>
+        <details><summary>คะแนนติดลบได้ไหม แล้วเดินกี่ช่อง</summary><p>คะแนนรอบนั้นอาจติดลบได้จากนิสัยหรือการ์ดลบคะแนน คนติดลบมักจะเป็นคนต่ำสุดที่ต้องรับภัย คู่มือไม่ได้พูดถึงการเดินถอยหลัง ถ้าบังเอิญคนคะแนนติดลบเป็นผู้ชนะ (เช่น โดนกลับคะแนน) ตกลงกันว่าไม่เดิน</p></details>
+        <details><summary>ถึง 50 พร้อมกันหลายคน</summary><p>คู่มือไม่ได้ระบุ แนะนำให้ตกลงกันก่อนเริ่ม เช่น ให้ชนะร่วมกัน หรือให้คนที่เดินเกิน 50 มากกว่าเป็นผู้ชนะ</p></details>
+        <details><summary>ถ้าเหลือ 2 คนจะทำไง</summary><p>เล่นต่อกติกาเดิม (คนที่มีคะแนนสูงกว่าเดิน คนต่ำกว่ารับภัย) ส่วนกติกาพิเศษสำหรับ<b>เริ่มเกม</b>แบบ 2 คน คือเอาการ์ดแต้มเลข 1, 2, 3 ออก และตกรอบเมื่อมีภัยประเภทเดียวกัน 4 ใบ หรือครบ 3 ประเภทประเภทละ 2 ใบ</p></details>
+      </div>
+      <div class="callout green">
+        <h3>เทคนิคสำหรับวง 5–6 คน</h3>
+        <ul class="prose" style="margin:0;padding-left:1.2em">
+          <li>อันดับ 2 ก็ได้แต้ม การ์ดเลขกลาง ๆ (5–7) จึงคุ้มกว่าในวงใหญ่ ไม่ต้องทุ่มเลข 9 ทุกรอบ</li>
+          <li>ดูภัยรอบนี้เทียบกับนิสัยไดโนของตัวเองก่อนเลือกการ์ด รอบที่โดน −1 ให้ลงการ์ดสูงไว้ก่อน</li>
+          <li>เก็บ Disaster Insurance หรือ Redirect ไว้สักใบ ช่วยชีวิตได้ตอนมีภัย 2 ใบแล้ว</li>
+          <li>มองช่องภัยของเพื่อน คนที่มี 2 ใบต่างประเภทอยู่แล้วคือเป้าที่ดีที่สุดสำหรับ Redirect</li>
+          <li>รับภัยแล้วทิ้งการ์ดได้ 1 ใบ ใช้ทิ้งการ์ดเลขต่ำที่ค้างมือ</li>
+        </ul>
+      </div>
+    </section>
     <!-- GLOSSARY -->
     <section id="glossary">
       <div class="sec-head"><span class="tag">อ่านการ์ดภาษาอังกฤษ</span><h2>ศัพท์ที่เจอบนการ์ด</h2></div>
@@ -662,30 +689,6 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
         <div class="cl"><span class="k">POINT · ตอนคิดคะแนน</span><br><b>Special Star Fruit</b><br>Score Booster กลายเป็น +4 และ Score Sapper กลายเป็น −4 ในรอบนี้</div>
       </div>
     </section>
-
-    <!-- FAQ / TIPS -->
-    <section id="faq">
-      <div class="sec-head"><span class="tag">ถามบ่อย</span><h2>คำถามที่เจอบ่อย & เทคนิค</h2></div>
-      <div class="faq">
-        <details open><summary>ลง Instant ได้กี่ใบต่อรอบ</summary><p>ไม่จำกัด ลงได้เมื่อถึงจังหวะที่การ์ดเขียนไว้ และลงต่อกันได้ เช่น ลง Score Inversion สองใบ คะแนนจะกลับไปเหมือนเดิม</p></details>
-        <details><summary>มีแต่ Instant ในมือ ไม่มีการ์ดแต้มเลย</summary><p>ทิ้งทั้งมือ จั่วใหม่ 5 ใบ ทำซ้ำจนมีการ์ดแต้ม</p></details>
-        <details><summary>มีคนส่งภัยมาให้ (Disaster Redirect) หลบต่อได้ไหม</summary><p>ได้ ถ้ามี Instant แบบ “Play this card if you would add a Disaster card…” ลงหลบหรือส่งต่อได้ แต่ใช้ไม่ได้ตอนแพ้ดวลตัดสิน เพราะระหว่างดวลห้ามใช้ Instant</p></details>
-        <details><summary>ตกรอบแล้วทำอะไรต่อ</summary><p>ทิ้งการ์ดในมือทันที ไม่ต้องเล่นต่อ แต้มที่สะสมไว้ไม่มีผลอีก</p></details>
-        <details><summary>คะแนนติดลบได้ไหม แล้วเดินกี่ช่อง</summary><p>คะแนนรอบนั้นอาจติดลบได้จากนิสัยหรือการ์ดลบคะแนน คนติดลบมักจะเป็นคนต่ำสุดที่ต้องรับภัย คู่มือไม่ได้พูดถึงการเดินถอยหลัง ถ้าบังเอิญคนคะแนนติดลบเป็นผู้ชนะ (เช่น โดนกลับคะแนน) ตกลงกันว่าไม่เดิน</p></details>
-        <details><summary>ถึง 50 พร้อมกันหลายคน</summary><p>คู่มือไม่ได้ระบุ แนะนำให้ตกลงกันก่อนเริ่ม เช่น ให้ชนะร่วมกัน หรือให้คนที่เดินเกิน 50 มากกว่าเป็นผู้ชนะ</p></details>
-        <details><summary>ถ้าเหลือ 2 คนจะทำไง</summary><p>เล่นต่อกติกาเดิม (คนที่มีคะแนนสูงกว่าเดิน คนต่ำกว่ารับภัย) ส่วนกติกาพิเศษสำหรับ<b>เริ่มเกม</b>แบบ 2 คน คือเอาการ์ดแต้มเลข 1, 2, 3 ออก และตกรอบเมื่อมีภัยประเภทเดียวกัน 4 ใบ หรือครบ 3 ประเภทประเภทละ 2 ใบ</p></details>
-      </div>
-      <div class="callout green">
-        <h3>เทคนิคสำหรับวง 5–6 คน</h3>
-        <ul class="prose" style="margin:0;padding-left:1.2em">
-          <li>อันดับ 2 ก็ได้แต้ม การ์ดเลขกลาง ๆ (5–7) จึงคุ้มกว่าในวงใหญ่ ไม่ต้องทุ่มเลข 9 ทุกรอบ</li>
-          <li>ดูภัยรอบนี้เทียบกับนิสัยไดโนของตัวเองก่อนเลือกการ์ด รอบที่โดน −1 ให้ลงการ์ดสูงไว้ก่อน</li>
-          <li>เก็บ Disaster Insurance หรือ Redirect ไว้สักใบ ช่วยชีวิตได้ตอนมีภัย 2 ใบแล้ว</li>
-          <li>มองช่องภัยของเพื่อน คนที่มี 2 ใบต่างประเภทอยู่แล้วคือเป้าที่ดีที่สุดสำหรับ Redirect</li>
-          <li>รับภัยแล้วทิ้งการ์ดได้ 1 ใบ ใช้ทิ้งการ์ดเลขต่ำที่ค้างมือ</li>
-        </ul>
-      </div>
-    </section>
   </main>
 </div>
 
@@ -697,7 +700,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li><a href="https://www.unstablegameswiki.com/images/b/b4/Happy_Little_Dinosaurs-5-6_Player_Expansion-Rules.pdf" target="_blank" rel="noopener">คู่มือภาค 5–6 คน (PDF ภาษาอังกฤษ, Unstable Games Wiki)</a></li>
       <li><a href="https://www.geekyhobbies.com/how-to-play-happy-little-dinosaurs-card-game-rules-and-instructions/" target="_blank" rel="noopener">Geeky Hobbies: รายชื่อการ์ดตัวอย่าง</a></li>
     </ul>
-  </div>
+    <p>ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+</div>
 </footer>
 
 <script>

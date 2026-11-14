@@ -80,6 +80,7 @@ section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
 .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
 .prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
 .prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
 .en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
 
@@ -237,7 +238,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 <header class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow">คู่มือภาษาไทย · The Op Games · ออกแบบโดย Jason Tremblay</div>
+      <div class="eyebrow">คู่มือภาษาไทย · The Op Games · ออกแบบโดย Jason Tremblay · อิงคู่มือทางการ (The Op Games)</div>
       <h1>TACTA<span>Connect, Cover, Conquer · ต่อการ์ด ทับจุดคู่แข่ง กันจุดตัวเอง</span></h1>
       <p class="lede">ทุกคนถือการ์ดสีของตัวเองคนละกอง ผลัดกันวางการ์ดให้ <b>รูปทรงที่ขอบการ์ด</b> ทับรูปทรงเดียวกันบนการ์ดที่อยู่บนโต๊ะแล้ว<b>พอดีเป๊ะ</b> ทุกใบที่วางมีโอกาสปิดจุดของคนอื่น เมื่อทุกคนลงการ์ดหมดมือ ใครเหลือจุดสีตัวเองให้เห็นมากที่สุดชนะ</p>
       <div class="facts">
@@ -268,7 +269,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
     <p>สารบัญ</p>
     <ol>
       <li><a href="#summary">สรุป 1 นาที</a></li>
-      <li><a href="#cards">ในกล่องและหน้าตาการ์ด</a></li>
+      <li><a href="#box">ในกล่องและหน้าตาการ์ด</a></li>
       <li><a href="#setup">เตรียมเกม</a></li>
       <li class="sep">เล่น</li>
       <li><a href="#turn">ในตาของคุณ</a></li>
@@ -308,8 +309,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
     </section>
 
     <!-- CARDS -->
-    <section id="cards">
-      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องและหน้าตาการ์ด</h2></div>
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องและหน้าตาการ์ด <span class="en">Contents · About the Cards</span></h2></div>
       <div class="tbl-wrap">
         <table>
           <thead><tr><th>ของ</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
@@ -346,7 +347,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- SETUP -->
     <section id="setup">
-      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม <span class="en">Setup</span></h2></div>
       <ol class="steps">
         <li><div class="body"><h3>เลือกโต๊ะที่กว้างและเรียบ</h3><p><b>ขอบโต๊ะคือเส้นเขตของพื้นที่เล่น การ์ดห้ามเลยออกไป</b> ถ้าโต๊ะเล็กให้ใช้แบบ <a href="#variants">Limited Space</a> · ถ้าโต๊ะมีขอบมน ปูผ้า หรือเล่นบนพื้น ให้ตกลงเส้นเขตกันให้ชัดตอนนี้ (ดู<a href="#edge">บทขอบโต๊ะ</a>)</p></div></li>
         <li><div class="body"><h3>วางการ์ดเริ่มต้นไว้กลางโต๊ะ</h3><p>การ์ดสีขาว เป็นจุดตั้งต้นที่ใบแรกต้องมาต่อ</p></div></li>
@@ -357,15 +358,15 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- TURN -->
     <section id="turn">
-      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ <span class="en">How to Play</span></h2></div>
       <div class="callout warn">
         <h3>ใครเริ่มก่อน</h3>
         <p>ทุกคนดูใบนอกสุดของตัวเอง (ใบบนและใบล่าง) คนที่มี<b>ค่าต่ำที่สุด</b>ในใบใดใบหนึ่งเริ่มก่อน · ถ้าเสมอ ดู<b>ผลรวมค่าใบนอกสุด 2 ใบ</b> ใครน้อยกว่าเริ่ม · ใช้<a href="#tool-first">ตัวหาคนเริ่มก่อน</a>คิดให้ได้</p>
       </div>
       <ol class="steps">
-        <li><div class="body"><h3>เลือกใบนอกสุด 1 ใบ</h3><p>ใบบนหรือใบล่างของกองในมือก็ได้</p></div></li>
-        <li><div class="body"><h3>พลิก หมุน แล้ววาง</h3><p>คนแรกต้องต่อกับ<b>การ์ดเริ่มต้น</b> โดยเอารูปทรงบนการ์ดของคุณไปทับรูปทรงแบบเดียวกันบนการ์ดเริ่มต้น เมื่อวางตรง<b>เส้นขอบของการ์ดใบล่างจะดูต่อเนื่องเป็นเส้นเดียว</b></p></div></li>
-        <li><div class="body"><h3>เล่นต่อตามเข็มนาฬิกา</h3><p>จากนี้ทุกคนต่อหรือทับรูปทรงที่ตรงกันบน<b>การ์ดใบไหนก็ได้</b>บนโต๊ะ ไม่ว่าสีอะไร ตามข้อ<a href="#dos">ทำได้ · ห้ามทำ</a></p></div></li>
+        <li><div class="body"><h3>เลือกใบนอกสุด 1 ใบ <span class="en">Choose an outermost card</span></h3><p>ใบบนหรือใบล่างของกองในมือก็ได้</p></div></li>
+        <li><div class="body"><h3>พลิก หมุน แล้ววาง <span class="en">Flip or turn the card</span></h3><p>คนแรกต้องต่อกับ<b>การ์ดเริ่มต้น</b> โดยเอารูปทรงบนการ์ดของคุณไปทับรูปทรงแบบเดียวกันบนการ์ดเริ่มต้น เมื่อวางตรง<b>เส้นขอบของการ์ดใบล่างจะดูต่อเนื่องเป็นเส้นเดียว</b></p></div></li>
+        <li><div class="body"><h3>เล่นต่อตามเข็มนาฬิกา <span class="en">Play continues clockwise</span></h3><p>จากนี้ทุกคนต่อหรือทับรูปทรงที่ตรงกันบน<b>การ์ดใบไหนก็ได้</b>บนโต๊ะ ไม่ว่าสีอะไร ตามข้อ<a href="#dos">ทำได้ · ห้ามทำ</a></p></div></li>
       </ol>
       <p class="note">หนึ่งตาวาง 1 ใบ ไม่มีแอ็กชันอื่น ทุกคนจึงลงการ์ดจำนวนเท่ากันจนหมดมือพร้อมกัน</p>
     </section>
@@ -450,7 +451,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <div class="sec-head"><span class="tag">ตามคู่มือหน้า 4–5</span><h2>ทำได้ · ห้ามทำ</h2></div>
       <div class="dd">
         <div class="do">
-          <h3>✓ ทำได้</h3>
+          <h3>✓ ทำได้ <span class="en">DOs</span></h3>
           <ul>
             <li>พลิกหน้าหรือหมุนการ์ดเป็นมุมไหนก็ได้</li>
             <li>ต่อหรือทับ<b>รูปทรงที่ตรงกัน</b> บนการ์ดสีไหนก็ได้</li>
@@ -462,7 +463,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
           </ul>
         </div>
         <div class="dont">
-          <h3>✗ ห้ามทำ</h3>
+          <h3>✗ ห้ามทำ <span class="en">DON'Ts</span></h3>
           <ul>
             <li>ต่อหรือทับรูปทรงที่ไม่ตรงกันพอดี</li>
             <li>ต่อรูปทรงที่ไม่ใช่ชนิดเดียวกัน</li>
@@ -567,7 +568,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- END -->
     <section id="end">
-      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและนับคะแนน</h2></div>
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกมและนับคะแนน <span class="en">End of Game · Scoring</span></h2></div>
       <p class="prose">เมื่อทุกคนลงการ์ดหมดกองแล้ว เกมจบ เริ่มนับคะแนน</p>
       <ol class="steps">
         <li><div class="body"><h3>นับจุดสีของตัวเอง</h3><p>นับเฉพาะจุดสีตัวเองที่<b>ยังมองเห็น</b> จุดละ 1 แต้ม จุดที่ถูกการ์ดใบอื่นทับไม่นับ</p></div></li>
@@ -598,7 +599,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 
     <!-- VARIANTS -->
     <section id="variants">
-      <div class="sec-head"><span class="tag">ในกล่องมีให้</span><h2>แบบเล่นอื่น</h2></div>
+      <div class="sec-head"><span class="tag">ในกล่องมีให้</span><h2>แบบเล่นอื่น <span class="en">Other Ways to Play</span></h2></div>
       <div class="types">
         <div class="type">
           <h3>Limited Space <span class="k">พื้นที่น้อย</span></h3>
@@ -737,7 +738,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li><a href="https://en.boardgamearena.com/gamepanel?game=tacta" target="_blank" rel="noopener">Board Game Arena: Tacta</a></li>
     </ul>
     <p style="margin-top:8px">ภาพการ์ดในเล่มเป็นภาพจำลองเพื่ออธิบายการวาง ไม่ใช่ลายการ์ดจริง ถ้าของในกล่องต่างจากเล่มนี้ ให้ยึดของในกล่อง · ข้อที่เขียนว่า "ข้อแนะนำ" หรือ "เล่มนี้ถือว่า" ไม่ใช่กติกาทางการ</p>
-  </div>
+    <p>ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+</div>
 </footer>
 
 <script>

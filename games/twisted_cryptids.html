@@ -1,4 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}.formula .fm{background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}.formula .fm small{font-family:var(--font-tag,inherit);font-size:.74rem;letter-spacing:.06em;color:var(--muted,#666)}.formula .fm b{font-family:var(--font-tag,inherit);font-weight:600;font-size:1.12rem;font-variant-numeric:tabular-nums}.formula .fm.end{background:var(--surface-2,rgba(0,0,0,.05))}.formula .fm.zero b{color:var(--bad,#bb3326)}
+</style></head><body>
 <title>Twisted Cryptids ฉบับไทย</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,6 +93,7 @@ section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
 .sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
 .prose{max-width:46em;display:grid;gap:12px}
+p.prose{display:block} /* <p> ที่มีตัวหนาข้างใน ห้ามเป็น grid ไม่งั้นข้อความแตกบรรทัด */
 .prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
 .en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
 .t{font-family:var(--font-tag);font-weight:600;font-size:.92em;letter-spacing:.01em}
@@ -263,7 +265,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
 <header class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow">คู่มือภาษาไทย · กล่องหลัก + ภาคเสริม NESS IS MORE</div>
+      <div class="eyebrow">คู่มือภาษาไทย · กล่องหลัก + ภาคเสริม NESS IS MORE · อิงคู่มือทางการ (Unstable Games)</div>
       <h1>Twisted Cryptids<span>วิธีเล่นแบบละเอียด สำหรับ 5–6 คน</span></h1>
       <p class="lede">ทุกคนเป็นสัตว์ลึกลับ (Cryptid) ที่อยากดังแต่ไม่อยากโดนจับได้ ล่อมนุษย์ไปที่ที่ซ่อนของตัวเอง เปิดเผยหุ่นล่อ เรื่องหลอก เงาลาง ๆ หรือตัวจริงให้ถูกคน แล้วสะสม Myth ให้มากที่สุดใน 5 รอบ เพื่อเป็น True Legend</p>
       <div class="facts">
@@ -310,14 +312,14 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li><a href="#wilderness">ป่า & มนุษย์</a></li>
       <li><a href="#functions">วิธีย้ายมนุษย์</a></li>
       <li><a href="#setup">เตรียมเกม</a></li>
-      <li><a href="#round">ลำดับ 1 รอบ</a></li>
+      <li><a href="#turn">ลำดับ 1 รอบ</a></li>
       <li><a href="#encounter">Encounter & Myth</a></li>
       <li><a href="#five-six">กติกา 5–6 คน</a></li>
-      <li><a href="#endgame">จบเกม & คิดคะแนน</a></li>
+      <li><a href="#end">จบเกม & คิดคะแนน</a></li>
       <li><a href="#example">ตัวอย่าง 1 รอบ</a></li>
       <li><a href="#helper">ตัวช่วยกลางโต๊ะ</a></li>
-      <li><a href="#glossary">ศัพท์ทั้งหมด</a></li>
       <li><a href="#faq">คำถามที่เจอบ่อย</a></li>
+      <li><a href="#glossary">ศัพท์ทั้งหมด</a></li>
     </ol>
   </nav>
 
@@ -336,6 +338,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       </div>
       <p class="prose">จบ 5 รอบ เปิดการ์ดที่เหลือทั้งหมด ได้ <b>+7 Myth ต่อ Real Deal ที่ไม่เคยถูกเปิด</b> บวกโบนัสจาก <b>Hidden Trait</b> ใครมี Myth มากสุดคือ <b>True Legend</b> (ผู้ชนะ)</p>
       <p class="prose"><b>สิ่งเดียวที่เปลี่ยนเมื่อเล่น 5–6 คน:</b> ใน Site เดียวกันมีผู้เล่นวางที่ซ่อนได้ <b>ไม่เกิน 4 คน</b> (เล่น 4 คนคือไม่เกิน 3 คน) ส่วนกติกาอื่นเหมือนเดิมทั้งหมด</p>
+      <div class="formula" aria-label="สูตรแต้ม"><div class="fm"><small>Encounter ตอนโพล้เพล้</small><b>ได้หรือเสีย Myth ตามมนุษย์</b></div><div class="fm end"><small>Real Deal ที่ไม่เคยถูกเปิด</small><b>+7 Myth / ใบ</b></div><div class="fm end"><small>Hidden Trait</small><b>ตามระดับบนการ์ด</b></div><div class="fm end"><small>เสมอกัน</small><b>นับมนุษย์ใน Site ที่ซ่อนอยู่</b></div></div>
+      <p class="note">กล่องสีเข้มคือสิ่งที่นับ<b>ตอนจบเกม</b></p>
     </section>
 
     <!-- BOX -->
@@ -587,7 +591,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
     </section>
 
     <!-- ROUND -->
-    <section id="round">
+    <section id="turn">
       <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ลำดับการเล่น 1 รอบ</h2></div>
       <p class="prose">เล่นทั้งหมด <b>5 รอบ</b> แต่ละรอบมี 4 ช่วงตามลำดับ ลำดับผู้เล่นเริ่มจาก First Player แล้ววน<b>ตามเข็มนาฬิกา</b>เสมอ</p>
       <div class="phases" aria-hidden="true">
@@ -737,7 +741,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
     </section>
 
     <!-- END GAME -->
-    <section id="endgame">
+    <section id="end">
       <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และคิดคะแนน</h2></div>
       <p class="prose">เมื่อครบ 5 รอบ ทุกคนเปิด Sighting ที่ยังเหลือในกอง และเปิด Hidden Trait แล้วบวก Myth ดังนี้</p>
       <figure class="figure">
@@ -836,6 +840,32 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       </div>
     </section>
 
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">ถามบ่อย</span><h2>คำถามที่เจอบ่อย & เทคนิค</h2></div>
+      <div class="faq">
+        <details open><summary>Site ที่มีมนุษย์เยอะที่สุดไม่มีใครซ่อนอยู่ จะเกิด Encounter ไหม</summary><p>ไม่เกิดที่นั่น Encounter ต้องเกิดที่ Site ที่มีที่ซ่อนอย่างน้อย 1 อัน ให้ดู Site ที่มีมนุษย์มากที่สุด<b>ในบรรดา Site ที่มีที่ซ่อน</b></p></details>
+        <details><summary>วางที่ซ่อน 2 อันของตัวเองใน Site เดียวกันได้ไหม</summary><p>ไม่ได้ ทั้งตอนเริ่มเกมและตอนย้ายกลางคืน ดังนั้นแต่ละ Encounter เราเปิด Sighting ได้มากสุด 1 ใบ</p></details>
+        <details><summary>ใช้ Cryptid Power ไปแล้ว ยังเล่นการ์ด Action ได้ไหม</summary><p>ได้ ตาอื่นของรอบนั้นยังเล่นการ์ดได้ตามปกติ แค่ใช้พลังซ้ำในรอบเดียวกันไม่ได้</p></details>
+        <details><summary>ดูการ์ด Sighting ในกองของตัวเองได้ไหม สลับลำดับได้ไหม</summary><p>ดูได้ตลอด และดู Hidden Trait ของตัวเองได้ตลอดเช่นกัน แต่คู่มือไม่ได้ให้สลับลำดับหลังจัดกองแล้ว ลำดับที่จัดตอนเริ่มเกมใช้ไปจนจบ</p></details>
+        <details><summary>เปิด Sighting แล้ว Myth ไม่พอหัก</summary><p>Myth ลดลงต่ำสุดแค่ 0 ไม่ติดลบ</p></details>
+        <details><summary>กองหมดแล้ว ที่ซ่อนเลขนั้นทำไง</summary><p>เก็บโทเคนที่ซ่อนเลขนั้นลงกล่อง ใช้ไม่ได้อีก จากนั้นเราจะมีที่ซ่อนในป่าน้อยลง</p></details>
+        <details><summary>ถ้าเล่น 6 คนแล้วทุก Site เต็ม 4 คน จะย้ายที่ซ่อนไปไหน</summary><p>มีที่ซ่อน 18 อันกับ 6 Site เพดาน 4 คนต่อ Site จึงรับได้ 24 ช่อง เกินพอ แต่บางครั้ง Site ที่อยากไปอาจเต็มหรือมีที่ซ่อนของเราอยู่แล้ว ก็ต้องเลือก Site อื่นที่ยังวางได้</p></details>
+        <details><summary>รอบที่ 5 ช่วงกลางคืนยังต้องย้ายที่ซ่อนไหม</summary><p>ยังทำตามขั้นตอนปกติ ยกเว้นไม่จั่วการ์ด (ทิ้งที่เหลือทั้งหมด) ตำแหน่งที่ซ่อนสุดท้ายมีผลตอนตัดสินเสมอ เพราะนับมนุษย์ใน Site ที่เรามีที่ซ่อน</p></details>
+        <details><summary>Lure 2 Hunters แต่ Site ข้าง ๆ มีแค่ 1</summary><p>เล่นได้ และ Lure แค่ 1 คน (ทำเท่าที่ทำได้) แต่ถ้ามีครบ 2 คนต้อง Lure ทั้งสอง</p></details>
+      </div>
+      <div class="callout moth">
+        <h3>เทคนิคสำหรับวง 5–6 คน</h3>
+        <ul class="prose" style="margin:0;padding-left:1.2em">
+          <li>จำว่าที่ซ่อนเลขไหนมี Sighting อะไรอยู่บนสุด แล้วพามนุษย์ชนิดที่เข้าทางไปที่ Site นั้น</li>
+          <li>ถ้า Sighting บนสุดเสียเปรียบ ให้ไล่มนุษย์ออก (Scare, Extract) หรือทำให้ Site อื่นคนเยอะกว่า Encounter จะได้ไปเกิดที่อื่น</li>
+          <li>ดูว่าใครเปิดก่อนเราใน Encounter เดียวกัน เอฟเฟกต์ของเขาอาจย้ายมนุษย์ก่อนถึงตาเรา</li>
+          <li>Real Deal ที่ฝังไว้ล่างสุดคือ +7 ที่ค่อนข้างแน่นอน เพราะโดน Encounter ที่ซ่อนเดียวกันครบ 3 ครั้งใน 5 รอบได้ยาก</li>
+          <li>เก็บการ์ด Strong Lure / Big Scare ไว้ใช้ตาท้าย ๆ ของกลางวัน ตอนที่คนอื่นแก้เกมไม่ทันแล้ว</li>
+          <li>ทำ Hidden Trait ให้ถึงระดับสูงสุดได้โบนัสเยอะ ตัดสินใจเรื่องจะเปิดหรือไม่เปิด Sighting โดยดู Hidden Trait ของตัวเองไปด้วย</li>
+        </ul>
+      </div>
+    </section>
     <!-- GLOSSARY -->
     <section id="glossary">
       <div class="sec-head"><span class="tag">อ่านคู่มือและการ์ดภาษาอังกฤษ</span><h2>ศัพท์ทั้งหมดของเกม</h2></div>
@@ -916,33 +946,6 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
         </table>
       </div>
     </section>
-
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="sec-head"><span class="tag">ถามบ่อย</span><h2>คำถามที่เจอบ่อย & เทคนิค</h2></div>
-      <div class="faq">
-        <details open><summary>Site ที่มีมนุษย์เยอะที่สุดไม่มีใครซ่อนอยู่ จะเกิด Encounter ไหม</summary><p>ไม่เกิดที่นั่น Encounter ต้องเกิดที่ Site ที่มีที่ซ่อนอย่างน้อย 1 อัน ให้ดู Site ที่มีมนุษย์มากที่สุด<b>ในบรรดา Site ที่มีที่ซ่อน</b></p></details>
-        <details><summary>วางที่ซ่อน 2 อันของตัวเองใน Site เดียวกันได้ไหม</summary><p>ไม่ได้ ทั้งตอนเริ่มเกมและตอนย้ายกลางคืน ดังนั้นแต่ละ Encounter เราเปิด Sighting ได้มากสุด 1 ใบ</p></details>
-        <details><summary>ใช้ Cryptid Power ไปแล้ว ยังเล่นการ์ด Action ได้ไหม</summary><p>ได้ ตาอื่นของรอบนั้นยังเล่นการ์ดได้ตามปกติ แค่ใช้พลังซ้ำในรอบเดียวกันไม่ได้</p></details>
-        <details><summary>ดูการ์ด Sighting ในกองของตัวเองได้ไหม สลับลำดับได้ไหม</summary><p>ดูได้ตลอด และดู Hidden Trait ของตัวเองได้ตลอดเช่นกัน แต่คู่มือไม่ได้ให้สลับลำดับหลังจัดกองแล้ว ลำดับที่จัดตอนเริ่มเกมใช้ไปจนจบ</p></details>
-        <details><summary>เปิด Sighting แล้ว Myth ไม่พอหัก</summary><p>Myth ลดลงต่ำสุดแค่ 0 ไม่ติดลบ</p></details>
-        <details><summary>กองหมดแล้ว ที่ซ่อนเลขนั้นทำไง</summary><p>เก็บโทเคนที่ซ่อนเลขนั้นลงกล่อง ใช้ไม่ได้อีก จากนั้นเราจะมีที่ซ่อนในป่าน้อยลง</p></details>
-        <details><summary>ถ้าเล่น 6 คนแล้วทุก Site เต็ม 4 คน จะย้ายที่ซ่อนไปไหน</summary><p>มีที่ซ่อน 18 อันกับ 6 Site เพดาน 4 คนต่อ Site จึงรับได้ 24 ช่อง เกินพอ แต่บางครั้ง Site ที่อยากไปอาจเต็มหรือมีที่ซ่อนของเราอยู่แล้ว ก็ต้องเลือก Site อื่นที่ยังวางได้</p></details>
-        <details><summary>รอบที่ 5 ช่วงกลางคืนยังต้องย้ายที่ซ่อนไหม</summary><p>ยังทำตามขั้นตอนปกติ ยกเว้นไม่จั่วการ์ด (ทิ้งที่เหลือทั้งหมด) ตำแหน่งที่ซ่อนสุดท้ายมีผลตอนตัดสินเสมอ เพราะนับมนุษย์ใน Site ที่เรามีที่ซ่อน</p></details>
-        <details><summary>Lure 2 Hunters แต่ Site ข้าง ๆ มีแค่ 1</summary><p>เล่นได้ และ Lure แค่ 1 คน (ทำเท่าที่ทำได้) แต่ถ้ามีครบ 2 คนต้อง Lure ทั้งสอง</p></details>
-      </div>
-      <div class="callout moth">
-        <h3>เทคนิคสำหรับวง 5–6 คน</h3>
-        <ul class="prose" style="margin:0;padding-left:1.2em">
-          <li>จำว่าที่ซ่อนเลขไหนมี Sighting อะไรอยู่บนสุด แล้วพามนุษย์ชนิดที่เข้าทางไปที่ Site นั้น</li>
-          <li>ถ้า Sighting บนสุดเสียเปรียบ ให้ไล่มนุษย์ออก (Scare, Extract) หรือทำให้ Site อื่นคนเยอะกว่า Encounter จะได้ไปเกิดที่อื่น</li>
-          <li>ดูว่าใครเปิดก่อนเราใน Encounter เดียวกัน เอฟเฟกต์ของเขาอาจย้ายมนุษย์ก่อนถึงตาเรา</li>
-          <li>Real Deal ที่ฝังไว้ล่างสุดคือ +7 ที่ค่อนข้างแน่นอน เพราะโดน Encounter ที่ซ่อนเดียวกันครบ 3 ครั้งใน 5 รอบได้ยาก</li>
-          <li>เก็บการ์ด Strong Lure / Big Scare ไว้ใช้ตาท้าย ๆ ของกลางวัน ตอนที่คนอื่นแก้เกมไม่ทันแล้ว</li>
-          <li>ทำ Hidden Trait ให้ถึงระดับสูงสุดได้โบนัสเยอะ ตัดสินใจเรื่องจะเปิดหรือไม่เปิด Sighting โดยดู Hidden Trait ของตัวเองไปด้วย</li>
-        </ul>
-      </div>
-    </section>
   </main>
 </div>
 
@@ -956,7 +959,8 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li><a href="https://www.geekyhobbies.com/twisted-cryptids-rules/" target="_blank" rel="noopener">Geeky Hobbies: ชื่อ Site, พลัง Cryptid และตัวอย่าง Hidden Trait</a></li>
       <li>FAQ และวิดีโอสอนเล่นทางการ: unstablegames.com/twistedcryptids</li>
     </ul>
-  </div>
+    <p>ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+</div>
 </footer>
 
 <script>
