@@ -178,6 +178,8 @@ def check_manual(path: Path):
     # ไอคอนเว็บ
     if 'rel="apple-touch-icon" href="../icons/apple-touch-icon.png"' not in text:
         errs.append("ไม่มีชุดลิงก์ไอคอน <!-- web-icons (คัดลอกจาก template)")
+    elif text.find("<!-- web-icons") > text.find("</head>"):
+        errs.append("ชุดลิงก์ไอคอน <!-- web-icons ต้องอยู่ก่อน </head> (ถ้าอยู่ใน body มือถือจะไม่เห็นไอคอน)")
 
     # ปุ่ม to-top (กลับบนสุด)
     top = [a for h, a in p.hrefs if "to-top" in (a.get("class") or "").split()]
