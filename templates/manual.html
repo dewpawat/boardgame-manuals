@@ -1,0 +1,468 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<!-- TODO (ลบคอมเมนต์นี้เมื่อทำเสร็จ)
+  TEMPLATE คู่มือบอร์ดเกมเล่มใหม่ (โครงเดียวกับเล่มต้นแบบ games/carcassonne_big_box.html)
+  วิธีใช้: คัดลอกเป็น games/ชื่อเกม_snake_case.html แล้วแทนที่ทุกช่องที่อยู่ในวงเล็บปีกกาคู่ให้หมด
+  - ห้ามเหลือวงเล็บปีกกาคู่ในไฟล์ (สคริปต์ตรวจจะแจ้ง error)
+  - ห้ามแก้ปุ่ม .shelf-home และ CSS ของมัน
+  - หัวข้อที่ต้องมีตามลำดับ: summary, box, setup, turn, (กติกาแยกเรื่อง), end, (ภาคเสริม), tools, faq, glossary, footer
+  - ทำตามคอมเมนต์ที่ขึ้นต้นด้วย TODO ทุกอัน แล้วลบทิ้งก่อนเผยแพร่
+  ตรวจด้วย: python tools/check_manual.py games/ชื่อไฟล์.html
+-->
+<title>{{ชื่อเกมภาษาอังกฤษตามกล่อง}} ฉบับไทย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Sarabun:wght@400;500;600;700&family=Chakra+Petch:wght@500;600&display=swap">
+<style>
+/* Layout: hero band (สีประจำเกม) + คอลัมน์อ่านพร้อมสารบัญด้านข้างแบบ sticky · เปลี่ยนเฉพาะค่าสีใน :root ให้เข้ากับกล่องเกม */
+:root{
+  --bg:#f3eee3;
+  --surface:#fffdf8;
+  --surface-2:#e9e1cf;
+  --fg:#2a2118;
+  --muted:#6c604f;
+  --line:#d9cdb3;
+  --accent:#a13f1e;          /* {{สีหลักของเกม}} */
+  --accent-strong:#c4522a;
+  --accent-soft:#f5dfd0;
+  --blue:#2a5797;
+  --blue-soft:#dde6f4;
+  --green:#4a7526;
+  --green-soft:#e1ebcf;
+  --band-1:#18213a;          /* hero ไล่สีจาก band-1 → band-2 */
+  --band-2:#2b3c66;
+  --band-fg:#f6f0e2;
+  --gold:#e8b84a;            /* ตัวเลขเด่นใน hero / เลขขั้นตอน */
+  --good:#2f7d3d;
+  --bad:#bb3326;
+  --x-a:#2c6b98; --x-b:#8b3a55;   /* สีประจำภาคเสริม เพิ่ม --x-c ... ตามจำนวนภาค */
+  --font-display:"Mali","Leelawadee UI","Tahoma",sans-serif;
+  --font-body:"Sarabun","Leelawadee UI","Tahoma",sans-serif;
+  --font-tag:"Chakra Petch","Sarabun","Tahoma",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14110c;--surface:#1e1913;--surface-2:#2a2419;--fg:#efe7d6;--muted:#b2a58d;--line:#3a3226;
+    --accent:#f0915f;--accent-strong:#f0915f;--accent-soft:#3a2216;--blue:#93b6ec;--blue-soft:#1a2539;
+    --green:#9cc56b;--green-soft:#1f2a14;--band-1:#0c1120;--band-2:#18223c;--band-fg:#f6f0e2;--gold:#ebc15c;
+    --good:#6fd086;--bad:#ff6f61;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14110c;--surface:#1e1913;--surface-2:#2a2419;--fg:#efe7d6;--muted:#b2a58d;--line:#3a3226;
+  --accent:#f0915f;--accent-strong:#f0915f;--accent-soft:#3a2216;--blue:#93b6ec;--blue-soft:#1a2539;
+  --green:#9cc56b;--green-soft:#1f2a14;--band-1:#0c1120;--band-2:#18223c;--band-fg:#f6f0e2;--gold:#ebc15c;
+  --good:#6fd086;--bad:#ff6f61;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.75}
+a{color:var(--accent)}
+img{max-width:100%}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:1.8rem}
+h3{font-size:1.2rem}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:linear-gradient(175deg,var(--band-1) 0%,var(--band-2) 100%);color:var(--band-fg);overflow:hidden}
+.hero .wrap{padding-block:40px 36px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:center}
+.eyebrow{font-family:var(--font-tag);font-size:.82rem;letter-spacing:.08em;opacity:.85}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);margin-top:6px}
+.hero h1 span{display:block;font-size:.46em;color:var(--gold);margin-top:4px;font-weight:500}
+.hero .lede{margin-top:14px;font-size:1.06rem;max-width:34em;opacity:.95}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 14px;min-width:0}
+.fact b{display:block;font-family:var(--font-tag);font-size:1.3rem;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.fact small{font-size:.84rem;opacity:.85}
+.hero-art svg{width:100%;height:auto;display:block}
+.exp-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.xb{font-family:var(--font-tag);font-size:.76rem;font-weight:600;border-radius:999px;padding:2px 10px;color:#fff;text-decoration:none}
+
+/* layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;padding-block:36px 64px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-size:.92rem;max-height:calc(100vh - 32px);overflow:auto}
+.toc p{font-family:var(--font-tag);color:var(--muted);font-size:.78rem;letter-spacing:.08em;margin-bottom:8px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.toc a{display:flex;gap:8px;align-items:center;padding:3px 10px;border-radius:8px;color:var(--fg);text-decoration:none}
+.toc a:hover,.toc a:focus-visible{background:var(--surface-2)}
+.toc a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c,var(--muted))}
+.toc .sep{font-family:var(--font-tag);font-size:.72rem;color:var(--muted);letter-spacing:.08em;padding:10px 10px 2px}
+main{min-width:0;display:grid;gap:60px}
+section{display:grid;gap:16px;min-width:0;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-head .tag{font-family:var(--font-tag);font-size:.78rem;color:var(--accent);letter-spacing:.08em}
+.prose{max-width:46em;display:grid;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.en{font-family:var(--font-body);font-size:.85em;color:var(--muted);font-style:normal}
+
+.callout{background:var(--accent-soft);border-radius:14px;padding:16px 18px;max-width:48em}
+.callout.blue{background:var(--blue-soft)}
+.callout.green{background:var(--green-soft)}
+.callout h3{font-size:1.12rem;margin-bottom:6px}
+.callout ul,.callout ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+.note{font-size:.9rem;color:var(--muted);max-width:48em}
+.unverified{display:inline-block;font-family:var(--font-tag);font-size:.74rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--bad);color:#fff;vertical-align:2px}
+.house{display:inline-block;font-family:var(--font-tag);font-size:.74rem;font-weight:600;border-radius:999px;padding:0 8px;background:var(--blue);color:#fff;vertical-align:2px}
+
+/* score formula chips */
+.formula{display:flex;flex-wrap:wrap;gap:10px;max-width:52em}
+.fm{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:2px;min-width:0;flex:1 1 200px}
+.fm small{font-family:var(--font-tag);font-size:.74rem;letter-spacing:.06em;color:var(--muted)}
+.fm b{font-family:var(--font-tag);font-weight:600;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fm.zero b{color:var(--bad)}
+.fm.end{background:var(--surface-2)}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0;margin:0}
+.figure figcaption{font-size:.88rem;color:var(--muted);margin-top:8px}
+.figure .scroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figure svg.wide{min-width:560px}
+
+/* svg tokens: ใช้ class เหล่านี้ใน SVG เพื่อให้สีเปลี่ยนตามโหมดมืด */
+.s-fg{fill:var(--fg)} .s-muted{fill:var(--muted)} .s-acc{fill:var(--accent-strong)} .s-good{fill:var(--good)} .s-bad{fill:var(--bad)} .s-blue{fill:var(--blue)}
+.s-surface{fill:var(--surface)} .s-surface2{fill:var(--surface-2)}
+.s-stroke-fg{stroke:var(--fg)} .s-stroke-muted{stroke:var(--muted)} .s-stroke-acc{stroke:var(--accent-strong)} .s-stroke-bad{stroke:var(--bad)}
+svg text{font-family:var(--font-body)}
+svg .disp{font-family:var(--font-display);font-weight:600}
+svg .tagf{font-family:var(--font-tag);font-weight:600}
+
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.type{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.type h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.08rem}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s;max-width:52em}
+/* child combinators only: lists nested inside a step stay normal bullet lists */
+.steps>li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;position:relative;padding-bottom:20px}
+.steps>li::before{content:counter(s);font-family:var(--font-tag);font-weight:600;font-size:1.05rem;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--band-1);color:var(--gold);z-index:1}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.steps h3{font-size:1.12rem;margin-top:8px}
+.steps .body{display:grid;gap:6px;min-width:0}
+.steps .body ul{margin:0;padding-left:1.2em;display:grid;gap:4px;list-style:disc}
+.steps .body li{display:list-item;padding:0}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-tag);font-weight:600;background:var(--surface-2);font-size:.88rem;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--font-tag);font-weight:600;text-align:center}
+tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:1.02rem;padding-block:6px}
+td .zero{color:var(--bad);font-weight:600}
+
+.xhead{border-radius:16px;padding:18px;display:grid;gap:8px;color:#fff;background:var(--c)}
+.xhead h2{color:#fff}
+.xhead p{opacity:.95;max-width:46em}
+.xhead .tag{font-family:var(--font-tag);font-size:.78rem;letter-spacing:.08em;opacity:.9}
+.xmeta{display:flex;flex-wrap:wrap;gap:6px}
+.xmeta span{background:rgba(255,255,255,.16);border-radius:999px;padding:0 10px;font-family:var(--font-tag);font-size:.78rem}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.btn{font:inherit;font-family:var(--font-tag);font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--band-1);border-color:var(--band-1);color:var(--gold)}
+.field-l{font-family:var(--font-tag);font-size:.78rem;color:var(--muted);letter-spacing:.05em;display:block;margin-bottom:4px}
+.inrow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+.inrow input[type=number]{font:inherit;font-family:var(--font-tag);font-weight:600;width:84px;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;text-align:center;font-variant-numeric:tabular-nums}
+.chk{display:flex;align-items:center;gap:8px;font-size:.95rem;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent-strong)}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.result b{font-family:var(--font-tag);font-size:2.4rem;font-weight:600;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
+.result span{font-family:var(--font-tag);font-size:.95rem}
+.result small{color:var(--muted);font-size:.86rem}
+.pad input{font:inherit;width:100%;min-width:64px;height:38px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:0 8px}
+.pad input[type=number]{font-family:var(--font-tag);font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
+.pad td,.pad th{padding:6px 8px}
+.pad tfoot td{font-family:var(--font-tag);font-weight:600;font-size:1.1rem;background:var(--surface-2)}
+.pad .win{color:var(--good)}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-width:52em}
+details summary{cursor:pointer;font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.faq{display:grid;gap:8px}
+.verdict{font-family:var(--font-tag);font-weight:600;color:var(--good)}
+dl.gl{display:grid;grid-template-columns:minmax(130px,max-content) minmax(0,1fr);gap:8px 18px;margin:0;max-width:52em}
+dl.gl dt{font-family:var(--font-display);font-weight:600}
+dl.gl dd{margin:0}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:.9rem}
+footer ul{margin:6px 0 0;padding-left:1.2em}
+
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:24px}
+  .toc{position:static;max-height:none}
+  .toc ol{display:flex;flex-wrap:wrap;gap:6px}
+  .toc .sep{display:none}
+  .toc a{background:var(--surface-2);font-size:.84rem;padding:2px 10px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-art{max-width:400px}
+  dl.gl{grid-template-columns:minmax(0,1fr)}
+  dl.gl dd{margin-bottom:6px}
+}
+</style>
+<!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
+<a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
+<style>.shelf-home{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:#5f3c1f;color:#f6ecd9;font:600 14px/1 "Chakra Petch","Sarabun","Leelawadee UI","Tahoma",sans-serif;text-decoration:none;box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 -3px 0 #3f2712;transition:transform .15s ease,background .15s ease}.shelf-home svg{width:20px;height:20px;fill:currentColor;flex:none}.shelf-home:hover{background:#7a4f2c;transform:translateY(-2px)}.shelf-home:focus-visible{outline:3px solid #f0c869;outline-offset:3px}body{padding-bottom:72px}@media (prefers-reduced-motion:reduce){.shelf-home{transition:none}.shelf-home:hover{transform:none}}</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">คู่มือภาษาไทย · {{ภาคที่มีในกล่อง เช่น เกมหลัก + ภาคเสริม 2 ภาค}} · อิงคู่มือทางการ ({{สำนักพิมพ์}})</div>
+      <h1>{{ชื่อเกมภาษาอังกฤษตามกล่อง}}<span>{{ชื่อไทย}} · {{อธิบายเกมใน 1 วลี}}</span></h1>
+      <p class="lede">{{อธิบายทั้งเกม 3–4 ประโยค: ทำอะไรในตา เกมจบเมื่อไร ใครชนะ และคู่มือนี้เน้นเรื่องอะไร}}</p>
+      <div class="facts">
+        <div class="fact"><b>{{2–4}}</b><small>ผู้เล่น</small></div>
+        <div class="fact"><b>{{30–45}}</b><small>นาที (ตามกล่อง)</small></div>
+        <div class="fact"><b>{{จำนวน}}</b><small>{{ของสำคัญในกล่อง เช่น การ์ด / ไทล์}}</small></div>
+      </div>
+      <!-- TODO ถ้ามีภาคเสริม: ป้ายละ 1 ภาค กดไปหัวข้อของภาคนั้น ถ้าไม่มีภาคเสริมให้ลบ div นี้ทิ้ง -->
+      <div class="exp-badges">
+        <a class="xb" href="#x-a" style="background:var(--x-a)">{{ชื่อภาคเสริม A}}</a>
+        <a class="xb" href="#x-b" style="background:var(--x-b)">{{ชื่อภาคเสริม B}}</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <!-- TODO วาดภาพ SVG เองสื่อถึงเกม (ห้ามใช้ภาพจากกล่องจริง) ขนาด viewBox 340×250 -->
+      <svg viewBox="0 0 340 250">
+        <rect x="20" y="20" width="300" height="210" rx="18" fill="rgba(255,255,255,.08)"/>
+        <text x="170" y="135" text-anchor="middle" font-size="22" fill="#f6f0e2">{{hero art}}</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="สารบัญ">
+    <p>สารบัญ</p>
+    <ol>
+      <li><a href="#summary">สรุป 1 นาที</a></li>
+      <li><a href="#box">ในกล่องมีอะไร</a></li>
+      <li><a href="#setup">เตรียมเกม</a></li>
+      <li><a href="#turn">ในตาของคุณ</a></li>
+      <li><a href="#rule-1">{{กติกาเรื่องที่ 1}}</a></li>
+      <li><a href="#rule-2">{{กติกาเรื่องที่ 2}}</a></li>
+      <li><a href="#end">จบเกม & นับแต้ม</a></li>
+      <li class="sep">ภาคเสริม</li>
+      <li><a href="#x-a" style="--c:var(--x-a)"><i></i>{{ชื่อภาคเสริม A}}</a></li>
+      <li><a href="#x-b" style="--c:var(--x-b)"><i></i>{{ชื่อภาคเสริม B}}</a></li>
+      <li class="sep">ใช้ตอนเล่น</li>
+      <li><a href="#tools">สมุดคะแนน</a></li>
+      <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
+      <li><a href="#glossary">ศัพท์</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- SUMMARY -->
+    <section id="summary">
+      <div class="sec-head"><span class="tag">เริ่มที่นี่</span><h2>สรุปทั้งเกมใน 1 นาที</h2></div>
+      <div class="callout">
+        <h3>{{ในตาของคุณ ทำ N อย่าง}}</h3>
+        <ol>
+          <li><b>{{แอ็กชัน 1}}</b> {{อธิบายสั้น ๆ}}</li>
+          <li><b>{{แอ็กชัน 2}}</b> {{อธิบายสั้น ๆ}}</li>
+        </ol>
+      </div>
+      <!-- TODO แถบสูตรแต้ม: ทุกแหล่งแต้มของเกมหลัก กล่อง .fm.end = นับตอนจบเกมเท่านั้น · ถ้าเกมไม่มีแต้ม ให้ใช้กล่องบอกเงื่อนไขชนะแทน -->
+      <div class="formula" aria-label="สูตรแต้มเกมหลัก">
+        <div class="fm"><small>{{ระหว่างเกม · สิ่งที่นับ}}</small><b>{{X แต้ม / หน่วย}}</b></div>
+        <div class="fm end"><small>{{ท้ายเกม · สิ่งที่นับ}}</small><b>{{Y แต้ม}}</b></div>
+      </div>
+      <p class="note">กล่องสีเข้มคือแต้มที่นับ<b>หลังจบเกมเท่านั้น</b></p>
+    </section>
+
+    <!-- BOX -->
+    <section id="box">
+      <div class="sec-head"><span class="tag">อุปกรณ์</span><h2>ในกล่องมีอะไร</h2></div>
+      <!-- TODO ตารางจำนวนชิ้นจริง ทุกตัวเลขต้องตรวจจาก 2 แหล่ง ถ้ายืนยันไม่ได้ให้ใส่ <span class="unverified">ยังไม่ยืนยัน</span> -->
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>ของในกล่อง</th><th class="num">จำนวน</th><th>ใช้ทำอะไร</th></tr></thead>
+          <tbody>
+            <tr><td><b>{{ชื่อชิ้นส่วน}}</b><br><span class="en">{{English name}}</span></td><td class="num">{{จำนวน}}</td><td>{{หน้าที่}}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">ถ้ากล่องของคุณพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- SETUP -->
+    <section id="setup">
+      <div class="sec-head"><span class="tag">ก่อนเริ่ม</span><h2>เตรียมเกม</h2></div>
+      <ol class="steps">
+        <li><div class="body"><h3>{{ขั้นที่ 1}} <span class="en">{{English step name}}</span></h3><p>{{รายละเอียด พร้อมจำนวนจริง}}</p></div></li>
+        <li><div class="body"><h3>{{ขั้นที่ 2}} <span class="en">{{English step name}}</span></h3><p>{{รายละเอียด}}</p></div></li>
+        <li><div class="body"><h3>คนเล่นก่อน <span class="en">First player</span></h3><p>{{กติกาคนเริ่มตามคู่มือ}}</p></div></li>
+      </ol>
+      <!-- TODO ถ้าจำนวนผู้เล่นทำให้การเตรียมต่างกัน ใส่ตาราง 2 คน / 3 คน / ... ที่นี่ -->
+    </section>
+
+    <!-- TURN -->
+    <section id="turn">
+      <div class="sec-head"><span class="tag">หัวใจของเกม</span><h2>ในตาของคุณ</h2></div>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 200" role="img" aria-label="{{อธิบายภาพ}}">
+          <!-- TODO ภาพ SVG วาดเอง แสดงลำดับในตา ใช้ class s-fg / s-muted / s-acc เพื่อให้รองรับโหมดมืด -->
+          <rect x="10" y="10" width="620" height="180" rx="12" class="s-surface2"/>
+          <text x="320" y="105" text-anchor="middle" class="s-fg disp" font-size="18">{{ภาพลำดับในตา}}</text>
+        </svg></div>
+        <figcaption>{{คำอธิบายภาพ}}</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><div class="body"><h3>{{แอ็กชัน 1}} <span class="en">{{English}}</span></h3><p>{{รายละเอียด}}</p></div></li>
+        <li><div class="body"><h3>{{แอ็กชัน 2}} <span class="en">{{English}}</span></h3>
+          <ul>
+            <li>{{เงื่อนไขย่อย}}</li>
+          </ul></div></li>
+      </ol>
+    </section>
+
+    <!-- RULE 1 · คัดลอก section นี้ต่อ 1 เรื่องกติกา (id ห้ามซ้ำ) -->
+    <section id="rule-1">
+      <div class="sec-head"><span class="tag">{{ป้ายเล็ก}}</span><h2>{{กติกาเรื่องที่ 1}} <span class="en">{{English}}</span></h2></div>
+      <p class="prose">{{อธิบายกติกา}}</p>
+      <figure class="figure">
+        <div class="scroll"><svg class="wide" viewBox="0 0 640 200" role="img" aria-label="{{อธิบายภาพ}}">
+          <rect x="10" y="10" width="620" height="180" rx="12" class="s-surface2"/>
+          <text x="320" y="105" text-anchor="middle" class="s-fg disp" font-size="18">{{ภาพตัวอย่างพร้อมตัวเลข}}</text>
+        </svg></div>
+        <figcaption>{{ตัวอย่างตัวเลขจริง เช่น 3 ไทล์ × 2 = 6 แต้ม}}</figcaption>
+      </figure>
+      <div class="formula">
+        <div class="fm"><small>{{กรณี}}</small><b>{{สูตร}}</b></div>
+      </div>
+    </section>
+
+    <!-- RULE 2 -->
+    <section id="rule-2">
+      <div class="sec-head"><span class="tag">{{ป้ายเล็ก}}</span><h2>{{กติกาเรื่องที่ 2}} <span class="en">{{English}}</span></h2></div>
+      <div class="types">
+        <div class="type"><h3>{{ประเภท A}}</h3><p>{{อธิบาย + ตัวอย่างตัวเลข}}</p></div>
+        <div class="type"><h3>{{ประเภท B}}</h3><p>{{อธิบาย + ตัวอย่างตัวเลข}}</p></div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="end">
+      <div class="sec-head"><span class="tag">ตัดสินผล</span><h2>จบเกม และนับแต้ม</h2></div>
+      <p class="prose">{{เงื่อนไขจบเกม}} แล้วนับแต้มตามตารางนี้ ใครแต้มมากสุดชนะ</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>สิ่งที่นับ</th><th>แต้ม</th><th>ตัวอย่าง</th></tr></thead>
+          <tbody>
+            <tr><td><b>{{แหล่งแต้ม}}</b></td><td>{{สูตร}}</td><td>{{ตัวอย่างตัวเลข = ผลลัพธ์}}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout blue"><h3>เสมอกัน <span class="en">Tiebreaker</span></h3><p>{{กติกาตัดสินเสมอตามคู่มือ}}</p></div>
+      <p class="note">ถ้ากล่องพิมพ์ต่างจากคู่มือนี้ ให้ยึดคู่มือในกล่อง</p>
+    </section>
+
+    <!-- EXPANSION A · คัดลอกต่อ 1 ภาค ถ้าไม่มีภาคเสริม ให้ลบทั้ง section + ป้ายใน hero + รายการใน toc -->
+    <section id="x-a">
+      <div class="xhead" style="--c:var(--x-a)"><span class="tag">ภาคเสริม · {{ENGLISH NAME}}</span><h2>{{ชื่อภาคเสริม A}}</h2><p>{{ภาคนี้เพิ่ม/เปลี่ยนอะไร 1–2 ประโยค}}</p><div class="xmeta"><span>{{ของในภาค}}</span><span>{{เปลี่ยนการนับแต้มหรือไม่}}</span></div></div>
+      <ol class="steps">
+        <li><div class="body"><h3>เตรียม <span class="en">Setup</span></h3><p>{{เปลี่ยนจากเกมหลักอย่างไร}}</p></div></li>
+        <li><div class="body"><h3>เล่น <span class="en">Gameplay</span></h3><p>{{กติกาใหม่}}</p></div></li>
+        <li><div class="body"><h3>แต้ม <span class="en">Scoring</span></h3><p>{{สูตร + ตัวอย่างตัวเลข}}</p></div></li>
+      </ol>
+    </section>
+
+    <!-- EXPANSION B -->
+    <section id="x-b">
+      <div class="xhead" style="--c:var(--x-b)"><span class="tag">ภาคเสริม · {{ENGLISH NAME}}</span><h2>{{ชื่อภาคเสริม B}}</h2><p>{{ภาคนี้เพิ่ม/เปลี่ยนอะไร}}</p><div class="xmeta"><span>{{ของในภาค}}</span></div></div>
+      <p class="prose">{{รายละเอียด}}</p>
+    </section>
+
+    <!-- TOOLS · สมุดคะแนนทำงานได้ทันที แก้แค่ CATS ใน script ด้านล่าง เพิ่มเครื่องมือเฉพาะเกมได้ใน section นี้ -->
+    <section id="tools">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
+      <p class="prose">ใส่ชื่อผู้เล่นและแต้มแต่ละหมวด ระบบรวมให้เองและไฮไลต์คนนำ เบราว์เซอร์จะจำไว้ให้จนกว่าจะกดล้าง</p>
+      <div class="tool">
+        <div class="inrow">
+          <label><span class="field-l">จำนวนผู้เล่น</span><input type="number" id="pad-n" min="{{MIN}}" max="{{MAX}}" value="{{MIN}}"></label>
+          <button type="button" class="btn" id="pad-clear">ล้างสมุด</button>
+        </div>
+        <div class="tbl-wrap pad"><table id="pad"></table></div>
+      </div>
+    </section>
+
+    <!-- FAQ · อย่างน้อย 6 ข้อ เริ่มด้วยคำตัดสินใน .verdict -->
+    <section id="faq">
+      <div class="sec-head"><span class="tag">จบดราม่า</span><h2>ข้อที่ชอบเถียงกัน</h2></div>
+      <div class="faq">
+        <details open><summary>{{คำถามที่เถียงกันบ่อย}}</summary><p><span class="verdict">{{ได้ / ไม่ได้}}</span> {{เหตุผลตามคู่มือ}}</p></details>
+        <details><summary>{{คำถาม}}</summary><p><span class="verdict">{{คำตัดสิน}}</span> {{เหตุผล}}</p></details>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary">
+      <div class="sec-head"><span class="tag">คำศัพท์</span><h2>ศัพท์</h2></div>
+      <dl class="gl">
+        <dt>{{ศัพท์ไทย}} <span class="en">{{English term}}</span></dt><dd>{{ความหมาย}}</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>คู่มือฉบับนี้เรียบเรียงเป็นภาษาไทยจาก<b>{{ชื่อคู่มือทางการ + สำนักพิมพ์ + ภาษา/ฉบับ}}</b> ภาพประกอบทั้งหมดวาดใหม่เพื่ออธิบายกติกา ไม่ใช่ภาพจากเกมจริง ถ้าตรงไหนต่างจากคู่มือในกล่องของคุณ ให้ยึดคู่มือในกล่อง</p>
+    <ul>
+      <li><a href="{{URL คู่มือทางการ}}" target="_blank" rel="noopener">{{ชื่อแหล่ง · สำนักพิมพ์}}</a></li>
+      <li><a href="{{URL แหล่งที่ 2}}" target="_blank" rel="noopener">{{ชื่อแหล่งที่ 2}}</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+/* ---------- สมุดคะแนน ---------- */
+const KEY='{{snake_case_name}}-pad-v1';   /* ห้ามซ้ำกับเล่มอื่น */
+const CATS=['{{หมวดแต้ม 1}}','{{หมวดแต้ม 2}}'];   /* หมวดแต้มตามกระดาษคะแนนของเกม */
+const MIN=Number(document.getElementById('pad-n').min)||1, MAX=Number(document.getElementById('pad-n').max)||6;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let st;
+try{st=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){st=null;}
+if(!st||!Array.isArray(st.names)||!Array.isArray(st.v)){st={n:Number(document.getElementById('pad-n').value)||MIN,names:[],v:[]};}
+st.n=Math.min(MAX,Math.max(MIN,Number(st.n)||MIN));
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+const padN=document.getElementById('pad-n'), tbl=document.getElementById('pad');
+function val(r,p){return Number((st.v[r]||[])[p])||0;}
+function render(){
+  padN.value=st.n;
+  let h='<thead><tr><th>หมวด</th>';
+  for(let p=0;p<st.n;p++)h+='<th><input type="text" data-name="'+p+'" value="'+esc(st.names[p]||'ผู้เล่น '+(p+1))+'" aria-label="ชื่อผู้เล่น '+(p+1)+'"></th>';
+  h+='</tr></thead><tbody>';
+  CATS.forEach((c,r)=>{
+    h+='<tr><td>'+esc(c)+'</td>';
+    for(let p=0;p<st.n;p++){const v=(st.v[r]||[])[p];h+='<td><input type="number" inputmode="numeric" data-r="'+r+'" data-p="'+p+'" value="'+(v===undefined||v===''?'':esc(v))+'" aria-label="'+esc(c)+' ผู้เล่น '+(p+1)+'"></td>';}
+    h+='</tr>';
+  });
+  h+='</tbody><tfoot><tr><td>รวม</td>';
+  for(let p=0;p<st.n;p++)h+='<td class="num" data-total="'+p+'"></td>';
+  tbl.innerHTML=h+'</tr></tfoot>';
+  totals();
+}
+function totals(){
+  const t=[];for(let p=0;p<st.n;p++){let s=0;CATS.forEach((c,r)=>{s+=val(r,p);});t.push(s);}
+  const best=Math.max.apply(null,t);
+  t.forEach((s,p)=>{const el=tbl.querySelector('[data-total="'+p+'"]');el.textContent=s;el.classList.toggle('win',s===best&&s!==0);});
+}
+tbl.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.dataset.name!==undefined){st.names[Number(el.dataset.name)]=el.value;}
+  else if(el.dataset.r!==undefined){const r=Number(el.dataset.r),p=Number(el.dataset.p);st.v[r]=st.v[r]||[];st.v[r][p]=el.value;totals();}
+  save();
+});
+padN.addEventListener('change',()=>{st.n=Math.min(MAX,Math.max(MIN,Number(padN.value)||MIN));save();render();});
+document.getElementById('pad-clear').addEventListener('click',()=>{st={n:st.n,names:st.names,v:[]};save();render();});
+render();
+})();
+</script>
+</body></html>
