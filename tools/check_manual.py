@@ -215,10 +215,10 @@ def check_manual(path: Path):
     # โครงหัวข้อ
     missing = [s for s in REQUIRED_SECTIONS if s not in p.sections]
     if missing:
-        warns.append(f"ไม่มีหัวข้อมาตรฐาน: {', '.join(missing)} (โครงเล่มต้นแบบ)")
+        warns.append(f"ไม่มีหัวข้อพื้นฐาน (id): {', '.join(missing)} · ชื่อหัวข้อปรับตามเกมได้ แต่ต้องมีเนื้อหานี้")
     order = [s for s in p.sections if s in REQUIRED_SECTIONS]
     if order != [s for s in REQUIRED_SECTIONS if s in order]:
-        warns.append(f"ลำดับหัวข้อไม่ตรงเล่มต้นแบบ: {' → '.join(order)}")
+        infos.append(f"ลำดับหัวข้อต่างจากเล่มต้นแบบ: {' → '.join(order)} (ทำได้ ถ้าเหมาะกับผู้เล่นใหม่ของเกมนี้)")
     if not p.classes.get("toc"):
         errs.append("ไม่มีสารบัญด้านข้าง (nav.toc)")
     else:
