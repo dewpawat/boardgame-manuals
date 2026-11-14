@@ -3,7 +3,9 @@
 คู่มือบอร์ดเกมภาษาไทย 1 เกมต่อ 1 ไฟล์ HTML มีหน้า `index.html` เป็นชั้นคู่มือและสารบัญรวม
 เป็นงานอดิเรก ไม่ใช่งานราชการ คู่มือทุกเล่มเรียบเรียงจากคู่มือทางการ และบอกแหล่งที่มาไว้ท้ายเล่ม
 
-- เว็บที่เผยแพร่ (Artifact): https://claude.ai/artifact/EPowWYh6rZfXzWXSsykk6C
+- เว็บ (GitHub Pages): https://dewpawat.github.io/boardgame-manuals/
+  push ขึ้น `main` แล้วเว็บอัปเดตเองใน 1–2 นาที (ดูสถานะที่แท็บ Actions → "pages build and deployment")
+- ลิงก์เก่า (Artifact): https://claude.ai/artifact/EPowWYh6rZfXzWXSsykk6C เป็นหน้าแจ้งย้าย ไม่ต้องอัปเดตอีก
 - ต้นฉบับ: repo นี้ (ใช้ร่วมกันทั้งเครื่องที่ทำงานและเครื่องที่บ้าน)
 - ประวัติการเพิ่มและแก้ไข: [CHANGELOG.md](CHANGELOG.md)
 
@@ -50,8 +52,7 @@ python -m http.server 8765
 5. เพิ่มบรรทัดใน `CHANGELOG.md`
 6. ตรวจ: `python tools/check_manual.py games/<ชื่อเกม>.html --strict` ต้องได้ ERROR 0 · WARN 0
    แล้วเปิดดูในเบราว์เซอร์ทั้งจอคอม จอมือถือ และโหมดมืด
-7. commit แล้ว push ขึ้น GitHub
-8. เผยแพร่ทับ Artifact ลิงก์เดิม โดยส่ง `index.html` เป็นหน้าหลัก และส่ง `games/*.html` ทุกไฟล์เป็น `files`
+7. commit แล้ว push ขึ้น GitHub เว็บจะอัปเดตเอง แล้วเปิดเช็กที่ https://dewpawat.github.io/boardgame-manuals/
 
 ### สคริปต์ตรวจ
 

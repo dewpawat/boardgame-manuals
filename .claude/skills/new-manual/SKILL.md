@@ -63,7 +63,7 @@ description: ทำคู่มือบอร์ดเกมภาษาไท�
 
 ## 6. ส่งงาน
 1. commit (ข้อความภาษาไทย บอกเกมที่เพิ่ม) แล้ว `git push`
-2. เผยแพร่ทับ Artifact ชั้นคู่มือเดิม https://claude.ai/artifact/EPowWYh6rZfXzWXSsykk6C
-   - `read` เวอร์ชันล่าสุดก่อน แล้ว publish `index.html` เป็นหน้าหลัก พร้อม `files` = `games/*.html` ทุกไฟล์
+2. ไม่ต้อง publish Artifact เว็บอยู่บน GitHub Pages อัปเดตเองหลัง push
+   - รอ 1–2 นาที แล้วเปิด https://dewpawat.github.io/boardgame-manuals/ เช็กว่ากล่องใหม่ขึ้นชั้นและเปิดคู่มือได้
    - ห้ามสร้าง Artifact แยกต่อเล่ม
 3. สรุปให้ผู้ใช้: ไฟล์ที่ได้, ตัวเลขที่ยังไม่ยืนยัน (ถ้ามี), ผลสคริปต์ตรวจ, ลิงก์ชั้น
