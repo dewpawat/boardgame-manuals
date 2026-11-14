@@ -1,6 +1,13 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
 <title>ชั้นคู่มือบอร์ดเกม</title>
+<!-- web-icons: favicon + ไอคอนหน้าจอโฮม (มาตรฐานทุกหน้า) -->
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#5f3c1f">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="คู่มือบอร์ดเกม">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,6 +123,9 @@ td .sub{display:block;color:var(--muted);font-size:.86rem}
 .how{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;max-width:46em;display:grid;gap:6px}
 .how h3{font-size:1.1rem}
 .how ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.site-foot{margin-top:28px;border-top:1px solid var(--line);padding-block:22px 34px;display:grid;gap:6px;color:var(--muted);font-size:.95rem}.site-foot>*{max-width:44em}
+.site-foot .sig{font-family:var(--font-display);color:var(--fg);font-size:1.05rem}
+.site-foot small{font-size:.85rem}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 @media (max-width:760px){
@@ -186,6 +196,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(-
     </ul>
   </section>
 </main>
+
+<footer class="site-foot wrap">
+  <p class="sig">คู่มือทุกเล่มบนชั้นนี้ ผมทำเองจากเกมที่มีอยู่ที่บ้าน</p>
+  <p>ซื้อเกมมาแล้วอยากให้เพื่อนที่มาเล่นด้วยกันเข้าใจกฎเร็ว ๆ เลยนั่งเรียบเรียงเป็นภาษาไทยทีละเล่ม มีเกมใหม่เข้าบ้านเมื่อไร ชั้นนี้ก็จะมีเล่มใหม่ตามมา</p>
+  <small>ทำเป็นงานอดิเรก ไม่ใช่คู่มือทางการ ลิขสิทธิ์ของเกมเป็นของผู้ออกแบบและสำนักพิมพ์ ถ้าเจอจุดไหนผิด บอกกันได้เลย</small>
+</footer>
 
 <script>
 (function(){

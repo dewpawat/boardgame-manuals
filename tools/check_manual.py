@@ -175,6 +175,10 @@ def check_manual(path: Path):
         if bit not in text:
             errs.append(f"CSS ของ .shelf-home ไม่ครบ ขาด {bit} (คัดลอก snippet จาก template)")
 
+    # ไอคอนเว็บ
+    if 'rel="apple-touch-icon" href="../icons/apple-touch-icon.png"' not in text:
+        errs.append("ไม่มีชุดลิงก์ไอคอน <!-- web-icons (คัดลอกจาก template)")
+
     # ปุ่ม to-top (กลับบนสุด)
     top = [a for h, a in p.hrefs if "to-top" in (a.get("class") or "").split()]
     if len(top) != 1:
