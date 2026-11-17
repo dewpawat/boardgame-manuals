@@ -161,6 +161,22 @@ tr.grp td{background:var(--surface-2);font-family:var(--font-display);font-size:
 .deal{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
 .deal div{background:var(--surface-2);border-radius:10px;padding:8px 12px;font-size:.95rem}
 .deal b{font-family:var(--font-display);display:block}
+.wheels{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.wheels h3 .en{margin-left:6px}
+.wheel-box{width:100%;max-width:320px;margin:0 auto}
+.wheel-box svg{display:block;width:100%;height:auto}
+.wheel-rot{transform-origin:150px 150px;transition:transform 4s cubic-bezier(.15,.7,.12,1)}
+.wheel-rot text{font-family:var(--font-tag);font-weight:600;pointer-events:none}
+.wheel-rot.done path:not(.hit),.wheel-rot.done circle.seg-c:not(.hit){opacity:.35}
+.wheel-hub{fill:var(--surface);stroke:var(--line);stroke-width:3}
+.wheel-res{min-height:3.4em;text-align:center;background:var(--accent-soft);border-radius:12px;padding:8px 12px;display:grid;align-content:center}
+.wheel-res b{font-family:var(--font-display);font-size:1.4rem;line-height:1.3}
+.wheel-res small{color:var(--muted);font-size:.9rem}
+.wheel-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.btn.go{background:var(--band-1);border-color:var(--band-1);color:var(--gold);padding-inline:26px}
+.btn:disabled{opacity:.45;cursor:default}
+.picks{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.picks li{background:var(--surface-2);border-radius:999px;padding:2px 12px;font-size:.88rem}
 .res-in label{display:grid;justify-items:center;gap:2px}
 .res-in label .dot{margin:0}
 
@@ -205,6 +221,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
   .twinkle{animation:tw 3s ease-in-out infinite alternate}
   @keyframes tw{from{opacity:.25}to{opacity:.9}}
 }
+@media (prefers-reduced-motion:reduce){.wheel-rot{transition:none}}
 </style>
 <!-- shelf-home: ปุ่มกลับชั้นคู่มือ (มาตรฐานทุกเล่ม) -->
 <a class="shelf-home" href="../index.html" aria-label="กลับไปชั้นคู่มือบอร์ดเกม"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="5" height="10" rx="1"/><rect x="9.5" y="9" width="5" height="7" rx="1"/><rect x="16" y="4" width="5" height="12" rx="1" transform="rotate(8 18.5 10)"/><rect x="1" y="17" width="22" height="3" rx="1"/></svg><span>ชั้นคู่มือ</span></a>
@@ -280,6 +297,7 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       <li class="sep">ใช้ตอนเล่น</li>
       <li><a href="#tool-setup">ตัวช่วยเตรียมเกม</a></li>
       <li><a href="#tool-build">ตัวเช็กสร้างชั้น</a></li>
+      <li><a href="#tool-wheel">วงล้อสุ่ม</a></li>
       <li><a href="#tool-score">สมุดคะแนน</a></li>
       <li><a href="#faq">ข้อที่ชอบเถียงกัน</a></li>
       <li><a href="#glossary">ศัพท์</a></li>
@@ -671,6 +689,30 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
       </div>
     </section>
 
+    <!-- TOOL: WHEEL -->
+    <section id="tool-wheel">
+      <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>วงล้อสุ่ม</h2></div>
+      <p class="prose">ส่งมือถือวนให้หมุนทีละคน ช่องที่ได้แล้วจะหายไปตอนหมุนครั้งถัดไป จึงไม่มีใครได้ซ้ำ กด "เริ่มใหม่" เมื่อจะสุ่มใหม่ทั้งหมด</p>
+      <div class="wheels">
+        <div class="tool">
+          <h3>สุ่มมหาสิ่ง (เมือง)<span class="en">Wonder</span></h3>
+          <div class="wheel-box"><svg viewBox="0 0 300 300" role="img" aria-label="วงล้อมหาสิ่ง"><g class="wheel-rot" id="wc-rot"></g><circle cx="150" cy="150" r="24" class="wheel-hub"/><path d="M137 0 h26 l-13 28z" class="s-fg"/></svg></div>
+          <div class="wheel-res" id="wc-out" aria-live="polite"></div>
+          <div class="wheel-btns"><button type="button" class="btn go" id="wc-spin">หมุน</button><button type="button" class="btn" id="wc-reset">เริ่มใหม่</button></div>
+          <ol class="picks" id="wc-list"></ol>
+        </div>
+        <div class="tool">
+          <h3>สุ่มที่นั่ง<span class="en">Seating</span></h3>
+          <div><span class="field-l">จำนวนผู้เล่น</span><div class="seg" id="ws-n"></div></div>
+          <div class="wheel-box"><svg viewBox="0 0 300 300" role="img" aria-label="วงล้อเลขเก้าอี้"><g class="wheel-rot" id="ws-rot"></g><circle cx="150" cy="150" r="24" class="wheel-hub"/><path d="M137 0 h26 l-13 28z" class="s-fg"/></svg></div>
+          <div class="wheel-res" id="ws-out" aria-live="polite"></div>
+          <div class="wheel-btns"><button type="button" class="btn go" id="ws-spin">หมุน</button><button type="button" class="btn" id="ws-reset">เริ่มใหม่</button></div>
+          <ol class="picks" id="ws-list"></ol>
+          <p class="note">วางเลขเก้าอี้ 1 ถึงจำนวนผู้เล่นเรียงตามเข็มนาฬิกา แล้วนั่งตามเลขที่หมุนได้ ที่นั่งมีผลเพราะคุณใช้สำรับร่วมกับคนข้างซ้ายและข้างขวา</p>
+        </div>
+      </div>
+    </section>
+
     <!-- TOOL: SCORE -->
     <section id="tool-score">
       <div class="sec-head"><span class="tag">เครื่องมือ</span><h2>สมุดคะแนน</h2></div>
@@ -805,6 +847,58 @@ footer ul{margin:6px 0 0;padding-left:1.2em}
   document.getElementById("b-eco").addEventListener("change",check);
   document.getElementById("b-eng").addEventListener("change",check);
   check();
+
+  /* wheels: picked slice dims, then drops out on the next spin */
+  var RM=matchMedia("(prefers-reduced-motion: reduce)");
+  var PAL=[["#2f6fb5","#fff"],["#d9a52a","#261f16"],["#c23b2e","#fff"],["#3a8a4a","#fff"],["#6b717a","#fff"],["#7b4fa6","#fff"],["#c2621c","#fff"]];
+  function pt(d,r){var a=d*Math.PI/180;return (150+r*Math.sin(a)).toFixed(2)+" "+(150-r*Math.cos(a)).toFixed(2);}
+  function wheel(o){
+    var g=document.getElementById(o.id+"-rot"),btn=document.getElementById(o.id+"-spin"),out=document.getElementById(o.id+"-out"),list=document.getElementById(o.id+"-list");
+    var items=[],hit=-1,rot=0,count=0;
+    function setRot(d,anim){rot=d;if(!anim){g.style.transition="none";g.style.transform="rotate("+d+"deg)";g.getBoundingClientRect();g.style.transition="";}else g.style.transform="rotate("+d+"deg)";}
+    function draw(){
+      var n=items.length,a=360/n,h="";
+      items.forEach(function(it,i){
+        var s=i*a,c=s+a/2,cls=i===hit?' class="hit"':'';
+        h+=n===1?'<circle cx="150" cy="150" r="140" style="fill:'+it.bg+'"'+(i===hit?' class="seg-c hit"':' class="seg-c"')+'/>'
+          :'<path d="M150 150 L'+pt(s,140)+' A140 140 0 '+(a>180?1:0)+' 1 '+pt(s+a,140)+'Z" style="fill:'+it.bg+'"'+cls+'/>';
+        if(o.radial)h+='<text x="182" y="150" dominant-baseline="middle" font-size="14" style="fill:'+it.fg+'" transform="rotate('+(c-90)+' 150 150)">'+it.label+'</text>';
+        else{var p=pt(c,n===1?80:92).split(" ");h+='<text x="'+p[0]+'" y="'+p[1]+'" text-anchor="middle" dominant-baseline="central" font-size="34" style="fill:'+it.fg+'">'+it.label+'</text>';}
+      });
+      h+='<circle cx="150" cy="150" r="140" fill="none" class="s-stroke-fg" stroke-width="3"/>';
+      g.innerHTML=h;g.classList.toggle("done",hit>=0);
+    }
+    function reset(){items=o.items();hit=-1;count=0;list.innerHTML="";out.innerHTML="<small>กด หมุน ได้เลย</small>";setRot(0,false);draw();btn.disabled=false;}
+    btn.addEventListener("click",function(){
+      if(hit>=0){items.splice(hit,1);hit=-1;setRot(0,false);draw();}
+      if(!items.length)return;
+      var n=items.length,a=360/n,i=Math.floor(Math.random()*n);
+      var c=i*a+a/2+(Math.random()-.5)*a*.6, cur=((rot%360)+360)%360;
+      var delta=((-c-cur)%360+360)%360, slow=!RM.matches;
+      btn.disabled=true;out.innerHTML="<small>กำลังหมุน…</small>";
+      setRot(rot+(slow?360*5:0)+delta,slow);
+      setTimeout(function(){
+        hit=i;count++;draw();
+        var it=items[i];out.innerHTML=o.res(it,count);
+        var li=document.createElement("li");li.textContent=o.pick(it,count);list.appendChild(li);
+        if(items.length===1)out.innerHTML+="<small>ครบทุกช่องแล้ว · กด เริ่มใหม่ เพื่อสุ่มอีกรอบ</small>";
+        else btn.disabled=false;
+      },slow?4200:0);
+    });
+    document.getElementById(o.id+"-reset").addEventListener("click",reset);
+    reset();
+    return reset;
+  }
+  wheel({id:"wc",radial:true,
+    items:function(){return WONDERS.map(function(w,i){return {label:w,bg:PAL[i][0],fg:PAL[i][1]};});},
+    res:function(it,k){return "<small>ครั้งที่ "+k+" ได้</small><b>"+it.label+"</b><small>"+POWER[it.label]+"</small>";},
+    pick:function(it,k){return k+". "+it.label;}});
+  var wsN=+(store("7wa-wn")||suN); if(!(wsN>=2&&wsN<=7))wsN=4;
+  var wsReset=wheel({id:"ws",
+    items:function(){var a=[];for(var i=0;i<wsN;i++)a.push({label:String(i+1),bg:PAL[i][0],fg:PAL[i][1]});return a;},
+    res:function(it,k){return "<small>คนที่ "+k+" นั่ง</small><b>เก้าอี้ "+it.label+"</b>";},
+    pick:function(it,k){return "คนที่ "+k+" → "+it.label;}});
+  segPlayers(document.getElementById("ws-n"),wsN,function(n){wsN=n;store("7wa-wn",String(n));wsReset();});
 
   /* score pad */
   var ROWS=[
